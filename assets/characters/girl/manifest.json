@@ -1,0 +1,64 @@
+{
+  "characterName": "knight",
+  "actionCount": 2,
+  "unifiedBox": {
+    "width": 139,
+    "height": 144,
+    "baselineOffset": 144,
+    "scale": 0.21524663677130046,
+    "sourceWidth": 644,
+    "sourceHeight": 669
+  },
+  "previewBox": {
+    "width": 644,
+    "height": 669,
+    "baselineOffset": 668
+  },
+  "defaultAnimation": "idle",
+  "exportOrder": [
+    "idle",
+    "run"
+  ],
+  "atlasFile": "godot/all_actions_atlas.png",
+  "atlasWidth": 556,
+  "atlasHeight": 288,
+  "actions": [
+    {
+      "actionName": "idle",
+      "atlasActionName": "idle",
+      "row": 0,
+      "startColumn": 0,
+      "frameCount": 4,
+      "fps": 4,
+      "loop": true,
+      "sourceCropBox": {
+        "x": 317,
+        "y": 12,
+        "width": 644,
+        "height": 669,
+        "sourceWidth": 1280,
+        "sourceHeight": 720,
+        "baselineY": 680
+      }
+    },
+    {
+      "actionName": "run",
+      "atlasActionName": "run",
+      "row": 1,
+      "startColumn": 0,
+      "frameCount": 4,
+      "fps": 7,
+      "loop": true,
+      "sourceCropBox": {
+        "x": 317,
+        "y": 12,
+        "width": 644,
+        "height": 669,
+        "sourceWidth": 1280,
+        "sourceHeight": 720,
+        "baselineY": 680
+      }
+    }
+  ],
+  "exportedAt": "2026-06-26T07:00:14.806Z"
+}

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/game_root.gd" id="1_script"]
+[ext_resource type="PackedScene" path="res://scenes/level_01.tscn" id="2_level"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+
+[node name="GameRoot" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="LevelContainer" type="Node2D" parent="."]
+
+[node name="Level01" parent="LevelContainer" instance=ExtResource("2_level")]
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
