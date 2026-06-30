@@ -17,7 +17,25 @@
 - Reuse the imported `idle` and `run` animation atlas instead of the temporary SVG placeholder.
 - Use a persistent root scene with a level container and a reusable player scene instead of placing the player directly inside each level.
 
+## UI System Findings
+
+- EquipmentData stores both uid and item_id per slot to support returning items to inventory on unequip.
+- Character panel uses Buttons for equipment slots instead of Labels, enabling click-to-equip/unequip.
+- Popup selection list dynamically filters inventory items by slot type (weapon/armor/boots/accessory).
+- Slot type colors: weapon=red, armor=blue, boots=green, accessory=gold for visual distinction.
+- Stats display includes formatted bonus text (攻+5, 防+3, 血+20, 速+10) for equipped items.
+
+## Excel 配置表
+
+- 配置表统一使用 Excel (.xlsx) 作为源文件，运行时读取 JSON。
+- `tools/excel_to_json.py` 支持中文表头自动映射为英文 key。
+- stats 子对象字段 (attack, defense, max_hp, move_speed) 自动归入 stats 字典。
+- 新增配置表只需在 `data/excel/` 下创建 xlsx，按约定填写表头即可。
+- .gitignore 中排除了生成的 JSON 文件，只提交 Excel 源文件。
+
 ## Follow-up
 
 - If the level size changes, update the camera bounds or drive them from a level metadata node.
 - Move from hardcoded keys to Input Map actions once the control scheme stabilizes.
+- Consider adding drag-and-drop support for inventory management.
+- Add tooltip popups with detailed item information.

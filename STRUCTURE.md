@@ -6,22 +6,50 @@
 - `res://scenes/level_01.tscn`: first playable level scene with the map and a player spawn marker.
 - `res://map_stitch_godot.tscn`: imported map scene with background art and collision geometry.
 - `res://scenes/player.tscn`: player character scene with collision, animated sprite, and camera.
-- `res://map_stitch_godot.tscn`: also contains ladder trigger areas for climbable props.
+- `res://scenes/inventory_panel.tscn`: bag UI panel (6x5 grid), toggled with B key.
+- `res://scenes/character_panel.tscn`: character stats + equipment slots UI, toggled with C key.
 
 ## Scripts
 
-- `res://scripts/game_root.gd`: places the persistent player at the current level spawn marker.
+### Core
+
+- `res://scripts/game_root.gd`: places the persistent player at the current level spawn marker, handles B/C keys for UI toggle.
 - `res://scripts/player.gd`: movement, gravity, jump handling, ladder climbing, facing direction, and animation switching.
+- `res://scripts/game_registry.gd`: AutoLoad singleton, owns all data models and providers.
+- `res://scripts/save_manager.gd`: JSON save/load to user://.
+
+### Data Layer (`res://scripts/data/`)
+
+- `item_config.gd` - Static config loader for items.json
+- `item_instance.gd` - Runtime item instance {uid, item_id, count}
+- `inventory_data.gd` - Bag data model with add/remove/query, signals, serialization
+- `equipment_data.gd` - Equipment slot state with uid+item_id tracking, signals, serialization
+- `character_stats.gd` - Character stats with equipment bonus calculation
+
+### Provider Layer (`res://scripts/provider/`)
+
+- `inventory_provider.gd` - Bag operations interface (signal forwarding from InventoryData)
+- `equipment_provider.gd` - Equip/unequip logic with auto stat recalculation
+
+### UI Layer (`res://scripts/ui/`)
+
+- `inventory_panel.gd` - Bag UI with 30 slots, equip (E) and discard (D) actions
+- `character_panel.gd` - Character stats display + equipment slot display
 
 ## Assets
 
-- `res://images/source.png`: level art.
-- `res://images/collision_layer.png`: collision reference generated with the map.
-- `res://assets/action/godot/spriteframes.tres`: imported `SpriteFrames` resource for `idle` and `run`.
-- `res://assets/action/godot/all_actions_atlas.png`: atlas backing the imported player animations.
+- `res://data/items.json`: item configuration table (8 sample items: weapons, armor, consumables, materials)
+- `res://assets/characters/girl/`: imported character sprite frames and animations
+- `res://world/stitched/jungle_01/`: imported jungle map art and collision data
 
 ## Design Notes
 
+- All data flows through Provider layer, not directly to data models
+- UI subscribes to Provider signals for automatic refresh
+- CharacterStats.recalculate() is called after every equipment change
+- Save format includes version number for future compatibility
+- Player uses GameRegistry.character_stats.move_speed instead of hardcoded constant
+- Equipment stores both uid and item_id to support returning items to inventory
 - The map scene stays isolated so it can be replaced or extended without touching the player logic.
 - The player owns the camera so the same player scene can move across levels.
 - The game root owns both the player and the active level so later scene switches can reuse the same player instance.

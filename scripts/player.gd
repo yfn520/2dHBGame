@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-const MOVE_SPEED := 220.0
 const JUMP_VELOCITY := -420.0
 const LADDER_SPEED := 140.0
 const LADDER_SNAP_SPEED := 1400.0
@@ -54,7 +53,7 @@ func _handle_ground_movement(direction: float, jump_pressed: bool, delta: float)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	velocity.x = direction * MOVE_SPEED
+	velocity.x = direction * GameRegistry.character_stats.move_speed
 
 	if jump_pressed and not was_jump_pressed and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -69,7 +68,7 @@ func _handle_ladder_movement(direction: float, climb_direction: float, jump_pres
 
 	if jump_pressed and not was_jump_pressed:
 		_exit_ladder_state()
-		velocity.x = direction * MOVE_SPEED
+		velocity.x = direction * GameRegistry.character_stats.move_speed
 		velocity.y = JUMP_VELOCITY
 	elif current_ladder == null:
 		_exit_ladder_state()

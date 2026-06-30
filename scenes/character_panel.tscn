@@ -1,0 +1,183 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/character_panel.gd" id="1_script"]
+
+[node name="CharacterPanel" type="CanvasLayer"]
+layer = 10
+visible = false
+script = ExtResource("1_script")
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Panel" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -280.0
+offset_right = 320.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+text = "角色 (C 关闭)"
+horizontal_alignment = 1
+
+[node name="Sep1" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="StatsSection" type="VBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="StatsTitle" type="Label" parent="Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+text = "— 属性 —"
+horizontal_alignment = 1
+
+[node name="HPRow" type="HBoxContainer" parent="Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+
+[node name="HPLabel" type="Label" parent="Panel/Margin/VBox/StatsSection/HPRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "生命值"
+
+[node name="HPValue" type="Label" parent="Panel/Margin/VBox/StatsSection/HPRow"]
+layout_mode = 2
+text = "100/100"
+
+[node name="AtkRow" type="HBoxContainer" parent="Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+
+[node name="AtkLabel" type="Label" parent="Panel/Margin/VBox/StatsSection/AtkRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "攻击力"
+
+[node name="AtkValue" type="Label" parent="Panel/Margin/VBox/StatsSection/AtkRow"]
+layout_mode = 2
+text = "1"
+
+[node name="DefRow" type="HBoxContainer" parent="Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+
+[node name="DefLabel" type="Label" parent="Panel/Margin/VBox/StatsSection/DefRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "防御力"
+
+[node name="DefValue" type="Label" parent="Panel/Margin/VBox/StatsSection/DefRow"]
+layout_mode = 2
+text = "0"
+
+[node name="SpdRow" type="HBoxContainer" parent="Panel/Margin/VBox/StatsSection"]
+layout_mode = 2
+
+[node name="SpdLabel" type="Label" parent="Panel/Margin/VBox/StatsSection/SpdRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "移动速度"
+
+[node name="SpdValue" type="Label" parent="Panel/Margin/VBox/StatsSection/SpdRow"]
+layout_mode = 2
+text = "220"
+
+[node name="Sep2" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="EquipSection" type="VBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 6
+
+[node name="EquipTitle" type="Label" parent="Panel/Margin/VBox/EquipSection"]
+layout_mode = 2
+text = "— 装备 (点击槽位穿戴/卸下) —"
+horizontal_alignment = 1
+
+[node name="SlotWeapon" type="Button" parent="Panel/Margin/VBox/EquipSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "[武器]  空"
+
+[node name="SlotArmor" type="Button" parent="Panel/Margin/VBox/EquipSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "[护甲]  空"
+
+[node name="SlotBoots" type="Button" parent="Panel/Margin/VBox/EquipSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "[靴子]  空"
+
+[node name="SlotAccessory" type="Button" parent="Panel/Margin/VBox/EquipSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 36)
+text = "[饰品]  空"
+
+[node name="Sep3" type="HSeparator" parent="Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="Hint" type="Label" parent="Panel/Margin/VBox"]
+layout_mode = 2
+text = "点击已穿戴槽位: 卸下  |  点击空槽位: 从背包选择"
+horizontal_alignment = 1
+
+[node name="Popup" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -120.0
+offset_right = 150.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PMargin" type="MarginContainer" parent="Popup"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PVBox" type="VBoxContainer" parent="Popup/PMargin"]
+layout_mode = 2
+
+[node name="PTitle" type="Label" parent="Popup/PMargin/PVBox"]
+layout_mode = 2
+text = "选择装备"
+horizontal_alignment = 1
+
+[node name="PList" type="VBoxContainer" parent="Popup/PMargin/PVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PClose" type="Button" parent="Popup/PMargin/PVBox"]
+layout_mode = 2
+text = "关闭"
