@@ -1,4 +1,5 @@
 class_name TCPConnection
+extends Node
 ## TCP 连接管理器
 ## 处理与服务器的 TCP 通信，包括连接、发送、接收和包解析
 
@@ -17,7 +18,7 @@ signal connection_failed()
 
 # 配置
 var host: String = "127.0.0.1"
-var port: int = 8888
+var port: int = 50002
 
 # 内部状态
 var _tcp: StreamPeerTCP = null
@@ -60,12 +61,12 @@ func connect_to_server(connect_host: String = host, connect_port: int = port) ->
 	host = connect_host
 	port = connect_port
 	_tcp = StreamPeerTCP.new()
-	_tcp.set_no_delay(true)
 	_state = NetState.CONNECTING
 	var err := _tcp.connect_to_host(host, port)
 	if err != OK:
 		print("[TCP] 连接失败: ", error_string(err))
 		_state = NetState.NONE
+		_tcp = null
 		connection_failed.emit()
 
 
@@ -107,8 +108,7 @@ func send_packet(packet: NetPacket) -> void:
 	var use_flag: bool = packet.field_flag != PacketDefine.FULL_FIELD_FLAG
 	writer.write_bool(use_flag)
 	if use_flag:
-		# fieldFlag 作为 ullong 写入（8字节无符号）
-		_write_ulong(writer, packet.field_flag)
+		writer.write_unsigned(packet.field_flag, 8)
 	# 包体数据
 	writer.write_buffer(body_data)
 	# 对齐到字节边界
@@ -123,10 +123,15 @@ func send_packet(packet: NetPacket) -> void:
 	var final_data: PackedByteArray = crc_writer.get_buffer()
 	# 发送
 	_tcp.put_data(final_data)
+	var hex_str := ""
+	for b in final_data:
+		hex_str += "%02X " % b
+	print("[TCP] 发送包 type=", packet.get_packet_type(), " body=", body_size, " seq=", _send_sequence, " bytes=", final_data.size())
+	print("[TCP] HEX: ", hex_str)
 
 
 ## 每帧更新（处理接收和连接状态）
-func update(delta: float) -> void:
+func update(_delta: float) -> void:
 	if _tcp == null:
 		return
 	_tcp.poll()
@@ -135,6 +140,7 @@ func update(delta: float) -> void:
 		var status := _tcp.get_status()
 		if status == StreamPeerTCP.STATUS_CONNECTED:
 			_state = NetState.CONNECTED
+			_tcp.set_no_delay(true)
 			connected.emit()
 			print("[TCP] 已连接到 ", host, ":", port)
 		elif status == StreamPeerTCP.STATUS_ERROR:
@@ -148,6 +154,10 @@ func update(delta: float) -> void:
 
 ## 处理接收数据
 func _process_receive() -> void:
+	if _tcp.get_status() != StreamPeerTCP.STATUS_CONNECTED:
+		_state = NetState.NONE
+		disconnected.emit()
+		return
 	var available: int = _tcp.get_available_bytes()
 	if available <= 0:
 		return
@@ -192,7 +202,7 @@ func _try_parse_packet() -> NetPacket:
 	var use_flag: bool = reader.read_bool()
 	var field_flag: int = PacketDefine.FULL_FIELD_FLAG
 	if use_flag:
-		field_flag = _read_ulong(reader)
+		field_flag = reader.read_unsigned(8)
 	# 读取包体数据
 	var body_data: PackedByteArray = PackedByteArray()
 	if body_size > 0:
@@ -205,17 +215,18 @@ func _try_parse_packet() -> NetPacket:
 		reader.set_bit_index((current_byte + body_size) * 8)
 	# 对齐到字节边界
 	reader.skip_to_byte_end()
-	# 读取总 CRC16
-	var current_byte: int = reader.get_read_byte_count()
-	if _recv_buffer.size() < current_byte + 2:
+	# 读取总 CRC16（ushort变长编码，实际占1~3字节）
+	var hdr_end: int = reader.get_read_byte_count()
+	if _recv_buffer.size() < hdr_end + 1:
 		return null  # 数据不足
-	var crc_reader := BitReader.new(_recv_buffer.slice(current_byte))
+	var crc_reader := BitReader.new(_recv_buffer.slice(hdr_end))
 	var total_crc: int = crc_reader.read_unsigned(2)
+	var crc_byte_count: int = crc_reader.get_read_byte_count()
 	# 验证 CRC16
-	var check_data: PackedByteArray = _recv_buffer.slice(0, current_byte)
+	var check_data: PackedByteArray = _recv_buffer.slice(0, hdr_end)
 	if CRC16Util.generate_crc16_buffer(check_data) != total_crc:
 		print("[TCP] 总 CRC16 校验失败")
-		_recv_buffer = _recv_buffer.slice(current_byte + 2)
+		_recv_buffer = _recv_buffer.slice(hdr_end + crc_byte_count)
 		return null
 	# 解密包体
 	if body_size > 0:
@@ -228,29 +239,15 @@ func _try_parse_packet() -> NetPacket:
 	# 创建包对象
 	if not _packet_factory.has(packet_type):
 		print("[TCP] 未知包类型: ", packet_type)
-		_recv_buffer = _recv_buffer.slice(current_byte + 2)
+		_recv_buffer = _recv_buffer.slice(hdr_end + crc_byte_count)
 		return null
 	var packet: NetPacket = _packet_factory[packet_type].call()
 	if body_size > 0:
 		var body_reader := BitReader.new(body_data)
 		packet.read_from_buffer(body_reader, has_sign, field_flag)
 	# 移除已消费的数据
-	_recv_buffer = _recv_buffer.slice(current_byte + 2)
+	_recv_buffer = _recv_buffer.slice(hdr_end + crc_byte_count)
 	return packet
-
-
-## 写入 ullong 值（8字节无符号）
-func _write_ulong(writer: BitWriter, value: int) -> void:
-	# 分成两个 uint 写入
-	writer.write_unsigned(value & 0xFFFFFFFF, 4)
-	writer.write_unsigned((value >> 32) & 0xFFFFFFFF, 4)
-
-
-## 读取 ullong 值（8字节无符号）
-func _read_ulong(reader: BitReader) -> int:
-	var low: int = reader.read_unsigned(4)
-	var high: int = reader.read_unsigned(4)
-	return low | (high << 32)
 
 
 ## 获取连接状态
@@ -259,5 +256,5 @@ func get_state() -> NetState:
 
 
 ## 是否已连接
-func is_connected() -> bool:
+func is_net_connected() -> bool:
 	return _state == NetState.CONNECTED
