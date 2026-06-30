@@ -13,10 +13,12 @@
 
 ### Core
 
-- `res://scripts/game_root.gd`: places the persistent player at the current level spawn marker, handles B/C keys for UI toggle.
+- `res://scripts/game_root.gd`: places the persistent player at the current level spawn marker, handles B/C keys for UI toggle, initializes LevelManager.
 - `res://scripts/player.gd`: movement, gravity, jump handling, ladder climbing, facing direction, and animation switching.
 - `res://scripts/game_registry.gd`: AutoLoad singleton, owns all data models and providers.
 - `res://scripts/save_manager.gd`: JSON save/load to user://.
+- `res://scripts/level_manager.gd`: level loading/unloading, player teleportation, reload support.
+- `res://scripts/level_portal.gd`: portal trigger Area2D for level transitions (export: target_level_id, spawn_position).
 
 ### Data Layer (`res://scripts/data/`)
 
@@ -24,6 +26,7 @@
 - `item_instance.gd` - Runtime item instance {uid, item_id, count}
 - `skill_config.gd` - Skills.json loader
 - `buff_config.gd` - Buffs.json loader
+- `level_config.gd` - Levels.json loader
 - `inventory_data.gd` - Bag data model with add/remove/query, signals, serialization
 - `equipment_data.gd` - Equipment slot state with uid+item_id tracking, signals, serialization
 - `character_stats.gd` - Character stats with equipment bonus calculation
@@ -54,6 +57,7 @@
 - `res://data/excel/items.xlsx`: item configuration table (8 sample items)
 - `res://data/excel/skills.xlsx`: skill configuration table (5 skills: melee/projectile/aoe/penetrate/fullscreen)
 - `res://data/excel/buffs.xlsx`: buff configuration table (7 buffs: poison/burn/freeze/paralysis/invincible/stun/slow)
+- `res://data/excel/levels.xlsx`: level configuration table (scene paths, spawn points)
 - `res://assets/characters/girl/`: imported character sprite frames and animations
 - `res://world/stitched/jungle_01/`: imported jungle map art and collision data
 

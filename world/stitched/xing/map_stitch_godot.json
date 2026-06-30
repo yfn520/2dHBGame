@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "coordinate_system": "top_left_origin_y_down_pixels",
+  "canvas": {
+    "width": 1376,
+    "height": 768
+  },
+  "source": {
+    "file": "scene_horizontal_2d_horizontal_2d.png",
+    "width": 1376,
+    "height": 768
+  },
+  "overlap": {
+    "horizontal_percent": 15,
+    "vertical_percent": 15
+  },
+  "layers": {
+    "background": null,
+    "occlusion": null,
+    "collision": {
+      "name": "collision_layer",
+      "image": "images/collision_layer.png"
+    }
+  },
+  "collisions": {
+    "mode": "polygon",
+    "polygon_count": 1,
+    "rect_count": 1,
+    "cell_size": 4
+  },
+  "tiles": [
+    {
+      "key": "0,0",
+      "name": "source",
+      "image": "images/source.png",
+      "pixel": {
+        "x": 0,
+        "y": 0,
+        "width": 1376,
+        "height": 768
+      },
+      "tile": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "feather": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    }
+  ]
+}

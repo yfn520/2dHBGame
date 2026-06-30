@@ -44,6 +44,15 @@
 - player.gd 的 play_combat_animation 方法在动画资源到位前用定时器模拟。
 - 受击后有 0.3s 硬直 + 0.5s 无敌帧，防止连续受击。
 
+## 关卡系统
+
+- game_root.tscn 不再硬编码关卡场景，LevelContainer 由 LevelManager 动态加载。
+- 首个关卡由 levels.xlsx 配置表中第一行决定，修改 Excel 即可换首关。
+- 关卡切换通过 LevelPortal (Area2D) 触发，设置 target_level_id 和 spawn_position。
+- Player 需要加入 "player" group，供 portal 检测。
+- LevelManager 注册到 GameRegistry.level_manager，全局可访问。
+- R 键测试重载当前关卡。
+
 ## Follow-up
 
 - If the level size changes, update the camera bounds or drive them from a level metadata node.

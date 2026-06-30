@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://boytsy1outsm5"]
+
+[ext_resource type="PackedScene" uid="uid://b0cvhg1inyc08" path="res://world/stitched/jungle_01/map_stitch_godot.tscn" id="1_lph1r"]
+
+[node name="Jungle01" type="Node2D" unique_id=1917042116]
+
+[node name="Map" type="Node2D" parent="." unique_id=1928501199 instance=ExtResource("1_lph1r")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=413253219]
+position = Vector2(165.12, 353.28)

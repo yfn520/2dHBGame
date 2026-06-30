@@ -6,6 +6,7 @@ extends Node
 var item_config: ItemConfig
 var skill_config: SkillConfig
 var buff_config: BuffConfig
+var level_config: LevelConfig
 
 var inventory_data: InventoryData
 var equipment_data: EquipmentData
@@ -13,6 +14,8 @@ var character_stats: CharacterStats
 
 var inventory_provider: InventoryProvider
 var equipment_provider: EquipmentProvider
+
+var level_manager: Node  # LevelManager，由 game_root 创建并注册
 
 
 func _ready() -> void:
@@ -22,6 +25,8 @@ func _ready() -> void:
 	skill_config.load_config()
 	buff_config = BuffConfig.new()
 	buff_config.load_config()
+	level_config = LevelConfig.new()
+	level_config.load_config()
 
 	inventory_data = InventoryData.new()
 	equipment_data = EquipmentData.new()

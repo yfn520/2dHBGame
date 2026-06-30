@@ -66,6 +66,11 @@ HEADER_MAP = {
     "减速比例": "slow_ratio",
     "最大层数": "max_stacks",
     "特效场景": "effect_scene",
+    # 关卡表
+    "场景路径": "scene_path",
+    "出生点X": "spawn_x",
+    "出生点Y": "spawn_y",
+    "背景音乐": "bgm",
 }
 
 
