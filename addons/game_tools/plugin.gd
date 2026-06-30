@@ -11,6 +11,7 @@ func _enter_tree() -> void:
 	_submenu.add_item("导入所有角色", 1)
 	_submenu.add_item("导入所有怪物", 3)
 	_submenu.add_item("转换 Excel → JSON", 2)
+	_submenu.add_item("导出 JSON → CSV (可用Excel编辑)", 4)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
 
@@ -31,6 +32,8 @@ func _on_menu_pressed(id: int) -> void:
 			_do_convert_excel()
 		3:
 			_do_import_enemies()
+		4:
+			_do_export_json_to_csv()
 
 
 # ---- 场景导入 ----
@@ -418,3 +421,114 @@ func _to_pascal(value: String) -> String:
 		if not word.is_empty():
 			result += word.left(1).to_upper() + word.substr(1)
 	return result if not result.is_empty() else "ImportedLevel"
+
+
+# ---- JSON → CSV 导出 ----
+
+func _do_export_json_to_csv() -> void:
+	var data_dir := "res://data"
+	var csv_dir := data_dir.path_join("csv")
+	var dir := DirAccess.open(data_dir)
+	if dir == null:
+		push_warning("数据目录不存在: %s" % data_dir)
+		return
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(csv_dir))
+
+	var count := 0
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".json") and not file_name.begins_with("."):
+			var json_path := data_dir.path_join(file_name)
+			var csv_name := file_name.replace(".json", ".csv")
+			var csv_path := csv_dir.path_join(csv_name)
+			if _export_single_json_to_csv(json_path, csv_path):
+				count += 1
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+	print("[GameTools] 导出完成: %d 个 JSON → CSV" % count)
+	EditorInterface.get_resource_filesystem().scan()
+
+
+func _export_single_json_to_csv(json_path: String, csv_path: String) -> bool:
+	var file := FileAccess.open(json_path, FileAccess.READ)
+	if file == null:
+		return false
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		push_warning("JSON 解析失败: %s" % json_path)
+		return false
+
+	var data = json.data
+	if not data is Dictionary:
+		push_warning("非字典格式，跳过: %s" % json_path)
+		return false
+
+	# 收集所有 key
+	var all_keys: Array[String] = []
+	for id_str in data:
+		var entry = data[id_str]
+		if entry is Dictionary:
+			var flat := _flatten_dict(entry)
+			for key in flat:
+				if key not in all_keys:
+					all_keys.append(key)
+
+	if all_keys.is_empty():
+		return false
+
+	# 写 CSV
+	var out := FileAccess.open(csv_path, FileAccess.WRITE)
+	if out == null:
+		push_warning("无法写入: %s" % csv_path)
+		return false
+
+	# 表头
+	var header := "id"
+	for key in all_keys:
+		header += "," + _csv_escape(key)
+	out.store_line(header)
+
+	# 数据行
+	for id_str in data:
+		var entry = data[id_str]
+		if not entry is Dictionary:
+			continue
+		var flat := _flatten_dict(entry)
+		var row := _csv_escape(id_str)
+		for key in all_keys:
+			var val = flat.get(key, "")
+			row += "," + _csv_escape(str(val))
+		out.store_line(row)
+
+	print("[GameTools] 已导出: %s" % csv_path)
+	return true
+
+
+func _flatten_dict(d: Dictionary) -> Dictionary:
+	var result := {}
+	for key in d:
+		var val = d[key]
+		if val is Dictionary:
+			var sub := _flatten_dict(val)
+			for sub_key in sub:
+				result[key + "_" + sub_key] = sub[sub_key]
+		elif val is Array:
+			result[key] = _array_to_string(val)
+		else:
+			result[key] = val
+	return result
+
+
+func _array_to_string(arr: Array) -> String:
+	var parts: PackedStringArray = []
+	for item in arr:
+		parts.append(str(item))
+	return ";".join(parts)
+
+
+func _csv_escape(field: String) -> String:
+	if field.contains(",") or field.contains("\"") or field.contains("\n"):
+		return "\"" + field.replace("\"", "\"\"") + "\""
+	return field

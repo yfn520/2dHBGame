@@ -46,6 +46,21 @@ func get_combat_stats() -> EnemyStats:
 	return _stats
 
 
+func get_enemy_name() -> String:
+	return _config.get("name", "未知")
+
+
+func get_ai_state_name() -> String:
+	match _ai_state:
+		AIState.IDLE: return "IDLE"
+		AIState.PATROL: return "PATROL"
+		AIState.CHASE: return "CHASE"
+		AIState.ATTACK: return "ATTACK"
+		AIState.HIT: return "HIT"
+		AIState.DEAD: return "DEAD"
+		_: return "?"
+
+
 func _ready() -> void:
 	add_to_group("enemies")
 	# 等 CombatComponent 初始化后连接死亡信号
@@ -304,6 +319,9 @@ func _face_direction(dir: float) -> void:
 func _play_anim(anim_name: String) -> void:
 	if _combat_anim_playing:
 		return
+	# 非循环动画未播完时不切换
+	if not sprite.sprite_frames.get_animation_loop(sprite.animation) and sprite.is_playing():
+		return
 	if sprite.animation != anim_name:
 		sprite.play(anim_name)
 
@@ -332,6 +350,11 @@ func _end_combat_anim() -> void:
 	_combat_anim_playing = false
 	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
 		sprite.animation_finished.disconnect(_on_combat_anim_finished)
+
+	# 死亡后不再恢复动画
+	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
+		sprite.stop()
+		return
 
 	# 攻击/受击结束后恢复移动动画，避免停在末帧
 	var target_animation := "idle"

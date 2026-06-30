@@ -169,11 +169,18 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 func _update_animation(direction: float) -> void:
 	if _combat_anim_playing:
 		return
+	# 死亡或受击状态下不切换动画
+	if combat != null and "combat_state" in combat:
+		if combat.combat_state == combat.CombatState.DEAD:
+			return
+		if combat.combat_state == combat.CombatState.HIT:
+			return
+	# 当前动画是非循环（hurt/attack等）且未播放完，不切换
+	if not sprite.sprite_frames.get_animation_loop(sprite.animation) and sprite.is_playing():
+		return
 	var next_animation := "idle"
-
 	if not is_climbing_ladder and absf(direction) > 0.0 and is_on_floor():
 		next_animation = "run"
-
 	if sprite.animation != next_animation:
 		sprite.play(next_animation)
 
@@ -202,6 +209,11 @@ func _end_combat_anim() -> void:
 	_combat_anim_playing = false
 	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
 		sprite.animation_finished.disconnect(_on_combat_anim_finished)
+
+	# 死亡后不再恢复动画
+	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
+		sprite.stop()
+		return
 
 	# 攻击/受击结束后恢复移动动画，避免停在末帧
 	var next_animation := "idle"

@@ -156,11 +156,16 @@ func take_damage(amount: int, source: Node = null) -> void:
 
 	# 受击硬直 + 短暂无敌
 	combat_state = CombatState.HIT
-	_hit_stun_timer = 0.3
-	_invincible_after_hit = 0.5
+	_hit_stun_timer = 0.6
+	_invincible_after_hit = 0.8
 
 	if _owner.has_method("play_combat_animation"):
 		_owner.play_combat_animation("hit")
+
+
+## 获取冷却字典（供 debug 面板使用）
+func get_cooldowns_dict() -> Dictionary:
+	return _cooldowns.duplicate()
 
 
 ## 治疗

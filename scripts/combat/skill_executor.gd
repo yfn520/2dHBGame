@@ -135,9 +135,12 @@ func _calc_damage(skill: Dictionary) -> int:
 
 
 func _get_facing() -> Vector2:
-	if _owner.has_method("get"):
-		if "sprite" in _owner and _owner.sprite != null:
-			return Vector2.RIGHT if not _owner.sprite.flip_h else Vector2.LEFT
+	var sprite_node = _owner.get_node_or_null("CharacterActionSet/AnimatedSprite2D")
+	if sprite_node == null and "sprite" in _owner:
+		sprite_node = _owner.sprite
+	if sprite_node != null:
+		# flip_h=true 表示水平翻转（面朝右），flip_h=false 表示默认（面朝左）
+		return Vector2.RIGHT if sprite_node.flip_h else Vector2.LEFT
 	return Vector2.RIGHT
 
 

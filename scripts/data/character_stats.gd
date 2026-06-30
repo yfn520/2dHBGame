@@ -66,8 +66,12 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> void:
-	base_max_hp = int(data.get("base_max_hp", 100))
+	base_max_hp = int(data.get("base_max_hp", 250))
 	base_attack = int(data.get("base_attack", 1))
 	base_defense = int(data.get("base_defense", 0))
 	base_move_speed = float(data.get("base_move_speed", 220.0))
-	hp = int(data.get("hp", 100))
+	# 先同步 max_hp，再读 hp，确保不超出
+	max_hp = base_max_hp
+	hp = int(data.get("hp", max_hp))
+	if hp <= 0:
+		hp = max_hp  # 死过或无存档时满血复活

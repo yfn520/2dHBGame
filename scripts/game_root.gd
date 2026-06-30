@@ -7,6 +7,7 @@ extends Node2D
 
 var _level_manager: Node
 var _enemy_spawner: Node
+var _debug_label: Label
 
 
 func _ready() -> void:
@@ -26,6 +27,9 @@ func _ready() -> void:
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
 	_level_manager.level_unloaded.connect(_on_level_unloaded)
+
+	# 创建 Debug 面板
+	_setup_debug_panel()
 
 	# 加载首个关卡（从配置表）
 	call_deferred("_load_start_level")
@@ -63,6 +67,92 @@ func _spawn_level_enemies(level_id: int) -> void:
 		_enemy_spawner.spawn_enemies_for_level(spawns)
 
 
+func _process(_delta: float) -> void:
+	if _debug_label != null and _debug_label.visible:
+		_update_debug_panel()
+
+
+func _setup_debug_panel() -> void:
+	var layer := CanvasLayer.new()
+	layer.name = "DebugLayer"
+	layer.layer = 100
+	add_child(layer)
+
+	var panel := PanelContainer.new()
+	panel.name = "DebugPanel"
+	panel.position = Vector2(10, 10)
+	panel.size = Vector2(350, 400)
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0, 0, 0, 0.7)
+	style.content_margin_left = 8
+	style.content_margin_top = 8
+	style.content_margin_right = 8
+	style.content_margin_bottom = 8
+	panel.add_theme_stylebox_override("panel", style)
+	layer.add_child(panel)
+
+	_debug_label = Label.new()
+	_debug_label.name = "DebugLabel"
+	_debug_label.add_theme_font_size_override("font_size", 13)
+	_debug_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
+	panel.add_child(_debug_label)
+
+
+func _update_debug_panel() -> void:
+	var lines: PackedStringArray = []
+	var combat = player.get_node_or_null("CombatComponent")
+	var stats = GameRegistry.character_stats
+
+	# ---- 玩家信息 ----
+	lines.append("=== 玩家 ===")
+	if stats != null:
+		lines.append("HP: %d / %d" % [stats.hp, stats.max_hp])
+		lines.append("ATK: %d  DEF: %d  SPD: %d" % [stats.attack, stats.defense, stats.move_speed])
+	if combat != null:
+		lines.append("状态: %s" % _state_name(combat.combat_state))
+		# 技能冷却
+		var cooldowns: Dictionary = combat.get_cooldowns_dict()
+		var skill_names := {1001: "普攻", 1002: "火球术", 1003: "旋风斩", 1004: "冰霜箭"}
+		var cd_parts: PackedStringArray = []
+		for sid in cooldowns:
+			var cd: float = cooldowns[sid]
+			var name: String = skill_names.get(sid, str(sid))
+			cd_parts.append("%s:%.1fs" % [name, cd] if cd > 0 else "%s:OK" % name)
+		lines.append("CD: %s" % " | ".join(cd_parts))
+
+	# ---- 怪物信息 ----
+	lines.append("")
+	lines.append("=== 怪物 ===")
+	if _enemy_spawner != null:
+		var enemies: Array = _enemy_spawner._active_enemies
+		if enemies.is_empty():
+			lines.append("(无)")
+		else:
+			for enemy in enemies:
+				if not is_instance_valid(enemy):
+					continue
+				var dist := player.global_position.distance_to(enemy.global_position)
+				var e_stats = enemy.get_combat_stats() if enemy.has_method("get_combat_stats") else null
+				var hp_str := "?"
+				if e_stats != null:
+					hp_str = "%d/%d" % [e_stats.hp, e_stats.max_hp]
+				var ai_name: String = enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
+				var e_name: String = enemy.get_enemy_name() if enemy.has_method("get_enemy_name") else "?"
+				lines.append("[%s] HP:%s AI:%s Dist:%d" % [e_name, hp_str, ai_name, int(dist)])
+
+	_debug_label.text = "\n".join(lines)
+
+
+func _state_name(state) -> String:
+	match state:
+		0: return "IDLE"
+		1: return "ATTACKING"
+		2: return "SKILL"
+		3: return "HIT"
+		4: return "DEAD"
+		_: return str(state)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed:
 		return
@@ -78,6 +168,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_R:
 			# 测试：R 键重载当前关卡
 			_level_manager.reload_current()
+			get_viewport().set_input_as_handled()
+		KEY_F3:
+			_debug_label.get_parent().visible = not _debug_label.get_parent().visible
 			get_viewport().set_input_as_handled()
 
 
