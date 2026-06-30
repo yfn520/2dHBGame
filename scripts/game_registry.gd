@@ -4,6 +4,8 @@ extends Node
 ## 挂载到 AutoLoad 即可全局访问
 
 var item_config: ItemConfig
+var skill_config: SkillConfig
+var buff_config: BuffConfig
 
 var inventory_data: InventoryData
 var equipment_data: EquipmentData
@@ -16,6 +18,10 @@ var equipment_provider: EquipmentProvider
 func _ready() -> void:
 	item_config = ItemConfig.new()
 	item_config.load_config()
+	skill_config = SkillConfig.new()
+	skill_config.load_config()
+	buff_config = BuffConfig.new()
+	buff_config.load_config()
 
 	inventory_data = InventoryData.new()
 	equipment_data = EquipmentData.new()

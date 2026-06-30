@@ -70,6 +70,9 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 - Connect to networking layer when server integration begins
 - Add drag-and-drop for item management
 - Add item tooltips with detailed stats
+- Add combat animations (attack, hit, skill1, skill2, skill3, dead)
+- Add projectile/effect scenes (fireball, frost_arrow, etc.)
+- Add buff effect scenes (poison_fx, burn_fx, freeze_fx, etc.)
 
 ## Architecture
 
@@ -77,6 +80,8 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 
 - `item_config.gd` - Static config loader for items.json
 - `item_instance.gd` - Runtime item instance {uid, item_id, count}
+- `skill_config.gd` - Skills.json loader (5 skills: melee/projectile/aoe/penetrate/fullscreen)
+- `buff_config.gd` - Buffs.json loader (7 buffs: poison/burn/freeze/paralysis/invincible/stun/slow)
 - `inventory_data.gd` - Bag data model with add/remove/query
 - `equipment_data.gd` - Equipment slot state with uid tracking
 - `character_stats.gd` - Character stats with equipment bonus calculation
@@ -90,6 +95,17 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 
 - `inventory_panel.gd` - Bag UI with 6x5 grid, equip/discard actions
 - `character_panel.gd` - Character stats and equipment display
+
+### Combat Layer (scripts/combat/)
+
+- `state_machine.gd` - Generic state machine with enter/update/exit callbacks
+- `combat_component.gd` - Combat logic: attack, skills, damage, buffs, cooldowns
+- `hit_box.gd` - Attack detection Area2D (collision_layer=4)
+- `hurt_box.gd` - Hit reception Area2D (collision_layer=8, group "hurt_box")
+- `skill_executor.gd` - Skill execution by type (melee/projectile/aoe/fullscreen/self)
+- `projectile.gd` - Projectile base with penetration support
+- `buff_manager.gd` - Buff lifecycle, DoT ticks, stacking, state checks
+- `buff_instance.gd` - Single buff instance data
 
 ### Manager Layer
 

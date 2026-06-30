@@ -13,6 +13,9 @@ var current_ladder: Area2D
 @onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
 @onready var ladder_detector: Area2D = $LadderDetector
+@onready var combat: Node = $CombatComponent
+
+var _combat_anim_playing := false
 
 
 func _ready() -> void:
@@ -24,21 +27,37 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	# 战斗状态限制移动
+	var can_move := true
+	if combat != null and "combat_state" in combat:
+		if combat.combat_state == combat.CombatState.DEAD:
+			velocity = Vector2.ZERO
+			move_and_slide()
+			return
+		if combat.combat_state == combat.CombatState.HIT:
+			can_move = false
+		if _combat_anim_playing:
+			can_move = false
+
 	var direction := _get_move_direction()
 	var climb_direction := _get_climb_direction()
 	var jump_pressed := Input.is_physical_key_pressed(KEY_SPACE)
 
 	_update_ladder_contact()
 
-	if is_climbing_ladder and current_ladder == null:
-		_exit_ladder_state()
-	elif not is_climbing_ladder and current_ladder != null and climb_direction != 0.0:
-		_enter_ladder_state()
+	if can_move:
+		if is_climbing_ladder and current_ladder == null:
+			_exit_ladder_state()
+		elif not is_climbing_ladder and current_ladder != null and climb_direction != 0.0:
+			_enter_ladder_state()
 
-	if is_climbing_ladder:
-		_handle_ladder_movement(direction, climb_direction, jump_pressed, delta)
+		if is_climbing_ladder:
+			_handle_ladder_movement(direction, climb_direction, jump_pressed, delta)
+		else:
+			_handle_ground_movement(direction, jump_pressed, delta)
 	else:
-		_handle_ground_movement(direction, jump_pressed, delta)
+		# 战斗状态中减速停下
+		velocity.x = move_toward(velocity.x, 0, 400 * delta)
 
 	if direction != 0.0:
 		sprite.flip_h = direction > 0.0
@@ -123,6 +142,8 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 
 
 func _update_animation(direction: float) -> void:
+	if _combat_anim_playing:
+		return
 	var next_animation := "idle"
 
 	if not is_climbing_ladder and absf(direction) > 0.0 and is_on_floor():
@@ -130,3 +151,38 @@ func _update_animation(direction: float) -> void:
 
 	if sprite.animation != next_animation:
 		sprite.play(next_animation)
+
+
+## 播放战斗动画 (由 CombatComponent 调用)
+func play_combat_animation(anim_name: String) -> void:
+	if sprite.sprite_frames.has_animation(anim_name):
+		_combat_anim_playing = true
+		sprite.play(anim_name)
+		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
+			sprite.animation_finished.connect(_on_combat_anim_finished)
+	else:
+		# 没有对应动画时，短暂闪烁表示动作
+		_combat_anim_playing = true
+		get_tree().create_timer(0.3).timeout.connect(_end_combat_anim)
+
+
+func _on_combat_anim_finished() -> void:
+	_end_combat_anim()
+
+
+func _end_combat_anim() -> void:
+	_combat_anim_playing = false
+	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
+		sprite.animation_finished.disconnect(_on_combat_anim_finished)
+
+
+## 受伤 (由 HurtBox 调用)
+func take_damage(amount: int, source: Node = null) -> void:
+	if combat != null and combat.has_method("take_damage"):
+		combat.take_damage(amount, source)
+
+
+## 施加 Buff (由弹道/SkillExecutor 调用)
+func apply_buff_from_config(config: Dictionary, source: int = 0) -> void:
+	if combat != null and combat.has_method("apply_buff_from_config"):
+		combat.apply_buff_from_config(config, source)

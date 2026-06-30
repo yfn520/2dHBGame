@@ -32,6 +32,17 @@
 - stats 子对象字段 (attack, defense, max_hp, move_speed) 自动归入 stats 字典。
 - 新增配置表只需在 `data/excel/` 下创建 xlsx，按约定填写表头即可。
 - .gitignore 中排除了生成的 JSON 文件，只提交 Excel 源文件。
+- `data/excel/.gdignore` 防止 Godot 导入 Excel 文件。
+
+## 战斗系统
+
+- CombatComponent 挂载到角色上，管理攻击、技能、受伤、Buff。
+- HitBox (collision_layer=4) 和 HurtBox (collision_layer=8) 通过物理层隔离。
+- HurtBox 需要加入 "hurt_box" 组，供全屏/AOE 技能查找目标。
+- 弹道(projectile.gd)通过 area_entered 信号检测碰撞，支持穿透(max_pierce=-1 无限)。
+- BuffManager 作为子节点挂载，独立处理 DoT 跳伤害和持续时间。
+- player.gd 的 play_combat_animation 方法在动画资源到位前用定时器模拟。
+- 受击后有 0.3s 硬直 + 0.5s 无敌帧，防止连续受击。
 
 ## Follow-up
 

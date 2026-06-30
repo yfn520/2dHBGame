@@ -22,6 +22,8 @@
 
 - `item_config.gd` - Static config loader for items.json
 - `item_instance.gd` - Runtime item instance {uid, item_id, count}
+- `skill_config.gd` - Skills.json loader
+- `buff_config.gd` - Buffs.json loader
 - `inventory_data.gd` - Bag data model with add/remove/query, signals, serialization
 - `equipment_data.gd` - Equipment slot state with uid+item_id tracking, signals, serialization
 - `character_stats.gd` - Character stats with equipment bonus calculation
@@ -36,9 +38,22 @@
 - `inventory_panel.gd` - Bag UI with 30 slots, equip (E) and discard (D) actions
 - `character_panel.gd` - Character stats display + equipment slot display
 
+### Combat Layer (`res://scripts/combat/`)
+
+- `state_machine.gd` - Generic state machine with enter/update/exit callbacks
+- `combat_component.gd` - Combat logic: attack, skills, damage, buffs, cooldowns
+- `hit_box.gd` - Attack detection Area2D
+- `hurt_box.gd` - Hit reception Area2D (group "hurt_box")
+- `skill_executor.gd` - Skill execution by type (melee/projectile/aoe/fullscreen/self)
+- `projectile.gd` - Projectile base with penetration support
+- `buff_manager.gd` - Buff lifecycle, DoT ticks, stacking
+- `buff_instance.gd` - Single buff instance data
+
 ## Assets
 
-- `res://data/items.json`: item configuration table (8 sample items: weapons, armor, consumables, materials)
+- `res://data/excel/items.xlsx`: item configuration table (8 sample items)
+- `res://data/excel/skills.xlsx`: skill configuration table (5 skills: melee/projectile/aoe/penetrate/fullscreen)
+- `res://data/excel/buffs.xlsx`: buff configuration table (7 buffs: poison/burn/freeze/paralysis/invincible/stun/slow)
 - `res://assets/characters/girl/`: imported character sprite frames and animations
 - `res://world/stitched/jungle_01/`: imported jungle map art and collision data
 

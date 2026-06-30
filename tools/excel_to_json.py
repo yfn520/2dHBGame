@@ -48,6 +48,24 @@ HEADER_MAP = {
     "最大生命": "max_hp",
     "移动速度": "move_speed",
     "回复量": "heal_amount",
+    # 技能表
+    "伤害倍率": "damage_ratio",
+    "冷却时间": "cooldown",
+    "动画名": "animation",
+    "范围/射程": "range",
+    "弹道场景": "projectile_scene",
+    "穿透次数": "max_pierce",
+    "AOE半径": "aoe_radius",
+    "命中BuffID": "buff_on_hit",
+    "Buff概率": "buff_chance",
+    "自身BuffID": "buff_on_self",
+    # Buff表
+    "持续时间": "duration",
+    "跳数间隔": "interval",
+    "每跳伤害": "tick_damage",
+    "减速比例": "slow_ratio",
+    "最大层数": "max_stacks",
+    "特效场景": "effect_scene",
 }
 
 
