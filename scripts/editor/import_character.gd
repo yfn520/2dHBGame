@@ -6,6 +6,7 @@ const SPRITEFRAMES_FILE := "godot/spriteframes.tres"
 const ATLAS_FILE := "godot/all_actions_atlas.png"
 const CONFIG_FILE := "character_config.json"
 const DEFAULT_TARGET_HEIGHT := 52.0
+const COLLISION_BODY_BOTTOM := 19.0  # CollisionShape2D.size.y / 2 = 38/2
 
 
 func _initialize() -> void:
@@ -29,7 +30,8 @@ func _parse_args(args: PackedStringArray) -> Dictionary:
 		"source_dir": "",
 		"apply_player": "",
 		"target_height": DEFAULT_TARGET_HEIGHT,
-		"default_facing": "left"
+		"display_scale_override": -1.0,
+		"default_facing": "left",
 	}
 
 	var index := 0
@@ -48,6 +50,9 @@ func _parse_args(args: PackedStringArray) -> Dictionary:
 				index += 2
 			"--target-height":
 				options["target_height"] = float(next_value)
+				index += 2
+			"--display-scale":
+				options["display_scale_override"] = float(next_value)
 				index += 2
 			"--facing":
 				options["default_facing"] = next_value.to_lower()
@@ -82,8 +87,13 @@ func _import_character(options: Dictionary) -> int:
 		return parse_error
 
 	var manifest_data := manifest.data as Dictionary
-	var display_scale := _get_display_scale(manifest_data, float(options["target_height"]))
+	var display_scale: float
+	if float(options["display_scale_override"]) > 0.0:
+		display_scale = float(options["display_scale_override"])
+	else:
+		display_scale = _get_display_scale(manifest_data, float(options["target_height"]))
 	var display_offset_y := _get_display_offset_y(manifest_data, display_scale)
+	var frame_cell_height := _get_frame_cell_height(manifest_data)
 	var config := {
 		"character_name": manifest_data.get("characterName", source_dir.get_file()),
 		"default_animation": manifest_data.get("defaultAnimation", "idle"),
@@ -99,7 +109,8 @@ func _import_character(options: Dictionary) -> int:
 		"centered": true,
 		"target_display_height": float(options["target_height"]),
 		"available_actions": manifest_data.get("exportOrder", []),
-		"unified_box": manifest_data.get("unifiedBox", {})
+		"unified_box": manifest_data.get("unifiedBox", {}),
+		"frame_cell_height": frame_cell_height
 	}
 
 	var spriteframes_text := FileAccess.get_file_as_string(spriteframes_path)
@@ -159,19 +170,54 @@ func _import_character(options: Dictionary) -> int:
 	return OK
 
 
+## 获取角色内容高度（drawHeight 或 unifiedBox.height）
+func _get_content_height(manifest_data: Dictionary) -> float:
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		var draw_h := float(frame_rects[0].get("drawHeight", 0))
+		if draw_h > 0.0:
+			return draw_h
+	var unified_box: Dictionary = manifest_data.get("unifiedBox", {})
+	var height := float(unified_box.get("height", 144.0))
+	return height if height > 0.0 else 144.0
+
+
+## 获取帧 cell 高度（sprite 尺寸），用于计算 anchor 偏移
+func _get_frame_cell_height(manifest_data: Dictionary) -> float:
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		var cell_h := float(frame_rects[0].get("cellHeight", 0))
+		if cell_h > 0.0:
+			return cell_h
+	var unified_box: Dictionary = manifest_data.get("unifiedBox", {})
+	var height := float(unified_box.get("height", 144.0))
+	return height if height > 0.0 else 144.0
+
+
+## 获取内容在帧内的 Y 偏移（从帧顶部到内容顶部）
+func _get_content_offset_y(manifest_data: Dictionary) -> float:
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		return float(frame_rects[0].get("offsetY", 0))
+	return 0.0
+
+
+## centered=true: origin在cell中心。
+## 内容底边在sprite-local坐标 = -(cellH/2) + contentOffsetY + drawH
+## world_bottom = pos_y + local_bottom * scale = collision_bottom
+## => pos_y = collision_bottom - local_bottom * scale
+##          = collision_bottom + (cellH/2 - contentOffsetY - drawH) * scale
+func _get_display_offset_y(manifest_data: Dictionary, display_scale: float) -> float:
+	var cell_h := _get_frame_cell_height(manifest_data)
+	var content_offset_y := _get_content_offset_y(manifest_data)
+	var draw_h := _get_content_height(manifest_data)
+	var anchor_dist := cell_h * 0.5 - content_offset_y - draw_h
+	return snappedf(COLLISION_BODY_BOTTOM + anchor_dist * display_scale, 0.1)
+
+
 func _get_display_scale(manifest_data: Dictionary, target_height: float) -> float:
-	var unified_box: Dictionary = manifest_data.get("unifiedBox", {})
-	var height := float(unified_box.get("height", 144.0))
-	if height <= 0.0:
-		height = 144.0
-
+	var height := _get_content_height(manifest_data)
 	return snappedf(target_height / height, 0.001)
-
-
-func _get_display_offset_y(manifest_data: Dictionary, display_scale: float) -> int:
-	var unified_box: Dictionary = manifest_data.get("unifiedBox", {})
-	var height := float(unified_box.get("height", 144.0))
-	return -int(round(height * display_scale * 0.5))
 
 
 func _replace_ext_resource_path(text: String, resource_type: String, file_name: String, new_path: String) -> String:
@@ -218,7 +264,7 @@ func _ensure_centered(text: String) -> String:
 	return "\n".join(lines)
 
 
-func _replace_character_transform(text: String, display_scale: float, display_offset_y: int) -> String:
+func _replace_character_transform(text: String, display_scale: float, display_offset_y: float) -> String:
 	var lines := text.split("\n")
 	var in_character_action_set := false
 

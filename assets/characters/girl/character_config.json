@@ -1,0 +1,26 @@
+{
+	"actions_scene": "res://assets/characters/girl/godot/character_actions.tscn",
+	"atlas": "res://assets/characters/girl/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run"
+	],
+	"centered": true,
+	"character_name": "knight",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": 0,
+		"y": -26
+	},
+	"display_scale": 0.361,
+	"spriteframes": "res://assets/characters/girl/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {
+		"baselineOffset": 144.0,
+		"height": 144.0,
+		"scale": 0.2152466367713,
+		"sourceHeight": 669.0,
+		"sourceWidth": 644.0,
+		"width": 139.0
+	}
+}

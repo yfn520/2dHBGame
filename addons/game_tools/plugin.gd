@@ -148,7 +148,7 @@ func _do_import_characters() -> void:
 	EditorInterface.get_resource_filesystem().scan()
 
 
-func _do_import_single_character(source_dir: String, folder_name: String, player_scene: String) -> bool:
+func _do_import_single_character(source_dir: String, folder_name: String, player_scene: String, display_scale_override: float = -1.0) -> bool:
 	var actions_path := source_dir.path_join("godot/character_actions.tscn")
 	var sf_path := source_dir.path_join("godot/spriteframes.tres")
 	var atlas_path := source_dir.path_join("godot/all_actions_atlas.png")
@@ -175,13 +175,19 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		return false
 
 	var md: Dictionary = json.data
-	var target_height := 52.0
 	var ub: Dictionary = md.get("unifiedBox", {})
-	var raw_height: float = float(ub.get("height", 144.0))
-	if raw_height <= 0.0:
-		raw_height = 144.0
-	var display_scale := snappedf(target_height / raw_height, 0.001)
-	var display_offset_y := -int(round(raw_height * display_scale * 0.5))
+	var target_height := 52.0
+	var raw_height := _get_content_height(md)
+	var display_scale: float
+	if display_scale_override > 0.0:
+		display_scale = display_scale_override
+	else:
+		display_scale = snappedf(target_height / raw_height, 0.001)
+	var cell_h := _get_frame_cell_height(md)
+	var content_offset_y := _get_content_offset_y(md)
+	var draw_h := _get_content_height(md)
+	var anchor_dist := cell_h * 0.5 - content_offset_y - draw_h
+	var display_offset_y := snappedf(19.0 + anchor_dist * display_scale, 0.1)
 
 	# 修正 spriteframes.tres
 	var sf_text := FileAccess.get_file_as_string(sf_path)
@@ -207,6 +213,7 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		"target_display_height": target_height,
 		"available_actions": md.get("exportOrder", []),
 		"unified_box": ub,
+		"frame_cell_height": frame_cell_height,
 	}
 	_write_file(config_path, JSON.stringify(config, "\t") + "\n")
 
@@ -304,7 +311,7 @@ func _ensure_centered(text: String) -> String:
 	return "\n".join(lines)
 
 
-func _replace_char_transform(text: String, display_scale: float, display_offset_y: int) -> String:
+func _replace_char_transform(text: String, display_scale: float, display_offset_y: float) -> String:
 	var lines := text.split("\n")
 	var in_char := false
 	for i in range(lines.size()):
@@ -329,6 +336,40 @@ func _write_file(path: String, text: String) -> void:
 		push_error("写入文件失败: %s" % path)
 		return
 	file.store_string(text)
+
+
+func _get_content_height(manifest_data: Dictionary) -> float:
+	# 优先从 frameRects 读 drawHeight（有压缩流水线的角色）
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		var first_frame: Dictionary = frame_rects[0]
+		var draw_h := float(first_frame.get("drawHeight", 0))
+		if draw_h > 0.0:
+			return draw_h
+	# 回退到 unifiedBox.height（无压缩的角色如 girl）
+	var ub: Dictionary = manifest_data.get("unifiedBox", {})
+	var height := float(ub.get("height", 144.0))
+	if height <= 0.0:
+		height = 144.0
+	return height
+
+
+func _get_frame_cell_height(manifest_data: Dictionary) -> float:
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		var cell_h := float(frame_rects[0].get("cellHeight", 0))
+		if cell_h > 0.0:
+			return cell_h
+	var ub: Dictionary = manifest_data.get("unifiedBox", {})
+	var height := float(ub.get("height", 144.0))
+	return height if height > 0.0 else 144.0
+
+
+func _get_content_offset_y(manifest_data: Dictionary) -> float:
+	var frame_rects: Array = manifest_data.get("frameRects", [])
+	if frame_rects.size() > 0:
+		return float(frame_rects[0].get("offsetY", 0))
+	return 0.0
 
 
 func _to_pascal(value: String) -> String:

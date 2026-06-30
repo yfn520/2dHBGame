@@ -19,11 +19,36 @@ var _combat_anim_playing := false
 
 
 func _ready() -> void:
+	_apply_character_display_config()
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = LEVEL_SIZE.x
 	camera.limit_bottom = LEVEL_SIZE.y
 	sprite.play("idle")
+
+
+## 从 character_config.json 读取 display_scale / display_offset 并应用
+func _apply_character_display_config() -> void:
+	# sprite_frames 路径 → 角色目录 → config 路径
+	var sf_path: String = sprite.sprite_frames.resource_path
+	var config_path := sf_path.get_base_dir().get_base_dir().path_join("character_config.json")
+	if not FileAccess.file_exists(config_path):
+		return
+
+	var text := FileAccess.get_file_as_string(config_path)
+	var json := JSON.new()
+	if json.parse(text) != OK:
+		return
+
+	var cfg: Dictionary = json.data
+	var char_set := $CharacterActionSet as Node2D
+	var s: float = float(cfg.get("display_scale", 1.0))
+	var offset: Dictionary = cfg.get("display_offset", {})
+	var oy: float = float(offset.get("y", 0))
+	char_set.scale = Vector2(s, s)
+	char_set.position = Vector2(0, oy)
+	# Camera 高度跟随角色
+	camera.position.y = -60.0 * s
 
 
 func _physics_process(delta: float) -> void:
