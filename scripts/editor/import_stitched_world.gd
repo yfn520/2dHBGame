@@ -176,4 +176,4 @@ func _is_word_character(character: String) -> bool:
 
 func _print_usage() -> void:
 	print("Usage:")
-	print("  godot --headless --script res://scripts/import_stitched_world.gd -- --source <world_dir> [--output <scene_path>] [--root-name <node_name>]")
+	print("  godot --headless --script res://scripts/editor/import_stitched_world.gd -- --source <world_dir> [--output <scene_path>] [--root-name <node_name>]")

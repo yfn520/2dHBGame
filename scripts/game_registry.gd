@@ -6,7 +6,7 @@ extends Node
 var item_config: ItemConfig
 var skill_config: SkillConfig
 var buff_config: BuffConfig
-var level_config: LevelConfig
+var level_config  # LevelConfig
 
 var inventory_data: InventoryData
 var equipment_data: EquipmentData

@@ -254,4 +254,4 @@ func _write_text_file(path: String, text: String) -> int:
 
 func _print_usage() -> void:
 	print("Usage:")
-	print("  godot --headless --script res://scripts/import_character.gd -- --source <character_dir> [--apply-player <player_scene>] [--target-height <pixels>] [--facing left|right]")
+	print("  godot --headless --script res://scripts/editor/import_character.gd -- --source <character_dir> [--apply-player <player_scene>] [--target-height <pixels>] [--facing left|right]")

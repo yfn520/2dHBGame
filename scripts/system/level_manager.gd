@@ -28,7 +28,7 @@ func get_current_level_config() -> Dictionary:
 
 ## 加载指定关卡（卸载当前关卡后加载新关卡）
 func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
-	var config := GameRegistry.level_config.get_level(level_id)
+	var config: Dictionary = GameRegistry.level_config.get_level(level_id)
 	if config.is_empty():
 		push_error("关卡不存在: %s" % level_id)
 		return

@@ -10,7 +10,7 @@ var _level_manager: Node
 
 func _ready() -> void:
 	# 创建并注册 LevelManager
-	_level_manager = load("res://scripts/level_manager.gd").new()
+	_level_manager = load("res://scripts/system/level_manager.gd").new()
 	_level_manager.name = "LevelManager"
 	add_child(_level_manager)
 	_level_manager.setup(level_container, player)
@@ -24,7 +24,7 @@ func _ready() -> void:
 
 
 func _load_start_level() -> void:
-	var first := GameRegistry.level_config.get_first_level()
+	var first: Dictionary = GameRegistry.level_config.get_first_level()
 	if not first.is_empty():
 		_level_manager.load_level(int(first.get("id", 1)))
 	else:

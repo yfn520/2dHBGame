@@ -1,12 +1,11 @@
 @echo off
-chcp 65001 >nul
 echo ========================================
-echo   Excel → JSON 配置表转换工具
+echo   Excel to JSON
 echo ========================================
 echo.
 python tools/excel_to_json.py
 echo.
 echo ========================================
-echo   完成！
+echo   Done!
 echo ========================================
 pause
