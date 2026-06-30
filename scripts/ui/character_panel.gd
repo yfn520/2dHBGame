@@ -87,7 +87,7 @@ func _unhandled_input(event: InputEvent) -> void:
 # ---- 槽位点击 ----
 
 func _on_slot_clicked(slot: String) -> void:
-	var equipped_uid := GameRegistry.equipment_data.get_equipped_uid(slot)
+	var equipped_uid = GameRegistry.equipment_data.get_equipped_uid(slot)
 	if equipped_uid != 0:
 		# 已穿戴 → 卸下
 		GameRegistry.equipment_provider.unequip_slot(slot)
@@ -118,10 +118,10 @@ func _rebuild_popup_list() -> void:
 		child.queue_free()
 
 	# 从背包中筛选该类型的装备
-	var items := GameRegistry.inventory_provider.get_items()
+	var items = GameRegistry.inventory_provider.get_items()
 	var found := false
 	for item in items:
-		var config := GameRegistry.item_config.get_item(item.item_id)
+		var config = GameRegistry.item_config.get_item(item.item_id)
 		if config.get("type", "") != _current_popup_slot:
 			continue
 		found = true
@@ -151,7 +151,7 @@ func _refresh_all() -> void:
 
 
 func _refresh_stats() -> void:
-	var stats := GameRegistry.character_stats
+	var stats = GameRegistry.character_stats
 	hp_value.text = "%d / %d" % [stats.hp, stats.max_hp]
 	atk_value.text = str(stats.attack)
 	def_value.text = str(stats.defense)
@@ -163,7 +163,7 @@ func _refresh_equipment() -> void:
 		var btn: Button = _slot_buttons.get(slot)
 		if btn == null:
 			continue
-		var item_id := GameRegistry.equipment_data.get_equipped_item_id(slot)
+		var item_id = GameRegistry.equipment_data.get_equipped_item_id(slot)
 		var label_name: String = SLOT_LABELS.get(slot, slot)
 		var color: Color = SLOT_COLORS.get(slot, Color.WHITE)
 		if item_id == 0:
@@ -172,7 +172,7 @@ func _refresh_equipment() -> void:
 			btn.remove_theme_color_override("font_color")
 			btn.remove_theme_color_override("font_hover_color")
 		else:
-			var config := GameRegistry.item_config.get_item(item_id)
+			var config = GameRegistry.item_config.get_item(item_id)
 			var item_name: String = config.get("name", "?")
 			var stats_text := _format_stats(config.get("stats", {}))
 			btn.text = "[%s]  %s  %s" % [label_name, item_name, stats_text]

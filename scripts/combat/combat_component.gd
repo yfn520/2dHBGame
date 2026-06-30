@@ -85,7 +85,7 @@ func try_use_skill(skill_id: int) -> bool:
 	if _cooldowns.get(skill_id, 0.0) > 0.0:
 		return false
 
-	var skill := GameRegistry.skill_config.get_skill(skill_id)
+	var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
 	if skill.is_empty():
 		return false
 
@@ -103,7 +103,7 @@ func try_use_skill(skill_id: int) -> bool:
 	# 自身 buff
 	var self_buff_id := int(skill.get("buff_on_self", 0))
 	if self_buff_id > 0:
-		var buff_config := GameRegistry.buff_config.get_buff(self_buff_id)
+		var buff_config = GameRegistry.buff_config.get_buff(self_buff_id)
 		if not buff_config.is_empty():
 			_buff_manager.apply_buff(buff_config, _owner.get_instance_id())
 

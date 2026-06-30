@@ -76,13 +76,13 @@ func _rebuild_grid() -> void:
 
 
 func _refresh_grid() -> void:
-	var items := GameRegistry.inventory_provider.get_items()
+	var items = GameRegistry.inventory_provider.get_items()
 
 	for i in _slot_buttons.size():
 		var btn := _slot_buttons[i]
 		if i < items.size():
 			var item: ItemInstance = items[i]
-			var config := GameRegistry.item_config.get_item(item.item_id)
+			var config = GameRegistry.item_config.get_item(item.item_id)
 			var item_name: String = config.get("name", "?")
 			var count_text := ""
 			if item.count > 1:
@@ -122,7 +122,7 @@ func _update_selection_visual() -> void:
 func _try_equip_selected() -> void:
 	if _selected_index < 0:
 		return
-	var items := GameRegistry.inventory_provider.get_items()
+	var items = GameRegistry.inventory_provider.get_items()
 	if _selected_index >= items.size():
 		return
 	var item: ItemInstance = items[_selected_index]
@@ -135,7 +135,7 @@ func _try_equip_selected() -> void:
 func _try_discard_selected() -> void:
 	if _selected_index < 0:
 		return
-	var items := GameRegistry.inventory_provider.get_items()
+	var items = GameRegistry.inventory_provider.get_items()
 	if _selected_index >= items.size():
 		return
 	var item: ItemInstance = items[_selected_index]

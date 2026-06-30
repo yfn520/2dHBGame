@@ -50,7 +50,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if buff_on_hit_id > 0 and randf() <= buff_chance:
 		var target_owner = area._owner_entity if area.has_method("is_hurt_box") else null
 		if target_owner != null and target_owner.has_method("apply_buff_from_config"):
-			var config := GameRegistry.buff_config.get_buff(buff_on_hit_id)
+			var config = GameRegistry.buff_config.get_buff(buff_on_hit_id)
 			if not config.is_empty():
 				target_owner.apply_buff_from_config(config, source_entity.get_instance_id() if source_entity else 0)
 	hit_target.emit(area)

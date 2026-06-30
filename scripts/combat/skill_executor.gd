@@ -90,7 +90,7 @@ func _execute_self(skill: Dictionary) -> void:
 	# 对自身施加 buff
 	var buff_id := int(skill.get("buff_on_self", 0))
 	if buff_id > 0 and _owner.has_method("apply_buff_from_config"):
-		var config := GameRegistry.buff_config.get_buff(buff_id)
+		var config = GameRegistry.buff_config.get_buff(buff_id)
 		if not config.is_empty():
 			_owner.apply_buff_from_config(config, _owner.get_instance_id())
 	# 自身治疗
@@ -114,7 +114,7 @@ func _apply_damage_to_target(skill: Dictionary, hurt_box: Area2D) -> void:
 func _try_apply_buff(hurt_box: Area2D, buff_id: int) -> void:
 	var target = hurt_box._owner_entity if hurt_box.get("_owner_entity") else null
 	if target != null and target.has_method("apply_buff_from_config"):
-		var config := GameRegistry.buff_config.get_buff(buff_id)
+		var config = GameRegistry.buff_config.get_buff(buff_id)
 		if not config.is_empty():
 			target.apply_buff_from_config(config, _owner.get_instance_id())
 
