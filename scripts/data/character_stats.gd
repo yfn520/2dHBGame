@@ -3,14 +3,14 @@ class_name CharacterStats
 signal stats_changed()
 
 # 基础属性
-var base_max_hp: int = 100
+var base_max_hp: int = 250
 var base_attack: int = 1
 var base_defense: int = 0
 var base_move_speed: float = 220.0
 
 # 当前属性(基础 + 装备加成)
-var max_hp: int = 100
-var hp: int = 100
+var max_hp: int = 250
+var hp: int = 250
 var attack: int = 1
 var defense: int = 0
 var move_speed: float = 220.0

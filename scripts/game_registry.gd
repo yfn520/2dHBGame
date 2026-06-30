@@ -4,6 +4,7 @@ var item_config
 var skill_config
 var buff_config
 var level_config
+var enemy_config
 
 var inventory_data
 var equipment_data
@@ -24,6 +25,8 @@ func _ready() -> void:
 	buff_config.load_config()
 	level_config = load("res://scripts/data/level_config.gd").new()
 	level_config.load_config()
+	enemy_config = load("res://scripts/data/enemy_config.gd").new()
+	enemy_config.load_config()
 
 	inventory_data = load("res://scripts/data/inventory_data.gd").new()
 	equipment_data = load("res://scripts/data/equipment_data.gd").new()

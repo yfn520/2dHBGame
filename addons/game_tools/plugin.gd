@@ -9,6 +9,7 @@ func _enter_tree() -> void:
 	_submenu.name = "GameToolsMenu"
 	_submenu.add_item("导入所有场景", 0)
 	_submenu.add_item("导入所有角色", 1)
+	_submenu.add_item("导入所有怪物", 3)
 	_submenu.add_item("转换 Excel → JSON", 2)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
@@ -28,6 +29,8 @@ func _on_menu_pressed(id: int) -> void:
 			_do_import_characters()
 		2:
 			_do_convert_excel()
+		3:
+			_do_import_enemies()
 
 
 # ---- 场景导入 ----
@@ -148,6 +151,30 @@ func _do_import_characters() -> void:
 	EditorInterface.get_resource_filesystem().scan()
 
 
+func _do_import_enemies() -> void:
+	var enemy_dir := "res://assets/enemies"
+	var dir := DirAccess.open(enemy_dir)
+	if dir == null:
+		push_warning("怪物目录不存在: %s" % enemy_dir)
+		return
+
+	dir.list_dir_begin()
+	var count := 0
+	var folder := dir.get_next()
+	while folder != "":
+		if dir.current_is_dir() and not folder.begins_with("."):
+			var char_path := enemy_dir.path_join(folder)
+			var manifest_path := char_path.path_join("manifest.json")
+			if FileAccess.file_exists(manifest_path):
+				if _do_import_single_character(char_path, folder, ""):
+					count += 1
+		folder = dir.get_next()
+	dir.list_dir_end()
+
+	print("[GameTools] 怪物导入完成: %d 个怪物" % count)
+	EditorInterface.get_resource_filesystem().scan()
+
+
 func _do_import_single_character(source_dir: String, folder_name: String, player_scene: String, display_scale_override: float = -1.0) -> bool:
 	var actions_path := source_dir.path_join("godot/character_actions.tscn")
 	var sf_path := source_dir.path_join("godot/spriteframes.tres")
@@ -213,7 +240,7 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		"target_display_height": target_height,
 		"available_actions": md.get("exportOrder", []),
 		"unified_box": ub,
-		"frame_cell_height": frame_cell_height,
+		"frame_cell_height": cell_h,
 	}
 	_write_file(config_path, JSON.stringify(config, "\t") + "\n")
 

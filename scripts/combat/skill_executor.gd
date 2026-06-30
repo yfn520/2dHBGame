@@ -3,10 +3,12 @@ class_name SkillExecutor
 ## 根据技能类型(melee/projectile/penetrate/aoe/fullscreen/self)执行不同的伤害逻辑
 
 var _owner: Node
+var _stats  # CharacterStats 或 EnemyStats
 
 
-func _init(owner: Node) -> void:
+func _init(owner: Node, stats = null) -> void:
 	_owner = owner
+	_stats = stats
 
 
 func execute(skill: Dictionary) -> void:
@@ -65,9 +67,10 @@ func _execute_aoe(skill: Dictionary) -> void:
 	var dmg := _calc_damage(skill)
 	var buff_id := int(skill.get("buff_on_hit", 0))
 	var buff_chance := float(skill.get("buff_chance", 0.0))
-	# 检测范围内的所有 HurtBox
 	var all_hurt_boxes := _find_all_hurt_boxes()
 	for hb in all_hurt_boxes:
+		if _is_friendly(hb):
+			continue
 		var dist: float = _owner.global_position.distance_to(hb.global_position)
 		if dist <= radius:
 			hb.take_hit(dmg, _owner)
@@ -81,6 +84,8 @@ func _execute_fullscreen(skill: Dictionary) -> void:
 	var buff_chance := float(skill.get("buff_chance", 0.0))
 	var all_hurt_boxes := _find_all_hurt_boxes()
 	for hb in all_hurt_boxes:
+		if _is_friendly(hb):
+			continue
 		hb.take_hit(dmg, _owner)
 		if buff_id > 0 and randf() <= buff_chance:
 			_try_apply_buff(hb, buff_id)
@@ -122,7 +127,9 @@ func _try_apply_buff(hurt_box: Area2D, buff_id: int) -> void:
 func _calc_damage(skill: Dictionary) -> int:
 	var ratio := float(skill.get("damage_ratio", 1.0))
 	var base_atk := 1
-	if "character_stats" in GameRegistry:
+	if _stats != null:
+		base_atk = _stats.attack
+	elif "character_stats" in GameRegistry:
 		base_atk = GameRegistry.character_stats.attack
 	return int(float(base_atk) * ratio)
 
@@ -143,3 +150,16 @@ func _find_all_hurt_boxes() -> Array[Area2D]:
 		if node is Area2D:
 			result.append(node)
 	return result
+
+
+func _is_friendly(hurt_box: Area2D) -> bool:
+	var target_owner = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
+	if target_owner == null or _owner == null:
+		return false
+	if target_owner == _owner:
+		return true
+	if _owner.is_in_group("player") and target_owner.is_in_group("player"):
+		return true
+	if _owner.is_in_group("enemies") and target_owner.is_in_group("enemies"):
+		return true
+	return false

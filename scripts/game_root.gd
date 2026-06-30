@@ -6,6 +6,7 @@ extends Node2D
 @onready var character_panel: CanvasLayer = $CharacterPanel
 
 var _level_manager: Node
+var _enemy_spawner: Node
 
 
 func _ready() -> void:
@@ -16,8 +17,15 @@ func _ready() -> void:
 	_level_manager.setup(level_container, player)
 	GameRegistry.level_manager = _level_manager
 
+	# 创建怪物生成器
+	_enemy_spawner = load("res://scripts/system/enemy_spawner.gd").new()
+	_enemy_spawner.name = "EnemySpawner"
+	add_child(_enemy_spawner)
+	_enemy_spawner.setup(player, level_container)
+
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
+	_level_manager.level_unloaded.connect(_on_level_unloaded)
 
 	# 加载首个关卡（从配置表）
 	call_deferred("_load_start_level")
@@ -34,6 +42,25 @@ func _load_start_level() -> void:
 
 func _on_level_loaded(level_id: int, level_name: String) -> void:
 	print("[GameRoot] 关卡已加载: %s (%s)" % [level_name, level_id])
+	# 生成怪物（测试用：在关卡中生成几只 slime）
+	_spawn_level_enemies(level_id)
+
+
+func _on_level_unloaded(_level_id: int) -> void:
+	_enemy_spawner.clear_all()
+
+
+func _spawn_level_enemies(level_id: int) -> void:
+	# 从关卡配置读取怪物生成点，或使用默认测试生成
+	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
+	var spawns: Array = level_cfg.get("enemies", [])
+	if spawns.is_empty():
+		# 默认测试生成：在玩家出生点附近生成 2 只 slime
+		var spawn_pos := player.global_position + Vector2(200, 0)
+		_enemy_spawner.spawn_enemy(1001, spawn_pos)
+		_enemy_spawner.spawn_enemy(1001, spawn_pos + Vector2(80, 0))
+	else:
+		_enemy_spawner.spawn_enemies_for_level(spawns)
 
 
 func _unhandled_input(event: InputEvent) -> void:

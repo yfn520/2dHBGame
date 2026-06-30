@@ -20,26 +20,38 @@ var _invincible_after_hit: float = 0.0  # 受击后短暂无敌
 var _owner: Node
 var _buff_manager: BuffManager
 var _skill_executor: SkillExecutor
-var _stats: CharacterStats
+var _stats  # CharacterStats 或 EnemyStats，接口一致
 
 
 func _ready() -> void:
 	_owner = get_parent()
-	_stats = GameRegistry.character_stats
 	_buff_manager = BuffManager.new(_owner)
 	add_child(_buff_manager)
-	_skill_executor = SkillExecutor.new(_owner)
-
-	# 连接 HitBox 信号
+	_skill_executor = SkillExecutor.new(_owner, null)
+	# HitBox
 	var hit_box := _owner.get_node_or_null("HitBox")
-	if hit_box != null and hit_box.has_signal("hit_detected"):
-		hit_box.hit_detected.connect(_on_hit_detected)
-
-	# 连接 HurtBox
+	if hit_box != null:
+		if hit_box.has_method("setup"):
+			hit_box.setup(_owner)
+		if hit_box.has_signal("hit_detected"):
+			hit_box.hit_detected.connect(_on_hit_detected)
+	# HurtBox
 	var hurt_box := _owner.get_node_or_null("HurtBox")
 	if hurt_box != null:
 		hurt_box.setup(_owner)
 		hurt_box.add_to_group("hurt_box")
+	# 延迟到首帧解析 stats（等 init_from_config 完成）
+	call_deferred("_resolve_stats")
+
+
+func _resolve_stats() -> void:
+	if _stats != null:
+		return
+	if _owner.has_method("get_combat_stats"):
+		_stats = _owner.get_combat_stats()
+	if _stats == null:
+		_stats = GameRegistry.character_stats
+	_skill_executor._stats = _stats
 
 
 func _process(delta: float) -> void:
@@ -78,6 +90,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## 尝试释放技能
 func try_use_skill(skill_id: int) -> bool:
+	_resolve_stats()
 	if combat_state == CombatState.DEAD:
 		return false
 	if not _buff_manager.can_act():
@@ -118,7 +131,10 @@ func try_use_skill(skill_id: int) -> bool:
 
 ## 受到伤害
 func take_damage(amount: int, source: Node = null) -> void:
+	_resolve_stats()
 	if combat_state == CombatState.DEAD:
+		return
+	if _stats == null:
 		return
 	if _invincible_after_hit > 0.0:
 		return
@@ -149,6 +165,9 @@ func take_damage(amount: int, source: Node = null) -> void:
 
 ## 治疗
 func heal(amount: int) -> void:
+	_resolve_stats()
+	if _stats == null:
+		return
 	var actual := mini(amount, _stats.max_hp - _stats.hp)
 	_stats.hp += actual
 	hp_changed.emit(_stats.hp, _stats.max_hp)

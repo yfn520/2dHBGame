@@ -180,13 +180,16 @@ func _update_animation(direction: float) -> void:
 
 ## 播放战斗动画 (由 CombatComponent 调用)
 func play_combat_animation(anim_name: String) -> void:
-	if sprite.sprite_frames.has_animation(anim_name):
+	var target_animation := anim_name
+	if not sprite.sprite_frames.has_animation(target_animation):
+		if target_animation == "hit" and sprite.sprite_frames.has_animation("hurt"):
+			target_animation = "hurt"
+	if sprite.sprite_frames.has_animation(target_animation):
 		_combat_anim_playing = true
-		sprite.play(anim_name)
+		sprite.play(target_animation)
 		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
 			sprite.animation_finished.connect(_on_combat_anim_finished)
 	else:
-		# 没有对应动画时，短暂闪烁表示动作
 		_combat_anim_playing = true
 		get_tree().create_timer(0.3).timeout.connect(_end_combat_anim)
 
@@ -199,6 +202,14 @@ func _end_combat_anim() -> void:
 	_combat_anim_playing = false
 	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
 		sprite.animation_finished.disconnect(_on_combat_anim_finished)
+
+	# 攻击/受击结束后恢复移动动画，避免停在末帧
+	var next_animation := "idle"
+	var direction := _get_move_direction()
+	if not is_climbing_ladder and absf(direction) > 0.0 and is_on_floor():
+		next_animation = "run"
+	if sprite.animation != next_animation:
+		sprite.play(next_animation)
 
 
 ## 受伤 (由 HurtBox 调用)
