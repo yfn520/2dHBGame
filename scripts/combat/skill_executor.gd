@@ -66,10 +66,9 @@ func _execute_aoe(skill: Dictionary) -> void:
 	var buff_id := int(skill.get("buff_on_hit", 0))
 	var buff_chance := float(skill.get("buff_chance", 0.0))
 	# 检测范围内的所有 HurtBox
-	var space_state := _owner.get_world_2d().direct_space_state
 	var all_hurt_boxes := _find_all_hurt_boxes()
 	for hb in all_hurt_boxes:
-		var dist := _owner.global_position.distance_to(hb.global_position)
+		var dist: float = _owner.global_position.distance_to(hb.global_position)
 		if dist <= radius:
 			hb.take_hit(dmg, _owner)
 			if buff_id > 0 and randf() <= buff_chance:

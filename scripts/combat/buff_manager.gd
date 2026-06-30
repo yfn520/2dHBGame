@@ -1,3 +1,4 @@
+extends Node
 class_name BuffManager
 
 signal buff_applied(buff: BuffInstance)
