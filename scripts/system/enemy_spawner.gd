@@ -2,16 +2,10 @@ extends Node
 ## 关卡怪物生成器
 ## 在关卡加载后，根据配置在指定位置生成怪物
 
-const ENEMY_SCENE := "res://scenes/enemy.tscn"
-
-var _enemy_scene: PackedScene
+var _scene_cache: Dictionary = {}  # enemy_id → PackedScene
 var _player: CharacterBody2D
 var _spawn_container: Node2D
 var _active_enemies: Array[Node] = []
-
-
-func _ready() -> void:
-	_enemy_scene = load(ENEMY_SCENE) as PackedScene
 
 
 func setup(player: CharacterBody2D, spawn_container: Node2D) -> void:
@@ -19,13 +13,38 @@ func setup(player: CharacterBody2D, spawn_container: Node2D) -> void:
 	_spawn_container = spawn_container
 
 
-## 在指定位置生成怪物
-func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
-	if _enemy_scene == null:
-		push_error("怪物场景加载失败")
+## 根据 enemy_id 加载对应的模板场景
+func _get_scene(enemy_id: int) -> PackedScene:
+	if enemy_id in _scene_cache:
+		return _scene_cache[enemy_id]
+
+	var cfg: Dictionary = GameRegistry.enemy_config.get_enemy(enemy_id)
+	if cfg.is_empty():
+		push_error("怪物配置不存在: %d" % enemy_id)
 		return null
 
-	var enemy := _enemy_scene.instantiate()
+	var asset_path: String = cfg.get("asset", "")
+	if asset_path.is_empty():
+		push_error("怪物资源目录未配置: %d" % enemy_id)
+		return null
+	var scene_name := asset_path.get_file()
+	var scene_path := asset_path.path_join("godot/%s.tscn" % scene_name)
+	if not ResourceLoader.exists(scene_path):
+		push_error("怪物模板场景不存在: %s" % scene_path)
+		return null
+
+	var scene: PackedScene = load(scene_path)
+	_scene_cache[enemy_id] = scene
+	return scene
+
+
+## 在指定位置生成怪物
+func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
+	var scene := _get_scene(enemy_id)
+	if scene == null:
+		return null
+
+	var enemy := scene.instantiate()
 	enemy.global_position = pos
 	_spawn_container.add_child(enemy)
 
@@ -33,13 +52,12 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 		enemy.init_from_config(enemy_id, _player)
 
 	_active_enemies.append(enemy)
-	# 怪物死亡时从列表移除
 	enemy.tree_exiting.connect(_on_enemy_removed.bind(enemy))
 	return enemy
 
 
 ## 在关卡中批量生成怪物
-func spawn_enemies_for_level(spawns: Array[Dictionary]) -> void:
+func spawn_enemies_for_level(spawns: Array) -> void:
 	for spawn_data in spawns:
 		var enemy_id := int(spawn_data.get("enemy_id", 0))
 		var pos := Vector2(

@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dplh24nv5oi74"]
+
+[ext_resource type="Script" uid="uid://une58y73gx1t" path="res://scripts/enemy.gd" id="0_script"]
+[ext_resource type="PackedScene" uid="uid://ccomrmuvu4sys" path="res://assets/enemies/slimu/godot/character_actions.tscn" id="1_visual"]
+[ext_resource type="Script" uid="uid://hx747ed6sqvt" path="res://scripts/combat/combat_component.gd" id="2_combat"]
+[ext_resource type="Script" uid="uid://mgxqeymbamb2" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]
+[ext_resource type="Script" uid="uid://0e7uc6u1olhs" path="res://scripts/combat/hit_box.gd" id="4_hit"]
+
+[sub_resource type="RectangleShape2D" id="1_shape"]
+size = Vector2(24, 26)
+
+[sub_resource type="RectangleShape2D" id="2_hit_shape"]
+size = Vector2(19, 21)
+
+[sub_resource type="RectangleShape2D" id="3_hurt_shape"]
+size = Vector2(20, 25)
+
+[node name="slimu" type="CharacterBody2D" unique_id=729802778]
+collision_layer = 2
+script = ExtResource("0_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1114940189]
+position = Vector2(0, -6)
+shape = SubResource("1_shape")
+
+[node name="CharacterActionSet" parent="." unique_id=100410414 instance=ExtResource("1_visual")]
+scale = Vector2(0.5, 0.5)
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1946053432]
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+script = ExtResource("4_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=1651863111]
+shape = SubResource("2_hit_shape")
+disabled = true
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=360545259]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("3_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1902017427]
+position = Vector2(0, -5.5)
+shape = SubResource("3_hurt_shape")
+
+[node name="CombatComponent" type="Node" parent="." unique_id=14812950]
+script = ExtResource("2_combat")

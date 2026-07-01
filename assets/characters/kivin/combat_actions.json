@@ -1,0 +1,54 @@
+{
+	"actions": {
+		"attack": {
+			"hit_windows": [
+				{
+					"end_frame": 3,
+					"forward": 30.0,
+					"height": 80.0,
+					"start_frame": 3,
+					"width": 60.0,
+					"y": 0.0
+				}
+			]
+		},
+		"skill1": {
+			"hit_windows": [
+				{
+					"end_frame": 2,
+					"forward": 50.0,
+					"height": 80.0,
+					"start_frame": 2,
+					"width": 60.0,
+					"y": 0.0
+				}
+			]
+		},
+		"skill2": {
+			"hit_windows": [
+				{
+					"end_frame": 2,
+					"forward": 30.0,
+					"height": 20.0,
+					"start_frame": 2,
+					"width": 20.0,
+					"y": 0.0
+				}
+			]
+		},
+		"skill3": {
+			"hit_windows": [
+				{
+					"end_frame": 3,
+					"forward": 40.0,
+					"height": 110.0,
+					"start_frame": 3,
+					"width": 100.0,
+					"y": -10.0
+				}
+			]
+		}
+	},
+	"sprite_scale": 1.0,
+	"version": 1
+}

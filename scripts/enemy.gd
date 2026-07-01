@@ -11,6 +11,7 @@ const CONFIG_FILE := "character_config.json"
 
 var _enemy_id: int = 0
 var _config: Dictionary = {}       # 来自 enemies.json
+var _combat_actions: Dictionary = {}
 var _stats: EnemyStats = null
 var _player: CharacterBody2D = null
 
@@ -34,6 +35,7 @@ func init_from_config(enemy_id: int, player_ref: CharacterBody2D) -> void:
 		return
 
 	_stats = EnemyStats.new(_config)
+	_load_combat_actions()
 	_spawn_position = global_position
 	# 排除与玩家的物理碰撞（通过 HitBox/HurtBox 交互）
 	if _player != null:
@@ -44,6 +46,26 @@ func init_from_config(enemy_id: int, player_ref: CharacterBody2D) -> void:
 
 func get_combat_stats() -> EnemyStats:
 	return _stats
+
+
+func get_combat_actions() -> Dictionary:
+	return _combat_actions
+
+
+func _load_combat_actions() -> void:
+	_combat_actions = {}
+	var asset_path: String = _config.get("asset", "")
+	if asset_path.is_empty():
+		return
+	var config_path := asset_path.path_join("combat_actions.json")
+	if not FileAccess.file_exists(config_path):
+		return
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(config_path)) != OK:
+		push_warning("攻击动作配置解析失败: %s" % config_path)
+		return
+	if json.data is Dictionary:
+		_combat_actions = json.data.get("actions", {})
 
 
 func get_enemy_name() -> String:
@@ -73,34 +95,10 @@ func _connect_signals() -> void:
 
 
 func _apply_display_config() -> void:
-	var asset_path: String = _config.get("asset", "")
-	var cfg_path := asset_path.path_join(CONFIG_FILE)
-	if not FileAccess.file_exists(cfg_path):
-		push_warning("怪物 character_config 不存在: %s" % cfg_path)
-		return
-
-	var text := FileAccess.get_file_as_string(cfg_path)
-	var json := JSON.new()
-	if json.parse(text) != OK:
-		return
-
-	var cfg: Dictionary = json.data
-
-	# 加载 SpriteFrames
-	var sf_path: String = cfg.get("spriteframes", "")
-	if not sf_path.is_empty() and ResourceLoader.exists(sf_path):
-		var sf = load(sf_path)
-		if sf != null:
-			sprite.sprite_frames = sf
-			sprite.play("idle")
-
-	# 应用显示缩放和偏移
-	var s: float = float(cfg.get("display_scale", 1.0))
-	var offset: Dictionary = cfg.get("display_offset", {})
-	var oy: float = float(offset.get("y", 0))
-	var char_set := $CharacterActionSet as Node2D
-	char_set.scale = Vector2(s, s)
-	char_set.position = Vector2(0, oy)
+	# 模板场景已包含 sprite，这里只从 config 读取 display_scale/display_offset
+	# 如果需要自动调整 CharacterActionSet 的位置/缩放，取消下面注释
+	# 否则由你在编辑器里手动调整
+	pass
 
 
 func _physics_process(delta: float) -> void:
@@ -251,7 +249,8 @@ func _try_use_next_skill() -> void:
 		return
 
 	# 加权随机选择技能
-	var skill_id := _pick_weighted_skill(skills, weights)
+	var distance_to_player := global_position.distance_to(_player.global_position) if _player != null else INF
+	var skill_id := _pick_weighted_skill(skills, weights, distance_to_player)
 	if skill_id <= 0:
 		return
 
@@ -263,21 +262,25 @@ func _try_use_next_skill() -> void:
 			_attack_cooldown_timer = cd + randf_range(0.2, 0.8)
 
 
-func _pick_weighted_skill(skills: Array, weights: Array) -> int:
-	if weights.is_empty() or weights.size() != skills.size():
-		# 无权重，轮转
-		_skill_index = (_skill_index + 1) % skills.size()
-		return int(skills[_skill_index])
-
-	# 先过滤掉冷却中的技能
+func _pick_weighted_skill(skills: Array, weights: Array, target_distance: float) -> int:
+	# 同时过滤冷却和施法距离，避免近战技能在武器够不到时释放。
 	var available_ids: Array[int] = []
 	var available_weights: Array[float] = []
 	for i in range(skills.size()):
 		var sid := int(skills[i])
 		if combat._cooldowns.get(sid, 0.0) > 0.0:
 			continue
+		var skill_data: Dictionary = GameRegistry.skill_config.get_skill(sid)
+		var skill_type: String = skill_data.get("type", "melee")
+		var usable_range := INF
+		if skill_type == "melee" or skill_type == "projectile" or skill_type == "penetrate":
+			usable_range = float(skill_data.get("range", 40.0))
+		elif skill_type == "aoe":
+			usable_range = float(skill_data.get("aoe_radius", 80.0))
+		if target_distance > usable_range + 12.0:
+			continue
 		available_ids.append(sid)
-		available_weights.append(float(weights[i]))
+		available_weights.append(float(weights[i]) if weights.size() == skills.size() else 1.0)
 
 	if available_ids.is_empty():
 		return 0
@@ -353,7 +356,7 @@ func _end_combat_anim() -> void:
 
 	# 死亡后不再恢复动画
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
-		sprite.stop()
+		_hold_animation_last_frame()
 		return
 
 	# 攻击/受击结束后恢复移动动画，避免停在末帧
@@ -367,9 +370,17 @@ func _end_combat_anim() -> void:
 
 
 ## 受伤 (由 HurtBox 调用)
-func take_damage(amount: int, source: Node = null) -> void:
+func _hold_animation_last_frame() -> void:
+	var frame_count := sprite.sprite_frames.get_frame_count(sprite.animation)
+	sprite.pause()
+	sprite.frame = maxi(0, frame_count - 1)
+
+
+func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
+	if play_hit_reaction:
+		velocity.x = 0.0
 	if combat != null and combat.has_method("take_damage"):
-		combat.take_damage(amount, source)
+		combat.take_damage(amount, source, play_hit_reaction)
 
 
 ## 施加 Buff

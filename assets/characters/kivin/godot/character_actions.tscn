@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://crcb3jdfsooeh"]
 
-[ext_resource type="SpriteFrames" path="res://assets/characters/kivin/godot/spriteframes.tres" id="frames"]
+[ext_resource type="SpriteFrames" uid="uid://cgwb6pxqfn252" path="res://assets/characters/kivin/godot/spriteframes.tres" id="frames"]
 
-[node name="CharacterActionSet" type="Node2D"]
+[node name="CharacterActionSet" type="Node2D" unique_id=1176898753]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1355044615]
+position = Vector2(-12, 200)
 sprite_frames = ExtResource("frames")
-animation = &"idle"
-centered = true
+animation = &"attack"

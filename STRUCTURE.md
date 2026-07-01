@@ -20,6 +20,7 @@
 
 - `level_manager.gd`: level loading/unloading, player teleportation, reload support.
 - `save_manager.gd`: JSON save/load to user://.
+- `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
 
 ### Level (`res://scripts/level/`)
 
@@ -56,6 +57,7 @@
 - `projectile.gd` - Projectile base with penetration support
 - `buff_manager.gd` - Buff lifecycle, DoT ticks, stacking
 - `buff_instance.gd` - Single buff instance data
+- `assets/<character-or-enemy>/combat_actions.json` - Per-animation active frames and mirrored HitBox geometry; edited for both playable characters and enemies from Game Tools > Configure Attack Hitboxes.
 
 ### Editor (`res://scripts/editor/`)
 

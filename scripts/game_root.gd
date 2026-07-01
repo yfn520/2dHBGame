@@ -55,16 +55,11 @@ func _on_level_unloaded(_level_id: int) -> void:
 
 
 func _spawn_level_enemies(level_id: int) -> void:
-	# 从关卡配置读取怪物生成点，或使用默认测试生成
 	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
 	var spawns: Array = level_cfg.get("enemies", [])
 	if spawns.is_empty():
-		# 默认测试生成：在玩家出生点附近生成 2 只 slime
-		var spawn_pos := player.global_position + Vector2(200, 0)
-		_enemy_spawner.spawn_enemy(1001, spawn_pos)
-		_enemy_spawner.spawn_enemy(1001, spawn_pos + Vector2(80, 0))
-	else:
-		_enemy_spawner.spawn_enemies_for_level(spawns)
+		return
+	_enemy_spawner.spawn_enemies_for_level(spawns)
 
 
 func _process(_delta: float) -> void:

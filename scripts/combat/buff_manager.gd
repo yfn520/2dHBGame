@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 				buff.tick_timer = buff.interval
 				var dmg := buff.tick_damage * buff.stacks
 				if _owner.has_method("take_damage"):
-					_owner.take_damage(dmg)
+					_owner.take_damage(dmg, null, false)
 				buff_ticked.emit(buff, dmg)
 	for buff in to_remove:
 		_remove_buff(buff)

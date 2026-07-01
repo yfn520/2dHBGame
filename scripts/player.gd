@@ -16,6 +16,7 @@ var current_ladder: Area2D
 @onready var combat: Node = $CombatComponent
 
 var _combat_anim_playing := false
+var _combat_actions: Dictionary = {}
 
 
 func _ready() -> void:
@@ -41,6 +42,7 @@ func _apply_character_display_config() -> void:
 		return
 
 	var cfg: Dictionary = json.data
+	_load_combat_actions(config_path.get_base_dir(), cfg)
 	var char_set := $CharacterActionSet as Node2D
 	var s: float = float(cfg.get("display_scale", 1.0))
 	var offset: Dictionary = cfg.get("display_offset", {})
@@ -49,6 +51,20 @@ func _apply_character_display_config() -> void:
 	char_set.position = Vector2(0, oy)
 	# Camera 高度跟随角色
 	camera.position.y = -60.0 * s
+
+
+func get_combat_actions() -> Dictionary:
+	return _combat_actions
+
+
+func _load_combat_actions(asset_path: String, character_config: Dictionary) -> void:
+	_combat_actions = {}
+	var config_path: String = character_config.get("combat_actions", asset_path.path_join("combat_actions.json"))
+	if not FileAccess.file_exists(config_path):
+		return
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(config_path)) == OK and json.data is Dictionary:
+		_combat_actions = json.data.get("actions", {})
 
 
 func _physics_process(delta: float) -> void:
@@ -61,7 +77,10 @@ func _physics_process(delta: float) -> void:
 			return
 		if combat.combat_state == combat.CombatState.HIT:
 			can_move = false
-		if _combat_anim_playing:
+		if _combat_anim_playing and (
+			combat.combat_state == combat.CombatState.ATTACKING
+			or combat.combat_state == combat.CombatState.SKILL
+		):
 			can_move = false
 
 	var direction := _get_move_direction()
@@ -212,7 +231,7 @@ func _end_combat_anim() -> void:
 
 	# 死亡后不再恢复动画
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
-		sprite.stop()
+		_hold_animation_last_frame()
 		return
 
 	# 攻击/受击结束后恢复移动动画，避免停在末帧
@@ -225,9 +244,17 @@ func _end_combat_anim() -> void:
 
 
 ## 受伤 (由 HurtBox 调用)
-func take_damage(amount: int, source: Node = null) -> void:
+func _hold_animation_last_frame() -> void:
+	var frame_count := sprite.sprite_frames.get_frame_count(sprite.animation)
+	sprite.pause()
+	sprite.frame = maxi(0, frame_count - 1)
+
+
+func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
+	if play_hit_reaction:
+		velocity.x = 0.0
 	if combat != null and combat.has_method("take_damage"):
-		combat.take_damage(amount, source)
+		combat.take_damage(amount, source, play_hit_reaction)
 
 
 ## 施加 Buff (由弹道/SkillExecutor 调用)

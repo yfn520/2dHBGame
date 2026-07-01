@@ -7,6 +7,7 @@
 	],
 	"centered": true,
 	"character_name": "knight",
+	"combat_actions": "res://assets/characters/girl/combat_actions.json",
 	"default_animation": "idle",
 	"display_offset": {
 		"x": 0,

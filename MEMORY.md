@@ -11,6 +11,11 @@
 
 ## Decisions
 
+- Direct hits enter `HIT` for 0.1 seconds and immediately stop horizontal movement. Periodic DoT damage changes HP without replaying the hurt animation or applying hit stun. Death animations are paused explicitly on their final frame instead of calling `AnimatedSprite2D.stop()`, which resets to frame zero.
+- Melee damage is synchronized to `AnimatedSprite2D.frame_changed`. Per-character `combat_actions.json` stores active frame windows and forward-relative HitBox geometry; scene HitBox child offsets remain zero so runtime mirroring cannot double-apply offsets.
+- The attack editor scans both `assets/characters` and `assets/enemies`. Its preview reads `AnimatedSprite2D.position`, `offset`, `scale`, and `centered` from `character_actions.tscn`, plus `display_offset` from `character_config.json`, while HitBox coordinates remain relative to the actor root.
+- Enemy imports use the asset directory name as both prefab filename and scene root name. For example, `res://assets/enemies/slimu` generates `godot/slimu.tscn` with root node `slimu`; `EnemySpawner` derives this path from the enemy table's existing `asset` field.
+
 - Use a `CharacterBody2D` player controller for the initial platformer loop.
 - Keep controls hardcoded to arrow keys plus `A` and `D` for movement and `Space` for jump.
 - Use `Up/Down` plus `W/S` for ladder climbing while inside a ladder `Area2D`.

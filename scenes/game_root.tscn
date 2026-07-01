@@ -1,17 +1,17 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cl3mlhtn4b270"]
 
-[ext_resource type="Script" path="res://scripts/game_root.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://bgpr3iv8oqhc3" path="res://scripts/game_root.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://bbnsvnstpjg1q" path="res://scenes/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://scenes/inventory_panel.tscn" id="4_inv"]
 [ext_resource type="PackedScene" path="res://scenes/character_panel.tscn" id="5_char"]
 
-[node name="GameRoot" type="Node2D"]
+[node name="GameRoot" type="Node2D" unique_id=611613240]
 script = ExtResource("1_script")
 
-[node name="LevelContainer" type="Node2D" parent="."]
+[node name="LevelContainer" type="Node2D" parent="." unique_id=1939485336]
 
-[node name="Player" parent="." instance=ExtResource("3_player")]
+[node name="Player" parent="." unique_id=441688693 instance=ExtResource("3_player")]
 
-[node name="InventoryPanel" parent="." instance=ExtResource("4_inv")]
+[node name="InventoryPanel" parent="." unique_id=149501521 instance=ExtResource("4_inv")]
 
-[node name="CharacterPanel" parent="." instance=ExtResource("5_char")]
+[node name="CharacterPanel" parent="." unique_id=882829321 instance=ExtResource("5_char")]

@@ -6,22 +6,47 @@ signal hit_detected(hurt_box: Area2D)
 
 var _active := false
 var _owner_entity: Node = null
+var _hit_targets: Dictionary = {}
+
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
+
+func _ready() -> void:
+	if collision_shape.shape != null:
+		collision_shape.shape = collision_shape.shape.duplicate()
+	if not area_entered.is_connected(_on_area_entered):
+		area_entered.connect(_on_area_entered)
+	deactivate()
 
 
 func setup(owner_entity: Node) -> void:
 	_owner_entity = owner_entity
 
 
-func activate(duration: float = 0.15) -> void:
+func configure(window: Dictionary, facing: float) -> void:
+	var forward := absf(float(window.get("forward", 20.0)))
+	position = Vector2(facing * forward, float(window.get("y", 0.0)))
+	if collision_shape.shape is RectangleShape2D:
+		var rectangle := collision_shape.shape as RectangleShape2D
+		rectangle.size = Vector2(
+			maxf(1.0, float(window.get("width", 20.0))),
+			maxf(1.0, float(window.get("height", 20.0)))
+		)
+
+
+func activate() -> void:
 	_active = true
+	_hit_targets.clear()
 	monitoring = true
-	if duration > 0.0:
-		get_tree().create_timer(duration).timeout.connect(deactivate)
+	collision_shape.set_deferred("disabled", false)
+	call_deferred("_detect_existing_overlaps")
 
 
 func deactivate() -> void:
 	_active = false
 	monitoring = false
+	if is_instance_valid(collision_shape):
+		collision_shape.set_deferred("disabled", true)
 
 
 func is_active() -> bool:
@@ -42,4 +67,15 @@ func _on_area_entered(area: Area2D) -> void:
 			return
 		if _owner_entity.is_in_group("enemies") and target_owner.is_in_group("enemies"):
 			return
+	var target_id := area.get_instance_id()
+	if _hit_targets.has(target_id):
+		return
+	_hit_targets[target_id] = true
 	hit_detected.emit(area)
+
+
+func _detect_existing_overlaps() -> void:
+	if not _active:
+		return
+	for area in get_overlapping_areas():
+		_on_area_entered(area)

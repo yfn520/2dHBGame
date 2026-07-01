@@ -28,6 +28,9 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 
 ## Next Steps
 
+- [x] Generate enemy prefabs using each asset directory name and resolve them from the enemy table's `asset` path.
+- [x] Drive melee HitBox activation from per-character animation frame windows and provide a visual editor.
+
 - Add animations and a more detailed player controller.
 - Add checkpoints, hazards, and collectible items.
 - Replace the placeholder hero sprite with a production character asset.

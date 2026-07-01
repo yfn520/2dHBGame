@@ -30,6 +30,7 @@ func load_config() -> void:
 			"spawn_y": int(raw.get("spawn_y", 0)),
 			"bgm": raw.get("bgm", ""),
 			"description": raw.get("description", ""),
+			"enemies": raw.get("enemies", []),
 		}
 	_loaded = true
 

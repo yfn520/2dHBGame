@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://ccomrmuvu4sys"]
 
-[ext_resource type="SpriteFrames" path="res://assets/enemies/slimu/godot/spriteframes.tres" id="frames"]
+[ext_resource type="SpriteFrames" uid="uid://5nogt4m4dbcf" path="res://assets/enemies/slimu/godot/spriteframes.tres" id="frames"]
 
-[node name="CharacterActionSet" type="Node2D"]
+[node name="CharacterActionSet" type="Node2D" unique_id=1633906585]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=752936702]
+position = Vector2(0, 185)
 sprite_frames = ExtResource("frames")
 animation = &"idle"
-centered = true

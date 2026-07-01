@@ -4,7 +4,7 @@ const RAW_SCENE_FILE := "map_stitch_godot.tscn"
 const RAW_JSON_FILE := "map_stitch_godot.json"
 
 
-func _initialize() -> void:
+func _init() -> void:
 	var options := _parse_args(OS.get_cmdline_user_args())
 	if options.is_empty():
 		_print_usage()

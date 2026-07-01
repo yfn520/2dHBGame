@@ -13,12 +13,14 @@
 	],
 	"centered": true,
 	"character_name": "enemy_unit",
+	"combat_actions": "res://assets/enemies/slimu/combat_actions.json",
+	"scene_name": "slimu",
 	"default_animation": "idle",
 	"display_offset": {
 		"x": 0,
-		"y": 144.0
+		"y": 0.0
 	},
-	"display_scale": 0.88,
+	"display_scale": 1.0,
 	"frame_cell_height": 576.0,
 	"spriteframes": "res://assets/enemies/slimu/godot/spriteframes.tres",
 	"target_display_height": 52.0,

@@ -27,18 +27,12 @@ func execute(skill: Dictionary) -> void:
 
 
 func _execute_melee(skill: Dictionary) -> void:
-	var hit_box: Area2D = _owner.get_node_or_null("HitBox")
-	if hit_box == null:
-		return
-	var attack_range: float = float(skill.get("range", 40.0))
-	var facing := _get_facing()
-	# 调整 HitBox 位置到角色前方
-	hit_box.position = facing * attack_range * 0.5
-	hit_box.activate(0.15)
-	# 对 HitBox 已 overlapping 的目标立即检测
-	for area in hit_box.get_overlapping_areas():
-		if area.has_method("is_hurt_box") and area.is_hurt_box():
-			_apply_damage_to_target(skill, area)
+	# 近战由 CombatComponent 在动画有效帧触发。
+	pass
+
+
+func apply_melee_hit(skill: Dictionary, hurt_box: Area2D) -> void:
+	_apply_damage_to_target(skill, hurt_box)
 
 
 func _execute_projectile(skill: Dictionary) -> void:

@@ -9,7 +9,7 @@ const DEFAULT_TARGET_HEIGHT := 52.0
 const COLLISION_BODY_BOTTOM := 19.0  # CollisionShape2D.size.y / 2 = 38/2
 
 
-func _initialize() -> void:
+func _init() -> void:
 	var options := _parse_args(OS.get_cmdline_user_args())
 	if options.is_empty():
 		_print_usage()
@@ -87,18 +87,17 @@ func _import_character(options: Dictionary) -> int:
 		return parse_error
 
 	var manifest_data := manifest.data as Dictionary
-	var display_scale: float
-	if float(options["display_scale_override"]) > 0.0:
-		display_scale = float(options["display_scale_override"])
-	else:
-		display_scale = _get_display_scale(manifest_data, float(options["target_height"]))
-	var display_offset_y := _get_display_offset_y(manifest_data, display_scale)
+	# 默认 scale=1.0 offset=0（由预制体手动调整，不自动计算）
+	var display_scale: float = float(options["display_scale_override"]) if float(options["display_scale_override"]) > 0.0 else 1.0
+	var display_offset_y: float = 0.0
 	var frame_cell_height := _get_frame_cell_height(manifest_data)
 	var config := {
 		"character_name": manifest_data.get("characterName", source_dir.get_file()),
+		"scene_name": source_dir.get_file(),
 		"default_animation": manifest_data.get("defaultAnimation", "idle"),
 		"actions_scene": actions_scene_path,
 		"spriteframes": spriteframes_path,
+		"combat_actions": source_dir.path_join("combat_actions.json"),
 		"atlas": atlas_path,
 		"display_scale": display_scale,
 		"display_offset": {
@@ -158,16 +157,60 @@ func _import_character(options: Dictionary) -> int:
 		if write_error != OK:
 			return write_error
 
+	# 首次导入时生成动作判定配置；已有人工配置永不覆盖。
+	_ensure_combat_actions_config(source_dir, manifest_data, display_scale)
+	# 生成模板场景（只在非 --apply-player 时生成，即怪物/新角色）
+	if apply_player_path.is_empty():
+		var template_path := source_dir.path_join("godot/%s.tscn" % source_dir.get_file())
+		write_error = _generate_template_scene(template_path, actions_scene_path, config)
+		if write_error != OK:
+			push_warning("模板场景生成失败: %s" % template_path)
+		else:
+			var legacy_scene_path := source_dir.path_join("godot/character_template.tscn")
+			if FileAccess.file_exists(legacy_scene_path):
+				DirAccess.remove_absolute(ProjectSettings.globalize_path(legacy_scene_path))
+
 	print("Imported character:")
 	print("  source: ", source_dir)
 	print("  actions: ", actions_scene_path)
 	print("  config: ", config_path)
-	print("  scale: ", display_scale)
-	print("  offset_y: ", display_offset_y)
-	if not apply_player_path.is_empty():
+	if apply_player_path.is_empty():
+		print("  template: ", source_dir.path_join("godot/%s.tscn" % source_dir.get_file()))
+	else:
 		print("  applied_to_player: ", apply_player_path)
 
 	return OK
+
+
+func _ensure_combat_actions_config(source_dir: String, manifest_data: Dictionary, display_scale: float) -> void:
+	var output_path := source_dir.path_join("combat_actions.json")
+	if FileAccess.file_exists(output_path):
+		return
+	var hit_frame := 0
+	var has_attack := false
+	for action in manifest_data.get("actions", []):
+		if action is Dictionary and String(action.get("actionName", "")) == "attack":
+			has_attack = true
+			hit_frame = maxi(0, int(action.get("frameCount", 1)) / 2)
+			break
+	var actions_data: Dictionary = {}
+	if has_attack:
+		actions_data["attack"] = {
+			"hit_windows": [{
+				"start_frame": hit_frame,
+				"end_frame": hit_frame,
+				"forward": 30.0,
+				"y": 0.0,
+				"width": 20.0,
+				"height": 20.0,
+			}]
+		}
+	var data := {
+		"version": 1,
+		"sprite_scale": display_scale,
+		"actions": actions_data,
+	}
+	_write_text_file(output_path, JSON.stringify(data, "\t") + "\n")
 
 
 ## 获取角色内容高度（drawHeight 或 unifiedBox.height）
@@ -296,6 +339,76 @@ func _write_text_file(path: String, text: String) -> int:
 
 	file.store_string(text)
 	return OK
+
+
+## 生成完整模板场景（和 player.tscn 同结构，可直接使用或手动微调）
+func _generate_template_scene(template_path: String, actions_scene_path: String, config: Dictionary) -> int:
+	var char_name: String = config.get("scene_name", config.get("character_name", "Character"))
+	# 默认怪物碰撞层（玩家预制体由你手动制作，不受此影响）
+	var collision_layer := 2
+	var collision_mask := 1
+	# HitBox: 怪物打玩家(mask=8), 玩家打怪物(mask=8)
+	# HurtBox: 怪物被玩家打(mask=4), 玩家被怪物打(mask=4)
+	var hitbox_mask := 8
+	var hurtbox_mask := 4
+
+	var scene_text := '''[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="%s" id="1_visual"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="0_script"]
+[ext_resource type="Script" path="res://scripts/combat/combat_component.gd" id="2_combat"]
+[ext_resource type="Script" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]
+[ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]
+
+[sub_resource type="RectangleShape2D" id="1_shape"]
+size = Vector2(24, 38)
+
+[sub_resource type="RectangleShape2D" id="2_hit_shape"]
+size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="3_hurt_shape"]
+size = Vector2(20, 36)
+
+[node name="%s" type="CharacterBody2D"]
+groups = ["enemies"]
+collision_layer = %d
+collision_mask = %d
+script = ExtResource("0_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1_shape")
+
+[node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = %d
+monitoring = false
+script = ExtResource("4_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("2_hit_shape")
+disabled = true
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = %d
+script = ExtResource("3_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+shape = SubResource("3_hurt_shape")
+
+[node name="CombatComponent" type="Node" parent="."]
+script = ExtResource("2_combat")
+	''' % [
+		actions_scene_path,
+		char_name,
+		collision_layer,
+		collision_mask,
+		hitbox_mask,
+		hurtbox_mask,
+	]
+	return _write_text_file(template_path, scene_text)
 
 
 func _print_usage() -> void:

@@ -1,7 +1,10 @@
 @tool
 extends EditorPlugin
 
+const CombatActionEditor = preload("res://addons/game_tools/combat_action_editor.gd")
+
 var _submenu: PopupMenu
+var _combat_action_editor: Window
 
 
 func _enter_tree() -> void:
@@ -11,12 +14,16 @@ func _enter_tree() -> void:
 	_submenu.add_item("导入所有角色", 1)
 	_submenu.add_item("导入所有怪物", 3)
 	_submenu.add_item("转换 Excel → JSON", 2)
-	_submenu.add_item("导出 JSON → CSV (可用Excel编辑)", 4)
+	_submenu.add_item("生成 JSON → Excel (配置用)", 4)
+	_submenu.add_separator()
+	_submenu.add_item("配置攻击判定...", 5)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
 
 
 func _exit_tree() -> void:
+	if is_instance_valid(_combat_action_editor):
+		_combat_action_editor.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -34,6 +41,15 @@ func _on_menu_pressed(id: int) -> void:
 			_do_import_enemies()
 		4:
 			_do_export_json_to_csv()
+		5:
+			_open_combat_action_editor()
+
+
+func _open_combat_action_editor() -> void:
+	if not is_instance_valid(_combat_action_editor):
+		_combat_action_editor = CombatActionEditor.new()
+		EditorInterface.get_base_control().add_child(_combat_action_editor)
+	_combat_action_editor.open_editor()
 
 
 # ---- 场景导入 ----
@@ -156,13 +172,35 @@ func _do_import_characters() -> void:
 
 func _do_import_enemies() -> void:
 	var enemy_dir := "res://assets/enemies"
+	var config_path := "res://data/enemies.json"
 	var dir := DirAccess.open(enemy_dir)
 	if dir == null:
 		push_warning("怪物目录不存在: %s" % enemy_dir)
 		return
 
+	# 加载已有怪物配置
+	var enemies_cfg: Dictionary = {}
+	if FileAccess.file_exists(config_path):
+		var cfg_file := FileAccess.open(config_path, FileAccess.READ)
+		if cfg_file != null:
+			var cfg_json := JSON.new()
+			if cfg_json.parse(cfg_file.get_as_text()) == OK and cfg_json.data is Dictionary:
+				enemies_cfg = cfg_json.data
+
+	# 收集已有的 asset 路径，避免重复
+	var existing_assets: Dictionary = {}
+	var max_id := 1000
+	for id_str in enemies_cfg:
+		var eid := int(id_str)
+		if eid > max_id:
+			max_id = eid
+		var asset: String = enemies_cfg[id_str].get("asset", "")
+		if not asset.is_empty():
+			existing_assets[asset] = eid
+
 	dir.list_dir_begin()
-	var count := 0
+	var imported_count := 0
+	var new_count := 0
 	var folder := dir.get_next()
 	while folder != "":
 		if dir.current_is_dir() and not folder.begins_with("."):
@@ -170,11 +208,49 @@ func _do_import_enemies() -> void:
 			var manifest_path := char_path.path_join("manifest.json")
 			if FileAccess.file_exists(manifest_path):
 				if _do_import_single_character(char_path, folder, ""):
-					count += 1
+					imported_count += 1
+					# 检查是否需要写入怪物配置表
+					var asset_key := "res://assets/enemies/%s" % folder
+					if asset_key not in existing_assets:
+						max_id += 1
+						var manifest_text := FileAccess.get_file_as_string(manifest_path)
+						var mj := JSON.new()
+						var enemy_name := folder
+						if mj.parse(manifest_text) == OK and mj.data is Dictionary:
+							enemy_name = mj.data.get("characterName", folder)
+						enemies_cfg[str(max_id)] = {
+							"name": enemy_name,
+							"asset": asset_key,
+							"character_config": asset_key.path_join("character_config.json"),
+							"max_hp": 50,
+							"attack": 2,
+							"defense": 0,
+							"move_speed": 80.0,
+							"attack_range": 80.0,
+							"detect_range": 300.0,
+							"patrol_range": 120.0,
+							"skills": [2001, 2002, 2003],
+							"skill_weights": [50, 30, 20],
+							"drop_items": [],
+							"exp": 10,
+						}
+						existing_assets[asset_key] = max_id
+						new_count += 1
+						print("[GameTools] 新增怪物配置: %s (ID: %d)" % [enemy_name, max_id])
 		folder = dir.get_next()
 	dir.list_dir_end()
 
-	print("[GameTools] 怪物导入完成: %d 个怪物" % count)
+	# 写回怪物配置表
+	if new_count > 0:
+		var sorted_keys: Array = enemies_cfg.keys()
+		sorted_keys.sort()
+		var sorted_cfg: Dictionary = {}
+		for key in sorted_keys:
+			sorted_cfg[key] = enemies_cfg[key]
+		_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
+		print("[GameTools] enemies.json 已更新，新增 %d 个怪物" % new_count)
+
+	print("[GameTools] 怪物导入完成: %d 个怪物" % imported_count)
 	EditorInterface.get_resource_filesystem().scan()
 
 
@@ -208,16 +284,9 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 	var ub: Dictionary = md.get("unifiedBox", {})
 	var target_height := 52.0
 	var raw_height := _get_content_height(md)
-	var display_scale: float
-	if display_scale_override > 0.0:
-		display_scale = display_scale_override
-	else:
-		display_scale = snappedf(target_height / raw_height, 0.001)
+	var display_scale: float = display_scale_override if display_scale_override > 0.0 else 1.0
 	var cell_h := _get_frame_cell_height(md)
-	var content_offset_y := _get_content_offset_y(md)
-	var draw_h := _get_content_height(md)
-	var anchor_dist := cell_h * 0.5 - content_offset_y - draw_h
-	var display_offset_y := snappedf(19.0 + anchor_dist * display_scale, 0.1)
+	var display_offset_y: float = 0.0
 
 	# 修正 spriteframes.tres
 	var sf_text := FileAccess.get_file_as_string(sf_path)
@@ -233,9 +302,11 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 	# 写配置
 	var config := {
 		"character_name": md.get("characterName", folder_name),
+		"scene_name": folder_name,
 		"default_animation": md.get("defaultAnimation", "idle"),
 		"actions_scene": actions_path,
 		"spriteframes": sf_path,
+		"combat_actions": source_dir.path_join("combat_actions.json"),
 		"atlas": atlas_path,
 		"display_scale": display_scale,
 		"display_offset": {"x": 0, "y": display_offset_y},
@@ -254,8 +325,49 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		pl_text = _replace_char_transform(pl_text, display_scale, display_offset_y)
 		_write_file(player_scene, pl_text)
 
-	print("[GameTools] 已导入角色: %s (scale: %s, offset_y: %s)" % [folder_name, display_scale, display_offset_y])
+	# 首次导入时生成动作判定配置；已有人工配置永不覆盖。
+	_ensure_combat_actions_config(source_dir, md, display_scale)
+	# 生成模板场景（怪物/新角色）
+	if player_scene.is_empty():
+		var enemy_scene_path := source_dir.path_join("godot/%s.tscn" % folder_name)
+		_generate_template_scene(enemy_scene_path, actions_path, config)
+		var legacy_scene_path := source_dir.path_join("godot/character_template.tscn")
+		if FileAccess.file_exists(legacy_scene_path):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(legacy_scene_path))
+
+	print("[GameTools] 已导入角色: %s → godot/%s.tscn (scale: %s, offset_y: %s)" % [folder_name, folder_name, display_scale, display_offset_y])
 	return true
+
+
+func _ensure_combat_actions_config(source_dir: String, manifest: Dictionary, display_scale: float) -> void:
+	var output_path := source_dir.path_join("combat_actions.json")
+	if FileAccess.file_exists(output_path):
+		return
+	var hit_frame := 0
+	var has_attack := false
+	for action in manifest.get("actions", []):
+		if action is Dictionary and String(action.get("actionName", "")) == "attack":
+			has_attack = true
+			hit_frame = maxi(0, int(action.get("frameCount", 1)) / 2)
+			break
+	var actions_data: Dictionary = {}
+	if has_attack:
+		actions_data["attack"] = {
+			"hit_windows": [{
+				"start_frame": hit_frame,
+				"end_frame": hit_frame,
+				"forward": 30.0,
+				"y": 0.0,
+				"width": 20.0,
+				"height": 20.0,
+			}]
+		}
+	var data := {
+		"version": 1,
+		"sprite_scale": display_scale,
+		"actions": actions_data,
+	}
+	_write_file(output_path, JSON.stringify(data, "\t") + "\n")
 
 
 # ---- Excel 转换 ----
@@ -423,112 +535,76 @@ func _to_pascal(value: String) -> String:
 	return result if not result.is_empty() else "ImportedLevel"
 
 
-# ---- JSON → CSV 导出 ----
+# ---- JSON → Excel 导出 ----
 
 func _do_export_json_to_csv() -> void:
-	var data_dir := "res://data"
-	var csv_dir := data_dir.path_join("csv")
-	var dir := DirAccess.open(data_dir)
-	if dir == null:
-		push_warning("数据目录不存在: %s" % data_dir)
+	var python := _find_python()
+	if python.is_empty():
+		push_warning("找不到 Python，跳过 JSON → Excel 转换")
 		return
-	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(csv_dir))
 
-	var count := 0
-	dir.list_dir_begin()
-	var file_name := dir.get_next()
-	while file_name != "":
-		if file_name.ends_with(".json") and not file_name.begins_with("."):
-			var json_path := data_dir.path_join(file_name)
-			var csv_name := file_name.replace(".json", ".csv")
-			var csv_path := csv_dir.path_join(csv_name)
-			if _export_single_json_to_csv(json_path, csv_path):
-				count += 1
-		file_name = dir.get_next()
-	dir.list_dir_end()
+	var script_path := ProjectSettings.globalize_path("res://tools/json_to_excel.py")
+	var output := []
+	OS.execute(python, [script_path, "--force"], output, true, false)
 
-	print("[GameTools] 导出完成: %d 个 JSON → CSV" % count)
+	for line in output:
+		print(line)
+
 	EditorInterface.get_resource_filesystem().scan()
 
 
-func _export_single_json_to_csv(json_path: String, csv_path: String) -> bool:
-	var file := FileAccess.open(json_path, FileAccess.READ)
-	if file == null:
-		return false
-	var json := JSON.new()
-	if json.parse(file.get_as_text()) != OK:
-		push_warning("JSON 解析失败: %s" % json_path)
-		return false
+# ---- 模板场景生成 ----
 
-	var data = json.data
-	if not data is Dictionary:
-		push_warning("非字典格式，跳过: %s" % json_path)
-		return false
+func _generate_template_scene(template_path: String, actions_scene_path: String, config: Dictionary) -> void:
+	var char_name: String = config.get("scene_name", config.get("character_name", "Character"))
+	var scene_text := '[gd_scene load_steps=8 format=3]\n'
+	scene_text += '\n'
+	scene_text += '[ext_resource type="PackedScene" path="%s" id="1_visual"]\n' % actions_scene_path
+	scene_text += '[ext_resource type="Script" path="res://scripts/enemy.gd" id="0_script"]\n'
+	scene_text += '[ext_resource type="Script" path="res://scripts/combat/combat_component.gd" id="2_combat"]\n'
+	scene_text += '[ext_resource type="Script" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]\n'
+	scene_text += '[ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]\n'
+	scene_text += '\n'
+	scene_text += '[sub_resource type="RectangleShape2D" id="1_shape"]\n'
+	scene_text += 'size = Vector2(24, 38)\n'
+	scene_text += '\n'
+	scene_text += '[sub_resource type="RectangleShape2D" id="2_hit_shape"]\n'
+	scene_text += 'size = Vector2(30, 30)\n'
+	scene_text += '\n'
+	scene_text += '[sub_resource type="RectangleShape2D" id="3_hurt_shape"]\n'
+	scene_text += 'size = Vector2(20, 36)\n'
+	scene_text += '\n'
+	scene_text += '[node name="%s" type="CharacterBody2D"]\n' % char_name
+	scene_text += 'groups = ["enemies"]\n'
+	scene_text += 'collision_layer = 2\n'
+	scene_text += 'collision_mask = 1\n'
+	scene_text += 'script = ExtResource("0_script")\n'
+	scene_text += '\n'
+	scene_text += '[node name="CollisionShape2D" type="CollisionShape2D" parent="."]\n'
+	scene_text += 'shape = SubResource("1_shape")\n'
+	scene_text += '\n'
+	# 直接实例化动作场景，SpriteFrames 绑定和默认动画保持单一来源。
+	scene_text += '[node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]\n'
+	scene_text += '\n'
+	scene_text += '[node name="HitBox" type="Area2D" parent="."]\n'
+	scene_text += 'collision_layer = 4\n'
+	scene_text += 'collision_mask = 8\n'
+	scene_text += 'monitoring = false\n'
+	scene_text += 'script = ExtResource("4_hit")\n'
+	scene_text += '\n'
+	scene_text += '[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]\n'
+	scene_text += 'shape = SubResource("2_hit_shape")\n'
+	scene_text += 'disabled = true\n'
+	scene_text += '\n'
+	scene_text += '[node name="HurtBox" type="Area2D" parent="."]\n'
+	scene_text += 'collision_layer = 8\n'
+	scene_text += 'collision_mask = 4\n'
+	scene_text += 'script = ExtResource("3_hurt")\n'
+	scene_text += '\n'
+	scene_text += '[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]\n'
+	scene_text += 'shape = SubResource("3_hurt_shape")\n'
+	scene_text += '\n'
+	scene_text += '[node name="CombatComponent" type="Node" parent="."]\n'
+	scene_text += 'script = ExtResource("2_combat")\n'
 
-	# 收集所有 key
-	var all_keys: Array[String] = []
-	for id_str in data:
-		var entry = data[id_str]
-		if entry is Dictionary:
-			var flat := _flatten_dict(entry)
-			for key in flat:
-				if key not in all_keys:
-					all_keys.append(key)
-
-	if all_keys.is_empty():
-		return false
-
-	# 写 CSV
-	var out := FileAccess.open(csv_path, FileAccess.WRITE)
-	if out == null:
-		push_warning("无法写入: %s" % csv_path)
-		return false
-
-	# 表头
-	var header := "id"
-	for key in all_keys:
-		header += "," + _csv_escape(key)
-	out.store_line(header)
-
-	# 数据行
-	for id_str in data:
-		var entry = data[id_str]
-		if not entry is Dictionary:
-			continue
-		var flat := _flatten_dict(entry)
-		var row := _csv_escape(id_str)
-		for key in all_keys:
-			var val = flat.get(key, "")
-			row += "," + _csv_escape(str(val))
-		out.store_line(row)
-
-	print("[GameTools] 已导出: %s" % csv_path)
-	return true
-
-
-func _flatten_dict(d: Dictionary) -> Dictionary:
-	var result := {}
-	for key in d:
-		var val = d[key]
-		if val is Dictionary:
-			var sub := _flatten_dict(val)
-			for sub_key in sub:
-				result[key + "_" + sub_key] = sub[sub_key]
-		elif val is Array:
-			result[key] = _array_to_string(val)
-		else:
-			result[key] = val
-	return result
-
-
-func _array_to_string(arr: Array) -> String:
-	var parts: PackedStringArray = []
-	for item in arr:
-		parts.append(str(item))
-	return ";".join(parts)
-
-
-func _csv_escape(field: String) -> String:
-	if field.contains(",") or field.contains("\"") or field.contains("\n"):
-		return "\"" + field.replace("\"", "\"\"") + "\""
-	return field
+	_write_file(template_path, scene_text)
