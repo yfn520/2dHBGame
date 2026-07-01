@@ -19,7 +19,6 @@ var _ai_state: AIState = AIState.IDLE
 var _spawn_position: Vector2 = Vector2.ZERO
 var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
-var _attack_cooldown_timer: float = 0.0
 var _skill_index: int = 0
 var _combat_anim_playing := false
 
@@ -108,10 +107,6 @@ func _physics_process(delta: float) -> void:
 	# 重力
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
-	# 攻击冷却
-	if _attack_cooldown_timer > 0.0:
-		_attack_cooldown_timer -= delta
 
 	# 战斗状态限制 AI
 	if combat != null and "combat_state" in combat:
@@ -232,8 +227,8 @@ func _update_attack(_delta: float) -> void:
 	var dir := signf(_player.global_position.x - global_position.x)
 	_face_direction(dir)
 
-	# 尝试释放技能
-	if _attack_cooldown_timer <= 0.0:
+	# 尝试释放技能（只在战斗状态空闲时）
+	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
 		_try_use_next_skill()
 
 
@@ -256,28 +251,16 @@ func _try_use_next_skill() -> void:
 
 	# 尝试释放（CombatComponent 会处理冷却和状态）
 	if combat.has_method("try_use_skill"):
-		if combat.try_use_skill(skill_id):
-			var skill_data = GameRegistry.skill_config.get_skill(skill_id)
-			var cd: float = float(skill_data.get("cooldown", 1.0))
-			_attack_cooldown_timer = cd + randf_range(0.2, 0.8)
+		combat.try_use_skill(skill_id)
 
 
-func _pick_weighted_skill(skills: Array, weights: Array, target_distance: float) -> int:
-	# 同时过滤冷却和施法距离，避免近战技能在武器够不到时释放。
+func _pick_weighted_skill(skills: Array, weights: Array, _target_distance: float) -> int:
+	# 只过滤冷却中的技能，距离由 AI 状态机负责
 	var available_ids: Array[int] = []
 	var available_weights: Array[float] = []
 	for i in range(skills.size()):
 		var sid := int(skills[i])
 		if combat._cooldowns.get(sid, 0.0) > 0.0:
-			continue
-		var skill_data: Dictionary = GameRegistry.skill_config.get_skill(sid)
-		var skill_type: String = skill_data.get("type", "melee")
-		var usable_range := INF
-		if skill_type == "melee" or skill_type == "projectile" or skill_type == "penetrate":
-			usable_range = float(skill_data.get("range", 40.0))
-		elif skill_type == "aoe":
-			usable_range = float(skill_data.get("aoe_radius", 80.0))
-		if target_distance > usable_range + 12.0:
 			continue
 		available_ids.append(sid)
 		available_weights.append(float(weights[i]) if weights.size() == skills.size() else 1.0)

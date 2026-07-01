@@ -20,6 +20,7 @@ var _combat_actions: Dictionary = {}
 
 
 func _ready() -> void:
+	add_to_group("player")
 	_apply_character_display_config()
 	camera.limit_left = 0
 	camera.limit_top = 0

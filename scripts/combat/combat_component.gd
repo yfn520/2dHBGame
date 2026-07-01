@@ -23,9 +23,10 @@ var _skill_executor: SkillExecutor
 var _stats  # CharacterStats 或 EnemyStats，接口一致
 var _sprite: AnimatedSprite2D
 var _hit_box: Area2D
-var _pending_melee_skill: Dictionary = {}
+var _pending_skill: Dictionary = {}
 var _pending_animation := ""
 var _active_window_id := ""
+var _pending_skill_executed := false
 
 
 func _ready() -> void:
@@ -84,6 +85,8 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _owner.is_in_group("player"):
+		return
 	if combat_state == CombatState.DEAD:
 		return
 	if not _buff_manager.can_act():
@@ -121,14 +124,16 @@ func try_use_skill(skill_id: int) -> bool:
 
 	# 切换战斗状态
 	var anim_name: String = skill.get("animation", "attack")
-	combat_state = CombatState.SKILL if skill_id != 1001 else CombatState.ATTACKING
+	var skill_type := String(skill.get("type", "melee"))
+	combat_state = CombatState.ATTACKING if skill_type == "melee" else CombatState.SKILL
 	attack_started.emit(skill_id)
 
-	var is_melee := String(skill.get("type", "melee")) == "melee"
-	if is_melee:
-		_pending_melee_skill = skill
+	var use_frame_window := skill_type == "melee" or _has_configured_hit_windows(anim_name)
+	if use_frame_window:
+		_pending_skill = skill
 		_pending_animation = anim_name
 		_active_window_id = ""
+		_pending_skill_executed = false
 	else:
 		_skill_executor.execute(skill)
 
@@ -142,11 +147,11 @@ func try_use_skill(skill_id: int) -> bool:
 	# 播放动画（如果有 AnimatedSprite2D）
 	if _owner.has_method("play_combat_animation"):
 		_owner.play_combat_animation(anim_name)
-	if is_melee:
+	if use_frame_window:
 		_on_sprite_frame_changed()
 
 	# 攻击状态持续后恢复
-	get_tree().create_timer(0.4).timeout.connect(_reset_combat_state)
+	get_tree().create_timer(0.5).timeout.connect(_reset_combat_state)
 	return true
 
 
@@ -228,10 +233,12 @@ func _die() -> void:
 func _reset_combat_state() -> void:
 	if combat_state == CombatState.ATTACKING or combat_state == CombatState.SKILL:
 		combat_state = CombatState.IDLE
+		if _owner.has_method("_end_combat_anim"):
+			_owner._end_combat_anim()
 
 
 func _on_sprite_frame_changed() -> void:
-	if _pending_melee_skill.is_empty() or _sprite == null or _hit_box == null:
+	if _pending_skill.is_empty() or _sprite == null or _hit_box == null:
 		return
 	if String(_sprite.animation) != _pending_animation:
 		_end_melee_window()
@@ -251,7 +258,12 @@ func _on_sprite_frame_changed() -> void:
 	_active_window_id = window_id
 	var facing := _get_facing_sign()
 	_hit_box.configure(window, facing)
-	_hit_box.activate()
+	var skill_type := String(_pending_skill.get("type", "melee"))
+	var detects_hits := skill_type == "melee"
+	_hit_box.activate(detects_hits)
+	if not detects_hits and not _pending_skill_executed:
+		_pending_skill_executed = true
+		_skill_executor.execute(_pending_skill)
 
 
 func _on_sprite_animation_finished() -> void:
@@ -261,9 +273,10 @@ func _on_sprite_animation_finished() -> void:
 
 
 func _end_melee_window() -> void:
-	_pending_melee_skill = {}
+	_pending_skill = {}
 	_pending_animation = ""
 	_active_window_id = ""
+	_pending_skill_executed = false
 	if _hit_box != null:
 		_hit_box.deactivate()
 
@@ -277,7 +290,7 @@ func _get_hit_window(animation_name: String, frame: int) -> Dictionary:
 	if windows.is_empty():
 		var frame_count := _sprite.sprite_frames.get_frame_count(animation_name)
 		var hit_frame := maxi(0, frame_count / 2)
-		var attack_range := float(_pending_melee_skill.get("range", 40.0))
+		var attack_range := float(_pending_skill.get("range", 40.0))
 		windows = [{
 			"start_frame": hit_frame,
 			"end_frame": hit_frame,
@@ -295,6 +308,15 @@ func _get_hit_window(animation_name: String, frame: int) -> Dictionary:
 	return {}
 
 
+func _has_configured_hit_windows(animation_name: String) -> bool:
+	if not _owner.has_method("get_combat_actions"):
+		return false
+	var actions: Dictionary = _owner.get_combat_actions()
+	var action: Dictionary = actions.get(animation_name, {})
+	var windows: Array = action.get("hit_windows", [])
+	return not windows.is_empty()
+
+
 func _get_facing_sign() -> float:
 	if _sprite != null:
 		return 1.0 if _sprite.flip_h else -1.0
@@ -302,6 +324,6 @@ func _get_facing_sign() -> float:
 
 
 func _on_hit_detected(hurt_box: Area2D) -> void:
-	if _pending_melee_skill.is_empty():
+	if _pending_skill.is_empty() or String(_pending_skill.get("type", "melee")) != "melee":
 		return
-	_skill_executor.apply_melee_hit(_pending_melee_skill, hurt_box)
+	_skill_executor.apply_melee_hit(_pending_skill, hurt_box)
