@@ -13,14 +13,13 @@ size = Vector2(24, 26)
 size = Vector2(19, 21)
 
 [sub_resource type="RectangleShape2D" id="3_hurt_shape"]
-size = Vector2(20, 25)
+size = Vector2(23, 25)
 
 [node name="slimu" type="CharacterBody2D" unique_id=729802778]
 collision_layer = 2
 script = ExtResource("0_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1114940189]
-position = Vector2(0, -6)
 shape = SubResource("1_shape")
 
 [node name="CharacterActionSet" parent="." unique_id=100410414 instance=ExtResource("1_visual")]
@@ -42,7 +41,7 @@ collision_mask = 4
 script = ExtResource("3_hurt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1902017427]
-position = Vector2(0, -5.5)
+position = Vector2(0.5, 0)
 shape = SubResource("3_hurt_shape")
 
 [node name="CombatComponent" type="Node" parent="." unique_id=14812950]

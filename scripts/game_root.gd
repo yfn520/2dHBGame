@@ -10,6 +10,8 @@ var _enemy_spawner: Node
 var _debug_label: Label
 
 
+
+
 func _ready() -> void:
 	# 创建并注册 LevelManager
 	_level_manager = load("res://scripts/system/level_manager.gd").new()
@@ -98,6 +100,14 @@ func _update_debug_panel() -> void:
 	var combat = player.get_node_or_null("CombatComponent")
 	var stats = GameRegistry.character_stats
 
+	# ---- Debug 开关状态 ----
+	lines.append("=== Debug (F3/F4/F5/F6) ===")
+	lines.append("碰撞体:%s  受伤区:%s  攻击区:%s" % [
+		"ON" if DebugDraw.show_collision else "off",
+		"ON" if DebugDraw.show_hurtbox else "off",
+		"ON" if DebugDraw.show_hitbox else "off",
+	])
+
 	# ---- 玩家信息 ----
 	lines.append("=== 玩家 ===")
 	if stats != null:
@@ -166,6 +176,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		KEY_F3:
 			_debug_label.get_parent().visible = not _debug_label.get_parent().visible
+			get_viewport().set_input_as_handled()
+		KEY_F4:
+			DebugDraw.show_collision = not DebugDraw.show_collision
+			get_viewport().set_input_as_handled()
+		KEY_F5:
+			DebugDraw.show_hurtbox = not DebugDraw.show_hurtbox
+			get_viewport().set_input_as_handled()
+		KEY_F6:
+			DebugDraw.show_hitbox = not DebugDraw.show_hitbox
 			get_viewport().set_input_as_handled()
 
 

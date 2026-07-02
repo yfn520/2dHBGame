@@ -335,6 +335,39 @@ func _pick_patrol_target() -> void:
 	_face_direction(signf(_patrol_target - global_position.x))
 
 
+## Debug 绘制碰撞框
+func _draw() -> void:
+	if DebugDraw.show_collision:
+		var col = $CollisionShape2D
+		if col != null and col.shape != null:
+			var s: Vector2 = col.shape.size
+			draw_rect(Rect2(col.position - s * 0.5, s), Color(0, 1, 0, 0.3))
+	if DebugDraw.show_hurtbox:
+		_draw_debug_box("HurtBox", Color(1, 1, 0, 0.3))
+	if DebugDraw.show_hitbox:
+		_draw_debug_box("HitBox", Color(1, 0, 0, 0.35))
+
+
+func _draw_debug_box(box_name: String, color: Color) -> void:
+	var box := get_node_or_null(box_name)
+	if box == null:
+		return
+	if box_name == "HitBox" and (not box.has_method("is_active") or not box.is_active()):
+		return
+	for child in box.get_children():
+		if child is CollisionShape2D and child.shape != null:
+			if child.shape is RectangleShape2D:
+				var s: Vector2 = child.shape.size
+				var center := to_local(child.global_position)
+				draw_rect(Rect2(center - s * 0.5, s), color)
+
+
+func _process(_delta: float) -> void:
+	# F6 can change independently of AI/animation frames; redraw also clears the
+	# previous valid-frame rectangle immediately after the window closes.
+	queue_redraw()
+
+
 func _face_direction(dir: float) -> void:
 	if dir == 0.0:
 		return

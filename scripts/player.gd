@@ -47,14 +47,9 @@ func _apply_character_display_config() -> void:
 
 	var cfg: Dictionary = json.data
 	_load_combat_actions(config_path.get_base_dir(), cfg)
-	var char_set := $CharacterActionSet as Node2D
-	var s: float = float(cfg.get("display_scale", 1.0))
-	var offset: Dictionary = cfg.get("display_offset", {})
-	var oy: float = float(offset.get("y", 0))
-	char_set.scale = Vector2(s, s)
-	char_set.position = Vector2(0, oy)
-	# Camera 高度跟随角色
-	camera.position.y = -60.0 * s
+	# CharacterActionSet transform is scene-authored. Reapplying the config value
+	# here used to overwrite player.tscn's 0.5 scale with 1.0 at runtime, while
+	# enemies stayed at 0.5, separating visible feet from collision geometry.
 
 
 func get_combat_actions() -> Dictionary:
@@ -81,10 +76,9 @@ func _physics_process(delta: float) -> void:
 			return
 		if combat.combat_state == combat.CombatState.HIT:
 			can_move = false
-		if _combat_anim_playing and (
-			combat.combat_state == combat.CombatState.ATTACKING
-			or combat.combat_state == combat.CombatState.SKILL
-		):
+		# Combat state may reset before the visual action finishes, so the
+		# animation itself is the authoritative movement lock.
+		if _combat_anim_playing:
 			can_move = false
 
 	var direction := _get_move_direction()
@@ -105,9 +99,9 @@ func _physics_process(delta: float) -> void:
 			_handle_ground_movement(direction, jump_pressed, delta)
 	else:
 		# 战斗状态中减速停下
-		velocity.x = move_toward(velocity.x, 0, 400 * delta)
+		velocity.x = 0.0
 
-	if direction != 0.0:
+	if can_move and direction != 0.0:
 		var new_flip := direction > 0.0
 		if sprite.flip_h != new_flip:
 			sprite.flip_h = new_flip
@@ -190,6 +184,37 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 			return child.global_position.x
 
 	return ladder.global_position.x
+
+
+## Debug 绘制碰撞框
+func _draw() -> void:
+	if DebugDraw.show_collision:
+		var col = $CollisionShape2D
+		if col != null and col.shape != null:
+			var s: Vector2 = col.shape.size
+			draw_rect(Rect2(col.position - s * 0.5, s), Color(0, 1, 0, 0.3))
+	if DebugDraw.show_hurtbox:
+		_draw_debug_box("HurtBox", Color(1, 1, 0, 0.3))
+	if DebugDraw.show_hitbox:
+		_draw_debug_box("HitBox", Color(1, 0, 0, 0.35))
+
+
+func _draw_debug_box(box_name: String, color: Color) -> void:
+	var box := get_node_or_null(box_name)
+	if box == null:
+		return
+	if box_name == "HitBox" and (not box.has_method("is_active") or not box.is_active()):
+		return
+	for child in box.get_children():
+		if child is CollisionShape2D and child.shape != null:
+			if child.shape is RectangleShape2D:
+				var s: Vector2 = child.shape.size
+				var center := to_local(child.global_position)
+				draw_rect(Rect2(center - s * 0.5, s), color)
+
+
+func _process(_delta: float) -> void:
+	queue_redraw()
 
 
 ## Mirror the authored sprite-node offset with the artwork. Collision boxes stay actor-local.

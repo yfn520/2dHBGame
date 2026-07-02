@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://0e7uc6u1olhs" path="res://scripts/combat/hit_box.gd" id="5_hit"]
 
 [sub_resource type="RectangleShape2D" id="1_shape"]
-size = Vector2(24, 38)
+size = Vector2(24, 41)
 
 [sub_resource type="RectangleShape2D" id="2_shape"]
 size = Vector2(18, 42)
@@ -16,7 +16,7 @@ size = Vector2(18, 42)
 size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="4_hurt_shape"]
-size = Vector2(20, 36)
+size = Vector2(20, 41)
 
 [node name="Player" type="CharacterBody2D" unique_id=2009657956]
 script = ExtResource("1_script")
@@ -34,6 +34,7 @@ shape = SubResource("2_shape")
 
 [node name="CharacterActionSet" parent="." unique_id=1240346433 instance=ExtResource("2_visual")]
 z_index = 100
+position = Vector2(-5.69, 98.26)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1735926775]

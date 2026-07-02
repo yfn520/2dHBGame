@@ -5,6 +5,6 @@
 [node name="CharacterActionSet" type="Node2D" unique_id=1633906585]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=752936702]
-position = Vector2(0, 185)
+position = Vector2(0, 198)
 sprite_frames = ExtResource("frames")
 animation = &"idle"

@@ -4,10 +4,10 @@
 			"hit_windows": [
 				{
 					"end_frame": 3,
-					"forward": 30.0,
-					"height": 80.0,
+					"forward": 15.0,
+					"height": 40.0,
 					"start_frame": 3,
-					"width": 60.0,
+					"width": 30.0,
 					"y": 0.0
 				}
 			]
@@ -16,10 +16,10 @@
 			"hit_windows": [
 				{
 					"end_frame": 2,
-					"forward": 50.0,
-					"height": 80.0,
+					"forward": 25.0,
+					"height": 40.0,
 					"start_frame": 2,
-					"width": 60.0,
+					"width": 30.0,
 					"y": 0.0
 				}
 			]
@@ -28,10 +28,10 @@
 			"hit_windows": [
 				{
 					"end_frame": 2,
-					"forward": 30.0,
-					"height": 20.0,
+					"forward": 15.0,
+					"height": 10.0,
 					"start_frame": 2,
-					"width": 20.0,
+					"width": 10.0,
 					"y": 0.0
 				}
 			]
@@ -40,15 +40,15 @@
 			"hit_windows": [
 				{
 					"end_frame": 3,
-					"forward": 40.0,
-					"height": 110.0,
+					"forward": 20.0,
+					"height": 55.0,
 					"start_frame": 3,
-					"width": 100.0,
-					"y": -10.0
+					"width": 50.0,
+					"y": -5.0
 				}
 			]
 		}
 	},
-	"sprite_scale": 1.0,
+	"sprite_scale": 0.5,
 	"version": 1
 }

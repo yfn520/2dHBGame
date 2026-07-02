@@ -66,6 +66,7 @@ func _resolve_stats() -> void:
 
 func _process(delta: float) -> void:
 	if combat_state == CombatState.DEAD:
+		_end_melee_window()
 		return
 
 	# 冷却计时
@@ -82,6 +83,16 @@ func _process(delta: float) -> void:
 	# 受击后无敌
 	if _invincible_after_hit > 0.0:
 		_invincible_after_hit -= delta
+
+	# Revalidate the active window every tick. This is also the cleanup path
+	# when a timer/state interruption happens without another frame_changed.
+	if _pending_skill.is_empty():
+		if _hit_box != null and _hit_box.has_method("is_active") and _hit_box.is_active():
+			_hit_box.deactivate()
+	elif combat_state != CombatState.ATTACKING and combat_state != CombatState.SKILL:
+		_end_melee_window()
+	else:
+		_on_sprite_frame_changed()
 
 
 func _unhandled_input(event: InputEvent) -> void:

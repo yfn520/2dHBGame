@@ -12,7 +12,9 @@ var _hit_targets: Dictionary = {}
 
 
 func _ready() -> void:
-	z_index = 10
+	# Draw valid attack windows above the always-on HurtBox debug overlay.
+	z_as_relative = false
+	z_index = 1100
 	if collision_shape.shape != null:
 		collision_shape.shape = collision_shape.shape.duplicate()
 	if not area_entered.is_connected(_on_area_entered):
@@ -40,7 +42,6 @@ func activate(detect_hits: bool = true) -> void:
 	_hit_targets.clear()
 	monitoring = detect_hits
 	collision_shape.set_deferred("disabled", not detect_hits)
-	queue_redraw()
 	if detect_hits:
 		call_deferred("_detect_existing_overlaps")
 
@@ -50,23 +51,6 @@ func deactivate() -> void:
 	monitoring = false
 	if is_instance_valid(collision_shape):
 		collision_shape.set_deferred("disabled", true)
-	queue_redraw()
-
-
-func _draw() -> void:
-	if not _active:
-		return
-	if collision_shape == null or collision_shape.shape == null:
-		return
-	var rect: Rect2
-	if collision_shape.shape is RectangleShape2D:
-		var size: Vector2 = collision_shape.shape.size
-		rect = Rect2(collision_shape.position - size * 0.5, size)
-	else:
-		# 圆形等其他形状用包围盒
-		rect = collision_shape.shape.get_rect()
-		rect.position += collision_shape.position
-	draw_rect(rect, Color(1, 0, 0, 0.35))
 
 
 func is_active() -> bool:

@@ -5,6 +5,5 @@
 [node name="CharacterActionSet" type="Node2D" unique_id=1176898753]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1355044615]
-position = Vector2(-12, 200)
 sprite_frames = ExtResource("frames")
 animation = &"attack"
