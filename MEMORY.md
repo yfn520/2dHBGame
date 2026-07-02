@@ -11,6 +11,9 @@
 
 ## Decisions
 
+- Player body collision and HurtBox remain centered on the actor root; any scene-authored CharacterActionSet X correction belongs only to the artwork and must mirror with facing.
+- When a scene intentionally authors a non-zero `CharacterActionSet.position.x`, that visual-root offset mirrors with `flip_h` (for example player left=-5.005, right=+5.005). Mirroring the nested AnimatedSprite2D is ineffective when its own position is zero.
+- Skills now carry `description` and `effect_timing` (`cast_start`, `active_frame`, or `animation_end`). Self buffs configured for `active_frame` are applied once when the animation enters a configured hit window instead of immediately on key press.
 - Player and enemy visible feet share local y=19: with 576px centered cells whose alpha content ends at y=144, `AnimatedSprite2D.position.y=182` under the scene-authored 0.5 wrapper scale yields `(182 + 144 - 288) * 0.5 = 19`. Player runtime must preserve the scene-authored CharacterActionSet transform instead of replacing 0.5 with character_config's 1.0.
 - Imported character artwork uses a common local foot baseline at `y = 19` (`COLLISION_BODY_BOTTOM`). A custom body collision may use a different height, but its `position.y + shape_half_height` must still equal 19; slimu's 26px-high body is therefore centered at y=6.
 - HurtBox collision geometry is body-local and never mirrored when a sprite turns. Runtime HitBox mirroring is owned exclusively by `HitBox.configure(window, facing)`; player/enemy facing code only flips the sprite. This prevents double mirroring and preserves scene-authored HurtBox offsets.
@@ -21,6 +24,7 @@
 - All player combat animations are authoritative movement locks: horizontal velocity is cleared immediately and input/facing remain locked until the non-looping animation finishes, regardless of an earlier timer-based combat-state reset.
 - CombatComponent revalidates its pending HitBox window every process tick in addition to `frame_changed`; interrupted, idle and dead actions forcibly deactivate it. Active HitBox debug drawing uses a higher absolute z-index than the always-on HurtBox overlay.
 - F6 is only the HitBox debug master switch. Player/enemy root debug drawing additionally requires `HitBox.is_active()` and converts the CollisionShape2D global center back into actor-local coordinates; enemies redraw every frame so opening/closing active windows is reflected immediately.
+- Collision/HurtBox/HitBox debug geometry is rendered by a dedicated absolute-z CombatDebugOverlay above character sprites. Drawing on the actor root placed rectangles behind z-indexed artwork, so opaque pixels hid half the box and falsely made correctly aligned boxes look offset.
 - Every skill with configured `hit_windows` is synchronized to its animation frame. Melee windows enable HitBox monitoring and damage; projectile/AOE/penetrate windows draw the debug box and execute the skill once without adding duplicate melee collision damage.
 - Melee damage is synchronized to `AnimatedSprite2D.frame_changed`. Per-character `combat_actions.json` stores active frame windows and forward-relative HitBox geometry; scene HitBox child offsets remain zero so runtime mirroring cannot double-apply offsets.
 - The attack editor scans both `assets/characters` and `assets/enemies`. Its preview reads `AnimatedSprite2D.position`, `offset`, `scale`, and `centered` from `character_actions.tscn`, plus `display_offset` from `character_config.json`, while HitBox coordinates remain relative to the actor root.

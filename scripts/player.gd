@@ -11,20 +11,24 @@ var is_climbing_ladder := false
 var current_ladder: Area2D
 
 @onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
+@onready var visual_root: Node2D = $CharacterActionSet
 @onready var camera: Camera2D = $Camera2D
 @onready var ladder_detector: Area2D = $LadderDetector
 @onready var combat: Node = $CombatComponent
 
 var _combat_anim_playing := false
 var _combat_actions: Dictionary = {}
-var _sprite_authored_x := 0.0
+var _visual_authored_x := 0.0
 
 
 func _ready() -> void:
 	add_to_group("player")
+	var debug_overlay := CombatDebugOverlay.new()
+	add_child(debug_overlay)
+	debug_overlay.setup(self)
 	_apply_character_display_config()
-	_sprite_authored_x = sprite.position.x
-	_apply_sprite_facing_offset()
+	_visual_authored_x = visual_root.position.x
+	_apply_visual_facing_offset()
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = LEVEL_SIZE.x
@@ -105,7 +109,7 @@ func _physics_process(delta: float) -> void:
 		var new_flip := direction > 0.0
 		if sprite.flip_h != new_flip:
 			sprite.flip_h = new_flip
-			_apply_sprite_facing_offset()
+			_apply_visual_facing_offset()
 
 	_update_animation(direction)
 
@@ -186,40 +190,9 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 	return ladder.global_position.x
 
 
-## Debug 绘制碰撞框
-func _draw() -> void:
-	if DebugDraw.show_collision:
-		var col = $CollisionShape2D
-		if col != null and col.shape != null:
-			var s: Vector2 = col.shape.size
-			draw_rect(Rect2(col.position - s * 0.5, s), Color(0, 1, 0, 0.3))
-	if DebugDraw.show_hurtbox:
-		_draw_debug_box("HurtBox", Color(1, 1, 0, 0.3))
-	if DebugDraw.show_hitbox:
-		_draw_debug_box("HitBox", Color(1, 0, 0, 0.35))
-
-
-func _draw_debug_box(box_name: String, color: Color) -> void:
-	var box := get_node_or_null(box_name)
-	if box == null:
-		return
-	if box_name == "HitBox" and (not box.has_method("is_active") or not box.is_active()):
-		return
-	for child in box.get_children():
-		if child is CollisionShape2D and child.shape != null:
-			if child.shape is RectangleShape2D:
-				var s: Vector2 = child.shape.size
-				var center := to_local(child.global_position)
-				draw_rect(Rect2(center - s * 0.5, s), color)
-
-
-func _process(_delta: float) -> void:
-	queue_redraw()
-
-
-## Mirror the authored sprite-node offset with the artwork. Collision boxes stay actor-local.
-func _apply_sprite_facing_offset() -> void:
-	sprite.position.x = -_sprite_authored_x if sprite.flip_h else _sprite_authored_x
+## Mirror the scene-authored visual-root offset; collision boxes stay actor-local.
+func _apply_visual_facing_offset() -> void:
+	visual_root.position.x = -_visual_authored_x if sprite.flip_h else _visual_authored_x
 
 
 func _update_animation(direction: float) -> void:

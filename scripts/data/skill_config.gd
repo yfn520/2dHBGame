@@ -25,7 +25,9 @@ func load_config() -> void:
 		_skills[skill_id] = {
 			"id": skill_id,
 			"name": raw.get("name", ""),
+			"description": raw.get("description", ""),
 			"type": raw.get("type", "melee"),
+			"effect_timing": raw.get("effect_timing", "cast_start"),
 			"damage_ratio": float(raw.get("damage_ratio", 1.0)),
 			"cooldown": float(raw.get("cooldown", 0.0)),
 			"animation": raw.get("animation", "attack"),

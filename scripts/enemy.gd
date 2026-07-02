@@ -7,6 +7,7 @@ enum AIState { IDLE, PATROL, CHASE, ATTACK, HIT, DEAD }
 const CONFIG_FILE := "character_config.json"
 
 @onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
+@onready var visual_root: Node2D = $CharacterActionSet
 @onready var combat: Node = $CombatComponent
 
 var _enemy_id: int = 0
@@ -21,7 +22,7 @@ var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
 var _skill_index: int = 0
 var _combat_anim_playing := false
-var _sprite_authored_x := 0.0
+var _visual_authored_x := 0.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -85,8 +86,11 @@ func get_ai_state_name() -> String:
 
 func _ready() -> void:
 	add_to_group("enemies")
-	_sprite_authored_x = sprite.position.x
-	_apply_sprite_facing_offset()
+	var debug_overlay := CombatDebugOverlay.new()
+	add_child(debug_overlay)
+	debug_overlay.setup(self)
+	_visual_authored_x = visual_root.position.x
+	_apply_visual_facing_offset()
 	# 等 CombatComponent 初始化后连接死亡信号
 	call_deferred("_connect_signals")
 
@@ -335,50 +339,17 @@ func _pick_patrol_target() -> void:
 	_face_direction(signf(_patrol_target - global_position.x))
 
 
-## Debug 绘制碰撞框
-func _draw() -> void:
-	if DebugDraw.show_collision:
-		var col = $CollisionShape2D
-		if col != null and col.shape != null:
-			var s: Vector2 = col.shape.size
-			draw_rect(Rect2(col.position - s * 0.5, s), Color(0, 1, 0, 0.3))
-	if DebugDraw.show_hurtbox:
-		_draw_debug_box("HurtBox", Color(1, 1, 0, 0.3))
-	if DebugDraw.show_hitbox:
-		_draw_debug_box("HitBox", Color(1, 0, 0, 0.35))
-
-
-func _draw_debug_box(box_name: String, color: Color) -> void:
-	var box := get_node_or_null(box_name)
-	if box == null:
-		return
-	if box_name == "HitBox" and (not box.has_method("is_active") or not box.is_active()):
-		return
-	for child in box.get_children():
-		if child is CollisionShape2D and child.shape != null:
-			if child.shape is RectangleShape2D:
-				var s: Vector2 = child.shape.size
-				var center := to_local(child.global_position)
-				draw_rect(Rect2(center - s * 0.5, s), color)
-
-
-func _process(_delta: float) -> void:
-	# F6 can change independently of AI/animation frames; redraw also clears the
-	# previous valid-frame rectangle immediately after the window closes.
-	queue_redraw()
-
-
 func _face_direction(dir: float) -> void:
 	if dir == 0.0:
 		return
 	var new_flip := dir > 0.0
 	if sprite.flip_h != new_flip:
 		sprite.flip_h = new_flip
-		_apply_sprite_facing_offset()
+		_apply_visual_facing_offset()
 
 
-func _apply_sprite_facing_offset() -> void:
-	sprite.position.x = -_sprite_authored_x if sprite.flip_h else _sprite_authored_x
+func _apply_visual_facing_offset() -> void:
+	visual_root.position.x = -_visual_authored_x if sprite.flip_h else _visual_authored_x
 
 
 func _play_anim(anim_name: String) -> void:

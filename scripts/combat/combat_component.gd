@@ -27,6 +27,7 @@ var _pending_skill: Dictionary = {}
 var _pending_animation := ""
 var _active_window_id := ""
 var _pending_skill_executed := false
+var _pending_self_buff_applied := false
 
 
 func _ready() -> void:
@@ -140,6 +141,7 @@ func try_use_skill(skill_id: int) -> bool:
 	attack_started.emit(skill_id)
 
 	var use_frame_window := skill_type == "melee" or _has_configured_hit_windows(anim_name)
+	_pending_self_buff_applied = false
 	if use_frame_window:
 		_pending_skill = skill
 		_pending_animation = anim_name
@@ -147,13 +149,12 @@ func try_use_skill(skill_id: int) -> bool:
 		_pending_skill_executed = false
 	else:
 		_skill_executor.execute(skill)
+		if String(skill.get("effect_timing", "cast_start")) == "active_frame":
+			_apply_self_buff(skill)
 
 	# 自身 buff
-	var self_buff_id := int(skill.get("buff_on_self", 0))
-	if self_buff_id > 0:
-		var buff_config = GameRegistry.buff_config.get_buff(self_buff_id)
-		if not buff_config.is_empty():
-			_buff_manager.apply_buff(buff_config, _owner.get_instance_id())
+	if String(skill.get("effect_timing", "cast_start")) == "cast_start":
+		_apply_self_buff(skill)
 
 	# 播放动画（如果有 AnimatedSprite2D）
 	if _owner.has_method("play_combat_animation"):
@@ -272,6 +273,8 @@ func _on_sprite_frame_changed() -> void:
 	var skill_type := String(_pending_skill.get("type", "melee"))
 	var detects_hits := skill_type == "melee"
 	_hit_box.activate(detects_hits)
+	if String(_pending_skill.get("effect_timing", "cast_start")) == "active_frame":
+		_apply_self_buff(_pending_skill)
 	if not detects_hits and not _pending_skill_executed:
 		_pending_skill_executed = true
 		_skill_executor.execute(_pending_skill)
@@ -280,6 +283,8 @@ func _on_sprite_frame_changed() -> void:
 func _on_sprite_animation_finished() -> void:
 	if _sprite == null or String(_sprite.animation) != _pending_animation:
 		return
+	if String(_pending_skill.get("effect_timing", "cast_start")) == "animation_end":
+		_apply_self_buff(_pending_skill)
 	_end_melee_window()
 
 
@@ -288,8 +293,22 @@ func _end_melee_window() -> void:
 	_pending_animation = ""
 	_active_window_id = ""
 	_pending_skill_executed = false
+	_pending_self_buff_applied = false
 	if _hit_box != null:
 		_hit_box.deactivate()
+
+
+func _apply_self_buff(skill: Dictionary) -> void:
+	if _pending_self_buff_applied:
+		return
+	var self_buff_id := int(skill.get("buff_on_self", 0))
+	if self_buff_id <= 0:
+		return
+	var buff_config: Dictionary = GameRegistry.buff_config.get_buff(self_buff_id)
+	if buff_config.is_empty():
+		return
+	_pending_self_buff_applied = true
+	_buff_manager.apply_buff(buff_config, _owner.get_instance_id())
 
 
 func _get_hit_window(animation_name: String, frame: int) -> Dictionary:

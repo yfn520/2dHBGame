@@ -34,6 +34,7 @@ KEY_TO_CN = {
     "name": "名称",
     "type": "类型",
     "description": "描述",
+	"effect_timing": "生效时机",
     "max_hp": "最大生命",
     "attack": "攻击力",
     "defense": "防御力",

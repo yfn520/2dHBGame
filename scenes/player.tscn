@@ -34,7 +34,7 @@ shape = SubResource("2_shape")
 
 [node name="CharacterActionSet" parent="." unique_id=1240346433 instance=ExtResource("2_visual")]
 z_index = 100
-position = Vector2(-5.69, 98.26)
+position = Vector2(-5.005, 98)
 scale = Vector2(0.5, 0.5)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1735926775]
