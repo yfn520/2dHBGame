@@ -7,7 +7,7 @@
 					"forward": 20.0,
 					"height": 20.0,
 					"start_frame": 2,
-					"width": 19.0,
+					"width": 28.0,
 					"y": -5.0
 				}
 			]
@@ -27,10 +27,10 @@
 		"skill2": {
 			"hit_windows": [
 				{
-					"end_frame": 2,
+					"end_frame": 2.0,
 					"forward": 25.0,
 					"height": 40.0,
-					"start_frame": 2,
+					"start_frame": 2.0,
 					"width": 30.0,
 					"y": -10.0
 				}
@@ -39,10 +39,10 @@
 		"skill3": {
 			"hit_windows": [
 				{
-					"end_frame": 3,
+					"end_frame": 3.0,
 					"forward": 20.0,
 					"height": 20.0,
-					"start_frame": 3,
+					"start_frame": 3.0,
 					"width": 20.0,
 					"y": -15.0
 				}

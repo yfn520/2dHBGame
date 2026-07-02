@@ -21,6 +21,7 @@ var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
 var _skill_index: int = 0
 var _combat_anim_playing := false
+var _sprite_authored_x := 0.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -84,6 +85,8 @@ func get_ai_state_name() -> String:
 
 func _ready() -> void:
 	add_to_group("enemies")
+	_sprite_authored_x = sprite.position.x
+	_apply_sprite_facing_offset()
 	# 等 CombatComponent 初始化后连接死亡信号
 	call_deferred("_connect_signals")
 
@@ -183,17 +186,27 @@ func _update_chase(_delta: float) -> void:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	var dist := global_position.distance_to(_player.global_position)
+	var dist := _distance_x_to_player()
 	var detect_range: float = _config.get("detect_range", 200.0)
-	var attack_range: float = _config.get("attack_range", 40.0)
+	# attack_range is the preferred stopping distance, not the damage radius.
+	var preferred_range: float = _config.get("attack_range", 40.0)
 
 	# 玩家超出检测范围
 	if dist > detect_range * 1.5:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	# 进入攻击范围
-	if dist <= attack_range:
+	# A ready ranged/dash skill may interrupt pursuit once. After its animation
+	# ends, this state keeps closing toward preferred_range while it is on CD.
+	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
+		if _try_use_next_skill(dist, preferred_range):
+			velocity.x = 0.0
+			return
+
+	# Only stop when the preferred distance is reached and at least one configured
+	# skill can actually be used from here. This prevents bad range data from
+	# leaving an enemy idle just outside all of its attacks.
+	if dist <= preferred_range and _has_skill_for_distance(dist, preferred_range):
 		_set_ai_state(AIState.ATTACK)
 		return
 
@@ -209,8 +222,8 @@ func _update_attack(_delta: float) -> void:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	var dist := global_position.distance_to(_player.global_position)
-	var attack_range: float = _config.get("attack_range", 40.0)
+	var dist := _distance_x_to_player()
+	var preferred_range: float = _config.get("attack_range", 40.0)
 	var detect_range: float = _config.get("detect_range", 200.0)
 
 	# 玩家跑远了
@@ -219,7 +232,7 @@ func _update_attack(_delta: float) -> void:
 		return
 
 	# 玩家跑出攻击范围
-	if dist > attack_range * 1.5:
+	if dist > preferred_range * 1.25:
 		_set_ai_state(AIState.CHASE)
 		return
 
@@ -229,38 +242,44 @@ func _update_attack(_delta: float) -> void:
 
 	# 尝试释放技能（只在战斗状态空闲时）
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
-		_try_use_next_skill()
+		_try_use_next_skill(dist, preferred_range)
 
 
 ## ---- 技能选择 ----
 
-func _try_use_next_skill() -> void:
+func _try_use_next_skill(distance_x: float, preferred_range: float) -> bool:
 	if combat == null:
-		return
+		return false
 
 	var skills: Array = _config.get("skills", [])
 	var weights: Array = _config.get("skill_weights", [])
 	if skills.is_empty():
-		return
+		return false
 
 	# 加权随机选择技能
-	var distance_to_player := global_position.distance_to(_player.global_position) if _player != null else INF
-	var skill_id := _pick_weighted_skill(skills, weights, distance_to_player)
+	var skill_id := _pick_weighted_skill(skills, weights, distance_x, preferred_range)
 	if skill_id <= 0:
-		return
+		return false
 
 	# 尝试释放（CombatComponent 会处理冷却和状态）
 	if combat.has_method("try_use_skill"):
-		combat.try_use_skill(skill_id)
+		return combat.try_use_skill(skill_id)
+	return false
 
 
-func _pick_weighted_skill(skills: Array, weights: Array, _target_distance: float) -> int:
-	# 只过滤冷却中的技能，距离由 AI 状态机负责
+func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float, preferred_range: float) -> int:
+	# Filter by cooldown and each skill's usable X-axis range, then keep weighted randomness.
 	var available_ids: Array[int] = []
 	var available_weights: Array[float] = []
 	for i in range(skills.size()):
 		var sid := int(skills[i])
 		if combat._cooldowns.get(sid, 0.0) > 0.0:
+			continue
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(sid)
+		if skill.is_empty():
+			continue
+		var usable_range := _get_skill_usable_range(skill, preferred_range)
+		if distance_x > usable_range:
 			continue
 		available_ids.append(sid)
 		available_weights.append(float(weights[i]) if weights.size() == skills.size() else 1.0)
@@ -280,13 +299,33 @@ func _pick_weighted_skill(skills: Array, weights: Array, _target_distance: float
 	return available_ids[0]
 
 
+func _has_skill_for_distance(distance_x: float, preferred_range: float) -> bool:
+	var skills: Array = _config.get("skills", [])
+	for raw_skill_id in skills:
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(int(raw_skill_id))
+		if not skill.is_empty() and distance_x <= _get_skill_usable_range(skill, preferred_range):
+			return true
+	return false
+
+
+func _get_skill_usable_range(skill: Dictionary, preferred_range: float) -> float:
+	var usable_range := float(skill.get("range", 0.0))
+	return preferred_range if usable_range <= 0.0 else usable_range
+
+
 ## ---- 辅助 ----
 
 func _can_detect_player() -> bool:
 	if _player == null or not is_instance_valid(_player):
 		return false
-	var dist := global_position.distance_to(_player.global_position)
+	var dist := _distance_x_to_player()
 	return dist <= _config.get("detect_range", 200.0)
+
+
+func _distance_x_to_player() -> float:
+	if _player == null or not is_instance_valid(_player):
+		return INF
+	return absf(_player.global_position.x - global_position.x)
 
 
 func _pick_patrol_target() -> void:
@@ -299,7 +338,14 @@ func _pick_patrol_target() -> void:
 func _face_direction(dir: float) -> void:
 	if dir == 0.0:
 		return
-	sprite.flip_h = dir > 0.0
+	var new_flip := dir > 0.0
+	if sprite.flip_h != new_flip:
+		sprite.flip_h = new_flip
+		_apply_sprite_facing_offset()
+
+
+func _apply_sprite_facing_offset() -> void:
+	sprite.position.x = -_sprite_authored_x if sprite.flip_h else _sprite_authored_x
 
 
 func _play_anim(anim_name: String) -> void:

@@ -12,6 +12,7 @@ var _hit_targets: Dictionary = {}
 
 
 func _ready() -> void:
+	z_index = 10
 	if collision_shape.shape != null:
 		collision_shape.shape = collision_shape.shape.duplicate()
 	if not area_entered.is_connected(_on_area_entered):

@@ -17,11 +17,14 @@ var current_ladder: Area2D
 
 var _combat_anim_playing := false
 var _combat_actions: Dictionary = {}
+var _sprite_authored_x := 0.0
 
 
 func _ready() -> void:
 	add_to_group("player")
 	_apply_character_display_config()
+	_sprite_authored_x = sprite.position.x
+	_apply_sprite_facing_offset()
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = LEVEL_SIZE.x
@@ -105,7 +108,10 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, 400 * delta)
 
 	if direction != 0.0:
-		sprite.flip_h = direction > 0.0
+		var new_flip := direction > 0.0
+		if sprite.flip_h != new_flip:
+			sprite.flip_h = new_flip
+			_apply_sprite_facing_offset()
 
 	_update_animation(direction)
 
@@ -184,6 +190,11 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 			return child.global_position.x
 
 	return ladder.global_position.x
+
+
+## Mirror the authored sprite-node offset with the artwork. Collision boxes stay actor-local.
+func _apply_sprite_facing_offset() -> void:
+	sprite.position.x = -_sprite_authored_x if sprite.flip_h else _sprite_authored_x
 
 
 func _update_animation(direction: float) -> void:

@@ -21,6 +21,7 @@
 - `level_manager.gd`: level loading/unloading, player teleportation, reload support.
 - `save_manager.gd`: JSON save/load to user://.
 - `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
+- `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
 
 ### Level (`res://scripts/level/`)
 

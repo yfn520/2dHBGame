@@ -11,6 +11,9 @@
 
 ## Decisions
 
+- HurtBox collision geometry is body-local and never mirrored when a sprite turns. Runtime HitBox mirroring is owned exclusively by `HitBox.configure(window, facing)`; player/enemy facing code only flips the sprite. This prevents double mirroring and preserves scene-authored HurtBox offsets.
+- An authored `AnimatedSprite2D.position.x` offset must mirror together with `flip_h`; otherwise the artwork shifts relative to the actor root while body-local HitBox/HurtBox geometry remains correct. Facing helpers mirror only the sprite-node X offset, never collision nodes.
+- Enemy AI measures detection and combat distance on the X axis only. Enemy `attack_range` is a preferred stopping distance rather than a hit radius. During pursuit, ready skills whose own `range` reaches the player may be selected by weight; after the animation starts, the enemy remains in CHASE and resumes closing distance while that skill is on cooldown. Damage remains driven by HitBox/HurtBox overlap.
 - Direct hits enter `HIT` for 0.1 seconds and immediately stop horizontal movement. Periodic DoT damage changes HP without replaying the hurt animation or applying hit stun. Death animations are paused explicitly on their final frame instead of calling `AnimatedSprite2D.stop()`, which resets to frame zero.
 - Every skill with configured `hit_windows` is synchronized to its animation frame. Melee windows enable HitBox monitoring and damage; projectile/AOE/penetrate windows draw the debug box and execute the skill once without adding duplicate melee collision damage.
 - Melee damage is synchronized to `AnimatedSprite2D.frame_changed`. Per-character `combat_actions.json` stores active frame windows and forward-relative HitBox geometry; scene HitBox child offsets remain zero so runtime mirroring cannot double-apply offsets.

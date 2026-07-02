@@ -126,14 +126,14 @@ func _update_debug_panel() -> void:
 			for enemy in enemies:
 				if not is_instance_valid(enemy):
 					continue
-				var dist := player.global_position.distance_to(enemy.global_position)
+				var dist_x := absf(player.global_position.x - enemy.global_position.x)
 				var e_stats = enemy.get_combat_stats() if enemy.has_method("get_combat_stats") else null
 				var hp_str := "?"
 				if e_stats != null:
 					hp_str = "%d/%d" % [e_stats.hp, e_stats.max_hp]
 				var ai_name: String = enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
 				var e_name: String = enemy.get_enemy_name() if enemy.has_method("get_enemy_name") else "?"
-				lines.append("[%s] HP:%s AI:%s Dist:%d" % [e_name, hp_str, ai_name, int(dist)])
+				lines.append("[%s] HP:%s AI:%s XDist:%d" % [e_name, hp_str, ai_name, int(dist_x)])
 
 	_debug_label.text = "\n".join(lines)
 

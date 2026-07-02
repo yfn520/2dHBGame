@@ -30,6 +30,7 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 
 - [x] Generate enemy prefabs using each asset directory name and resolve them from the enemy table's `asset` path.
 - [x] Drive melee HitBox activation from per-character animation frame windows and provide a visual editor.
+- [x] Let enemies cast eligible skills while pursuing, then resume closing distance during cooldown; use X-axis-only combat distance.
 
 - Add animations and a more detailed player controller.
 - Add checkpoints, hazards, and collectible items.
