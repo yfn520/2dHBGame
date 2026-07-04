@@ -1,10 +1,10 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://c3ltkclgx3i5x"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="0_script"]
+[ext_resource type="Script" uid="uid://coqr4l6j7vmne" path="res://scripts/player.gd" id="0_script"]
 [ext_resource type="PackedScene" path="res://assets/characters/new_kivin/godot/character_actions.tscn" id="1_visual"]
-[ext_resource type="Script" path="res://scripts/combat/combat_component.gd" id="2_combat"]
-[ext_resource type="Script" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]
-[ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]
+[ext_resource type="Script" uid="uid://hx747ed6sqvt" path="res://scripts/combat/combat_component.gd" id="2_combat"]
+[ext_resource type="Script" uid="uid://mgxqeymbamb2" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]
+[ext_resource type="Script" uid="uid://0e7uc6u1olhs" path="res://scripts/combat/hit_box.gd" id="4_hit"]
 
 [sub_resource type="RectangleShape2D" id="1_shape"]
 size = Vector2(24, 41)
@@ -18,47 +18,46 @@ size = Vector2(30, 30)
 [sub_resource type="RectangleShape2D" id="4_hurt_shape"]
 size = Vector2(20, 41)
 
-[node name="new_kivin" type="CharacterBody2D"]
+[node name="new_kivin" type="CharacterBody2D" unique_id=1757629161]
 script = ExtResource("0_script")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1443830347]
 shape = SubResource("1_shape")
 
-[node name="LadderDetector" type="Area2D" parent="."]
+[node name="LadderDetector" type="Area2D" parent="." unique_id=2131692384]
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector" unique_id=255709466]
 shape = SubResource("2_ladder_shape")
 
-[node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
+[node name="CharacterActionSet" parent="." unique_id=954978912 instance=ExtResource("1_visual")]
 z_index = 100
-position = Vector2(-11.0, -29.5)
-scale = Vector2(1.0, 1.0)
+position = Vector2(-11, -29.5)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1068295798]
 position = Vector2(0, -70)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="HitBox" type="Area2D" parent="."]
+[node name="HitBox" type="Area2D" parent="." unique_id=451704379]
 collision_layer = 4
 collision_mask = 8
 monitoring = false
 script = ExtResource("4_hit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" unique_id=909504273]
 shape = SubResource("3_hit_shape")
 disabled = true
 
-[node name="HurtBox" type="Area2D" parent="."]
+[node name="HurtBox" type="Area2D" parent="." unique_id=1814328005]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("3_hurt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1617522919]
 shape = SubResource("4_hurt_shape")
 
-[node name="CombatComponent" type="Node" parent="."]
+[node name="CombatComponent" type="Node" parent="." unique_id=408889611]
 script = ExtResource("2_combat")
