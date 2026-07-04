@@ -27,8 +27,14 @@ func setup(owner_entity: Node) -> void:
 
 
 func configure(window: Dictionary, facing: float) -> void:
-	var forward := absf(float(window.get("forward", 20.0)))
-	position = Vector2(facing * forward, float(window.get("y", 0.0)))
+	var position_x: float
+	if window.has("authored_x"):
+		# Production data stores signed X in the default-left artwork space.
+		# Default left has facing=-1; flipped right mirrors the authored coordinate.
+		position_x = float(window.get("authored_x", 0.0)) * -facing
+	else:
+		position_x = facing * absf(float(window.get("forward", 20.0)))
+	position = Vector2(position_x, float(window.get("y", 0.0)))
 	if collision_shape.shape is RectangleShape2D:
 		var rectangle := collision_shape.shape as RectangleShape2D
 		rectangle.size = Vector2(

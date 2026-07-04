@@ -1,5 +1,6 @@
 {
 	"actions_scene": "res://assets/enemies/slimu/godot/character_actions.tscn",
+	"alignment": "json_foot_center_to_collision_bottom",
 	"atlas": "res://assets/enemies/slimu/godot/all_actions_atlas.png",
 	"available_actions": [
 		"idle",
@@ -13,23 +14,24 @@
 	],
 	"centered": true,
 	"character_name": "enemy_unit",
+	"collision_bottom": 19.0,
 	"combat_actions": "res://assets/enemies/slimu/combat_actions.json",
-	"scene_name": "slimu",
+	"combat_source": "res://assets/enemies/slimu/combat/attack_frames.json",
 	"default_animation": "idle",
 	"display_offset": {
-		"x": 0,
-		"y": 0.0
+		"x": -3.0,
+		"y": -19.0
 	},
 	"display_scale": 1.0,
-	"frame_cell_height": 576.0,
+	"foot_center": {
+		"x": 63.0,
+		"y": 98.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "slimu",
 	"spriteframes": "res://assets/enemies/slimu/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {
-		"baselineOffset": 575.0,
-		"height": 576.0,
-		"scale": 0.6,
-		"sourceHeight": 960.0,
-		"sourceWidth": 960.0,
-		"width": 576.0
-	}
+	"unified_box": {}
 }

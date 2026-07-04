@@ -1,10 +1,11 @@
 extends Node2D
 
 @onready var level_container: Node2D = $LevelContainer
-@onready var player: CharacterBody2D = $Player
+@onready var party_manager: PartyManager = $Player
 @onready var inventory_panel: CanvasLayer = $InventoryPanel
 @onready var character_panel: CanvasLayer = $CharacterPanel
 
+var player: CharacterBody2D
 var _level_manager: Node
 var _enemy_spawner: Node
 var _debug_label: Label
@@ -13,6 +14,12 @@ var _debug_label: Label
 
 
 func _ready() -> void:
+	player = party_manager.get_active_character()
+	if player == null:
+		push_error("[GameRoot] PartyManager 没有可用的主控角色")
+		return
+	party_manager.active_character_changed.connect(_on_active_character_changed)
+
 	# 创建并注册 LevelManager
 	_level_manager = load("res://scripts/system/level_manager.gd").new()
 	_level_manager.name = "LevelManager"
@@ -35,6 +42,14 @@ func _ready() -> void:
 
 	# 加载首个关卡（从配置表）
 	call_deferred("_load_start_level")
+
+
+func _on_active_character_changed(character: CharacterBody2D) -> void:
+	player = character
+	if _level_manager != null:
+		_level_manager.setup(level_container, player)
+	if _enemy_spawner != null:
+		_enemy_spawner.setup(player, level_container)
 
 
 func _load_start_level() -> void:

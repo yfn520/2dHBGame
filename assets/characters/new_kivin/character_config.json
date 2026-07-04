@@ -1,0 +1,37 @@
+{
+	"actions_scene": "res://assets/characters/new_kivin/godot/character_actions.tscn",
+	"alignment": "json_foot_center_to_collision_bottom",
+	"atlas": "res://assets/characters/new_kivin/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill1",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead"
+	],
+	"centered": true,
+	"character_name": "kivin",
+	"collision_bottom": 20.5,
+	"combat_actions": "res://assets/characters/new_kivin/combat_actions.json",
+	"combat_source": "res://assets/characters/new_kivin/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -11.0,
+		"y": -29.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 71.0,
+		"y": 110.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "new_kivin",
+	"spriteframes": "res://assets/characters/new_kivin/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

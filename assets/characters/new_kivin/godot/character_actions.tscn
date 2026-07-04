@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="SpriteFrames" path="res://assets/enemies/slimu/godot/spriteframes.tres" id="frames"]
+[ext_resource type="SpriteFrames" path="res://assets/characters/new_kivin/godot/spriteframes.tres" id="frames"]
 
 [node name="CharacterActionSet" type="Node2D"]
 

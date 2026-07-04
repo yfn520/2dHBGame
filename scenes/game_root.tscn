@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cl3mlhtn4b270"]
 
 [ext_resource type="Script" uid="uid://bgpr3iv8oqhc3" path="res://scripts/game_root.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://bbnsvnstpjg1q" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://scenes/inventory_panel.tscn" id="4_inv"]
 [ext_resource type="PackedScene" path="res://scenes/character_panel.tscn" id="5_char"]
 

@@ -11,6 +11,14 @@
 
 ## Decisions
 
+- Playable characters are complete independent `CharacterBody2D` prefabs. `player.tscn` is now a `PartyManager` control container whose exported `Array[PackedScene]` supports inspector drag-and-drop lineup configuration; it currently contains only `new_kivin` at index 0.
+- Character artwork alignment is prefab-owned: `visual.position + (foot_center - image_center) * visual.scale` must equal the body collision bottom center. For `new_kivin`, `(-11, -29.5) + (11, 50) = (0, 20.5)`.
+- `PartyManager` is an editor tool and previews the scene at `initial_active_index` directly in `player.tscn`; the preview has no owner and is never serialized or spawned at runtime.
+- Character import reads each asset's JSON `foot_center` and `frameSize`, then computes `offset = (-(foot.x-center.x)*scale, collision_bottom-(foot.y-center.y)*scale)`. Collision-bottom coordinates are actor-local and must never be multiplied by sprite scale.
+- Character import repairs incomplete external `spriteframes.tres` files: it always restores the atlas Texture2D declaration and binds every AtlasTexture subresource to `ExtResource("sheet")`. A SpriteFrames file with valid regions but missing these bindings produces invisible animations.
+- The character import menu generates all character prefabs and does not mutate `player.tscn`; this prevents filesystem enumeration order or stale resource UIDs from silently changing the active hero.
+
+- Asset import explicitly distinguishes `resource_type=character` under `assets/characters` from `resource_type=enemy` under `assets/enemies`. New enemy skill lists are derived from enemy skill configs whose animation names actually exist in that enemy manifest; existing curated lists are preserved except for skills whose animation disappeared.
 - Player body collision and HurtBox remain centered on the actor root; any scene-authored CharacterActionSet X correction belongs only to the artwork and must mirror with facing.
 - When a scene intentionally authors a non-zero `CharacterActionSet.position.x`, that visual-root offset mirrors with `flip_h` (for example player left=-5.005, right=+5.005). Mirroring the nested AnimatedSprite2D is ineffective when its own position is zero.
 - Skills now carry `description` and `effect_timing` (`cast_start`, `active_frame`, or `animation_end`). Self buffs configured for `active_frame` are applied once when the animation enters a configured hit window instead of immediately on key press.

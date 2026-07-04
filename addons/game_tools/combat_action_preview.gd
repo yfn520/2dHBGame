@@ -54,8 +54,11 @@ func _draw() -> void:
 	var end_frame := int(window_data.get("end_frame", -1))
 	if frame_index >= start_frame and frame_index <= end_frame:
 		var direction := 1.0 if facing_right else -1.0
+		var hit_x := direction * absf(float(window_data.get("forward", 0.0)))
+		if window_data.has("authored_x"):
+			hit_x = float(window_data.get("authored_x", 0.0)) * -direction
 		var center := origin + Vector2(
-			direction * absf(float(window_data.get("forward", 0.0))),
+			hit_x,
 			float(window_data.get("y", 0.0))
 		) * zoom
 		var hit_size := Vector2(

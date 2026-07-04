@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0f6v6soypbcv"
-path="res://.godot/imported/all_actions_atlas.png-a8ba833d3a5df60be4f062e9ef8819cf.ctex"
+uid="uid://cswavua4o3qls"
+path="res://.godot/imported/all_actions_atlas.png-b473f8b25d9b019cbf7028e6e5b0a127.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/enemies/slimu/godot/all_actions_atlas.png"
-dest_files=["res://.godot/imported/all_actions_atlas.png-a8ba833d3a5df60be4f062e9ef8819cf.ctex"]
+source_file="res://assets/characters/new_kivin/godot/all_actions_atlas.png"
+dest_files=["res://.godot/imported/all_actions_atlas.png-b473f8b25d9b019cbf7028e6e5b0a127.ctex"]
 
 [params]
 

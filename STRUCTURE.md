@@ -2,8 +2,9 @@
 
 ## Runtime Scenes
 
-- `res://scenes/game_root.tscn`: persistent runtime root that owns the player and current level container.
-- `res://scenes/player.tscn`: player character scene with collision, animated sprite, and camera.
+- `res://scenes/game_root.tscn`: persistent runtime root that owns the party controller and current level container.
+- `res://scenes/player.tscn`: `PartyManager` scene; its exported `Array[PackedScene]` is the inspector-configured lineup.
+- `res://assets/characters/<name>/godot/<name>.tscn`: complete playable-character prefab with body collision, foot-anchored artwork, camera, HitBox, HurtBox, and combat component.
 - `res://scenes/inventory_panel.tscn`: bag UI panel (6x5 grid), toggled with B key.
 - `res://scenes/character_panel.tscn`: character stats + equipment slots UI, toggled with C key.
 - `res://scenes/*.tscn`: level scenes (auto-generated from `world/stitched/`)
@@ -13,7 +14,7 @@
 ### Core (`res://scripts/`)
 
 - `game_root.gd`: main scene script, initializes LevelManager, handles B/C keys for UI toggle.
-- `player.gd`: movement, gravity, jump handling, ladder climbing, combat animation.
+- `player.gd`: reusable playable-character movement, gravity, jump, ladder, and combat-animation controller.
 - `game_registry.gd`: AutoLoad singleton, owns all data models, configs, and providers.
 
 ### System (`res://scripts/system/`)
@@ -21,6 +22,7 @@
 - `level_manager.gd`: level loading/unloading, player teleportation, reload support.
 - `save_manager.gd`: JSON save/load to user://.
 - `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
+- `party_manager.gd`: exposes the playable lineup as `Array[PackedScene]`, instantiates the active character, and owns character switching.
 - `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
 
 ### Level (`res://scripts/level/`)
@@ -64,6 +66,7 @@
 
 - `import_stitched_world.gd` - CLI tool to import world maps from `world/stitched/`
 - `import_character.gd` - CLI tool to import character sprites from `assets/characters/`
+- `addons/game_tools/plugin.gd` - Editor import entry points keep playable characters under `assets/characters` and enemies under `assets/enemies`; enemy skill lists are filtered against the actions present in each enemy manifest.
 
 ## Assets
 
@@ -85,4 +88,6 @@
 - First level is determined by the first row in levels.xlsx
 - LevelPortal (Area2D) in level scenes triggers transitions
 - Player must be in "player" group for portal detection
+- Character import generates every character prefab and never rewrites `player.tscn`; lineup selection belongs to `PartyManager`.
+- A playable character's authored foot point is normalized to the bottom center of its body collision inside its own prefab.
 - Keyboard polling is used for now so the prototype works without setting up an input map.

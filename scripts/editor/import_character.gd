@@ -87,10 +87,20 @@ func _import_character(options: Dictionary) -> int:
 		return parse_error
 
 	var manifest_data := manifest.data as Dictionary
-	# 默认 scale=1.0 offset=0（由预制体手动调整，不自动计算）
 	var display_scale: float = float(options["display_scale_override"]) if float(options["display_scale_override"]) > 0.0 else 1.0
-	var display_offset_y: float = 0.0
 	var frame_cell_height := _get_frame_cell_height(manifest_data)
+	var external_combat := _load_external_combat_data(source_dir)
+	var is_production := not external_combat.is_empty()
+	var foot_center := _get_foot_center(external_combat, manifest_data)
+	var apply_player_path := String(options["apply_player"])
+	var body_bottom := _get_scene_body_bottom(apply_player_path, COLLISION_BODY_BOTTOM)
+	var frame_size: Dictionary = manifest_data.get("frameSize", {})
+	var image_center := Vector2(float(frame_size.get("width", frame_cell_height)), float(frame_size.get("height", frame_cell_height))) * 0.5
+	var foot_from_center := foot_center - image_center
+	var display_offset := Vector2(
+		-foot_from_center.x * display_scale,
+		body_bottom - foot_from_center.y * display_scale
+	)
 	var config := {
 		"character_name": manifest_data.get("characterName", source_dir.get_file()),
 		"scene_name": source_dir.get_file(),
@@ -101,24 +111,24 @@ func _import_character(options: Dictionary) -> int:
 		"atlas": atlas_path,
 		"display_scale": display_scale,
 		"display_offset": {
-			"x": 0,
-			"y": display_offset_y
+			"x": display_offset.x,
+			"y": display_offset.y
 		},
 		"faces_right_by_default": String(options["default_facing"]) == "right",
 		"centered": true,
 		"target_display_height": float(options["target_height"]),
 		"available_actions": manifest_data.get("exportOrder", []),
 		"unified_box": manifest_data.get("unifiedBox", {}),
-		"frame_cell_height": frame_cell_height
+		"frame_cell_height": frame_cell_height,
+		"production_format": is_production,
+		"foot_center": {"x": foot_center.x, "y": foot_center.y},
+		"alignment": "json_foot_center_to_collision_bottom",
+		"collision_bottom": body_bottom,
+		"combat_source": source_dir.path_join("combat/attack_frames.json") if is_production else ""
 	}
 
 	var spriteframes_text := FileAccess.get_file_as_string(spriteframes_path)
-	spriteframes_text = _replace_ext_resource_path(
-		spriteframes_text,
-		"Texture2D",
-		"all_actions_atlas.png",
-		atlas_path
-	)
+	spriteframes_text = _ensure_spriteframes_atlas(spriteframes_text, atlas_path)
 	var write_error := _write_text_file(spriteframes_path, spriteframes_text)
 	if write_error != OK:
 		return write_error
@@ -139,7 +149,6 @@ func _import_character(options: Dictionary) -> int:
 	if write_error != OK:
 		return write_error
 
-	var apply_player_path := String(options["apply_player"])
 	if not apply_player_path.is_empty():
 		if not FileAccess.file_exists(apply_player_path):
 			push_error("Player scene not found: %s" % apply_player_path)
@@ -152,13 +161,15 @@ func _import_character(options: Dictionary) -> int:
 			"character_actions.tscn",
 			actions_scene_path
 		)
-		player_text = _replace_character_transform(player_text, display_scale, display_offset_y)
+		player_text = _replace_character_transform(player_text, display_scale, display_offset)
 		write_error = _write_text_file(apply_player_path, player_text)
 		if write_error != OK:
 			return write_error
 
-	# 首次导入时生成动作判定配置；已有人工配置永不覆盖。
-	_ensure_combat_actions_config(source_dir, manifest_data, display_scale)
+	if is_production:
+		_write_external_combat_actions(source_dir, external_combat, display_scale, body_bottom)
+	else:
+		_ensure_combat_actions_config(source_dir, manifest_data, display_scale)
 	# 生成模板场景（只在非 --apply-player 时生成，即怪物/新角色）
 	if apply_player_path.is_empty():
 		var template_path := source_dir.path_join("godot/%s.tscn" % source_dir.get_file())
@@ -180,6 +191,84 @@ func _import_character(options: Dictionary) -> int:
 		print("  applied_to_player: ", apply_player_path)
 
 	return OK
+
+
+func _load_external_combat_data(source_dir: String) -> Dictionary:
+	var path := source_dir.path_join("combat/attack_frames.json")
+	if not FileAccess.file_exists(path):
+		return {}
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(path)) != OK or not json.data is Dictionary:
+		push_error("Failed to parse external combat frames: %s" % path)
+		return {}
+	return json.data
+
+
+func _get_foot_center(combat_data: Dictionary, manifest: Dictionary) -> Vector2:
+	for action in combat_data.get("actions", []):
+		if action is Dictionary:
+			var foot: Dictionary = action.get("foot_center", {})
+			if not foot.is_empty():
+				return Vector2(float(foot.get("x", 0.0)), float(foot.get("y", 0.0)))
+	for action in manifest.get("actions", []):
+		if action is Dictionary:
+			var runtime: Dictionary = action.get("runtimeAction", {})
+			var foot: Dictionary = runtime.get("foot_center", {})
+			if not foot.is_empty():
+				return Vector2(float(foot.get("x", 0.0)), float(foot.get("y", 0.0)))
+	var frame: Dictionary = manifest.get("frameSize", {})
+	return Vector2(float(frame.get("width", 0.0)) * 0.5, float(frame.get("height", 0.0)))
+
+
+func _get_scene_body_bottom(scene_path: String, fallback: float) -> float:
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return fallback
+	var packed := load(scene_path) as PackedScene
+	if packed == null:
+		return fallback
+	var instance := packed.instantiate()
+	var collision := instance.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var result := fallback
+	if collision != null and collision.shape is RectangleShape2D:
+		result = collision.position.y + (collision.shape as RectangleShape2D).size.y * 0.5
+	instance.free()
+	return result
+
+
+func _write_external_combat_actions(source_dir: String, source: Dictionary, display_scale: float, body_bottom: float) -> void:
+	var actions_data: Dictionary = {}
+	for action_value in source.get("actions", []):
+		if not action_value is Dictionary:
+			continue
+		var action: Dictionary = action_value
+		var windows: Array = []
+		for attack_value in action.get("attacks", []):
+			if not attack_value is Dictionary:
+				continue
+			var attack: Dictionary = attack_value
+			var start_frame := maxi(0, int(attack.get("startFrame", 1)) - 1)
+			var end_frame := maxi(start_frame, int(attack.get("endFrame", start_frame + 1)) - 1)
+			for region_value in attack.get("regions", []):
+				if not region_value is Dictionary:
+					continue
+				var region: Dictionary = region_value
+				var region_scale := float(region.get("scale", 1.0))
+				var authored_x := float(region.get("forwardDistance", 0.0)) * display_scale
+				windows.append({
+					"start_frame": start_frame,
+					"end_frame": end_frame,
+					"forward": absf(authored_x),
+					"authored_x": authored_x,
+					"y": body_bottom + float(region.get("yOffset", 0.0)) * display_scale,
+					"width": maxf(1.0, float(region.get("width", 1.0)) * display_scale * region_scale),
+					"height": maxf(1.0, float(region.get("height", 1.0)) * display_scale * region_scale),
+					"source_attack_id": String(attack.get("id", "")),
+					"source_region_id": String(region.get("id", ""))
+				})
+		if not windows.is_empty():
+			actions_data[String(action.get("actionName", ""))] = {"hit_windows": windows}
+	var data := {"version": 2, "source": "combat/attack_frames.json", "coordinate_space": "actor_root_pixels", "sprite_scale": display_scale, "actions": actions_data}
+	_write_text_file(source_dir.path_join("combat_actions.json"), JSON.stringify(data, "\t") + "\n")
 
 
 func _ensure_combat_actions_config(source_dir: String, manifest_data: Dictionary, display_scale: float) -> void:
@@ -263,6 +352,31 @@ func _get_display_scale(manifest_data: Dictionary, target_height: float) -> floa
 	return snappedf(target_height / height, 0.001)
 
 
+func _ensure_spriteframes_atlas(text: String, atlas_path: String) -> String:
+	var lines := text.split("\n")
+	var texture_line := '[ext_resource type="Texture2D" path="%s" id="sheet"]' % atlas_path
+	var texture_index := -1
+	for index in range(lines.size()):
+		var line: String = lines[index]
+		if line.contains("[ext_resource") and line.contains('type="Texture2D"') and line.contains("all_actions_atlas.png"):
+			texture_index = index
+			lines[index] = texture_line
+			break
+	if texture_index == -1:
+		lines.insert(1, "")
+		lines.insert(2, texture_line)
+
+	var index := 0
+	while index < lines.size():
+		if lines[index].begins_with('[sub_resource type="AtlasTexture"'):
+			var next_index := index + 1
+			if next_index >= lines.size() or not lines[next_index].begins_with("atlas = ExtResource("):
+				lines.insert(next_index, 'atlas = ExtResource("sheet")')
+				index += 1
+		index += 1
+	return "\n".join(lines)
+
+
 func _replace_ext_resource_path(text: String, resource_type: String, file_name: String, new_path: String) -> String:
 	var lines := text.split("\n")
 	for index in range(lines.size()):
@@ -283,7 +397,15 @@ func _replace_path_value(line: String, new_path: String) -> String:
 	if end == -1:
 		return line
 
-	return line.substr(0, start) + new_path + line.substr(end)
+	var replaced := line.substr(0, start) + new_path + line.substr(end)
+	# Godot resolves an ext_resource by UID before its path. Remove the stale UID
+	# whenever the importer changes the path, otherwise the previous character may load.
+	var uid_start := replaced.find(' uid="')
+	if uid_start != -1:
+		var uid_end := replaced.find('"', uid_start + 6)
+		if uid_end != -1:
+			replaced = replaced.erase(uid_start, uid_end - uid_start + 1)
+	return replaced
 
 
 func _ensure_centered(text: String) -> String:
@@ -307,7 +429,7 @@ func _ensure_centered(text: String) -> String:
 	return "\n".join(lines)
 
 
-func _replace_character_transform(text: String, display_scale: float, display_offset_y: float) -> String:
+func _replace_character_transform(text: String, display_scale: float, display_offset: Vector2) -> String:
 	var lines := text.split("\n")
 	var in_character_action_set := false
 
@@ -324,7 +446,7 @@ func _replace_character_transform(text: String, display_scale: float, display_of
 			continue
 
 		if line.begins_with("position = Vector2("):
-			lines[index] = "position = Vector2(0, %s)" % display_offset_y
+			lines[index] = "position = Vector2(%s, %s)" % [display_offset.x, display_offset.y]
 		elif line.begins_with("scale = Vector2("):
 			lines[index] = "scale = Vector2(%s, %s)" % [display_scale, display_scale]
 
@@ -379,6 +501,8 @@ script = ExtResource("0_script")
 shape = SubResource("1_shape")
 
 [node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
+position = Vector2(%s, %s)
+scale = Vector2(%s, %s)
 
 [node name="HitBox" type="Area2D" parent="."]
 collision_layer = 4
@@ -405,6 +529,10 @@ script = ExtResource("2_combat")
 		char_name,
 		collision_layer,
 		collision_mask,
+		float(config.get("display_offset", {}).get("x", 0.0)),
+		float(config.get("display_offset", {}).get("y", 0.0)),
+		float(config.get("display_scale", 1.0)),
+		float(config.get("display_scale", 1.0)),
 		hitbox_mask,
 		hurtbox_mask,
 	]
