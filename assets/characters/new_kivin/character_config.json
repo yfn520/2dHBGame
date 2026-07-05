@@ -1,6 +1,7 @@
 {
 	"actions_scene": "res://assets/characters/new_kivin/godot/character_actions.tscn",
-	"alignment": "json_foot_center_to_collision_bottom",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
 	"atlas": "res://assets/characters/new_kivin/godot/all_actions_atlas.png",
 	"available_actions": [
 		"idle",
@@ -12,15 +13,39 @@
 		"hurt",
 		"dead"
 	],
+	"body_box": {
+		"exportRect": {
+			"height": 76.0,
+			"width": 29.0,
+			"x": 56.0,
+			"y": 36.0
+		},
+		"forwardDistance": 0.0,
+		"height": 76.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 29.0,
+		"yOffset": -36.0
+	},
+	"body_position": {
+		"x": 0.0,
+		"y": -36.0
+	},
+	"body_size": {
+		"x": 29.0,
+		"y": 76.0
+	},
 	"centered": true,
 	"character_name": "kivin",
-	"collision_bottom": 20.5,
+	"collision_bottom": 2.0,
 	"combat_actions": "res://assets/characters/new_kivin/combat_actions.json",
 	"combat_source": "res://assets/characters/new_kivin/combat/attack_frames.json",
 	"default_animation": "idle",
 	"display_offset": {
 		"x": -11.0,
-		"y": -29.5
+		"y": -50.0
 	},
 	"display_scale": 1.0,
 	"foot_center": {

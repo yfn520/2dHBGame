@@ -11,7 +11,7 @@
 					"source_region_id": "region-1783001906928-zwj0u",
 					"start_frame": 1,
 					"width": 33.0,
-					"y": -48.5
+					"y": -69.0
 				},
 				{
 					"authored_x": -26.0,
@@ -22,7 +22,7 @@
 					"source_region_id": "region-1783001993035-04pl1",
 					"start_frame": 3,
 					"width": 43.0,
-					"y": -31.5
+					"y": -52.0
 				}
 			]
 		},
@@ -37,7 +37,7 @@
 					"source_region_id": "region-1783002030929-whd36",
 					"start_frame": 2,
 					"width": 42.0,
-					"y": -35.5
+					"y": -56.0
 				},
 				{
 					"authored_x": -27.0,
@@ -48,7 +48,7 @@
 					"source_region_id": "region-1783002037427-43l2a",
 					"start_frame": 3,
 					"width": 43.0,
-					"y": -42.5
+					"y": -63.0
 				}
 			]
 		},
@@ -63,7 +63,7 @@
 					"source_region_id": "region-1783002059501-citm7",
 					"start_frame": 3,
 					"width": 110.0,
-					"y": -32.5
+					"y": -53.0
 				},
 				{
 					"authored_x": 16.0,
@@ -74,7 +74,7 @@
 					"source_region_id": "region-1783002065915-6nrhg",
 					"start_frame": 2,
 					"width": 81.0,
-					"y": -50.5
+					"y": -71.0
 				},
 				{
 					"authored_x": -15.0,
@@ -85,7 +85,7 @@
 					"source_region_id": "region-1783002071673-k6vee",
 					"start_frame": 0,
 					"width": 32.0,
-					"y": -47.5
+					"y": -68.0
 				},
 				{
 					"authored_x": 16.0,
@@ -96,7 +96,7 @@
 					"source_region_id": "region-1783002085121-tkjy9",
 					"start_frame": 1,
 					"width": 87.0,
-					"y": -33.5
+					"y": -54.0
 				}
 			]
 		}

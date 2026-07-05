@@ -19,6 +19,22 @@
   "atlasFile": "godot/all_actions_atlas.png",
   "atlasWidth": 480,
   "atlasHeight": 960,
+  "bodyBox": {
+    "usage": [
+      "collision",
+      "hurt"
+    ],
+    "forwardDistance": 0,
+    "yOffset": -36,
+    "width": 29,
+    "height": 76,
+    "exportRect": {
+      "x": 56,
+      "y": 36,
+      "width": 29,
+      "height": 76
+    }
+  },
   "actions": [
     {
       "actionName": "idle",
@@ -472,5 +488,5 @@
       }
     }
   ],
-  "exportedAt": "2026-07-04T14:26:41.536Z"
+  "exportedAt": "2026-07-04T16:18:31.670Z"
 }

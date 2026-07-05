@@ -313,6 +313,8 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 	var external_combat := _load_external_combat_data(source_dir)
 	var is_production := not external_combat.is_empty()
 	var foot_center := _get_foot_center(external_combat, md)
+	var body_box := _get_body_box(external_combat, md)
+	var uses_foot_origin := not body_box.is_empty()
 	var default_body_bottom := 20.5 if resource_type == "character" else 19.0
 	var body_bottom := _get_scene_body_bottom(player_scene, default_body_bottom)
 	var image_center := Vector2(
@@ -320,12 +322,28 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		float(md.get("frameSize", {}).get("height", cell_h)) * 0.5
 	)
 	var foot_from_center := foot_center - image_center
-	# 将每个角色 JSON 中的脚底中心映射到其碰撞体底边中心。
-	# body_bottom 是角色本地坐标，不能跟随精灵缩放一起缩放。
-	var display_offset := Vector2(
-		-foot_from_center.x * display_scale,
-		body_bottom - foot_from_center.y * display_scale
-	)
+	var display_offset: Vector2
+	var body_position := Vector2.ZERO
+	var body_size := Vector2(24.0, 41.0) if resource_type == "character" else Vector2(24.0, 38.0)
+	if uses_foot_origin:
+		# 新格式：角色根节点就是 JSON 脚底中心。Shape 节点 scale 永远为 1，
+		# bodyBox 的中心和尺寸直接换算成角色本地像素。
+		display_offset = -foot_from_center * display_scale
+		body_position = Vector2(
+			float(body_box.get("forwardDistance", 0.0)),
+			float(body_box.get("yOffset", 0.0))
+		) * display_scale
+		body_size = Vector2(
+			maxf(1.0, float(body_box.get("width", body_size.x)) * display_scale),
+			maxf(1.0, float(body_box.get("height", body_size.y)) * display_scale)
+		)
+		body_bottom = body_position.y + body_size.y * 0.5
+	else:
+		# 旧格式保持身体中心坐标，避免旧角色/怪物的攻击框整体迁移。
+		display_offset = Vector2(
+			-foot_from_center.x * display_scale,
+			body_bottom - foot_from_center.y * display_scale
+		)
 
 	# 修正 spriteframes.tres
 	var sf_text := FileAccess.get_file_as_string(sf_path)
@@ -357,8 +375,12 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		"frame_cell_height": cell_h,
 		"production_format": is_production,
 		"foot_center": {"x": foot_center.x, "y": foot_center.y},
-		"alignment": "json_foot_center_to_collision_bottom",
+		"anchor_mode": "foot_origin" if uses_foot_origin else "legacy_body_center",
+		"alignment": "json_foot_origin" if uses_foot_origin else "json_foot_center_to_collision_bottom",
 		"collision_bottom": body_bottom,
+		"body_box": body_box,
+		"body_position": {"x": body_position.x, "y": body_position.y},
+		"body_size": {"x": body_size.x, "y": body_size.y},
 		"combat_source": source_dir.path_join("combat/attack_frames.json") if is_production else "",
 	}
 	_write_file(config_path, JSON.stringify(config, "\t") + "\n")
@@ -372,7 +394,7 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 
 	# 外部制作工具的数据是生产源，每次导入都刷新；旧格式仍保留人工配置。
 	if is_production:
-		_write_external_combat_actions(source_dir, external_combat, display_scale, body_bottom)
+		_write_external_combat_actions(source_dir, external_combat, display_scale, 0.0 if uses_foot_origin else body_bottom)
 	else:
 		_ensure_combat_actions_config(source_dir, md, display_scale)
 	# 生成模板场景（怪物/新角色）
@@ -460,7 +482,17 @@ func _get_foot_center(combat_data: Dictionary, manifest: Dictionary) -> Vector2:
 			if not foot.is_empty():
 				return Vector2(float(foot.get("x", 0.0)), float(foot.get("y", 0.0)))
 	var frame: Dictionary = manifest.get("frameSize", {})
-	return Vector2(float(frame.get("width", 0.0)) * 0.5, float(frame.get("height", 0.0)))
+	return Vector2(float(frame.get("width", 0.0)) * 0.5, float(frame.get("height", 0.0)) * 0.5)
+
+
+func _get_body_box(combat_data: Dictionary, manifest: Dictionary) -> Dictionary:
+	var body_box = combat_data.get("bodyBox", {})
+	if body_box is Dictionary and not body_box.is_empty():
+		return body_box.duplicate(true)
+	body_box = manifest.get("bodyBox", {})
+	if body_box is Dictionary and not body_box.is_empty():
+		return body_box.duplicate(true)
+	return {}
 
 
 func _get_scene_body_bottom(scene_path: String, fallback: float) -> float:
@@ -478,7 +510,7 @@ func _get_scene_body_bottom(scene_path: String, fallback: float) -> float:
 	return result
 
 
-func _write_external_combat_actions(source_dir: String, source: Dictionary, display_scale: float, body_bottom: float) -> void:
+func _write_external_combat_actions(source_dir: String, source: Dictionary, display_scale: float, foot_origin_y: float) -> void:
 	var actions_data: Dictionary = {}
 	for action_value in source.get("actions", []):
 		if not action_value is Dictionary:
@@ -502,7 +534,7 @@ func _write_external_combat_actions(source_dir: String, source: Dictionary, disp
 					"end_frame": end_frame,
 					"forward": absf(authored_x),
 					"authored_x": authored_x,
-					"y": body_bottom + float(region.get("yOffset", 0.0)) * display_scale,
+					"y": foot_origin_y + float(region.get("yOffset", 0.0)) * display_scale,
 					"width": maxf(1.0, float(region.get("width", 1.0)) * display_scale * region_scale),
 					"height": maxf(1.0, float(region.get("height", 1.0)) * display_scale * region_scale),
 					"source_attack_id": String(attack.get("id", "")),
@@ -773,6 +805,12 @@ func _generate_playable_character_scene(template_path: String, actions_scene_pat
 	var char_name: String = config.get("scene_name", config.get("character_name", "Character"))
 	var offset: Dictionary = config.get("display_offset", {})
 	var display_scale := float(config.get("display_scale", 1.0))
+	var body_position: Dictionary = config.get("body_position", {})
+	var body_size: Dictionary = config.get("body_size", {})
+	var body_x := float(body_position.get("x", 0.0))
+	var body_y := float(body_position.get("y", 0.0))
+	var body_width := float(body_size.get("x", 24.0))
+	var body_height := float(body_size.get("y", 41.0))
 	var scene_text := '''[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="0_script"]
@@ -782,21 +820,22 @@ func _generate_playable_character_scene(template_path: String, actions_scene_pat
 [ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]
 
 [sub_resource type="RectangleShape2D" id="1_shape"]
-size = Vector2(24, 41)
+size = Vector2(%s, %s)
 
 [sub_resource type="RectangleShape2D" id="2_ladder_shape"]
-size = Vector2(18, 42)
+size = Vector2(%s, %s)
 
 [sub_resource type="RectangleShape2D" id="3_hit_shape"]
 size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="4_hurt_shape"]
-size = Vector2(20, 41)
+size = Vector2(%s, %s)
 
 [node name="%s" type="CharacterBody2D"]
 script = ExtResource("0_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(%s, %s)
 shape = SubResource("1_shape")
 
 [node name="LadderDetector" type="Area2D" parent="."]
@@ -805,6 +844,7 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LadderDetector"]
+position = Vector2(%s, %s)
 shape = SubResource("2_ladder_shape")
 
 [node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
@@ -813,7 +853,7 @@ position = Vector2(%s, %s)
 scale = Vector2(%s, %s)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -70)
+position = Vector2(0, %s)
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
@@ -833,17 +873,31 @@ collision_mask = 4
 script = ExtResource("3_hurt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(%s, %s)
 shape = SubResource("4_hurt_shape")
 
 [node name="CombatComponent" type="Node" parent="."]
 script = ExtResource("2_combat")
 ''' % [
 		actions_scene_path,
+		body_width,
+		body_height,
+		body_width,
+		body_height,
+		body_width,
+		body_height,
 		char_name,
+		body_x,
+		body_y,
+		body_x,
+		body_y,
 		float(offset.get("x", 0.0)),
 		float(offset.get("y", 0.0)),
 		display_scale,
 		display_scale,
+		body_y - 70.0,
+		body_x,
+		body_y,
 	]
 	_write_file(template_path, scene_text)
 

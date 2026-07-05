@@ -5,6 +5,22 @@
     "width": 120,
     "height": 120
   },
+  "bodyBox": {
+    "usage": [
+      "collision",
+      "hurt"
+    ],
+    "forwardDistance": 0,
+    "yOffset": -36,
+    "width": 29,
+    "height": 76,
+    "exportRect": {
+      "x": 56,
+      "y": 36,
+      "width": 29,
+      "height": 76
+    }
+  },
   "actions": [
     {
       "actionName": "idle",
