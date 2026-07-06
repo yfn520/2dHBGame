@@ -1,0 +1,38 @@
+{
+	"actions": {
+		"attack": {
+			"hit_windows": [
+				{
+					"authored_x": -34.0,
+					"end_frame": 2,
+					"forward": 34.0,
+					"height": 25.0,
+					"source_attack_id": "hitbox-1783356338887-wf4b3",
+					"source_region_id": "region-1783356338887-toan4",
+					"start_frame": 2,
+					"width": 44.0,
+					"y": -38.0
+				}
+			]
+		},
+		"skill": {
+			"hit_windows": [
+				{
+					"authored_x": -30.0,
+					"end_frame": 2,
+					"forward": 30.0,
+					"height": 48.0,
+					"source_attack_id": "hitbox-1783356358972-l6j18",
+					"source_region_id": "region-1783356358972-011p0",
+					"start_frame": 2,
+					"width": 70.0,
+					"y": -15.0
+				}
+			]
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"sprite_scale": 1.0,
+	"version": 2
+}

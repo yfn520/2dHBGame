@@ -1,6 +1,7 @@
 {
 	"actions_scene": "res://assets/enemies/slimu/godot/character_actions.tscn",
 	"alignment": "json_foot_center_to_collision_bottom",
+	"anchor_mode": "legacy_body_center",
 	"atlas": "res://assets/enemies/slimu/godot/all_actions_atlas.png",
 	"available_actions": [
 		"idle",
@@ -12,6 +13,15 @@
 		"hurt",
 		"dead"
 	],
+	"body_box": {},
+	"body_position": {
+		"x": 0.0,
+		"y": 0.0
+	},
+	"body_size": {
+		"x": 24.0,
+		"y": 38.0
+	},
 	"centered": true,
 	"character_name": "enemy_unit",
 	"collision_bottom": 19.0,

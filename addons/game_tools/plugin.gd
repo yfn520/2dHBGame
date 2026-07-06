@@ -903,6 +903,15 @@ script = ExtResource("2_combat")
 
 func _generate_template_scene(template_path: String, actions_scene_path: String, config: Dictionary) -> void:
 	var char_name: String = config.get("scene_name", config.get("character_name", "Character"))
+	var uses_body_box := String(config.get("anchor_mode", "")) == "foot_origin"
+	var body_position: Dictionary = config.get("body_position", {})
+	var body_size: Dictionary = config.get("body_size", {})
+	var body_x := float(body_position.get("x", 0.0)) if uses_body_box else 0.0
+	var body_y := float(body_position.get("y", 0.0)) if uses_body_box else 0.0
+	var body_width := float(body_size.get("x", 24.0)) if uses_body_box else 24.0
+	var body_height := float(body_size.get("y", 38.0)) if uses_body_box else 38.0
+	var hurt_width := body_width if uses_body_box else 20.0
+	var hurt_height := body_height if uses_body_box else 36.0
 	var scene_text := '[gd_scene load_steps=8 format=3]\n'
 	scene_text += '\n'
 	scene_text += '[ext_resource type="PackedScene" path="%s" id="1_visual"]\n' % actions_scene_path
@@ -912,13 +921,13 @@ func _generate_template_scene(template_path: String, actions_scene_path: String,
 	scene_text += '[ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]\n'
 	scene_text += '\n'
 	scene_text += '[sub_resource type="RectangleShape2D" id="1_shape"]\n'
-	scene_text += 'size = Vector2(24, 38)\n'
+	scene_text += 'size = Vector2(%s, %s)\n' % [body_width, body_height]
 	scene_text += '\n'
 	scene_text += '[sub_resource type="RectangleShape2D" id="2_hit_shape"]\n'
 	scene_text += 'size = Vector2(30, 30)\n'
 	scene_text += '\n'
 	scene_text += '[sub_resource type="RectangleShape2D" id="3_hurt_shape"]\n'
-	scene_text += 'size = Vector2(20, 36)\n'
+	scene_text += 'size = Vector2(%s, %s)\n' % [hurt_width, hurt_height]
 	scene_text += '\n'
 	scene_text += '[node name="%s" type="CharacterBody2D"]\n' % char_name
 	scene_text += 'groups = ["enemies"]\n'
@@ -927,6 +936,7 @@ func _generate_template_scene(template_path: String, actions_scene_path: String,
 	scene_text += 'script = ExtResource("0_script")\n'
 	scene_text += '\n'
 	scene_text += '[node name="CollisionShape2D" type="CollisionShape2D" parent="."]\n'
+	scene_text += 'position = Vector2(%s, %s)\n' % [body_x, body_y]
 	scene_text += 'shape = SubResource("1_shape")\n'
 	scene_text += '\n'
 	# 直接实例化动作场景，SpriteFrames 绑定和默认动画保持单一来源。
@@ -952,6 +962,7 @@ func _generate_template_scene(template_path: String, actions_scene_path: String,
 	scene_text += 'script = ExtResource("3_hurt")\n'
 	scene_text += '\n'
 	scene_text += '[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]\n'
+	scene_text += 'position = Vector2(%s, %s)\n' % [body_x, body_y]
 	scene_text += 'shape = SubResource("3_hurt_shape")\n'
 	scene_text += '\n'
 	scene_text += '[node name="CombatComponent" type="Node" parent="."]\n'
