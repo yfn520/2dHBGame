@@ -25,15 +25,15 @@
       "collision",
       "hurt"
     ],
-    "forwardDistance": 0,
-    "yOffset": -27,
-    "width": 50,
-    "height": 54,
+    "forwardDistance": 1,
+    "yOffset": -25,
+    "width": 18,
+    "height": 49,
     "exportRect": {
-      "x": 35,
-      "y": 35,
-      "width": 50,
-      "height": 54
+      "x": 52,
+      "y": 40,
+      "width": 18,
+      "height": 49
     }
   },
   "actions": [
@@ -411,5 +411,5 @@
       }
     }
   ],
-  "exportedAt": "2026-07-08T16:23:10.264Z"
+  "exportedAt": "2026-07-08T16:27:30.211Z"
 }
