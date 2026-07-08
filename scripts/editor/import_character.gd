@@ -129,6 +129,7 @@ func _import_character(options: Dictionary) -> int:
 
 	var spriteframes_text := FileAccess.get_file_as_string(spriteframes_path)
 	spriteframes_text = _ensure_spriteframes_atlas(spriteframes_text, atlas_path)
+	spriteframes_text = _ensure_spriteframes_animation_loops(spriteframes_text)
 	var write_error := _write_text_file(spriteframes_path, spriteframes_text)
 	if write_error != OK:
 		return write_error
@@ -375,6 +376,29 @@ func _ensure_spriteframes_atlas(text: String, atlas_path: String) -> String:
 				index += 1
 		index += 1
 	return "\n".join(lines)
+
+
+func _ensure_spriteframes_animation_loops(text: String) -> String:
+	var regex := RegEx.new()
+	var error := regex.compile('"loop"\\s*:\\s*(true|false|0|1),\\s*"name"\\s*:\\s*&"([^"]+)"')
+	if error != OK:
+		return text
+
+	var output := ""
+	var cursor := 0
+	for result in regex.search_all(text):
+		var animation_name := String(result.get_string(2))
+		var loop_value := "1" if _should_animation_loop(animation_name) else "0"
+		output += text.substr(cursor, result.get_start(1) - cursor)
+		output += loop_value
+		cursor = result.get_end(1)
+	output += text.substr(cursor)
+	return output
+
+
+func _should_animation_loop(animation_name: String) -> bool:
+	var normalized := animation_name.strip_edges().to_lower()
+	return normalized == "idle" or normalized == "run" or normalized == "walk" or normalized == "move"
 
 
 func _replace_ext_resource_path(text: String, resource_type: String, file_name: String, new_path: String) -> String:
