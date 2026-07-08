@@ -1,0 +1,68 @@
+{
+	"actions": {
+		"attack": {
+			"hit_windows": [
+				{
+					"authored_x": -28.0,
+					"end_frame": 2,
+					"forward": 28.0,
+					"height": 42.0,
+					"source_attack_id": "hitbox-1783527737513-uo2z3",
+					"source_region_id": "region-1783527741018-zy2rp",
+					"start_frame": 2,
+					"width": 40.0,
+					"y": -36.0
+				}
+			]
+		},
+		"skill1": {
+			"hit_windows": [
+				{
+					"authored_x": -24.0,
+					"end_frame": 2,
+					"forward": 24.0,
+					"height": 36.0,
+					"source_attack_id": "hitbox-1783527769636-dhl33",
+					"source_region_id": "region-1783527769636-z42ky",
+					"start_frame": 2,
+					"width": 35.0,
+					"y": -32.0
+				}
+			]
+		},
+		"skill2": {
+			"hit_windows": [
+				{
+					"authored_x": -28.0,
+					"end_frame": 2,
+					"forward": 28.0,
+					"height": 32.0,
+					"source_attack_id": "hitbox-1783527778818-klwdc",
+					"source_region_id": "region-1783527778818-ir89m",
+					"start_frame": 2,
+					"width": 39.0,
+					"y": -33.0
+				}
+			]
+		},
+		"skill3": {
+			"hit_windows": [
+				{
+					"authored_x": -32.0,
+					"end_frame": 2,
+					"forward": 32.0,
+					"height": 31.0,
+					"source_attack_id": "hitbox-1783527787099-pc6db",
+					"source_region_id": "region-1783527787099-6yfs7",
+					"start_frame": 2,
+					"width": 52.0,
+					"y": -35.0
+				}
+			]
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"sprite_scale": 1.0,
+	"version": 2
+}

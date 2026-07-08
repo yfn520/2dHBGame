@@ -1,0 +1,63 @@
+{
+	"actions_scene": "res://assets/characters/mofashi/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/mofashi/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill1",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead",
+		"jump"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 54.0,
+			"width": 50.0,
+			"x": 35.0,
+			"y": 35.0
+		},
+		"forwardDistance": 0.0,
+		"height": 54.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 50.0,
+		"yOffset": -27.0
+	},
+	"body_position": {
+		"x": 0.0,
+		"y": -27.0
+	},
+	"body_size": {
+		"x": 50.0,
+		"y": 54.0
+	},
+	"centered": true,
+	"character_name": "10000",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/characters/mofashi/combat_actions.json",
+	"combat_source": "res://assets/characters/mofashi/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": 0.0,
+		"y": -30.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 60.0,
+		"y": 90.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "mofashi",
+	"spriteframes": "res://assets/characters/mofashi/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}
