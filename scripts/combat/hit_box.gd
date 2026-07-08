@@ -76,7 +76,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if not area.has_method("is_hurt_box") or not area.is_hurt_box():
 		return
 	# 防止友军伤害
-	var target_owner = area._owner_entity if "_owner_entity" in area else null
+	var target_owner: Node = area._owner_entity if "_owner_entity" in area else null
 	if _owner_entity != null and target_owner != null:
 		if _owner_entity == target_owner:
 			return
@@ -84,7 +84,7 @@ func _on_area_entered(area: Area2D) -> void:
 			return
 		if _owner_entity.is_in_group("enemies") and target_owner.is_in_group("enemies"):
 			return
-	var target_id := target_owner.get_instance_id() if target_owner != null else area.get_instance_id()
+	var target_id: int = target_owner.get_instance_id() if target_owner != null else area.get_instance_id()
 	if _hit_targets.has(target_id):
 		return
 	_hit_targets[target_id] = true
