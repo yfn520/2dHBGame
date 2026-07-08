@@ -1,0 +1,26 @@
+{
+	"1": {
+		"name": "星地",
+		"scene_path": "res://scenes/xing.tscn",
+		"spawn_x": 160,
+		"spawn_y": 350,
+		"bgm": "",
+		"description": "初始关卡",
+		"enemies": [
+			{ "enemy_id": 1001, "x": 600, "y": 350, "count": 1 },
+			{ "enemy_id": 1003, "x": 300, "y": 350, "count": 1 }
+		]
+	},
+	"2": {
+		"name": "丛林",
+		"scene_path": "res://scenes/jungle_01.tscn",
+		"spawn_x": 160,
+		"spawn_y": 350,
+		"bgm": "",
+		"description": "第二关卡",
+		"enemies": [
+			{ "enemy_id": 1001, "x": 350, "y": 350, "count": 3 },
+			{ "enemy_id": 1002, "x": 600, "y": 350, "count": 2 }
+		]
+	}
+}

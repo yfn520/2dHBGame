@@ -27,6 +27,7 @@ func load_config() -> void:
 			"name": raw.get("name", ""),
 			"asset": raw.get("asset", ""),
 			"character_config": raw.get("character_config", ""),
+			"actor_scale": float(raw.get("actor_scale", 1.0)),
 			"max_hp": int(raw.get("max_hp", 50)),
 			"attack": int(raw.get("attack", 1)),
 			"defense": int(raw.get("defense", 0)),

@@ -1,0 +1,72 @@
+{
+	"1001": {
+		"name": "中毒",
+		"type": "poison",
+		"duration": 5,
+		"interval": 1,
+		"tick_damage": 0.1,
+		"slow_ratio": 0,
+		"max_stacks": 5,
+		"effect_scene": "res://scenes/effects/poison_fx.tscn"
+	},
+	"1002": {
+		"name": "燃烧",
+		"type": "burn",
+		"duration": 3,
+		"interval": 0.5,
+		"tick_damage": 8,
+		"slow_ratio": 0,
+		"max_stacks": 1,
+		"effect_scene": "res://scenes/effects/burn_fx.tscn"
+	},
+	"1003": {
+		"name": "冰冻",
+		"type": "freeze",
+		"duration": 2,
+		"interval": 0,
+		"tick_damage": 0,
+		"slow_ratio": 0,
+		"max_stacks": 1,
+		"effect_scene": "res://scenes/effects/freeze_fx.tscn"
+	},
+	"1004": {
+		"name": "麻痹",
+		"type": "paralysis",
+		"duration": 1.5,
+		"interval": 0,
+		"tick_damage": 0,
+		"slow_ratio": 0,
+		"max_stacks": 1,
+		"effect_scene": "res://scenes/effects/paralysis_fx.tscn"
+	},
+	"1005": {
+		"name": "无敌",
+		"type": "invincible",
+		"duration": 3,
+		"interval": 0,
+		"tick_damage": 0,
+		"slow_ratio": 0,
+		"max_stacks": 1,
+		"effect_scene": "res://scenes/effects/invincible_fx.tscn"
+	},
+	"1006": {
+		"name": "眩晕",
+		"type": "stun",
+		"duration": 2,
+		"interval": 0,
+		"tick_damage": 0,
+		"slow_ratio": 0,
+		"max_stacks": 1,
+		"effect_scene": "res://scenes/effects/stun_fx.tscn"
+	},
+	"1007": {
+		"name": "减速",
+		"type": "slow",
+		"duration": 4,
+		"interval": 0,
+		"tick_damage": 0,
+		"slow_ratio": 0.5,
+		"max_stacks": 1,
+		"effect_scene": ""
+	}
+}

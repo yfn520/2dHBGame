@@ -1,0 +1,63 @@
+{
+	"1001": {
+		"asset": "res://assets/enemies/slimu",
+		"attack": 2.0,
+		"attack_range": 40.0,
+		"character_config": "res://assets/enemies/slimu/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "史莱姆",
+		"patrol_range": 120.0,
+		"skill_weights": [
+			100
+		],
+		"skills": [
+			2001
+		]
+	},
+	"1002": {
+		"asset": "res://assets/enemies/slimu",
+		"attack": 5.0,
+		"attack_range": 60.0,
+		"character_config": "res://assets/enemies/slimu/character_config.json",
+		"defense": 2.0,
+		"detect_range": 250.0,
+		"drop_items": [],
+		"exp": 15.0,
+		"max_hp": 80.0,
+		"move_speed": 60.0,
+		"name": "毒蘑菇",
+		"patrol_range": 100.0,
+		"skill_weights": [
+			100
+		],
+		"skills": [
+			2001
+		]
+	},
+	"1003": {
+		"asset": "res://assets/enemies/kuilei4",
+		"actor_scale": 1.5,
+		"attack": 2.0,
+		"attack_range": 80.0,
+		"character_config": "res://assets/enemies/kuilei4/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "傀儡4",
+		"patrol_range": 120.0,
+		"skill_weights": [
+			100
+		],
+		"skills": [
+			2001
+		]
+	}
+}

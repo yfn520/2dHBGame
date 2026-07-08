@@ -187,6 +187,10 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 	# 防御减伤
 	var actual := maxi(1, amount - _stats.defense)
 	_stats.hp = maxi(0, _stats.hp - actual)
+	if play_hit_reaction and _stats.hp > 0:
+		combat_state = CombatState.HIT
+		_hit_stun_timer = 0.1
+		_invincible_after_hit = 0.8
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 	took_damage.emit(actual, source)
 
@@ -196,9 +200,6 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 
 	# DoT 等持续伤害只扣血，不重复触发受击动作与移动硬直。
 	if play_hit_reaction:
-		combat_state = CombatState.HIT
-		_hit_stun_timer = 0.1
-		_invincible_after_hit = 0.8
 		if _owner.has_method("play_combat_animation"):
 			_owner.play_combat_animation("hit")
 

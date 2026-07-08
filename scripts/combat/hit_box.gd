@@ -27,6 +27,7 @@ func setup(owner_entity: Node) -> void:
 
 
 func configure(window: Dictionary, facing: float) -> void:
+	var actor_scale := _get_actor_scale()
 	var position_x: float
 	if window.has("authored_x"):
 		# Production data stores signed X in the default-left artwork space.
@@ -34,13 +35,19 @@ func configure(window: Dictionary, facing: float) -> void:
 		position_x = float(window.get("authored_x", 0.0)) * -facing
 	else:
 		position_x = facing * absf(float(window.get("forward", 20.0)))
-	position = Vector2(position_x, float(window.get("y", 0.0)))
+	position = Vector2(position_x, float(window.get("y", 0.0))) * actor_scale
 	if collision_shape.shape is RectangleShape2D:
 		var rectangle := collision_shape.shape as RectangleShape2D
 		rectangle.size = Vector2(
-			maxf(1.0, float(window.get("width", 20.0))),
-			maxf(1.0, float(window.get("height", 20.0)))
+			maxf(1.0, float(window.get("width", 20.0)) * actor_scale),
+			maxf(1.0, float(window.get("height", 20.0)) * actor_scale)
 		)
+
+
+func _get_actor_scale() -> float:
+	if _owner_entity != null and _owner_entity.has_method("get_actor_scale"):
+		return maxf(0.01, float(_owner_entity.get_actor_scale()))
+	return 1.0
 
 
 func activate(detect_hits: bool = true) -> void:
@@ -77,7 +84,7 @@ func _on_area_entered(area: Area2D) -> void:
 			return
 		if _owner_entity.is_in_group("enemies") and target_owner.is_in_group("enemies"):
 			return
-	var target_id := area.get_instance_id()
+	var target_id := target_owner.get_instance_id() if target_owner != null else area.get_instance_id()
 	if _hit_targets.has(target_id):
 		return
 	_hit_targets[target_id] = true

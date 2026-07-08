@@ -12,9 +12,11 @@ const CONFIG_FILE := "character_config.json"
 
 var _enemy_id: int = 0
 var _config: Dictionary = {}       # 来自 enemies.json
+var _character_config: Dictionary = {}
 var _combat_actions: Dictionary = {}
 var _stats: EnemyStats = null
 var _player: CharacterBody2D = null
+var _actor_scale := 1.0
 
 var _ai_state: AIState = AIState.IDLE
 var _spawn_position: Vector2 = Vector2.ZERO
@@ -35,6 +37,8 @@ func init_from_config(enemy_id: int, player_ref: CharacterBody2D) -> void:
 		push_error("怪物配置不存在: %s" % enemy_id)
 		return
 
+	_actor_scale = maxf(0.01, float(_config.get("actor_scale", 1.0)))
+	_load_character_config()
 	_stats = EnemyStats.new(_config)
 	_load_combat_actions()
 	_spawn_position = global_position
@@ -51,6 +55,27 @@ func get_combat_stats() -> EnemyStats:
 
 func get_combat_actions() -> Dictionary:
 	return _combat_actions
+
+
+func get_actor_scale() -> float:
+	return _actor_scale
+
+
+func _load_character_config() -> void:
+	_character_config = {}
+	var config_path: String = _config.get("character_config", "")
+	if config_path.is_empty():
+		var asset_path: String = _config.get("asset", "")
+		if not asset_path.is_empty():
+			config_path = asset_path.path_join(CONFIG_FILE)
+	if config_path.is_empty() or not FileAccess.file_exists(config_path):
+		return
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(config_path)) != OK:
+		push_warning("怪物角色配置解析失败: %s" % config_path)
+		return
+	if json.data is Dictionary:
+		_character_config = json.data
 
 
 func _load_combat_actions() -> void:
@@ -101,10 +126,54 @@ func _connect_signals() -> void:
 
 
 func _apply_display_config() -> void:
-	# 模板场景已包含 sprite，这里只从 config 读取 display_scale/display_offset
-	# 如果需要自动调整 CharacterActionSet 的位置/缩放，取消下面注释
-	# 否则由你在编辑器里手动调整
-	pass
+	var base_display_scale := float(_character_config.get("display_scale", visual_root.scale.x))
+	var display_offset := _get_vector2_from_dict(_character_config.get("display_offset", {}), visual_root.position)
+	visual_root.position = display_offset * _actor_scale
+	visual_root.scale = Vector2.ONE * base_display_scale * _actor_scale
+	_visual_authored_x = visual_root.position.x
+	_apply_visual_facing_offset()
+
+	var root_collision := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var body_position := _get_vector2_from_dict(
+		_character_config.get("body_position", {}),
+		root_collision.position if root_collision != null else Vector2.ZERO
+	)
+	var body_size := _get_vector2_from_dict(
+		_character_config.get("body_size", {}),
+		_get_rectangle_size(root_collision)
+	)
+	_apply_scaled_rectangle_shape(root_collision, body_position, body_size)
+
+	var hurt_collision := get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	_apply_scaled_rectangle_shape(hurt_collision, body_position, body_size)
+
+
+func _get_vector2_from_dict(data, fallback: Vector2) -> Vector2:
+	if data is Dictionary:
+		return Vector2(
+			float(data.get("x", fallback.x)),
+			float(data.get("y", fallback.y))
+		)
+	return fallback
+
+
+func _get_rectangle_size(collision_shape: CollisionShape2D) -> Vector2:
+	if collision_shape != null and collision_shape.shape is RectangleShape2D:
+		return (collision_shape.shape as RectangleShape2D).size
+	return Vector2.ONE
+
+
+func _apply_scaled_rectangle_shape(collision_shape: CollisionShape2D, base_position: Vector2, base_size: Vector2) -> void:
+	if collision_shape == null:
+		return
+	collision_shape.position = base_position * _actor_scale
+	if collision_shape.shape is RectangleShape2D:
+		collision_shape.shape = collision_shape.shape.duplicate()
+		var rectangle := collision_shape.shape as RectangleShape2D
+		rectangle.size = Vector2(
+			maxf(1.0, base_size.x * _actor_scale),
+			maxf(1.0, base_size.y * _actor_scale)
+		)
 
 
 func _physics_process(delta: float) -> void:

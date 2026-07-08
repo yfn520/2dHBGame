@@ -1,0 +1,80 @@
+{
+	"1001": {
+		"name": "铁剑",
+		"type": "weapon",
+		"description": "一把普通的铁剑",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 5
+		}
+	},
+	"1002": {
+		"name": "铁甲",
+		"type": "armor",
+		"description": "一件普通的铁甲",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 3,
+			"max_hp": 10
+		}
+	},
+	"1003": {
+		"name": "铁靴",
+		"type": "boots",
+		"description": "一双普通的铁靴",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 1,
+			"move_speed": 10
+		}
+	},
+	"1004": {
+		"name": "生命戒指",
+		"type": "accessory",
+		"description": "增加少量生命值",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"max_hp": 20
+		}
+	},
+	"2001": {
+		"name": "回复药水",
+		"type": "consumable",
+		"description": "恢复30点生命值",
+		"stackable": true,
+		"max_count": 99,
+		"heal_amount": 30
+	},
+	"2002": {
+		"name": "解毒草",
+		"type": "consumable",
+		"description": "解除中毒状态",
+		"stackable": true,
+		"max_count": 99,
+		"heal_amount": 0
+	},
+	"3001": {
+		"name": "木材",
+		"type": "material",
+		"description": "基础材料",
+		"stackable": true,
+		"max_count": 999,
+		"heal_amount": 0
+	},
+	"3002": {
+		"name": "铁矿石",
+		"type": "material",
+		"description": "基础材料",
+		"stackable": true,
+		"max_count": 999,
+		"heal_amount": 0
+	}
+}
