@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bb3dg8eqvndqs"
-path="res://.godot/imported/source.png-c4fee2c99d0033215c4295fd1af320c0.ctex"
+uid="uid://cgt7cjbsfx0a3"
+path="res://.godot/imported/collision_layer.png-22c8f93c5dc430f71dc99faf18442fe6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://world/stitched/jungle_01/images/source.png"
-dest_files=["res://.godot/imported/source.png-c4fee2c99d0033215c4295fd1af320c0.ctex"]
+source_file="res://world/stitched/shulin/images/collision_layer.png"
+dest_files=["res://.godot/imported/collision_layer.png-22c8f93c5dc430f71dc99faf18442fe6.ctex"]
 
 [params]
 

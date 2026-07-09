@@ -6,7 +6,7 @@
     "height": 768
   },
   "source": {
-    "file": "scene_horizontal_2d_horizontal_2d.png",
+    "file": "scene_horizontal_2d_horizontal_2d (15).png",
     "width": 1376,
     "height": 768
   },
@@ -24,9 +24,9 @@
   },
   "collisions": {
     "mode": "polygon",
-    "polygon_count": 6,
-    "rect_count": 59,
-    "cell_size": 8
+    "polygon_count": 1,
+    "rect_count": 1,
+    "cell_size": 4
   },
   "tiles": [
     {

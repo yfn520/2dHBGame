@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" path="res://world/stitched/xing/map_stitch_godot.tscn" id="1_y4wxa"]
 
-[node name="Xing" type="Node2D" unique_id=1870786354]
+[node name="Xing" type="Node2D" unique_id=2135461739]
 
-[node name="Map" type="Node2D" parent="." unique_id=1646918176 instance=ExtResource("1_y4wxa")]
+[node name="Map" type="Node2D" parent="." unique_id=292157109 instance=ExtResource("1_y4wxa")]
 
-[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1429277533]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1321808454]
 position = Vector2(165.12, 353.28)

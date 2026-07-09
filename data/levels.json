@@ -1,7 +1,7 @@
 {
 	"1": {
 		"name": "星地",
-		"scene_path": "res://scenes/xing.tscn",
+		"scene_path": "res://scenes/shulin.tscn",
 		"spawn_x": 160,
 		"spawn_y": 350,
 		"bgm": "",
