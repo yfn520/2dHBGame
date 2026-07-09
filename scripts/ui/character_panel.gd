@@ -205,11 +205,11 @@ func _build_gm_debug_section() -> void:
 func _refresh_gm_debug() -> void:
 	if _gm_info_label == null or GameRegistry.roster_data == null:
 		return
-	var character_id := GameRegistry.roster_data.active_character_id
-	var level := GameRegistry.roster_data.get_level(character_id)
-	var exp := GameRegistry.roster_data.get_exp(character_id)
-	var name := GameRegistry.character_config.get_name(character_id) if GameRegistry.character_config != null else str(character_id)
-	var max_level := GameRegistry.character_config.get_max_level(character_id) if GameRegistry.character_config != null else 99
+	var character_id: int = int(GameRegistry.roster_data.active_character_id)
+	var level: int = int(GameRegistry.roster_data.get_level(character_id))
+	var exp: int = int(GameRegistry.roster_data.get_exp(character_id))
+	var name: String = str(GameRegistry.character_config.get_name(character_id)) if GameRegistry.character_config != null else str(character_id)
+	var max_level: int = int(GameRegistry.character_config.get_max_level(character_id)) if GameRegistry.character_config != null else 99
 	_gm_info_label.text = "当前: %s (%d)  Lv.%d  EXP:%d" % [name, character_id, level, exp]
 	_gm_level_spin.max_value = max_level
 	_gm_level_spin.value = level
@@ -227,8 +227,8 @@ func _on_gm_set_level_pressed() -> void:
 func _on_gm_max_level_pressed() -> void:
 	if GameRegistry.roster_data == null or GameRegistry.character_config == null:
 		return
-	var character_id := GameRegistry.roster_data.active_character_id
-	GameRegistry.roster_data.set_level(GameRegistry.character_config.get_max_level(character_id), character_id)
+	var character_id: int = int(GameRegistry.roster_data.active_character_id)
+	GameRegistry.roster_data.set_level(int(GameRegistry.character_config.get_max_level(character_id)), character_id)
 	if GameRegistry.equipment_provider != null:
 		GameRegistry.equipment_provider.refresh_current_stats()
 	_refresh_all()

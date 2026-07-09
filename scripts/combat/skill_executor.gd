@@ -96,7 +96,7 @@ func _execute_self(skill: Dictionary) -> void:
 	var ratio := float(skill.get("damage_ratio", 0.0))
 	if ratio < 0.0:
 		# 负倍率 = 治疗
-		var heal_amount := int(absf(ratio) * float(_owner.stats.attack)) if _owner.has_method("get") else 0
+		var heal_amount: int = int(absf(ratio) * float(_owner.stats.attack)) if _owner.has_method("get") else 0
 		if _owner.has_method("heal"):
 			_owner.heal(heal_amount)
 

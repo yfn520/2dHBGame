@@ -66,7 +66,7 @@ func spawn_enemies_for_level(spawns: Array) -> void:
 		)
 		var count := int(spawn_data.get("count", 1))
 		for i in range(count):
-			var offset_x := randf_range(-20.0, 20.0) if count > 1 else 0.0
+			var offset_x: float = randf_range(-20.0, 20.0) if count > 1 else 0.0
 			spawn_enemy(enemy_id, pos + Vector2(offset_x, 0))
 
 

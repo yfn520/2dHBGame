@@ -51,22 +51,22 @@ func get_active_character_data() -> Dictionary:
 
 
 func get_level(character_id: int = 0) -> int:
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	return int(get_character_data(id).get("level", 1))
 
 
 func get_exp(character_id: int = 0) -> int:
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	return int(get_character_data(id).get("exp", 0))
 
 
 func get_hp(character_id: int = 0) -> int:
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	return int(get_character_data(id).get("hp", -1))
 
 
 func set_hp(value: int, character_id: int = 0) -> void:
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	ensure_character(id)
 	var data: Dictionary = characters[str(id)]
 	if int(data.get("hp", -1)) == value:
@@ -77,7 +77,7 @@ func set_hp(value: int, character_id: int = 0) -> void:
 
 
 func set_level(value: int, character_id: int = 0, reset_exp: bool = true) -> void:
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	ensure_character(id)
 	var max_level := 99
 	if GameRegistry.character_config != null:
@@ -100,7 +100,7 @@ func set_level(value: int, character_id: int = 0, reset_exp: bool = true) -> voi
 func add_exp(amount: int, character_id: int = 0) -> void:
 	if amount <= 0:
 		return
-	var id := active_character_id if character_id == 0 else character_id
+	var id: int = active_character_id if character_id == 0 else character_id
 	ensure_character(id)
 	var data: Dictionary = characters[str(id)]
 	var current_level := int(data.get("level", 1))

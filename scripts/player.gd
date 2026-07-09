@@ -111,7 +111,7 @@ func _on_equipment_changed(_slot: String = "", _item_id: int = 0) -> void:
 func get_skill_for_input(slot_name: String) -> int:
 	if GameRegistry.character_config == null:
 		return 0
-	var current_level := _combat_stats.level if _combat_stats != null else 1
+	var current_level: int = int(_combat_stats.level) if _combat_stats != null else 1
 	if slot_name == "normal":
 		return GameRegistry.character_config.get_normal_skill(character_id)
 	return GameRegistry.character_config.get_skill_for_slot(character_id, slot_name, current_level)

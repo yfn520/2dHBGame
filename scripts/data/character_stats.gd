@@ -72,7 +72,7 @@ func recalculate(equipped_items: Array[Dictionary], preserve_current_hp: bool = 
 		defense += int(item_stats.get("defense", 0))
 		move_speed += float(item_stats.get("move_speed", 0.0))
 
-	var stored_hp := _roster.get_hp(character_id) if _roster != null and character_id != 0 else -1
+	var stored_hp: int = int(_roster.get_hp(character_id)) if _roster != null and character_id != 0 else -1
 	if stored_hp > 0:
 		hp = mini(stored_hp, max_hp)
 	elif preserve_current_hp and old_hp > 0:
