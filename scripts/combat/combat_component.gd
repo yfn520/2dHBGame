@@ -293,7 +293,7 @@ func _on_sprite_frame_changed() -> void:
 		_apply_self_buff(_pending_skill)
 	if not detects_hits and not _pending_skill_executed:
 		_pending_skill_executed = true
-		_skill_executor.execute(_pending_skill)
+		_skill_executor.execute(_pending_skill, _hit_box.global_position)
 
 
 func _on_sprite_animation_finished() -> void:

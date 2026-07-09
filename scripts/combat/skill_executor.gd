@@ -11,13 +11,13 @@ func _init(owner: Node, stats = null) -> void:
 	_stats = stats
 
 
-func execute(skill: Dictionary) -> void:
+func execute(skill: Dictionary, origin_position: Variant = null) -> void:
 	var skill_type: String = skill.get("type", "melee")
 	match skill_type:
 		"melee":
 			_execute_melee(skill)
 		"projectile", "penetrate":
-			_execute_projectile(skill)
+			_execute_projectile(skill, origin_position)
 		"aoe":
 			_execute_aoe(skill)
 		"fullscreen":
@@ -35,21 +35,27 @@ func apply_melee_hit(skill: Dictionary, hurt_box: Area2D) -> void:
 	_apply_damage_to_target(skill, hurt_box)
 
 
-func _execute_projectile(skill: Dictionary) -> void:
+func _execute_projectile(skill: Dictionary, origin_position: Variant = null) -> void:
 	var scene_path: String = skill.get("projectile_scene", "")
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		push_error("弹道场景不存在: %s" % scene_path)
 		return
 	var scene: PackedScene = load(scene_path)
 	var proj: Node2D = scene.instantiate()
-	proj.global_position = _owner.global_position
 	var facing := _get_facing()
+	if origin_position is Vector2:
+		proj.global_position = origin_position
+	else:
+		var spawn_offset := float(skill.get("projectile_spawn_offset", 32.0))
+		proj.global_position = _owner.global_position + facing * spawn_offset
 	var dmg := _calc_damage(skill)
 	var pierce := int(skill.get("max_pierce", 0))
 	var buff_id := int(skill.get("buff_on_hit", 0))
 	var buff_chance := float(skill.get("buff_chance", 0.0))
+	var projectile_speed := float(skill.get("projectile_speed", 300.0))
+	var projectile_lifetime := float(skill.get("projectile_lifetime", 5.0))
 	if proj.has_method("setup"):
-		proj.setup(facing, 300.0, dmg, pierce, buff_id, buff_chance, _owner)
+		proj.setup(facing, projectile_speed, dmg, pierce, buff_id, buff_chance, _owner, projectile_lifetime)
 	# 弹道翻转朝向
 	if facing.x < 0:
 		proj.scale.x = -absf(proj.scale.x)

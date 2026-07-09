@@ -11,7 +11,7 @@ script = ExtResource("1_script")
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1939485336]
 
 [node name="Player" parent="." unique_id=441688693 instance=ExtResource("3_player")]
-lineup_character_ids = Array[int]([1001])
+lineup_character_ids = Array[int]([1002])
 
 [node name="InventoryPanel" parent="." unique_id=149501521 instance=ExtResource("4_inv")]
 

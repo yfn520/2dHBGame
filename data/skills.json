@@ -240,20 +240,20 @@
 		"description": "角色技能段；mofashi 普通攻击。"
 	},
 	"3102": {
-		"name": "mofashi 技能1",
-		"type": "melee",
-		"damage_ratio": 1.6,
-		"cooldown": 3.5,
+		"name": "兼容技能1",
+		"type": "projectile",
+		"damage_ratio": 1.5,
+		"cooldown": 1.0,
 		"animation": "skill1",
-		"range": 100,
-		"projectile_scene": "",
+		"range": 300,
+		"projectile_scene": "res://scenes/effects/projectiles/fireball.tscn",
 		"max_pierce": 0,
 		"aoe_radius": 0,
 		"buff_on_hit": 0,
 		"buff_chance": 0,
 		"buff_on_self": 0,
 		"effect_timing": "active_frame",
-		"description": "角色技能段；mofashi 技能槽1。"
+		"description": "旧版兼容技能。"
 	},
 	"3103": {
 		"name": "mofashi 技能2",

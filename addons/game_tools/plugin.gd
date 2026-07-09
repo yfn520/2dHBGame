@@ -2,9 +2,13 @@
 extends EditorPlugin
 
 const CombatActionEditor = preload("res://addons/game_tools/combat_action_editor.gd")
+const ProjectileGenerator = preload("res://addons/game_tools/projectile_generator.gd")
+const SpineEffectImporter = preload("res://addons/game_tools/spine_effect_importer.gd")
 
 var _submenu: PopupMenu
 var _combat_action_editor: Window
+var _projectile_generator: Window
+var _spine_effect_importer: Window
 
 
 func _enter_tree() -> void:
@@ -16,6 +20,8 @@ func _enter_tree() -> void:
 	_submenu.add_item("转换 Excel → JSON", 2)
 	_submenu.add_item("生成 JSON → Excel (配置用)", 4)
 	_submenu.add_separator()
+	_submenu.add_item("导入 Spine 特效...", 7)
+	_submenu.add_item("生成弹道...", 6)
 	_submenu.add_item("配置攻击判定...", 5)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
@@ -24,6 +30,10 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if is_instance_valid(_combat_action_editor):
 		_combat_action_editor.queue_free()
+	if is_instance_valid(_projectile_generator):
+		_projectile_generator.queue_free()
+	if is_instance_valid(_spine_effect_importer):
+		_spine_effect_importer.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -43,6 +53,10 @@ func _on_menu_pressed(id: int) -> void:
 			_do_export_json_to_csv()
 		5:
 			_open_combat_action_editor()
+		6:
+			_open_projectile_generator()
+		7:
+			_open_spine_effect_importer()
 
 
 func _open_combat_action_editor() -> void:
@@ -50,6 +64,20 @@ func _open_combat_action_editor() -> void:
 		_combat_action_editor = CombatActionEditor.new()
 		EditorInterface.get_base_control().add_child(_combat_action_editor)
 	_combat_action_editor.open_editor()
+
+
+func _open_projectile_generator() -> void:
+	if not is_instance_valid(_projectile_generator):
+		_projectile_generator = ProjectileGenerator.new()
+		EditorInterface.get_base_control().add_child(_projectile_generator)
+	_projectile_generator.open_generator()
+
+
+func _open_spine_effect_importer() -> void:
+	if not is_instance_valid(_spine_effect_importer):
+		_spine_effect_importer = SpineEffectImporter.new()
+		EditorInterface.get_base_control().add_child(_spine_effect_importer)
+	_spine_effect_importer.open_importer()
 
 
 # ---- 场景导入 ----

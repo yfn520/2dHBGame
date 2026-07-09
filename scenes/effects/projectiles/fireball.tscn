@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://bkt7rejhisscx"]
+
+[ext_resource type="Script" uid="uid://b2ap4tgf08c8k" path="res://scripts/combat/projectile.gd" id="1_projectile"]
+[ext_resource type="PackedScene" uid="uid://cd4yd7h57l0n2" path="res://assets/effect/skill/fireball/fireball_visual.tscn" id="2_visual"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gd7ll"]
+size = Vector2(24, 24)
+
+[node name="Fireball" type="Area2D" unique_id=355368571]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_projectile")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1851827932]
+shape = SubResource("RectangleShape2D_gd7ll")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1366115224]
+scale = Vector2(0.25, 0.25)
+
+[node name="VisualScene" parent="Visual" unique_id=365327226 instance=ExtResource("2_visual")]
