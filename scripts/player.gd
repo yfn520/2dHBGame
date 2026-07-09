@@ -19,6 +19,11 @@ var current_ladder: Area2D
 var _combat_anim_playing := false
 var _combat_actions: Dictionary = {}
 var _visual_authored_x := 0.0
+var character_id: int = 0
+var _player_controlled := true
+var _follow_target: Node2D = null
+var _party_slot_index := 0
+var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 
 
 func _ready() -> void:
@@ -27,6 +32,16 @@ func _ready() -> void:
 	add_child(debug_overlay)
 	debug_overlay.setup(self)
 	_apply_character_display_config()
+	if character_id <= 0 and GameRegistry.roster_data != null:
+		character_id = GameRegistry.roster_data.active_character_id
+	_refresh_combat_stats()
+	if GameRegistry.roster_data != null and not GameRegistry.roster_data.character_progress_changed.is_connected(_on_roster_progress_changed):
+		GameRegistry.roster_data.character_progress_changed.connect(_on_roster_progress_changed)
+	if GameRegistry.equipment_provider != null:
+		if not GameRegistry.equipment_provider.equipped.is_connected(_on_equipment_changed):
+			GameRegistry.equipment_provider.equipped.connect(_on_equipment_changed)
+		if not GameRegistry.equipment_provider.unequipped.is_connected(_on_equipment_changed):
+			GameRegistry.equipment_provider.unequipped.connect(_on_equipment_changed)
 	_visual_authored_x = visual_root.position.x
 	_apply_visual_facing_offset()
 	camera.limit_left = 0
@@ -34,6 +49,78 @@ func _ready() -> void:
 	camera.limit_right = LEVEL_SIZE.x
 	camera.limit_bottom = LEVEL_SIZE.y
 	sprite.play("idle")
+
+
+func set_party_character_id(value: int) -> void:
+	character_id = value
+	_refresh_combat_stats()
+
+
+func get_party_character_id() -> int:
+	return character_id
+
+
+func set_player_controlled(value: bool) -> void:
+	_player_controlled = value
+	if camera != null:
+		camera.enabled = value
+		if value and is_inside_tree():
+			camera.make_current()
+	if not value:
+		is_climbing_ladder = false
+		current_ladder = null
+
+
+func is_player_controlled() -> bool:
+	return _player_controlled
+
+
+func set_follow_target(target: Node2D, slot_index: int = 0) -> void:
+	_follow_target = target
+	_party_slot_index = slot_index
+
+
+func get_combat_stats():
+	return _combat_stats
+
+
+func refresh_combat_stats() -> void:
+	_refresh_combat_stats()
+
+
+func sync_combat_hp() -> void:
+	if _combat_stats != null:
+		_combat_stats.sync_hp_to_roster()
+
+
+func _refresh_combat_stats() -> void:
+	if character_id <= 0:
+		return
+	_combat_stats.setup(character_id)
+
+
+func _on_roster_progress_changed(changed_character_id: int) -> void:
+	if changed_character_id == character_id:
+		_refresh_combat_stats()
+
+
+func _on_equipment_changed(_slot: String = "", _item_id: int = 0) -> void:
+	_refresh_combat_stats()
+
+
+func get_skill_for_input(slot_name: String) -> int:
+	if GameRegistry.character_config == null:
+		return 0
+	var current_level := _combat_stats.level if _combat_stats != null else 1
+	if slot_name == "normal":
+		return GameRegistry.character_config.get_normal_skill(character_id)
+	return GameRegistry.character_config.get_skill_for_slot(character_id, slot_name, current_level)
+
+
+func get_ai_skill_candidates() -> Array[int]:
+	if GameRegistry.character_config == null:
+		return []
+	return GameRegistry.character_config.get_active_skill_ids(character_id, _combat_stats.level)
 
 
 ## 从 character_config.json 读取 display_scale / display_offset 并应用
@@ -71,6 +158,10 @@ func _load_combat_actions(asset_path: String, character_config: Dictionary) -> v
 
 
 func _physics_process(delta: float) -> void:
+	if not _player_controlled:
+		_update_ally_ai(delta)
+		move_and_slide()
+		return
 	# 战斗状态限制移动
 	var can_move := true
 	if combat != null and "combat_state" in combat:
@@ -121,7 +212,7 @@ func _handle_ground_movement(direction: float, jump_pressed: bool, delta: float)
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	velocity.x = direction * GameRegistry.character_stats.move_speed
+	velocity.x = direction * _combat_stats.move_speed
 
 	if jump_pressed and not was_jump_pressed and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -136,7 +227,7 @@ func _handle_ladder_movement(direction: float, climb_direction: float, jump_pres
 
 	if jump_pressed and not was_jump_pressed:
 		_exit_ladder_state()
-		velocity.x = direction * GameRegistry.character_stats.move_speed
+		velocity.x = direction * _combat_stats.move_speed
 		velocity.y = JUMP_VELOCITY
 	elif current_ladder == null:
 		_exit_ladder_state()
@@ -215,6 +306,109 @@ func _update_animation(direction: float) -> void:
 
 
 ## 播放战斗动画 (由 CombatComponent 调用)
+func _update_ally_ai(delta: float) -> void:
+	var can_act := true
+	if combat != null and "combat_state" in combat:
+		if combat.combat_state == combat.CombatState.DEAD:
+			velocity = Vector2.ZERO
+			return
+		if combat.combat_state == combat.CombatState.HIT or _combat_anim_playing:
+			can_act = false
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	var target := _find_nearest_enemy(260.0)
+	if target != null and can_act:
+		_update_ally_attack(target)
+	else:
+		_update_ally_follow(delta)
+	_update_animation(signf(velocity.x))
+
+
+func _update_ally_follow(delta: float) -> void:
+	if _follow_target == null or not is_instance_valid(_follow_target):
+		velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)
+		return
+	var leader_facing := 1.0
+	if _follow_target.has_node("CharacterActionSet/AnimatedSprite2D"):
+		var leader_sprite: AnimatedSprite2D = _follow_target.get_node("CharacterActionSet/AnimatedSprite2D")
+		leader_facing = 1.0 if leader_sprite.flip_h else -1.0
+	var desired_x := _follow_target.global_position.x - leader_facing * (42.0 + float(_party_slot_index) * 30.0)
+	var dx := desired_x - global_position.x
+	if absf(dx) <= 12.0:
+		velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)
+		return
+	var dir := signf(dx)
+	_face_direction(dir)
+	velocity.x = dir * _combat_stats.move_speed * 0.95
+
+
+func _update_ally_attack(target: Node2D) -> void:
+	var dx := target.global_position.x - global_position.x
+	var dist := absf(dx)
+	var skill_id := _pick_ready_ai_skill(dist)
+	var skill_range := _get_skill_range(skill_id, 44.0)
+	var stop_range := maxf(18.0, skill_range * 0.85)
+	var dir := signf(dx)
+	_face_direction(dir)
+	if dist > stop_range:
+		velocity.x = dir * _combat_stats.move_speed
+		return
+	velocity.x = 0.0
+	if combat != null and combat.has_method("try_use_skill") and skill_id > 0:
+		combat.try_use_skill(skill_id)
+
+
+func _pick_ready_ai_skill(distance_x: float) -> int:
+	if combat == null:
+		return 0
+	for skill_id in get_ai_skill_candidates():
+		if combat._cooldowns.get(skill_id, 0.0) > 0.0:
+			continue
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
+		if skill.is_empty():
+			continue
+		if distance_x <= _get_skill_range(skill_id, 44.0):
+			return skill_id
+	return get_skill_for_input("normal")
+
+
+func _get_skill_range(skill_id: int, fallback: float) -> float:
+	if skill_id <= 0 or GameRegistry.skill_config == null:
+		return fallback
+	var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
+	if skill.is_empty():
+		return fallback
+	var range_value := float(skill.get("range", fallback))
+	return fallback if range_value <= 0.0 else range_value
+
+
+func _find_nearest_enemy(max_range: float) -> Node2D:
+	var best: Node2D = null
+	var best_dist := max_range
+	for node in get_tree().get_nodes_in_group("enemies"):
+		if not node is Node2D:
+			continue
+		if node.has_method("get_combat_stats"):
+			var stats = node.get_combat_stats()
+			if stats != null and stats.hp <= 0:
+				continue
+		var enemy := node as Node2D
+		var dist := absf(enemy.global_position.x - global_position.x)
+		if dist < best_dist:
+			best_dist = dist
+			best = enemy
+	return best
+
+
+func _face_direction(dir: float) -> void:
+	if dir == 0.0:
+		return
+	var new_flip := dir > 0.0
+	if sprite.flip_h != new_flip:
+		sprite.flip_h = new_flip
+		_apply_visual_facing_offset()
+
+
 func play_combat_animation(anim_name: String) -> void:
 	var target_animation := anim_name
 	if not sprite.sprite_frames.has_animation(target_animation):

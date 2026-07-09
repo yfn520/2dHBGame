@@ -15,7 +15,8 @@ var _config: Dictionary = {}       # 来自 enemies.json
 var _character_config: Dictionary = {}
 var _combat_actions: Dictionary = {}
 var _stats: EnemyStats = null
-var _player: CharacterBody2D = null
+var _party_manager: PartyManager = null
+var _target: CharacterBody2D = null
 var _actor_scale := 1.0
 
 var _ai_state: AIState = AIState.IDLE
@@ -29,9 +30,9 @@ var _visual_authored_x := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
-func init_from_config(enemy_id: int, player_ref: CharacterBody2D) -> void:
+func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
 	_enemy_id = enemy_id
-	_player = player_ref
+	_party_manager = party_manager
 	_config = GameRegistry.enemy_config.get_enemy(enemy_id)
 	if _config.is_empty():
 		push_error("怪物配置不存在: %s" % enemy_id)
@@ -43,8 +44,9 @@ func init_from_config(enemy_id: int, player_ref: CharacterBody2D) -> void:
 	_load_combat_actions()
 	_spawn_position = global_position
 	# 排除与玩家的物理碰撞（通过 HitBox/HurtBox 交互）
-	if _player != null:
-		add_collision_exception_with(_player)
+	if _party_manager != null:
+		for member in _party_manager.get_party_members():
+			add_collision_exception_with(member)
 	_apply_display_config()
 	_set_ai_state(AIState.IDLE)
 
@@ -255,11 +257,12 @@ func _update_patrol(_delta: float) -> void:
 
 
 func _update_chase(_delta: float) -> void:
-	if _player == null or not is_instance_valid(_player):
+	_refresh_target()
+	if _target == null or not is_instance_valid(_target):
 		_set_ai_state(AIState.IDLE)
 		return
 
-	var dist := _distance_x_to_player()
+	var dist := _distance_x_to_target()
 	var detect_range: float = _config.get("detect_range", 200.0)
 	# attack_range is the preferred stopping distance, not the damage radius.
 	var preferred_range: float = _config.get("attack_range", 40.0)
@@ -284,18 +287,19 @@ func _update_chase(_delta: float) -> void:
 		return
 
 	# 追击
-	var dir := signf(_player.global_position.x - global_position.x)
+	var dir := signf(_target.global_position.x - global_position.x)
 	velocity.x = dir * _config.get("move_speed", 80.0) * 1.2
 	_face_direction(dir)
 	_play_anim("run")
 
 
 func _update_attack(_delta: float) -> void:
-	if _player == null or not is_instance_valid(_player):
+	_refresh_target()
+	if _target == null or not is_instance_valid(_target):
 		_set_ai_state(AIState.IDLE)
 		return
 
-	var dist := _distance_x_to_player()
+	var dist := _distance_x_to_target()
 	var preferred_range: float = _config.get("attack_range", 40.0)
 	var detect_range: float = _config.get("detect_range", 200.0)
 
@@ -310,7 +314,7 @@ func _update_attack(_delta: float) -> void:
 		return
 
 	# 持续面向玩家
-	var dir := signf(_player.global_position.x - global_position.x)
+	var dir := signf(_target.global_position.x - global_position.x)
 	_face_direction(dir)
 
 	# 尝试释放技能（只在战斗状态空闲时）
@@ -324,8 +328,8 @@ func _try_use_next_skill(distance_x: float, preferred_range: float) -> bool:
 	if combat == null:
 		return false
 
-	var skills: Array = _config.get("skills", [])
-	var weights: Array = _config.get("skill_weights", [])
+	var skills := _get_configured_skill_ids()
+	var weights := _get_configured_skill_weights(skills)
 	if skills.is_empty():
 		return false
 
@@ -373,7 +377,7 @@ func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float, pref
 
 
 func _has_skill_for_distance(distance_x: float, preferred_range: float) -> bool:
-	var skills: Array = _config.get("skills", [])
+	var skills := _get_configured_skill_ids()
 	for raw_skill_id in skills:
 		var skill: Dictionary = GameRegistry.skill_config.get_skill(int(raw_skill_id))
 		if not skill.is_empty() and distance_x <= _get_skill_usable_range(skill, preferred_range):
@@ -389,16 +393,61 @@ func _get_skill_usable_range(skill: Dictionary, preferred_range: float) -> float
 ## ---- 辅助 ----
 
 func _can_detect_player() -> bool:
-	if _player == null or not is_instance_valid(_player):
+	_refresh_target()
+	if _target == null or not is_instance_valid(_target):
 		return false
-	var dist := _distance_x_to_player()
+	var dist := _distance_x_to_target()
 	return dist <= _config.get("detect_range", 200.0)
 
 
-func _distance_x_to_player() -> float:
-	if _player == null or not is_instance_valid(_player):
+func _distance_x_to_target() -> float:
+	if _target == null or not is_instance_valid(_target):
 		return INF
-	return absf(_player.global_position.x - global_position.x)
+	return absf(_target.global_position.x - global_position.x)
+
+
+func _refresh_target() -> void:
+	_target = _find_nearest_party_member()
+
+
+func _find_nearest_party_member() -> CharacterBody2D:
+	if _party_manager == null or not is_instance_valid(_party_manager):
+		return null
+	var best: CharacterBody2D = null
+	var best_dist := INF
+	for member in _party_manager.get_alive_party_members():
+		if not is_instance_valid(member):
+			continue
+		var dist := absf(member.global_position.x - global_position.x)
+		if dist < best_dist:
+			best_dist = dist
+			best = member
+	return best
+
+
+func _get_configured_skill_ids() -> Array[int]:
+	var result: Array[int] = []
+	var normal_skill := int(_config.get("normal_skill", 0))
+	if normal_skill > 0:
+		result.append(normal_skill)
+	for skill_value in _config.get("skills", []):
+		var skill_id := int(skill_value)
+		if skill_id > 0 and not result.has(skill_id):
+			result.append(skill_id)
+	return result
+
+
+func _get_configured_skill_weights(skill_ids: Array[int]) -> Array[float]:
+	var result: Array[float] = []
+	var raw_extra_skills: Array = _config.get("skills", [])
+	var raw_weights: Array = _config.get("skill_weights", [])
+	for skill_id in skill_ids:
+		if skill_id == int(_config.get("normal_skill", 0)):
+			result.append(float(_config.get("normal_skill_weight", 100.0)))
+			continue
+		var index := raw_extra_skills.find(skill_id)
+		result.append(float(raw_weights[index]) if index >= 0 and index < raw_weights.size() else 100.0)
+	return result
 
 
 func _pick_patrol_target() -> void:
@@ -495,5 +544,7 @@ func apply_buff_from_config(buff_cfg: Dictionary, source: int = 0) -> void:
 func _on_enemy_died() -> void:
 	_set_ai_state(AIState.DEAD)
 	velocity = Vector2.ZERO
+	if GameRegistry.roster_data != null:
+		GameRegistry.roster_data.add_exp_to_lineup(int(_config.get("exp", 0)))
 	# 死亡动画后延迟移除
 	get_tree().create_timer(1.0).timeout.connect(queue_free)

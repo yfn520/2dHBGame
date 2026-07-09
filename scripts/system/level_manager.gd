@@ -69,7 +69,10 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 					float(config.get("spawn_x", 160)),
 					float(config.get("spawn_y", 350))
 				)
-		_player.global_position = spawn_pos
+		if _player.get_parent() != null and _player.get_parent().has_method("place_party_at"):
+			_player.get_parent().place_party_at(spawn_pos)
+		else:
+			_player.global_position = spawn_pos
 
 	level_loaded.emit(level_id, config.get("name", ""))
 

@@ -3,7 +3,7 @@
 ## Runtime Scenes
 
 - `res://scenes/game_root.tscn`: persistent runtime root that owns the party controller and current level container.
-- `res://scenes/player.tscn`: `PartyManager` scene; its exported `Array[PackedScene]` is the inspector-configured lineup.
+- `res://scenes/player.tscn`: `PartyManager` scene; its exported `Array[int]` is the inspector-configured lineup of character IDs.
 - `res://assets/characters/<name>/godot/<name>.tscn`: complete playable-character prefab with body collision, foot-anchored artwork, camera, HitBox, HurtBox, and combat component.
 - `res://scenes/inventory_panel.tscn`: bag UI panel (6x5 grid), toggled with B key.
 - `res://scenes/character_panel.tscn`: character stats + equipment slots UI, toggled with C key.
@@ -22,7 +22,7 @@
 - `level_manager.gd`: level loading/unloading, player teleportation, reload support.
 - `save_manager.gd`: JSON save/load to user://.
 - `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
-- `party_manager.gd`: exposes the playable lineup as `Array[PackedScene]`, instantiates the active character, and owns character switching.
+- `party_manager.gd`: exposes the playable lineup as `Array[int]`, instantiates all lineup members, switches the active controller, and keeps inactive members in simple follow/assist AI.
 - `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
 
 ### Level (`res://scripts/level/`)
@@ -89,5 +89,6 @@
 - LevelPortal (Area2D) in level scenes triggers transitions
 - Player must be in "player" group for portal detection
 - Character import generates every character prefab and never rewrites `player.tscn`; lineup selection belongs to `PartyManager`.
+- Runtime party selection is prototype-authoritative from `player.tscn` so editor lineup changes override old local save lineup IDs while preserving character progress.
 - A playable character's authored foot point is normalized to the bottom center of its body collision inside its own prefab.
 - Keyboard polling is used for now so the prototype works without setting up an input map.

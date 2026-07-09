@@ -34,6 +34,10 @@ const SLOT_COLORS := {
 
 var _slot_buttons: Dictionary = {}
 var _current_popup_slot: String = ""
+var _gm_info_label: Label
+var _gm_level_spin: SpinBox
+var _gm_set_button: Button
+var _gm_max_button: Button
 
 
 func _ready() -> void:
@@ -50,8 +54,12 @@ func _ready() -> void:
 	slot_accessory.pressed.connect(_on_slot_clicked.bind("accessory"))
 	# 弹窗关闭
 	popup_close.pressed.connect(_close_popup)
+	_build_gm_debug_section()
 	# 监听数据变化
 	GameRegistry.character_stats.stats_changed.connect(_refresh_stats)
+	if GameRegistry.roster_data != null:
+		GameRegistry.roster_data.active_character_changed.connect(func(_id): _refresh_all())
+		GameRegistry.roster_data.character_progress_changed.connect(func(_id): _refresh_all())
 	GameRegistry.equipment_provider.equipped.connect(_on_equipment_changed)
 	GameRegistry.equipment_provider.unequipped.connect(_on_equipment_changed)
 	_refresh_all()
@@ -148,6 +156,7 @@ func _on_popup_item_selected(item_uid: int) -> void:
 func _refresh_all() -> void:
 	_refresh_stats()
 	_refresh_equipment()
+	_refresh_gm_debug()
 
 
 func _refresh_stats() -> void:
@@ -156,6 +165,73 @@ func _refresh_stats() -> void:
 	atk_value.text = str(stats.attack)
 	def_value.text = str(stats.defense)
 	spd_value.text = str(int(stats.move_speed))
+
+
+func _build_gm_debug_section() -> void:
+	var vbox := $Panel/Margin/VBox as VBoxContainer
+	var sep := HSeparator.new()
+	vbox.add_child(sep)
+	var box := VBoxContainer.new()
+	box.name = "GMDebugSection"
+	box.add_theme_constant_override("separation", 4)
+	vbox.add_child(box)
+	var title := Label.new()
+	title.text = "GM 调试"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(title)
+	_gm_info_label = Label.new()
+	box.add_child(_gm_info_label)
+	var row := HBoxContainer.new()
+	box.add_child(row)
+	var label := Label.new()
+	label.text = "等级"
+	row.add_child(label)
+	_gm_level_spin = SpinBox.new()
+	_gm_level_spin.min_value = 1
+	_gm_level_spin.max_value = 99
+	_gm_level_spin.step = 1
+	_gm_level_spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(_gm_level_spin)
+	_gm_set_button = Button.new()
+	_gm_set_button.text = "设置等级"
+	_gm_set_button.pressed.connect(_on_gm_set_level_pressed)
+	row.add_child(_gm_set_button)
+	_gm_max_button = Button.new()
+	_gm_max_button.text = "满级"
+	_gm_max_button.pressed.connect(_on_gm_max_level_pressed)
+	row.add_child(_gm_max_button)
+
+
+func _refresh_gm_debug() -> void:
+	if _gm_info_label == null or GameRegistry.roster_data == null:
+		return
+	var character_id := GameRegistry.roster_data.active_character_id
+	var level := GameRegistry.roster_data.get_level(character_id)
+	var exp := GameRegistry.roster_data.get_exp(character_id)
+	var name := GameRegistry.character_config.get_name(character_id) if GameRegistry.character_config != null else str(character_id)
+	var max_level := GameRegistry.character_config.get_max_level(character_id) if GameRegistry.character_config != null else 99
+	_gm_info_label.text = "当前: %s (%d)  Lv.%d  EXP:%d" % [name, character_id, level, exp]
+	_gm_level_spin.max_value = max_level
+	_gm_level_spin.value = level
+
+
+func _on_gm_set_level_pressed() -> void:
+	if GameRegistry.roster_data == null:
+		return
+	GameRegistry.roster_data.set_level(int(_gm_level_spin.value))
+	if GameRegistry.equipment_provider != null:
+		GameRegistry.equipment_provider.refresh_current_stats()
+	_refresh_all()
+
+
+func _on_gm_max_level_pressed() -> void:
+	if GameRegistry.roster_data == null or GameRegistry.character_config == null:
+		return
+	var character_id := GameRegistry.roster_data.active_character_id
+	GameRegistry.roster_data.set_level(GameRegistry.character_config.get_max_level(character_id), character_id)
+	if GameRegistry.equipment_provider != null:
+		GameRegistry.equipment_provider.refresh_current_stats()
+	_refresh_all()
 
 
 func _refresh_equipment() -> void:

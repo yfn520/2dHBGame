@@ -3,13 +3,13 @@ extends Node
 ## 在关卡加载后，根据配置在指定位置生成怪物
 
 var _scene_cache: Dictionary = {}  # enemy_id → PackedScene
-var _player: CharacterBody2D
+var _party_manager: PartyManager
 var _spawn_container: Node2D
 var _active_enemies: Array[Node] = []
 
 
-func setup(player: CharacterBody2D, spawn_container: Node2D) -> void:
-	_player = player
+func setup(party_manager: PartyManager, spawn_container: Node2D) -> void:
+	_party_manager = party_manager
 	_spawn_container = spawn_container
 
 
@@ -49,7 +49,7 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 	_spawn_container.add_child(enemy)
 
 	if enemy.has_method("init_from_config"):
-		enemy.init_from_config(enemy_id, _player)
+		enemy.init_from_config(enemy_id, _party_manager)
 
 	_active_enemies.append(enemy)
 	enemy.tree_exiting.connect(_on_enemy_removed.bind(enemy))

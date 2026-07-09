@@ -169,9 +169,13 @@ func _do_import_characters() -> void:
 		return
 
 	var count := 0
+	var imported_folders: Array[String] = []
 	for candidate in folders:
 		if _do_import_single_character(char_dir.path_join(candidate), candidate, "", -1.0, "character"):
 			count += 1
+			imported_folders.append(candidate)
+	if not imported_folders.is_empty():
+		_sync_character_configs(char_dir, imported_folders)
 
 	print("[GameTools] 角色导入完成: %d 个角色预制体；上阵角色由 PartyManager 配置" % count)
 	EditorInterface.get_resource_filesystem().scan()
@@ -225,10 +229,12 @@ func _do_import_enemies() -> void:
 						manifest_data = mj.data
 						enemy_name = manifest_data.get("characterName", folder)
 					var detected_skills := _get_enemy_skills_for_actions(manifest_data)
+					var normal_skill := _default_enemy_normal_skill(folder, max_id + 1)
 					# 检查是否需要写入怪物配置表
 					var asset_key := "res://assets/enemies/%s" % folder
 					if asset_key not in existing_assets:
 						max_id += 1
+						var extra_skills := detected_skills.filter(func(skill_id): return int(skill_id) != normal_skill)
 						enemies_cfg[str(max_id)] = {
 							"name": enemy_name,
 							"asset": asset_key,
@@ -240,8 +246,9 @@ func _do_import_enemies() -> void:
 							"attack_range": 80.0,
 							"detect_range": 300.0,
 							"patrol_range": 120.0,
-							"skills": detected_skills,
-							"skill_weights": _make_equal_skill_weights(detected_skills.size()),
+							"normal_skill": normal_skill,
+							"skills": extra_skills,
+							"skill_weights": _make_equal_skill_weights(extra_skills.size()),
 							"drop_items": [],
 							"exp": 10,
 						}
@@ -255,7 +262,11 @@ func _do_import_enemies() -> void:
 							var existing: Dictionary = enemies_cfg[config_id]
 							if String(existing.get("asset", "")) != asset_key:
 								continue
+							if not existing.has("normal_skill"):
+								existing["normal_skill"] = _default_enemy_normal_skill(folder, int(config_id))
+								synced_count += 1
 							var filtered := _filter_existing_enemy_skills(existing.get("skills", []), manifest_data)
+							filtered.erase(int(existing.get("normal_skill", 0)))
 							if filtered != existing.get("skills", []):
 								existing["skills"] = filtered
 								existing["skill_weights"] = _make_equal_skill_weights(filtered.size())
@@ -458,6 +469,133 @@ func _make_equal_skill_weights(count: int) -> Array[int]:
 	for _index in range(count):
 		result.append(100)
 	return result
+
+
+func _sync_character_configs(base_dir: String, folders: Array[String]) -> void:
+	var config_path := "res://data/characters.json"
+	var characters_cfg: Dictionary = {}
+	if FileAccess.file_exists(config_path):
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(config_path)) == OK and json.data is Dictionary:
+			characters_cfg = json.data
+
+	var existing_assets: Dictionary = {}
+	var max_id := 1000
+	for id_str in characters_cfg:
+		var cid := int(id_str)
+		max_id = maxi(max_id, cid)
+		var asset := String(characters_cfg[id_str].get("asset", ""))
+		if not asset.is_empty():
+			existing_assets[asset] = str(id_str)
+
+	var changed := false
+	for folder in folders:
+		var asset_key := "res://assets/characters/%s" % folder
+		var manifest_path := base_dir.path_join(folder).path_join("manifest.json")
+		var character_name := folder
+		if FileAccess.file_exists(manifest_path):
+			var manifest_json := JSON.new()
+			if manifest_json.parse(FileAccess.get_file_as_string(manifest_path)) == OK and manifest_json.data is Dictionary:
+				character_name = String(manifest_json.data.get("characterName", folder))
+
+		var id_str := String(existing_assets.get(asset_key, ""))
+		if id_str.is_empty():
+			max_id += 1
+			id_str = str(max_id)
+			characters_cfg[id_str] = _make_default_character_config(folder, character_name, asset_key, int(id_str))
+			existing_assets[asset_key] = id_str
+			changed = true
+			print("[GameTools] 新增角色配置: %s (ID: %s)" % [folder, id_str])
+		else:
+			var entry: Dictionary = characters_cfg[id_str]
+			var before := JSON.stringify(entry)
+			entry["name"] = entry.get("name", character_name)
+			entry["scene"] = asset_key.path_join("godot/%s.tscn" % folder)
+			entry["asset"] = asset_key
+			entry["character_config"] = asset_key.path_join("character_config.json")
+			entry["actor_scale"] = float(entry.get("actor_scale", 1.0))
+			entry["base_stats"] = entry.get("base_stats", _default_character_base_stats())
+			entry["growth"] = entry.get("growth", _default_character_growth())
+			entry["max_level"] = int(entry.get("max_level", 60))
+			entry["normal_skill"] = int(entry.get("normal_skill", _default_character_normal_skill(folder, int(id_str))))
+			entry["skill_unlocks"] = entry.get("skill_unlocks", _default_character_skill_unlocks(folder, int(id_str)))
+			entry["skills"] = entry.get("skills", _default_character_skill_list(folder, int(id_str)))
+			characters_cfg[id_str] = entry
+			if before != JSON.stringify(entry):
+				changed = true
+
+	if not changed:
+		return
+	var sorted_keys: Array = characters_cfg.keys()
+	sorted_keys.sort()
+	var sorted_cfg: Dictionary = {}
+	for key in sorted_keys:
+		sorted_cfg[key] = characters_cfg[key]
+	_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
+	print("[GameTools] characters.json 已同步")
+
+
+func _make_default_character_config(folder: String, character_name: String, asset_key: String, character_id: int) -> Dictionary:
+	return {
+		"name": character_name,
+		"scene": asset_key.path_join("godot/%s.tscn" % folder),
+		"asset": asset_key,
+		"character_config": asset_key.path_join("character_config.json"),
+		"actor_scale": 1.0,
+		"base_stats": _default_character_base_stats(),
+		"growth": _default_character_growth(),
+		"max_level": 60,
+		"normal_skill": _default_character_normal_skill(folder, character_id),
+		"skill_unlocks": _default_character_skill_unlocks(folder, character_id),
+		"skills": _default_character_skill_list(folder, character_id),
+		"description": "",
+	}
+
+
+func _default_character_normal_skill(_folder: String, character_id: int) -> int:
+	var base_id := character_id if character_id > 0 else 1001
+	return 3001 + maxi(0, base_id - 1001) * 100
+
+
+func _default_character_skill_unlocks(folder: String, character_id: int) -> Dictionary:
+	var normal := _default_character_normal_skill(folder, character_id)
+	return {
+		"skill1": {"skill_id": normal + 1, "unlock_level": 1},
+		"skill2": {"skill_id": normal + 2, "unlock_level": 1},
+		"skill3": {"skill_id": normal + 3, "unlock_level": 1},
+	}
+
+
+func _default_character_skill_list(folder: String, character_id: int) -> Array[int]:
+	var normal := _default_character_normal_skill(folder, character_id)
+	return [normal, normal + 1, normal + 2, normal + 3]
+
+
+func _default_enemy_normal_skill(folder: String, enemy_id: int) -> int:
+	if folder == "slimu":
+		return 2001
+	if folder == "kuilei4":
+		return 2101
+	var base_id := enemy_id if enemy_id > 0 else 1001
+	return 2001 + maxi(0, base_id - 1001) * 100
+
+
+func _default_character_base_stats() -> Dictionary:
+	return {
+		"max_hp": 200,
+		"attack": 1,
+		"defense": 0,
+		"move_speed": 220.0,
+	}
+
+
+func _default_character_growth() -> Dictionary:
+	return {
+		"max_hp": 15,
+		"attack": 1,
+		"defense": 0,
+		"move_speed": 0.0,
+	}
 
 
 func _load_external_combat_data(source_dir: String) -> Dictionary:
@@ -759,7 +897,7 @@ func _get_content_height(manifest_data: Dictionary) -> float:
 		var draw_h := float(first_frame.get("drawHeight", 0))
 		if draw_h > 0.0:
 			return draw_h
-	# 回退到 unifiedBox.height（无压缩的角色如 girl）
+	# 回退到 unifiedBox.height（无压缩角色）
 	var ub: Dictionary = manifest_data.get("unifiedBox", {})
 	var height := float(ub.get("height", 144.0))
 	if height <= 0.0:

@@ -99,6 +99,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _owner.is_in_group("player"):
 		return
+	if _owner.has_method("is_player_controlled") and not _owner.is_player_controlled():
+		return
 	if combat_state == CombatState.DEAD:
 		return
 	if not _buff_manager.can_act():
@@ -106,16 +108,25 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_J:
-				try_use_skill(1001)  # 普攻
+				_try_use_owner_skill("normal", 1001)
 			KEY_K:
-				try_use_skill(1002)  # 技能1
+				_try_use_owner_skill("skill1", 1002)
 			KEY_L:
-				try_use_skill(1003)  # 技能2
+				_try_use_owner_skill("skill2", 1003)
 			KEY_U:
-				try_use_skill(1004)  # 技能3
+				_try_use_owner_skill("skill3", 1004)
 
 
 ## 尝试释放技能
+func _try_use_owner_skill(slot_name: String, fallback: int) -> bool:
+	var skill_id := fallback
+	if _owner != null and _owner.has_method("get_skill_for_input"):
+		skill_id = int(_owner.get_skill_for_input(slot_name))
+	if skill_id <= 0:
+		return false
+	return try_use_skill(skill_id)
+
+
 func try_use_skill(skill_id: int) -> bool:
 	_resolve_stats()
 	if combat_state == CombatState.DEAD:
@@ -187,6 +198,8 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 	# 防御减伤
 	var actual := maxi(1, amount - _stats.defense)
 	_stats.hp = maxi(0, _stats.hp - actual)
+	if _owner.has_method("sync_combat_hp"):
+		_owner.sync_combat_hp()
 	if play_hit_reaction and _stats.hp > 0:
 		combat_state = CombatState.HIT
 		_hit_stun_timer = 0.1
@@ -216,6 +229,8 @@ func heal(amount: int) -> void:
 		return
 	var actual := mini(amount, _stats.max_hp - _stats.hp)
 	_stats.hp += actual
+	if _owner.has_method("sync_combat_hp"):
+		_owner.sync_combat_hp()
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 
 

@@ -1,9 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://scripts/system/party_manager.gd" id="1_party"]
-[ext_resource type="PackedScene" path="res://assets/characters/new_kivin/godot/new_kivin.tscn" id="2_new_kivin"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_party")
-lineup = Array[PackedScene]([ExtResource("2_new_kivin")])
+lineup_character_ids = Array[int]([1001, 1002])
 initial_active_index = 0

@@ -31,7 +31,7 @@ func _ready() -> void:
 	_enemy_spawner = load("res://scripts/system/enemy_spawner.gd").new()
 	_enemy_spawner.name = "EnemySpawner"
 	add_child(_enemy_spawner)
-	_enemy_spawner.setup(player, level_container)
+	_enemy_spawner.setup(party_manager, level_container)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -49,7 +49,7 @@ func _on_active_character_changed(character: CharacterBody2D) -> void:
 	if _level_manager != null:
 		_level_manager.setup(level_container, player)
 	if _enemy_spawner != null:
-		_enemy_spawner.setup(player, level_container)
+		_enemy_spawner.setup(party_manager, level_container)
 
 
 func _load_start_level() -> void:
@@ -185,6 +185,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_C:
 			character_panel.toggle()
 			get_viewport().set_input_as_handled()
+		KEY_TAB:
+			party_manager.switch_next_character()
+			get_viewport().set_input_as_handled()
 		KEY_R:
 			# 测试：R 键重载当前关卡
 			_level_manager.reload_current()
@@ -209,4 +212,4 @@ func _place_player_at_spawn() -> void:
 	var current_level := level_container.get_child(0)
 	var spawn: Marker2D = current_level.get_node_or_null("PlayerSpawn")
 	if spawn != null:
-		player.global_position = spawn.global_position
+		party_manager.place_party_at(spawn.global_position)

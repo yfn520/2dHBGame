@@ -1,0 +1,86 @@
+{
+	"1001": {
+		"name": "new_kivin",
+		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
+		"asset": "res://assets/characters/new_kivin",
+		"character_config": "res://assets/characters/new_kivin/character_config.json",
+		"actor_scale": 1.0,
+		"base_stats": {
+			"max_hp": 250,
+			"attack": 1,
+			"defense": 0,
+			"move_speed": 220.0
+		},
+		"growth": {
+			"max_hp": 20,
+			"attack": 1,
+			"defense": 0,
+			"move_speed": 0.0
+		},
+		"max_level": 60,
+		"normal_skill": 3001,
+		"skill_unlocks": {
+			"skill1": {
+				"skill_id": 3002,
+				"unlock_level": 1
+			},
+			"skill2": {
+				"skill_id": 3003,
+				"unlock_level": 1
+			},
+			"skill3": {
+				"skill_id": 3004,
+				"unlock_level": 1
+			}
+		},
+		"skills": [
+			3001,
+			3002,
+			3003,
+			3004
+		],
+		"description": "默认近战角色"
+	},
+	"1002": {
+		"name": "mofashi",
+		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
+		"asset": "res://assets/characters/mofashi",
+		"character_config": "res://assets/characters/mofashi/character_config.json",
+		"actor_scale": 1.0,
+		"base_stats": {
+			"max_hp": 180,
+			"attack": 2,
+			"defense": 0,
+			"move_speed": 210.0
+		},
+		"growth": {
+			"max_hp": 14,
+			"attack": 2,
+			"defense": 0,
+			"move_speed": 0.0
+		},
+		"max_level": 60,
+		"normal_skill": 3101,
+		"skill_unlocks": {
+			"skill1": {
+				"skill_id": 3102,
+				"unlock_level": 1
+			},
+			"skill2": {
+				"skill_id": 3103,
+				"unlock_level": 1
+			},
+			"skill3": {
+				"skill_id": 3104,
+				"unlock_level": 1
+			}
+		},
+		"skills": [
+			3101,
+			3102,
+			3103,
+			3104
+		],
+		"description": "默认法师角色"
+	}
+}
