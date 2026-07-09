@@ -35,6 +35,7 @@ func load_config() -> void:
 			"attack_range": float(raw.get("attack_range", 40.0)),
 			"detect_range": float(raw.get("detect_range", 200.0)),
 			"patrol_range": float(raw.get("patrol_range", 80.0)),
+			"normal_skill": int(raw.get("normal_skill", 0)),
 			"skills": raw.get("skills", []),
 			"skill_weights": raw.get("skill_weights", []),
 			"drop_items": raw.get("drop_items", []),

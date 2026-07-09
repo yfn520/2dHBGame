@@ -4,6 +4,16 @@ const JUMP_VELOCITY := -420.0
 const LADDER_SPEED := 140.0
 const LADDER_SNAP_SPEED := 1400.0
 const LEVEL_SIZE := Vector2i(1376, 768)
+const ALLY_ENGAGE_RANGE := 260.0
+const ALLY_DISENGAGE_RANGE := 360.0
+const ALLY_FOLLOW_LEASH := 260.0
+const ALLY_FOLLOW_RESUME_DISTANCE := 180.0
+const ALLY_ATTACK_STOP_RATIO := 0.85
+const ALLY_ATTACK_RESUME_RATIO := 1.15
+const ALLY_ATTACK_HOLD_TIME := 0.35
+const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
+const ALLY_FOLLOW_STOP_DISTANCE := 18.0
+const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var was_jump_pressed := false
@@ -22,6 +32,11 @@ var _visual_authored_x := 0.0
 var character_id: int = 0
 var _player_controlled := true
 var _follow_target: Node2D = null
+var _ally_attack_target: Node2D = null
+var _ally_attack_hold_timer: float = 0.0
+var _ally_is_holding_attack := false
+var _ally_returning_to_follow := false
+var _ally_follow_side: float = -1.0
 var _party_slot_index := 0
 var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 
@@ -78,6 +93,10 @@ func is_player_controlled() -> bool:
 func set_follow_target(target: Node2D, slot_index: int = 0) -> void:
 	_follow_target = target
 	_party_slot_index = slot_index
+	if _follow_target != null and is_instance_valid(_follow_target):
+		var dx: float = global_position.x - _follow_target.global_position.x
+		if absf(dx) > ALLY_FOLLOW_STOP_DISTANCE:
+			_ally_follow_side = signf(dx)
 
 
 func get_combat_stats():
@@ -307,6 +326,7 @@ func _update_animation(direction: float) -> void:
 
 ## 播放战斗动画 (由 CombatComponent 调用)
 func _update_ally_ai(delta: float) -> void:
+	_ally_attack_hold_timer = maxf(0.0, _ally_attack_hold_timer - delta)
 	var can_act := true
 	if combat != null and "combat_state" in combat:
 		if combat.combat_state == combat.CombatState.DEAD:
@@ -316,10 +336,15 @@ func _update_ally_ai(delta: float) -> void:
 			can_act = false
 	if not is_on_floor():
 		velocity.y += gravity * delta
-	var target := _find_nearest_enemy(260.0)
-	if target != null and can_act:
-		_update_ally_attack(target)
+	var target: Node2D = _get_ally_attack_target()
+	if target != null:
+		if can_act:
+			_update_ally_attack(target)
+		else:
+			_face_attack_target(target)
+			velocity.x = 0.0
 	else:
+		_clear_ally_attack_hold()
 		_update_ally_follow(delta)
 	_update_animation(signf(velocity.x))
 
@@ -332,9 +357,14 @@ func _update_ally_follow(delta: float) -> void:
 	if _follow_target.has_node("CharacterActionSet/AnimatedSprite2D"):
 		var leader_sprite: AnimatedSprite2D = _follow_target.get_node("CharacterActionSet/AnimatedSprite2D")
 		leader_facing = 1.0 if leader_sprite.flip_h else -1.0
-	var desired_x := _follow_target.global_position.x - leader_facing * (42.0 + float(_party_slot_index) * 30.0)
+	var leader_dist: float = absf(_follow_target.global_position.x - global_position.x)
+	if leader_dist > ALLY_FOLLOW_SIDE_SWITCH_DISTANCE:
+		_ally_follow_side = -leader_facing
+	elif _ally_follow_side == 0.0:
+		_ally_follow_side = -leader_facing
+	var desired_x := _follow_target.global_position.x + _ally_follow_side * (42.0 + float(_party_slot_index) * 30.0)
 	var dx := desired_x - global_position.x
-	if absf(dx) <= 12.0:
+	if absf(dx) <= ALLY_FOLLOW_STOP_DISTANCE:
 		velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)
 		return
 	var dir := signf(dx)
@@ -347,9 +377,19 @@ func _update_ally_attack(target: Node2D) -> void:
 	var dist := absf(dx)
 	var skill_id := _pick_ready_ai_skill(dist)
 	var skill_range := _get_skill_range(skill_id, 44.0)
-	var stop_range := maxf(18.0, skill_range * 0.85)
+	var stop_range := maxf(18.0, skill_range * ALLY_ATTACK_STOP_RATIO)
+	var resume_range := maxf(stop_range + 8.0, skill_range * ALLY_ATTACK_RESUME_RATIO)
 	var dir := signf(dx)
-	_face_direction(dir)
+	_face_attack_target(target)
+	if dist <= stop_range:
+		_ally_is_holding_attack = true
+		_ally_attack_hold_timer = ALLY_ATTACK_HOLD_TIME
+	if _ally_is_holding_attack and (dist <= resume_range or _ally_attack_hold_timer > 0.0):
+		velocity.x = 0.0
+		if combat != null and combat.has_method("try_use_skill") and skill_id > 0:
+			combat.try_use_skill(skill_id)
+		return
+	_ally_is_holding_attack = false
 	if dist > stop_range:
 		velocity.x = dir * _combat_stats.move_speed
 		return
@@ -400,6 +440,49 @@ func _find_nearest_enemy(max_range: float) -> Node2D:
 	return best
 
 
+func _get_ally_attack_target() -> Node2D:
+	if _follow_target == null or not is_instance_valid(_follow_target):
+		_ally_returning_to_follow = false
+		return _find_nearest_enemy(ALLY_ENGAGE_RANGE)
+	var leader_dist: float = 0.0
+	leader_dist = absf(_follow_target.global_position.x - global_position.x)
+	if leader_dist > ALLY_FOLLOW_LEASH:
+		_ally_returning_to_follow = true
+		_ally_attack_target = null
+		_clear_ally_attack_hold()
+		return null
+	if _ally_returning_to_follow:
+		if leader_dist > ALLY_FOLLOW_RESUME_DISTANCE:
+			_ally_attack_target = null
+			_clear_ally_attack_hold()
+			return null
+		_ally_returning_to_follow = false
+	if _is_valid_enemy_target(_ally_attack_target):
+		var target_dist: float = absf(_ally_attack_target.global_position.x - global_position.x)
+		if target_dist <= ALLY_DISENGAGE_RANGE:
+			return _ally_attack_target
+	_clear_ally_attack_hold()
+	_ally_attack_target = _find_nearest_enemy(ALLY_ENGAGE_RANGE)
+	if _ally_attack_target == null:
+		_clear_ally_attack_hold()
+	return _ally_attack_target
+
+
+func _clear_ally_attack_hold() -> void:
+	_ally_is_holding_attack = false
+	_ally_attack_hold_timer = 0.0
+
+
+func _is_valid_enemy_target(target: Node2D) -> bool:
+	if target == null or not is_instance_valid(target):
+		return false
+	if target.has_method("get_combat_stats"):
+		var stats = target.get_combat_stats()
+		if stats != null and stats.hp <= 0:
+			return false
+	return true
+
+
 func _face_direction(dir: float) -> void:
 	if dir == 0.0:
 		return
@@ -407,6 +490,15 @@ func _face_direction(dir: float) -> void:
 	if sprite.flip_h != new_flip:
 		sprite.flip_h = new_flip
 		_apply_visual_facing_offset()
+
+
+func _face_attack_target(target: Node2D) -> void:
+	if target == null or not is_instance_valid(target):
+		return
+	var dx: float = target.global_position.x - global_position.x
+	if absf(dx) <= ALLY_FACE_TARGET_DEAD_ZONE:
+		return
+	_face_direction(signf(dx))
 
 
 func play_combat_animation(anim_name: String) -> void:

@@ -5,6 +5,10 @@ extends CharacterBody2D
 enum AIState { IDLE, PATROL, CHASE, ATTACK, HIT, DEAD }
 
 const CONFIG_FILE := "character_config.json"
+const TARGET_SWITCH_COOLDOWN := 0.8
+const TARGET_SWITCH_GAIN := 48.0
+const TARGET_LOSE_MULTIPLIER := 1.5
+const FACE_TARGET_DEAD_ZONE := 8.0
 
 @onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
 @onready var visual_root: Node2D = $CharacterActionSet
@@ -26,6 +30,7 @@ var _idle_timer: float = 0.0
 var _skill_index: int = 0
 var _combat_anim_playing := false
 var _visual_authored_x := 0.0
+var _target_switch_timer: float = 0.0
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -181,6 +186,7 @@ func _apply_scaled_rectangle_shape(collision_shape: CollisionShape2D, base_posit
 func _physics_process(delta: float) -> void:
 	if _config.is_empty():
 		return
+	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
 
 	# 重力
 	if not is_on_floor():
@@ -289,7 +295,7 @@ func _update_chase(_delta: float) -> void:
 	# 追击
 	var dir := signf(_target.global_position.x - global_position.x)
 	velocity.x = dir * _config.get("move_speed", 80.0) * 1.2
-	_face_direction(dir)
+	_face_target(_target)
 	_play_anim("run")
 
 
@@ -314,8 +320,7 @@ func _update_attack(_delta: float) -> void:
 		return
 
 	# 持续面向玩家
-	var dir := signf(_target.global_position.x - global_position.x)
-	_face_direction(dir)
+	_face_target(_target)
 
 	# 尝试释放技能（只在战斗状态空闲时）
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
@@ -407,7 +412,22 @@ func _distance_x_to_target() -> float:
 
 
 func _refresh_target() -> void:
+	var detect_range: float = _config.get("detect_range", 200.0)
+	if _is_valid_party_target(_target):
+		var current_dist: float = absf(_target.global_position.x - global_position.x)
+		if current_dist <= detect_range * TARGET_LOSE_MULTIPLIER:
+			if _target_switch_timer > 0.0:
+				return
+			var nearest: CharacterBody2D = _find_nearest_party_member()
+			if nearest == null or nearest == _target:
+				return
+			var nearest_dist: float = absf(nearest.global_position.x - global_position.x)
+			if nearest_dist + TARGET_SWITCH_GAIN < current_dist:
+				_target = nearest
+				_target_switch_timer = TARGET_SWITCH_COOLDOWN
+			return
 	_target = _find_nearest_party_member()
+	_target_switch_timer = TARGET_SWITCH_COOLDOWN
 
 
 func _find_nearest_party_member() -> CharacterBody2D:
@@ -423,6 +443,15 @@ func _find_nearest_party_member() -> CharacterBody2D:
 			best_dist = dist
 			best = member
 	return best
+
+
+func _is_valid_party_target(target: CharacterBody2D) -> bool:
+	if target == null or not is_instance_valid(target):
+		return false
+	var combat_node: Node = target.get_node_or_null("CombatComponent")
+	if combat_node != null and "combat_state" in combat_node and combat_node.combat_state == combat_node.CombatState.DEAD:
+		return false
+	return true
 
 
 func _get_configured_skill_ids() -> Array[int]:
@@ -464,6 +493,15 @@ func _face_direction(dir: float) -> void:
 	if sprite.flip_h != new_flip:
 		sprite.flip_h = new_flip
 		_apply_visual_facing_offset()
+
+
+func _face_target(target: Node2D) -> void:
+	if target == null or not is_instance_valid(target):
+		return
+	var dx: float = target.global_position.x - global_position.x
+	if absf(dx) <= FACE_TARGET_DEAD_ZONE:
+		return
+	_face_direction(signf(dx))
 
 
 func _apply_visual_facing_offset() -> void:
