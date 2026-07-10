@@ -116,6 +116,28 @@ func get_ai_state_name() -> String:
 		_: return "?"
 
 
+func get_current_target() -> CharacterBody2D:
+	return _target if _is_valid_party_target(_target) else null
+
+
+func get_current_target_name() -> String:
+	var target := get_current_target()
+	if target == null:
+		return "无"
+	if target.has_method("get_party_character_id") and GameRegistry.character_config != null:
+		var character_id := int(target.get_party_character_id())
+		if character_id > 0:
+			return GameRegistry.character_config.get_name(character_id)
+	return target.name
+
+
+func get_target_distance_x() -> float:
+	var target := get_current_target()
+	if target == null:
+		return INF
+	return absf(target.global_position.x - global_position.x)
+
+
 func _ready() -> void:
 	add_to_group("enemies")
 	var debug_overlay := CombatDebugOverlay.new()

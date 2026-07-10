@@ -4,6 +4,7 @@ extends Node2D
 @onready var party_manager: PartyManager = $Player
 @onready var inventory_panel: CanvasLayer = $InventoryPanel
 @onready var character_panel: CanvasLayer = $CharacterPanel
+@onready var battle_hud: CanvasLayer = $BattleHud
 
 var player: CharacterBody2D
 var _level_manager: Node
@@ -34,6 +35,8 @@ func _ready() -> void:
 	_enemy_spawner.name = "EnemySpawner"
 	add_child(_enemy_spawner)
 	_enemy_spawner.setup(party_manager, level_container)
+	if battle_hud != null and battle_hud.has_method("setup"):
+		battle_hud.setup(party_manager, character_panel, _enemy_spawner)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -94,6 +97,7 @@ func _setup_debug_panel() -> void:
 
 	var panel := PanelContainer.new()
 	panel.name = "DebugPanel"
+	panel.visible = false
 	panel.position = Vector2(10, 10)
 	panel.size = Vector2(350, 400)
 	var style := StyleBoxFlat.new()

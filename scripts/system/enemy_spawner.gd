@@ -82,5 +82,13 @@ func get_active_count() -> int:
 	return _active_enemies.size()
 
 
+func get_active_enemies() -> Array[Node]:
+	var result: Array[Node] = []
+	for enemy in _active_enemies:
+		if is_instance_valid(enemy):
+			result.append(enemy)
+	return result
+
+
 func _on_enemy_removed(enemy: Node) -> void:
 	_active_enemies.erase(enemy)
