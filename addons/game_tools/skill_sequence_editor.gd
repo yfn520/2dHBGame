@@ -29,9 +29,18 @@ const EVENT_LABELS := {
 	"effect": "效果",
 }
 const DEFAULT_EVENT_NAMES := ["release", "impact", "effect"]
+const SKILL_TYPE_LABELS := {
+	"melee": "近战",
+	"projectile": "普通弹道",
+	"penetrate": "穿透弹道",
+	"aoe": "范围攻击",
+	"fullscreen": "全屏效果",
+	"self": "自身效果",
+}
 
 var _skills: Dictionary = {}
 var _skill_select: OptionButton
+var _skill_type_select: OptionButton
 var _timeline: Control
 var _frame_slider: HSlider
 var _node_list: ItemList
@@ -65,7 +74,7 @@ func _ready() -> void:
 
 
 func open_editor() -> void:
-	if _action_select == null or _event_select == null:
+	if _action_select == null or _event_select == null or _skill_type_select == null:
 		_build_ui()
 	_load_skills()
 	_rebuild_skill_select()
@@ -80,6 +89,7 @@ func _build_ui() -> void:
 		remove_child(_ui_root)
 		_ui_root.free()
 	_skill_select = null
+	_skill_type_select = null
 	_action_select = null
 	_event_select = null
 	_timeline = null
@@ -97,6 +107,14 @@ func _build_ui() -> void:
 	_skill_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_skill_select.item_selected.connect(_on_skill_selected)
 	top.add_child(_skill_select)
+	top.add_child(Label.new())
+	(top.get_child(2) as Label).text = "技能类型"
+	_skill_type_select = OptionButton.new()
+	_skill_type_select.item_selected.connect(_on_skill_type_selected)
+	for skill_type in SKILL_TYPE_LABELS:
+		_skill_type_select.add_item(SKILL_TYPE_LABELS[skill_type])
+		_skill_type_select.set_item_metadata(_skill_type_select.item_count - 1, skill_type)
+	top.add_child(_skill_type_select)
 
 	var frame_bar := HBoxContainer.new()
 	root.add_child(frame_bar)
@@ -283,6 +301,7 @@ func _on_skill_selected(index: int) -> void:
 	_current_skill_id = _skill_select.get_item_id(index)
 	_rebuild_node_list()
 	var skill := _get_current_skill()
+	_select_option_by_metadata(_skill_type_select, String(skill.get("type", "melee")))
 	var anim := String(skill.get("animation", "attack"))
 	_select_option_by_text(_action_select, anim)
 	_rebuild_event_select(anim)
@@ -292,6 +311,20 @@ func _on_skill_selected(index: int) -> void:
 	_update_trigger_controls_visibility()
 	_refresh_event_notice(anim)
 	_refresh_timeline()
+
+
+func _on_skill_type_selected(index: int) -> void:
+	if _skill_type_select == null or _current_skill_id <= 0 or index < 0:
+		return
+	var skill_type := str(_skill_type_select.get_item_metadata(index))
+	if skill_type.is_empty():
+		return
+	var skill := _get_current_skill()
+	skill["type"] = skill_type
+	_skills[str(_current_skill_id)] = skill
+	_rebuild_node_list()
+	_refresh_timeline()
+	_status.text = "已更新技能类型：%s（点击保存 skills.json 后写入）" % SKILL_TYPE_LABELS.get(skill_type, skill_type)
 
 
 func _get_current_skill() -> Dictionary:
@@ -635,6 +668,7 @@ func _apply_template(skill_type: String, nodes: Array, message: String) -> void:
 				node_value["detects_hits"] = true
 	skill["nodes"] = nodes
 	_skills[str(_current_skill_id)] = skill
+	_select_option_by_metadata(_skill_type_select, skill_type)
 	_rebuild_node_list()
 	_status.text = message
 
