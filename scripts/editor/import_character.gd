@@ -238,38 +238,141 @@ func _get_scene_body_bottom(scene_path: String, fallback: float) -> float:
 
 func _write_external_combat_actions(source_dir: String, source: Dictionary, display_scale: float, body_bottom: float) -> void:
 	var actions_data: Dictionary = {}
-	for action_value in source.get("actions", []):
+	var frame_index_base := int(source.get("frameIndexBase", 1))
+	var action_values: Array = source.get("actions", [])
+	if action_values.is_empty() and source.has("actionName"):
+		action_values = [source]
+	for action_value in action_values:
 		if not action_value is Dictionary:
 			continue
 		var action: Dictionary = action_value
-		var windows: Array = []
-		for attack_value in action.get("attacks", []):
-			if not attack_value is Dictionary:
-				continue
-			var attack: Dictionary = attack_value
-			var start_frame := maxi(0, int(attack.get("startFrame", 1)) - 1)
-			var end_frame := maxi(start_frame, int(attack.get("endFrame", start_frame + 1)) - 1)
-			for region_value in attack.get("regions", []):
-				if not region_value is Dictionary:
-					continue
-				var region: Dictionary = region_value
-				var region_scale := float(region.get("scale", 1.0))
-				var authored_x := float(region.get("forwardDistance", 0.0)) * display_scale
-				windows.append({
-					"start_frame": start_frame,
-					"end_frame": end_frame,
-					"forward": absf(authored_x),
-					"authored_x": authored_x,
-					"y": body_bottom + float(region.get("yOffset", 0.0)) * display_scale,
-					"width": maxf(1.0, float(region.get("width", 1.0)) * display_scale * region_scale),
-					"height": maxf(1.0, float(region.get("height", 1.0)) * display_scale * region_scale),
-					"source_attack_id": String(attack.get("id", "")),
-					"source_region_id": String(region.get("id", ""))
-				})
-		if not windows.is_empty():
-			actions_data[String(action.get("actionName", ""))] = {"hit_windows": windows}
-	var data := {"version": 2, "source": "combat/attack_frames.json", "coordinate_space": "actor_root_pixels", "sprite_scale": display_scale, "actions": actions_data}
+		var action_name := String(action.get("actionName", ""))
+		if action_name.is_empty():
+			continue
+		actions_data[action_name] = _convert_external_combat_action(action, display_scale, body_bottom, frame_index_base)
+	var data := {
+		"version": 3,
+		"source": "combat/attack_frames.json",
+		"source_schema_version": int(source.get("schemaVersion", 2)),
+		"coordinate_space": "actor_root_pixels",
+		"sprite_scale": display_scale,
+		"actions": actions_data,
+	}
 	_write_text_file(source_dir.path_join("combat_actions.json"), JSON.stringify(data, "\t") + "\n")
+
+
+func _convert_external_combat_action(action: Dictionary, display_scale: float, body_bottom: float, frame_index_base: int) -> Dictionary:
+	var windows: Array = []
+	for attack_value in action.get("attacks", []):
+		if not attack_value is Dictionary:
+			continue
+		var attack: Dictionary = attack_value
+		var start_frame := _external_frame_to_godot(int(attack.get("startFrame", 1)), frame_index_base)
+		var end_frame := maxi(start_frame, _external_frame_to_godot(int(attack.get("endFrame", start_frame + frame_index_base)), frame_index_base))
+		for region_value in attack.get("regions", []):
+			if not region_value is Dictionary:
+				continue
+			var region: Dictionary = region_value
+			var region_scale := float(region.get("scale", 1.0))
+			var authored_x := float(region.get("forwardDistance", 0.0)) * display_scale
+			windows.append({
+				"id": "%s:%s" % [String(attack.get("id", "")), String(region.get("id", ""))],
+				"start_frame": start_frame,
+				"end_frame": end_frame,
+				"forward": absf(authored_x),
+				"authored_x": authored_x,
+				"y": body_bottom + float(region.get("yOffset", 0.0)) * display_scale,
+				"width": maxf(1.0, float(region.get("width", 1.0)) * display_scale * region_scale),
+				"height": maxf(1.0, float(region.get("height", 1.0)) * display_scale * region_scale),
+				"source_attack_id": String(attack.get("id", "")),
+				"source_region_id": String(region.get("id", "")),
+			})
+	windows.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return int(left.get("start_frame", 0)) < int(right.get("start_frame", 0))
+	)
+	var events := _convert_external_events(action.get("events", []), frame_index_base)
+	if events.is_empty() and not windows.is_empty():
+		events.append({
+			"id": "compat-release",
+			"name": "release",
+			"frame": int((windows[0] as Dictionary).get("start_frame", 0)),
+			"fallback": true,
+		})
+	return {
+		"hit_windows": windows,
+		"events": events,
+		"cancel_windows": _convert_external_windows(action.get("cancelWindows", []), frame_index_base),
+		"armor_windows": _convert_external_windows(action.get("armorWindows", []), frame_index_base),
+		"movement_windows": _convert_external_movement_windows(action.get("movementWindows", []), display_scale, frame_index_base),
+		"sockets": _convert_external_sockets(action.get("sockets", {}), display_scale, body_bottom, frame_index_base),
+	}
+
+
+func _external_frame_to_godot(frame: int, frame_index_base: int) -> int:
+	return maxi(0, frame - frame_index_base)
+
+
+func _convert_external_events(raw_events: Variant, frame_index_base: int) -> Array:
+	var events: Array = []
+	if not raw_events is Array:
+		return events
+	for value in raw_events:
+		if not value is Dictionary:
+			continue
+		var event: Dictionary = value
+		events.append({
+			"id": String(event.get("id", "")),
+			"name": String(event.get("name", "")),
+			"frame": _external_frame_to_godot(int(event.get("frame", 1)), frame_index_base),
+		})
+	return events
+
+
+func _convert_external_windows(raw_windows: Variant, frame_index_base: int) -> Array:
+	var windows: Array = []
+	if not raw_windows is Array:
+		return windows
+	for value in raw_windows:
+		if not value is Dictionary:
+			continue
+		var window: Dictionary = value
+		var start_frame := _external_frame_to_godot(int(window.get("startFrame", 1)), frame_index_base)
+		var end_frame := maxi(start_frame, _external_frame_to_godot(int(window.get("endFrame", start_frame + frame_index_base)), frame_index_base))
+		windows.append({"id": String(window.get("id", "")), "start_frame": start_frame, "end_frame": end_frame})
+	return windows
+
+
+func _convert_external_movement_windows(raw_windows: Variant, display_scale: float, frame_index_base: int) -> Array:
+	var windows: Array = _convert_external_windows(raw_windows, frame_index_base)
+	if not raw_windows is Array:
+		return windows
+	for index in range(mini(windows.size(), (raw_windows as Array).size())):
+		var source_window = (raw_windows as Array)[index]
+		if source_window is Dictionary:
+			(windows[index] as Dictionary)["delta_x"] = float((source_window as Dictionary).get("deltaX", 0.0)) * display_scale
+	return windows
+
+
+func _convert_external_sockets(raw_sockets: Variant, display_scale: float, body_bottom: float, frame_index_base: int) -> Dictionary:
+	var sockets: Dictionary = {}
+	if not raw_sockets is Dictionary:
+		return sockets
+	for socket_name in (raw_sockets as Dictionary).keys():
+		var frames_value = (raw_sockets as Dictionary).get(socket_name, [])
+		if not frames_value is Array:
+			continue
+		var frames: Array = []
+		for value in frames_value:
+			if not value is Dictionary:
+				continue
+			var socket: Dictionary = value
+			frames.append({
+				"frame": _external_frame_to_godot(int(socket.get("frame", 1)), frame_index_base),
+				"x": float(socket.get("x", 0.0)) * display_scale,
+				"y": body_bottom + float(socket.get("y", 0.0)) * display_scale,
+			})
+		sockets[String(socket_name)] = frames
+	return sockets
 
 
 func _ensure_combat_actions_config(source_dir: String, manifest_data: Dictionary, display_scale: float) -> void:

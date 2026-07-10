@@ -41,6 +41,8 @@ func load_config() -> void:
 			"buff_on_hit": int(raw.get("buff_on_hit", 0)),
 			"buff_chance": float(raw.get("buff_chance", 0.0)),
 			"buff_on_self": int(raw.get("buff_on_self", 0)),
+			"nodes": raw.get("nodes", []),
+			"interrupt": raw.get("interrupt", {}),
 		}
 	_loaded = true
 
