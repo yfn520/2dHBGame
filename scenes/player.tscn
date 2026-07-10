@@ -1,8 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://c8owwa3cwfcgs"]
 
-[ext_resource type="Script" path="res://scripts/system/party_manager.gd" id="1_party"]
+[ext_resource type="Script" uid="uid://negh2rfagq2o" path="res://scripts/system/party_manager.gd" id="1_party"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node2D" unique_id=2135063581]
 script = ExtResource("1_party")
-lineup_character_ids = Array[int]([1001, 1002])
-initial_active_index = 0

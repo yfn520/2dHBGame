@@ -91,4 +91,5 @@
 - Character import generates every character prefab and never rewrites `player.tscn`; lineup selection belongs to `PartyManager`.
 - Runtime party selection is prototype-authoritative from `player.tscn` so editor lineup changes override old local save lineup IDs while preserving character progress.
 - A playable character's authored foot point is normalized to the bottom center of its body collision inside its own prefab.
+- Character `actor_scale` is read from `data/characters.json` at runtime and scales the prefab visual root, body collision, hurt box, and hit boxes together.
 - Keyboard polling is used for now so the prototype works without setting up an input map.

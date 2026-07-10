@@ -38,6 +38,8 @@ var _ally_is_holding_attack := false
 var _ally_returning_to_follow := false
 var _ally_follow_side: float = -1.0
 var _party_slot_index := 0
+var _actor_scale := 1.0
+var _facing_sign := 1.0
 var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 
 
@@ -46,9 +48,10 @@ func _ready() -> void:
 	var debug_overlay := CombatDebugOverlay.new()
 	add_child(debug_overlay)
 	debug_overlay.setup(self)
-	_apply_character_display_config()
 	if character_id <= 0 and GameRegistry.roster_data != null:
 		character_id = GameRegistry.roster_data.active_character_id
+	_actor_scale = _get_configured_actor_scale()
+	_apply_character_display_config()
 	_refresh_combat_stats()
 	if GameRegistry.roster_data != null and not GameRegistry.roster_data.character_progress_changed.is_connected(_on_roster_progress_changed):
 		GameRegistry.roster_data.character_progress_changed.connect(_on_roster_progress_changed)
@@ -58,6 +61,7 @@ func _ready() -> void:
 		if not GameRegistry.equipment_provider.unequipped.is_connected(_on_equipment_changed):
 			GameRegistry.equipment_provider.unequipped.connect(_on_equipment_changed)
 	_visual_authored_x = visual_root.position.x
+	_facing_sign = 1.0 if sprite.flip_h else -1.0
 	_apply_visual_facing_offset()
 	camera.limit_left = 0
 	camera.limit_top = 0
@@ -68,11 +72,20 @@ func _ready() -> void:
 
 func set_party_character_id(value: int) -> void:
 	character_id = value
+	_actor_scale = _get_configured_actor_scale()
 	_refresh_combat_stats()
 
 
 func get_party_character_id() -> int:
 	return character_id
+
+
+func get_actor_scale() -> float:
+	return _actor_scale
+
+
+func get_facing_sign() -> float:
+	return _facing_sign
 
 
 func set_player_controlled(value: bool) -> void:
@@ -157,13 +170,62 @@ func _apply_character_display_config() -> void:
 
 	var cfg: Dictionary = json.data
 	_load_combat_actions(config_path.get_base_dir(), cfg)
-	# CharacterActionSet transform is scene-authored. Reapplying the config value
-	# here used to overwrite player.tscn's 0.5 scale with 1.0 at runtime, while
-	# enemies stayed at 0.5, separating visible feet from collision geometry.
+	var base_display_scale := float(cfg.get("display_scale", visual_root.scale.x))
+	var display_offset := _get_vector2_from_dict(cfg.get("display_offset", {}), visual_root.position)
+	visual_root.position = display_offset * _actor_scale
+	visual_root.scale = Vector2.ONE * base_display_scale * _actor_scale
+
+	var root_collision := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	var body_position := _get_vector2_from_dict(
+		cfg.get("body_position", {}),
+		root_collision.position if root_collision != null else Vector2.ZERO
+	)
+	var body_size := _get_vector2_from_dict(
+		cfg.get("body_size", {}),
+		_get_rectangle_size(root_collision)
+	)
+	_apply_scaled_rectangle_shape(root_collision, body_position, body_size)
+
+	var hurt_collision := get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	_apply_scaled_rectangle_shape(hurt_collision, body_position, body_size)
 
 
 func get_combat_actions() -> Dictionary:
 	return _combat_actions
+
+
+func _get_configured_actor_scale() -> float:
+	if character_id > 0 and GameRegistry.character_config != null:
+		return GameRegistry.character_config.get_actor_scale(character_id)
+	return 1.0
+
+
+func _get_vector2_from_dict(data, fallback: Vector2) -> Vector2:
+	if data is Dictionary:
+		return Vector2(
+			float(data.get("x", fallback.x)),
+			float(data.get("y", fallback.y))
+		)
+	return fallback
+
+
+func _get_rectangle_size(collision_shape: CollisionShape2D) -> Vector2:
+	if collision_shape != null and collision_shape.shape is RectangleShape2D:
+		return (collision_shape.shape as RectangleShape2D).size
+	return Vector2.ONE
+
+
+func _apply_scaled_rectangle_shape(collision_shape: CollisionShape2D, base_position: Vector2, base_size: Vector2) -> void:
+	if collision_shape == null:
+		return
+	collision_shape.position = base_position * _actor_scale
+	if collision_shape.shape is RectangleShape2D:
+		collision_shape.shape = collision_shape.shape.duplicate()
+		var rectangle := collision_shape.shape as RectangleShape2D
+		rectangle.size = Vector2(
+			maxf(1.0, base_size.x * _actor_scale),
+			maxf(1.0, base_size.y * _actor_scale)
+		)
 
 
 func _load_combat_actions(asset_path: String, character_config: Dictionary) -> void:
@@ -216,10 +278,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 
 	if can_move and direction != 0.0:
-		var new_flip := direction > 0.0
-		if sprite.flip_h != new_flip:
-			sprite.flip_h = new_flip
-			_apply_visual_facing_offset()
+		_face_direction(direction)
 
 	_update_animation(direction)
 
@@ -351,10 +410,12 @@ func _update_ally_ai(delta: float) -> void:
 
 func _update_ally_follow(delta: float) -> void:
 	if _follow_target == null or not is_instance_valid(_follow_target):
-		velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)
+		velocity.x = 0.0
 		return
 	var leader_facing := 1.0
-	if _follow_target.has_node("CharacterActionSet/AnimatedSprite2D"):
+	if _follow_target.has_method("get_facing_sign"):
+		leader_facing = float(_follow_target.get_facing_sign())
+	elif _follow_target.has_node("CharacterActionSet/AnimatedSprite2D"):
 		var leader_sprite: AnimatedSprite2D = _follow_target.get_node("CharacterActionSet/AnimatedSprite2D")
 		leader_facing = 1.0 if leader_sprite.flip_h else -1.0
 	var leader_dist: float = absf(_follow_target.global_position.x - global_position.x)
@@ -369,7 +430,7 @@ func _update_ally_follow(delta: float) -> void:
 		return
 	var dir := signf(dx)
 	_face_direction(dir)
-	velocity.x = dir * _combat_stats.move_speed * 0.95
+	velocity.x = dir * minf(_combat_stats.move_speed * 0.95, maxf(40.0, absf(dx) * 6.0))
 
 
 func _update_ally_attack(target: Node2D) -> void:
@@ -428,10 +489,15 @@ func _find_nearest_enemy(max_range: float) -> Node2D:
 	for node in get_tree().get_nodes_in_group("enemies"):
 		if not node is Node2D:
 			continue
+		if node.is_queued_for_deletion():
+			continue
 		if node.has_method("get_combat_stats"):
 			var stats = node.get_combat_stats()
 			if stats != null and stats.hp <= 0:
 				continue
+		var enemy_combat := node.get_node_or_null("CombatComponent")
+		if enemy_combat != null and "combat_state" in enemy_combat and enemy_combat.combat_state == enemy_combat.CombatState.DEAD:
+			continue
 		var enemy := node as Node2D
 		var dist := absf(enemy.global_position.x - global_position.x)
 		if dist < best_dist:
@@ -486,6 +552,7 @@ func _is_valid_enemy_target(target: Node2D) -> bool:
 func _face_direction(dir: float) -> void:
 	if dir == 0.0:
 		return
+	_facing_sign = signf(dir)
 	var new_flip := dir > 0.0
 	if sprite.flip_h != new_flip:
 		sprite.flip_h = new_flip

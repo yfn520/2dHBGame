@@ -27,9 +27,8 @@ func _ready() -> void:
 	_sync_lineup_to_roster()
 	_spawn_lineup()
 	var start_index := initial_active_index
-	if GameRegistry.roster_data != null:
-		start_index = GameRegistry.roster_data.active_index
-	switch_character(clampi(start_index, 0, maxi(0, lineup_character_ids.size() - 1)))
+	if switch_character(clampi(start_index, 0, maxi(0, lineup_character_ids.size() - 1))):
+		place_party_at(global_position)
 
 
 func _process(_delta: float) -> void:
@@ -67,11 +66,20 @@ func get_alive_party_members() -> Array[CharacterBody2D]:
 
 
 func place_party_at(pos: Vector2) -> void:
+	var facing := 1.0
+	if active_character != null and active_character.has_method("get_facing_sign"):
+		facing = float(active_character.get_facing_sign())
+	var slot := 0
 	for i in range(_party_members.size()):
 		var member := _party_members[i]
 		if not is_instance_valid(member):
 			continue
-		member.global_position = pos + Vector2(-32.0 * float(i), 0.0)
+		if member == active_character:
+			member.global_position = pos
+		else:
+			var distance := 42.0 + float(slot) * 30.0
+			member.global_position = pos + Vector2(-facing * distance, 0.0)
+			slot += 1
 		member.velocity = Vector2.ZERO
 
 
@@ -142,6 +150,7 @@ func _spawn_lineup() -> void:
 
 
 func _apply_control_modes() -> void:
+	var follow_slot := 0
 	for i in range(_party_members.size()):
 		var member := _party_members[i]
 		if not is_instance_valid(member):
@@ -150,7 +159,9 @@ func _apply_control_modes() -> void:
 		if member.has_method("set_player_controlled"):
 			member.set_player_controlled(is_active)
 		if member.has_method("set_follow_target"):
-			member.set_follow_target(active_character if not is_active else null, i)
+			member.set_follow_target(active_character if not is_active else null, follow_slot)
+			if not is_active:
+				follow_slot += 1
 		if member.has_method("refresh_combat_stats"):
 			member.refresh_combat_stats()
 

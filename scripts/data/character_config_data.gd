@@ -38,6 +38,10 @@ func get_name(character_id: int) -> String:
 	return String(get_character(character_id).get("name", str(character_id)))
 
 
+func get_actor_scale(character_id: int) -> float:
+	return maxf(0.01, float(get_character(character_id).get("actor_scale", 1.0)))
+
+
 func get_max_level(character_id: int) -> int:
 	return int(get_character(character_id).get("max_level", 1))
 
