@@ -31,10 +31,14 @@ var _pending_self_buff_applied := false
 var _cast_id := 0
 var _cast_nodes: Array = []
 var _cast_node_index := 0
+var _cast_waiting_node: Dictionary = {}
 var _cast_wait_event := ""
 var _cast_wait_animation_end := false
+var _cast_animation_finished := false
 var _cast_hit_window_active := false
 var _cast_hit_window_detects := true
+var _cast_hit_window_index := -1
+var _active_window_index := -1
 var _cast_consumed_events: Dictionary = {}
 var _cast_hit_targets: Dictionary = {}
 var _cast_cancelled := false
@@ -119,18 +123,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_J:
-				_try_use_owner_skill("normal", 1001)
+				_try_use_owner_skill("normal")
 			KEY_K:
-				_try_use_owner_skill("skill1", 1002)
+				_try_use_owner_skill("skill1")
 			KEY_L:
-				_try_use_owner_skill("skill2", 1003)
+				_try_use_owner_skill("skill2")
 			KEY_U:
-				_try_use_owner_skill("skill3", 1004)
+				_try_use_owner_skill("skill3")
 
 
 ## 尝试释放技能
-func _try_use_owner_skill(slot_name: String, fallback: int) -> bool:
-	var skill_id := fallback
+func _try_use_owner_skill(slot_name: String) -> bool:
+	var skill_id := 0
 	if _owner != null and _owner.has_method("get_skill_for_input"):
 		skill_id = int(_owner.get_skill_for_input(slot_name))
 	if skill_id <= 0:
@@ -163,10 +167,14 @@ func try_use_skill(skill_id: int) -> bool:
 	_cast_id += 1
 	_cast_nodes = _build_cast_nodes(skill)
 	_cast_node_index = 0
+	_cast_waiting_node.clear()
 	_cast_wait_event = ""
 	_cast_wait_animation_end = false
+	_cast_animation_finished = false
 	_cast_hit_window_active = false
 	_cast_hit_window_detects = skill_type == "melee"
+	_cast_hit_window_index = -1
+	_active_window_index = -1
 	_cast_consumed_events.clear()
 	_cast_hit_targets.clear()
 	_cast_cancelled = false
@@ -208,56 +216,108 @@ func _build_cast_nodes(skill: Dictionary) -> Array:
 func _advance_cast_nodes() -> void:
 	if _pending_skill.is_empty() or _cast_cancelled:
 		return
+	if not _cast_waiting_node.is_empty():
+		if not _is_node_trigger_ready(_cast_waiting_node):
+			return
+		var waiting_node: Dictionary = _cast_waiting_node.duplicate(true)
+		_cast_waiting_node.clear()
+		if _execute_cast_node(waiting_node):
+			return
 	while _cast_node_index < _cast_nodes.size():
 		var node_value = _cast_nodes[_cast_node_index]
 		_cast_node_index += 1
 		if not node_value is Dictionary:
 			continue
 		var node: Dictionary = node_value
-		var node_type := String(node.get("type", ""))
-		match node_type:
-			"play_animation":
-				var action := String(node.get("action", _pending_skill.get("animation", "attack")))
-				_pending_animation = action
-				if _owner.has_method("play_combat_animation"):
-					_owner.play_combat_animation(action)
-				_on_sprite_frame_changed()
-			"wait_action_event":
-				_cast_wait_event = String(node.get("event", "release"))
-				if _is_action_event_now(_pending_animation, _cast_wait_event):
-					_consume_action_event(_pending_animation, _cast_wait_event)
-					_cast_wait_event = ""
-					continue
-				return
-			"wait_animation_end":
-				_cast_wait_animation_end = true
-				return
-			"use_action_hit_window":
-				_pending_animation = String(node.get("action", _pending_animation))
-				_cast_hit_window_active = true
-				_cast_hit_window_detects = bool(node.get("detects_hits", String(_pending_skill.get("type", "melee")) == "melee"))
-				_on_sprite_frame_changed()
-			"execute_skill_effect":
-				_pending_skill_executed = true
-				_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
-			"spawn_projectile":
-				_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
-			"aoe", "circle_aoe", "rect_aoe", "fullscreen", "damage", "apply_target_buff":
-				_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
-			"apply_self_buff", "self_buff":
-				_apply_self_buff(_pending_skill)
-			"heal":
-				heal(int(node.get("amount", 0)))
-			"move_x":
-				_apply_node_move_x(node)
-			"play_effect":
-				_play_node_effect(node)
-			"end_skill":
-				_finish_cast()
-				return
-			_:
-				continue
+		var trigger := String(node.get("trigger", "immediate"))
+		if trigger != "immediate" and not _is_node_trigger_ready(node):
+			_cast_waiting_node = node
+			return
+		if _execute_cast_node(node):
+			return
 	_finish_cast()
+
+
+func _execute_cast_node(node: Dictionary) -> bool:
+	var node_type := String(node.get("type", ""))
+	match node_type:
+		"play_animation":
+			var action := String(node.get("action", _pending_skill.get("animation", "attack")))
+			_pending_animation = action
+			_cast_animation_finished = false
+			if _owner.has_method("play_combat_animation"):
+				_owner.play_combat_animation(action)
+			_on_sprite_frame_changed()
+		"wait_action_event":
+			_cast_wait_event = String(node.get("event", "release"))
+			if _is_action_event_now(_pending_animation, _cast_wait_event):
+				_consume_action_event(_pending_animation, _cast_wait_event)
+				_cast_wait_event = ""
+			else:
+				return true
+		"wait_animation_end":
+			_cast_wait_animation_end = true
+			return true
+		"use_action_hit_window":
+			_pending_animation = String(node.get("action", _pending_animation))
+			_cast_hit_window_active = true
+			_cast_hit_window_detects = bool(node.get("detects_hits", String(_pending_skill.get("type", "melee")) == "melee"))
+			_cast_hit_window_index = int(node.get("hit_window_index", -1))
+			_on_sprite_frame_changed()
+		"execute_skill_effect":
+			_pending_skill_executed = true
+			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+		"spawn_projectile":
+			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+		"aoe", "circle_aoe", "rect_aoe", "fullscreen", "damage", "apply_target_buff":
+			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+		"apply_self_buff", "self_buff":
+			_apply_self_buff(_pending_skill)
+		"heal":
+			heal(int(node.get("amount", 0)))
+		"move_x":
+			_apply_node_move_x(node)
+		"play_effect":
+			_play_node_effect(node)
+		"end_skill":
+			_finish_cast()
+			return true
+		_:
+			pass
+	return false
+
+
+func _is_node_trigger_ready(node: Dictionary) -> bool:
+	var trigger := String(node.get("trigger", "immediate"))
+	match trigger:
+		"event":
+			var event_name := String(node.get("event", "release"))
+			if not _is_action_event_now(_pending_animation, event_name):
+				return false
+			_consume_action_event(_pending_animation, event_name)
+			return true
+		"hit_window":
+			if _sprite == null:
+				return false
+			var requested_index := int(node.get("hit_window_index", -1))
+			var info := _get_hit_window_info(_pending_animation, _sprite.frame, requested_index)
+			if info.is_empty():
+				return false
+			var active_index := int(info.get("index", -1))
+			var effect_window: Dictionary = info.get("window", {})
+			_configure_effect_origin(effect_window, active_index)
+			return true
+		"animation_end":
+			return _cast_animation_finished
+		_:
+			return true
+
+
+func _configure_effect_origin(window: Dictionary, window_index: int) -> void:
+	if _hit_box == null or window.is_empty():
+		return
+	_hit_box.configure(window, _get_facing_sign())
+	_active_window_index = window_index
 
 
 func _finish_cast() -> void:
@@ -382,11 +442,25 @@ func _on_sprite_frame_changed() -> void:
 		_consume_action_event(_pending_animation, _cast_wait_event)
 		_cast_wait_event = ""
 		_advance_cast_nodes()
+	if not _cast_waiting_node.is_empty():
+		var waiting_trigger := String(_cast_waiting_node.get("trigger", "immediate"))
+		if waiting_trigger == "event" or waiting_trigger == "hit_window":
+			_advance_cast_nodes()
+			if not _cast_waiting_node.is_empty():
+				return
 	if not _cast_hit_window_active or _hit_box == null:
 		return
-	var window := _get_hit_window(_pending_animation, _sprite.frame)
-	if window.is_empty():
+	var info := _get_hit_window_info(_pending_animation, _sprite.frame)
+	if info.is_empty():
 		_active_window_id = ""
+		_active_window_index = -1
+		_hit_box.deactivate()
+		return
+	var window: Dictionary = info.get("window", {})
+	var window_index := int(info.get("index", -1))
+	if _cast_hit_window_index >= 0 and window_index != _cast_hit_window_index:
+		_active_window_id = ""
+		_active_window_index = -1
 		_hit_box.deactivate()
 		return
 	var window_id := "%s:%d:%d" % [
@@ -394,9 +468,11 @@ func _on_sprite_frame_changed() -> void:
 		int(window.get("start_frame", 0)),
 		int(window.get("end_frame", 0)),
 	]
+	window_id += ":%d" % window_index
 	if window_id == _active_window_id:
 		return
 	_active_window_id = window_id
+	_active_window_index = window_index
 	var facing := _get_facing_sign()
 	_hit_box.configure(window, facing)
 	var detects_hits := _cast_hit_window_detects
@@ -411,8 +487,11 @@ func _on_sprite_frame_changed() -> void:
 func _on_sprite_animation_finished() -> void:
 	if _sprite == null or String(_sprite.animation) != _pending_animation:
 		return
+	_cast_animation_finished = true
 	if _cast_wait_animation_end:
 		_cast_wait_animation_end = false
+		_advance_cast_nodes()
+	elif not _cast_waiting_node.is_empty():
 		_advance_cast_nodes()
 	else:
 		_finish_cast()
@@ -426,10 +505,14 @@ func _end_melee_window() -> void:
 	_pending_self_buff_applied = false
 	_cast_nodes = []
 	_cast_node_index = 0
+	_cast_waiting_node.clear()
 	_cast_wait_event = ""
 	_cast_wait_animation_end = false
+	_cast_animation_finished = false
 	_cast_hit_window_active = false
 	_cast_hit_window_detects = true
+	_cast_hit_window_index = -1
+	_active_window_index = -1
 	_cast_consumed_events.clear()
 	_cast_hit_targets.clear()
 	if _hit_box != null:
@@ -449,7 +532,7 @@ func _apply_self_buff(skill: Dictionary) -> void:
 	_buff_manager.apply_buff(buff_config, _owner.get_instance_id())
 
 
-func _get_hit_window(animation_name: String, frame: int) -> Dictionary:
+func _get_hit_window_info(animation_name: String, frame: int, requested_index: int = -1) -> Dictionary:
 	var actions: Dictionary = {}
 	if _owner.has_method("get_combat_actions"):
 		actions = _owner.get_combat_actions()
@@ -467,13 +550,21 @@ func _get_hit_window(animation_name: String, frame: int) -> Dictionary:
 			"width": attack_range * 0.5,
 			"height": 24.0,
 		}]
-	for candidate in windows:
+	for window_index in range(windows.size()):
+		var candidate = windows[window_index]
+		if requested_index >= 0 and window_index != requested_index:
+			continue
 		if candidate is Dictionary:
 			var start_frame := int(candidate.get("start_frame", 0))
 			var end_frame := int(candidate.get("end_frame", start_frame))
 			if frame >= start_frame and frame <= end_frame:
-				return candidate
+				return {"window": candidate, "index": window_index}
 	return {}
+
+
+func _get_hit_window(animation_name: String, frame: int) -> Dictionary:
+	var info := _get_hit_window_info(animation_name, frame)
+	return info.get("window", {})
 
 
 func _has_configured_hit_windows(animation_name: String) -> bool:

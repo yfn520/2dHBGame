@@ -138,11 +138,11 @@ func _update_debug_panel() -> void:
 		lines.append("状态: %s" % _state_name(combat.combat_state))
 		# 技能冷却
 		var cooldowns: Dictionary = combat.get_cooldowns_dict()
-		var skill_names := {1001: "普攻", 1002: "火球术", 1003: "旋风斩", 1004: "冰霜箭"}
 		var cd_parts: PackedStringArray = []
 		for sid in cooldowns:
 			var cd: float = cooldowns[sid]
-			var name: String = skill_names.get(sid, str(sid))
+			var skill: Dictionary = GameRegistry.skill_config.get_skill(int(sid))
+			var name: String = str(skill.get("name", sid)) if not skill.is_empty() else str(sid)
 			cd_parts.append("%s:%.1fs" % [name, cd] if cd > 0 else "%s:OK" % name)
 		lines.append("CD: %s" % " | ".join(cd_parts))
 

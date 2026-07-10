@@ -22,6 +22,12 @@ func _ready() -> void:
 	deactivate()
 
 
+func _physics_process(_delta: float) -> void:
+	# 补充轮询，避免攻击框和受击框在同一物理帧重叠时漏掉 area_entered。
+	if _active and monitoring:
+		_detect_existing_overlaps()
+
+
 func setup(owner_entity: Node) -> void:
 	_owner_entity = owner_entity
 
