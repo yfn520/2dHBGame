@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cl3mlhtn4b270"]
 
 [ext_resource type="Script" uid="uid://bgpr3iv8oqhc3" path="res://scripts/game_root.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="3_player"]
+[ext_resource type="PackedScene" uid="uid://c8owwa3cwfcgs" path="res://scenes/player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://scenes/inventory_panel.tscn" id="4_inv"]
 [ext_resource type="PackedScene" path="res://scenes/character_panel.tscn" id="5_char"]
 
@@ -11,8 +11,6 @@ script = ExtResource("1_script")
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1939485336]
 
 [node name="Player" parent="." unique_id=441688693 instance=ExtResource("3_player")]
-lineup_character_ids = Array[int]([1001, 1002])
-initial_active_index = 0
 
 [node name="InventoryPanel" parent="." unique_id=149501521 instance=ExtResource("4_inv")]
 

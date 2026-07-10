@@ -3,7 +3,7 @@ class_name EquipmentData
 signal equipped(slot: String, item_uid: int, item_id: int)
 signal unequipped(slot: String, item_uid: int, item_id: int)
 
-const SLOTS := ["weapon", "armor", "boots", "accessory"]
+const SLOTS := ["weapon", "armor", "necklace", "ring", "boots", "relic", "mount", "artifact"]
 
 var _equipped_by_character: Dictionary = {}
 
@@ -15,11 +15,13 @@ func get_current_character_id() -> int:
 
 
 func get_equipped_uid(slot: String, character_id: int = 0) -> int:
+	slot = normalize_slot(slot)
 	var data := _get_slot_data(slot, character_id)
 	return int(data.get("uid", 0))
 
 
 func get_equipped_item_id(slot: String, character_id: int = 0) -> int:
+	slot = normalize_slot(slot)
 	var data := _get_slot_data(slot, character_id)
 	return int(data.get("item_id", 0))
 
@@ -30,6 +32,7 @@ func get_all_equipped(character_id: int = 0) -> Dictionary:
 
 
 func equip(slot: String, item_uid: int, item_id: int, character_id: int = 0) -> bool:
+	slot = normalize_slot(slot)
 	if not slot in SLOTS:
 		push_error("无效的装备槽位: %s" % slot)
 		return false
@@ -43,6 +46,7 @@ func equip(slot: String, item_uid: int, item_id: int, character_id: int = 0) -> 
 
 
 func unequip(slot: String, character_id: int = 0) -> Dictionary:
+	slot = normalize_slot(slot)
 	var id := _resolve_character_id(character_id)
 	var key := str(id)
 	var equipped: Dictionary = _equipped_by_character.get(key, {})
@@ -58,9 +62,14 @@ func unequip(slot: String, character_id: int = 0) -> Dictionary:
 
 
 func get_slot_for_type(item_type: String) -> String:
+	item_type = normalize_slot(item_type)
 	if item_type in SLOTS:
 		return item_type
 	return ""
+
+
+static func normalize_slot(slot: String) -> String:
+	return "ring" if slot == "accessory" else slot
 
 
 func to_dict() -> Dictionary:
@@ -96,7 +105,7 @@ func _normalize_equipped(raw_value) -> Dictionary:
 		return result
 	for slot in raw_value:
 		var entry: Dictionary = raw_value[slot]
-		result[String(slot)] = {
+		result[normalize_slot(String(slot))] = {
 			"uid": int(entry.get("uid", 0)),
 			"item_id": int(entry.get("item_id", 0)),
 		}

@@ -14,6 +14,8 @@ var _debug_label: Label
 
 
 func _ready() -> void:
+	if inventory_panel != null:
+		inventory_panel.visible = false
 	player = party_manager.get_active_character()
 	if player == null:
 		push_error("[GameRoot] PartyManager 没有可用的主控角色")
@@ -176,14 +178,20 @@ func _state_name(state) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed:
 		return
-	if inventory_panel.is_open() or character_panel.is_open():
+	if character_panel.is_open():
 		return
 	match event.keycode:
 		KEY_B:
-			inventory_panel.toggle()
+			if character_panel.has_method("open_inventory_tab"):
+				character_panel.open_inventory_tab()
+			else:
+				character_panel.toggle()
 			get_viewport().set_input_as_handled()
 		KEY_C:
-			character_panel.toggle()
+			if character_panel.has_method("open_equipment_tab"):
+				character_panel.open_equipment_tab()
+			else:
+				character_panel.toggle()
 			get_viewport().set_input_as_handled()
 		KEY_TAB:
 			party_manager.switch_next_character()
