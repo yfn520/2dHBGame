@@ -51,7 +51,7 @@ func _parse_args(args: PackedStringArray) -> Dictionary:
 		return {}
 
 	if options["output_scene"].is_empty():
-		var folder_name := options["source_dir"].trim_suffix("/").trim_suffix("\\").get_file()
+		var folder_name : String= options["source_dir"].trim_suffix("/").trim_suffix("\\").get_file()
 		options["output_scene"] = "res://scenes/%s.tscn" % folder_name
 
 	if options["root_name"].is_empty():

@@ -41,6 +41,7 @@ var _cast_hit_window_index := -1
 var _active_window_index := -1
 var _cast_consumed_events: Dictionary = {}
 var _cast_hit_targets: Dictionary = {}
+var _last_hit_targets: Array[Area2D] = []
 var _cast_cancelled := false
 var _cast_cancel_reason := ""
 
@@ -177,6 +178,7 @@ func try_use_skill(skill_id: int) -> bool:
 	_active_window_index = -1
 	_cast_consumed_events.clear()
 	_cast_hit_targets.clear()
+	_last_hit_targets.clear()
 	_cast_cancelled = false
 	_cast_cancel_reason = ""
 	_pending_self_buff_applied = false
@@ -266,11 +268,11 @@ func _execute_cast_node(node: Dictionary) -> bool:
 			_on_sprite_frame_changed()
 		"execute_skill_effect":
 			_pending_skill_executed = true
-			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+			_last_hit_targets = _skill_executor.execute(_pending_skill, _get_current_effect_origin(node), node)
 		"spawn_projectile":
-			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node), node)
 		"aoe", "circle_aoe", "rect_aoe", "fullscreen", "damage", "apply_target_buff":
-			_skill_executor.execute(_pending_skill, _get_current_effect_origin(node))
+			_last_hit_targets = _skill_executor.execute(_pending_skill, _get_current_effect_origin(node), node)
 		"apply_self_buff", "self_buff":
 			_apply_self_buff(_pending_skill)
 		"heal":
@@ -515,6 +517,7 @@ func _end_melee_window() -> void:
 	_active_window_index = -1
 	_cast_consumed_events.clear()
 	_cast_hit_targets.clear()
+	_last_hit_targets.clear()
 	if _hit_box != null:
 		_hit_box.deactivate()
 
@@ -667,9 +670,20 @@ func _play_node_effect(node: Dictionary) -> void:
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return
 	var scene: PackedScene = load(scene_path)
+	var target_scope := String(node.get("target_scope", "effect_origin"))
+	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+	if target_scope == "last_hit_targets":
+		for hurt_box in _last_hit_targets:
+			if not is_instance_valid(hurt_box):
+				continue
+			var fx_target := scene.instantiate()
+			if fx_target is Node2D:
+				(fx_target as Node2D).global_position = hurt_box.global_position + offset
+			_owner.get_tree().current_scene.add_child(fx_target)
+		return
 	var fx := scene.instantiate()
 	if fx is Node2D:
-		(fx as Node2D).global_position = _get_current_effect_origin(node)
+		(fx as Node2D).global_position = _get_current_effect_origin(node) + offset
 	_owner.get_tree().current_scene.add_child(fx)
 
 
@@ -687,3 +701,4 @@ func _on_hit_detected(hurt_box: Area2D) -> void:
 		return
 	_cast_hit_targets[hit_key] = true
 	_skill_executor.apply_melee_hit(_pending_skill, hurt_box)
+	_last_hit_targets = [hurt_box]

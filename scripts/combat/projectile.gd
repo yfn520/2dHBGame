@@ -5,6 +5,8 @@ signal hit_target(hurt_box: Area2D)
 
 var direction: Vector2 = Vector2.RIGHT
 var speed: float = 300.0
+var velocity: Vector2 = Vector2.ZERO
+var projectile_gravity: float = 0.0
 var damage: int = 10
 var max_pierce: int = 0 # 0 = no pierce, -1 = infinite pierce
 var pierce_count: int = 0
@@ -22,12 +24,28 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	position += direction * speed * delta
+	position += velocity * delta
+	velocity.y += projectile_gravity * delta
 
 
 func setup(dir: Vector2, spd: float, dmg: int, pierce: int, buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0) -> void:
 	direction = dir.normalized()
 	speed = spd
+	velocity = direction * speed
+	projectile_gravity = 0.0
+	damage = dmg
+	max_pierce = pierce
+	buff_on_hit_id = buff_id
+	buff_chance = chance
+	source_entity = source
+	lifetime = life
+
+
+func setup_ballistic(initial_velocity: Vector2, projectile_gravity: float, dmg: int, pierce: int, buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0) -> void:
+	velocity = initial_velocity
+	direction = initial_velocity.normalized()
+	speed = initial_velocity.length()
+	self.projectile_gravity = projectile_gravity
 	damage = dmg
 	max_pierce = pierce
 	buff_on_hit_id = buff_id

@@ -11,35 +11,39 @@ func _init(owner: Node, stats = null) -> void:
 	_stats = stats
 
 
-func execute(skill: Dictionary, origin_position: Variant = null) -> void:
+func execute(skill: Dictionary, origin_position: Variant = null, node_context: Dictionary = {}) -> Array[Area2D]:
 	var skill_type: String = skill.get("type", "melee")
 	match skill_type:
 		"melee":
-			_execute_melee(skill)
+			return _execute_melee(skill)
 		"projectile", "penetrate":
-			_execute_projectile(skill, origin_position)
+			return _execute_projectile(skill, origin_position, node_context)
 		"aoe":
-			_execute_aoe(skill)
+			return _execute_aoe(skill)
 		"fullscreen":
-			_execute_fullscreen(skill)
+			return _execute_fullscreen(skill)
 		"self":
 			_execute_self(skill)
+	return []
 
 
-func _execute_melee(skill: Dictionary) -> void:
+func _execute_melee(_skill: Dictionary) -> Array[Area2D]:
 	# 近战由 CombatComponent 在动画有效帧触发。
-	pass
+	return []
 
 
 func apply_melee_hit(skill: Dictionary, hurt_box: Area2D) -> void:
 	_apply_damage_to_target(skill, hurt_box)
 
 
-func _execute_projectile(skill: Dictionary, origin_position: Variant = null) -> void:
+func _execute_projectile(skill: Dictionary, origin_position: Variant = null, node_context: Dictionary = {}) -> Array[Area2D]:
 	var scene_path: String = skill.get("projectile_scene", "")
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		push_error("弹道场景不存在: %s" % scene_path)
-		return
+		return []
+	if String(node_context.get("projectile_mode", "single")) == "area_rain":
+		_spawn_area_rain(skill, origin_position, node_context)
+		return []
 	var scene: PackedScene = load(scene_path)
 	var proj: Node2D = scene.instantiate()
 	var facing := _get_facing()
@@ -60,35 +64,101 @@ func _execute_projectile(skill: Dictionary, origin_position: Variant = null) -> 
 	if facing.x < 0:
 		proj.scale.x = -absf(proj.scale.x)
 	_owner.get_tree().current_scene.add_child(proj)
+	return []
 
 
-func _execute_aoe(skill: Dictionary) -> void:
+func _spawn_area_rain(skill: Dictionary, origin_position: Variant, node_context: Dictionary) -> void:
+	var scene_path := String(skill.get("projectile_scene", ""))
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		push_error("区域弹道场景不存在: %s" % scene_path)
+		return
+	var origin: Vector2 = _owner.global_position
+	if origin_position is Vector2:
+		origin = origin_position
+	var center := _find_area_rain_center(skill, node_context)
+	var count := maxi(1, int(node_context.get("projectile_count", 12)))
+	var interval := maxf(0.0, float(node_context.get("projectile_interval", 0.05)))
+	for index in range(count):
+		var timer := _owner.get_tree().create_timer(interval * float(index))
+		timer.timeout.connect(_spawn_area_rain_projectile.bind(skill.duplicate(true), origin, center, node_context.duplicate(true)))
+
+
+func _spawn_area_rain_projectile(skill: Dictionary, origin: Vector2, center: Vector2, node_context: Dictionary) -> void:
+	if not is_instance_valid(_owner):
+		return
+	var scene_path := String(skill.get("projectile_scene", ""))
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+	var scene: PackedScene = load(scene_path)
+	var proj: Node2D = scene.instantiate()
+	var width := maxf(1.0, float(node_context.get("area_width", 240.0)))
+	var height := maxf(1.0, float(node_context.get("area_height", 80.0)))
+	var landing := center + Vector2(randf_range(-width * 0.5, width * 0.5), randf_range(-height * 0.5, height * 0.5))
+	var flight_time := maxf(0.1, float(node_context.get("flight_time", 0.9)))
+	var gravity_value := float(node_context.get("gravity", 900.0))
+	var initial_velocity := (landing - origin) / flight_time - Vector2(0.0, 0.5 * gravity_value * flight_time)
+	proj.global_position = origin
+	var dmg := _calc_damage(skill)
+	var pierce := int(skill.get("max_pierce", 0))
+	var buff_id := int(skill.get("buff_on_hit", 0))
+	var buff_chance := float(skill.get("buff_chance", 0.0))
+	var lifetime := float(skill.get("projectile_lifetime", 5.0))
+	if proj.has_method("setup_ballistic"):
+		proj.setup_ballistic(initial_velocity, gravity_value, dmg, pierce, buff_id, buff_chance, _owner, lifetime)
+	elif proj.has_method("setup"):
+		proj.setup(initial_velocity.normalized(), initial_velocity.length(), dmg, pierce, buff_id, buff_chance, _owner, lifetime)
+	if initial_velocity.x < 0.0:
+		proj.scale.x = -absf(proj.scale.x)
+	_owner.get_tree().current_scene.add_child(proj)
+
+
+func _find_area_rain_center(skill: Dictionary, node_context: Dictionary) -> Vector2:
+	var search_range: float = maxf(1.0, float(node_context.get("target_search_range", skill.get("range", 500.0))))
+	var best: Vector2 = _owner.global_position + _get_facing() * search_range
+	var best_distance: float = INF
+	for hurt_box in _find_all_hurt_boxes():
+		if _is_friendly(hurt_box):
+			continue
+		var distance: float = _owner.global_position.distance_to(hurt_box.global_position)
+		if distance <= search_range and distance < best_distance:
+			best_distance = distance
+			best = hurt_box.global_position
+	return best
+
+
+func _execute_aoe(skill: Dictionary) -> Array[Area2D]:
 	var radius: float = float(skill.get("aoe_radius", 80.0))
 	var dmg := _calc_damage(skill)
 	var buff_id := int(skill.get("buff_on_hit", 0))
 	var buff_chance := float(skill.get("buff_chance", 0.0))
 	var all_hurt_boxes := _find_all_hurt_boxes()
+	var hit_targets: Array[Area2D] = []
 	for hb in all_hurt_boxes:
 		if _is_friendly(hb):
 			continue
 		var dist: float = _owner.global_position.distance_to(hb.global_position)
 		if dist <= radius:
 			hb.take_hit(dmg, _owner)
+			hit_targets.append(hb)
 			if buff_id > 0 and randf() <= buff_chance:
 				_try_apply_buff(hb, buff_id)
+	return hit_targets
 
 
-func _execute_fullscreen(skill: Dictionary) -> void:
+func _execute_fullscreen(skill: Dictionary) -> Array[Area2D]:
 	var dmg := _calc_damage(skill)
 	var buff_id := int(skill.get("buff_on_hit", 0))
 	var buff_chance := float(skill.get("buff_chance", 0.0))
 	var all_hurt_boxes := _find_all_hurt_boxes()
+	var hit_targets: Array[Area2D] = []
 	for hb in all_hurt_boxes:
 		if _is_friendly(hb):
 			continue
 		hb.take_hit(dmg, _owner)
+		hit_targets.append(hb)
 		if buff_id > 0 and randf() <= buff_chance:
 			_try_apply_buff(hb, buff_id)
+	return hit_targets
 
 
 func _execute_self(skill: Dictionary) -> void:

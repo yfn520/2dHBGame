@@ -28,6 +28,10 @@ const NODE_LABELS := {
 	"play_effect": "播放特效",
 	"end_skill": "结束技能（立即结束）",
 }
+const ACTION_NODE_TYPES := [
+	"play_animation", "use_action_hit_window", "execute_skill_effect", "spawn_projectile",
+	"aoe", "fullscreen", "apply_self_buff", "heal", "move_x", "play_effect",
+]
 
 var _action: Dictionary = {}
 var _nodes: Array = []
@@ -150,8 +154,11 @@ func _node_area_y() -> float:
 
 
 func _node_frame(node: Dictionary) -> int:
+	var node_type := String(node.get("type", ""))
+	if node_type == "wait_animation_end" or node_type == "end_skill":
+		return _frame_count - 1
 	var trigger := String(node.get("trigger", "immediate"))
-	if trigger == "immediate" and String(node.get("type", "")) == "use_action_hit_window":
+	if trigger == "immediate" and node_type == "use_action_hit_window":
 		var default_windows: Array = _action.get("hit_windows", [])
 		if not default_windows.is_empty() and default_windows[0] is Dictionary:
 			return int((default_windows[0] as Dictionary).get("start_frame", 0))
@@ -173,12 +180,13 @@ func _node_frame(node: Dictionary) -> int:
 
 func _node_display_name(node: Dictionary) -> String:
 	var type_name := String(node.get("type", "节点"))
+	var category := "动作" if ACTION_NODE_TYPES.has(type_name) else "控制"
 	if type_name == "use_action_hit_window":
 		if bool(node.get("detects_hits", false)):
-			return "近战伤害（判定框）"
+			return "[%s] 近战伤害（判定框）" % category
 		if _skill_type == "projectile" or _skill_type == "penetrate":
-			return "弹道发射（判定框中心）"
-	return String(NODE_LABELS.get(type_name, type_name))
+			return "[%s] 弹道发射（判定框中心）" % category
+	return "[%s] %s" % [category, String(NODE_LABELS.get(type_name, type_name))]
 
 
 func _event_label(event_name: String) -> String:

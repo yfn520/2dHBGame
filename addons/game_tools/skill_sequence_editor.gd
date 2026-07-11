@@ -3,11 +3,12 @@ extends Window
 
 const SKILLS_PATH := "res://data/skills.json"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
-const NODE_TYPES := [
-	"play_animation", "wait_action_event", "wait_animation_end", "use_action_hit_window",
-	"execute_skill_effect", "spawn_projectile", "aoe", "fullscreen", "apply_self_buff",
-	"heal", "move_x", "play_effect", "end_skill",
+const ACTION_NODE_TYPES := [
+	"play_animation", "use_action_hit_window", "execute_skill_effect", "spawn_projectile",
+	"aoe", "fullscreen", "apply_self_buff", "heal", "move_x", "play_effect",
 ]
+const CONTROL_NODE_TYPES := ["wait_action_event", "wait_animation_end", "end_skill"]
+const NODE_TYPES := ACTION_NODE_TYPES + CONTROL_NODE_TYPES
 const NODE_TYPE_LABELS := {
 	"play_animation": "播放动画",
 	"wait_action_event": "等待动作事件",
@@ -37,10 +38,29 @@ const SKILL_TYPE_LABELS := {
 	"fullscreen": "全屏效果",
 	"self": "自身效果",
 }
+const ACTION_NODE_LABEL := "动作"
+const CONTROL_NODE_LABEL := "控制"
 
 var _skills: Dictionary = {}
 var _skill_select: OptionButton
 var _skill_type_select: OptionButton
+var _skill_tabs: TabContainer
+var _skill_name_edit: LineEdit
+var _skill_description_edit: LineEdit
+var _skill_animation_edit: LineEdit
+var _skill_damage_spin: SpinBox
+var _skill_cooldown_spin: SpinBox
+var _skill_range_spin: SpinBox
+var _skill_aoe_radius_spin: SpinBox
+var _projectile_scene_edit: LineEdit
+var _projectile_speed_spin: SpinBox
+var _projectile_lifetime_spin: SpinBox
+var _projectile_spawn_offset_spin: SpinBox
+var _max_pierce_spin: SpinBox
+var _buff_on_hit_spin: SpinBox
+var _buff_chance_spin: SpinBox
+var _buff_on_self_spin: SpinBox
+var _loading_skill_fields := false
 var _timeline: Control
 var _frame_slider: HSlider
 var _node_list: ItemList
@@ -48,6 +68,26 @@ var _move_up_button: Button
 var _move_down_button: Button
 var _node_type: OptionButton
 var _hit_window_mode: OptionButton
+var _hit_window_label: Label
+var _node_projectile_scene_edit: LineEdit
+var _projectile_config_button: Button
+var _node_extra_controls: VBoxContainer
+var _node_effect_section: VBoxContainer
+var _node_rain_section: VBoxContainer
+var _node_rain_area_controls: Array[Control] = []
+var _node_effect_scene_edit: LineEdit
+var _node_effect_scope_select: OptionButton
+var _node_effect_offset_x: SpinBox
+var _node_effect_offset_y: SpinBox
+var _node_rain_mode_select: OptionButton
+var _node_rain_count: SpinBox
+var _node_rain_interval: SpinBox
+var _node_rain_search_range: SpinBox
+var _node_rain_width: SpinBox
+var _node_rain_height: SpinBox
+var _node_rain_flight_time: SpinBox
+var _node_rain_gravity: SpinBox
+var _node_rain_socket_edit: LineEdit
 var _action_select: OptionButton
 var _event_select: OptionButton
 var _trigger_select: OptionButton
@@ -74,7 +114,7 @@ func _ready() -> void:
 
 
 func open_editor() -> void:
-	if _action_select == null or _event_select == null or _skill_type_select == null:
+	if _action_select == null or _event_select == null or _skill_type_select == null or _skill_name_edit == null:
 		_build_ui()
 	_load_skills()
 	_rebuild_skill_select()
@@ -83,13 +123,49 @@ func open_editor() -> void:
 
 
 func _build_ui() -> void:
-	if _action_select != null and _event_select != null:
+	if _action_select != null and _event_select != null and _skill_name_edit != null:
 		return
 	if _ui_root != null and is_instance_valid(_ui_root):
 		remove_child(_ui_root)
 		_ui_root.free()
 	_skill_select = null
 	_skill_type_select = null
+	_skill_tabs = null
+	_skill_name_edit = null
+	_skill_description_edit = null
+	_skill_animation_edit = null
+	_skill_damage_spin = null
+	_skill_cooldown_spin = null
+	_skill_range_spin = null
+	_skill_aoe_radius_spin = null
+	_projectile_scene_edit = null
+	_projectile_speed_spin = null
+	_projectile_lifetime_spin = null
+	_projectile_spawn_offset_spin = null
+	_max_pierce_spin = null
+	_buff_on_hit_spin = null
+	_buff_chance_spin = null
+	_buff_on_self_spin = null
+	_node_projectile_scene_edit = null
+	_projectile_config_button = null
+	_hit_window_label = null
+	_node_extra_controls = null
+	_node_effect_section = null
+	_node_rain_section = null
+	_node_rain_area_controls.clear()
+	_node_effect_scene_edit = null
+	_node_effect_scope_select = null
+	_node_effect_offset_x = null
+	_node_effect_offset_y = null
+	_node_rain_mode_select = null
+	_node_rain_count = null
+	_node_rain_interval = null
+	_node_rain_search_range = null
+	_node_rain_width = null
+	_node_rain_height = null
+	_node_rain_flight_time = null
+	_node_rain_gravity = null
+	_node_rain_socket_edit = null
 	_action_select = null
 	_event_select = null
 	_timeline = null
@@ -115,6 +191,41 @@ func _build_ui() -> void:
 		_skill_type_select.add_item(SKILL_TYPE_LABELS[skill_type])
 		_skill_type_select.set_item_metadata(_skill_type_select.item_count - 1, skill_type)
 	top.add_child(_skill_type_select)
+
+	var params_scroll := ScrollContainer.new()
+	params_scroll.custom_minimum_size.y = 170
+	params_scroll.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	root.add_child(params_scroll)
+	var params := GridContainer.new()
+	params.columns = 2
+	params.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	params_scroll.add_child(params)
+	_skill_name_edit = _add_skill_line_edit(params, "技能名称", "name")
+	_skill_description_edit = _add_skill_line_edit(params, "技能描述", "description")
+	_skill_animation_edit = _add_skill_line_edit(params, "默认动作", "animation")
+	_skill_damage_spin = _add_skill_spin(params, "伤害倍率", "damage_ratio", 1.0, -99.0, 99.0, 0.1)
+	_skill_cooldown_spin = _add_skill_spin(params, "冷却时间", "cooldown", 0.0, 0.0, 999.0, 0.1)
+	_skill_range_spin = _add_skill_spin(params, "技能射程", "range", 0.0, 0.0, 9999.0, 1.0)
+	_skill_aoe_radius_spin = _add_skill_spin(params, "范围半径", "aoe_radius", 0.0, 0.0, 9999.0, 1.0)
+	_projectile_scene_edit = _add_skill_line_edit(params, "弹道场景", "projectile_scene")
+	_projectile_speed_spin = _add_skill_spin(params, "弹道速度", "projectile_speed", 300.0, 0.0, 9999.0, 1.0)
+	_projectile_lifetime_spin = _add_skill_spin(params, "弹道生命周期", "projectile_lifetime", 5.0, 0.0, 999.0, 0.1)
+	_projectile_spawn_offset_spin = _add_skill_spin(params, "弹道出生偏移", "projectile_spawn_offset", 32.0, 0.0, 9999.0, 1.0)
+	_max_pierce_spin = _add_skill_spin(params, "最大穿透数", "max_pierce", 0.0, -1.0, 9999.0, 1.0)
+	_buff_on_hit_spin = _add_skill_spin(params, "命中 Buff ID", "buff_on_hit", 0.0, 0.0, 999999.0, 1.0)
+	_buff_chance_spin = _add_skill_spin(params, "命中 Buff 概率", "buff_chance", 0.0, 0.0, 1.0, 0.05)
+	_buff_on_self_spin = _add_skill_spin(params, "自身 Buff ID", "buff_on_self", 0.0, 0.0, 999999.0, 1.0)
+
+	params_scroll.hide()
+	root.remove_child(params_scroll)
+	params_scroll.free()
+	_skill_tabs = _build_skill_parameter_tabs(root)
+	var timeline_tabs: TabContainer = _skill_tabs
+
+	var timeline_page := VBoxContainer.new()
+	timeline_page.name = "时间轴编辑"
+	timeline_page.add_theme_constant_override("separation", 6)
+	timeline_tabs.add_child(timeline_page)
 
 	var frame_bar := HBoxContainer.new()
 	root.add_child(frame_bar)
@@ -154,13 +265,21 @@ func _build_ui() -> void:
 
 	var controls := GridContainer.new()
 	controls.columns = 2
+	controls.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	controls.custom_minimum_size.x = 720
 	root.add_child(controls)
 
 	controls.add_child(Label.new())
 	(controls.get_child(0) as Label).text = "节点类型"
 	_node_type = OptionButton.new()
+	_node_type.custom_minimum_size.x = 360
 	_node_type.item_selected.connect(_on_node_type_selected)
-	for item in NODE_TYPES:
+	_node_type.add_separator("动作节点")
+	for item in ACTION_NODE_TYPES:
+		_node_type.add_item(String(NODE_TYPE_LABELS[item]))
+		_node_type.set_item_metadata(_node_type.item_count - 1, String(item))
+	_node_type.add_separator("控制节点")
+	for item in CONTROL_NODE_TYPES:
 		_node_type.add_item(String(NODE_TYPE_LABELS[item]))
 		_node_type.set_item_metadata(_node_type.item_count - 1, String(item))
 	controls.add_child(_node_type)
@@ -168,27 +287,80 @@ func _build_ui() -> void:
 	controls.add_child(Label.new())
 	(controls.get_child(2) as Label).text = "生效方式"
 	_hit_window_mode = OptionButton.new()
+	_hit_window_mode.custom_minimum_size.x = 150
 	_hit_window_mode.add_item("近战伤害")
 	_hit_window_mode.set_item_metadata(0, "damage")
 	_hit_window_mode.add_item("弹道发射")
 	_hit_window_mode.set_item_metadata(1, "projectile")
 	_hit_window_mode.add_item("技能生效帧")
 	_hit_window_mode.set_item_metadata(2, "effect")
-	controls.add_child(_hit_window_mode)
+	_hit_window_mode.item_selected.connect(_on_hit_window_mode_selected)
+	var hit_window_controls := HBoxContainer.new()
+	hit_window_controls.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	hit_window_controls.custom_minimum_size.x = 540
+	hit_window_controls.add_child(_hit_window_mode)
+	_node_projectile_scene_edit = LineEdit.new()
+	_node_projectile_scene_edit.placeholder_text = "projectile_scene"
+	_node_projectile_scene_edit.custom_minimum_size.x = 260
+	_node_projectile_scene_edit.text_changed.connect(_on_node_projectile_scene_changed)
+	hit_window_controls.add_child(_node_projectile_scene_edit)
+	_projectile_config_button = Button.new()
+	_projectile_config_button.text = "弹道配置"
+	_projectile_config_button.pressed.connect(_open_projectile_config)
+	hit_window_controls.add_child(_projectile_config_button)
+	controls.add_child(hit_window_controls)
 
 	controls.add_child(Label.new())
 	(controls.get_child(4) as Label).text = "动作"
 	_action_select = OptionButton.new()
+	_action_select.custom_minimum_size.x = 360
 	_action_select.item_selected.connect(_on_action_selected)
 	controls.add_child(_action_select)
 
 	controls.add_child(Label.new())
 	(controls.get_child(6) as Label).text = "事件"
 	_event_select = OptionButton.new()
+	_event_select.custom_minimum_size.x = 360
 	controls.add_child(_event_select)
+	var event_label_to_remove := controls.get_child(6)
+	controls.remove_child(event_label_to_remove)
+	event_label_to_remove.free()
+	var action_label_to_remove := controls.get_child(4)
+	controls.remove_child(action_label_to_remove)
+	action_label_to_remove.free()
+	var node_label := controls.get_child(0) as Label
+	var node_selector := controls.get_child(1) as Control
+	var effect_label := controls.get_child(2) as Label
+	var action_selector := controls.get_child(4) as Control
+	var event_selector := controls.get_child(5) as Control
+	for child in [node_label, node_selector, effect_label, hit_window_controls, action_selector, event_selector]:
+		controls.remove_child(child)
+	controls.columns = 1
+	controls.add_child(_make_node_control_row(node_label, node_selector))
+	controls.add_child(_make_node_control_row(effect_label, hit_window_controls))
+	var action_row_label := Label.new()
+	action_row_label.text = "动作"
+	controls.add_child(_make_node_control_row(action_row_label, action_selector))
+	var event_row_label := Label.new()
+	event_row_label.text = "事件"
+	controls.add_child(_make_node_control_row(event_row_label, event_selector))
+	_hit_window_label = effect_label
+	_node_extra_controls = VBoxContainer.new()
+	_node_extra_controls.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	controls.add_child(_node_extra_controls)
+	_build_node_extra_controls(_node_extra_controls)
+	var controls_wrapper := HBoxContainer.new()
+	controls_wrapper.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.add_child(controls_wrapper)
+	root.remove_child(controls)
+	controls_wrapper.add_child(controls)
+	var controls_spacer := Control.new()
+	controls_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	controls_wrapper.add_child(controls_spacer)
 
 	var trigger_controls := HBoxContainer.new()
 	root.add_child(trigger_controls)
+	root.move_child(controls_wrapper, root.get_children().find(trigger_controls))
 	var trigger_label := Label.new()
 	trigger_label.text = "节点触发"
 	trigger_controls.add_child(trigger_label)
@@ -258,6 +430,14 @@ func _build_ui() -> void:
 	_status = Label.new()
 	root.add_child(_status)
 
+	var timeline_parts: Array[Node] = [
+		frame_bar, _timeline, _node_list, order_buttons, controls_wrapper, trigger_controls,
+		_event_notice, buttons, template_label, template_grid, template_help, _status,
+	]
+	for part in timeline_parts:
+		root.remove_child(part)
+		timeline_page.add_child(part)
+
 
 func _add_template_button(parent: Container, text: String, callback: Callable) -> void:
 	var button := Button.new()
@@ -265,6 +445,154 @@ func _add_template_button(parent: Container, text: String, callback: Callable) -
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(callback)
 	parent.add_child(button)
+
+
+func _add_skill_line_edit(parent: Container, label_text: String, field_name: String) -> LineEdit:
+	var label := Label.new()
+	label.text = label_text
+	parent.add_child(label)
+	var edit := LineEdit.new()
+	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	edit.text_changed.connect(_on_skill_text_changed.bind(field_name))
+	parent.add_child(edit)
+	return edit
+
+
+func _add_skill_spin(parent: Container, label_text: String, field_name: String, default_value: float, min_value: float, max_value: float, step: float) -> SpinBox:
+	var label := Label.new()
+	label.text = label_text
+	parent.add_child(label)
+	var spin := SpinBox.new()
+	spin.min_value = min_value
+	spin.max_value = max_value
+	spin.step = step
+	spin.value = default_value
+	spin.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spin.value_changed.connect(_on_skill_number_changed.bind(field_name))
+	parent.add_child(spin)
+	return spin
+
+
+func _make_node_control_row(label: Label, control: Control) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	label.custom_minimum_size.x = 130
+	row.add_child(label)
+	row.add_child(control)
+	return row
+
+
+func _build_node_extra_controls(parent: VBoxContainer) -> void:
+	_node_effect_section = VBoxContainer.new()
+	parent.add_child(_node_effect_section)
+	_node_effect_scene_edit = _add_node_extra_line(_node_effect_section, "特效场景", "scene")
+	_node_effect_scope_select = _add_node_extra_option(_node_effect_section, "生成目标", "target_scope", ["判定框/Socket", "本次命中目标"] , ["effect_origin", "last_hit_targets"])
+	_node_effect_offset_x = _add_node_extra_spin(_node_effect_section, "特效偏移 X", "offset_x", 0.0, -9999.0, 9999.0, 1.0)
+	_node_effect_offset_y = _add_node_extra_spin(_node_effect_section, "特效偏移 Y", "offset_y", 0.0, -9999.0, 9999.0, 1.0)
+
+	_node_rain_section = VBoxContainer.new()
+	parent.add_child(_node_rain_section)
+	_node_rain_mode_select = _add_node_extra_option(_node_rain_section, "弹道模式", "projectile_mode", ["单发直线", "区域落雨"], ["single", "area_rain"])
+	_node_rain_area_controls = []
+	_node_rain_count = _add_node_extra_spin(_node_rain_section, "弹道数量", "projectile_count", 12.0, 1.0, 999.0, 1.0)
+	_node_rain_area_controls.append(_node_rain_count.get_parent() as Control)
+	_node_rain_interval = _add_node_extra_spin(_node_rain_section, "发射间隔", "projectile_interval", 0.05, 0.0, 10.0, 0.01)
+	_node_rain_area_controls.append(_node_rain_interval.get_parent() as Control)
+	_node_rain_search_range = _add_node_extra_spin(_node_rain_section, "索敌范围", "target_search_range", 500.0, 1.0, 9999.0, 1.0)
+	_node_rain_area_controls.append(_node_rain_search_range.get_parent() as Control)
+	_node_rain_width = _add_node_extra_spin(_node_rain_section, "区域宽度", "area_width", 240.0, 1.0, 9999.0, 1.0)
+	_node_rain_area_controls.append(_node_rain_width.get_parent() as Control)
+	_node_rain_height = _add_node_extra_spin(_node_rain_section, "区域高度", "area_height", 80.0, 1.0, 9999.0, 1.0)
+	_node_rain_area_controls.append(_node_rain_height.get_parent() as Control)
+	_node_rain_flight_time = _add_node_extra_spin(_node_rain_section, "飞行时间", "flight_time", 0.9, 0.1, 10.0, 0.05)
+	_node_rain_area_controls.append(_node_rain_flight_time.get_parent() as Control)
+	_node_rain_gravity = _add_node_extra_spin(_node_rain_section, "重力", "gravity", 900.0, 0.0, 9999.0, 10.0)
+	_node_rain_area_controls.append(_node_rain_gravity.get_parent() as Control)
+	_node_rain_socket_edit = _add_node_extra_line(_node_rain_section, "发射 Socket", "socket")
+
+
+func _add_node_extra_line(parent: Container, label_text: String, field_name: String) -> LineEdit:
+	var edit := LineEdit.new()
+	edit.custom_minimum_size.x = 420
+	edit.text_changed.connect(_on_node_extra_text_changed.bind(field_name))
+	parent.add_child(_make_node_control_row(_make_node_label(label_text), edit))
+	return edit
+
+
+func _add_node_extra_spin(parent: Container, label_text: String, field_name: String, default_value: float, min_value: float, max_value: float, step: float) -> SpinBox:
+	var spin := SpinBox.new()
+	spin.custom_minimum_size.x = 180
+	spin.min_value = min_value
+	spin.max_value = max_value
+	spin.step = step
+	spin.value = default_value
+	spin.value_changed.connect(_on_node_extra_number_changed.bind(field_name))
+	parent.add_child(_make_node_control_row(_make_node_label(label_text), spin))
+	return spin
+
+
+func _add_node_extra_option(parent: Container, label_text: String, field_name: String, labels: Array, values: Array) -> OptionButton:
+	var option := OptionButton.new()
+	option.custom_minimum_size.x = 240
+	for index in range(labels.size()):
+		option.add_item(str(labels[index]))
+		option.set_item_metadata(index, values[index])
+	option.item_selected.connect(_on_node_extra_option_selected.bind(field_name))
+	parent.add_child(_make_node_control_row(_make_node_label(label_text), option))
+	return option
+
+
+func _make_node_label(text_value: String) -> Label:
+	var label := Label.new()
+	label.text = text_value
+	return label
+
+
+func _build_skill_parameter_tabs(root: VBoxContainer) -> TabContainer:
+	var tabs := TabContainer.new()
+	tabs.custom_minimum_size.y = 170
+	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_child(tabs)
+
+	var base := GridContainer.new()
+	base.name = "基础"
+	base.columns = 2
+	base.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.add_child(base)
+	_skill_name_edit = _add_skill_line_edit(base, "技能名称", "name")
+	_skill_description_edit = _add_skill_line_edit(base, "技能描述", "description")
+	_skill_animation_edit = _add_skill_line_edit(base, "默认动作", "animation")
+
+	var numbers := GridContainer.new()
+	numbers.name = "数值"
+	numbers.columns = 2
+	numbers.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.add_child(numbers)
+	_skill_damage_spin = _add_skill_spin(numbers, "伤害倍率", "damage_ratio", 1.0, -99.0, 99.0, 0.1)
+	_skill_cooldown_spin = _add_skill_spin(numbers, "冷却时间", "cooldown", 0.0, 0.0, 999.0, 0.1)
+	_skill_range_spin = _add_skill_spin(numbers, "技能射程", "range", 0.0, 0.0, 9999.0, 1.0)
+	_skill_aoe_radius_spin = _add_skill_spin(numbers, "范围半径", "aoe_radius", 0.0, 0.0, 9999.0, 1.0)
+
+	var projectile := GridContainer.new()
+	projectile.name = "弹道"
+	projectile.columns = 2
+	projectile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.add_child(projectile)
+	_projectile_scene_edit = _add_skill_line_edit(projectile, "弹道场景", "projectile_scene")
+	_projectile_speed_spin = _add_skill_spin(projectile, "弹道速度", "projectile_speed", 300.0, 0.0, 9999.0, 1.0)
+	_projectile_lifetime_spin = _add_skill_spin(projectile, "弹道生命周期", "projectile_lifetime", 5.0, 0.0, 999.0, 0.1)
+	_projectile_spawn_offset_spin = _add_skill_spin(projectile, "弹道出生偏移", "projectile_spawn_offset", 32.0, 0.0, 9999.0, 1.0)
+	_max_pierce_spin = _add_skill_spin(projectile, "最大穿透数", "max_pierce", 0.0, -1.0, 9999.0, 1.0)
+
+	var buffs := GridContainer.new()
+	buffs.name = "Buff"
+	buffs.columns = 2
+	buffs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tabs.add_child(buffs)
+	_buff_on_hit_spin = _add_skill_spin(buffs, "命中 Buff ID", "buff_on_hit", 0.0, 0.0, 999999.0, 1.0)
+	_buff_chance_spin = _add_skill_spin(buffs, "命中 Buff 概率", "buff_chance", 0.0, 0.0, 1.0, 0.05)
+	_buff_on_self_spin = _add_skill_spin(buffs, "自身 Buff ID", "buff_on_self", 0.0, 0.0, 999999.0, 1.0)
+	return tabs
 
 
 func _load_skills() -> void:
@@ -281,7 +609,7 @@ func _load_skills() -> void:
 
 
 func _rebuild_skill_select() -> void:
-	if _skill_select == null or _action_select == null:
+	if _skill_select == null or _action_select == null or _skill_name_edit == null:
 		return
 	_skill_select.clear()
 	var ids: Array = _skills.keys()
@@ -301,6 +629,7 @@ func _on_skill_selected(index: int) -> void:
 	_current_skill_id = _skill_select.get_item_id(index)
 	_rebuild_node_list()
 	var skill := _get_current_skill()
+	_load_skill_fields(skill)
 	_select_option_by_metadata(_skill_type_select, String(skill.get("type", "melee")))
 	var anim := String(skill.get("animation", "attack"))
 	_select_option_by_text(_action_select, anim)
@@ -327,6 +656,71 @@ func _on_skill_type_selected(index: int) -> void:
 	_status.text = "已更新技能类型：%s（点击保存 skills.json 后写入）" % SKILL_TYPE_LABELS.get(skill_type, skill_type)
 
 
+func _load_skill_fields(skill: Dictionary) -> void:
+	_loading_skill_fields = true
+	if _skill_name_edit != null:
+		_skill_name_edit.text = str(skill.get("name", ""))
+	if _skill_description_edit != null:
+		_skill_description_edit.text = str(skill.get("description", ""))
+	if _skill_animation_edit != null:
+		_skill_animation_edit.text = str(skill.get("animation", "attack"))
+	if _skill_damage_spin != null:
+		_skill_damage_spin.value = float(skill.get("damage_ratio", 1.0))
+	if _skill_cooldown_spin != null:
+		_skill_cooldown_spin.value = float(skill.get("cooldown", 0.0))
+	if _skill_range_spin != null:
+		_skill_range_spin.value = float(skill.get("range", 0.0))
+	if _skill_aoe_radius_spin != null:
+		_skill_aoe_radius_spin.value = float(skill.get("aoe_radius", 0.0))
+	if _projectile_scene_edit != null:
+		_projectile_scene_edit.text = str(skill.get("projectile_scene", ""))
+	if _node_projectile_scene_edit != null:
+		_node_projectile_scene_edit.text = str(skill.get("projectile_scene", ""))
+	if _projectile_speed_spin != null:
+		_projectile_speed_spin.value = float(skill.get("projectile_speed", 300.0))
+	if _projectile_lifetime_spin != null:
+		_projectile_lifetime_spin.value = float(skill.get("projectile_lifetime", 5.0))
+	if _projectile_spawn_offset_spin != null:
+		_projectile_spawn_offset_spin.value = float(skill.get("projectile_spawn_offset", 32.0))
+	if _max_pierce_spin != null:
+		_max_pierce_spin.value = float(skill.get("max_pierce", 0))
+	if _buff_on_hit_spin != null:
+		_buff_on_hit_spin.value = float(skill.get("buff_on_hit", 0))
+	if _buff_chance_spin != null:
+		_buff_chance_spin.value = float(skill.get("buff_chance", 0.0))
+	if _buff_on_self_spin != null:
+		_buff_on_self_spin.value = float(skill.get("buff_on_self", 0))
+	_loading_skill_fields = false
+
+
+func _on_skill_text_changed(value: String, field_name: String) -> void:
+	if _loading_skill_fields or _current_skill_id <= 0:
+		return
+	var skill := _get_current_skill()
+	skill[field_name] = value
+	_skills[str(_current_skill_id)] = skill
+	if field_name == "projectile_scene" and _node_projectile_scene_edit != null:
+		_node_projectile_scene_edit.text = value
+	if field_name == "animation":
+		_rebuild_action_select()
+		_select_option_by_text(_action_select, value)
+		_rebuild_event_select(value)
+		_refresh_trigger_options()
+		_refresh_event_notice(value)
+		_refresh_timeline()
+
+
+func _on_skill_number_changed(value: float, field_name: String) -> void:
+	if _loading_skill_fields or _current_skill_id <= 0:
+		return
+	var skill := _get_current_skill()
+	if field_name == "max_pierce" or field_name.ends_with("_id"):
+		skill[field_name] = int(value)
+	else:
+		skill[field_name] = value
+	_skills[str(_current_skill_id)] = skill
+
+
 func _get_current_skill() -> Dictionary:
 	return _skills.get(str(_current_skill_id), {})
 
@@ -338,7 +732,7 @@ func _rebuild_node_list() -> void:
 	for index in range(nodes.size()):
 		var node: Dictionary = nodes[index]
 		var type_name := String(node.get("type", ""))
-		_node_list.add_item("%02d  %s  %s" % [index + 1, _node_type_label_for_node(node), _summarize_node(node)])
+		_node_list.add_item("%02d  [%s] %s  %s" % [index + 1, _node_category(type_name), _node_type_label_for_node(node), _summarize_node(node)])
 	_update_reorder_buttons()
 	_refresh_timeline()
 
@@ -373,10 +767,39 @@ func _load_selected_node_controls(index: int) -> void:
 		_update_hit_window_mode_visibility()
 	if type_name == "wait_action_event":
 		_select_option_by_metadata(_event_select, String(node.get("event", "release")))
+	if _node_projectile_scene_edit != null:
+		_node_projectile_scene_edit.text = str(skill.get("projectile_scene", ""))
+	_update_hit_window_mode_visibility()
+	_load_node_extra_controls(node)
 
 
 func _on_node_type_selected(_index: int) -> void:
 	_update_hit_window_mode_visibility()
+	if _node_extra_controls != null:
+		_refresh_node_extra_visibility()
+
+
+func _on_hit_window_mode_selected(_index: int) -> void:
+	_update_hit_window_mode_visibility()
+
+
+func _on_node_projectile_scene_changed(value: String) -> void:
+	if _loading_skill_fields or _current_skill_id <= 0:
+		return
+	var skill := _get_current_skill()
+	skill["projectile_scene"] = value
+	_skills[str(_current_skill_id)] = skill
+	if _projectile_scene_edit != null:
+		_projectile_scene_edit.text = value
+
+
+func _open_projectile_config() -> void:
+	if _skill_tabs == null:
+		return
+	for index in range(_skill_tabs.get_tab_count()):
+		if _skill_tabs.get_tab_title(index) == "弹道":
+			_skill_tabs.current_tab = index
+			return
 
 
 func _update_hit_window_mode_visibility() -> void:
@@ -384,8 +807,86 @@ func _update_hit_window_mode_visibility() -> void:
 		return
 	var type_name := String(_node_type.get_item_metadata(_node_type.selected))
 	_hit_window_mode.visible = type_name == "use_action_hit_window"
-	var mode_label := _hit_window_mode.get_parent().get_child(2) as Label
-	mode_label.visible = _hit_window_mode.visible
+	if _hit_window_label != null:
+		_hit_window_label.visible = _hit_window_mode.visible
+	var is_projectile := type_name == "spawn_projectile" or (_hit_window_mode.visible and String(_hit_window_mode.get_item_metadata(_hit_window_mode.selected)) == "projectile")
+	if _node_projectile_scene_edit != null:
+		_node_projectile_scene_edit.visible = is_projectile
+	if _projectile_config_button != null:
+		_projectile_config_button.visible = is_projectile
+	if _node_extra_controls != null:
+		_refresh_node_extra_visibility()
+
+
+func _refresh_node_extra_visibility() -> void:
+	if _node_type == null or _node_effect_section == null or _node_rain_section == null:
+		return
+	var type_name := String(_node_type.get_item_metadata(_node_type.selected))
+	_node_effect_section.visible = type_name == "play_effect"
+	_node_rain_section.visible = type_name == "spawn_projectile"
+	var rain_mode := String(_node_rain_mode_select.get_item_metadata(_node_rain_mode_select.selected)) if _node_rain_mode_select.item_count > 0 else "single"
+	for control in _node_rain_area_controls:
+		if is_instance_valid(control):
+			control.visible = rain_mode == "area_rain"
+
+
+func _load_node_extra_controls(node: Dictionary) -> void:
+	if _node_effect_scene_edit == null:
+		return
+	_loading_skill_fields = true
+	_node_effect_scene_edit.text = str(node.get("scene", node.get("effect_scene", "")))
+	_select_option_by_metadata(_node_effect_scope_select, String(node.get("target_scope", "effect_origin")))
+	_node_effect_offset_x.value = float(node.get("offset_x", 0.0))
+	_node_effect_offset_y.value = float(node.get("offset_y", 0.0))
+	_select_option_by_metadata(_node_rain_mode_select, String(node.get("projectile_mode", "single")))
+	_node_rain_count.value = float(node.get("projectile_count", 12.0))
+	_node_rain_interval.value = float(node.get("projectile_interval", 0.05))
+	_node_rain_search_range.value = float(node.get("target_search_range", 500.0))
+	_node_rain_width.value = float(node.get("area_width", 240.0))
+	_node_rain_height.value = float(node.get("area_height", 80.0))
+	_node_rain_flight_time.value = float(node.get("flight_time", 0.9))
+	_node_rain_gravity.value = float(node.get("gravity", 900.0))
+	_node_rain_socket_edit.text = str(node.get("socket", ""))
+	_loading_skill_fields = false
+	_refresh_node_extra_visibility()
+
+
+func _update_selected_node_field(field_name: String, value: Variant) -> void:
+	if _loading_skill_fields or _current_skill_id <= 0:
+		return
+	var index := _selected_node_index()
+	if index < 0:
+		return
+	var skill := _get_current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if index >= nodes.size() or not nodes[index] is Dictionary:
+		return
+	var node: Dictionary = nodes[index]
+	if value is String and str(value).is_empty():
+		node.erase(field_name)
+	else:
+		node[field_name] = value
+	nodes[index] = node
+	skill["nodes"] = nodes
+	_skills[str(_current_skill_id)] = skill
+	_rebuild_node_list()
+	_node_list.select(index)
+
+
+func _on_node_extra_text_changed(value: String, field_name: String) -> void:
+	_update_selected_node_field(field_name, value)
+
+
+func _on_node_extra_number_changed(value: float, field_name: String) -> void:
+	_update_selected_node_field(field_name, value)
+
+
+func _on_node_extra_option_selected(index: int, field_name: String) -> void:
+	var option: OptionButton = _node_rain_mode_select if field_name == "projectile_mode" else _node_effect_scope_select
+	if option == null or index < 0 or index >= option.item_count:
+		return
+	_update_selected_node_field(field_name, option.get_item_metadata(index))
+	_refresh_node_extra_visibility()
 
 
 func _on_frame_slider_changed(value: float) -> void:
@@ -541,7 +1042,7 @@ func _add_node() -> void:
 	var nodes: Array = skill.get("nodes", [])
 	var type_name := String(_node_type.get_item_metadata(_node_type.selected))
 	var action_name := _action_select.get_item_text(_action_select.selected) if _action_select.item_count > 0 else String(skill.get("animation", "attack"))
-	var event_name := String(_event_select.get_item_metadata(_event_select.selected)) if _event_select.item_count > 0 else "release"
+	var event_name := str(_event_select.get_item_metadata(_event_select.selected)) if _event_select.item_count > 0 else "release"
 	var node := {"type": type_name}
 	match type_name:
 		"play_animation", "use_action_hit_window":
@@ -661,7 +1162,6 @@ func _apply_template(skill_type: String, nodes: Array, message: String) -> void:
 		return
 	var skill := _get_current_skill()
 	skill["type"] = skill_type
-	skill["effect_timing"] = "active_frame"
 	if skill_type == "melee":
 		for node_value in nodes:
 			if node_value is Dictionary and String(node_value.get("type", "")) == "use_action_hit_window":
@@ -842,6 +1342,10 @@ func _apply_selected_node_trigger() -> void:
 	_load_selected_node_trigger(index)
 	_timeline.set_selected_node(index)
 	_status.text = "已应用节点触发时机，保存后写入 skills.json。"
+
+
+func _node_category(type_name: String) -> String:
+	return ACTION_NODE_LABEL if ACTION_NODE_TYPES.has(type_name) else CONTROL_NODE_LABEL
 
 
 func _node_type_label(type_name: String) -> String:
