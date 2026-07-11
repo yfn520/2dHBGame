@@ -1,6 +1,54 @@
-[gd_resource type="SpriteFrames" load_steps=33 format=3]
+[gd_resource type="SpriteFrames" format=3 uid="uid://dw4oe88fhbgk1"]
 
-[ext_resource type="Texture2D" path="res://godot/all_actions_atlas.png" id="sheet"]
+[ext_resource type="Texture2D" uid="uid://me4dnxt6rjd4" path="res://assets/characters/gongshou/godot/all_actions_atlas.png" id="sheet"]
+
+[sub_resource type="AtlasTexture" id="atlas_3_1"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 480, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_3_2"]
+atlas = ExtResource("sheet")
+region = Rect2(240, 480, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_3_3"]
+atlas = ExtResource("sheet")
+region = Rect2(480, 480, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_3_4"]
+atlas = ExtResource("sheet")
+region = Rect2(720, 480, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_8_1"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 1680, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_8_2"]
+atlas = ExtResource("sheet")
+region = Rect2(240, 1680, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_8_3"]
+atlas = ExtResource("sheet")
+region = Rect2(480, 1680, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_8_4"]
+atlas = ExtResource("sheet")
+region = Rect2(720, 1680, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_7_1"]
+atlas = ExtResource("sheet")
+region = Rect2(0, 1440, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_7_2"]
+atlas = ExtResource("sheet")
+region = Rect2(240, 1440, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_7_3"]
+atlas = ExtResource("sheet")
+region = Rect2(480, 1440, 240, 240)
+
+[sub_resource type="AtlasTexture" id="atlas_7_4"]
+atlas = ExtResource("sheet")
+region = Rect2(720, 1440, 240, 240)
 
 [sub_resource type="AtlasTexture" id="atlas_1_1"]
 atlas = ExtResource("sheet")
@@ -33,22 +81,6 @@ region = Rect2(480, 240, 240, 240)
 [sub_resource type="AtlasTexture" id="atlas_2_4"]
 atlas = ExtResource("sheet")
 region = Rect2(720, 240, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_3_1"]
-atlas = ExtResource("sheet")
-region = Rect2(0, 480, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_3_2"]
-atlas = ExtResource("sheet")
-region = Rect2(240, 480, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_3_3"]
-atlas = ExtResource("sheet")
-region = Rect2(480, 480, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_3_4"]
-atlas = ExtResource("sheet")
-region = Rect2(720, 480, 240, 240)
 
 [sub_resource type="AtlasTexture" id="atlas_4_1"]
 atlas = ExtResource("sheet")
@@ -98,37 +130,141 @@ region = Rect2(480, 1200, 240, 240)
 atlas = ExtResource("sheet")
 region = Rect2(720, 1200, 240, 240)
 
-[sub_resource type="AtlasTexture" id="atlas_7_1"]
-atlas = ExtResource("sheet")
-region = Rect2(0, 1440, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_7_2"]
-atlas = ExtResource("sheet")
-region = Rect2(240, 1440, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_7_3"]
-atlas = ExtResource("sheet")
-region = Rect2(480, 1440, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_7_4"]
-atlas = ExtResource("sheet")
-region = Rect2(720, 1440, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_8_1"]
-atlas = ExtResource("sheet")
-region = Rect2(0, 1680, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_8_2"]
-atlas = ExtResource("sheet")
-region = Rect2(240, 1680, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_8_3"]
-atlas = ExtResource("sheet")
-region = Rect2(480, 1680, 240, 240)
-
-[sub_resource type="AtlasTexture" id="atlas_8_4"]
-atlas = ExtResource("sheet")
-region = Rect2(720, 1680, 240, 240)
-
 [resource]
-animations = [{"frames": [{"duration": 1.0, "texture": SubResource("atlas_1_1")}, {"duration": 1.0, "texture": SubResource("atlas_1_2")}, {"duration": 1.0, "texture": SubResource("atlas_1_3")}, {"duration": 1.0, "texture": SubResource("atlas_1_4")}], "loop": true, "name": &"idle", "speed": 4.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_2_1")}, {"duration": 1.0, "texture": SubResource("atlas_2_2")}, {"duration": 1.0, "texture": SubResource("atlas_2_3")}, {"duration": 1.0, "texture": SubResource("atlas_2_4")}], "loop": true, "name": &"run", "speed": 7.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_3_1")}, {"duration": 1.0, "texture": SubResource("atlas_3_2")}, {"duration": 1.0, "texture": SubResource("atlas_3_3")}, {"duration": 1.0, "texture": SubResource("atlas_3_4")}], "loop": true, "name": &"attack", "speed": 7.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_4_1")}, {"duration": 1.0, "texture": SubResource("atlas_4_2")}, {"duration": 1.0, "texture": SubResource("atlas_4_3")}, {"duration": 1.0, "texture": SubResource("atlas_4_4")}], "loop": true, "name": &"skill", "speed": 7.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_5_1")}, {"duration": 1.0, "texture": SubResource("atlas_5_2")}, {"duration": 1.0, "texture": SubResource("atlas_5_3")}, {"duration": 1.0, "texture": SubResource("atlas_5_4")}], "loop": true, "name": &"skill1", "speed": 7.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_6_1")}, {"duration": 1.0, "texture": SubResource("atlas_6_2")}, {"duration": 1.0, "texture": SubResource("atlas_6_3")}, {"duration": 1.0, "texture": SubResource("atlas_6_4")}], "loop": true, "name": &"skill2", "speed": 7.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_7_1")}, {"duration": 1.0, "texture": SubResource("atlas_7_2")}, {"duration": 1.0, "texture": SubResource("atlas_7_3")}, {"duration": 1.0, "texture": SubResource("atlas_7_4")}], "loop": true, "name": &"hurt", "speed": 9.0}, {"frames": [{"duration": 1.0, "texture": SubResource("atlas_8_1")}, {"duration": 1.0, "texture": SubResource("atlas_8_2")}, {"duration": 1.0, "texture": SubResource("atlas_8_3")}, {"duration": 1.0, "texture": SubResource("atlas_8_4")}], "loop": false, "name": &"dead", "speed": 7.0}]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_3_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_3_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_3_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_3_4")
+}],
+"loop": 0,
+"name": &"attack",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_8_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_8_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_8_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_8_4")
+}],
+"loop": 0,
+"name": &"dead",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_7_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_7_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_7_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_7_4")
+}],
+"loop": 0,
+"name": &"hurt",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_1_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_1_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_1_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_1_4")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_2_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_2_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_2_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_2_4")
+}],
+"loop": 1,
+"name": &"run",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_4_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_4_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_4_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_4_4")
+}],
+"loop": 0,
+"name": &"skill",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_5_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_5_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_5_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_5_4")
+}],
+"loop": 0,
+"name": &"skill1",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("atlas_6_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_6_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_6_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("atlas_6_4")
+}],
+"loop": 0,
+"name": &"skill2",
+"speed": 7.0
+}]

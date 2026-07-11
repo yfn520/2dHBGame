@@ -1,86 +1,128 @@
 {
 	"1001": {
-		"name": "new_kivin",
-		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
-		"asset": "res://assets/characters/new_kivin",
-		"character_config": "res://assets/characters/new_kivin/character_config.json",
 		"actor_scale": 1.0,
+		"asset": "res://assets/characters/new_kivin",
 		"base_stats": {
-			"max_hp": 250,
-			"attack": 1,
-			"defense": 0,
+			"attack": 1.0,
+			"defense": 0.0,
+			"max_hp": 250.0,
 			"move_speed": 220.0
 		},
+		"character_config": "res://assets/characters/new_kivin/character_config.json",
+		"description": "默认近战角色",
 		"growth": {
-			"max_hp": 20,
-			"attack": 1,
-			"defense": 0,
+			"attack": 1.0,
+			"defense": 0.0,
+			"max_hp": 20.0,
 			"move_speed": 0.0
 		},
 		"max_level": 60,
+		"name": "new_kivin",
 		"normal_skill": 3001,
+		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
 		"skill_unlocks": {
 			"skill1": {
-				"skill_id": 3002,
-				"unlock_level": 1
+				"skill_id": 3002.0,
+				"unlock_level": 1.0
 			},
 			"skill2": {
-				"skill_id": 3003,
-				"unlock_level": 1
+				"skill_id": 3003.0,
+				"unlock_level": 1.0
 			},
 			"skill3": {
-				"skill_id": 3004,
-				"unlock_level": 1
+				"skill_id": 3004.0,
+				"unlock_level": 1.0
 			}
 		},
 		"skills": [
-			3001,
-			3002,
-			3003,
-			3004
-		],
-		"description": "默认近战角色"
+			3001.0,
+			3002.0,
+			3003.0,
+			3004.0
+		]
 	},
 	"1002": {
-		"name": "mofashi",
-		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
-		"asset": "res://assets/characters/mofashi",
-		"character_config": "res://assets/characters/mofashi/character_config.json",
 		"actor_scale": 1.0,
+		"asset": "res://assets/characters/mofashi",
 		"base_stats": {
-			"max_hp": 180,
-			"attack": 2,
-			"defense": 0,
+			"attack": 2.0,
+			"defense": 0.0,
+			"max_hp": 180.0,
 			"move_speed": 210.0
 		},
+		"character_config": "res://assets/characters/mofashi/character_config.json",
+		"description": "默认法师角色",
 		"growth": {
-			"max_hp": 14,
-			"attack": 2,
-			"defense": 0,
+			"attack": 2.0,
+			"defense": 0.0,
+			"max_hp": 14.0,
 			"move_speed": 0.0
 		},
 		"max_level": 60,
+		"name": "mofashi",
 		"normal_skill": 3101,
+		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
 		"skill_unlocks": {
 			"skill1": {
-				"skill_id": 3102,
+				"skill_id": 3102.0,
+				"unlock_level": 1.0
+			},
+			"skill2": {
+				"skill_id": 3103.0,
+				"unlock_level": 1.0
+			},
+			"skill3": {
+				"skill_id": 3104.0,
+				"unlock_level": 1.0
+			}
+		},
+		"skills": [
+			3101.0,
+			3102.0,
+			3103.0,
+			3104.0
+		]
+	},
+	"1003": {
+		"actor_scale": 1.0,
+		"asset": "res://assets/characters/gongshou",
+		"base_stats": {
+			"attack": 1,
+			"defense": 0,
+			"max_hp": 200,
+			"move_speed": 220.0
+		},
+		"character_config": "res://assets/characters/gongshou/character_config.json",
+		"description": "",
+		"growth": {
+			"attack": 1,
+			"defense": 0,
+			"max_hp": 15,
+			"move_speed": 0.0
+		},
+		"max_level": 60,
+		"name": "gong'sho",
+		"normal_skill": 3201,
+		"scene": "res://assets/characters/gongshou/godot/gongshou.tscn",
+		"skill_unlocks": {
+			"skill1": {
+				"skill_id": 3202,
 				"unlock_level": 1
 			},
 			"skill2": {
-				"skill_id": 3103,
+				"skill_id": 3203,
 				"unlock_level": 1
 			},
 			"skill3": {
-				"skill_id": 3104,
+				"skill_id": 3204,
 				"unlock_level": 1
 			}
 		},
 		"skills": [
-			3101,
-			3102,
-			3103,
-			3104
-		],
-		"description": "默认法师角色"
+			3201,
+			3202,
+			3203,
+			3204
+		]
 	}
 }

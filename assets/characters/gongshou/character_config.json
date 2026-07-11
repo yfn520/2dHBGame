@@ -1,0 +1,62 @@
+{
+	"actions_scene": "res://assets/characters/gongshou/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/gongshou/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"skill1",
+		"skill2",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 137.0,
+			"width": 50.0,
+			"x": 97.0,
+			"y": 68.0
+		},
+		"forwardDistance": -1.0,
+		"height": 137.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 50.0,
+		"yOffset": -58.0
+	},
+	"body_position": {
+		"x": -1.0,
+		"y": -58.0
+	},
+	"body_size": {
+		"x": 50.0,
+		"y": 137.0
+	},
+	"centered": true,
+	"character_name": "gong'sho",
+	"collision_bottom": 10.5,
+	"combat_actions": "res://assets/characters/gongshou/combat_actions.json",
+	"combat_source": "res://assets/characters/gongshou/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -3.0,
+		"y": -74.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 123.0,
+		"y": 194.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "gongshou",
+	"spriteframes": "res://assets/characters/gongshou/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

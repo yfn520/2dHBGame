@@ -97,6 +97,22 @@ var _event_notice: Label
 var _status: Label
 var _current_skill_id := 0
 var _ui_root: Control
+var _effect_library_grid: GridContainer
+var _effect_library_status: Label
+var _effect_library_page_label: Label
+var _effect_library_filter := "godot"
+var _effect_library_page := 0
+var _effect_library_items: Array[Dictionary] = []
+var _effect_filter_buttons: Dictionary = {}
+
+const EFFECT_LIBRARY_ROOTS := ["res://scenes/effects", "res://assets/effect", "res://assets/effects"]
+const EFFECT_LIBRARY_PAGE_SIZE := 6
+const EFFECT_LIBRARY_FILTERS := [
+	{"id": "spine", "label": "Spine"},
+	{"id": "unity", "label": "Unity"},
+	{"id": "sequence", "label": "序列帧"},
+	{"id": "godot", "label": "Godot素材"},
+]
 
 
 func _init() -> void:
@@ -430,13 +446,33 @@ func _build_ui() -> void:
 	_status = Label.new()
 	root.add_child(_status)
 
-	var timeline_parts: Array[Node] = [
-		frame_bar, _timeline, _node_list, order_buttons, controls_wrapper, trigger_controls,
-		_event_notice, buttons, template_label, template_grid, template_help, _status,
-	]
-	for part in timeline_parts:
+	var lower_split := HBoxContainer.new()
+	lower_split.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lower_split.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	lower_split.add_theme_constant_override("separation", 10)
+	var left_column := VBoxContainer.new()
+	left_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	left_column.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	left_column.add_theme_constant_override("separation", 6)
+	var effect_library := _build_effect_library_panel()
+	effect_library.custom_minimum_size = Vector2(520, 420)
+	effect_library.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	effect_library.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	lower_split.add_child(left_column)
+	lower_split.add_child(effect_library)
+
+	for part in [frame_bar, _timeline]:
 		root.remove_child(part)
 		timeline_page.add_child(part)
+	var lower_parts: Array[Node] = [
+		_node_list, order_buttons, controls_wrapper, trigger_controls,
+		_event_notice, buttons, template_label, template_grid, template_help, _status,
+	]
+	for part in lower_parts:
+		root.remove_child(part)
+		left_column.add_child(part)
+	timeline_page.add_child(lower_split)
+	_reload_effect_library()
 
 
 func _add_template_button(parent: Container, text: String, callback: Callable) -> void:
@@ -445,6 +481,236 @@ func _add_template_button(parent: Container, text: String, callback: Callable) -
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.pressed.connect(callback)
 	parent.add_child(button)
+
+
+func _build_effect_library_panel() -> VBoxContainer:
+	var panel := VBoxContainer.new()
+	panel.add_theme_constant_override("separation", 8)
+	var title := Label.new()
+	title.text = "特效库（绑定到播放特效节点）"
+	panel.add_child(title)
+
+	var toolbar := HBoxContainer.new()
+	toolbar.add_theme_constant_override("separation", 6)
+	_effect_filter_buttons.clear()
+	for item in EFFECT_LIBRARY_FILTERS:
+		var button := Button.new()
+		button.text = str(item.get("label", ""))
+		button.toggle_mode = true
+		button.button_pressed = str(item.get("id", "")) == _effect_library_filter
+		button.pressed.connect(_on_effect_filter_selected.bind(str(item.get("id", ""))))
+		toolbar.add_child(button)
+		_effect_filter_buttons[str(item.get("id", ""))] = button
+	var refresh_button := Button.new()
+	refresh_button.text = "刷新"
+	refresh_button.pressed.connect(_reload_effect_library)
+	toolbar.add_child(refresh_button)
+	var prev_button := Button.new()
+	prev_button.text = "上一页"
+	prev_button.pressed.connect(_turn_effect_library_page.bind(-1))
+	toolbar.add_child(prev_button)
+	var next_button := Button.new()
+	next_button.text = "下一页"
+	next_button.pressed.connect(_turn_effect_library_page.bind(1))
+	toolbar.add_child(next_button)
+	_effect_library_page_label = Label.new()
+	toolbar.add_child(_effect_library_page_label)
+	panel.add_child(toolbar)
+
+	var scroller := ScrollContainer.new()
+	scroller.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroller.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_effect_library_grid = GridContainer.new()
+	_effect_library_grid.columns = 2
+	_effect_library_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroller.add_child(_effect_library_grid)
+	panel.add_child(scroller)
+
+	_effect_library_status = Label.new()
+	_effect_library_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	panel.add_child(_effect_library_status)
+	return panel
+
+
+func _on_effect_filter_selected(filter_id: String) -> void:
+	_effect_library_filter = filter_id
+	_effect_library_page = 0
+	_refresh_effect_library_view()
+
+
+func _turn_effect_library_page(delta: int) -> void:
+	var items := _filtered_effect_library_items()
+	var total_pages := maxi(1, int(ceil(float(items.size()) / float(EFFECT_LIBRARY_PAGE_SIZE))))
+	_effect_library_page = clampi(_effect_library_page + delta, 0, total_pages - 1)
+	_refresh_effect_library_view()
+
+
+func _reload_effect_library() -> void:
+	_effect_library_items.clear()
+	for root_path in EFFECT_LIBRARY_ROOTS:
+		_scan_effect_library(root_path, _effect_library_items)
+	_effect_library_items.sort_custom(func(a, b): return str(a.get("key", "")) < str(b.get("key", "")))
+	_effect_library_page = 0
+	_refresh_effect_library_view()
+
+
+func _scan_effect_library(path: String, result: Array[Dictionary]) -> void:
+	var dir := DirAccess.open(path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var name := dir.get_next()
+	while not name.is_empty():
+		if name.begins_with("."):
+			name = dir.get_next()
+			continue
+		var child_path := path.path_join(name)
+		if dir.current_is_dir():
+			_scan_effect_library(child_path, result)
+		elif _is_effect_library_file(name):
+			var item := _make_effect_library_item(child_path)
+			if not item.is_empty():
+				result.append(item)
+		name = dir.get_next()
+
+
+func _is_effect_library_file(file_name: String) -> bool:
+	var ext := file_name.get_extension().to_lower()
+	return ["tscn", "scn", "png", "webp", "jpg", "jpeg", "tres"].has(ext)
+
+
+func _make_effect_library_item(path: String) -> Dictionary:
+	var ext := path.get_extension().to_lower()
+	var scene_path := path if ["tscn", "scn"].has(ext) else _find_effect_scene_for_visual(path)
+	var category := _effect_category_for_path(path, ext)
+	var key := path.trim_prefix("res://")
+	var display_path := scene_path if not scene_path.is_empty() else path
+	return {
+		"key": key,
+		"category": category,
+		"scene": scene_path,
+		"preview": path if ["png", "webp", "jpg", "jpeg"].has(ext) else "",
+		"display_path": display_path,
+	}
+
+
+func _effect_category_for_path(path: String, ext: String) -> String:
+	var lower := path.to_lower()
+	if lower.contains("spine"):
+		return "spine"
+	if lower.contains("unity"):
+		return "unity"
+	if ["png", "webp", "jpg", "jpeg", "tres"].has(ext):
+		return "sequence"
+	return "godot"
+
+
+func _find_effect_scene_for_visual(path: String) -> String:
+	var dir_path := path.get_base_dir()
+	var base_name := path.get_file().get_basename()
+	for candidate in [
+		dir_path.path_join(base_name + ".tscn"),
+		dir_path.path_join(base_name + "_visual.tscn"),
+		dir_path.path_join("effect.tscn"),
+		dir_path.path_join("visual.tscn"),
+		dir_path.path_join("fireball_visual.tscn"),
+	]:
+		if ResourceLoader.exists(candidate):
+			return candidate
+	return ""
+
+
+func _filtered_effect_library_items() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for item in _effect_library_items:
+		if str(item.get("category", "godot")) == _effect_library_filter:
+			result.append(item)
+	return result
+
+
+func _refresh_effect_library_view() -> void:
+	if _effect_library_grid == null:
+		return
+	for child in _effect_library_grid.get_children():
+		child.queue_free()
+	for key in _effect_filter_buttons.keys():
+		var button: Button = _effect_filter_buttons[key]
+		if is_instance_valid(button):
+			button.set_pressed_no_signal(str(key) == _effect_library_filter)
+	var items := _filtered_effect_library_items()
+	var total_pages := maxi(1, int(ceil(float(items.size()) / float(EFFECT_LIBRARY_PAGE_SIZE))))
+	_effect_library_page = clampi(_effect_library_page, 0, total_pages - 1)
+	if _effect_library_page_label != null:
+		_effect_library_page_label.text = "当前分类 %d 项 · 第 %d / %d 页" % [items.size(), _effect_library_page + 1, total_pages]
+	var start := _effect_library_page * EFFECT_LIBRARY_PAGE_SIZE
+	var end := mini(items.size(), start + EFFECT_LIBRARY_PAGE_SIZE)
+	for index in range(start, end):
+		_effect_library_grid.add_child(_make_effect_card(items[index]))
+	if _effect_library_status != null:
+		_effect_library_status.text = "绑定会写入当前节点的 scene；纯图片需要同目录存在 .tscn 才能直接绑定。"
+
+
+func _make_effect_card(item: Dictionary) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(240, 160)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 4)
+	card.add_child(box)
+	var top := HBoxContainer.new()
+	box.add_child(top)
+	var title := Label.new()
+	title.text = str(item.get("key", ""))
+	title.clip_text = true
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	top.add_child(title)
+	var bind_button := Button.new()
+	bind_button.text = "绑定"
+	bind_button.disabled = str(item.get("scene", "")).is_empty()
+	bind_button.pressed.connect(_bind_effect_library_item.bind(item))
+	top.add_child(bind_button)
+	var preview_box := PanelContainer.new()
+	preview_box.custom_minimum_size = Vector2(220, 82)
+	box.add_child(preview_box)
+	var preview := TextureRect.new()
+	preview.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var preview_path := str(item.get("preview", ""))
+	if not preview_path.is_empty() and ResourceLoader.exists(preview_path):
+		preview.texture = load(preview_path)
+	preview_box.add_child(preview)
+	var path_label := Label.new()
+	path_label.text = str(item.get("display_path", ""))
+	path_label.clip_text = true
+	box.add_child(path_label)
+	return card
+
+
+func _bind_effect_library_item(item: Dictionary) -> void:
+	var scene_path := str(item.get("scene", ""))
+	if scene_path.is_empty():
+		_status.text = "该资源还没有可绑定的 .tscn 场景。"
+		return
+	var index := _selected_node_index()
+	var skill := _get_current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if index < 0:
+		var node := {"type": "play_effect", "scene": scene_path}
+		nodes.append(node)
+		index = nodes.size() - 1
+	else:
+		if index >= nodes.size() or not nodes[index] is Dictionary:
+			return
+		var node: Dictionary = nodes[index]
+		node["type"] = "play_effect"
+		node["scene"] = scene_path
+		nodes[index] = node
+	skill["nodes"] = nodes
+	_skills[str(_current_skill_id)] = skill
+	_rebuild_node_list()
+	_node_list.select(index)
+	_on_node_selected(index)
+	_status.text = "已绑定特效：%s" % scene_path
 
 
 func _add_skill_line_edit(parent: Container, label_text: String, field_name: String) -> LineEdit:

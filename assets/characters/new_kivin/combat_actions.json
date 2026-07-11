@@ -1,12 +1,23 @@
 {
 	"actions": {
 		"attack": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 1,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
 			"hit_windows": [
 				{
 					"authored_x": -29.0,
 					"end_frame": 1,
 					"forward": 29.0,
 					"height": 31.0,
+					"id": "hitbox-1783001906928-ilcni:region-1783001906928-zwj0u",
 					"source_attack_id": "hitbox-1783001906928-ilcni",
 					"source_region_id": "region-1783001906928-zwj0u",
 					"start_frame": 1,
@@ -18,21 +29,67 @@
 					"end_frame": 3,
 					"forward": 26.0,
 					"height": 52.0,
+					"id": "hitbox-1783001993035-7rqp6:region-1783001993035-04pl1",
 					"source_attack_id": "hitbox-1783001993035-7rqp6",
 					"source_region_id": "region-1783001993035-04pl1",
 					"start_frame": 3,
 					"width": 43.0,
 					"y": -52.0
 				}
-			]
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"dead": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"hurt": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"idle": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"run": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
 		},
 		"skill1": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 2,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
 			"hit_windows": [
 				{
 					"authored_x": -25.0,
 					"end_frame": 2,
 					"forward": 25.0,
 					"height": 60.0,
+					"id": "hitbox-1783002030929-oof48:region-1783002030929-whd36",
 					"source_attack_id": "hitbox-1783002030929-oof48",
 					"source_region_id": "region-1783002030929-whd36",
 					"start_frame": 2,
@@ -44,43 +101,43 @@
 					"end_frame": 3,
 					"forward": 27.0,
 					"height": 19.0,
+					"id": "hitbox-1783002037427-ijigp:region-1783002037427-43l2a",
 					"source_attack_id": "hitbox-1783002037427-ijigp",
 					"source_region_id": "region-1783002037427-43l2a",
 					"start_frame": 3,
 					"width": 43.0,
 					"y": -63.0
 				}
-			]
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"skill2": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
 		},
 		"skill3": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 0,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
 			"hit_windows": [
-				{
-					"authored_x": -3.0,
-					"end_frame": 3,
-					"forward": 3.0,
-					"height": 88.0,
-					"source_attack_id": "hitbox-1783002059501-ip6dj",
-					"source_region_id": "region-1783002059501-citm7",
-					"start_frame": 3,
-					"width": 110.0,
-					"y": -53.0
-				},
-				{
-					"authored_x": 16.0,
-					"end_frame": 2,
-					"forward": 16.0,
-					"height": 58.0,
-					"source_attack_id": "hitbox-1783002065915-fu0ac",
-					"source_region_id": "region-1783002065915-6nrhg",
-					"start_frame": 2,
-					"width": 81.0,
-					"y": -71.0
-				},
 				{
 					"authored_x": -15.0,
 					"end_frame": 0,
 					"forward": 15.0,
 					"height": 47.0,
+					"id": "hitbox-1783002071673-k86lo:region-1783002071673-k6vee",
 					"source_attack_id": "hitbox-1783002071673-k86lo",
 					"source_region_id": "region-1783002071673-k6vee",
 					"start_frame": 0,
@@ -92,17 +149,45 @@
 					"end_frame": 1,
 					"forward": 16.0,
 					"height": 78.0,
+					"id": "hitbox-1783002085121-h53w6:region-1783002085121-tkjy9",
 					"source_attack_id": "hitbox-1783002085121-h53w6",
 					"source_region_id": "region-1783002085121-tkjy9",
 					"start_frame": 1,
 					"width": 87.0,
 					"y": -54.0
+				},
+				{
+					"authored_x": 16.0,
+					"end_frame": 2,
+					"forward": 16.0,
+					"height": 58.0,
+					"id": "hitbox-1783002065915-fu0ac:region-1783002065915-6nrhg",
+					"source_attack_id": "hitbox-1783002065915-fu0ac",
+					"source_region_id": "region-1783002065915-6nrhg",
+					"start_frame": 2,
+					"width": 81.0,
+					"y": -71.0
+				},
+				{
+					"authored_x": -3.0,
+					"end_frame": 3,
+					"forward": 3.0,
+					"height": 88.0,
+					"id": "hitbox-1783002059501-ip6dj:region-1783002059501-citm7",
+					"source_attack_id": "hitbox-1783002059501-ip6dj",
+					"source_region_id": "region-1783002059501-citm7",
+					"start_frame": 3,
+					"width": 110.0,
+					"y": -53.0
 				}
-			]
+			],
+			"movement_windows": [],
+			"sockets": {}
 		}
 	},
 	"coordinate_space": "actor_root_pixels",
 	"source": "combat/attack_frames.json",
+	"source_schema_version": 2,
 	"sprite_scale": 1.0,
-	"version": 2
+	"version": 3
 }
