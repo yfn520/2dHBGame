@@ -5,24 +5,23 @@
 			"cancel_windows": [],
 			"events": [
 				{
-					"fallback": true,
 					"frame": 2,
-					"id": "compat-release",
+					"id": "evt-1783844817058-l6kip",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": -34.0,
+					"authored_x": -97.0,
 					"end_frame": 2,
-					"forward": 34.0,
-					"height": 25.0,
-					"id": "hitbox-1783356338887-wf4b3:region-1783356338887-toan4",
-					"source_attack_id": "hitbox-1783356338887-wf4b3",
-					"source_region_id": "region-1783356338887-toan4",
+					"forward": 97.0,
+					"height": 35.0,
+					"id": "hitbox-1783844291726-uq30c:region-1783844291726-mgv96",
+					"source_attack_id": "hitbox-1783844291726-uq30c",
+					"source_region_id": "region-1783844291726-mgv96",
 					"start_frame": 2,
-					"width": 44.0,
-					"y": -38.0
+					"width": 64.0,
+					"y": -40.0
 				}
 			],
 			"movement_windows": [],
@@ -65,24 +64,28 @@
 			"cancel_windows": [],
 			"events": [
 				{
-					"fallback": true,
 					"frame": 2,
-					"id": "compat-release",
+					"id": "evt-1783844833463-kndoj",
+					"name": "effect"
+				},
+				{
+					"frame": 2,
+					"id": "evt-1783844832583-gnkip",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": -30.0,
+					"authored_x": -96.0,
 					"end_frame": 2,
-					"forward": 30.0,
-					"height": 48.0,
-					"id": "hitbox-1783356358972-l6j18:region-1783356358972-011p0",
-					"source_attack_id": "hitbox-1783356358972-l6j18",
-					"source_region_id": "region-1783356358972-011p0",
+					"forward": 96.0,
+					"height": 51.0,
+					"id": "hitbox-1783844320194-9bwx9:region-1783844320193-cx4a7",
+					"source_attack_id": "hitbox-1783844320194-9bwx9",
+					"source_region_id": "region-1783844320193-cx4a7",
 					"start_frame": 2,
-					"width": 70.0,
-					"y": -15.0
+					"width": 46.0,
+					"y": -61.0
 				}
 			],
 			"movement_windows": [],
@@ -91,7 +94,7 @@
 	},
 	"coordinate_space": "actor_root_pixels",
 	"source": "combat/attack_frames.json",
-	"source_schema_version": 2,
+	"source_schema_version": 3,
 	"sprite_scale": 1.0,
 	"version": 3
 }

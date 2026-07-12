@@ -1,0 +1,117 @@
+{
+	"actions": {
+		"attack": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"frame": 2,
+					"id": "evt-1783848081344-sxybx",
+					"name": "effect"
+				},
+				{
+					"frame": 2,
+					"id": "evt-1783848080745-xm4r4",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -58.0,
+					"end_frame": 2,
+					"forward": 58.0,
+					"height": 75.0,
+					"id": "hitbox-1783848038832-mq4tm:region-1783848038832-z27v4",
+					"source_attack_id": "hitbox-1783848038832-mq4tm",
+					"source_region_id": "region-1783848038832-z27v4",
+					"start_frame": 2,
+					"width": 64.0,
+					"y": -97.0
+				},
+				{
+					"authored_x": -29.0,
+					"end_frame": 3,
+					"forward": 29.0,
+					"height": 51.0,
+					"id": "hitbox-1783848054424-1wzcv:region-1783848054424-5vdqs",
+					"source_attack_id": "hitbox-1783848054424-1wzcv",
+					"source_region_id": "region-1783848054424-5vdqs",
+					"start_frame": 3,
+					"width": 42.0,
+					"y": -14.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"dead": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"hurt": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"idle": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"run": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"skill": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"frame": 3,
+					"id": "evt-1783848075488-oqy46",
+					"name": "effect"
+				},
+				{
+					"frame": 3,
+					"id": "evt-1783848069576-jsnnu",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -60.0,
+					"end_frame": 3,
+					"forward": 60.0,
+					"height": 19.0,
+					"id": "hitbox-1783848064002-mvhrc:region-1783848064002-w2lkw",
+					"source_attack_id": "hitbox-1783848064002-mvhrc",
+					"source_region_id": "region-1783848064002-w2lkw",
+					"start_frame": 3,
+					"width": 80.0,
+					"y": -67.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"source_schema_version": 3,
+	"sprite_scale": 1.0,
+	"version": 3
+}

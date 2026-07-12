@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/kulou/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/kulou/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 127.0,
+			"width": 54.0,
+			"x": 96.0,
+			"y": 87.0
+		},
+		"forwardDistance": -3.0,
+		"height": 127.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 54.0,
+		"yOffset": -62.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -63.5
+	},
+	"body_size": {
+		"x": 54.0,
+		"y": 127.0
+	},
+	"centered": true,
+	"character_name": "kulou",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/kulou/combat_actions.json",
+	"combat_source": "res://assets/enemies/kulou/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -6.0,
+		"y": -94.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 126.0,
+		"y": 213.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "kulou",
+	"spriteframes": "res://assets/enemies/kulou/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

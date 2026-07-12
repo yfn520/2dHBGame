@@ -8,6 +8,8 @@
 		"description": "初始关卡",
 		"enemies": [
 			{ "enemy_id": 1001, "x": 600, "y": 350, "count": 1 },
+			{ "enemy_id": 1004, "x": 500, "y": 350, "count": 1 },
+			{ "enemy_id": 1005, "x": 700, "y": 350, "count": 1 },
 			{ "enemy_id": 1003, "x": 300, "y": 350, "count": 1 }
 		]
 	},
