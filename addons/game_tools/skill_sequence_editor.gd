@@ -50,6 +50,7 @@ var _loading := false
 
 var _hero_select: OptionButton
 var _skill_select: OptionButton
+var _skill_name_edit: LineEdit
 var _name_edit: LineEdit
 var _description_edit: LineEdit
 var _cooldown_spin: SpinBox
@@ -135,6 +136,14 @@ func _build_ui() -> void:
 	_skill_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_skill_select.item_selected.connect(_on_skill_selected)
 	skill_row.add_child(_skill_select)
+	var name_label := Label.new()
+	name_label.text = "名称"
+	skill_row.add_child(name_label)
+	_skill_name_edit = LineEdit.new()
+	_skill_name_edit.custom_minimum_size.x = 140
+	_skill_name_edit.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_skill_name_edit.text_changed.connect(_on_skill_name_changed)
+	skill_row.add_child(_skill_name_edit)
 	var new_skill_btn := Button.new()
 	new_skill_btn.text = "新增技能"
 	new_skill_btn.pressed.connect(_add_new_skill)
@@ -431,6 +440,7 @@ func _load_skill_fields() -> void:
 	var skill := _current_skill()
 	_loading = true
 	_name_edit.text = String(skill.get("name", ""))
+	_skill_name_edit.text = String(skill.get("name", ""))
 	_description_edit.text = String(skill.get("description", ""))
 	_cooldown_spin.value = float(skill.get("cooldown", 0.0))
 	_range_spin.value = float(skill.get("cast_range", 0.0))
@@ -441,6 +451,29 @@ func _on_skill_text_changed(value: String, field: String) -> void:
 	if _loading:
 		return
 	_update_skill(field, value)
+	if field == "name":
+		_skill_name_edit.text = value
+		_update_skill_select_label(_current_skill_id)
+
+
+func _on_skill_name_changed(value: String) -> void:
+	if _loading or _current_skill_id.is_empty():
+		return
+	var skill := _current_skill()
+	skill["name"] = value
+	_skills[_current_skill_id] = skill
+	_name_edit.text = value
+	_update_skill_select_label(_current_skill_id)
+
+
+func _update_skill_select_label(skill_id: String) -> void:
+	if _skill_select == null:
+		return
+	for index in range(_skill_select.item_count):
+		if String(_skill_select.get_item_metadata(index)) == skill_id:
+			var skill: Dictionary = _skills.get(skill_id, {})
+			_skill_select.set_item_text(index, "%s  %s" % [skill_id, String(skill.get("name", "未命名技能"))])
+			return
 
 
 func _on_skill_number_changed(value: float, field: String) -> void:
@@ -612,7 +645,7 @@ func _build_damage_fields_without_result(form: GridContainer, node: Dictionary) 
 
 func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_result_key(form, node)
-	_add_node_line(form, "弹道场景", "scene", node)
+	_add_node_scene_picker(form, "弹道场景", "scene", node)
 	_add_origin_fields(form, node)
 	_add_node_option(form, "轨迹", "trajectory", node, [{"value": "straight", "label": "直线"}, {"value": "ballistic", "label": "抛物线"}], true)
 	_add_node_option(form, "瞄准/落点", "aim_mode", node, [{"value": "facing_elevation", "label": "朝向 + 仰角"}, {"value": "nearest_enemy", "label": "指向最近敌人"}, {"value": "enemy_area", "label": "敌人附近区域"}, {"value": "forward_area", "label": "施法者前方区域"}], true)
@@ -646,7 +679,7 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 
 
 func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
-	_add_node_line(form, "特效场景", "scene", node)
+	_add_node_scene_picker(form, "特效场景", "scene", node)
 	_add_node_option(form, "目标", "target", node, TARGET_OPTIONS, true)
 	if String(node.get("target", "origin")) == "result":
 		_add_node_line(form, "结果集", "result_key", node)
@@ -689,6 +722,25 @@ func _add_node_line(form: GridContainer, label_text: String, field: String, node
 	form.add_child(edit)
 
 
+func _add_node_scene_picker(form: GridContainer, label_text: String, field: String, node: Dictionary) -> void:
+	var label := Label.new()
+	label.text = label_text
+	form.add_child(label)
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	form.add_child(row)
+	var edit := LineEdit.new()
+	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	edit.text = String(node.get(field, ""))
+	edit.text_changed.connect(_on_node_text_changed.bind(field))
+	edit.name = "ScenePathEdit_%s" % field
+	row.add_child(edit)
+	var browse_btn := Button.new()
+	browse_btn.text = "选择..."
+	browse_btn.pressed.connect(_open_scene_picker.bind(edit, field))
+	row.add_child(browse_btn)
+
+
 func _add_node_spin(form: GridContainer, label_text: String, field: String, node: Dictionary, default_value: float, minimum: float, maximum: float, step_value: float) -> void:
 	var label := Label.new()
 	label.text = label_text
@@ -715,6 +767,33 @@ func _add_node_option(form: GridContainer, label_text: String, field: String, no
 			option.select(index)
 	option.item_selected.connect(_on_node_option_selected.bind(field, rebuild, option))
 	form.add_child(option)
+
+
+func _open_scene_picker(edit: LineEdit, field: String) -> void:
+	var dialog := EditorFileDialog.new()
+	dialog.title = "选择场景文件"
+	dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	dialog.access = EditorFileDialog.ACCESS_RESOURCES
+	dialog.add_filter("*.tscn, *.scn ; Scene")
+	dialog.file_selected.connect(func(path: String) -> void:
+		edit.text = path
+		_on_node_text_changed(path, field)
+		dialog.queue_free()
+	)
+	dialog.canceled.connect(func() -> void:
+		dialog.queue_free()
+	)
+	add_child(dialog)
+	var current := edit.text
+	if current.begins_with("res://") and current.contains("/"):
+		var dir := current.get_base_dir()
+		var file := current.get_file()
+		dialog.current_dir = dir
+		dialog.current_file = file
+	else:
+		dialog.current_dir = "res://"
+		dialog.current_file = ""
+	dialog.popup_centered_ratio(0.7)
 
 
 func _on_node_text_changed(value: String, field: String) -> void:

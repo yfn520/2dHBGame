@@ -394,6 +394,37 @@
 				"type": "play_animation"
 			},
 			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"aim_mode": "facing_elevation",
+				"damage_ratio": 1.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scene": "res://scenes/effects/projectiles/effect-arrow.tscn",
+				"speed": 300.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3202": {
+		"name": "弓手技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
 				"hit_window_index": 0,
 				"type": "wait_hit_window"
 			},
@@ -404,7 +435,7 @@
 				"lifetime": 5.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
-				"scene": "",
+				"scene": "res://scenes/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
