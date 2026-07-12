@@ -169,14 +169,21 @@ func _build_ui() -> void:
 	sequence_page.name = "编排"
 	sequence_page.add_theme_constant_override("separation", 6)
 	tabs.add_child(sequence_page)
+	var preview_timeline_row := HBoxContainer.new()
+	preview_timeline_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	sequence_page.add_child(preview_timeline_row)
+	var preview_col := VBoxContainer.new()
+	preview_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	preview_col.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	preview_timeline_row.add_child(preview_col)
 	_preview = CombatActionPreview.new()
-	_preview.custom_minimum_size = Vector2(0, 220)
+	_preview.custom_minimum_size = Vector2(280, 220)
 	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	sequence_page.add_child(_preview)
+	preview_col.add_child(_preview)
 	var frame_row := HBoxContainer.new()
-	sequence_page.add_child(frame_row)
+	preview_col.add_child(frame_row)
 	var frame_label := Label.new()
-	frame_label.text = "当前帧"
+	frame_label.text = "帧"
 	frame_row.add_child(frame_label)
 	_frame_slider = HSlider.new()
 	_frame_slider.min_value = 0
@@ -186,11 +193,13 @@ func _build_ui() -> void:
 	_frame_slider.value_changed.connect(_on_frame_changed)
 	frame_row.add_child(_frame_slider)
 	var prev_frame_btn := Button.new()
-	prev_frame_btn.text = "上一帧"
+	prev_frame_btn.text = "◀"
+	prev_frame_btn.tooltip_text = "上一帧"
 	prev_frame_btn.pressed.connect(_prev_frame)
 	frame_row.add_child(prev_frame_btn)
 	var next_frame_btn := Button.new()
-	next_frame_btn.text = "下一帧"
+	next_frame_btn.text = "▶"
+	next_frame_btn.tooltip_text = "下一帧"
 	next_frame_btn.pressed.connect(_next_frame)
 	frame_row.add_child(next_frame_btn)
 	_play_button = Button.new()
@@ -199,11 +208,12 @@ func _build_ui() -> void:
 	_play_button.toggled.connect(_on_play_toggled)
 	frame_row.add_child(_play_button)
 	_timeline = SkillTimeline.new()
-	_timeline.custom_minimum_size.y = 80
+	_timeline.custom_minimum_size = Vector2(300, 220)
+	_timeline.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_timeline.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_timeline.frame_selected.connect(_on_timeline_frame_selected)
 	_timeline.node_selected.connect(_on_timeline_node_selected)
-	sequence_page.add_child(_timeline)
+	preview_timeline_row.add_child(_timeline)
 	_node_list = ItemList.new()
 	_node_list.custom_minimum_size.y = 120
 	_node_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
