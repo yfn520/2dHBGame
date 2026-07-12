@@ -31,7 +31,7 @@
 	},
 	"body_position": {
 		"x": -1.0,
-		"y": -58.0
+		"y": -68.5
 	},
 	"body_size": {
 		"x": 50.0,
@@ -39,13 +39,13 @@
 	},
 	"centered": true,
 	"character_name": "gong'sho",
-	"collision_bottom": 10.5,
+	"collision_bottom": 0.0,
 	"combat_actions": "res://assets/characters/gongshou/combat_actions.json",
 	"combat_source": "res://assets/characters/gongshou/combat/attack_frames.json",
 	"default_animation": "idle",
 	"display_offset": {
 		"x": -3.0,
-		"y": -74.0
+		"y": -84.5
 	},
 	"display_scale": 1.0,
 	"foot_center": {

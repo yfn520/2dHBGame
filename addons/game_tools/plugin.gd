@@ -390,7 +390,15 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 			maxf(1.0, float(body_box.get("width", body_size.x)) * display_scale),
 			maxf(1.0, float(body_box.get("height", body_size.y)) * display_scale)
 		)
+		# Source bodyBox may extend below the foot center (yOffset + height/2 > 0).
+		# Shift the collision body AND visual sprite up together so the body bottom
+		# sits exactly at the foot origin while keeping the sprite aligned with it.
 		body_bottom = body_position.y + body_size.y * 0.5
+		if body_bottom > 0.0:
+			var shift := body_bottom
+			body_position.y -= shift
+			display_offset.y -= shift
+			body_bottom = 0.0
 	else:
 		# 旧格式保持身体中心坐标，避免旧角色/怪物的攻击框整体迁移。
 		display_offset = Vector2(
