@@ -16,9 +16,9 @@
 			"max_hp": 20.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60,
+		"max_level": 60.0,
 		"name": "new_kivin",
-		"normal_skill": 3001,
+		"normal_skill": 3001.0,
 		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
 		"skill_unlocks": {
 			"skill1": {
@@ -62,9 +62,9 @@
 			"max_hp": 14.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60,
+		"max_level": 60.0,
 		"name": "mofashi",
-		"normal_skill": 3101,
+		"normal_skill": 3101.0,
 		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
 		"skill_unlocks": {
 			"skill1": {
@@ -104,9 +104,9 @@
 			"max_hp": 15.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60,
+		"max_level": 60.0,
 		"name": "gong'sho",
-		"normal_skill": 3201,
+		"normal_skill": 3201.0,
 		"scene": "res://assets/characters/gongshou/godot/gongshou.tscn",
 		"skill_unlocks": {
 			"skill1": {

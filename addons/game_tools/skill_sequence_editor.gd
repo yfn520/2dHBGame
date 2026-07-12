@@ -2,7 +2,10 @@
 extends Window
 
 const SKILLS_PATH := "res://data/skills.json"
+const CHARACTERS_PATH := "res://data/characters.json"
+const ENEMIES_PATH := "res://data/enemies.json"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
+const CombatActionPreview = preload("res://addons/game_tools/combat_action_preview.gd")
 
 const ACTION_TYPES := {
 	"play_animation": "播放动画",
@@ -38,10 +41,14 @@ const TARGET_OPTIONS := [
 ]
 
 var _skills: Dictionary = {}
+var _characters_config: Dictionary = {}
+var _enemies_config: Dictionary = {}
 var _current_skill_id := ""
+var _current_hero_key := ""
 var _action_data: Dictionary = {}
 var _loading := false
 
+var _hero_select: OptionButton
 var _skill_select: OptionButton
 var _name_edit: LineEdit
 var _description_edit: LineEdit
@@ -55,17 +62,36 @@ var _timeline: SkillTimeline
 var _frame_slider: HSlider
 var _status: Label
 
+var _preview: CombatActionPreview
+var _play_button: Button
+var _is_playing := false
+var _play_fps := 10.0
+var _play_accumulator := 0.0
+var _sprite_frames: SpriteFrames
+var _preview_action := "attack"
+var _visual_transform: Dictionary = {}
+var _sprite_scale := 1.0
+
 
 func _init() -> void:
 	title = "技能节点配置"
-	size = Vector2i(1040, 760)
-	min_size = Vector2i(820, 620)
-	close_requested.connect(hide)
+	size = Vector2i(1040, 860)
+	min_size = Vector2i(820, 700)
+	close_requested.connect(_on_close_requested)
+	set_process(false)
+
+
+func _on_close_requested() -> void:
+	_is_playing = false
+	set_process(false)
+	hide
 
 
 func _ready() -> void:
 	_build_ui()
 	_load_skills()
+	_load_character_configs()
+	_rebuild_hero_select()
 	_rebuild_skill_select()
 
 
@@ -73,6 +99,8 @@ func open_editor() -> void:
 	if _skill_select == null:
 		_build_ui()
 	_load_skills()
+	_load_character_configs()
+	_rebuild_hero_select()
 	_rebuild_skill_select()
 	popup_centered(size)
 
@@ -84,19 +112,37 @@ func _build_ui() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 8)
 	add_child(root)
-	var header := HBoxContainer.new()
-	root.add_child(header)
-	var label := Label.new()
-	label.text = "技能"
-	header.add_child(label)
-	_skill_select = OptionButton.new()
-	_skill_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_skill_select.item_selected.connect(_on_skill_selected)
-	header.add_child(_skill_select)
+	var hero_row := HBoxContainer.new()
+	root.add_child(hero_row)
+	var hero_label := Label.new()
+	hero_label.text = "英雄"
+	hero_row.add_child(hero_label)
+	_hero_select = OptionButton.new()
+	_hero_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_hero_select.item_selected.connect(_on_hero_selected)
+	hero_row.add_child(_hero_select)
 	var save := Button.new()
 	save.text = "保存 skills.json"
 	save.pressed.connect(_save_skills)
-	header.add_child(save)
+	hero_row.add_child(save)
+
+	var skill_row := HBoxContainer.new()
+	root.add_child(skill_row)
+	var label := Label.new()
+	label.text = "技能"
+	skill_row.add_child(label)
+	_skill_select = OptionButton.new()
+	_skill_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_skill_select.item_selected.connect(_on_skill_selected)
+	skill_row.add_child(_skill_select)
+	var new_skill_btn := Button.new()
+	new_skill_btn.text = "新增技能"
+	new_skill_btn.pressed.connect(_add_new_skill)
+	skill_row.add_child(new_skill_btn)
+	var del_skill_btn := Button.new()
+	del_skill_btn.text = "删除技能"
+	del_skill_btn.pressed.connect(_delete_current_skill)
+	skill_row.add_child(del_skill_btn)
 
 	var tabs := TabContainer.new()
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -121,10 +167,45 @@ func _build_ui() -> void:
 
 	var sequence_page := VBoxContainer.new()
 	sequence_page.name = "编排"
-	sequence_page.add_theme_constant_override("separation", 8)
+	sequence_page.add_theme_constant_override("separation", 6)
 	tabs.add_child(sequence_page)
+	_preview = CombatActionPreview.new()
+	_preview.custom_minimum_size = Vector2(0, 220)
+	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	sequence_page.add_child(_preview)
+	var frame_row := HBoxContainer.new()
+	sequence_page.add_child(frame_row)
+	var frame_label := Label.new()
+	frame_label.text = "当前帧"
+	frame_row.add_child(frame_label)
+	_frame_slider = HSlider.new()
+	_frame_slider.min_value = 0
+	_frame_slider.max_value = 7
+	_frame_slider.step = 1
+	_frame_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_frame_slider.value_changed.connect(_on_frame_changed)
+	frame_row.add_child(_frame_slider)
+	var prev_frame_btn := Button.new()
+	prev_frame_btn.text = "上一帧"
+	prev_frame_btn.pressed.connect(_prev_frame)
+	frame_row.add_child(prev_frame_btn)
+	var next_frame_btn := Button.new()
+	next_frame_btn.text = "下一帧"
+	next_frame_btn.pressed.connect(_next_frame)
+	frame_row.add_child(next_frame_btn)
+	_play_button = Button.new()
+	_play_button.text = "播放"
+	_play_button.toggle_mode = true
+	_play_button.toggled.connect(_on_play_toggled)
+	frame_row.add_child(_play_button)
+	_timeline = SkillTimeline.new()
+	_timeline.custom_minimum_size.y = 80
+	_timeline.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_timeline.frame_selected.connect(_on_timeline_frame_selected)
+	_timeline.node_selected.connect(_on_timeline_node_selected)
+	sequence_page.add_child(_timeline)
 	_node_list = ItemList.new()
-	_node_list.custom_minimum_size.y = 190
+	_node_list.custom_minimum_size.y = 120
 	_node_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_node_list.item_selected.connect(_on_node_selected)
 	sequence_page.add_child(_node_list)
@@ -148,7 +229,7 @@ func _build_ui() -> void:
 	add_row.add_child(_control_picker)
 	_add_button(add_row, "新增控制", _add_control_node)
 	var detail_scroll := ScrollContainer.new()
-	detail_scroll.custom_minimum_size.y = 250
+	detail_scroll.custom_minimum_size.y = 180
 	detail_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	sequence_page.add_child(detail_scroll)
 	_node_details = VBoxContainer.new()
@@ -165,28 +246,6 @@ func _build_ui() -> void:
 	_add_button(presets, "套用三连弹道", _apply_sequence_template)
 	_add_button(presets, "套用向上箭雨", _apply_rain_template)
 	_add_button(presets, "清空节点", _clear_nodes)
-
-	var timeline_page := VBoxContainer.new()
-	timeline_page.name = "时间轴"
-	timeline_page.add_theme_constant_override("separation", 8)
-	tabs.add_child(timeline_page)
-	var frame_row := HBoxContainer.new()
-	timeline_page.add_child(frame_row)
-	var frame_label := Label.new()
-	frame_label.text = "当前帧"
-	frame_row.add_child(frame_label)
-	_frame_slider = HSlider.new()
-	_frame_slider.min_value = 0
-	_frame_slider.max_value = 7
-	_frame_slider.step = 1
-	_frame_slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_frame_slider.value_changed.connect(_on_frame_changed)
-	frame_row.add_child(_frame_slider)
-	_timeline = SkillTimeline.new()
-	_timeline.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_timeline.frame_selected.connect(_on_timeline_frame_selected)
-	_timeline.node_selected.connect(_on_timeline_node_selected)
-	timeline_page.add_child(_timeline)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	root.add_child(_status)
@@ -245,14 +304,90 @@ func _load_skills() -> void:
 	_skills = (json.data as Dictionary).duplicate(true)
 
 
+func _load_character_configs() -> void:
+	_characters_config = _read_json(CHARACTERS_PATH).duplicate(true)
+	_enemies_config = _read_json(ENEMIES_PATH).duplicate(true)
+
+
+func _rebuild_hero_select() -> void:
+	if _hero_select == null:
+		return
+	_hero_select.clear()
+	_hero_select.add_item("全部技能")
+	_hero_select.set_item_metadata(0, "")
+	var char_ids: Array = _characters_config.keys()
+	char_ids.sort_custom(func(a, b): return int(a) < int(b))
+	for id in char_ids:
+		var config: Dictionary = _characters_config[id]
+		var display_name := String(config.get("name", "未命名"))
+		_hero_select.add_item("[英雄] %s  %s" % [id, display_name])
+		_hero_select.set_item_metadata(_hero_select.item_count - 1, "char:%s" % id)
+	var enemy_ids: Array = _enemies_config.keys()
+	enemy_ids.sort_custom(func(a, b): return int(a) < int(b))
+	for id in enemy_ids:
+		var config: Dictionary = _enemies_config[id]
+		var display_name := String(config.get("name", "未命名"))
+		_hero_select.add_item("[怪物] %s  %s" % [id, display_name])
+		_hero_select.set_item_metadata(_hero_select.item_count - 1, "enemy:%s" % id)
+	if _hero_select.item_count > 0:
+		var index := 0
+		for candidate in range(_hero_select.item_count):
+			if String(_hero_select.get_item_metadata(candidate)) == _current_hero_key:
+				index = candidate
+		_hero_select.select(index)
+
+
+func _on_hero_selected(index: int) -> void:
+	if index < 0 or index >= _hero_select.item_count:
+		return
+	_current_hero_key = String(_hero_select.get_item_metadata(index))
+	_current_skill_id = ""
+	_rebuild_skill_select()
+
+
+func _get_hero_skill_ids(hero_key: String) -> Array:
+	if hero_key.is_empty():
+		return _skills.keys()
+	var parts := hero_key.split(":")
+	if parts.size() < 2:
+		return []
+	var config_type := parts[0]
+	var hero_id := parts[1]
+	var config: Dictionary
+	if config_type == "char":
+		config = _characters_config.get(hero_id, {})
+	elif config_type == "enemy":
+		config = _enemies_config.get(hero_id, {})
+	else:
+		return []
+	var ids: Array = []
+	var normal := int(config.get("normal_skill", 0))
+	if normal > 0:
+		ids.append(str(normal))
+	for value in config.get("skills", []):
+		var sid := str(int(value))
+		if not ids.has(sid):
+			ids.append(sid)
+	for slot in (config.get("skill_unlocks", {}) as Dictionary).values():
+		if slot is Dictionary:
+			var sid := str(int(slot.get("skill_id", 0)))
+			if not sid == "0" and not ids.has(sid):
+				ids.append(sid)
+	return ids
+
+
 func _rebuild_skill_select() -> void:
 	if _skill_select == null:
 		return
 	_skill_select.clear()
-	var ids: Array = _skills.keys()
+	var ids: Array
+	if _current_hero_key.is_empty():
+		ids = _skills.keys()
+	else:
+		ids = _get_hero_skill_ids(_current_hero_key)
 	ids.sort_custom(func(a, b): return int(a) < int(b))
 	for id_value in ids:
-		var skill: Dictionary = _skills[id_value]
+		var skill: Dictionary = _skills.get(id_value, {})
 		_skill_select.add_item("%s  %s" % [id_value, String(skill.get("name", "未命名技能"))])
 		_skill_select.set_item_metadata(_skill_select.item_count - 1, String(id_value))
 	if _skill_select.item_count > 0:
@@ -262,6 +397,11 @@ func _rebuild_skill_select() -> void:
 				index = candidate
 		_skill_select.select(index)
 		_on_skill_selected(index)
+	else:
+		_current_skill_id = ""
+		_clear_node_details()
+		if _timeline != null:
+			_timeline.set_timeline({}, [], 8, 0, -1)
 
 
 func _on_skill_selected(index: int) -> void:
@@ -596,10 +736,24 @@ func _update_node(field: String, value: Variant, rebuild := false) -> void:
 	nodes[index] = node
 	skill["nodes"] = nodes
 	_skills[_current_skill_id] = skill
+	if field == "action" and String(node.get("type", "")) == "play_animation":
+		_reload_action_preview(String(value))
 	if rebuild:
 		_show_node_details(index)
 	_rebuild_node_list_keep(index)
 	_refresh_timeline()
+
+
+func _reload_action_preview(action_name: String) -> void:
+	if action_name.is_empty():
+		return
+	_preview_action = action_name
+	var asset_path := _find_asset_path_for_skill(int(_current_skill_id))
+	if asset_path.is_empty():
+		return
+	var combat_path := asset_path.path_join("combat_actions.json")
+	var data := _read_json(combat_path)
+	_action_data = (data.get("actions", {}) as Dictionary).get(action_name, {})
 
 
 func _rebuild_node_list_keep(index: int) -> void:
@@ -730,28 +884,126 @@ func _clear_nodes() -> void:
 
 func _load_action_data() -> void:
 	_action_data = {}
-	var path := _find_action_path_for_skill(int(_current_skill_id))
-	if path.is_empty():
-		_status.text = "未找到该技能所属资源的 combat_actions.json。"
+	_sprite_frames = null
+	_visual_transform = {}
+	_sprite_scale = 1.0
+	var asset_path := _find_asset_path_for_skill(int(_current_skill_id))
+	if asset_path.is_empty():
+		_status.text = "未找到该技能所属角色资源。"
+		_refresh_preview()
 		return
-	var data := _read_json(path)
+	var combat_path := asset_path.path_join("combat_actions.json")
+	var data := _read_json(combat_path)
 	var action := _default_action()
+	_preview_action = action
 	_action_data = (data.get("actions", {}) as Dictionary).get(action, {})
-	_status.text = "动作数据源：%s" % path
+	_sprite_scale = float(data.get("sprite_scale", 1.0))
+	var sf_path := asset_path.path_join("godot/spriteframes.tres")
+	if ResourceLoader.exists(sf_path):
+		_sprite_frames = load(sf_path) as SpriteFrames
+	_visual_transform = _load_visual_transform(asset_path)
+	_status.text = "动作数据源：%s" % combat_path
+	_refresh_preview()
+
+
+func _find_asset_path_for_skill(skill_id: int) -> String:
+	for config_path in [CHARACTERS_PATH, ENEMIES_PATH]:
+		var configs := _read_json(config_path)
+		for key in configs:
+			var config: Dictionary = configs[key]
+			if _config_uses_skill(config, skill_id):
+				return String(config.get("asset", ""))
+	return ""
+
+
+func _load_visual_transform(asset_path: String) -> Dictionary:
+	var result := {
+		"root_position": Vector2.ZERO,
+		"position": Vector2.ZERO,
+		"offset": Vector2.ZERO,
+		"scale": Vector2.ONE,
+		"centered": true,
+	}
+	var character_config_path := asset_path.path_join("character_config.json")
+	if FileAccess.file_exists(character_config_path):
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(character_config_path)) == OK and json.data is Dictionary:
+			var offset: Dictionary = json.data.get("display_offset", {})
+			result["root_position"] = Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0)))
+	var scene_path := asset_path.path_join("godot/character_actions.tscn")
+	var packed := load(scene_path) as PackedScene
+	if packed == null:
+		return result
+	var instance := packed.instantiate()
+	var sprite := instance.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if sprite != null:
+		result["position"] = sprite.position
+		result["offset"] = sprite.offset
+		result["scale"] = sprite.scale
+		result["centered"] = sprite.centered
+	instance.free()
+	return result
+
+
+func _refresh_preview() -> void:
+	if _preview == null:
+		return
+	if _sprite_frames == null or _preview_action.is_empty():
+		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		return
+	var count := _sprite_frames.get_frame_count(_preview_action)
+	if count == 0:
+		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		return
+	var frame := clampi(int(_frame_slider.value), 0, count - 1)
+	var texture := _sprite_frames.get_frame_texture(_preview_action, frame)
+	var window: Dictionary = {}
+	var windows: Array = _action_data.get("hit_windows", [])
+	if not windows.is_empty() and windows[0] is Dictionary:
+		window = windows[0]
+	_preview.set_preview(texture, _sprite_scale, frame, window, true, _visual_transform)
+
+
+func _prev_frame() -> void:
+	var frame := int(_frame_slider.value)
+	var max_frame := int(_frame_slider.max_value)
+	_frame_slider.value = wrapi(frame - 1, 0, max_frame + 1)
+
+
+func _next_frame() -> void:
+	var frame := int(_frame_slider.value)
+	var max_frame := int(_frame_slider.max_value)
+	_frame_slider.value = wrapi(frame + 1, 0, max_frame + 1)
+
+
+func _on_play_toggled(pressed: bool) -> void:
+	_is_playing = pressed
+	_play_button.text = "暂停" if pressed else "播放"
+	set_process(pressed)
+	if pressed:
+		_play_accumulator = 0.0
+
+
+func _process(delta: float) -> void:
+	if not _is_playing or _sprite_frames == null:
+		return
+	_play_accumulator += delta
+	var frame_interval := 1.0 / _play_fps
+	while _play_accumulator >= frame_interval:
+		_play_accumulator -= frame_interval
+		var frame := int(_frame_slider.value)
+		var max_frame := int(_frame_slider.max_value)
+		_frame_slider.value = wrapi(frame + 1, 0, max_frame + 1)
 
 
 func _refresh_timeline() -> void:
 	if _timeline == null:
 		return
-	var action := _default_action()
-	if not action.is_empty():
-		var path := _find_action_path_for_skill(int(_current_skill_id))
-		var data := _read_json(path)
-		_action_data = (data.get("actions", {}) as Dictionary).get(action, {})
 	var frame_count := _frame_count_for_action(_action_data)
 	_frame_slider.max_value = frame_count - 1
 	_frame_slider.value = clampf(_frame_slider.value, 0, frame_count - 1)
 	_timeline.set_timeline(_action_data, _current_skill().get("nodes", []), frame_count, int(_frame_slider.value), _selected_node_index())
+	_refresh_preview()
 
 
 func _frame_count_for_action(action: Dictionary) -> int:
@@ -767,10 +1019,12 @@ func _frame_count_for_action(action: Dictionary) -> int:
 
 func _on_frame_changed(value: float) -> void:
 	_timeline.set_current_frame(int(value))
+	_refresh_preview()
 
 
 func _on_timeline_frame_selected(frame: int) -> void:
 	_frame_slider.set_value_no_signal(frame)
+	_refresh_preview()
 
 
 func _on_timeline_node_selected(index: int) -> void:
@@ -788,8 +1042,9 @@ func _default_action() -> String:
 
 func _action_options() -> Array:
 	var result: Array = []
-	var path := _find_action_path_for_skill(int(_current_skill_id))
-	var actions: Dictionary = _read_json(path).get("actions", {})
+	var asset_path := _find_asset_path_for_skill(int(_current_skill_id))
+	var combat_path := asset_path.path_join("combat_actions.json")
+	var actions: Dictionary = _read_json(combat_path).get("actions", {})
 	for action_name in actions.keys():
 		result.append({"value": String(action_name), "label": String(action_name)})
 	if result.is_empty():
@@ -811,19 +1066,6 @@ func _event_label(name: String) -> String:
 	return String({"release": "释放", "impact": "命中", "effect": "效果"}.get(name, name))
 
 
-func _find_action_path_for_skill(skill_id: int) -> String:
-	for path in ["res://data/characters.json", "res://data/enemies.json"]:
-		var configs := _read_json(path)
-		for key in configs:
-			var config: Dictionary = configs[key]
-			if _config_uses_skill(config, skill_id):
-				var asset := String(config.get("asset", ""))
-				var action_path := asset.path_join("combat_actions.json")
-				if FileAccess.file_exists(action_path):
-					return action_path
-	return ""
-
-
 func _config_uses_skill(config: Dictionary, skill_id: int) -> bool:
 	if int(config.get("normal_skill", 0)) == skill_id:
 		return true
@@ -843,6 +1085,203 @@ func _read_json(path: String) -> Dictionary:
 	if json.parse(FileAccess.get_file_as_string(path)) != OK or not json.data is Dictionary:
 		return {}
 	return json.data
+
+
+func _add_new_skill() -> void:
+	var new_id := _compute_new_skill_id()
+	if new_id <= 0:
+		_status.text = "无法分配新技能 ID。"
+		return
+	var id_str := str(new_id)
+	var new_skill := {
+		"name": "新技能",
+		"description": "",
+		"cooldown": 1.0,
+		"cast_range": 0.0,
+		"nodes": [
+			{"type": "play_animation", "action": "attack"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "new_hit", "damage_ratio": 1.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	}
+	_skills[id_str] = new_skill
+	if not _current_hero_key.is_empty():
+		_link_skill_to_hero(_current_hero_key, new_id)
+	_save_skills_silent()
+	_current_skill_id = id_str
+	_rebuild_skill_select()
+	_load_skill_fields()
+	_load_action_data()
+	_refresh_all()
+	if not _current_hero_key.is_empty():
+		_status.text = "已创建技能 %s 并关联到当前英雄，已保存 skills.json 和角色配置。" % id_str
+	else:
+		_status.text = "已创建技能 %s，已保存 skills.json。请在基础页填写名称和参数。" % id_str
+
+
+func _delete_current_skill() -> void:
+	if _current_skill_id.is_empty():
+		_status.text = "请先选择要删除的技能。"
+		return
+	var skill: Dictionary = _skills.get(_current_skill_id, {})
+	var skill_name := String(skill.get("name", ""))
+	var id_int := int(_current_skill_id)
+	var affected_heroes := _find_heroes_using_skill(id_int)
+	var confirm_dialog := ConfirmationDialog.new()
+	confirm_dialog.title = "删除技能"
+	var msg := "确认删除技能 %s (%s)？" % [_current_skill_id, skill_name]
+	if not affected_heroes.is_empty():
+		msg += "\n该技能被以下角色/怪物引用，删除后会自动从它们的技能列表中移除：\n" + ", ".join(affected_heroes)
+	confirm_dialog.dialog_text = msg
+	confirm_dialog.confirmed.connect(_do_delete_current_skill.bind(id_int))
+	add_child(confirm_dialog)
+	confirm_dialog.popup_centered(Vector2i(520, 220))
+
+
+func _do_delete_current_skill(skill_id: int) -> void:
+	var id_str := str(skill_id)
+	_skills.erase(id_str)
+	_save_skills_silent()
+	_unlink_skill_from_all_heroes(skill_id)
+	_current_skill_id = ""
+	_rebuild_skill_select()
+	_status.text = "已删除技能 %s，已保存 skills.json 和角色配置。" % id_str
+
+
+func _find_heroes_using_skill(skill_id: int) -> Array:
+	var result: Array = []
+	for id_str in _characters_config.keys():
+		var config: Dictionary = _characters_config[id_str]
+		if _config_uses_skill(config, skill_id):
+			result.append("[英雄] %s %s" % [id_str, String(config.get("name", ""))])
+	for id_str in _enemies_config.keys():
+		var config: Dictionary = _enemies_config[id_str]
+		if _config_uses_skill(config, skill_id):
+			result.append("[怪物] %s %s" % [id_str, String(config.get("name", ""))])
+	return result
+
+
+func _unlink_skill_from_all_heroes(skill_id: int) -> void:
+	var chars_changed := false
+	for id_str in _characters_config.keys():
+		var config: Dictionary = _characters_config[id_str]
+		if _remove_skill_from_config(config, skill_id):
+			_characters_config[id_str] = config
+			chars_changed = true
+	if chars_changed:
+		_save_config_file(CHARACTERS_PATH, _characters_config)
+	var enemies_changed := false
+	for id_str in _enemies_config.keys():
+		var config: Dictionary = _enemies_config[id_str]
+		if _remove_skill_from_config(config, skill_id):
+			_enemies_config[id_str] = config
+			enemies_changed = true
+	if enemies_changed:
+		_save_config_file(ENEMIES_PATH, _enemies_config)
+
+
+func _remove_skill_from_config(config: Dictionary, skill_id: int) -> bool:
+	var changed := false
+	if int(config.get("normal_skill", 0)) == skill_id:
+		config["normal_skill"] = 0
+		changed = true
+	var skills: Array = config.get("skills", [])
+	var filtered: Array = []
+	for value in skills:
+		if int(value) != skill_id:
+			filtered.append(value)
+	if filtered.size() != skills.size():
+		config["skills"] = filtered
+		changed = true
+	var unlocks: Dictionary = config.get("skill_unlocks", {})
+	var slots_to_remove: Array = []
+	for slot_key in unlocks.keys():
+		var slot: Dictionary = unlocks[slot_key]
+		if int(slot.get("skill_id", 0)) == skill_id:
+			slots_to_remove.append(slot_key)
+	for slot_key in slots_to_remove:
+		unlocks.erase(slot_key)
+	if not slots_to_remove.is_empty():
+		config["skill_unlocks"] = unlocks
+		changed = true
+	return changed
+
+
+func _compute_new_skill_id() -> int:
+	var base_id := 0
+	if not _current_hero_key.is_empty():
+		var hero_ids := _get_hero_skill_ids(_current_hero_key)
+		if not hero_ids.is_empty():
+			for id_str in hero_ids:
+				base_id = maxi(base_id, int(id_str))
+			base_id += 1
+		else:
+			var parts := _current_hero_key.split(":")
+			if parts.size() >= 2:
+				var config_type := parts[0]
+				var hero_id := int(parts[1])
+				if config_type == "char":
+					base_id = 3000 + (hero_id - 1001) * 100 + 1
+				elif config_type == "enemy":
+					base_id = 2000 + (hero_id - 1001) * 100 + 1
+	else:
+		for id_str in _skills.keys():
+			base_id = maxi(base_id, int(id_str))
+		base_id += 1
+	while _skills.has(str(base_id)):
+		base_id += 1
+	return base_id
+
+
+func _link_skill_to_hero(hero_key: String, skill_id: int) -> void:
+	var parts := hero_key.split(":")
+	if parts.size() < 2:
+		return
+	var config_type := parts[0]
+	var hero_id := parts[1]
+	if config_type == "char":
+		var config: Dictionary = _characters_config.get(hero_id, {})
+		var skills: Array = config.get("skills", [])
+		var already := false
+		for value in skills:
+			if int(value) == skill_id:
+				already = true
+				break
+		if not already:
+			skills.append(float(skill_id))
+		config["skills"] = skills
+		_characters_config[hero_id] = config
+		_save_config_file(CHARACTERS_PATH, _characters_config)
+	elif config_type == "enemy":
+		var config: Dictionary = _enemies_config.get(hero_id, {})
+		var skills: Array = config.get("skills", [])
+		var already := false
+		for value in skills:
+			if int(value) == skill_id:
+				already = true
+				break
+		if not already:
+			skills.append(float(skill_id))
+		config["skills"] = skills
+		_enemies_config[hero_id] = config
+		_save_config_file(ENEMIES_PATH, _enemies_config)
+
+
+func _save_config_file(path: String, data: Dictionary) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		_status.text = "无法写入 %s" % path
+		return
+	file.store_string(JSON.stringify(data, "\t") + "\n")
+
+
+func _save_skills_silent() -> void:
+	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
+	if file == null:
+		return
+	file.store_string(JSON.stringify(_skills, "\t") + "\n")
 
 
 func _save_skills() -> void:

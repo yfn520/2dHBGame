@@ -383,5 +383,38 @@
 				"type": "end_skill"
 			}
 		]
+	},
+	"3201": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "弓手普攻",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"aim_mode": "facing_elevation",
+				"damage_ratio": 1.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scene": "",
+				"speed": 300.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
 	}
 }
