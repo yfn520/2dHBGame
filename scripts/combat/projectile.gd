@@ -1,24 +1,25 @@
 extends Area2D
-## Basic straight-line projectile with hit detection and pierce support.
+## Runtime projectile. Its combat values come from a spawn_projectile node.
 
 signal hit_target(hurt_box: Area2D)
 
-var direction: Vector2 = Vector2.RIGHT
-var speed: float = 300.0
-var velocity: Vector2 = Vector2.ZERO
-var projectile_gravity: float = 0.0
-var damage: int = 10
-var max_pierce: int = 0 # 0 = no pierce, -1 = infinite pierce
-var pierce_count: int = 0
-var buff_on_hit_id: int = 0
-var buff_chance: float = 0.0
-var lifetime: float = 5.0
-var source_entity: Node = null
+var velocity := Vector2.ZERO
+var projectile_gravity := 0.0
+var damage := 1
+var max_pierce := 0 # 0 = first target, -1 = unlimited.
+var pierce_count := 0
+var buff_id := 0
+var buff_chance := 0.0
+var lifetime := 5.0
+var source_entity: Node
+var rotate_to_velocity := true
 
-var _hit_targets: Array[Area2D] = []
+var _hit_targets: Dictionary = {}
 
 
 func _ready() -> void:
+	z_as_relative = false
+	z_index = 100
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 	area_entered.connect(_on_area_entered)
 
@@ -26,46 +27,43 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	velocity.y += projectile_gravity * delta
+	if rotate_to_velocity and velocity.length_squared() > 0.001:
+		rotation = velocity.angle()
 
 
-func setup(dir: Vector2, spd: float, dmg: int, pierce: int, buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0) -> void:
-	direction = dir.normalized()
-	speed = spd
-	velocity = direction * speed
+func setup(direction: Vector2, speed: float, node_damage: int, pierce: int, node_buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
+	velocity = direction.normalized() * speed
 	projectile_gravity = 0.0
-	damage = dmg
-	max_pierce = pierce
-	buff_on_hit_id = buff_id
-	buff_chance = chance
-	source_entity = source
-	lifetime = life
+	_configure(node_damage, pierce, node_buff_id, chance, source, life, should_rotate)
 
 
-func setup_ballistic(initial_velocity: Vector2, projectile_gravity: float, dmg: int, pierce: int, buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0) -> void:
+func setup_ballistic(initial_velocity: Vector2, gravity_value: float, node_damage: int, pierce: int, node_buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
 	velocity = initial_velocity
-	direction = initial_velocity.normalized()
-	speed = initial_velocity.length()
-	self.projectile_gravity = projectile_gravity
-	damage = dmg
+	projectile_gravity = gravity_value
+	_configure(node_damage, pierce, node_buff_id, chance, source, life, should_rotate)
+
+
+func _configure(node_damage: int, pierce: int, node_buff_id: int, chance: float, source: Node, life: float, should_rotate: bool) -> void:
+	damage = node_damage
 	max_pierce = pierce
-	buff_on_hit_id = buff_id
+	buff_id = node_buff_id
 	buff_chance = chance
 	source_entity = source
 	lifetime = life
+	rotate_to_velocity = should_rotate
 
 
 func _on_area_entered(area: Area2D) -> void:
-	if not area.has_method("is_hurt_box") or not area.is_hurt_box():
+	if not area.has_method("is_hurt_box") or not area.is_hurt_box() or _is_friendly(area):
 		return
-	if _is_friendly(area):
+	var target_id := area.get_instance_id()
+	if _hit_targets.has(target_id):
 		return
-	if area in _hit_targets:
-		return
-	_hit_targets.append(area)
+	_hit_targets[target_id] = true
 	if area.has_method("take_hit"):
 		area.take_hit(damage, source_entity)
-	if buff_on_hit_id > 0 and randf() <= buff_chance:
-		_try_apply_buff(area)
+	if buff_id > 0 and randf() <= buff_chance:
+		_apply_buff(area)
 	hit_target.emit(area)
 	if max_pierce == 0:
 		queue_free()
@@ -75,23 +73,19 @@ func _on_area_entered(area: Area2D) -> void:
 			queue_free()
 
 
-func _try_apply_buff(hurt_box: Area2D) -> void:
-	var target_owner = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
+func _apply_buff(hurt_box: Area2D) -> void:
+	var target_owner: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	if target_owner == null or not target_owner.has_method("apply_buff_from_config"):
 		return
-	var config = GameRegistry.buff_config.get_buff(buff_on_hit_id)
+	var config: Dictionary = GameRegistry.buff_config.get_buff(buff_id)
 	if not config.is_empty():
-		target_owner.apply_buff_from_config(config, source_entity.get_instance_id() if source_entity else 0)
+		target_owner.apply_buff_from_config(config, source_entity.get_instance_id() if source_entity != null else 0)
 
 
 func _is_friendly(hurt_box: Area2D) -> bool:
-	var target_owner = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
+	var target_owner: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	if target_owner == null or source_entity == null:
 		return false
-	if target_owner == source_entity:
-		return true
-	if source_entity.is_in_group("player") and target_owner.is_in_group("player"):
-		return true
-	if source_entity.is_in_group("enemies") and target_owner.is_in_group("enemies"):
-		return true
-	return false
+	return target_owner == source_entity \
+		or (source_entity.is_in_group("player") and target_owner.is_in_group("player")) \
+		or (source_entity.is_in_group("enemies") and target_owner.is_in_group("enemies"))

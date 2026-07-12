@@ -1,305 +1,171 @@
 {
 	"2001": {
-		"animation": "attack",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.3,
-		"buff_on_hit": 1001.0,
-		"buff_on_self": 0.0,
-		"cooldown": 1.0,
-		"damage_ratio": 1.0,
-		"description": "怪物技能段；史莱姆普通攻击。range 用于 AI 可释放距离，实际判定框由 combat_actions.json 控制。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "史莱姆普攻",
+		"description": "史莱姆普通攻击。攻击范围由外部动作有效区间决定。",
+		"cooldown": 1.0,
+		"cast_range": 60.0,
 		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"action": "attack",
-				"detects_hits": true,
-				"hit_window_index": 0,
-				"trigger": "hit_window",
-				"type": "use_action_hit_window"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		],
-		"projectile_scene": "",
-		"range": 60.0,
-		"type": "melee"
+			{"type": "play_animation", "action": "attack"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "slimu_attack_hit", "damage_ratio": 1.0, "buff_id": 1001, "buff_chance": 0.3},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"2002": {
-		"animation": "skill1",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.5,
-		"buff_on_hit": 1001.0,
-		"buff_on_self": 0.0,
-		"cooldown": 4.0,
-		"damage_ratio": 1.5,
-		"description": "怪物技能段；预留远程技能。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "史莱姆酸液喷射",
-		"projectile_scene": "",
-		"range": 200.0,
-		"type": "projectile"
+		"description": "远程酸液示例；当前临时使用火球弹道场景，可在节点编辑器中替换视觉。",
+		"cooldown": 4.0,
+		"cast_range": 200.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill1"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "spawn_projectile", "result_key": "acid_hit", "scene": "res://scenes/effects/projectiles/fireball.tscn", "trajectory": "straight", "aim_mode": "facing_elevation", "elevation_degrees": 0.0, "emission": "single", "origin": "hit_window", "speed": 260.0, "lifetime": 3.0, "max_pierce": 0, "damage_ratio": 1.5, "buff_id": 1001, "buff_chance": 0.5},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"2003": {
-		"animation": "skill2",
-		"aoe_radius": 60.0,
-		"buff_chance": 1.0,
-		"buff_on_hit": 1001.0,
-		"buff_on_self": 0.0,
-		"cooldown": 8.0,
-		"damage_ratio": 2.0,
-		"description": "怪物技能段；预留范围技能。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "史莱姆毒雾爆发",
-		"projectile_scene": "",
-		"range": 0.0,
-		"type": "aoe"
+		"description": "在攻击有效区间中心造成范围伤害。",
+		"cooldown": 8.0,
+		"cast_range": 0.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill2"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "area_damage", "result_key": "poison_cloud_hit", "origin": "hit_window", "shape": "circle", "radius": 60.0, "damage_ratio": 2.0, "buff_id": 1001, "buff_chance": 1.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"2101": {
-		"animation": "attack",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 1.2,
-		"damage_ratio": 1.0,
-		"description": "怪物技能段；傀儡普通攻击，判定框来自 kuilei4/combat_actions.json。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "傀儡重拳",
+		"description": "傀儡普通攻击。",
+		"cooldown": 1.2,
+		"cast_range": 90.0,
 		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"action": "attack",
-				"detects_hits": true,
-				"hit_window_index": 0,
-				"trigger": "hit_window",
-				"type": "use_action_hit_window"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		],
-		"projectile_scene": "",
-		"range": 90.0,
-		"type": "melee"
+			{"type": "play_animation", "action": "attack"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "puppet_attack_hit", "damage_ratio": 1.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"2102": {
-		"animation": "skill",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 4.0,
-		"damage_ratio": 1.4,
-		"description": "怪物技能段；傀儡额外技能。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "傀儡技能",
-		"projectile_scene": "",
-		"range": 110.0,
-		"type": "melee"
+		"description": "傀儡近战技能。",
+		"cooldown": 4.0,
+		"cast_range": 110.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "puppet_skill_hit", "damage_ratio": 1.4},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3001": {
-		"animation": "attack",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 0.5,
-		"damage_ratio": 1.0,
-		"description": "角色技能段；new_kivin 普通攻击。range 是 AI/距离判定，伤害框看 combat_actions.json。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "new_kivin 普攻",
+		"description": "new_kivin 普通攻击。",
+		"cooldown": 0.5,
+		"cast_range": 50.0,
 		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"action": "attack",
-				"detects_hits": true,
-				"hit_window_index": 0,
-				"trigger": "hit_window",
-				"type": "use_action_hit_window"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		],
-		"projectile_scene": "",
-		"range": 50.0,
-		"type": "melee"
+			{"type": "play_animation", "action": "attack"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "kivin_attack_hit", "damage_ratio": 1.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3002": {
-		"animation": "skill1",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 3.0,
-		"damage_ratio": 1.4,
-		"description": "角色技能段；new_kivin 技能槽1。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "new_kivin 技能1",
-		"projectile_scene": "",
-		"range": 70.0,
-		"type": "melee"
+		"description": "new_kivin 近战技能。",
+		"cooldown": 3.0,
+		"cast_range": 70.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill1"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "kivin_skill1_hit", "damage_ratio": 1.4},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3003": {
-		"animation": "skill2",
-		"aoe_radius": 80.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 5.0,
-		"damage_ratio": 1.8,
-		"description": "角色技能段；new_kivin 技能槽2。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "new_kivin 技能2",
-		"projectile_scene": "",
-		"range": 0.0,
-		"type": "aoe"
+		"description": "new_kivin 范围技能。",
+		"cooldown": 5.0,
+		"cast_range": 0.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill2"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "area_damage", "result_key": "kivin_skill2_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.8},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3004": {
-		"animation": "skill3",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 7.0,
-		"damage_ratio": 2.0,
-		"description": "角色技能段；new_kivin 技能槽3。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "new_kivin 技能3",
-		"projectile_scene": "",
-		"range": 90.0,
-		"type": "melee"
+		"description": "new_kivin 强力近战技能。",
+		"cooldown": 7.0,
+		"cast_range": 90.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill3"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "kivin_skill3_hit", "damage_ratio": 2.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3101": {
-		"animation": "attack",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 0.7,
-		"damage_ratio": 1.0,
-		"description": "角色技能段；mofashi 普通攻击。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "mofashi 普攻",
+		"description": "mofashi 普通攻击。",
+		"cooldown": 0.7,
+		"cast_range": 70.0,
 		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"action": "attack",
-				"detects_hits": true,
-				"hit_window_index": 0,
-				"trigger": "hit_window",
-				"type": "use_action_hit_window"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		],
-		"projectile_scene": "",
-		"range": 70.0,
-		"type": "melee"
+			{"type": "play_animation", "action": "attack"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "mage_attack_hit", "damage_ratio": 1.0},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3102": {
-		"animation": "skill1",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 1.0,
-		"damage_ratio": 1.5,
-		"description": "角色技能段；mofashi 技能槽1。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "mofashi 技能1",
+		"description": "火球弹道技能。",
+		"cooldown": 1.0,
+		"cast_range": 300.0,
 		"nodes": [
-			{
-				"action": "skill1",
-				"type": "play_animation"
-			},
-			{
-				"action": "skill1",
-				"detects_hits": false,
-				"hit_window_index": 0,
-				"trigger": "hit_window",
-				"type": "use_action_hit_window"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		],
-		"projectile_scene": "res://scenes/effects/projectiles/fireball.tscn",
-		"range": 300.0,
-		"type": "projectile"
+			{"type": "play_animation", "action": "skill1"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "spawn_projectile", "result_key": "fireball_hit", "scene": "res://scenes/effects/projectiles/fireball.tscn", "trajectory": "straight", "aim_mode": "facing_elevation", "elevation_degrees": 0.0, "emission": "single", "origin": "hit_window", "min_range": 90.0, "speed": 300.0, "lifetime": 5.0, "max_pierce": 0, "damage_ratio": 0.5},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3103": {
-		"animation": "skill2",
-		"aoe_radius": 90.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 5.5,
-		"damage_ratio": 1.8,
-		"description": "角色技能段；mofashi 技能槽2。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "mofashi 技能2",
-		"projectile_scene": "",
-		"range": 0.0,
-		"type": "aoe"
+		"description": "mofashi 范围技能。",
+		"cooldown": 5.5,
+		"cast_range": 0.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill2"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "area_damage", "result_key": "mage_skill2_hit", "origin": "hit_window", "shape": "circle", "radius": 90.0, "damage_ratio": 1.8},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	},
 	"3104": {
-		"animation": "skill3",
-		"aoe_radius": 0.0,
-		"buff_chance": 0.0,
-		"buff_on_hit": 0.0,
-		"buff_on_self": 0.0,
-		"cooldown": 8.0,
-		"damage_ratio": 2.2,
-		"description": "角色技能段；mofashi 技能槽3。",
-		"effect_timing": "active_frame",
-		"max_pierce": 0.0,
 		"name": "mofashi 技能3",
-		"projectile_scene": "",
-		"range": 120.0,
-		"type": "melee"
+		"description": "mofashi 近战技能。",
+		"cooldown": 8.0,
+		"cast_range": 120.0,
+		"nodes": [
+			{"type": "play_animation", "action": "skill3"},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{"type": "melee_damage", "result_key": "mage_skill3_hit", "damage_ratio": 2.2},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
 	}
 }

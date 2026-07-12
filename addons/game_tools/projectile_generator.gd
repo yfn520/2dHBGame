@@ -15,11 +15,9 @@ var _collision_h: SpinBox
 var _visual_scale: SpinBox
 var _speed: SpinBox
 var _lifetime: SpinBox
-var _spawn_offset: SpinBox
 var _max_pierce: SpinBox
 var _write_skill: CheckBox
 var _skill_id: SpinBox
-var _skill_type: OptionButton
 var _damage_ratio: SpinBox
 var _cooldown: SpinBox
 var _animation: LineEdit
@@ -94,7 +92,6 @@ func _build_ui() -> void:
 	_visual_scale = _add_spin(form, "visual_scale", 1.0, 0.01, 20.0, 0.05)
 	_speed = _add_spin(form, "projectile_speed", 300.0, 1.0, 3000.0, 10.0)
 	_lifetime = _add_spin(form, "projectile_lifetime", 5.0, 0.1, 60.0, 0.1)
-	_spawn_offset = _add_spin(form, "projectile_spawn_offset", 32.0, 0.0, 512.0, 1.0)
 	_max_pierce = _add_spin(form, "max_pierce", 0.0, -1.0, 99.0, 1.0)
 
 	_write_skill = CheckBox.new()
@@ -102,13 +99,12 @@ func _build_ui() -> void:
 	form.add_child(_write_skill)
 
 	_skill_id = _add_spin(form, "skill_id", 1002.0, 1.0, 999999.0, 1.0)
-	_skill_type = _add_option(form, "skill_type", ["projectile", "penetrate"])
-	_damage_ratio = _add_spin(form, "damage_ratio", 1.5, -99.0, 99.0, 0.1)
+	_damage_ratio = _add_spin(form, "节点伤害倍率", 1.5, -99.0, 99.0, 0.1)
 	_cooldown = _add_spin(form, "cooldown", 3.0, 0.0, 999.0, 0.1)
-	_animation = _add_line_edit(form, "animation", "skill1")
-	_range = _add_spin(form, "range", 300.0, 0.0, 3000.0, 10.0)
-	_buff_on_hit = _add_spin(form, "buff_on_hit", 0.0, 0.0, 999999.0, 1.0)
-	_buff_chance = _add_spin(form, "buff_chance", 0.0, 0.0, 1.0, 0.05)
+	_animation = _add_line_edit(form, "播放动画 action", "skill1")
+	_range = _add_spin(form, "AI 施放距离", 300.0, 0.0, 3000.0, 10.0)
+	_buff_on_hit = _add_spin(form, "节点 Buff ID", 0.0, 0.0, 999999.0, 1.0)
+	_buff_chance = _add_spin(form, "节点 Buff 概率", 0.0, 0.0, 1.0, 0.05)
 
 	_status_label = Label.new()
 	_status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -351,22 +347,30 @@ func _write_skill_config(projectile_scene: String) -> String:
 	var id := str(int(_skill_id.value))
 	data[id] = {
 		"name": _key_edit.text,
-		"type": _skill_type.get_item_text(_skill_type.selected),
-		"damage_ratio": float(_damage_ratio.value),
-		"cooldown": float(_cooldown.value),
-		"animation": _animation.text,
-		"range": float(_range.value),
-		"projectile_scene": projectile_scene,
-		"projectile_speed": float(_speed.value),
-		"projectile_lifetime": float(_lifetime.value),
-		"projectile_spawn_offset": float(_spawn_offset.value),
-		"max_pierce": int(_max_pierce.value),
-		"aoe_radius": 0,
-		"buff_on_hit": int(_buff_on_hit.value),
-		"buff_chance": float(_buff_chance.value),
-		"buff_on_self": 0,
-		"effect_timing": "active_frame",
 		"description": "Generated projectile skill.",
+		"cooldown": float(_cooldown.value),
+		"cast_range": float(_range.value),
+		"nodes": [
+			{"type": "play_animation", "action": _animation.text},
+			{"type": "wait_hit_window", "hit_window_index": 0},
+			{
+				"type": "spawn_projectile",
+				"result_key": "%s_hit" % _sanitize_key(_key_edit.text),
+				"scene": projectile_scene,
+				"origin": "hit_window",
+				"trajectory": "straight",
+				"aim_mode": "facing_elevation",
+				"emission": "single",
+				"speed": float(_speed.value),
+				"lifetime": float(_lifetime.value),
+				"max_pierce": int(_max_pierce.value),
+				"damage_ratio": float(_damage_ratio.value),
+				"buff_id": int(_buff_on_hit.value),
+				"buff_chance": float(_buff_chance.value),
+			},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"},
+		],
 	}
 
 	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)

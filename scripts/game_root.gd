@@ -146,6 +146,17 @@ func _update_debug_panel() -> void:
 			cd_parts.append("%s:%.1fs" % [name, cd] if cd > 0 else "%s:OK" % name)
 		lines.append("CD: %s" % " | ".join(cd_parts))
 
+	lines.append("")
+	lines.append("=== Party runtime ===")
+	for member in party_manager.get_party_members():
+		var member_combat := member.get_node_or_null("CombatComponent")
+		var member_id : int= member.get_party_character_id() if member.has_method("get_party_character_id") else 0
+		var member_name :String= GameRegistry.character_config.get_name(member_id) if GameRegistry.character_config != null else str(member_id)
+		var runtime :Variant= member_combat.get_debug_state() if member_combat != null and member_combat.has_method("get_debug_state") else "?"
+		var anim := String(member.get_node("CharacterActionSet/AnimatedSprite2D").animation)
+		var ally_runtime :Variant= member.get_ally_debug_state() if member.has_method("get_ally_debug_state") else ""
+		lines.append("%s anim:%s %s %s" % [member_name, anim, runtime, ally_runtime])
+
 	# ---- 怪物信息 ----
 	lines.append("")
 	lines.append("=== 怪物 ===")
@@ -164,7 +175,10 @@ func _update_debug_panel() -> void:
 					hp_str = "%d/%d" % [e_stats.hp, e_stats.max_hp]
 				var ai_name: String = enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
 				var e_name: String = enemy.get_enemy_name() if enemy.has_method("get_enemy_name") else "?"
-				lines.append("[%s] HP:%s AI:%s XDist:%d" % [e_name, hp_str, ai_name, int(dist_x)])
+				var e_combat :Variant= enemy.get_node_or_null("CombatComponent")
+				var e_runtime :Variant= e_combat.get_debug_state() if e_combat != null and e_combat.has_method("get_debug_state") else "?"
+				var target_dist :float= enemy.get_target_distance_x() if enemy.has_method("get_target_distance_x") else INF
+				lines.append("[%s] HP:%s AI:%s XDist:%d TargetDist:%.1f %s" % [e_name, hp_str, ai_name, int(dist_x), target_dist, e_runtime])
 
 	_debug_label.text = "\n".join(lines)
 

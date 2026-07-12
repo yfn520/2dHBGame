@@ -135,7 +135,7 @@ func get_target_distance_x() -> float:
 	var target := get_current_target()
 	if target == null:
 		return INF
-	return absf(target.global_position.x - global_position.x)
+	return _edge_distance_x_to(target)
 
 
 func _ready() -> void:
@@ -209,6 +209,10 @@ func _physics_process(delta: float) -> void:
 	if _config.is_empty():
 		return
 	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
+	# Keep the animation lock aligned with what is actually visible. A stale
+	# true value here made enemies run/idle forever while their AI was skipped.
+	if _combat_anim_playing and (sprite.animation == &"idle" or sprite.animation == &"run"):
+		_combat_anim_playing = false
 
 	# 重力
 	if not is_on_floor():
@@ -310,7 +314,7 @@ func _update_chase(_delta: float) -> void:
 	# Only stop when the preferred distance is reached and at least one configured
 	# skill can actually be used from here. This prevents bad range data from
 	# leaving an enemy idle just outside all of its attacks.
-	if dist <= preferred_range and _has_skill_for_distance(dist, preferred_range):
+	if dist <= preferred_range:
 		_set_ai_state(AIState.ATTACK)
 		return
 
@@ -346,7 +350,10 @@ func _update_attack(_delta: float) -> void:
 
 	# 尝试释放技能（只在战斗状态空闲时）
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
-		_try_use_next_skill(dist, preferred_range)
+		if _try_use_next_skill(dist, preferred_range):
+			velocity.x = 0.0
+			return
+	velocity.x = 0.0
 
 
 ## ---- 技能选择 ----
@@ -382,6 +389,8 @@ func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float, pref
 		var skill: Dictionary = GameRegistry.skill_config.get_skill(sid)
 		if skill.is_empty():
 			continue
+		if distance_x < _get_skill_min_range(skill):
+			continue
 		var usable_range := _get_skill_usable_range(skill, preferred_range)
 		if distance_x > usable_range:
 			continue
@@ -413,8 +422,15 @@ func _has_skill_for_distance(distance_x: float, preferred_range: float) -> bool:
 
 
 func _get_skill_usable_range(skill: Dictionary, preferred_range: float) -> float:
-	var usable_range := float(skill.get("range", 0.0))
+	var usable_range := float(skill.get("cast_range", 0.0))
 	return preferred_range if usable_range <= 0.0 else usable_range
+
+
+func _get_skill_min_range(skill: Dictionary) -> float:
+	for value in skill.get("nodes", []):
+		if value is Dictionary and String((value as Dictionary).get("type", "")) == "spawn_projectile":
+			return maxf(0.0, float((value as Dictionary).get("min_range", 0.0)))
+	return 0.0
 
 
 ## ---- 辅助 ----
@@ -430,25 +446,48 @@ func _can_detect_player() -> bool:
 func _distance_x_to_target() -> float:
 	if _target == null or not is_instance_valid(_target):
 		return INF
-	return absf(_target.global_position.x - global_position.x)
+	return _edge_distance_x_to(_target)
+
+
+func _edge_distance_x_to(target: Node2D) -> float:
+	if target == null or not is_instance_valid(target):
+		return INF
+	var center_distance := absf(target.global_position.x - global_position.x)
+	return maxf(0.0, center_distance - _combat_half_width(self) - _combat_half_width(target))
+
+
+func _combat_half_width(node: Node) -> float:
+	if node == null:
+		return 0.0
+	var shape_node := node.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	if shape_node == null:
+		shape_node = node.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node != null and shape_node.shape is RectangleShape2D:
+		var rectangle := shape_node.shape as RectangleShape2D
+		return absf(rectangle.size.x * shape_node.global_scale.x) * 0.5
+	return 0.0
 
 
 func _refresh_target() -> void:
 	var detect_range: float = _config.get("detect_range", 200.0)
+	var nearest := _find_nearest_party_member()
 	if _is_valid_party_target(_target):
-		var current_dist: float = absf(_target.global_position.x - global_position.x)
+		var current_dist := _edge_distance_x_to(_target)
 		if current_dist <= detect_range * TARGET_LOSE_MULTIPLIER:
-			if _target_switch_timer > 0.0:
-				return
-			var nearest: CharacterBody2D = _find_nearest_party_member()
 			if nearest == null or nearest == _target:
 				return
-			var nearest_dist: float = absf(nearest.global_position.x - global_position.x)
+			var nearest_dist := _edge_distance_x_to(nearest)
+			if nearest_dist <= 0.0 and current_dist > 0.0:
+				_target = nearest
+				_target_switch_timer = TARGET_SWITCH_COOLDOWN
+				return
+			if _target_switch_timer > 0.0:
+				return
 			if nearest_dist + TARGET_SWITCH_GAIN < current_dist:
 				_target = nearest
 				_target_switch_timer = TARGET_SWITCH_COOLDOWN
 			return
-	_target = _find_nearest_party_member()
+	_target = nearest
 	_target_switch_timer = TARGET_SWITCH_COOLDOWN
 
 
@@ -460,7 +499,7 @@ func _find_nearest_party_member() -> CharacterBody2D:
 	for member in _party_manager.get_alive_party_members():
 		if not is_instance_valid(member):
 			continue
-		var dist := absf(member.global_position.x - global_position.x)
+		var dist := _edge_distance_x_to(member)
 		if dist < best_dist:
 			best_dist = dist
 			best = member
@@ -548,7 +587,10 @@ func play_combat_animation(anim_name: String) -> void:
 			target_animation = "hurt"
 	if sprite.sprite_frames.has_animation(target_animation):
 		_combat_anim_playing = true
-		sprite.play(target_animation)
+		sprite.stop()
+		sprite.animation = target_animation
+		sprite.frame = 0
+		sprite.play()
 		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
 			sprite.animation_finished.connect(_on_combat_anim_finished)
 	else:

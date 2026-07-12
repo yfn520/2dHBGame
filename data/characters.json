@@ -62,6 +62,10 @@
 		"name": "mofashi",
 		"normal_skill": 3101,
 		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
+		"ai_skill_priority": [
+			3102.0,
+			3101.0
+		],
 		"skill_unlocks": {
 			"skill1": {
 				"skill_id": 3102.0,

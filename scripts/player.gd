@@ -35,6 +35,7 @@ var _follow_target: Node2D = null
 var _ally_attack_target: Node2D = null
 var _ally_attack_hold_timer: float = 0.0
 var _ally_is_holding_attack := false
+var _ally_hold_skill_id := 0
 var _ally_returning_to_follow := false
 var _ally_follow_side: float = -1.0
 var _party_slot_index := 0
@@ -103,6 +104,19 @@ func is_player_controlled() -> bool:
 	return _player_controlled
 
 
+func get_ally_debug_state() -> String:
+	var target_name := "-"
+	var target_distance := INF
+	if _is_valid_enemy_target(_ally_attack_target):
+		target_name = _ally_attack_target.name
+		target_distance = _edge_distance_x_to(_ally_attack_target)
+	return "controlled:%s target:%s dist:%s returning:%s hold:%s" % [
+		str(_player_controlled), target_name,
+		("-" if is_inf(target_distance) else "%.1f" % target_distance),
+		str(_ally_returning_to_follow), str(_ally_is_holding_attack)
+	]
+
+
 func set_follow_target(target: Node2D, slot_index: int = 0) -> void:
 	_follow_target = target
 	_party_slot_index = slot_index
@@ -152,6 +166,8 @@ func get_skill_for_input(slot_name: String) -> int:
 func get_ai_skill_candidates() -> Array[int]:
 	if GameRegistry.character_config == null:
 		return []
+	if GameRegistry.character_config.has_method("get_ai_skill_ids"):
+		return GameRegistry.character_config.get_ai_skill_ids(character_id, _combat_stats.level)
 	return GameRegistry.character_config.get_active_skill_ids(character_id, _combat_stats.level)
 
 
@@ -386,6 +402,10 @@ func _update_animation(direction: float) -> void:
 ## 播放战斗动画 (由 CombatComponent 调用)
 func _update_ally_ai(delta: float) -> void:
 	_ally_attack_hold_timer = maxf(0.0, _ally_attack_hold_timer - delta)
+	# Visual state can be restored by another animation callback before our
+	# combat callback runs. Idle/run always means the combat movement lock ended.
+	if _combat_anim_playing and (sprite.animation == &"idle" or sprite.animation == &"run"):
+		_combat_anim_playing = false
 	var can_act := true
 	if combat != null and "combat_state" in combat:
 		if combat.combat_state == combat.CombatState.DEAD:
@@ -435,15 +455,20 @@ func _update_ally_follow(delta: float) -> void:
 
 func _update_ally_attack(target: Node2D) -> void:
 	var dx := target.global_position.x - global_position.x
-	var dist := absf(dx)
+	var dist := _edge_distance_x_to(target)
 	var skill_id := _pick_ready_ai_skill(dist)
 	var skill_range := _get_skill_range(skill_id, 44.0)
 	var stop_range := maxf(18.0, skill_range * ALLY_ATTACK_STOP_RATIO)
 	var resume_range := maxf(stop_range + 8.0, skill_range * ALLY_ATTACK_RESUME_RATIO)
+	if _ally_is_holding_attack and skill_id != _ally_hold_skill_id:
+		_clear_ally_attack_hold()
 	var dir := signf(dx)
+	if dir == 0.0:
+		dir = -_facing_sign
 	_face_attack_target(target)
 	if dist <= stop_range:
 		_ally_is_holding_attack = true
+		_ally_hold_skill_id = skill_id
 		_ally_attack_hold_timer = ALLY_ATTACK_HOLD_TIME
 	if _ally_is_holding_attack and (dist <= resume_range or _ally_attack_hold_timer > 0.0):
 		velocity.x = 0.0
@@ -468,9 +493,16 @@ func _pick_ready_ai_skill(distance_x: float) -> int:
 		var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
 		if skill.is_empty():
 			continue
-		if distance_x <= _get_skill_range(skill_id, 44.0):
+		if distance_x >= _get_skill_min_range(skill) and distance_x <= _get_skill_range(skill_id, 44.0):
 			return skill_id
 	return get_skill_for_input("normal")
+
+
+func _get_skill_min_range(skill: Dictionary) -> float:
+	for value in skill.get("nodes", []):
+		if value is Dictionary and String((value as Dictionary).get("type", "")) == "spawn_projectile":
+			return maxf(0.0, float((value as Dictionary).get("min_range", 0.0)))
+	return 0.0
 
 
 func _get_skill_range(skill_id: int, fallback: float) -> float:
@@ -479,7 +511,7 @@ func _get_skill_range(skill_id: int, fallback: float) -> float:
 	var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
 	if skill.is_empty():
 		return fallback
-	var range_value := float(skill.get("range", fallback))
+	var range_value := float(skill.get("cast_range", fallback))
 	return fallback if range_value <= 0.0 else range_value
 
 
@@ -499,7 +531,7 @@ func _find_nearest_enemy(max_range: float) -> Node2D:
 		if enemy_combat != null and "combat_state" in enemy_combat and enemy_combat.combat_state == enemy_combat.CombatState.DEAD:
 			continue
 		var enemy := node as Node2D
-		var dist := absf(enemy.global_position.x - global_position.x)
+		var dist := _edge_distance_x_to(enemy)
 		if dist < best_dist:
 			best_dist = dist
 			best = enemy
@@ -524,7 +556,7 @@ func _get_ally_attack_target() -> Node2D:
 			return null
 		_ally_returning_to_follow = false
 	if _is_valid_enemy_target(_ally_attack_target):
-		var target_dist: float = absf(_ally_attack_target.global_position.x - global_position.x)
+		var target_dist := _edge_distance_x_to(_ally_attack_target)
 		if target_dist <= ALLY_DISENGAGE_RANGE:
 			return _ally_attack_target
 	_clear_ally_attack_hold()
@@ -537,9 +569,10 @@ func _get_ally_attack_target() -> Node2D:
 func _clear_ally_attack_hold() -> void:
 	_ally_is_holding_attack = false
 	_ally_attack_hold_timer = 0.0
+	_ally_hold_skill_id = 0
 
 
-func _is_valid_enemy_target(target: Node2D) -> bool:
+func _is_valid_enemy_target(target) -> bool:
 	if target == null or not is_instance_valid(target):
 		return false
 	if target.has_method("get_combat_stats"):
@@ -547,6 +580,25 @@ func _is_valid_enemy_target(target: Node2D) -> bool:
 		if stats != null and stats.hp <= 0:
 			return false
 	return true
+
+
+func _edge_distance_x_to(target: Node2D) -> float:
+	if target == null or not is_instance_valid(target):
+		return INF
+	var center_distance := absf(target.global_position.x - global_position.x)
+	return maxf(0.0, center_distance - _combat_half_width(self) - _combat_half_width(target))
+
+
+func _combat_half_width(node: Node) -> float:
+	if node == null:
+		return 0.0
+	var shape_node := node.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	if shape_node == null:
+		shape_node = node.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node != null and shape_node.shape is RectangleShape2D:
+		var rectangle := shape_node.shape as RectangleShape2D
+		return absf(rectangle.size.x * shape_node.global_scale.x) * 0.5
+	return 0.0
 
 
 func _face_direction(dir: float) -> void:
@@ -575,7 +627,10 @@ func play_combat_animation(anim_name: String) -> void:
 			target_animation = "hurt"
 	if sprite.sprite_frames.has_animation(target_animation):
 		_combat_anim_playing = true
-		sprite.play(target_animation)
+		sprite.stop()
+		sprite.animation = target_animation
+		sprite.frame = 0
+		sprite.play()
 		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
 			sprite.animation_finished.connect(_on_combat_anim_finished)
 	else:

@@ -75,6 +75,23 @@ func get_active_skill_ids(character_id: int, level: int = 1) -> Array[int]:
 	return result
 
 
+func get_ai_skill_ids(character_id: int, level: int = 1) -> Array[int]:
+	var active_ids := get_active_skill_ids(character_id, level)
+	var result: Array[int] = []
+	var config := get_character(character_id)
+	var priority: Array = config.get("ai_skill_priority", [])
+	for raw_skill_id in priority:
+		var skill_id := int(raw_skill_id)
+		if active_ids.has(skill_id) and not result.has(skill_id):
+			result.append(skill_id)
+	if not priority.is_empty():
+		return result
+	for skill_id in active_ids:
+		if not result.has(skill_id):
+			result.append(skill_id)
+	return result
+
+
 func get_default_lineup() -> Array[int]:
 	var ids: Array[int] = []
 	var keys := _characters.keys()

@@ -68,8 +68,8 @@ func _apply_local_mock_snapshot() -> void:
 			}
 		},
 		"characters": {
-			"1001": {"character_id": 1001, "level": 8, "exp": 60, "hp": -1},
-			"1002": {"character_id": 1002, "level": 8, "exp": 60, "hp": -1}
+			"1001": {"character_id": 1001, "level": 1, "exp": 60, "hp": -1},
+			"1002": {"character_id": 1002, "level": 1, "exp": 60, "hp": -1}
 		},
 		"lineup_ids": [1001, 1002],
 		"active_character_id": 1001,

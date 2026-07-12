@@ -14,35 +14,26 @@ func load_config() -> void:
 		push_error("无法加载技能配置: %s" % CONFIG_PATH)
 		return
 	var json := JSON.new()
-	var err := json.parse(file.get_as_text())
-	if err != OK:
+	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
 		push_error("技能配置解析失败: %s" % json.get_error_message())
 		return
-	var data := json.data as Dictionary
-	for id_str in data:
-		var skill_id := int(id_str)
-		var raw: Dictionary = data[id_str]
-		_skills[skill_id] = {
-			"id": skill_id,
-			"name": raw.get("name", ""),
-			"description": raw.get("description", ""),
-			"type": raw.get("type", "melee"),
-			"effect_timing": raw.get("effect_timing", "cast_start"),
-			"damage_ratio": float(raw.get("damage_ratio", 1.0)),
+	for id_string in (json.data as Dictionary):
+		var raw_value: Variant = (json.data as Dictionary)[id_string]
+		if not raw_value is Dictionary:
+			push_error("技能 %s 不是对象" % id_string)
+			continue
+		var raw: Dictionary = raw_value
+		var nodes_value: Variant = raw.get("nodes", [])
+		if not nodes_value is Array or (nodes_value as Array).is_empty():
+			push_error("技能 %s 缺少 nodes；新技能系统不再提供旧格式回退" % id_string)
+			continue
+		_skills[int(id_string)] = {
+			"id": int(id_string),
+			"name": String(raw.get("name", "")),
+			"description": String(raw.get("description", "")),
 			"cooldown": float(raw.get("cooldown", 0.0)),
-			"animation": raw.get("animation", "attack"),
-			"range": float(raw.get("range", 0)),
-			"projectile_scene": raw.get("projectile_scene", ""),
-			"projectile_speed": float(raw.get("projectile_speed", 300.0)),
-			"projectile_lifetime": float(raw.get("projectile_lifetime", 5.0)),
-			"projectile_spawn_offset": float(raw.get("projectile_spawn_offset", 32.0)),
-			"max_pierce": int(raw.get("max_pierce", 0)),
-			"aoe_radius": float(raw.get("aoe_radius", 0)),
-			"buff_on_hit": int(raw.get("buff_on_hit", 0)),
-			"buff_chance": float(raw.get("buff_chance", 0.0)),
-			"buff_on_self": int(raw.get("buff_on_self", 0)),
-			"nodes": raw.get("nodes", []),
-			"interrupt": raw.get("interrupt", {}),
+			"cast_range": float(raw.get("cast_range", 0.0)),
+			"nodes": (nodes_value as Array).duplicate(true),
 		}
 	_loaded = true
 
@@ -50,13 +41,14 @@ func load_config() -> void:
 func get_skill(skill_id: int) -> Dictionary:
 	if not _loaded:
 		load_config()
-	return _skills.get(skill_id, {})
+	var skill: Dictionary = _skills.get(skill_id, {})
+	return skill.duplicate(true)
 
 
 func get_all_skills() -> Dictionary:
 	if not _loaded:
 		load_config()
-	return _skills
+	return _skills.duplicate(true)
 
 
 func is_valid_skill(skill_id: int) -> bool:
