@@ -425,7 +425,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -439,6 +439,38 @@
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3203": {
+		"name": "弓手状态技能",
+		"nodes": [
+			{
+				"action": "skill1",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_id": 0,
+				"type": "apply_self_buff"
+			},
+			{
+				"event": "effect",
+				"type": "wait_action_event"
+			},
+			{
+				"scene": "",
+				"target": "origin",
+				"type": "play_effect"
 			},
 			{
 				"type": "wait_animation_end"

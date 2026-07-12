@@ -37,6 +37,7 @@ func _init() -> void:
 	size = Vector2i(560, 720)
 	min_size = Vector2i(520, 620)
 	exclusive = false
+	close_requested.connect(hide)
 
 
 func _ready() -> void:

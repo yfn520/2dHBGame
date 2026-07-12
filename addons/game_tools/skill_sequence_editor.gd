@@ -85,7 +85,7 @@ func _init() -> void:
 func _on_close_requested() -> void:
 	_is_playing = false
 	set_process(false)
-	hide
+	hide()
 
 
 func _ready() -> void:
