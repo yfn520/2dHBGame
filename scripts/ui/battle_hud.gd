@@ -1,6 +1,8 @@
 class_name BattleHud
-extends CanvasLayer
-## 常驻战斗主界面：主控头像/血条、队友卡、属性条、技能栏和入口按钮。
+extends Control
+## 常驻战斗 HUD（位于 HUDLayer）。
+## 左上：主控状态 + 队友条目；顶部中央：敌人信息；底部中央：技能槽；右上：入口按钮。
+## 不再持有 CharacterPanel 引用，通过 UIRoot 发送语义化页面请求。
 
 const BLUE_PLACEHOLDER_CURRENT := 100
 const BLUE_PLACEHOLDER_MAX := 100
@@ -11,15 +13,15 @@ const SKILL_SLOTS := [
 	{"key": "U", "slot": "skill3", "fallback": "技能3"},
 ]
 
+var ui_root: UIRoot
+
 var _party_manager: PartyManager
-var _character_panel: CanvasLayer
 var _enemy_spawner: Node
 var _active_character: CharacterBody2D
 var _active_combat: Node
 var _layout_signature := ""
 var _refresh_timer := 0.0
 
-var _root: Control
 var _main_name_label: Label
 var _main_level_label: Label
 var _main_hp_bar: ProgressBar
@@ -30,9 +32,7 @@ var _main_avatar_holder: Control
 var _main_avatar_sprite: AnimatedSprite2D
 var _main_avatar_fallback: Label
 var _ally_list: VBoxContainer
-var _stat_label: Label
 var _skill_buttons: Array[Button] = []
-var _task_tip: PanelContainer
 var _enemy_panel: PanelContainer
 var _enemy_name_label: Label
 var _enemy_hp_bar: ProgressBar
@@ -41,14 +41,12 @@ var _enemy_info_label: Label
 
 
 func _ready() -> void:
-	layer = 50
 	_build_layout()
 	_connect_registry_signals()
 
 
-func setup(party_manager: PartyManager, character_panel: CanvasLayer, enemy_spawner: Node = null) -> void:
+func setup(party_manager: PartyManager, enemy_spawner: Node = null) -> void:
 	_party_manager = party_manager
-	_character_panel = character_panel
 	_enemy_spawner = enemy_spawner
 	if _party_manager != null:
 		if not _party_manager.active_character_changed.is_connected(_on_active_character_changed):
@@ -88,20 +86,15 @@ func _connect_registry_signals() -> void:
 			GameRegistry.equipment_provider.unequipped.connect(_on_equipment_changed)
 
 
+# ---- 布局 ----
+
 func _build_layout() -> void:
 	for child in get_children():
 		child.queue_free()
-
-	_root = Control.new()
-	_root.name = "BattleHudRoot"
-	_root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(_root)
-
-	_root.add_child(_build_main_card())
-	_root.add_child(_build_enemy_panel())
-	_root.add_child(_build_right_buttons())
-	_root.add_child(_build_bottom_panel())
-	_build_task_tip()
+	add_child(_build_main_card())
+	add_child(_build_enemy_panel())
+	add_child(_build_right_buttons())
+	add_child(_build_bottom_panel())
 
 
 func _build_main_card() -> Control:
@@ -111,8 +104,8 @@ func _build_main_card() -> Control:
 	column.add_theme_constant_override("separation", 5)
 
 	var card := PanelContainer.new()
+	card.theme_type_variation = &"HUDCard"
 	card.custom_minimum_size = Vector2(282, 96)
-	card.add_theme_stylebox_override("panel", _make_panel_style(Color(0.23, 0.13, 0.06, 0.88), Color(0.82, 0.58, 0.24), 3, 8))
 	column.add_child(card)
 
 	var row := HBoxContainer.new()
@@ -120,8 +113,8 @@ func _build_main_card() -> Control:
 	card.add_child(row)
 
 	_main_avatar_holder = PanelContainer.new()
+	_main_avatar_holder.theme_type_variation = &"Panel"
 	_main_avatar_holder.custom_minimum_size = Vector2(72, 72)
-	_main_avatar_holder.add_theme_stylebox_override("panel", _make_panel_style(Color(0.42, 0.48, 0.34), Color(0.26, 0.15, 0.07), 2, 6))
 	row.add_child(_main_avatar_holder)
 	_setup_avatar_holder(_main_avatar_holder, true)
 
@@ -131,23 +124,23 @@ func _build_main_card() -> Control:
 	row.add_child(info)
 
 	_main_name_label = Label.new()
+	_main_name_label.theme_type_variation = &"HUDTitle"
 	_main_name_label.add_theme_font_size_override("font_size", 17)
-	_main_name_label.add_theme_color_override("font_color", Color(1.0, 0.86, 0.46))
 	info.add_child(_main_name_label)
 
-	var hp_wrap := _make_bar(Color(0.78, 0.16, 0.12), Color(0.18, 0.08, 0.05))
+	var hp_wrap := _make_bar()
 	_main_hp_bar = hp_wrap["bar"]
 	_main_hp_text = hp_wrap["label"]
 	info.add_child(hp_wrap["root"])
 
-	var blue_wrap := _make_bar(Color(0.16, 0.52, 0.88), Color(0.06, 0.10, 0.18))
+	var blue_wrap := _make_bar()
 	_main_blue_bar = blue_wrap["bar"]
 	_main_blue_text = blue_wrap["label"]
 	info.add_child(blue_wrap["root"])
 
 	_main_level_label = Label.new()
+	_main_level_label.theme_type_variation = &"HUDValue"
 	_main_level_label.add_theme_font_size_override("font_size", 14)
-	_main_level_label.add_theme_color_override("font_color", Color(1.0, 0.82, 0.38))
 	info.add_child(_main_level_label)
 
 	_ally_list = VBoxContainer.new()
@@ -160,6 +153,7 @@ func _build_main_card() -> Control:
 func _build_enemy_panel() -> Control:
 	_enemy_panel = PanelContainer.new()
 	_enemy_panel.name = "CurrentEnemyPanel"
+	_enemy_panel.theme_type_variation = &"HUDCard"
 	_enemy_panel.visible = false
 	_enemy_panel.anchor_left = 0.5
 	_enemy_panel.anchor_right = 0.5
@@ -169,7 +163,6 @@ func _build_enemy_panel() -> Control:
 	_enemy_panel.offset_right = 150
 	_enemy_panel.offset_top = 10
 	_enemy_panel.offset_bottom = 78
-	_enemy_panel.add_theme_stylebox_override("panel", _make_panel_style(Color(0.18, 0.09, 0.05, 0.88), Color(0.82, 0.58, 0.24), 3, 8))
 
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 6)
@@ -184,19 +177,19 @@ func _build_enemy_panel() -> Control:
 
 	_enemy_name_label = Label.new()
 	_enemy_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_enemy_name_label.theme_type_variation = &"HUDTitle"
 	_enemy_name_label.add_theme_font_size_override("font_size", 15)
-	_enemy_name_label.add_theme_color_override("font_color", Color(1.0, 0.82, 0.36))
 	vbox.add_child(_enemy_name_label)
 
-	var hp_wrap := _make_bar(Color(0.76, 0.13, 0.10), Color(0.18, 0.08, 0.05))
+	var hp_wrap := _make_bar()
 	_enemy_hp_bar = hp_wrap["bar"]
 	_enemy_hp_text = hp_wrap["label"]
 	vbox.add_child(hp_wrap["root"])
 
 	_enemy_info_label = Label.new()
 	_enemy_info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_enemy_info_label.theme_type_variation = &"HUDMuted"
 	_enemy_info_label.add_theme_font_size_override("font_size", 12)
-	_enemy_info_label.add_theme_color_override("font_color", Color(0.94, 0.82, 0.58))
 	vbox.add_child(_enemy_info_label)
 	return _enemy_panel
 
@@ -216,8 +209,8 @@ func _setup_avatar_holder(holder: Control, is_main: bool) -> void:
 	fallback.set_anchors_preset(Control.PRESET_FULL_RECT)
 	fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	fallback.theme_type_variation = &"HUDTitle"
 	fallback.add_theme_font_size_override("font_size", 18 if is_main else 12)
-	fallback.add_theme_color_override("font_color", Color(1.0, 0.86, 0.46))
 	layer_node.add_child(fallback)
 
 	if is_main:
@@ -243,7 +236,7 @@ func _build_right_buttons() -> Control:
 	row.add_theme_constant_override("separation", 8)
 	box.add_child(row)
 
-	var inventory_btn := _make_entry_button("物品")
+	var inventory_btn := _make_entry_button("背包(B)")
 	inventory_btn.pressed.connect(_on_inventory_pressed)
 	row.add_child(inventory_btn)
 
@@ -259,23 +252,12 @@ func _build_bottom_panel() -> Control:
 	box.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	box.offset_left = 310
 	box.offset_right = -310
-	box.offset_top = -78
+	box.offset_top = -52
 	box.offset_bottom = -8
 	box.add_theme_constant_override("separation", 4)
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 
-	var stat_panel := PanelContainer.new()
-	stat_panel.custom_minimum_size = Vector2(430, 26)
-	stat_panel.add_theme_stylebox_override("panel", _make_panel_style(Color(0.25, 0.13, 0.06, 0.92), Color(0.82, 0.58, 0.24), 2, 6))
-	box.add_child(stat_panel)
-
-	_stat_label = Label.new()
-	_stat_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_stat_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_stat_label.add_theme_font_size_override("font_size", 14)
-	_stat_label.add_theme_color_override("font_color", Color(1.0, 0.86, 0.54))
-	stat_panel.add_child(_stat_label)
-
+	# 只保留技能槽，移除重复的长属性条
 	var skill_row := HBoxContainer.new()
 	skill_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	skill_row.add_theme_constant_override("separation", 8)
@@ -284,89 +266,49 @@ func _build_bottom_panel() -> Control:
 	_skill_buttons.clear()
 	for skill_info in SKILL_SLOTS:
 		var btn := Button.new()
+		btn.theme_type_variation = &"HUDButton"
 		btn.custom_minimum_size = Vector2(62, 42)
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.disabled = true
-		btn.add_theme_stylebox_override("normal", _make_panel_style(Color(0.26, 0.15, 0.07, 0.92), Color(0.60, 0.42, 0.18), 2, 5))
-		btn.add_theme_stylebox_override("disabled", _make_panel_style(Color(0.18, 0.13, 0.10, 0.86), Color(0.34, 0.26, 0.18), 2, 5))
 		skill_row.add_child(btn)
 		_skill_buttons.append(btn)
 	return box
 
 
-func _build_task_tip() -> void:
-	_task_tip = PanelContainer.new()
-	_task_tip.name = "TaskPlaceholder"
-	_task_tip.visible = false
-	_task_tip.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	_task_tip.offset_left = -280
-	_task_tip.offset_top = 112
-	_task_tip.offset_right = -16
-	_task_tip.offset_bottom = 190
-	_task_tip.add_theme_stylebox_override("panel", _make_panel_style(Color(0.10, 0.08, 0.05, 0.78), Color(0.58, 0.40, 0.16), 2, 6))
-	_root.add_child(_task_tip)
-
-	var label := Label.new()
-	label.text = "任务\n- 当前任务系统预留"
-	label.add_theme_font_size_override("font_size", 16)
-	label.add_theme_color_override("font_color", Color(1.0, 0.86, 0.52))
-	_task_tip.add_child(label)
-
-
 func _make_entry_button(text_value: String) -> Button:
 	var btn := Button.new()
 	btn.text = text_value
+	btn.theme_type_variation = &"HUDButton"
 	btn.custom_minimum_size = Vector2(60, 54)
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_font_size_override("font_size", 16)
-	btn.add_theme_color_override("font_color", Color(1.0, 0.86, 0.45))
-	btn.add_theme_stylebox_override("normal", _make_panel_style(Color(0.42, 0.24, 0.09, 0.92), Color(0.88, 0.64, 0.28), 3, 8))
-	btn.add_theme_stylebox_override("hover", _make_panel_style(Color(0.54, 0.31, 0.12, 0.96), Color(1.0, 0.78, 0.34), 3, 8))
 	return btn
 
 
-func _make_bar(fill: Color, bg: Color) -> Dictionary:
+func _make_bar() -> Dictionary:
 	var root := PanelContainer.new()
+	root.theme_type_variation = &"HUDStat"
 	root.custom_minimum_size = Vector2(176, 18)
-	root.add_theme_stylebox_override("panel", _make_panel_style(Color(0.12, 0.07, 0.04), Color(0.48, 0.32, 0.12), 2, 4))
 
 	var bar := ProgressBar.new()
+	bar.theme_type_variation = &"HUDBar"
 	bar.show_percentage = false
 	bar.min_value = 0
 	bar.max_value = 100
 	bar.value = 100
-	bar.add_theme_stylebox_override("background", _make_panel_style(bg, Color.TRANSPARENT, 0, 3))
-	bar.add_theme_stylebox_override("fill", _make_panel_style(fill, Color.TRANSPARENT, 0, 3))
 	root.add_child(bar)
 
 	var label := Label.new()
 	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.theme_type_variation = &"HUDValue"
 	label.add_theme_font_size_override("font_size", 12)
-	label.add_theme_color_override("font_color", Color(1.0, 0.92, 0.78))
 	root.add_child(label)
 	return {"root": root, "bar": bar, "label": label}
 
 
-func _make_panel_style(bg: Color, border: Color, border_width: int, radius: int) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = bg
-	style.border_color = border
-	style.border_width_left = border_width
-	style.border_width_top = border_width
-	style.border_width_right = border_width
-	style.border_width_bottom = border_width
-	style.corner_radius_top_left = radius
-	style.corner_radius_top_right = radius
-	style.corner_radius_bottom_left = radius
-	style.corner_radius_bottom_right = radius
-	style.content_margin_left = 6
-	style.content_margin_top = 4
-	style.content_margin_right = 6
-	style.content_margin_bottom = 4
-	return style
-
+# ---- 事件 ----
 
 func _on_active_character_changed(character: CharacterBody2D) -> void:
 	_active_character = character
@@ -410,6 +352,18 @@ func _on_active_hp_changed(_current: int, _max_hp: int) -> void:
 	_refresh_all()
 
 
+func _on_inventory_pressed() -> void:
+	if ui_root != null:
+		ui_root.toggle_main_menu(UIRoot.TAB_INVENTORY)
+
+
+func _on_task_pressed() -> void:
+	if ui_root != null:
+		ui_root.toggle_task_drawer()
+
+
+# ---- 队友卡 ----
+
 func _rebuild_ally_cards() -> void:
 	if _ally_list == null:
 		return
@@ -426,8 +380,8 @@ func _rebuild_ally_cards() -> void:
 
 func _make_ally_card(member: CharacterBody2D) -> Control:
 	var card := PanelContainer.new()
+	card.theme_type_variation = &"HUDCardSmall"
 	card.custom_minimum_size = Vector2(228, 56)
-	card.add_theme_stylebox_override("panel", _make_panel_style(Color(0.18, 0.10, 0.05, 0.82), Color(0.62, 0.43, 0.18), 2, 6))
 	card.set_meta("member", member)
 
 	var row := HBoxContainer.new()
@@ -435,8 +389,8 @@ func _make_ally_card(member: CharacterBody2D) -> Control:
 	card.add_child(row)
 
 	var avatar := PanelContainer.new()
+	avatar.theme_type_variation = &"Panel"
 	avatar.custom_minimum_size = Vector2(44, 44)
-	avatar.add_theme_stylebox_override("panel", _make_panel_style(Color(0.36, 0.42, 0.30), Color(0.22, 0.14, 0.07), 1, 4))
 	row.add_child(avatar)
 	_setup_avatar_holder(avatar, false)
 
@@ -445,14 +399,14 @@ func _make_ally_card(member: CharacterBody2D) -> Control:
 	row.add_child(info)
 
 	var name_label := Label.new()
-	name_label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.42))
+	name_label.theme_type_variation = &"HUDTitle"
 	info.add_child(name_label)
 
-	var hp_wrap := _make_bar(Color(0.74, 0.14, 0.12), Color(0.18, 0.08, 0.05))
+	var hp_wrap := _make_bar()
 	info.add_child(hp_wrap["root"])
 
 	var level_label := Label.new()
-	level_label.add_theme_color_override("font_color", Color(0.94, 0.78, 0.42))
+	level_label.theme_type_variation = &"HUDMuted"
 	info.add_child(level_label)
 
 	card.set_meta("avatar_holder", avatar)
@@ -464,11 +418,12 @@ func _make_ally_card(member: CharacterBody2D) -> Control:
 	return card
 
 
+# ---- 刷新 ----
+
 func _refresh_all() -> void:
 	_refresh_main_card()
 	_refresh_ally_cards()
 	_refresh_enemy_panel()
-	_refresh_bottom_stats()
 	_refresh_skills()
 
 
@@ -532,19 +487,6 @@ func _refresh_ally_card(card: PanelContainer) -> void:
 	card.modulate = Color(0.55, 0.55, 0.55, 0.76) if stats != null and int(stats.hp) <= 0 else Color.WHITE
 
 
-func _refresh_bottom_stats() -> void:
-	var stats = _get_active_stats()
-	if stats == null or _stat_label == null:
-		return
-	_stat_label.text = "生命 %d/%d    攻击 %d    防御 %d    速度 %d" % [
-		int(stats.hp),
-		int(stats.max_hp),
-		int(stats.attack),
-		int(stats.defense),
-		int(stats.move_speed),
-	]
-
-
 func _refresh_skills() -> void:
 	if _active_character == null:
 		return
@@ -590,9 +532,9 @@ func _refresh_enemy_panel() -> void:
 	_enemy_hp_bar.max_value = max_hp
 	_enemy_hp_bar.value = clampi(hp, 0, max_hp)
 	_enemy_hp_text.text = "%d/%d" % [hp, max_hp]
-	var ai_name :String= enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
-	var target_name :String= enemy.get_current_target_name() if enemy.has_method("get_current_target_name") else "无"
-	var dist :int = enemy.get_target_distance_x() if enemy.has_method("get_target_distance_x") else INF
+	var ai_name: String = enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
+	var target_name: String = enemy.get_current_target_name() if enemy.has_method("get_current_target_name") else "无"
+	var dist: int = enemy.get_target_distance_x() if enemy.has_method("get_target_distance_x") else INF
 	var dist_text := "-" if is_inf(dist) else str(int(dist))
 	_enemy_info_label.text = "状态：%s    目标：%s    距离：%s" % [
 		_translate_ai_state(ai_name),
@@ -673,29 +615,32 @@ func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBod
 	fallback.visible = false
 
 
+# ---- 辅助 ----
+
 func _get_active_stats():
 	var member_stats = _get_member_stats(_active_character)
 	if member_stats != null:
 		return member_stats
-	return GameRegistry.character_stats
+	if GameRegistry.character_stats != null:
+		return GameRegistry.character_stats
+	return null
 
 
-func _get_member_stats(member: Node):
-	if member != null and member.has_method("get_combat_stats"):
+func _get_member_stats(member: CharacterBody2D):
+	if member == null or not is_instance_valid(member):
+		return null
+	if member.has_method("get_combat_stats"):
 		return member.get_combat_stats()
 	return null
 
 
-func _get_member_character_id(member: Node) -> int:
+func _get_member_character_id(member: CharacterBody2D) -> int:
 	if member != null and member.has_method("get_party_character_id"):
-		return int(member.get_party_character_id())
-	return GameRegistry.roster_data.active_character_id if GameRegistry.roster_data != null else 0
+		return member.get_party_character_id()
+	return 0
 
 
-func _get_member_level(member: Node) -> int:
-	var stats = _get_member_stats(member)
-	if stats != null and "level" in stats:
-		return int(stats.level)
+func _get_member_level(member: CharacterBody2D) -> int:
 	var character_id := _get_member_character_id(member)
 	if GameRegistry.roster_data != null and character_id > 0:
 		return GameRegistry.roster_data.get_level(character_id)
@@ -733,16 +678,3 @@ func _short_name(value: String, max_len: int) -> String:
 	if value.length() <= max_len:
 		return value
 	return value.substr(0, max_len)
-
-
-func _on_inventory_pressed() -> void:
-	if _character_panel != null:
-		if _character_panel.has_method("open_inventory_tab"):
-			_character_panel.open_inventory_tab()
-		elif _character_panel.has_method("toggle"):
-			_character_panel.toggle()
-
-
-func _on_task_pressed() -> void:
-	if _task_tip != null:
-		_task_tip.visible = not _task_tip.visible

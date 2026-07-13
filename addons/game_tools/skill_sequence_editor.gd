@@ -680,6 +680,7 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 
 func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_scene_picker(form, "特效场景", "scene", node)
+	_add_effect_metadata_helper(form, node)
 	_add_node_option(form, "目标", "target", node, TARGET_OPTIONS, true)
 	if String(node.get("target", "origin")) == "result":
 		_add_node_line(form, "结果集", "result_key", node)
@@ -688,6 +689,142 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
 	_add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
+	_add_effect_event_helper(form, node)
+
+
+func _add_effect_metadata_helper(form: GridContainer, node: Dictionary) -> void:
+	var label := Label.new()
+	label.text = "附着元数据"
+	form.add_child(label)
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	form.add_child(row)
+	var status_label := Label.new()
+	status_label.text = "未检测"
+	status_label.add_theme_color_override("font_color", Color("888888"))
+	row.add_child(status_label)
+	var detect_btn := Button.new()
+	detect_btn.text = "检测并应用"
+	detect_btn.tooltip_text = "读取场景同目录的 attachment_meta.json，自动填入 origin=caster、偏移和坐标空间标记"
+	detect_btn.pressed.connect(_on_detect_attachment_meta.bind(status_label))
+	row.add_child(detect_btn)
+	# Auto-detect on first render
+	_check_attachment_meta(node, status_label)
+
+
+func _add_effect_event_helper(form: GridContainer, node: Dictionary) -> void:
+	var label := Label.new()
+	label.text = "事件前置节点"
+	form.add_child(label)
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	form.add_child(row)
+	var hint_label := Label.new()
+	var event_hint := _get_effect_event_hint(node)
+	if event_hint.is_empty():
+		hint_label.text = "无事件提示"
+		hint_label.add_theme_color_override("font_color", Color("888888"))
+	else:
+		hint_label.text = "建议事件：%s" % event_hint
+	row.add_child(hint_label)
+	var insert_btn := Button.new()
+	insert_btn.text = "插入等待事件节点"
+	insert_btn.tooltip_text = "在当前播放特效节点前插入一个 wait_action_event 节点"
+	insert_btn.disabled = event_hint.is_empty()
+	insert_btn.pressed.connect(_on_insert_wait_event_before_current.bind(event_hint))
+	row.add_child(insert_btn)
+
+
+func _on_detect_attachment_meta(status_label: Label) -> void:
+	var index := _selected_node_index()
+	if index < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if index >= nodes.size():
+		return
+	var node: Dictionary = nodes[index]
+	_apply_attachment_meta(node, status_label)
+
+
+func _check_attachment_meta(node: Dictionary, status_label: Label) -> void:
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty():
+		status_label.text = "未选择场景"
+		return
+	var meta_path := scene_path.get_base_dir().path_join("attachment_meta.json")
+	if not FileAccess.file_exists(meta_path):
+		status_label.text = "无附着元数据"
+		return
+	status_label.text = "已检测到元数据（点击应用）"
+	status_label.add_theme_color_override("font_color", Color("88ff88"))
+
+
+func _apply_attachment_meta(node: Dictionary, status_label: Label) -> void:
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty():
+		status_label.text = "未选择场景"
+		return
+	var meta_path := scene_path.get_base_dir().path_join("attachment_meta.json")
+	if not FileAccess.file_exists(meta_path):
+		status_label.text = "无附着元数据"
+		return
+	var meta := _read_json(meta_path)
+	if meta.is_empty():
+		status_label.text = "元数据读取失败"
+		return
+	# Auto-fill origin=caster, offset, coordinate_space
+	node["origin"] = "caster"
+	node["target"] = "origin"
+	node["coordinate_space"] = String(meta.get("coordinateSpace", "character_local"))
+	var local_offset: Dictionary = meta.get("characterOffset", {})
+	node["offset_x"] = float(local_offset.get("x", 0.0))
+	node["offset_y"] = float(local_offset.get("y", 0.0))
+	status_label.text = "已应用：origin=caster, 偏移(%.0f, %.0f)" % [node["offset_x"], node["offset_y"]]
+	status_label.add_theme_color_override("font_color", Color("88ff88"))
+	# Persist and rebuild
+	var index := _selected_node_index()
+	if index >= 0:
+		var skill := _current_skill()
+		var nodes: Array = skill.get("nodes", [])
+		if index < nodes.size():
+			nodes[index] = node
+			skill["nodes"] = nodes
+			_skills[_current_skill_id] = skill
+			_show_node_details(index)
+			_rebuild_node_list_keep(index)
+			_refresh_timeline()
+
+
+func _get_effect_event_hint(node: Dictionary) -> String:
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty():
+		return ""
+	var meta_path := scene_path.get_base_dir().path_join("attachment_meta.json")
+	if not FileAccess.file_exists(meta_path):
+		return ""
+	var meta := _read_json(meta_path)
+	if meta.is_empty():
+		return ""
+	return String(meta.get("event_hint", ""))
+
+
+func _on_insert_wait_event_before_current(event_name: String) -> void:
+	if event_name.is_empty():
+		return
+	var index := _selected_node_index()
+	if index < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	var wait_node := {"type": "wait_action_event", "event": event_name}
+	nodes.insert(index, wait_node)
+	skill["nodes"] = nodes
+	_skills[_current_skill_id] = skill
+	# Select the effect node (now at index+1)
+	_rebuild_node_list_keep(index + 1)
+	_show_node_details(index + 1)
+	_refresh_timeline()
 
 
 func _build_target_buff_fields(form: GridContainer, node: Dictionary) -> void:

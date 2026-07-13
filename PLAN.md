@@ -37,47 +37,50 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 - Add checkpoints, hazards, and collectible items.
 - Replace the placeholder hero sprite with a production character asset.
 
-## Current Focus: UI System (Inventory & Character Panels)
+## Current Focus: UI 统一管理、布局重构与可换肤资产方案
 
 ### Goals
 
-- Build inventory and character equipment UI panels.
-- Use B key to open/close inventory, C key for character panel.
-- All data operations go through Provider layer for future networking compatibility.
-- Items use text display initially, icon support will be added later.
+- 新增统一 `UIRoot`，GameRoot 只保留一个 UI 入口，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
+- 第一阶段完成正式的信息架构、布局、响应式尺寸、输入规则和数据绑定，仅使用功能线框皮肤。
+- UI 背景、边框和 Icon 全部经过可换肤资源层接入；后续先替换为独立 PNG 与九宫格，再无业务改动地迁移到图集。
+- 角色、装备、技能、背包使用统一主菜单；任务为右侧抽屉；未实现的时装和宠物隐藏。
 
 ### Status
 
-- [x] Inventory panel scene and script created
-- [x] Character panel scene and script created
-- [x] Game root updated with B/C key handling
-- [x] Equipment panel: clickable slots with type-based filtering
-- [x] Equipment panel: popup selection list from inventory
-- [x] Equipment panel: color-coded slot types (weapon/armor/boots/accessory)
-- [x] Equipment panel: stat bonus display (攻+5, 防+3 etc.)
-- [ ] Add sample items for testing
-- [ ] Test equip/unequip flow
+- [x] `UIRoot` 统一管理 5 层 CanvasLayer (HUD/Screen/Popup/Notification/Debug)
+- [x] `UISkin` 资源持有共享 Theme 和语义化 Icon 映射
+- [x] `BattleHud` 重构：移除 CharacterPanel 引用，通过 UIRoot 发送语义化请求
+- [x] `MainMenu` 统一主菜单：character/equipment/skills/inventory 四页
+- [x] `TaskDrawer` 右侧抽屉，任务系统未实现时展示真实空状态
+- [x] `DebugPanel` 迁入 DebugLayer，F3 调试
+- [x] `game_root.gd` 使用 UIRoot 作为唯一 UI 入口
+- [x] `game_root.tscn` 移除旧面板，添加 UIRoot 节点
+- [x] 移除旧 InventoryPanel (scene + script)
+- [x] Escape 按优先级关闭：弹窗 → 任务抽屉 → 主菜单
+- [x] 菜单打开时 J/K/L/U 施法被屏蔽，移动/跳跃/Tab 切人保留
+- [x] `PartyManager.set_manual_skill_input_enabled(bool)` 转发给 CombatComponent
+- [x] Godot 无头加载和脚本解析通过
+- [ ] 替换独立 PNG 与九宫格验证皮肤迁移
+- [ ] 使用 AtlasTexture 替换独立 PNG 验证图集迁移
+- [ ] 在 960×540、1152×648、1376×768 和 1920×1080 下布局验收
 
 ## Verification
 
-- Press B to open inventory panel, see 30 empty slots
-- Press B again or Escape to close inventory
-- Press C to open character panel, see stats and 4 equipment slot buttons
-- Click empty slot → popup shows compatible items from inventory
-- Click item in popup → equips it, slot shows name + stats in color
-- Click occupied slot → unequips item back to inventory
-- Each slot type has unique color: weapon=red, armor=blue, boots=green, accessory=gold
-- Stats update in real-time after equip/unequip
+- GameRoot 下只存在一个 UIRoot，旧面板和动态 DebugLayer 无残留引用
+- B/C、HUD 入口、任务入口和 Escape 的打开、切页、互斥及关闭优先级正确
+- 菜单打开时移动、跳跃、Tab 和世界模拟正常；J/K/L/U 不施法；关闭后立即恢复
+- 切换角色、升级、装备变更、背包增删和技能冷却能实时刷新
+- Godot 无头加载和 `git diff --check` 通过
 
 ## Next Steps
 
-- Add icon support when asset is ready
-- Connect to networking layer when server integration begins
-- Add drag-and-drop for item management
-- Add item tooltips with detailed stats
-- Add combat animations (attack, hit, skill1, skill2, skill3, dead)
-- Add projectile/effect scenes (fireball, frost_arrow, etc.)
-- Add buff effect scenes (poison_fx, burn_fx, freeze_fx, etc.)
+- 切图到位后替换 UISkin 中的 StyleBoxFlat 为独立透明 PNG 与九宫格 StyleBoxTexture
+- 将独立 PNG 打包为图集，UISkin 引用切换到 AtlasTexture
+- 连接网络层时替换 Provider 实现
+- 添加战斗动画 (attack, hit, skill1, skill2, skill3, dead)
+- 添加弹道/特效场景 (fireball, frost_arrow, etc.)
+- 添加 Buff 特效场景 (poison_fx, burn_fx, freeze_fx, etc.)
 
 ## Architecture
 
@@ -98,8 +101,12 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 
 ### UI Layer (scripts/ui/)
 
-- `inventory_panel.gd` - Bag UI with 6x5 grid, equip/discard actions
-- `character_panel.gd` - Character stats and equipment display
+- `ui_root.gd` - Unified UI manager; owns 5 CanvasLayers (HUD/Screen/Popup/Notification/Debug) and exposes open/toggle/close APIs
+- `ui_skin.gd` - Shared UISkin resource with Theme and semantic Icon mapping
+- `battle_hud.gd` - Persistent combat HUD in HUDLayer; skill slots, cards, entry buttons
+- `main_menu.gd` - Unified main menu in ScreenLayer; character/equipment/skills/inventory tabs
+- `task_drawer.gd` - Right-side slide-in task drawer in ScreenLayer
+- `debug_panel.gd` - F3 debug panel in DebugLayer
 
 ### Combat Layer (scripts/combat/)
 
@@ -124,6 +131,10 @@ Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.
 - CharacterStats.recalculate() is called after every equipment change
 - Save format includes version number for future compatibility
 - Networking migration: Replace Provider implementations with network calls
+- GameRoot owns a single UIRoot node; no UI is mounted directly on GameRoot
+- UIRoot manages five fixed CanvasLayers with strict z-index: HUD(10), Screen(20), Popup(30), Notification(40), Debug(100)
+- UISkin abstracts asset references so skin migration (wireframe → PNG → atlas) never touches business code
+- When menus are open, manual skill input (J/K/L/U) is blocked while movement/jump/Tab remain active
 
 ## Excel 配置表工作流
 

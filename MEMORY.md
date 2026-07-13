@@ -54,6 +54,23 @@
 - Slot type colors: weapon=red, armor=blue, boots=green, accessory=gold for visual distinction.
 - Stats display includes formatted bonus text (攻+5, 防+3, 血+20, 速+10) for equipped items.
 
+## UI 统一管理架构
+
+- GameRoot 只保留一个 UIRoot 节点作为 UI 入口；旧的 InventoryPanel/CharacterPanel/BattleHud 不再直接挂载在 GameRoot 上。
+- UIRoot 管理 5 个固定 CanvasLayer：HUDLayer(z=10)、ScreenLayer(z=20)、PopupLayer(z=30)、NotificationLayer(z=40)、DebugLayer(z=100)。
+- BattleHud 常驻 HUDLayer；MainMenu 和 TaskDrawer 属于 ScreenLayer；装备选择弹窗属于 PopupLayer；DebugPanel 属于 DebugLayer。
+- UISkin 资源持有共享 Theme 和语义化 Icon 映射；业务页面通过 `skin.get_icon(StringName(name))` 获取图标，不硬编码 PNG 路径。
+- 皮肤迁移路径：StyleBoxFlat 线框 → 独立透明 PNG + 九宫格 StyleBoxTexture → AtlasTexture；迁移只改 UISkin，业务代码零改动。
+- Escape 关闭优先级：Popup 栈顶 → TaskDrawer → MainMenu；B/C 直接切到 inventory/equipment 页。
+- 菜单打开时世界继续模拟；移动/跳跃/Tab 切人保留，J/K/L/U 手动施法通过 `PartyManager.set_manual_skill_input_enabled(false)` 屏蔽。
+- 主菜单最大约 900×520，内含左侧导航和右侧 ScrollContainer；未实现的时装和宠物页签隐藏。
+- TaskDrawer 为右侧滑入抽屉；任务系统未实现时展示真实空状态而非假数据。
+- `UIRoot.close_top()` 使用 `var top: Control = _popup_stack.back()` 显式类型标注，避免 Godot 4.7 的 Variant 推断报错。
+- `MainMenu` 中 `_pages` 字典取值后需显式标注 `var page: Control = _pages[page_key]`，否则 `page.get_node_or_null(...)` 返回 Variant 导致 `var spin := ...` 推断失败。
+- `MainMenu` 的 `_skill_rows` 字典必须存入 `fallback` 字段，供 `_refresh_skills_page` 的 `skill.get("name", row_data["fallback"])` 兜底。
+- `MarginContainer` 的间距用 `add_theme_constant_override("margin_*", n)`，不是 `add_theme_constant(...)`。
+- InventoryPanel 的场景和脚本已删除；CharacterPanel 脚本保留作为历史参考但不再挂载。
+
 ## Excel 配置表
 
 - 配置表统一使用 Excel (.xlsx) 作为源文件，运行时读取 JSON。

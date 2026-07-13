@@ -1,22 +1,18 @@
 extends Node2D
+## 游戏根节点：只持有 UIRoot 作为唯一 UI 入口，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
 
 @onready var level_container: Node2D = $LevelContainer
 @onready var party_manager: PartyManager = $Player
-@onready var inventory_panel: CanvasLayer = $InventoryPanel
-@onready var character_panel: CanvasLayer = $CharacterPanel
-@onready var battle_hud: CanvasLayer = $BattleHud
+@onready var ui_root: UIRoot = $UIRoot
 
 var player: CharacterBody2D
 var _level_manager: Node
 var _enemy_spawner: Node
-var _debug_label: Label
 
 
 
 
 func _ready() -> void:
-	if inventory_panel != null:
-		inventory_panel.visible = false
 	player = party_manager.get_active_character()
 	if player == null:
 		push_error("[GameRoot] PartyManager 没有可用的主控角色")
@@ -35,15 +31,13 @@ func _ready() -> void:
 	_enemy_spawner.name = "EnemySpawner"
 	add_child(_enemy_spawner)
 	_enemy_spawner.setup(party_manager, level_container)
-	if battle_hud != null and battle_hud.has_method("setup"):
-		battle_hud.setup(party_manager, character_panel, _enemy_spawner)
+
+	# 初始化统一 UIRoot（HUD / 主菜单 / 任务抽屉 / Debug 面板均在内部构建）
+	ui_root.setup(party_manager, _enemy_spawner)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
 	_level_manager.level_unloaded.connect(_on_level_unloaded)
-
-	# 创建 Debug 面板
-	_setup_debug_panel()
 
 	# 加载首个关卡（从配置表）
 	call_deferred("_load_start_level")
@@ -84,132 +78,16 @@ func _spawn_level_enemies(level_id: int) -> void:
 	_enemy_spawner.spawn_enemies_for_level(spawns)
 
 
-func _process(_delta: float) -> void:
-	if _debug_label != null and _debug_label.visible:
-		_update_debug_panel()
-
-
-func _setup_debug_panel() -> void:
-	var layer := CanvasLayer.new()
-	layer.name = "DebugLayer"
-	layer.layer = 100
-	add_child(layer)
-
-	var panel := PanelContainer.new()
-	panel.name = "DebugPanel"
-	panel.visible = false
-	panel.position = Vector2(10, 10)
-	panel.size = Vector2(350, 400)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0, 0, 0, 0.7)
-	style.content_margin_left = 8
-	style.content_margin_top = 8
-	style.content_margin_right = 8
-	style.content_margin_bottom = 8
-	panel.add_theme_stylebox_override("panel", style)
-	layer.add_child(panel)
-
-	_debug_label = Label.new()
-	_debug_label.name = "DebugLabel"
-	_debug_label.add_theme_font_size_override("font_size", 13)
-	_debug_label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))
-	panel.add_child(_debug_label)
-
-
-func _update_debug_panel() -> void:
-	var lines: PackedStringArray = []
-	var combat = player.get_node_or_null("CombatComponent")
-	var stats = GameRegistry.character_stats
-
-	# ---- Debug 开关状态 ----
-	lines.append("=== Debug (F3/F4/F5/F6) ===")
-	lines.append("碰撞体:%s  受伤区:%s  攻击区:%s" % [
-		"ON" if DebugDraw.show_collision else "off",
-		"ON" if DebugDraw.show_hurtbox else "off",
-		"ON" if DebugDraw.show_hitbox else "off",
-	])
-
-	# ---- 玩家信息 ----
-	lines.append("=== 玩家 ===")
-	if stats != null:
-		lines.append("HP: %d / %d" % [stats.hp, stats.max_hp])
-		lines.append("ATK: %d  DEF: %d  SPD: %d" % [stats.attack, stats.defense, stats.move_speed])
-	if combat != null:
-		lines.append("状态: %s" % _state_name(combat.combat_state))
-		# 技能冷却
-		var cooldowns: Dictionary = combat.get_cooldowns_dict()
-		var cd_parts: PackedStringArray = []
-		for sid in cooldowns:
-			var cd: float = cooldowns[sid]
-			var skill: Dictionary = GameRegistry.skill_config.get_skill(int(sid))
-			var name: String = str(skill.get("name", sid)) if not skill.is_empty() else str(sid)
-			cd_parts.append("%s:%.1fs" % [name, cd] if cd > 0 else "%s:OK" % name)
-		lines.append("CD: %s" % " | ".join(cd_parts))
-
-	lines.append("")
-	lines.append("=== Party runtime ===")
-	for member in party_manager.get_party_members():
-		var member_combat := member.get_node_or_null("CombatComponent")
-		var member_id : int= member.get_party_character_id() if member.has_method("get_party_character_id") else 0
-		var member_name :String= GameRegistry.character_config.get_name(member_id) if GameRegistry.character_config != null else str(member_id)
-		var runtime :Variant= member_combat.get_debug_state() if member_combat != null and member_combat.has_method("get_debug_state") else "?"
-		var anim := String(member.get_node("CharacterActionSet/AnimatedSprite2D").animation)
-		var ally_runtime :Variant= member.get_ally_debug_state() if member.has_method("get_ally_debug_state") else ""
-		lines.append("%s anim:%s %s %s" % [member_name, anim, runtime, ally_runtime])
-
-	# ---- 怪物信息 ----
-	lines.append("")
-	lines.append("=== 怪物 ===")
-	if _enemy_spawner != null:
-		var enemies: Array = _enemy_spawner._active_enemies
-		if enemies.is_empty():
-			lines.append("(无)")
-		else:
-			for enemy in enemies:
-				if not is_instance_valid(enemy):
-					continue
-				var dist_x := absf(player.global_position.x - enemy.global_position.x)
-				var e_stats = enemy.get_combat_stats() if enemy.has_method("get_combat_stats") else null
-				var hp_str := "?"
-				if e_stats != null:
-					hp_str = "%d/%d" % [e_stats.hp, e_stats.max_hp]
-				var ai_name: String = enemy.get_ai_state_name() if enemy.has_method("get_ai_state_name") else "?"
-				var e_name: String = enemy.get_enemy_name() if enemy.has_method("get_enemy_name") else "?"
-				var e_combat :Variant= enemy.get_node_or_null("CombatComponent")
-				var e_runtime :Variant= e_combat.get_debug_state() if e_combat != null and e_combat.has_method("get_debug_state") else "?"
-				var target_dist :float= enemy.get_target_distance_x() if enemy.has_method("get_target_distance_x") else INF
-				lines.append("[%s] HP:%s AI:%s XDist:%d TargetDist:%.1f %s" % [e_name, hp_str, ai_name, int(dist_x), target_dist, e_runtime])
-
-	_debug_label.text = "\n".join(lines)
-
-
-func _state_name(state) -> String:
-	match state:
-		0: return "IDLE"
-		1: return "ATTACKING"
-		2: return "SKILL"
-		3: return "HIT"
-		4: return "DEAD"
-		_: return str(state)
-
-
+## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。
 func _unhandled_input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed:
 		return
-	if character_panel.is_open():
-		return
 	match event.keycode:
 		KEY_B:
-			if character_panel.has_method("open_inventory_tab"):
-				character_panel.open_inventory_tab()
-			else:
-				character_panel.toggle()
+			ui_root.toggle_main_menu(UIRoot.TAB_INVENTORY)
 			get_viewport().set_input_as_handled()
 		KEY_C:
-			if character_panel.has_method("open_equipment_tab"):
-				character_panel.open_equipment_tab()
-			else:
-				character_panel.toggle()
+			ui_root.toggle_main_menu(UIRoot.TAB_EQUIPMENT)
 			get_viewport().set_input_as_handled()
 		KEY_TAB:
 			party_manager.switch_next_character()
@@ -218,17 +96,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			# 测试：R 键重载当前关卡
 			_level_manager.reload_current()
 			get_viewport().set_input_as_handled()
+		KEY_ESCAPE:
+			# 按优先级关闭：弹窗 → 任务抽屉 → 主菜单
+			if ui_root.is_modal_open():
+				ui_root.close_top()
+				get_viewport().set_input_as_handled()
 		KEY_F3:
-			_debug_label.get_parent().visible = not _debug_label.get_parent().visible
+			ui_root.toggle_debug_panel()
 			get_viewport().set_input_as_handled()
 		KEY_F4:
-			DebugDraw.show_collision = not DebugDraw.show_collision
+			ui_root.set_debug_draw_flags(not DebugDraw.show_collision, DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
 			get_viewport().set_input_as_handled()
 		KEY_F5:
-			DebugDraw.show_hurtbox = not DebugDraw.show_hurtbox
+			ui_root.set_debug_draw_flags(DebugDraw.show_collision, not DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
 			get_viewport().set_input_as_handled()
 		KEY_F6:
-			DebugDraw.show_hitbox = not DebugDraw.show_hitbox
+			ui_root.set_debug_draw_flags(DebugDraw.show_collision, DebugDraw.show_hurtbox, not DebugDraw.show_hitbox)
 			get_viewport().set_input_as_handled()
 
 

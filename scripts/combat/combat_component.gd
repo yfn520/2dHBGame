@@ -12,6 +12,7 @@ var combat_state: CombatState = CombatState.IDLE
 var _cooldowns: Dictionary = {}
 var _hit_stun_timer := 0.0
 var _invincible_after_hit := 0.0
+var _manual_skill_input_enabled := true
 
 var _owner: Node
 var _buff_manager: BuffManager
@@ -117,6 +118,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _owner.is_in_group("player") or (_owner.has_method("is_player_controlled") and not _owner.is_player_controlled()):
 		return
+	if not _manual_skill_input_enabled:
+		return
 	if combat_state == CombatState.DEAD or not _buff_manager.can_act():
 		return
 	if event is InputEventKey and event.pressed:
@@ -125,6 +128,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_K: _try_use_owner_skill("skill1")
 			KEY_L: _try_use_owner_skill("skill2")
 			KEY_U: _try_use_owner_skill("skill3")
+
+
+func set_manual_skill_input_enabled(enabled: bool) -> void:
+	_manual_skill_input_enabled = enabled
 
 
 func _try_use_owner_skill(slot_name: String) -> bool:
@@ -350,7 +357,7 @@ func _execute_target_buff_node(node: Dictionary) -> void:
 
 func _spawn_effect_on_target(target: Area2D, node: Dictionary) -> void:
 	if target != null and is_instance_valid(target):
-		_spawn_effect_at(target.global_position + Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0))), node)
+		_spawn_effect_at(target.global_position, node)
 
 
 func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
@@ -361,8 +368,20 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 	if packed == null:
 		return
 	var effect := packed.instantiate()
+	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+	var coord_space := String(node.get("coordinate_space", "world"))
 	if effect is Node2D:
-		(effect as Node2D).global_position = position_value
+		var final_pos := position_value
+		if coord_space == "character_local" and _owner is Node2D:
+			# Attachment offset is in character-local space; transform by sprite scale and facing
+			var facing := _get_facing_sign()
+			var sprite_scale := _sprite.scale.x if _sprite != null and _sprite.scale.x != 0.0 else 1.0
+			var local_offset := Vector2(offset.x * facing * sprite_scale, offset.y * sprite_scale)
+			final_pos = position_value + local_offset
+		else:
+			# World-space offset (existing behavior for hit-target / world effects)
+			final_pos = position_value + offset
+		(effect as Node2D).global_position = final_pos
 	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
 	if scene != null:
 		scene.add_child(effect)

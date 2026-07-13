@@ -17,6 +17,7 @@ var _party_members: Array[CharacterBody2D] = []
 var _member_by_id: Dictionary = {}
 var _editor_preview: Node2D
 var _preview_signature := ""
+var _manual_skill_input_enabled := true
 
 
 func _ready() -> void:
@@ -112,6 +113,20 @@ func refresh_party_stats() -> void:
 	for member in get_party_members():
 		if member.has_method("refresh_combat_stats"):
 			member.refresh_combat_stats()
+
+
+## 控制玩家手动技能输入（J/K/L/U）是否生效。
+## 只影响玩家输入，不影响队友 AI、敌人和弹道。
+func set_manual_skill_input_enabled(enabled: bool) -> void:
+	_manual_skill_input_enabled = enabled
+	for member in get_party_members():
+		var combat := member.get_node_or_null("CombatComponent")
+		if combat != null and combat.has_method("set_manual_skill_input_enabled"):
+			combat.set_manual_skill_input_enabled(enabled)
+
+
+func is_manual_skill_input_enabled() -> bool:
+	return _manual_skill_input_enabled
 
 
 func _spawn_lineup() -> void:

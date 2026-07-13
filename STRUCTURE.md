@@ -2,18 +2,16 @@
 
 ## Runtime Scenes
 
-- `res://scenes/game_root.tscn`: persistent runtime root that owns the party controller and current level container.
+- `res://scenes/game_root.tscn`: persistent runtime root that owns the party controller, current level container, and a single `UIRoot` node as the only UI entry point.
 - `res://scenes/player.tscn`: `PartyManager` scene; its exported `Array[int]` is the inspector-configured lineup of character IDs.
 - `res://assets/characters/<name>/godot/<name>.tscn`: complete playable-character prefab with body collision, foot-anchored artwork, camera, HitBox, HurtBox, and combat component.
-- `res://scenes/inventory_panel.tscn`: bag UI panel (6x5 grid), toggled with B key.
-- `res://scenes/character_panel.tscn`: character stats + equipment slots UI, toggled with C key.
 - `res://scenes/*.tscn`: level scenes (auto-generated from `world/stitched/`)
 
 ## Scripts
 
 ### Core (`res://scripts/`)
 
-- `game_root.gd`: main scene script, initializes LevelManager, handles B/C keys for UI toggle.
+- `game_root.gd`: main scene script, initializes LevelManager, EnemySpawner, and `UIRoot`; delegates B/C/Escape/F3-F6 to UIRoot.
 - `player.gd`: reusable playable-character movement, gravity, jump, ladder, and combat-animation controller.
 - `game_registry.gd`: AutoLoad singleton, owns all data models, configs, and providers.
 
@@ -47,8 +45,13 @@
 
 ### UI (`res://scripts/ui/`)
 
-- `inventory_panel.gd` - Bag UI with 30 slots, equip (E) and discard (D) actions
-- `character_panel.gd` - Character stats display + equipment slot display
+- `ui_root.gd` - Unified UI manager; owns 5 CanvasLayers (HUD:10, Screen:20, Popup:30, Notification:40, Debug:100) and provides `setup()`, `open_main_menu()`, `toggle_main_menu()`, `toggle_task_drawer()`, `close_top()`, `is_modal_open()`.
+- `ui_skin.gd` - Shared `UISkin` resource holding a `Theme` and semantic Icon mapping; first phase uses `StyleBoxFlat` wireframes, later replaced by independent PNGs and then `AtlasTexture` without touching business pages.
+- `battle_hud.gd` - Persistent combat HUD (Control in HUDLayer): left-top main/ally cards, top-center enemy info, bottom-center J/K/L/U skill slots, right-top entry buttons; sends semantic requests to UIRoot instead of holding panel references.
+- `main_menu.gd` - Unified main menu (Control in ScreenLayer, max ~900x520): left nav with `character`/`equipment`/`skills`/`inventory` tabs, right content area with ScrollContainer; includes equipment popup and item tooltips.
+- `task_drawer.gd` - Right-side slide-in task drawer (Control in ScreenLayer); shows real empty state while the task system is unimplemented.
+- `debug_panel.gd` - F3 debug panel (Control in DebugLayer); shows DebugDraw flags, player/party/enemy runtime info.
+- `character_panel.gd` - Legacy CanvasLayer panel, retained but no longer mounted on GameRoot; functionality absorbed by `MainMenu`.
 
 ### Combat (`res://scripts/combat/`)
 
@@ -93,3 +96,15 @@
 - A playable character's authored foot point is normalized to the bottom center of its body collision inside its own prefab.
 - Character `actor_scale` is read from `data/characters.json` at runtime and scales the prefab visual root, body collision, hurt box, and hit boxes together.
 - Keyboard polling is used for now so the prototype works without setting up an input map.
+
+## UI Architecture
+
+- GameRoot owns a single `UIRoot` node; no HUD, panel, or DebugLayer is mounted directly on GameRoot.
+- `UIRoot` manages five fixed CanvasLayers: HUDLayer(10), ScreenLayer(20), PopupLayer(30), NotificationLayer(40), DebugLayer(100).
+- `UISkin` centralizes the shared `Theme` and semantic Icon map; pages reference Icons by name (e.g. `inventory`, `task`, `weapon`) and never hardcode PNG paths.
+- Main menu registers four fixed tabs: `character`, `equipment`, `skills`, `inventory`; unimplemented时装 and宠物 are hidden.
+- Task drawer slides in from the right; task system is unimplemented so the real empty state is shown.
+- Escape closes layers by priority: Popup → TaskDrawer → MainMenu; B/C toggle inventory/equipment tabs directly.
+- When a menu is open, the world keeps simulating; movement/jump/Tab-switch remain, but J/K/L/U manual skill input is blocked via `PartyManager.set_manual_skill_input_enabled(bool)`.
+- UI is mouse-first; unnecessary buttons disable keyboard focus to avoid arrow-key navigation conflicts with background movement.
+- Skin migration path: wireframe StyleBoxFlat → independent transparent PNG with九宫格 StyleBoxTexture → AtlasTexture; only UISkin and margin config change, business pages stay untouched.
