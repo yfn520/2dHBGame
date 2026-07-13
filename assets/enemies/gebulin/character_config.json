@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/gebulin/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/gebulin/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 131.0,
+			"width": 88.0,
+			"x": 82.0,
+			"y": 61.0
+		},
+		"forwardDistance": -4.0,
+		"height": 131.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 88.0,
+		"yOffset": -65.0
+	},
+	"body_position": {
+		"x": -4.0,
+		"y": -65.5
+	},
+	"body_size": {
+		"x": 88.0,
+		"y": 131.0
+	},
+	"centered": true,
+	"character_name": "ge'bu'ling",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/gebulin/combat_actions.json",
+	"combat_source": "res://assets/enemies/gebulin/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -10.0,
+		"y": -72.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 130.0,
+		"y": 192.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "gebulin",
+	"spriteframes": "res://assets/enemies/gebulin/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

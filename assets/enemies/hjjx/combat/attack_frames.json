@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 3,
+  "exportId": "frame-ronin-1783931107516",
+  "exportedAt": "2026-07-13T08:25:07.516Z",
+  "frameIndexBase": 1,
+  "characterName": "huei'jingju'xiang",
+  "defaultAnimation": "idle",
+  "frameSize": {
+    "width": 240,
+    "height": 240
+  },
+  "bodyBox": {
+    "usage": [
+      "collision",
+      "hurt"
+    ],
+    "forwardDistance": -5,
+    "yOffset": -55,
+    "width": 97,
+    "height": 118,
+    "exportRect": {
+      "x": 78,
+      "y": 68,
+      "width": 97,
+      "height": 118
+    }
+  },
+  "actions": [
+    {
+      "actionName": "idle",
+      "atlasActionName": "idle",
+      "fps": 5,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": []
+    },
+    {
+      "actionName": "run",
+      "atlasActionName": "run",
+      "fps": 7,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": []
+    },
+    {
+      "actionName": "attack",
+      "atlasActionName": "attack",
+      "fps": 7,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [
+        {
+          "id": "evt-1783931096717-s91ls",
+          "name": "effect",
+          "frame": 2
+        },
+        {
+          "id": "evt-1783931100093-o5w9n",
+          "name": "release",
+          "frame": 4
+        }
+      ],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": [
+        {
+          "id": "hitbox-1783845070666-uzx9v",
+          "startFrame": 4,
+          "endFrame": 4,
+          "regions": [
+            {
+              "id": "region-1783845070666-w9bur",
+              "forwardDistance": -95,
+              "yOffset": -80,
+              "width": 49,
+              "height": 35,
+              "scale": 1,
+              "exportRect": {
+                "x": 12,
+                "y": 85,
+                "width": 49,
+                "height": 35
+              },
+              "exportRectFromFootCenter": {
+                "forwardDistance": -95,
+                "yOffset": -80,
+                "width": 49,
+                "height": 35
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actionName": "skill",
+      "atlasActionName": "skill",
+      "fps": 7,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [
+        {
+          "id": "evt-1783931084957-wgmdq",
+          "name": "effect",
+          "frame": 2
+        },
+        {
+          "id": "evt-1783931078717-xryck",
+          "name": "release",
+          "frame": 4
+        }
+      ],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": [
+        {
+          "id": "hitbox-1783845080698-q2sx3",
+          "startFrame": 4,
+          "endFrame": 4,
+          "regions": [
+            {
+              "id": "region-1783845080698-we80f",
+              "forwardDistance": -69,
+              "yOffset": -84,
+              "width": 31,
+              "height": 25,
+              "scale": 1,
+              "exportRect": {
+                "x": 46,
+                "y": 86,
+                "width": 31,
+                "height": 25
+              },
+              "exportRectFromFootCenter": {
+                "forwardDistance": -69,
+                "yOffset": -84,
+                "width": 31,
+                "height": 25
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "actionName": "hurt",
+      "atlasActionName": "hurt",
+      "fps": 7,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": []
+    },
+    {
+      "actionName": "dead",
+      "atlasActionName": "dead",
+      "fps": 6,
+      "coordinateSpace": "export_frame_pixels",
+      "coordinateNote": "foot_center is the character foot center in exported frame pixels. attackCenter = foot_center + forwardDistance/yOffset. mirror forwardDistance for left-facing runtime sprites.",
+      "imageCenter": {
+        "x": 120,
+        "y": 120
+      },
+      "centerPointOffset": {
+        "offsetX": 12,
+        "offsetY": 63
+      },
+      "foot_center": {
+        "x": 132,
+        "y": 183
+      },
+      "frameIndexBase": 1,
+      "events": [],
+      "cancelWindows": [],
+      "armorWindows": [],
+      "movementWindows": [],
+      "sockets": {},
+      "attacks": []
+    }
+  ]
+}

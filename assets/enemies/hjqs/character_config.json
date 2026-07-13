@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/hjqs/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/hjqs/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 130.0,
+			"width": 80.0,
+			"x": 94.0,
+			"y": 56.0
+		},
+		"forwardDistance": 2.0,
+		"height": 130.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 80.0,
+		"yOffset": -63.0
+	},
+	"body_position": {
+		"x": 2.0,
+		"y": -65.0
+	},
+	"body_size": {
+		"x": 80.0,
+		"y": 130.0
+	},
+	"centered": true,
+	"character_name": "huei'jing'qi'shi2",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/hjqs/combat_actions.json",
+	"combat_source": "res://assets/enemies/hjqs/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -12.0,
+		"y": -66.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 132.0,
+		"y": 184.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "hjqs",
+	"spriteframes": "res://assets/enemies/hjqs/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

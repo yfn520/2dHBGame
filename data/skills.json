@@ -152,6 +152,196 @@
 			}
 		]
 	},
+	"2301": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "wolf_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2302": {
+		"cast_range": 60.0,
+		"cooldown": 1.0,
+		"description": "",
+		"name": "wolf_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2401": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "kl_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2501": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "gbl_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2601": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "hjjx_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2701": {
+		"cast_range": 60.0,
+		"cooldown": 0.5,
+		"name": "hjqs_atkl",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2801": {
+		"cast_range": 10.0,
+		"cooldown": 0.5,
+		"name": "hy_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"aim_mode": "facing_elevation",
+				"damage_ratio": 1.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scene": "",
+				"speed": 300.0,
+				"trajectory": "ballistic",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"3001": {
 		"cast_range": 50.0,
 		"cooldown": 0.5,
@@ -456,11 +646,11 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
-				"buff_id": 0,
+				"buff_id": 0.0,
 				"type": "apply_self_buff"
 			},
 			{
