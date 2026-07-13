@@ -370,21 +370,36 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 	var coord_space := String(node.get("coordinate_space", "world"))
-	if effect is Node2D:
-		var final_pos := position_value
-		if coord_space == "character_local" and _owner is Node2D:
-			# Attachment offset is in character-local space; transform by sprite scale and facing
-			var facing := _get_facing_sign()
-			var sprite_scale := _sprite.scale.x if _sprite != null and _sprite.scale.x != 0.0 else 1.0
-			var local_offset := Vector2(offset.x * facing * sprite_scale, offset.y * sprite_scale)
-			final_pos = position_value + local_offset
-		else:
-			# World-space offset (existing behavior for hit-target / world effects)
-			final_pos = position_value + offset
-		(effect as Node2D).global_position = final_pos
 	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
-	if scene != null:
-		scene.add_child(effect)
+	if effect is Node2D and coord_space == "character_local" and _owner is Node2D:
+		# Action attachments use frame-pixel coordinates relative to the character foot.
+		# Keep them parented to the actor so they follow movement, and mirror exactly when
+		# the source character sprite is flipped.
+		var effect_node := effect as Node2D
+		var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+		var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
+		var mirror_x := -1.0 if _sprite != null and _sprite.flip_h else 1.0
+		_owner.add_child(effect_node)
+		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
+		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
+		if effect_node is AnimatedSprite2D and _sprite != null:
+			(effect_node as AnimatedSprite2D).flip_h = _sprite.flip_h
+		elif mirror_x < 0.0:
+			effect_node.scale.x *= -1.0
+		# The character visuals are a sibling at z=100 in imported actor scenes.
+		# Resolve front/behind relative to that node rather than relative to the world root.
+		var visual_z := visual_root.z_index if visual_root != null else (_sprite.z_index if _sprite != null else 0)
+		var attachment_layer := String(node.get("attachment_layer", "front"))
+		effect_node.z_as_relative = true
+		effect_node.z_index = visual_z + (-1 if attachment_layer == "behind" else 1)
+		return
+	if scene == null:
+		effect.queue_free()
+		return
+	scene.add_child(effect)
+	if effect is Node2D:
+		# World-space effects keep the previous behavior and do not follow the caster.
+		(effect as Node2D).global_position = position_value + offset
 
 
 func _apply_buff_to_target(target: Area2D, node: Dictionary) -> void:

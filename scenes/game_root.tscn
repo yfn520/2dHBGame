@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bgpr3iv8oqhc3" path="res://scripts/game_root.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://c8owwa3cwfcgs" path="res://scenes/player.tscn" id="3_player"]
-[ext_resource type="Script" path="res://scripts/ui/ui_root.gd" id="7_ui_root"]
+[ext_resource type="Script" uid="uid://cgiyebcjacgj7" path="res://scripts/ui/ui_root.gd" id="7_ui_root"]
 
 [node name="GameRoot" type="Node2D" unique_id=611613240]
 script = ExtResource("1_script")
@@ -10,7 +10,7 @@ script = ExtResource("1_script")
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1939485336]
 
 [node name="Player" parent="." unique_id=441688693 instance=ExtResource("3_player")]
-lineup_character_ids = Array[int]([1003, 1002])
+lineup_character_ids = Array[int]([1003])
 
 [node name="UIRoot" type="Node" parent="." unique_id=1278849301]
 script = ExtResource("7_ui_root")

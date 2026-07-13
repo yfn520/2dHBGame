@@ -1,0 +1,28 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "actionName": "skill1",
+  "characterName": "gong'sho",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -6.7267080745341445,
+    "y": -157.5527950310559
+  },
+  "displayScale": {
+    "x": 0.46875,
+    "y": 0.46875
+  },
+  "effectRotation": 0,
+  "effectScale": 1,
+  "boxSize": {
+    "width": 120,
+    "height": 120
+  },
+  "layer": "front",
+  "blendMode": "normal",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://scenes/effects/attachments/effect-gong'sho-skill1/effect.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

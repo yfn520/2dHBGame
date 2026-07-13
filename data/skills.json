@@ -162,7 +162,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -189,7 +189,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -215,7 +215,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -241,7 +241,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -267,7 +267,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -293,7 +293,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -319,7 +319,7 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
@@ -646,19 +646,15 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"buff_id": 0.0,
-				"type": "apply_self_buff"
-			},
-			{
-				"event": "effect",
-				"type": "wait_action_event"
-			},
-			{
-				"scene": "",
+				"attachment_blend_mode": "normal",
+				"attachment_box_height": 120.0,
+				"attachment_box_width": 120.0,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"offset_x": -6.72670807453414,
+				"offset_y": -157.552795031056,
+				"origin": "caster",
+				"scene": "res://scenes/effects/attachments/effect-gong'sho-skill1/effect.tscn",
 				"target": "origin",
 				"type": "play_effect"
 			},

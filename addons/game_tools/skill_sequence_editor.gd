@@ -39,6 +39,10 @@ const TARGET_OPTIONS := [
 	{"value": "area", "label": "范围内敌人"},
 	{"value": "all_enemies", "label": "全部敌人"},
 ]
+const ATTACHMENT_LAYER_OPTIONS := [
+	{"value": "front", "label": "角色前"},
+	{"value": "behind", "label": "角色后"},
+]
 
 var _skills: Dictionary = {}
 var _characters_config: Dictionary = {}
@@ -689,6 +693,7 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
 	_add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
+	_add_node_option(form, "附着层级", "attachment_layer", node, ATTACHMENT_LAYER_OPTIONS, false)
 	_add_effect_event_helper(form, node)
 
 
@@ -705,7 +710,7 @@ func _add_effect_metadata_helper(form: GridContainer, node: Dictionary) -> void:
 	row.add_child(status_label)
 	var detect_btn := Button.new()
 	detect_btn.text = "检测并应用"
-	detect_btn.tooltip_text = "读取场景同目录的 attachment_meta.json，自动填入 origin=caster、偏移和坐标空间标记"
+	detect_btn.tooltip_text = "读取场景同目录的 attachment_meta.json，自动填入偏移、坐标空间和角色前后层级"
 	detect_btn.pressed.connect(_on_detect_attachment_meta.bind(status_label))
 	row.add_child(detect_btn)
 	# Auto-detect on first render
@@ -773,14 +778,19 @@ func _apply_attachment_meta(node: Dictionary, status_label: Label) -> void:
 	if meta.is_empty():
 		status_label.text = "元数据读取失败"
 		return
-	# Auto-fill origin=caster, offset, coordinate_space
+	# Auto-fill the runtime fields required by an action attachment.
 	node["origin"] = "caster"
 	node["target"] = "origin"
 	node["coordinate_space"] = String(meta.get("coordinateSpace", "character_local"))
 	var local_offset: Dictionary = meta.get("characterOffset", {})
 	node["offset_x"] = float(local_offset.get("x", 0.0))
 	node["offset_y"] = float(local_offset.get("y", 0.0))
-	status_label.text = "已应用：origin=caster, 偏移(%.0f, %.0f)" % [node["offset_x"], node["offset_y"]]
+	node["attachment_layer"] = String(meta.get("layer", "front"))
+	node["attachment_blend_mode"] = String(meta.get("blendMode", "normal"))
+	var box_size: Dictionary = meta.get("boxSize", {})
+	node["attachment_box_width"] = float(box_size.get("width", 0.0))
+	node["attachment_box_height"] = float(box_size.get("height", 0.0))
+	status_label.text = "已应用：偏移(%.0f, %.0f)，%s" % [node["offset_x"], node["offset_y"], "角色前" if node["attachment_layer"] == "front" else "角色后"]
 	status_label.add_theme_color_override("font_color", Color("88ff88"))
 	# Persist and rebuild
 	var index := _selected_node_index()
@@ -806,7 +816,7 @@ func _get_effect_event_hint(node: Dictionary) -> String:
 	var meta := _read_json(meta_path)
 	if meta.is_empty():
 		return ""
-	return String(meta.get("event_hint", ""))
+	return String(meta.get("eventHint", meta.get("event_hint", "")))
 
 
 func _on_insert_wait_event_before_current(event_name: String) -> void:
