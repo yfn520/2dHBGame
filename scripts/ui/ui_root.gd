@@ -81,18 +81,29 @@ func toggle_task_drawer() -> void:
 func show_popup(popup: Control) -> void:
 	if popup == null:
 		return
-	_popup_layer.add_child(popup)
+	var parent := popup.get_parent()
+	if parent != null and parent != _popup_layer:
+		parent.remove_child(popup)
+	if popup.get_parent() == null:
+		_popup_layer.add_child(popup)
+	_popup_stack.erase(popup)
 	_popup_stack.append(popup)
-	popup.tree_exiting.connect(_on_popup_exiting.bind(popup))
+	var exiting_callback := _on_popup_exiting.bind(popup)
+	if not popup.tree_exiting.is_connected(exiting_callback):
+		popup.tree_exiting.connect(exiting_callback)
+	popup.visible = true
+	_set_world_input_for_ui(true)
 
 
 ## 从 PopupLayer 移除指定弹窗。
 func close_popup(popup: Control) -> void:
 	if popup == null:
 		return
+	_popup_stack.erase(popup)
 	if popup.get_parent() == _popup_layer:
 		_popup_layer.remove_child(popup)
-		popup.queue_free()
+	popup.visible = false
+	_set_world_input_for_ui(is_modal_open())
 
 
 ## 显示悬停提示（非阻塞，不入栈）。

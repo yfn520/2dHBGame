@@ -8,7 +8,7 @@ signal menu_changed(opened: bool, tab: StringName)
 const INVENTORY_CAPACITY := 30
 const INVENTORY_COLUMNS := 5
 const SLOT_SIZE := Vector2(58, 58)
-const WINDOW_MAX_SIZE := Vector2(900, 520)
+const WINDOW_MAX_SIZE := Vector2(1020, 620)
 
 const SLOT_LABELS := {
 	"weapon": "武器", "armor": "护甲", "necklace": "项链", "ring": "戒指",
@@ -186,7 +186,7 @@ func _build_header() -> Control:
 	header.add_theme_constant_override("separation", 8)
 
 	var title := Label.new()
-	title.text = "主菜单"
+	title.text = "英雄"
 	title.theme_type_variation = &"HUDTitle"
 	title.add_theme_font_size_override("font_size", 20)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -203,36 +203,176 @@ func _build_header() -> Control:
 
 
 func _build_body() -> Control:
-	var body := HBoxContainer.new()
+	var body := VBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	body.add_theme_constant_override("separation", 8)
-	body.add_child(_build_left_nav())
-
-	# 右侧内容区（使用 ScrollContainer 适配较小分辨率）
-	var scroll := ScrollContainer.new()
-	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	body.add_child(scroll)
+	body.add_theme_constant_override("separation", 6)
 
 	var content := Control.new()
 	content.name = "PageContainer"
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	content.custom_minimum_size = Vector2(640, 420)
-	scroll.add_child(content)
+	content.custom_minimum_size = Vector2(0, 470)
+	body.add_child(content)
 
-	# 构建四个页面
-	_pages[&"character"] = _build_character_page()
-	_pages[&"equipment"] = _build_equipment_page()
+	# 角色、装备和背包共享同一张英雄总览；技能保留独立页面。
+	_pages.clear()
+	_pages[&"hero"] = _build_hero_inventory_page()
 	_pages[&"skills"] = _build_skills_page()
-	_pages[&"inventory"] = _build_inventory_page()
 	for page in _pages.values():
 		page.set_anchors_preset(Control.PRESET_FULL_RECT)
 		page.visible = false
 		content.add_child(page)
+	body.add_child(_build_bottom_nav())
 	return body
+
+
+func _build_bottom_nav() -> Control:
+	var bar := PanelContainer.new()
+	bar.theme_type_variation = &"Panel"
+	bar.custom_minimum_size = Vector2(0, 58)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 6)
+	bar.add_child(row)
+
+	var tabs := [
+		[&"character", "信息"],
+		[&"skills", "技能"],
+		[&"equipment", "装备"],
+		[&"inventory", "背包"],
+	]
+	for tab_data in tabs:
+		var tab_name: StringName = tab_data[0]
+		var btn := Button.new()
+		btn.text = String(tab_data[1])
+		btn.theme_type_variation = &"TabButton"
+		btn.toggle_mode = true
+		btn.focus_mode = Control.FOCUS_NONE
+		btn.custom_minimum_size = Vector2(150, 46)
+		btn.pressed.connect(_on_tab_pressed.bind(tab_name))
+		row.add_child(btn)
+		_tab_buttons[tab_name] = btn
+	return bar
+
+
+func _build_hero_inventory_page() -> Control:
+	var page := HBoxContainer.new()
+	page.name = "HeroInventoryPage"
+	page.add_theme_constant_override("separation", 10)
+
+	var left := _build_unified_character_panel()
+	left.custom_minimum_size = Vector2(430, 0)
+	page.add_child(left)
+
+	var inventory := _build_inventory_page()
+	inventory.custom_minimum_size = Vector2(540, 0)
+	inventory.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page.add_child(inventory)
+	return page
+
+
+func _build_unified_character_panel() -> Control:
+	var panel := PanelContainer.new()
+	panel.theme_type_variation = &"Panel"
+	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_top", 6)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_bottom", 6)
+	panel.add_child(margin)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 5)
+	margin.add_child(column)
+
+	_equip_name_label = Label.new()
+	_equip_name_label.theme_type_variation = &"HUDTitle"
+	_equip_name_label.add_theme_font_size_override("font_size", 20)
+	_equip_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	column.add_child(_equip_name_label)
+	_char_name_label = _equip_name_label
+
+	_char_stars_label = Label.new()
+	_char_stars_label.text = "★★★★☆"
+	_char_stars_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_char_stars_label.add_theme_color_override("font_color", Color(1.0, 0.76, 0.14))
+	column.add_child(_char_stars_label)
+
+	var stage := HBoxContainer.new()
+	stage.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.add_theme_constant_override("separation", 6)
+	column.add_child(stage)
+
+	var left_slots := VBoxContainer.new()
+	left_slots.add_theme_constant_override("separation", 5)
+	stage.add_child(left_slots)
+	for slot in ["weapon", "armor", "necklace", "ring"]:
+		left_slots.add_child(_make_equip_button(slot))
+
+	var preview_holder := PanelContainer.new()
+	preview_holder.theme_type_variation = &"Panel"
+	preview_holder.custom_minimum_size = Vector2(220, 270)
+	preview_holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	preview_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage.add_child(preview_holder)
+
+	var preview_layer := Control.new()
+	preview_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	preview_holder.add_child(preview_layer)
+
+	_equip_preview_sprite = AnimatedSprite2D.new()
+	_equip_preview_sprite.position = Vector2(110, 205)
+	_equip_preview_sprite.scale = Vector2(1.55, 1.55)
+	preview_layer.add_child(_equip_preview_sprite)
+	_char_preview_sprite = _equip_preview_sprite
+
+	_equip_preview_fallback = Label.new()
+	_equip_preview_fallback.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_equip_preview_fallback.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_equip_preview_fallback.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	preview_layer.add_child(_equip_preview_fallback)
+	_char_preview_fallback = _equip_preview_fallback
+
+	var right_slots := VBoxContainer.new()
+	right_slots.add_theme_constant_override("separation", 5)
+	stage.add_child(right_slots)
+	for slot in ["boots", "relic", "mount", "artifact"]:
+		right_slots.add_child(_make_equip_button(slot))
+
+	var progress := HBoxContainer.new()
+	progress.alignment = BoxContainer.ALIGNMENT_CENTER
+	progress.add_theme_constant_override("separation", 10)
+	column.add_child(progress)
+	_char_level_label = _make_info_label("等级 1")
+	_char_exp_label = _make_info_label("经验 0")
+	progress.add_child(_char_level_label)
+	progress.add_child(_char_exp_label)
+
+	var stats_panel := PanelContainer.new()
+	stats_panel.theme_type_variation = &"HUDStat"
+	stats_panel.custom_minimum_size = Vector2(0, 42)
+	column.add_child(stats_panel)
+	var stats_row := HBoxContainer.new()
+	stats_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	stats_row.add_theme_constant_override("separation", 4)
+	stats_panel.add_child(stats_row)
+	_equip_hp_label = _make_info_label("生命 0/0")
+	_equip_atk_label = _make_info_label("攻击 0")
+	_equip_def_label = _make_info_label("防御 0")
+	_equip_spd_label = _make_info_label("速度 0")
+	_char_hp_label = _equip_hp_label
+	_char_atk_label = _equip_atk_label
+	_char_def_label = _equip_def_label
+	_char_spd_label = _equip_spd_label
+	stats_row.add_child(_equip_hp_label)
+	stats_row.add_child(_equip_atk_label)
+	stats_row.add_child(_equip_def_label)
+	stats_row.add_child(_equip_spd_label)
+	return panel
 
 
 func _build_left_nav() -> Control:
@@ -702,8 +842,9 @@ func _build_popup() -> void:
 
 func _show_page(tab: StringName) -> void:
 	_active_tab = tab
+	var page_name: StringName = &"skills" if tab == &"skills" else &"hero"
 	for tab_name in _pages:
-		_pages[tab_name].visible = tab_name == tab
+		_pages[tab_name].visible = tab_name == page_name
 	for tab_name in _tab_buttons:
 		_tab_buttons[tab_name].button_pressed = tab_name == tab
 	if visible:
@@ -965,7 +1106,9 @@ func _open_equip_popup(slot: String) -> void:
 func _close_popup() -> void:
 	if _popup == null:
 		return
-	if _popup.get_parent() != null:
+	if ui_root != null:
+		ui_root.close_popup(_popup)
+	elif _popup.get_parent() != null:
 		_popup.get_parent().remove_child(_popup)
 	_popup.visible = false
 	_current_popup_slot = ""
