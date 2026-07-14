@@ -627,8 +627,8 @@ func play_combat_animation(anim_name: String) -> void:
 			target_animation = "hurt"
 	if sprite.sprite_frames.has_animation(target_animation):
 		_combat_anim_playing = true
-		sprite.stop()
 		sprite.animation = target_animation
+		sprite.stop()
 		sprite.frame = 0
 		sprite.play()
 		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):

@@ -321,6 +321,31 @@ func _enter_hit_window(info: Dictionary) -> void:
 		_cast_context.current_anchor = (_owner as Node2D).global_position
 
 
+func _satisfy_passed_hit_window() -> void:
+	# Called when the combat animation has ended before the hit window was detected.
+	# Since the animation finished, all hit windows have been passed. Enter the
+	# requested hit window directly so that spawn_projectile (origin="hit_window")
+	# and other nodes can use _cast_context.current_anchor.
+	if _owner == null or not _owner.has_method("get_combat_actions"):
+		_waiting.clear()
+		return
+	var actions: Dictionary = _owner.get_combat_actions()
+	var action: Dictionary = actions.get(_current_action, {})
+	var windows: Array = action.get("hit_windows", [])
+	var requested_index := int(_waiting.get("hit_window_index", -1))
+	for index in range(windows.size()):
+		if requested_index >= 0 and index != requested_index:
+			continue
+		if windows[index] is Dictionary:
+			_enter_hit_window({"window": windows[index], "index": index})
+			_waiting.clear()
+			return
+	# No matching hit window found; still clear the wait and set a fallback anchor
+	if _owner is Node2D:
+		_cast_context.current_anchor = (_owner as Node2D).global_position
+	_waiting.clear()
+
+
 func _refresh_active_melee_window() -> void:
 	if _active_melee_node.is_empty() or _sprite == null or _hit_box == null:
 		return
@@ -555,8 +580,27 @@ func _on_sprite_frame_changed() -> void:
 		# The actor may restore idle in its own animation_finished callback before
 		# this component receives the same signal. Treat that transition as the
 		# pending action ending instead of leaving the cast in SKILL forever.
-		if String(_waiting.get("type", "")) == "wait_animation_end":
+		var wait_type := String(_waiting.get("type", ""))
+		# play_combat_animation 内部调用 sprite.stop() 会在动画切换前触发 frame_changed，
+		# 此时 _waiting 为空（play_animation 节点仍在执行中），不应取消施放。
+		if wait_type.is_empty():
+			return
+		if wait_type == "wait_animation_end":
 			_animation_finished = true
+			_advance_cast()
+			return
+		# Timer-based waits should not be cancelled by animation changes
+		if wait_type == "wait_time" or wait_type == "wait_time_done":
+			return
+		# Animation has finished, so any hit window or action event has been passed.
+		# Satisfy the wait instead of cancelling the cast, otherwise spawn_projectile
+		# and play_effect nodes after the wait would be silently skipped.
+		if wait_type == "wait_hit_window":
+			_satisfy_passed_hit_window()
+			_advance_cast()
+			return
+		if wait_type == "wait_action_event":
+			_waiting.clear()
 			_advance_cast()
 			return
 		cancel_cast("animation_changed")
