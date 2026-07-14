@@ -383,7 +383,8 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
 		if effect_node is AnimatedSprite2D and _sprite != null:
-			(effect_node as AnimatedSprite2D).flip_h = _sprite.flip_h
+			# 效果场景可烘焙水平镜像（flip_h），与角色朝向取异或，使特效内部镜像独立于角色朝向。
+			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != _sprite.flip_h
 		elif mirror_x < 0.0:
 			effect_node.scale.x *= -1.0
 		# The character visuals are a sibling at z=100 in imported actor scenes.

@@ -342,6 +342,45 @@
 			}
 		]
 	},
+	"2802": {
+		"cast_range": 0.0,
+		"cooldown": 1.0,
+		"description": "",
+		"name": "hy_skll",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"attachment_blend_mode": "normal",
+				"attachment_box_height": 120.0,
+				"attachment_box_width": 120.0,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"offset_x": -29.0683229813665,
+				"offset_y": -112.031055900621,
+				"origin": "caster",
+				"scene": "res://scenes/effects/attachments/effect-花妖-skill/effect.tscn",
+				"target": "origin",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_id": 0,
+				"type": "apply_self_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"3001": {
 		"cast_range": 50.0,
 		"cooldown": 0.5,

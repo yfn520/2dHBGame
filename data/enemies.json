@@ -136,6 +136,8 @@
 		"normal_skill": 2801.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2802.0
+		]
 	}
 }
