@@ -36,7 +36,7 @@ func _build_layout() -> void:
 	_panel.name = "DebugContent"
 	_panel.visible = false
 	_panel.position = Vector2(10, 10)
-	_panel.custom_minimum_size = Vector2(350, 400)
+	_panel.custom_minimum_size = Vector2(420, 480)
 	_panel.theme_type_variation = &"Tooltip"
 	add_child(_panel)
 
@@ -117,6 +117,9 @@ func _update_content() -> void:
 				var e_runtime: Variant = e_combat.get_debug_state() if e_combat != null and e_combat.has_method("get_debug_state") else "?"
 				var target_dist: float = enemy.get_target_distance_x() if enemy.has_method("get_target_distance_x") else INF
 				lines.append("[%s] HP:%s AI:%s XDist:%d TargetDist:%.1f %s" % [e_name, hp_str, ai_name, int(dist_x), target_dist, e_runtime])
+				# 节点驱动 AI 距离调试：显示目标边缘距离 / 可用节点区间 / 当前行为
+				if enemy.has_method("get_ai_debug_text"):
+					lines.append(enemy.get_ai_debug_text())
 
 	_label.text = "\n".join(lines)
 

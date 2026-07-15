@@ -103,7 +103,7 @@ func _build_ui() -> void:
 	_damage_ratio = _add_spin(form, "节点伤害倍率", 1.5, -99.0, 99.0, 0.1)
 	_cooldown = _add_spin(form, "cooldown", 3.0, 0.0, 999.0, 0.1)
 	_animation = _add_line_edit(form, "播放动画 action", "skill1")
-	_range = _add_spin(form, "AI 施放距离", 300.0, 0.0, 3000.0, 10.0)
+	_range = _add_spin(form, "AI 最大起手距离", 300.0, 0.0, 3000.0, 10.0)
 	_buff_on_hit = _add_spin(form, "节点 Buff ID", 0.0, 0.0, 999999.0, 1.0)
 	_buff_chance = _add_spin(form, "节点 Buff 概率", 0.0, 0.0, 1.0, 0.05)
 
@@ -350,7 +350,6 @@ func _write_skill_config(projectile_scene: String) -> String:
 		"name": _key_edit.text,
 		"description": "Generated projectile skill.",
 		"cooldown": float(_cooldown.value),
-		"cast_range": float(_range.value),
 		"nodes": [
 			{"type": "play_animation", "action": _animation.text},
 			{"type": "wait_hit_window", "hit_window_index": 0},
@@ -368,6 +367,8 @@ func _write_skill_config(projectile_scene: String) -> String:
 				"damage_ratio": float(_damage_ratio.value),
 				"buff_id": int(_buff_on_hit.value),
 				"buff_chance": float(_buff_chance.value),
+				"ai_min_range": 0.0,
+				"ai_max_range": float(_range.value),
 			},
 			{"type": "wait_animation_end"},
 			{"type": "end_skill"},

@@ -58,7 +58,6 @@ var _skill_name_edit: LineEdit
 var _name_edit: LineEdit
 var _description_edit: LineEdit
 var _cooldown_spin: SpinBox
-var _range_spin: SpinBox
 var _node_list: ItemList
 var _action_picker: OptionButton
 var _control_picker: OptionButton
@@ -169,9 +168,8 @@ func _build_ui() -> void:
 	_name_edit = _add_line(base_page, "技能名称", "name")
 	_description_edit = _add_line(base_page, "技能描述", "description")
 	_cooldown_spin = _add_spin(base_page, "冷却时间", "cooldown", 0.0, 0.0, 999.0, 0.1)
-	_range_spin = _add_spin(base_page, "AI 施放距离", "cast_range", 0.0, 0.0, 9999.0, 1.0)
 	var help := Label.new()
-	help.text = "技能本体只配置基础信息。伤害、弹道、范围、Buff 和特效全部在节点中配置。AI 施放距离为 0 时使用角色或怪物的默认攻击距离。"
+	help.text = "技能本体只配置基础信息。伤害、弹道、范围、Buff 和特效全部在节点中配置。AI 距离由节点和攻击框自动计算，保存时生成 ai_range_cache。"
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	base_page.add_child(help)
@@ -447,7 +445,6 @@ func _load_skill_fields() -> void:
 	_skill_name_edit.text = String(skill.get("name", ""))
 	_description_edit.text = String(skill.get("description", ""))
 	_cooldown_spin.value = float(skill.get("cooldown", 0.0))
-	_range_spin.value = float(skill.get("cast_range", 0.0))
 	_loading = false
 
 
@@ -569,8 +566,12 @@ func _show_node_details(index: int) -> void:
 		"wait_action_event": _build_event_fields(form, node)
 		"wait_hit_window": _build_window_fields(form, node)
 		"wait_time": _add_node_spin(form, "等待秒数", "seconds", node, 0.1, 0.0, 30.0, 0.05)
-		"melee_damage": _build_damage_fields(form, node, false)
-		"area_damage": _build_area_fields(form, node)
+		"melee_damage":
+			_build_damage_fields(form, node, false)
+			_add_ai_range_readonly(form, "近战自动有效距离")
+		"area_damage":
+			_build_area_fields(form, node)
+			_add_ai_range_readonly(form, "AOE 自动有效距离")
 		"fullscreen_damage": _build_damage_fields(form, node, false)
 		"spawn_projectile": _build_projectile_fields(form, node)
 		"play_effect": _build_effect_fields(form, node)
@@ -654,7 +655,8 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_option(form, "轨迹", "trajectory", node, [{"value": "straight", "label": "直线"}, {"value": "ballistic", "label": "抛物线"}], true)
 	_add_node_option(form, "瞄准/落点", "aim_mode", node, [{"value": "facing_elevation", "label": "朝向 + 仰角"}, {"value": "nearest_enemy", "label": "指向最近敌人"}, {"value": "enemy_area", "label": "敌人附近区域"}, {"value": "forward_area", "label": "施法者前方区域"}], true)
 	_add_node_option(form, "发射方式", "emission", node, [{"value": "single", "label": "单发"}, {"value": "sequence", "label": "连续"}, {"value": "fan", "label": "扇形齐射"}, {"value": "area_rain", "label": "区域落雨"}], true)
-	_add_node_spin(form, "最小施放距离", "min_range", node, 0.0, 0.0, 9999.0, 1.0)
+	_add_node_spin(form, "AI 最小起手距离", "ai_min_range", node, 0.0, 0.0, 9999.0, 1.0)
+	_add_node_spin(form, "AI 最大起手距离", "ai_max_range", node, 0.0, 0.0, 9999.0, 1.0)
 	_add_node_spin(form, "速度", "speed", node, 300.0, 1.0, 9999.0, 1.0)
 	_add_node_spin(form, "生命周期", "lifetime", node, 5.0, 0.1, 99.0, 0.1)
 	_add_node_spin(form, "最大穿透数", "max_pierce", node, 0.0, -1.0, 99.0, 1.0)
@@ -899,6 +901,43 @@ func _add_node_spin(form: GridContainer, label_text: String, field: String, node
 	spin.value = float(node.get(field, default_value))
 	spin.value_changed.connect(_on_node_number_changed.bind(field))
 	form.add_child(spin)
+
+
+## 只读显示：用当前技能所属资源即时编译 ai_range_cache，展示该节点类型的自动距离。
+func _add_ai_range_readonly(form: GridContainer, label_text: String) -> void:
+	var label := Label.new()
+	label.text = label_text
+	form.add_child(label)
+	var value_label := Label.new()
+	value_label.text = _compute_ai_range_preview()
+	value_label.tooltip_text = "保存技能后写回 skills.json 的 ai_range_cache"
+	form.add_child(value_label)
+
+
+## 用当前技能所属角色/怪物资源编译 ai_range_cache，返回可读字符串。
+func _compute_ai_range_preview() -> String:
+	if _current_skill_id.is_empty():
+		return "未选中技能"
+	var owner_asset := _find_skill_owner_asset(int(_current_skill_id))
+	if owner_asset.is_empty():
+		return "未找到所属角色/怪物"
+	var cache := AIRangeCompiler.compile(int(_current_skill_id), owner_asset)
+	var entries: Array = cache.get("entries", [])
+	if entries.is_empty():
+		return "无可用距离（缺少攻击框或起手距离）"
+	var parts: PackedStringArray = []
+	for entry_value in entries:
+		if not entry_value is Dictionary:
+			continue
+		var entry: Dictionary = entry_value
+		var kind := String(entry.get("kind", ""))
+		var min_d := float(entry.get("min_edge_distance", 0.0))
+		var max_d := float(entry.get("max_edge_distance", 0.0))
+		if max_d >= 99990.0:
+			parts.append("%s: 检测范围内均可" % kind)
+		else:
+			parts.append("%s: %.0f~%.0f" % [kind, min_d, max_d])
+	return "; ".join(parts)
 
 
 func _add_node_option(form: GridContainer, label_text: String, field: String, node: Dictionary, options: Array, rebuild: bool) -> void:
@@ -1333,7 +1372,6 @@ func _add_new_skill() -> void:
 		"name": "新技能",
 		"description": "",
 		"cooldown": 1.0,
-		"cast_range": 0.0,
 		"nodes": [
 			{"type": "play_animation", "action": "attack"},
 			{"type": "wait_hit_window", "hit_window_index": 0},
@@ -1521,9 +1559,79 @@ func _save_skills_silent() -> void:
 
 
 func _save_skills() -> void:
+	# 保存前为当前技能生成 ai_range_cache
+	var compiled_summary := ""
+	if not _current_skill_id.is_empty():
+		var owner_asset := _find_skill_owner_asset(int(_current_skill_id))
+		if not owner_asset.is_empty():
+			var cache := AIRangeCompiler.compile(int(_current_skill_id), owner_asset)
+			var skill: Dictionary = _skills.get(_current_skill_id, {})
+			skill["ai_range_cache"] = cache
+			_skills[_current_skill_id] = skill
+			compiled_summary = _format_cache_summary(cache)
+		else:
+			compiled_summary = "（未找到所属角色/怪物，未生成 ai_range_cache）"
 	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
 	if file == null:
 		_status.text = "无法写入 skills.json"
 		return
 	file.store_string(JSON.stringify(_skills, "\t") + "\n")
-	_status.text = "已保存 skills.json。"
+	_status.text = "已保存 skills.json。%s" % compiled_summary
+
+
+func _format_cache_summary(cache: Dictionary) -> String:
+	var entries: Array = cache.get("entries", [])
+	if entries.is_empty():
+		return "ai_range_cache 为空。"
+	var parts: PackedStringArray = []
+	for entry_value in entries:
+		if not entry_value is Dictionary:
+			continue
+		var entry: Dictionary = entry_value
+		var kind := String(entry.get("kind", ""))
+		var min_d := float(entry.get("min_edge_distance", 0.0))
+		var max_d := float(entry.get("max_edge_distance", 0.0))
+		if max_d >= 99990.0:
+			parts.append("%s:检测范围内均可" % kind)
+		else:
+			parts.append("%s:%.0f~%.0f" % [kind, min_d, max_d])
+	return "ai_range_cache: " + ", ".join(parts)
+
+
+## 在 characters.json / enemies.json 中查找技能所属资源路径。
+func _find_skill_owner_asset(skill_id: int) -> String:
+	for table_path in [CHARACTERS_PATH, ENEMIES_PATH]:
+		var table := _load_json(table_path)
+		for key in table:
+			var row_value: Variant = table[key]
+			if not row_value is Dictionary:
+				continue
+			var row: Dictionary = row_value
+			var asset := String(row.get("asset", ""))
+			if asset.is_empty():
+				continue
+			if int(row.get("normal_skill", 0)) == skill_id:
+				return asset
+			for sid_value in row.get("skills", []):
+				if int(sid_value) == skill_id:
+					return asset
+			for unlock_key in row.get("skill_unlocks", {}):
+				var unlock: Dictionary = (row.get("skill_unlocks", {}) as Dictionary).get(unlock_key, {})
+				if int(unlock.get("skill_id", 0)) == skill_id:
+					return asset
+			for sid_value in row.get("ai_skill_priority", []):
+				if int(sid_value) == skill_id:
+					return asset
+	return ""
+
+
+func _load_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var file := FileAccess.open(path, FileAccess.READ)
+	if file == null:
+		return {}
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
+		return {}
+	return json.data

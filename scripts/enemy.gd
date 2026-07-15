@@ -32,6 +32,10 @@ var _combat_anim_playing := false
 var _visual_authored_x := 0.0
 var _target_switch_timer: float = 0.0
 
+# 节点驱动 AI 距离缓存：skill_id (int) → cache (Dictionary)
+var _ai_caches: Dictionary = {}
+var _ai_debug_text: String = ""
+
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
@@ -53,6 +57,7 @@ func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
 		for member in _party_manager.get_party_members():
 			add_collision_exception_with(member)
 	_apply_display_config()
+	_precompile_ai_caches()
 	_set_ai_state(AIState.IDLE)
 
 
@@ -296,25 +301,21 @@ func _update_chase(_delta: float) -> void:
 
 	var dist := _distance_x_to_target()
 	var detect_range: float = _config.get("detect_range", 200.0)
-	# attack_range is the preferred stopping distance, not the damage radius.
-	var preferred_range: float = _config.get("attack_range", 40.0)
 
 	# 玩家超出检测范围
 	if dist > detect_range * 1.5:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	# A ready ranged/dash skill may interrupt pursuit once. After its animation
-	# ends, this state keeps closing toward preferred_range while it is on CD.
+	# 节点驱动：若任一冷却完成的伤害节点区间能命中当前距离，立即起手
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
-		if _try_use_next_skill(dist, preferred_range):
+		if _try_use_next_skill(dist):
 			velocity.x = 0.0
 			return
 
-	# Only stop when the preferred distance is reached and at least one configured
-	# skill can actually be used from here. This prevents bad range data from
-	# leaving an enemy idle just outside all of its attacks.
-	if dist <= preferred_range:
+	# 若已到达最近可用最大距离，切到 ATTACK 等待冷却
+	var nearest_engage := _get_nearest_engage_distance(dist)
+	if nearest_engage > 0.0 and dist <= nearest_engage:
 		_set_ai_state(AIState.ATTACK)
 		return
 
@@ -323,6 +324,7 @@ func _update_chase(_delta: float) -> void:
 	velocity.x = dir * _config.get("move_speed", 80.0) * 1.2
 	_face_target(_target)
 	_play_anim("run")
+	_ai_debug_text = "追击至 %.0f（当前 %.0f）" % [nearest_engage, dist]
 
 
 func _update_attack(_delta: float) -> void:
@@ -332,7 +334,6 @@ func _update_attack(_delta: float) -> void:
 		return
 
 	var dist := _distance_x_to_target()
-	var preferred_range: float = _config.get("attack_range", 40.0)
 	var detect_range: float = _config.get("detect_range", 200.0)
 
 	# 玩家跑远了
@@ -340,25 +341,36 @@ func _update_attack(_delta: float) -> void:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	# 玩家跑出攻击范围
-	if dist > preferred_range * 1.25:
-		_set_ai_state(AIState.CHASE)
-		return
-
 	# 持续面向玩家
 	_face_target(_target)
 
 	# 尝试释放技能（只在战斗状态空闲时）
 	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.IDLE:
-		if _try_use_next_skill(dist, preferred_range):
+		if _try_use_next_skill(dist):
 			velocity.x = 0.0
 			return
+
+	# 若目标太近且只有设了最小距离的远程节点可用：短距离后撤
+	var retreat_target := _get_retreat_distance(dist)
+	if retreat_target > 0.0 and dist < retreat_target:
+		var dir := -signf(_target.global_position.x - global_position.x)
+		velocity.x = dir * _config.get("move_speed", 80.0) * 0.8
+		_ai_debug_text = "后撤至 %.0f（当前 %.0f）" % [retreat_target, dist]
+		return
+
+	# 若目标超出所有可用最大距离：回追
+	var max_engage := _get_max_engage_distance()
+	if max_engage > 0.0 and dist > max_engage * 1.25:
+		_set_ai_state(AIState.CHASE)
+		return
+
 	velocity.x = 0.0
+	_ai_debug_text = "等待冷却（当前 %.0f）" % dist
 
 
-## ---- 技能选择 ----
+## ---- 技能选择（节点驱动） ----
 
-func _try_use_next_skill(distance_x: float, preferred_range: float) -> bool:
+func _try_use_next_skill(distance_x: float) -> bool:
 	if combat == null:
 		return false
 
@@ -367,32 +379,29 @@ func _try_use_next_skill(distance_x: float, preferred_range: float) -> bool:
 	if skills.is_empty():
 		return false
 
-	# 加权随机选择技能
-	var skill_id := _pick_weighted_skill(skills, weights, distance_x, preferred_range)
+	var skill_id := _pick_weighted_skill(skills, weights, distance_x)
 	if skill_id <= 0:
 		return false
 
-	# 尝试释放（CombatComponent 会处理冷却和状态）
 	if combat.has_method("try_use_skill"):
 		return combat.try_use_skill(skill_id)
 	return false
 
 
-func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float, preferred_range: float) -> int:
-	# Filter by cooldown and each skill's usable X-axis range, then keep weighted randomness.
+func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float) -> int:
+	# 过滤：冷却完成 + 任一伤害节点区间能命中当前距离
 	var available_ids: Array[int] = []
 	var available_weights: Array[float] = []
+	var cooldowns: Dictionary = combat.get_cooldowns_dict() if combat != null and combat.has_method("get_cooldowns_dict") else {}
 	for i in range(skills.size()):
 		var sid := int(skills[i])
-		if combat._cooldowns.get(sid, 0.0) > 0.0:
+		if float(cooldowns.get(sid, 0.0)) > 0.0:
 			continue
-		var skill: Dictionary = GameRegistry.skill_config.get_skill(sid)
-		if skill.is_empty():
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
 			continue
-		if distance_x < _get_skill_min_range(skill):
-			continue
-		var usable_range := _get_skill_usable_range(skill, preferred_range)
-		if distance_x > usable_range:
+		var castable := AIRangeCompiler.get_castable_entries(cache, distance_x)
+		if castable.is_empty():
 			continue
 		available_ids.append(sid)
 		available_weights.append(float(weights[i]) if weights.size() == skills.size() else 1.0)
@@ -412,25 +421,106 @@ func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float, pref
 	return available_ids[0]
 
 
-func _has_skill_for_distance(distance_x: float, preferred_range: float) -> bool:
-	var skills := _get_configured_skill_ids()
-	for raw_skill_id in skills:
-		var skill: Dictionary = GameRegistry.skill_config.get_skill(int(raw_skill_id))
-		if not skill.is_empty() and distance_x <= _get_skill_usable_range(skill, preferred_range):
-			return true
-	return false
+## 返回当前距离下最近的可起手最大距离（用于追击目标）。
+func _get_nearest_engage_distance(distance_x: float) -> float:
+	var best := 0.0
+	for sid in _get_configured_skill_ids():
+		if combat != null and combat._cooldowns.get(sid, 0.0) > 0.0:
+			continue
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		for entry_value in cache.get("entries", []):
+			if not entry_value is Dictionary:
+				continue
+			var entry: Dictionary = entry_value
+			var max_d := float(entry.get("max_edge_distance", 0.0))
+			if max_d < 99990.0 and max_d >= distance_x and (best == 0.0 or max_d < best):
+				best = max_d
+	return best
 
 
-func _get_skill_usable_range(skill: Dictionary, preferred_range: float) -> float:
-	var usable_range := float(skill.get("cast_range", 0.0))
-	return preferred_range if usable_range <= 0.0 else usable_range
+## 返回所有冷却中技能的最大可起手距离（用于判断是否需要回追）。
+func _get_max_engage_distance() -> float:
+	var best := 0.0
+	for sid in _get_configured_skill_ids():
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		var max_d := AIRangeCompiler.get_max_engage_distance(cache)
+		if max_d > best:
+			best = max_d
+	return best
 
 
-func _get_skill_min_range(skill: Dictionary) -> float:
-	for value in skill.get("nodes", []):
-		if value is Dictionary and String((value as Dictionary).get("type", "")) == "spawn_projectile":
-			return maxf(0.0, float((value as Dictionary).get("min_range", 0.0)))
-	return 0.0
+## 若目标过近且只有设了最小距离的远程节点可用，返回需后撤到的距离。
+func _get_retreat_distance(distance_x: float) -> float:
+	var best := 0.0
+	for sid in _get_configured_skill_ids():
+		if combat != null and combat._cooldowns.get(sid, 0.0) > 0.0:
+			continue
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		var min_retreat := AIRangeCompiler.get_min_retreat_distance(cache)
+		if min_retreat != INF and distance_x < min_retreat and min_retreat > best:
+			best = min_retreat
+	return best
+
+
+## 获取技能的 ai_range_cache；为空时惰性编译。
+func _get_ai_cache(skill_id: int) -> Dictionary:
+	if _ai_caches.has(skill_id):
+		return _ai_caches[skill_id]
+	var cache: Dictionary = GameRegistry.skill_config.get_ai_range_cache(skill_id)
+	if cache.is_empty() or cache.get("entries", []).is_empty():
+		cache = _compile_ai_cache(skill_id)
+	_ai_caches[skill_id] = cache
+	return cache
+
+
+## 运行时惰性编译：用自身资源（asset 路径 + combat_actions + actor_scale）计算缓存。
+func _compile_ai_cache(skill_id: int) -> Dictionary:
+	var asset_path: String = _config.get("asset", "")
+	if asset_path.is_empty():
+		return {}
+	return AIRangeCompiler.compile(skill_id, asset_path)
+
+
+## 初始化时预编译所有已配置技能的 ai_range_cache。
+func _precompile_ai_caches() -> void:
+	for sid in _get_configured_skill_ids():
+		_ai_caches[sid] = _get_ai_cache(sid)
+
+
+## 供 F3 调试面板读取。
+func get_ai_debug_text() -> String:
+	var target := get_current_target()
+	if target == null:
+		return "AI: 无目标"
+	var dist := _edge_distance_x_to(target)
+	var text := "AI: %s\n目标边缘距离: %.0f\n%s" % [get_ai_state_name(), dist, _ai_debug_text]
+	text += "\n可用节点:"
+	var cooldowns: Dictionary = {}
+	if combat != null and combat.has_method("get_cooldowns_dict"):
+		cooldowns = combat.get_cooldowns_dict()
+	for sid in _get_configured_skill_ids():
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		var on_cd := float(cooldowns.get(sid, 0.0)) > 0.0
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(sid)
+		var sname := String(skill.get("name", str(sid)))
+		for entry_value in cache.get("entries", []):
+			if not entry_value is Dictionary:
+				continue
+			var entry: Dictionary = entry_value
+			var min_d := float(entry.get("min_edge_distance", 0.0))
+			var max_d := float(entry.get("max_edge_distance", 0.0))
+			var kind := String(entry.get("kind", ""))
+			var status := "冷却中" if on_cd else ("可释放" if dist >= min_d and dist <= max_d else ("太远" if dist > max_d else "太近"))
+			text += "\n  · %s/%s: %.0f~%.0f %s" % [sname, kind, min_d, max_d, status]
+	return text
 
 
 ## ---- 辅助 ----

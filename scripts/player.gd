@@ -457,7 +457,7 @@ func _update_ally_attack(target: Node2D) -> void:
 	var dx := target.global_position.x - global_position.x
 	var dist := _edge_distance_x_to(target)
 	var skill_id := _pick_ready_ai_skill(dist)
-	var skill_range := _get_skill_range(skill_id, 44.0)
+	var skill_range := _get_ally_skill_engage_distance(skill_id, 44.0)
 	var stop_range := maxf(18.0, skill_range * ALLY_ATTACK_STOP_RATIO)
 	var resume_range := maxf(stop_range + 8.0, skill_range * ALLY_ATTACK_RESUME_RATIO)
 	if _ally_is_holding_attack and skill_id != _ally_hold_skill_id:
@@ -487,32 +487,45 @@ func _update_ally_attack(target: Node2D) -> void:
 func _pick_ready_ai_skill(distance_x: float) -> int:
 	if combat == null:
 		return 0
+	# 节点驱动：任一伤害节点区间能命中当前距离即可起手
+	var cooldowns: Dictionary = combat.get_cooldowns_dict() if combat.has_method("get_cooldowns_dict") else {}
 	for skill_id in get_ai_skill_candidates():
-		if combat._cooldowns.get(skill_id, 0.0) > 0.0:
+		if float(cooldowns.get(skill_id, 0.0)) > 0.0:
 			continue
-		var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
-		if skill.is_empty():
+		var cache := _get_ally_ai_cache(skill_id)
+		if cache.is_empty():
 			continue
-		if distance_x >= _get_skill_min_range(skill) and distance_x <= _get_skill_range(skill_id, 44.0):
+		if not AIRangeCompiler.get_castable_entries(cache, distance_x).is_empty():
 			return skill_id
 	return get_skill_for_input("normal")
 
 
-func _get_skill_min_range(skill: Dictionary) -> float:
-	for value in skill.get("nodes", []):
-		if value is Dictionary and String((value as Dictionary).get("type", "")) == "spawn_projectile":
-			return maxf(0.0, float((value as Dictionary).get("min_range", 0.0)))
-	return 0.0
-
-
-func _get_skill_range(skill_id: int, fallback: float) -> float:
+## 返回技能的最大起手距离（用于队友停步距离）。
+func _get_ally_skill_engage_distance(skill_id: int, fallback: float) -> float:
 	if skill_id <= 0 or GameRegistry.skill_config == null:
 		return fallback
-	var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
-	if skill.is_empty():
+	var cache := _get_ally_ai_cache(skill_id)
+	if cache.is_empty():
 		return fallback
-	var range_value := float(skill.get("cast_range", fallback))
-	return fallback if range_value <= 0.0 else range_value
+	var max_d := AIRangeCompiler.get_max_engage_distance(cache)
+	return fallback if max_d <= 0.0 else max_d
+
+
+## 队友的 ai_range_cache；为空时惰性编译（用自身角色资源）。
+func _get_ally_ai_cache(skill_id: int) -> Dictionary:
+	if GameRegistry.skill_config == null:
+		return {}
+	var cache: Dictionary = GameRegistry.skill_config.get_ai_range_cache(skill_id)
+	if not cache.is_empty() and not cache.get("entries", []).is_empty():
+		return cache
+	# 惰性编译：从 characters.json 取 asset 路径
+	if GameRegistry.character_config == null:
+		return cache
+	var char_data: Dictionary = GameRegistry.character_config.get_character(character_id)
+	var asset_path: String = String(char_data.get("asset", ""))
+	if asset_path.is_empty():
+		return cache
+	return AIRangeCompiler.compile(skill_id, asset_path)
 
 
 func _find_nearest_enemy(max_range: float) -> Node2D:

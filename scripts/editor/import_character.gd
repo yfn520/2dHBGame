@@ -7,6 +7,10 @@ const ATLAS_FILE := "godot/all_actions_atlas.png"
 const CONFIG_FILE := "character_config.json"
 const DEFAULT_TARGET_HEIGHT := 52.0
 const COLLISION_BODY_BOTTOM := 19.0  # CollisionShape2D.size.y / 2 = 38/2
+const AIRangeCompiler = preload("res://scripts/system/ai_range_compiler.gd")
+const SKILLS_PATH := "res://data/skills.json"
+const CHARACTERS_PATH := "res://data/characters.json"
+const ENEMIES_PATH := "res://data/enemies.json"
 
 
 func _init() -> void:
@@ -191,7 +195,102 @@ func _import_character(options: Dictionary) -> int:
 	else:
 		print("  applied_to_player: ", apply_player_path)
 
+	# 重新导入动作后，自动重编译使用该资源的技能 ai_range_cache
+	_recompile_ai_range_caches(source_dir)
+
 	return OK
+
+
+## 导入完成后，为使用该资源的所有技能重编译 ai_range_cache。
+## 不覆盖技能节点、伤害、Buff、冷却和人工填写的弹道 AI 起手距离。
+func _recompile_ai_range_caches(source_dir: String) -> void:
+	var asset_path := ProjectSettings.localize_path(source_dir)
+	if asset_path.is_empty():
+		asset_path = source_dir
+	var skill_ids := _collect_skill_ids_for_asset(asset_path)
+	if skill_ids.is_empty():
+		print("  ai_range_cache: 该资源未关联任何技能，跳过")
+		return
+
+	# 读取 skills.json
+	var file := FileAccess.open(SKILLS_PATH, FileAccess.READ)
+	if file == null:
+		push_warning("ai_range_cache 重编译：无法读取 skills.json")
+		return
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
+		push_warning("ai_range_cache 重编译：skills.json 解析失败")
+		return
+	var data: Dictionary = json.data
+
+	var recompiled := 0
+	for skill_id in skill_ids:
+		var key := str(skill_id)
+		if not data.has(key):
+			continue
+		var cache := AIRangeCompiler.compile(int(skill_id), asset_path)
+		if cache.is_empty() or cache.get("entries", []).is_empty():
+			continue
+		var raw: Dictionary = data[key]
+		raw["ai_range_cache"] = cache
+		data[key] = raw
+		recompiled += 1
+
+	if recompiled == 0:
+		print("  ai_range_cache: 没有可重编译的技能")
+		return
+
+	var out := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
+	if out == null:
+		push_warning("ai_range_cache 重编译：无法写入 skills.json")
+		return
+	out.store_string(JSON.stringify(data, "\t") + "\n")
+	print("  ai_range_cache: 已重编译 %d 个技能" % recompiled)
+
+
+## 查找使用指定 asset 路径的角色/怪物所拥有的全部技能 ID。
+func _collect_skill_ids_for_asset(asset_path: String) -> Array:
+	var ids: Array = []
+	for table_path in [CHARACTERS_PATH, ENEMIES_PATH]:
+		var table := _load_json(table_path)
+		for key in table:
+			var row_value: Variant = table[key]
+			if not row_value is Dictionary:
+				continue
+			var row: Dictionary = row_value
+			if String(row.get("asset", "")) != asset_path:
+				continue
+			var normal := int(row.get("normal_skill", 0))
+			if normal > 0 and not ids.has(normal):
+				ids.append(normal)
+			for skill_value in row.get("skills", []):
+				var sid := int(skill_value)
+				if sid > 0 and not ids.has(sid):
+					ids.append(sid)
+			var unlocks: Dictionary = row.get("skill_unlocks", {})
+			for slot_key in unlocks:
+				var slot_value: Variant = unlocks[slot_key]
+				if slot_value is Dictionary:
+					var sid2 := int((slot_value as Dictionary).get("skill_id", 0))
+					if sid2 > 0 and not ids.has(sid2):
+						ids.append(sid2)
+				else:
+					var sid3 := int(slot_value)
+					if sid3 > 0 and not ids.has(sid3):
+						ids.append(sid3)
+	return ids
+
+
+func _load_json(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var f := FileAccess.open(path, FileAccess.READ)
+	if f == null:
+		return {}
+	var j := JSON.new()
+	if j.parse(f.get_as_text()) != OK or not j.data is Dictionary:
+		return {}
+	return j.data
 
 
 func _load_external_combat_data(source_dir: String) -> Dictionary:
