@@ -43,10 +43,13 @@ var _desc_edit: TextEdit
 # ---- UI: 视口 ----
 var _viewport_container: MapViewportContainer
 var _viewport: SubViewport
+var _drop_overlay: Control  # 覆盖在视口上的透明层，用于接收拖放
 var _world_root: Node2D
 var _markers_node: Node2D
 var _map_instance: Node = null
 var _zoom_slider: HSlider
+var _marker_size_slider: HSlider
+var _map_opacity_slider: HSlider
 var _grid_check: CheckBox
 var _fit_btn: Button
 var _add_point_btn: Button
@@ -60,7 +63,8 @@ var _mode_picker: OptionButton
 var _spawn_x_prop_spin: SpinBox
 var _spawn_y_prop_spin: SpinBox
 var _count_spin: SpinBox
-var _scatter_spin: SpinBox
+var _scatter_slider: HSlider
+var _scatter_value_label: Label
 var _spawn_dup_btn: Button
 var _spawn_del_btn: Button
 var _enemy_palette: EnemyPaletteList  # 怪物库，可拖拽到地图
@@ -69,6 +73,8 @@ var _enemy_palette: EnemyPaletteList  # 怪物库，可拖拽到地图
 var _status: Label
 var _save_btn: Button
 var _discard_btn: Button
+var _toast: Label
+var _toast_timer: Timer
 
 # ---- 视口相机状态 ----
 var _pan_offset := Vector2.ZERO
@@ -79,7 +85,8 @@ var _dragging_player_spawn := false
 var _drag_last_screen := Vector2.ZERO
 var _show_grid := true
 const GRID_SIZE := 64.0
-const MARKER_RADIUS := 14.0
+var _marker_radius := 26.0  # 刷怪点/出生点圆点半径，可由工具栏滑块调节
+var _map_opacity := 0.5      # 地图实例透明度，可由工具栏滑块调节
 const PLAYER_SPAWN_ID := "__player_spawn__"  # 玩家出生点的哨兵 ID
 
 
@@ -245,6 +252,29 @@ func _build_ui() -> void:
 	_zoom_slider.custom_minimum_size.x = 140
 	_zoom_slider.value_changed.connect(_on_zoom_changed)
 	toolbar.add_child(_zoom_slider)
+	toolbar.add_child(VSeparator.new())
+	var marker_label := Label.new()
+	marker_label.text = "圆点"
+	toolbar.add_child(marker_label)
+	_marker_size_slider = HSlider.new()
+	_marker_size_slider.min_value = 8.0
+	_marker_size_slider.max_value = 40.0
+	_marker_size_slider.step = 1.0
+	_marker_size_slider.value = _marker_radius
+	_marker_size_slider.custom_minimum_size.x = 100
+	_marker_size_slider.value_changed.connect(_on_marker_size_changed)
+	toolbar.add_child(_marker_size_slider)
+	var opacity_label := Label.new()
+	opacity_label.text = "地图透明"
+	toolbar.add_child(opacity_label)
+	_map_opacity_slider = HSlider.new()
+	_map_opacity_slider.min_value = 0.1
+	_map_opacity_slider.max_value = 1.0
+	_map_opacity_slider.step = 0.05
+	_map_opacity_slider.value = _map_opacity
+	_map_opacity_slider.custom_minimum_size.x = 100
+	_map_opacity_slider.value_changed.connect(_on_map_opacity_changed)
+	toolbar.add_child(_map_opacity_slider)
 	_add_point_btn = _add_btn(toolbar, "点击地图添加单怪点（或拖拽怪物库）", _on_enter_add_point_mode)
 	_add_group_btn = _add_btn(toolbar, "点击地图添加随机组（或拖拽怪物库）", _on_enter_add_group_mode)
 
@@ -255,7 +285,7 @@ func _build_ui() -> void:
 
 	# 左栏：关卡列表 + 关卡属性
 	var left := VBoxContainer.new()
-	left.custom_minimum_size.x = 240
+	left.custom_minimum_size.x = 180
 	main.add_child(left)
 	left.add_child(_make_label("关卡列表", 14))
 	_level_list = ItemList.new()
@@ -307,8 +337,6 @@ func _build_ui() -> void:
 	_viewport_container.editor = self
 	_viewport_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_viewport_container.stretch = true
-	_viewport_container.gui_input.connect(_on_viewport_gui_input)
-	_viewport_container.mouse_filter = Control.MOUSE_FILTER_STOP
 	_viewport_container.clip_contents = true
 	middle.add_child(_viewport_container)
 	_viewport = SubViewport.new()
@@ -326,20 +354,29 @@ func _build_ui() -> void:
 	_markers_node.z_index = 4096
 	_markers_node.z_as_relative = false
 	_world_root.add_child(_markers_node)
+	# 拖放覆盖层：接收拖放 + 转发点击事件。
+	# SubViewportContainer 不会触发 _can_drop_data/_drop_data，所以用 Control 覆盖。
+	# 此 Control 同时接管 gui_input（点击/滚轮/平移），转发给 _on_viewport_gui_input。
+	_drop_overlay = DropOverlay.new()
+	_drop_overlay.editor = self
+	_drop_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_drop_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_drop_overlay.gui_input.connect(_on_viewport_gui_input)
+	_viewport_container.add_child(_drop_overlay)
 
 	# 右栏：怪物库 + 刷怪点列表与属性
 	var right := VBoxContainer.new()
-	right.custom_minimum_size.x = 280
+	right.custom_minimum_size.x = 340
 	main.add_child(right)
 	right.add_child(_make_label("怪物库（拖拽到地图放置）", 13))
 	_enemy_palette = EnemyPaletteList.new()
 	_enemy_palette.editor = self
-	_enemy_palette.custom_minimum_size.y = 200
+	_enemy_palette.custom_minimum_size.y = 300
 	_enemy_palette.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	_enemy_palette.icon_mode = ItemList.ICON_MODE_TOP
 	_enemy_palette.max_columns = 4
-	_enemy_palette.fixed_icon_size = Vector2i(56, 56)
-	_enemy_palette.fixed_column_width = 120
+	_enemy_palette.fixed_icon_size = Vector2i(72, 72)
+	_enemy_palette.fixed_column_width = 150
 	_enemy_palette.same_column_width = true
 	_enemy_palette.item_selected.connect(_on_palette_selected)
 	right.add_child(_enemy_palette)
@@ -376,8 +413,8 @@ func _build_ui() -> void:
 	_spawn_y_prop_spin.value_changed.connect(_on_spawn_num_changed.bind("y"))
 	_count_spin = _add_grid_spin(_spawn_props, "数量", 1.0, 99.0, 1.0)
 	_count_spin.value_changed.connect(_on_spawn_num_changed.bind("count"))
-	_scatter_spin = _add_grid_spin(_spawn_props, "散布 X", 0.0, 9999.0, 1.0)
-	_scatter_spin.value_changed.connect(_on_spawn_num_changed.bind("scatter_x"))
+	_scatter_slider = _add_grid_slider(_spawn_props, "散布 X", 0.0, 500.0, 1.0)
+	_scatter_slider.value_changed.connect(_on_spawn_num_changed.bind("scatter_x"))
 
 	# 底部状态与操作
 	var bottom := HBoxContainer.new()
@@ -389,6 +426,27 @@ func _build_ui() -> void:
 	_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	bottom.add_child(_status)
+	# 保存成功浮层提示（短暂居中显示后自动消失）
+	_toast = Label.new()
+	_toast.text = ""
+	_toast.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_toast.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_toast.set_anchors_preset(Control.PRESET_CENTER)
+	_toast.add_theme_font_size_override("font_size", 24)
+	_toast.add_theme_color_override("font_color", Color("4eff7a"))
+	_toast.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
+	_toast.add_theme_constant_override("shadow_offset_x", 1)
+	_toast.add_theme_constant_override("shadow_offset_y", 1)
+	_toast.add_theme_constant_override("shadow_outline_size", 2)
+	_toast.visible = false
+	_toast.z_index = 100
+	_toast.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_toast)
+	_toast_timer = Timer.new()
+	_toast_timer.one_shot = true
+	_toast_timer.wait_time = 1.5
+	_toast_timer.timeout.connect(func(): _toast.visible = false)
+	add_child(_toast_timer)
 
 
 func _add_btn(parent: Container, text_value: String, callback: Callable) -> Button:
@@ -425,6 +483,27 @@ func _add_grid_spin(parent: GridContainer, label_text: String, minimum: float, m
 	s.allow_lesser = true
 	parent.add_child(s)
 	return s
+
+
+func _add_grid_slider(parent: GridContainer, label_text: String, minimum: float, maximum: float, step_value: float) -> HSlider:
+	parent.add_child(_make_label(label_text))
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.add_child(row)
+	var slider := HSlider.new()
+	slider.min_value = minimum
+	slider.max_value = maximum
+	slider.step = step_value
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	slider.allow_greater = true
+	row.add_child(slider)
+	var val_label := Label.new()
+	val_label.custom_minimum_size.x = 50
+	val_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	row.add_child(val_label)
+	slider.value_changed.connect(func(v: float): val_label.text = "%.0f" % v)
+	_scatter_value_label = val_label
+	return slider
 
 
 # ============================================================
@@ -658,7 +737,8 @@ func _refresh_spawn_props() -> void:
 		_spawn_x_prop_spin.value = 0
 		_spawn_y_prop_spin.value = 0
 		_count_spin.value = 1
-		_scatter_spin.value = 20
+		_scatter_slider.value = 20
+		_scatter_value_label.text = "20"
 		_loading = false
 		return
 	# 选中当前 enemy_id
@@ -673,7 +753,8 @@ func _refresh_spawn_props() -> void:
 	_spawn_x_prop_spin.value = float(entry.get("x", 0))
 	_spawn_y_prop_spin.value = float(entry.get("y", 0))
 	_count_spin.value = int(entry.get("count", 1))
-	_scatter_spin.value = float(entry.get("scatter_x", 20))
+	_scatter_slider.value = float(entry.get("scatter_x", 20))
+	_scatter_value_label.text = "%.0f" % _scatter_slider.value
 	_loading = false
 
 
@@ -934,6 +1015,7 @@ func _load_map_for_current_level() -> void:
 		return
 	_map_instance = packed.instantiate()
 	_world_root.add_child(_map_instance)
+	_apply_map_opacity()
 	# 确保标记层始终在地图之上
 	if is_instance_valid(_markers_node):
 		_world_root.move_child(_markers_node, -1)
@@ -955,6 +1037,24 @@ func _on_zoom_changed(value: float) -> void:
 func _on_grid_toggled(button_pressed: bool) -> void:
 	_show_grid = button_pressed
 	_refresh_markers()
+
+
+func _on_marker_size_changed(value: float) -> void:
+	_marker_radius = clampf(value, 4.0, 60.0)
+	_refresh_markers()
+
+
+func _on_map_opacity_changed(value: float) -> void:
+	_map_opacity = clampf(value, 0.0, 1.0)
+	_apply_map_opacity()
+
+
+func _apply_map_opacity() -> void:
+	if _map_instance != null and is_instance_valid(_map_instance):
+		if _map_instance is CanvasItem:
+			(_map_instance as CanvasItem).modulate = Color(1, 1, 1, _map_opacity)
+		else:
+			_map_instance.set("modulate", Color(1, 1, 1, _map_opacity))
 
 
 func _apply_view_transform() -> void:
@@ -1136,6 +1236,9 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 		var ek := event as InputEventKey
 		if ek.pressed and ek.keycode == KEY_ESCAPE:
 			_cancel_add_mode()
+		elif ek.pressed and ek.keycode == KEY_DELETE:
+			if not _selected_spawn_id.is_empty():
+				_on_delete_spawn()
 
 
 ## 屏幕（视口容器内）坐标 → 世界坐标
@@ -1159,7 +1262,7 @@ func _find_spawn_at(world_pos: Vector2) -> String:
 		return ""
 	var level: Dictionary = _levels.get(_current_level_id, {})
 	var best_id := ""
-	var best_dist := MARKER_RADIUS / _zoom
+	var best_dist := _marker_radius / _zoom
 	# 优先检测玩家出生点
 	var player_pos := Vector2(float(level.get("spawn_x", 0)), float(level.get("spawn_y", 0)))
 	var pd := player_pos.distance_to(world_pos)
@@ -1227,44 +1330,32 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 		var mode := String(entry.get("mode", "point"))
 		var is_selected := spawn_id == _selected_spawn_id
 		var color := Color("ff6b6b") if mode == "point" else Color("f7b955")
-		var ring_radius := MARKER_RADIUS / _zoom
-		# 随机组：画散布区域
-		if mode == "group":
-			var scatter_x := float(entry.get("scatter_x", 20.0))
+		var ring_radius := _marker_radius / _zoom
+		# 散布范围框（scatter_x 有值时绘制，不限模式）
+		var scatter_x := float(entry.get("scatter_x", 0.0))
+		if scatter_x > 0.0:
 			var count := int(entry.get("count", 1))
-			# 散布区域：半透明填充 + 虚线边界
-			var band_half_h := 10.0 / _zoom
-			var band_color := Color(color.r, color.g, color.b, 0.12)
-			var border_color := Color(color.r, color.g, color.b, 0.5)
-			canvas_item.draw_rect(
-				Rect2(p.x - scatter_x, p.y - band_half_h, scatter_x * 2, band_half_h * 2),
-				band_color, true
-			)
-			# 左右边界竖线
+			# 散布只影响 X 方向，高度固定为略大于圆点
+			var box_half_h := ring_radius + 6.0 / _zoom
+			var band_color := Color(color.r, color.g, color.b, 0.10)
+			var border_color := Color(color.r, color.g, color.b, 0.7)
 			var line_w := 2.0 / _zoom
-			canvas_item.draw_line(
-				Vector2(p.x - scatter_x, p.y - band_half_h),
-				Vector2(p.x - scatter_x, p.y + band_half_h),
-				border_color, line_w
-			)
-			canvas_item.draw_line(
-				Vector2(p.x + scatter_x, p.y - band_half_h),
-				Vector2(p.x + scatter_x, p.y + band_half_h),
-				border_color, line_w
-			)
-			# 中线
-			canvas_item.draw_line(
-				Vector2(p.x - scatter_x, p.y),
-				Vector2(p.x + scatter_x, p.y),
-				Color(color.r, color.g, color.b, 0.35), 1.0 / _zoom
-			)
-			# 散布范围文字
+			var rect := Rect2(p.x - scatter_x, p.y - box_half_h, scatter_x * 2, box_half_h * 2)
+			# 半透明填充
+			canvas_item.draw_rect(rect, band_color, true)
+			# 实线边框
+			canvas_item.draw_rect(rect, border_color, false, line_w)
+			# 中心十字（标记中心点）
+			var cross_len := 6.0 / _zoom
+			canvas_item.draw_line(p - Vector2(cross_len, 0), p + Vector2(cross_len, 0), border_color, line_w)
+			canvas_item.draw_line(p - Vector2(0, cross_len), p + Vector2(0, cross_len), border_color, line_w)
+			# 散布范围文字（框上方）
 			var font := ThemeDB.fallback_font
 			var font_size := maxi(8, int(10.0 / _zoom))
 			var scatter_label := "±%dpx" % int(scatter_x)
-			canvas_item.draw_string(font, Vector2(p.x - scatter_x, p.y + band_half_h + font_size + 1.0 / _zoom), scatter_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color.r, color.g, color.b, 0.7))
-			# 数量角标（右上角小圆 + 数字）
-			if count > 1:
+			canvas_item.draw_string(font, Vector2(p.x - scatter_x, p.y - box_half_h - 2.0 / _zoom), scatter_label, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color.r, color.g, color.b, 0.9))
+			# 数量角标（右上角小圆 + 数字，仅 group 且数量>1）
+			if mode == "group" and count > 1:
 				var badge_r := 8.0 / _zoom
 				var badge_pos := p + Vector2(ring_radius * 0.7, -ring_radius * 0.7)
 				canvas_item.draw_circle(badge_pos, badge_r, Color("ff5252"))
@@ -1282,7 +1373,7 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 		var tex := _get_enemy_preview_texture(enemy_id)
 		if tex != null:
 			var tex_size := tex.get_size()
-			var max_dim := 22.0 / _zoom
+			var max_dim := (_marker_radius * 1.8) / _zoom
 			var s := minf(max_dim / tex_size.x, max_dim / tex_size.y)
 			var draw_size := tex_size * s
 			canvas_item.draw_texture_rect(tex, Rect2(p - draw_size * 0.5, draw_size), false)
@@ -1306,7 +1397,7 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 
 ## 绘制玩家出生点标记：菱形 + 十字 + 标签，区别于圆形刷怪点。
 func _draw_player_spawn_marker(canvas_item: CanvasItem, p: Vector2) -> void:
-	var r := MARKER_RADIUS / _zoom
+	var r := _marker_radius / _zoom
 	var color := Color("4ea7ff")
 	# 外圈高亮（被拖拽时）
 	if _dragging_player_spawn:
@@ -1377,6 +1468,8 @@ func _on_save() -> void:
 	if not error.is_empty():
 		_status.text = "校验失败：%s" % error
 		return
+	# 落盘前清理引用了已删除怪物的刷怪点
+	var removed_count := _cleanup_orphaned_spawns()
 	# 落盘前再次规范化字段
 	for id_str in _levels:
 		_levels[id_str]["enemies"] = _normalize_enemies(_levels[id_str].get("enemies", []))
@@ -1400,9 +1493,16 @@ func _on_save() -> void:
 		return
 	file.store_string(JSON.stringify(data, "\t") + "\n")
 	# 同步内存中的 LevelConfig
-	if GameRegistry.level_config != null:
-		GameRegistry.level_config.load_config()
-	_status.text = "已保存 levels.json（%d 个关卡）" % data.size()
+	var lc = GameRegistry.get("level_config") if GameRegistry.get("level_config") != null else null
+	if lc != null and lc.has_method("load_config"):
+		lc.load_config()
+	var msg := "已保存 levels.json（%d 个关卡）" % data.size()
+	if removed_count > 0:
+		msg += "，清理了 %d 个引用已删除怪物的刷怪点" % removed_count
+		_refresh_spawn_list()
+		_refresh_markers()
+	_status.text = msg
+	_show_toast("保存成功")
 	# 刷新文件系统
 	if Engine.is_editor_hint():
 		EditorInterface.get_resource_filesystem().scan()
@@ -1419,7 +1519,18 @@ func _on_discard() -> void:
 	_status.text = "已放弃未保存修改。"
 
 
+## 居中浮层提示，1.5 秒后自动消失。
+func _show_toast(text_value: String) -> void:
+	if _toast == null:
+		return
+	_toast.text = text_value
+	_toast.visible = true
+	_toast_timer.stop()
+	_toast_timer.start()
+
+
 ## 校验所有关卡数据。返回非空字符串表示有错误，阻止保存。
+## 注意：引用已删除怪物的刷怪点不在此处阻止保存，而是在保存时自动清理。
 func _validate_all() -> String:
 	for id_str in _levels:
 		var level: Dictionary = _levels[id_str]
@@ -1433,15 +1544,32 @@ func _validate_all() -> String:
 			if not entry_value is Dictionary:
 				continue
 			var entry: Dictionary = entry_value
-			var enemy_id := int(entry.get("enemy_id", 0))
-			if not _enemies_cfg.has(str(enemy_id)):
-				return "关卡 %s 刷怪点 %s 引用了不存在的怪物 %d" % [id_str, String(entry.get("spawn_id", "")), enemy_id]
 			var mode := String(entry.get("mode", "point"))
 			if mode == "group":
 				var count := int(entry.get("count", 1))
 				if count < 1:
 					return "关卡 %s 随机组 %s 数量必须 ≥ 1" % [id_str, String(entry.get("spawn_id", ""))]
 	return ""
+
+
+## 清理所有关卡中引用了已删除怪物的刷怪点，返回被清理的条数。
+func _cleanup_orphaned_spawns() -> int:
+	var removed := 0
+	for id_str in _levels:
+		var level: Dictionary = _levels[id_str]
+		var enemies: Array = level.get("enemies", [])
+		var kept: Array = []
+		for entry_value in enemies:
+			if not entry_value is Dictionary:
+				continue
+			var entry: Dictionary = entry_value
+			var enemy_id := int(entry.get("enemy_id", 0))
+			if not _enemies_cfg.has(str(enemy_id)):
+				removed += 1
+				continue
+			kept.append(entry)
+		level["enemies"] = kept
+	return removed
 
 
 # ============================================================
@@ -1497,6 +1625,15 @@ class EnemyPaletteList:
 
 class MapViewportContainer:
 	extends SubViewportContainer
+	var editor: Node = null
+
+
+# ============================================================
+# 内部类：拖放覆盖层（SubViewportContainer 不触发拖放，需用 Control 覆盖层接收）
+# ============================================================
+
+class DropOverlay:
+	extends Control
 	var editor: Node = null
 
 	func _can_drop_data(_pos: Vector2, data: Variant) -> bool:

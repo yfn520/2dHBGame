@@ -498,7 +498,7 @@ func _refresh_all() -> void:
 	_refresh_timeline()
 
 
-func _rebuild_node_list() -> void:
+func _rebuild_node_list(keep_index := -1) -> void:
 	_node_list.clear()
 	var nodes: Array = _current_skill().get("nodes", [])
 	for index in range(nodes.size()):
@@ -509,8 +509,9 @@ func _rebuild_node_list() -> void:
 		var category := "动作" if ACTION_TYPES.has(type_name) else "控制"
 		_node_list.add_item("%02d  [%s] %s%s" % [index + 1, category, _node_label(type_name), _node_summary(node)])
 	if _node_list.item_count > 0:
-		_node_list.select(0)
-		_show_node_details(0)
+		var sel := keep_index if (keep_index >= 0 and keep_index < _node_list.item_count) else 0
+		_node_list.select(sel)
+		_show_node_details(sel)
 	else:
 		_clear_node_details()
 
@@ -1032,9 +1033,7 @@ func _reload_action_preview(action_name: String) -> void:
 
 
 func _rebuild_node_list_keep(index: int) -> void:
-	_rebuild_node_list()
-	if index >= 0 and index < _node_list.item_count:
-		_node_list.select(index)
+	_rebuild_node_list(index)
 
 
 func _add_action_node() -> void:
