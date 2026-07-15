@@ -55,20 +55,24 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 	_current_level_id = level_id
 
 	# 传送玩家到出生点
+	# 优先级：spawn_override > levels.json.spawn_x/spawn_y > 场景 PlayerSpawn Marker2D
 	if _player != null:
 		var spawn_pos: Vector2
 		if spawn_override != Vector2.ZERO:
 			spawn_pos = spawn_override
+		elif config.has("spawn_x") and config.has("spawn_y") and (int(config.get("spawn_x", 0)) != 0 or int(config.get("spawn_y", 0)) != 0):
+			# JSON 配置了出生点，以 JSON 为准；场景里的 PlayerSpawn 仅作旧数据回退
+			spawn_pos = Vector2(
+				float(config.get("spawn_x", 160)),
+				float(config.get("spawn_y", 350))
+			)
 		else:
+			# 旧 JSON 未配置出生坐标时，回退到场景中的 PlayerSpawn
 			var spawn: Marker2D = level_instance.get_node_or_null("PlayerSpawn")
 			if spawn != null:
 				spawn_pos = spawn.global_position
 			else:
-				# 使用配置表中的坐标
-				spawn_pos = Vector2(
-					float(config.get("spawn_x", 160)),
-					float(config.get("spawn_y", 350))
-				)
+				spawn_pos = Vector2(160, 350)
 		if _player.get_parent() != null and _player.get_parent().has_method("place_party_at"):
 			_player.get_parent().place_party_at(spawn_pos)
 		else:

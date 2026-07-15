@@ -57,17 +57,32 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 
 
 ## 在关卡中批量生成怪物
+## 支持两种记录：
+##   point: {mode:"point", enemy_id, x, y} 单怪点，绝不随机偏移
+##   group: {mode:"group", enemy_id, x, y, count, scatter_x} 中心点 + X 轴散布
+## 旧记录（无 mode）按 count 推断：count<=1 视为 point，count>1 视为 group（scatter_x 默认 20）。
 func spawn_enemies_for_level(spawns: Array) -> void:
 	for spawn_data in spawns:
-		var enemy_id := int(spawn_data.get("enemy_id", 0))
+		if not spawn_data is Dictionary:
+			continue
+		var entry: Dictionary = spawn_data
+		var enemy_id := int(entry.get("enemy_id", 0))
 		var pos := Vector2(
-			float(spawn_data.get("x", 0)),
-			float(spawn_data.get("y", 0))
+			float(entry.get("x", 0)),
+			float(entry.get("y", 0))
 		)
-		var count := int(spawn_data.get("count", 1))
-		for i in range(count):
-			var offset_x: float = randf_range(-20.0, 20.0) if count > 1 else 0.0
-			spawn_enemy(enemy_id, pos + Vector2(offset_x, 0))
+		var mode := String(entry.get("mode", ""))
+		var count := int(entry.get("count", 1))
+		if mode.is_empty():
+			mode = "group" if count > 1 else "point"
+		if mode == "point":
+			spawn_enemy(enemy_id, pos)
+		else:
+			var scatter_x := float(entry.get("scatter_x", 20.0))
+			var actual_count := maxi(1, count)
+			for _i in range(actual_count):
+				var offset_x: float = randf_range(-scatter_x, scatter_x)
+				spawn_enemy(enemy_id, pos + Vector2(offset_x, 0))
 
 
 ## 清除所有怪物

@@ -5,12 +5,14 @@ const CombatActionEditor = preload("res://addons/game_tools/combat_action_editor
 const ProjectileGenerator = preload("res://addons/game_tools/projectile_generator.gd")
 const SpineEffectImporter = preload("res://addons/game_tools/spine_effect_importer.gd")
 const SkillSequenceEditor = preload("res://addons/game_tools/skill_sequence_editor.gd")
+const LevelEditor = preload("res://addons/game_tools/level_editor.gd")
 
 var _submenu: PopupMenu
 var _combat_action_editor: Window
 var _projectile_generator: Window
 var _spine_effect_importer: Window
 var _skill_sequence_editor: Window
+var _level_editor: Window
 
 
 func _enter_tree() -> void:
@@ -26,6 +28,7 @@ func _enter_tree() -> void:
 	_submenu.add_item("生成弹道...", 6)
 	_submenu.add_item("配置攻击判定...", 5)
 	_submenu.add_item("配置技能节点...", 8)
+	_submenu.add_item("配置关卡...", 9)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
 
@@ -39,6 +42,8 @@ func _exit_tree() -> void:
 		_spine_effect_importer.queue_free()
 	if is_instance_valid(_skill_sequence_editor):
 		_skill_sequence_editor.queue_free()
+	if is_instance_valid(_level_editor):
+		_level_editor.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -64,6 +69,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_spine_effect_importer()
 		8:
 			_open_skill_sequence_editor()
+		9:
+			_open_level_editor()
 
 
 func _open_combat_action_editor() -> void:
@@ -92,6 +99,13 @@ func _open_skill_sequence_editor() -> void:
 		_skill_sequence_editor = SkillSequenceEditor.new()
 		EditorInterface.get_base_control().add_child(_skill_sequence_editor)
 	_skill_sequence_editor.open_editor()
+
+
+func _open_level_editor() -> void:
+	if not is_instance_valid(_level_editor):
+		_level_editor = LevelEditor.new()
+		EditorInterface.get_base_control().add_child(_level_editor)
+	_level_editor.open_editor()
 
 
 # ---- 场景导入 ----
