@@ -1,31 +1,38 @@
 class_name BuffInstance
 
 var buff_id: int = 0
-var buff_type: String = ""
+var name: String = ""
+var description: String = ""
+var category: String = "debuff"
 var duration: float = 0.0
 var remaining: float = 0.0
-var interval: float = 0.0
-var tick_timer: float = 0.0
-var tick_damage: int = 0
-var slow_ratio: float = 0.0
-var stacks: int = 1
 var max_stacks: int = 1
+var stack_behavior: String = "refresh"
+var stacks: int = 1
+var icon: String = ""
 var effect_scene: String = ""
+var effects: Array = []
 var source_entity: int = 0
 var effect_node: Node = null
 
 
 func _init(config: Dictionary, source: int = 0) -> void:
 	buff_id = int(config.get("id", 0))
-	buff_type = config.get("type", "")
+	name = String(config.get("name", ""))
+	description = String(config.get("description", ""))
+	category = String(config.get("category", "debuff"))
 	duration = float(config.get("duration", 0.0))
 	remaining = duration
-	interval = float(config.get("interval", 0.0))
-	tick_timer = interval
-	tick_damage = int(config.get("tick_damage", 0))
-	slow_ratio = float(config.get("slow_ratio", 0.0))
 	max_stacks = int(config.get("max_stacks", 1))
-	effect_scene = config.get("effect_scene", "")
+	stack_behavior = String(config.get("stack_behavior", "refresh"))
+	icon = String(config.get("icon", ""))
+	effect_scene = String(config.get("effect_scene", ""))
+	# 深拷贝 effects（含运行时字段如 tick_timer / remaining）
+	var raw_effects = config.get("effects", [])
+	if raw_effects is Array:
+		for effect in raw_effects:
+			if effect is Dictionary:
+				effects.append((effect as Dictionary).duplicate(true))
 	source_entity = source
 
 
@@ -34,14 +41,72 @@ func is_expired() -> bool:
 
 
 func is_dot() -> bool:
-	return interval > 0.0 and tick_damage > 0
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "dot":
+			return true
+	return false
+
+
+func get_dot_effects() -> Array:
+	var result: Array = []
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "dot":
+			result.append(effect)
+	return result
+
+
+func get_hot_effects() -> Array:
+	var result: Array = []
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "hot":
+			result.append(effect)
+	return result
+
+
+func get_shield_effects() -> Array:
+	var result: Array = []
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+			result.append(effect)
+	return result
+
+
+func get_shield_remaining() -> int:
+	var total := 0
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+			total += int(effect.get("remaining", 0))
+	return total
+
+
+func has_control_affect(affect: String) -> bool:
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "control":
+			var affects: Array = effect.get("affects", [])
+			for a in affects:
+				if String(a) == affect:
+					return true
+	return false
 
 
 func add_stack() -> bool:
-	if stacks < max_stacks:
-		stacks += 1
+	if stack_behavior == "stack":
+		if stacks < max_stacks:
+			stacks += 1
+			remaining = duration
+			_reset_shield_remaining()
+			return true
+		# 刷新持续时间
 		remaining = duration
-		return true
-	# 刷新持续时间
+		_reset_shield_remaining()
+		return false
+	# refresh / independent: 仅刷新持续时间
 	remaining = duration
+	_reset_shield_remaining()
 	return false
+
+
+func _reset_shield_remaining() -> void:
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+			effect["remaining"] = int(effect.get("amount", 0))

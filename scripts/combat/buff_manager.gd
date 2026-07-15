@@ -21,25 +21,36 @@ func _process(delta: float) -> void:
 			to_remove.append(buff)
 			continue
 		# DoT 跳伤害
-		if buff.is_dot():
-			buff.tick_timer -= delta
-			if buff.tick_timer <= 0.0:
-				buff.tick_timer = buff.interval
-				var dmg := buff.tick_damage * buff.stacks
+		for effect in buff.get_dot_effects():
+			effect["tick_timer"] = float(effect.get("tick_timer", 0.0)) - delta
+			if float(effect.get("tick_timer", 0.0)) <= 0.0:
+				effect["tick_timer"] = float(effect.get("interval", 1.0))
+				var dmg := int(effect.get("damage", 0)) * buff.stacks
 				if _owner.has_method("take_damage"):
 					_owner.take_damage(dmg, null, false)
 				buff_ticked.emit(buff, dmg)
+		# HoT 跳治疗
+		for effect in buff.get_hot_effects():
+			effect["tick_timer"] = float(effect.get("tick_timer", 0.0)) - delta
+			if float(effect.get("tick_timer", 0.0)) <= 0.0:
+				effect["tick_timer"] = float(effect.get("interval", 1.0))
+				var heal_amount := int(effect.get("heal", 0))
+				if _owner.has_method("heal"):
+					_owner.heal(heal_amount)
 	for buff in to_remove:
 		_remove_buff(buff)
 
 
 func apply_buff(config: Dictionary, source: int = 0) -> void:
 	var buff_id := int(config.get("id", 0))
-	# 检查是否已有同类型 buff
-	for buff in _buffs:
-		if buff.buff_id == buff_id:
-			buff.add_stack()
-			return
+	var behavior := String(config.get("stack_behavior", "refresh"))
+	# independent: 每次施加都创建独立实例，不与已有同 ID buff 叠加
+	if behavior != "independent":
+		for buff in _buffs:
+			if buff.buff_id == buff_id:
+				buff.add_stack()
+				buff_applied.emit(buff)
+				return
 	var buff := BuffInstance.new(config, source)
 	_buffs.append(buff)
 	_spawn_effect(buff)
@@ -56,16 +67,32 @@ func remove_buff_by_id(buff_id: int) -> void:
 func remove_buff_by_type(buff_type: String) -> void:
 	var to_remove: Array[BuffInstance] = []
 	for buff in _buffs:
-		if buff.buff_type == buff_type:
+		for effect in buff.effects:
+			if effect is Dictionary and String(effect.get("type", "")) == "control" \
+			   and String(effect.get("control_type", "")) == buff_type:
+				to_remove.append(buff)
+				break
+	for buff in to_remove:
+		_remove_buff(buff)
+
+
+func dispel(category: String, count: int = -1) -> void:
+	var to_remove: Array[BuffInstance] = []
+	for buff in _buffs:
+		if buff.category == category:
 			to_remove.append(buff)
+			if count > 0 and to_remove.size() >= count:
+				break
 	for buff in to_remove:
 		_remove_buff(buff)
 
 
 func has_buff_type(buff_type: String) -> bool:
 	for buff in _buffs:
-		if buff.buff_type == buff_type:
-			return true
+		for effect in buff.effects:
+			if effect is Dictionary and String(effect.get("type", "")) == "control" \
+			   and String(effect.get("control_type", "")) == buff_type:
+				return true
 	return false
 
 
@@ -80,28 +107,80 @@ func get_buff_count() -> int:
 	return _buffs.size()
 
 
-func get_speed_multiplier() -> float:
-	var mult := 1.0
-	for buff in _buffs:
-		if buff.buff_type == "slow":
-			mult = minf(mult, 1.0 - buff.slow_ratio)
-	return mult
-
-
 func can_act() -> bool:
-	return not has_buff_type("stun") and not has_buff_type("freeze")
+	for buff in _buffs:
+		if buff.has_control_affect("act"):
+			return false
+	return true
 
 
 func can_move() -> bool:
 	if not can_act():
 		return false
-	return not has_buff_type("paralysis")
+	for buff in _buffs:
+		if buff.has_control_affect("move"):
+			return false
+	return true
+
+
+func can_use_skill() -> bool:
+	if not can_act():
+		return false
+	for buff in _buffs:
+		if buff.has_control_affect("skill"):
+			return false
+	return true
+
+
+func is_invincible() -> bool:
+	for buff in _buffs:
+		if buff.has_control_affect("be_damaged"):
+			return true
+	return false
+
+
+func get_modified_stat(stat_name: String, base_value: float) -> float:
+	var value := base_value
+	# 先应用 add（加法）
+	for buff in _buffs:
+		for effect in buff.effects:
+			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
+			   and String(effect.get("stat", "")) == stat_name \
+			   and String(effect.get("mode", "")) == "add":
+				value += float(effect.get("value", 0.0)) * buff.stacks
+	# 再应用 mul（乘法）
+	for buff in _buffs:
+		for effect in buff.effects:
+			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
+			   and String(effect.get("stat", "")) == stat_name \
+			   and String(effect.get("mode", "")) == "mul":
+				value *= float(effect.get("value", 1.0))
+	# 最后应用 set（覆盖）
+	for buff in _buffs:
+		for effect in buff.effects:
+			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
+			   and String(effect.get("stat", "")) == stat_name \
+			   and String(effect.get("mode", "")) == "set":
+				value = float(effect.get("value", value))
+	return value
 
 
 func modify_damage(incoming: int) -> int:
-	if has_buff_type("invincible"):
+	if is_invincible():
 		return 0
-	return incoming
+	var remaining := incoming
+	# 扣除护盾
+	for buff in _buffs:
+		for effect in buff.get_shield_effects():
+			var shield_remaining := int(effect.get("remaining", 0))
+			if shield_remaining <= 0:
+				continue
+			var absorbed := mini(shield_remaining, remaining)
+			effect["remaining"] = shield_remaining - absorbed
+			remaining -= absorbed
+			if remaining <= 0:
+				return 0
+	return remaining
 
 
 func get_active_buffs() -> Array[BuffInstance]:
@@ -119,9 +198,11 @@ func _spawn_effect(buff: BuffInstance) -> void:
 	if buff.effect_scene.is_empty():
 		return
 	if not ResourceLoader.exists(buff.effect_scene):
+		push_warning("Buff effect_scene 引用不存在: %s (buff_id=%d)" % [buff.effect_scene, buff.buff_id])
 		return
 	var scene: PackedScene = load(buff.effect_scene)
 	if scene == null:
+		push_warning("Buff effect_scene 加载失败: %s (buff_id=%d)" % [buff.effect_scene, buff.buff_id])
 		return
 	var fx := scene.instantiate()
 	buff.effect_node = fx

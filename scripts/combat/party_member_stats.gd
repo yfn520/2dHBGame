@@ -9,6 +9,9 @@ var hp: int = 100
 var attack: int = 1
 var defense: int = 0
 var move_speed: float = 220.0
+var crit_rate: float = 0.0
+var crit_damage: float = 1.5
+var attack_speed: float = 1.0
 
 
 func setup(p_character_id: int) -> void:
@@ -33,6 +36,9 @@ func recalculate(preserve_current_hp: bool = true) -> void:
 	attack = int(stats.get("attack", attack))
 	defense = int(stats.get("defense", defense))
 	move_speed = float(stats.get("move_speed", move_speed))
+	crit_rate = float(stats.get("crit_rate", crit_rate))
+	crit_damage = float(stats.get("crit_damage", crit_damage))
+	attack_speed = float(stats.get("attack_speed", attack_speed))
 
 	if GameRegistry.equipment_provider != null:
 		for equip_info in GameRegistry.equipment_provider.get_equipped_configs(character_id):

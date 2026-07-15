@@ -10,12 +10,18 @@ var base_max_hp: int = 250
 var base_attack: int = 1
 var base_defense: int = 0
 var base_move_speed: float = 220.0
+var base_crit_rate: float = 0.0
+var base_crit_damage: float = 1.5
+var base_attack_speed: float = 1.0
 
 var max_hp: int = 250
 var hp: int = 250
 var attack: int = 1
 var defense: int = 0
 var move_speed: float = 220.0
+var crit_rate: float = 0.0
+var crit_damage: float = 1.5
+var attack_speed: float = 1.0
 
 var _roster: CharacterRosterData
 var _character_config: CharacterConfigData
@@ -58,12 +64,18 @@ func recalculate(equipped_items: Array[Dictionary], preserve_current_hp: bool = 
 	base_attack = int(base_stats.get("attack", base_attack))
 	base_defense = int(base_stats.get("defense", base_defense))
 	base_move_speed = float(base_stats.get("move_speed", base_move_speed))
+	base_crit_rate = float(base_stats.get("crit_rate", base_crit_rate))
+	base_crit_damage = float(base_stats.get("crit_damage", base_crit_damage))
+	base_attack_speed = float(base_stats.get("attack_speed", base_attack_speed))
 
 	var old_hp := hp
 	max_hp = base_max_hp
 	attack = base_attack
 	defense = base_defense
 	move_speed = base_move_speed
+	crit_rate = base_crit_rate
+	crit_damage = base_crit_damage
+	attack_speed = base_attack_speed
 
 	for equip_info in equipped_items:
 		var item_stats: Dictionary = equip_info.get("stats", {})
@@ -119,6 +131,9 @@ func to_dict() -> Dictionary:
 		"base_attack": base_attack,
 		"base_defense": base_defense,
 		"base_move_speed": base_move_speed,
+		"base_crit_rate": base_crit_rate,
+		"base_crit_damage": base_crit_damage,
+		"base_attack_speed": base_attack_speed,
 		"hp": hp,
 	}
 
@@ -128,6 +143,9 @@ func from_dict(data: Dictionary) -> void:
 	base_attack = int(data.get("base_attack", base_attack))
 	base_defense = int(data.get("base_defense", base_defense))
 	base_move_speed = float(data.get("base_move_speed", base_move_speed))
+	base_crit_rate = float(data.get("base_crit_rate", base_crit_rate))
+	base_crit_damage = float(data.get("base_crit_damage", base_crit_damage))
+	base_attack_speed = float(data.get("base_attack_speed", base_attack_speed))
 	max_hp = base_max_hp
 	hp = int(data.get("hp", max_hp))
 	if hp <= 0:

@@ -237,6 +237,13 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, 400 * delta)
 			move_and_slide()
 			return
+	# Buff 控制效果（冰冻/麻痹/眩晕）限制移动
+	if combat != null and combat.has_method("get_buff_manager"):
+		var buff_manager = combat.get_buff_manager()
+		if buff_manager != null and not buff_manager.can_move():
+			velocity.x = move_toward(velocity.x, 0, 400 * delta)
+			move_and_slide()
+			return
 
 	match _ai_state:
 		AIState.IDLE:
@@ -279,13 +286,24 @@ func _update_idle(delta: float) -> void:
 			_set_ai_state(AIState.PATROL)
 
 
+func _get_move_speed() -> float:
+	var base := 80.0
+	if _config != null:
+		base = float(_config.get("move_speed", base))
+	if combat != null and combat.has_method("get_buff_manager"):
+		var bm = combat.get_buff_manager()
+		if bm != null:
+			return bm.get_modified_stat("move_speed", base)
+	return base
+
+
 func _update_patrol(_delta: float) -> void:
 	var dir := signf(_patrol_target - global_position.x)
 	if absf(global_position.x - _patrol_target) < 4.0:
 		_set_ai_state(AIState.IDLE)
 		return
 
-	velocity.x = dir * _config.get("move_speed", 80.0)
+	velocity.x = dir * _get_move_speed()
 	_face_direction(dir)
 
 	# 巡逻中检测到玩家
@@ -321,7 +339,7 @@ func _update_chase(_delta: float) -> void:
 
 	# 追击
 	var dir := signf(_target.global_position.x - global_position.x)
-	velocity.x = dir * _config.get("move_speed", 80.0) * 1.2
+	velocity.x = dir * _get_move_speed() * 1.2
 	_face_target(_target)
 	_play_anim("run")
 	_ai_debug_text = "追击至 %.0f（当前 %.0f）" % [nearest_engage, dist]
@@ -354,7 +372,7 @@ func _update_attack(_delta: float) -> void:
 	var retreat_target := _get_retreat_distance(dist)
 	if retreat_target > 0.0 and dist < retreat_target:
 		var dir := -signf(_target.global_position.x - global_position.x)
-		velocity.x = dir * _config.get("move_speed", 80.0) * 0.8
+		velocity.x = dir * _get_move_speed() * 0.8
 		_ai_debug_text = "后撤至 %.0f（当前 %.0f）" % [retreat_target, dist]
 		return
 
@@ -724,6 +742,11 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 		velocity.x = 0.0
 	if combat != null and combat.has_method("take_damage"):
 		combat.take_damage(amount, source, play_hit_reaction)
+
+
+func heal(amount: int) -> void:
+	if combat != null and combat.has_method("heal"):
+		combat.heal(amount)
 
 
 ## 施加 Buff

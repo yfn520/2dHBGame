@@ -5,6 +5,7 @@ class_name SkillExecutor
 
 var _owner: Node
 var _stats
+var _buff_manager: BuffManager
 
 
 func _init(owner: Node, stats = null) -> void:
@@ -57,23 +58,43 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D) -> void:
 	var chance := float(node.get("chance", node.get("buff_chance", 1.0)))
 	if randf() > chance:
 		return
-	var buff_id := int(node.get("buff_id", 0))
-	if buff_id <= 0:
+	var buff_ids := _read_buff_ids(node)
+	if buff_ids.is_empty():
 		return
 	var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
-	if target != null and target.has_method("apply_buff_from_config"):
-		var config: Dictionary = GameRegistry.buff_config.get_buff(buff_id)
+	if target == null or not target.has_method("apply_buff_from_config"):
+		return
+	var source_id := _owner.get_instance_id() if _owner != null else 0
+	for buff_id in buff_ids:
+		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
 		if not config.is_empty():
-			target.apply_buff_from_config(config, _owner.get_instance_id() if _owner != null else 0)
+			target.apply_buff_from_config(config, source_id)
 
 
 func apply_self_buff(node: Dictionary) -> void:
-	var buff_id := int(node.get("buff_id", 0))
-	if buff_id <= 0 or _owner == null or not _owner.has_method("apply_buff_from_config"):
+	if _owner == null or not _owner.has_method("apply_buff_from_config"):
 		return
-	var config: Dictionary = GameRegistry.buff_config.get_buff(buff_id)
-	if not config.is_empty():
-		_owner.apply_buff_from_config(config, _owner.get_instance_id())
+	var buff_ids := _read_buff_ids(node)
+	var source_id := _owner.get_instance_id() if _owner != null else 0
+	for buff_id in buff_ids:
+		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
+		if not config.is_empty():
+			_owner.apply_buff_from_config(config, source_id)
+
+
+## 读取节点的 buff_ids 数组，兼容旧 buff_id 单值字段。
+func _read_buff_ids(node: Dictionary) -> Array:
+	var result: Array = []
+	if node.has("buff_ids"):
+		var raw = node.get("buff_ids", [])
+		if raw is Array:
+			for v in raw:
+				result.append(int(v))
+	elif node.has("buff_id"):
+		var legacy := int(node.get("buff_id", 0))
+		if legacy > 0:
+			result.append(legacy)
+	return result
 
 
 func spawn_projectiles(node: Dictionary, origin: Vector2, context: SkillCastContext) -> void:
@@ -132,10 +153,25 @@ func find_nearest_enemy(max_range := INF) -> Area2D:
 
 
 func calculate_damage(ratio: float) -> int:
-	var attack := 1.0
+	var base_attack := 1.0
 	if _stats != null and "attack" in _stats:
-		attack = float(_stats.attack)
-	return maxi(1, roundi(attack * ratio))
+		base_attack = float(_stats.attack)
+	var attack := base_attack
+	if _buff_manager != null:
+		attack = _buff_manager.get_modified_stat("attack", base_attack)
+	var damage := maxi(1, roundi(attack * ratio))
+	# 暴击判定
+	var crit_rate := 0.0
+	var crit_damage := 1.5
+	if _stats != null:
+		crit_rate = float(_stats.crit_rate) if "crit_rate" in _stats else 0.0
+		crit_damage = float(_stats.crit_damage) if "crit_damage" in _stats else 1.5
+	if _buff_manager != null:
+		crit_rate = _buff_manager.get_modified_stat("crit_rate", crit_rate)
+		crit_damage = _buff_manager.get_modified_stat("crit_damage", crit_damage)
+	if randf() < crit_rate:
+		damage = roundi(damage * crit_damage)
+	return damage
 
 
 func _spawn_sequence(node: Dictionary, origin: Vector2, context: SkillCastContext, result_key: String) -> void:
@@ -210,12 +246,12 @@ func _spawn_ballistic(node: Dictionary, origin: Vector2, velocity: Vector2, grav
 	projectile.global_position = origin
 	var damage := calculate_damage(float(node.get("damage_ratio", 1.0)))
 	var pierce := int(node.get("max_pierce", 0))
-	var buff_id := int(node.get("buff_id", 0))
+	var buff_ids := _read_buff_ids(node)
 	var chance := float(node.get("buff_chance", 0.0))
 	var lifetime := float(node.get("lifetime", 5.0))
 	var rotate_visual := bool(node.get("rotate_to_velocity", true))
 	if projectile.has_method("setup_ballistic"):
-		projectile.setup_ballistic(velocity, gravity, damage, pierce, buff_id, chance, _owner, lifetime, rotate_visual)
+		projectile.setup_ballistic(velocity, gravity, damage, pierce, buff_ids, chance, _owner, lifetime, rotate_visual)
 	_connect_projectile_result(projectile, context, result_key)
 	_add_projectile_to_scene(projectile)
 
@@ -232,12 +268,12 @@ func _instantiate_projectile(node: Dictionary) -> Node2D:
 func _setup_projectile(projectile: Node2D, node: Dictionary, direction: Vector2, speed: float, context: SkillCastContext, result_key: String) -> void:
 	var damage := calculate_damage(float(node.get("damage_ratio", 1.0)))
 	var pierce := int(node.get("max_pierce", 0))
-	var buff_id := int(node.get("buff_id", 0))
+	var buff_ids := _read_buff_ids(node)
 	var chance := float(node.get("buff_chance", 0.0))
 	var lifetime := float(node.get("lifetime", 5.0))
 	var rotate_visual := bool(node.get("rotate_to_velocity", true))
 	if projectile.has_method("setup"):
-		projectile.setup(direction, speed, damage, pierce, buff_id, chance, _owner, lifetime, rotate_visual)
+		projectile.setup(direction, speed, damage, pierce, buff_ids, chance, _owner, lifetime, rotate_visual)
 	_connect_projectile_result(projectile, context, result_key)
 	_add_projectile_to_scene(projectile)
 
@@ -301,10 +337,12 @@ func _find_area_targets(origin: Vector2, node: Dictionary) -> Array[Area2D]:
 
 
 func _apply_optional_buff(node: Dictionary, hurt_box: Area2D) -> void:
-	var buff_id := int(node.get("buff_id", 0))
-	if buff_id <= 0 or randf() > float(node.get("buff_chance", 0.0)):
+	if randf() > float(node.get("buff_chance", 0.0)):
 		return
-	apply_target_buff({"buff_id": buff_id, "chance": 1.0}, hurt_box)
+	var buff_ids := _read_buff_ids(node)
+	if buff_ids.is_empty():
+		return
+	apply_target_buff({"buff_ids": buff_ids, "chance": 1.0}, hurt_box)
 
 
 func _get_facing() -> Vector2:

@@ -8,7 +8,7 @@ var projectile_gravity := 0.0
 var damage := 1
 var max_pierce := 0 # 0 = first target, -1 = unlimited.
 var pierce_count := 0
-var buff_id := 0
+var buff_ids: Array = []
 var buff_chance := 0.0
 var lifetime := 5.0
 var source_entity: Node
@@ -31,22 +31,22 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle()
 
 
-func setup(direction: Vector2, speed: float, node_damage: int, pierce: int, node_buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
+func setup(direction: Vector2, speed: float, node_damage: int, pierce: int, node_buff_ids: Array = [], chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
 	velocity = direction.normalized() * speed
 	projectile_gravity = 0.0
-	_configure(node_damage, pierce, node_buff_id, chance, source, life, should_rotate)
+	_configure(node_damage, pierce, node_buff_ids, chance, source, life, should_rotate)
 
 
-func setup_ballistic(initial_velocity: Vector2, gravity_value: float, node_damage: int, pierce: int, node_buff_id: int = 0, chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
+func setup_ballistic(initial_velocity: Vector2, gravity_value: float, node_damage: int, pierce: int, node_buff_ids: Array = [], chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
 	velocity = initial_velocity
 	projectile_gravity = gravity_value
-	_configure(node_damage, pierce, node_buff_id, chance, source, life, should_rotate)
+	_configure(node_damage, pierce, node_buff_ids, chance, source, life, should_rotate)
 
 
-func _configure(node_damage: int, pierce: int, node_buff_id: int, chance: float, source: Node, life: float, should_rotate: bool) -> void:
+func _configure(node_damage: int, pierce: int, node_buff_ids: Array, chance: float, source: Node, life: float, should_rotate: bool) -> void:
 	damage = node_damage
 	max_pierce = pierce
-	buff_id = node_buff_id
+	buff_ids = node_buff_ids
 	buff_chance = chance
 	source_entity = source
 	lifetime = life
@@ -62,7 +62,7 @@ func _on_area_entered(area: Area2D) -> void:
 	_hit_targets[target_id] = true
 	if area.has_method("take_hit"):
 		area.take_hit(damage, source_entity)
-	if buff_id > 0 and randf() <= buff_chance:
+	if not buff_ids.is_empty() and randf() <= buff_chance:
 		_apply_buff(area)
 	hit_target.emit(area)
 	if max_pierce == 0:
@@ -77,9 +77,11 @@ func _apply_buff(hurt_box: Area2D) -> void:
 	var target_owner: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	if target_owner == null or not target_owner.has_method("apply_buff_from_config"):
 		return
-	var config: Dictionary = GameRegistry.buff_config.get_buff(buff_id)
-	if not config.is_empty():
-		target_owner.apply_buff_from_config(config, source_entity.get_instance_id() if source_entity != null else 0)
+	var source_id := source_entity.get_instance_id() if source_entity != null else 0
+	for buff_id in buff_ids:
+		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
+		if not config.is_empty():
+			target_owner.apply_buff_from_config(config, source_id)
 
 
 func _is_friendly(hurt_box: Area2D) -> bool:

@@ -31,6 +31,7 @@ var _main_blue_text: Label
 var _main_avatar_holder: Control
 var _main_avatar_sprite: AnimatedSprite2D
 var _main_avatar_fallback: Label
+var _main_buff_bar: HBoxContainer
 var _ally_list: VBoxContainer
 var _skill_buttons: Array[Button] = []
 var _enemy_panel: PanelContainer
@@ -142,6 +143,12 @@ func _build_main_card() -> Control:
 	_main_level_label.theme_type_variation = &"HUDValue"
 	_main_level_label.add_theme_font_size_override("font_size", 14)
 	info.add_child(_main_level_label)
+
+	_main_buff_bar = HBoxContainer.new()
+	_main_buff_bar.name = "BuffBar"
+	_main_buff_bar.add_theme_constant_override("separation", 2)
+	_main_buff_bar.custom_minimum_size = Vector2(0, 26)
+	info.add_child(_main_buff_bar)
 
 	_ally_list = VBoxContainer.new()
 	_ally_list.name = "AllyCards"
@@ -346,10 +353,29 @@ func _connect_active_combat() -> void:
 	if _active_combat != null and _active_combat.has_signal("hp_changed"):
 		if not _active_combat.hp_changed.is_connected(_on_active_hp_changed):
 			_active_combat.hp_changed.connect(_on_active_hp_changed)
+	if _active_combat != null and _active_combat.has_method("get_buff_manager"):
+		var buff_manager = _active_combat.get_buff_manager()
+		if buff_manager != null:
+			if buff_manager.has_signal("buff_applied"):
+				if buff_manager.buff_applied.is_connected(_on_buff_changed):
+					buff_manager.buff_applied.disconnect(_on_buff_changed)
+				buff_manager.buff_applied.connect(_on_buff_changed)
+			if buff_manager.has_signal("buff_removed"):
+				if buff_manager.buff_removed.is_connected(_on_buff_changed):
+					buff_manager.buff_removed.disconnect(_on_buff_changed)
+				buff_manager.buff_removed.connect(_on_buff_changed)
+			if buff_manager.has_signal("buff_ticked"):
+				if buff_manager.buff_ticked.is_connected(_on_buff_changed):
+					buff_manager.buff_ticked.disconnect(_on_buff_changed)
+				buff_manager.buff_ticked.connect(_on_buff_changed)
 
 
 func _on_active_hp_changed(_current: int, _max_hp: int) -> void:
 	_refresh_all()
+
+
+func _on_buff_changed(_buff = null, _damage = null) -> void:
+	_refresh_main_buffs()
 
 
 func _on_inventory_pressed() -> void:
@@ -422,6 +448,7 @@ func _make_ally_card(member: CharacterBody2D) -> Control:
 
 func _refresh_all() -> void:
 	_refresh_main_card()
+	_refresh_main_buffs()
 	_refresh_ally_cards()
 	_refresh_enemy_panel()
 	_refresh_skills()
@@ -446,6 +473,75 @@ func _refresh_main_card() -> void:
 	_main_blue_bar.value = BLUE_PLACEHOLDER_CURRENT
 	_main_blue_text.text = "%d/%d" % [BLUE_PLACEHOLDER_CURRENT, BLUE_PLACEHOLDER_MAX]
 	_set_avatar(_main_avatar_sprite, _main_avatar_fallback, _active_character, character_name, false)
+
+
+func _refresh_main_buffs() -> void:
+	if _main_buff_bar == null:
+		return
+	for child in _main_buff_bar.get_children():
+		child.queue_free()
+	if _active_combat == null or not _active_combat.has_method("get_buff_manager"):
+		return
+	var buff_manager = _active_combat.get_buff_manager()
+	if buff_manager == null:
+		return
+	var buffs: Array = buff_manager.get_active_buffs()
+	var buff_list: Array = []
+	var debuff_list: Array = []
+	for buff in buffs:
+		if buff == null:
+			continue
+		if buff.category == "debuff":
+			debuff_list.append(buff)
+		else:
+			buff_list.append(buff)
+	for buff in buff_list:
+		_main_buff_bar.add_child(_make_buff_icon(buff))
+	for buff in debuff_list:
+		_main_buff_bar.add_child(_make_buff_icon(buff))
+
+
+func _make_buff_icon(buff: BuffInstance) -> Control:
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(24, 24)
+	var bg_color := Color(0.2, 0.6, 0.2, 0.8) if buff.category == "buff" else Color(0.6, 0.2, 0.2, 0.8)
+	var style := StyleBoxFlat.new()
+	style.bg_color = bg_color
+	style.set_border_width_all(1)
+	style.border_color = Color(0, 0, 0, 0.5)
+	panel.add_theme_stylebox_override("panel", style)
+
+	var icon_added := false
+	if not buff.icon.is_empty() and ResourceLoader.exists(buff.icon):
+		var tex := load(buff.icon) as Texture2D
+		if tex != null:
+			var tex_rect := TextureRect.new()
+			tex_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+			tex_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+			tex_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			tex_rect.texture = tex
+			panel.add_child(tex_rect)
+			icon_added = true
+	if not icon_added:
+		var label := Label.new()
+		label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 12)
+		label.text = buff.name.substr(0, 1) if not buff.name.is_empty() else "?"
+		panel.add_child(label)
+
+	if buff.stacks > 1:
+		var stack_label := Label.new()
+		stack_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+		stack_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		stack_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
+		stack_label.add_theme_font_size_override("font_size", 10)
+		stack_label.text = "x%d" % buff.stacks
+		panel.add_child(stack_label)
+
+	panel.tooltip_text = "%s\n%s\n剩余 %.1f秒\n层数 %d" % [buff.name, buff.description, buff.remaining, buff.stacks]
+	return panel
 
 
 func _refresh_ally_cards() -> void:

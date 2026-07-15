@@ -70,6 +70,7 @@ func _resolve_stats() -> void:
 	if _stats == null:
 		_stats = GameRegistry.character_stats
 	_skill_executor._stats = _stats
+	_skill_executor._buff_manager = _buff_manager
 
 
 func _process(delta: float) -> void:
@@ -150,6 +151,9 @@ func try_use_skill(skill_id: int) -> bool:
 	if not _buff_manager.can_act():
 		_last_skill_attempt = "cannot_act"
 		return false
+	if not _buff_manager.can_use_skill():
+		_last_skill_attempt = "silenced"
+		return false
 	var remaining_cooldown := float(_cooldowns.get(skill_id, 0.0))
 	if remaining_cooldown > 0.0:
 		_last_skill_attempt = "cd:%d=%.2f" % [skill_id, remaining_cooldown]
@@ -164,7 +168,9 @@ func try_use_skill(skill_id: int) -> bool:
 		push_error("技能 %d 没有节点，无法施放" % skill_id)
 		return false
 	_last_skill_attempt = "cast:%d" % skill_id
-	_cooldowns[skill_id] = float(skill.get("cooldown", 0.0))
+	var base_cooldown := float(skill.get("cooldown", 0.0))
+	var atk_speed := _get_attack_speed()
+	_cooldowns[skill_id] = base_cooldown / atk_speed if atk_speed > 0.0 else base_cooldown
 	combat_state = CombatState.SKILL
 	attack_started.emit(skill_id)
 	_cast_serial += 1
@@ -505,12 +511,15 @@ func _clear_cast(_cancelled: bool) -> void:
 
 func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
 	_resolve_stats()
-	if combat_state == CombatState.DEAD or _stats == null or _invincible_after_hit > 0.0 or _buff_manager.has_buff_type("invincible"):
+	if combat_state == CombatState.DEAD or _stats == null or _invincible_after_hit > 0.0 or _buff_manager.is_invincible():
 		return
 	if play_hit_reaction and not _is_current_frame_armored():
 		cancel_cast("hit")
 	amount = _buff_manager.modify_damage(amount)
-	var actual := maxi(1, amount - int(_stats.defense))
+	if amount <= 0:
+		return
+	var defense := _get_defense()
+	var actual := maxi(1, amount - int(defense))
 	_stats.hp = maxi(0, _stats.hp - actual)
 	if _owner.has_method("sync_combat_hp"):
 		_owner.sync_combat_hp()
@@ -538,13 +547,31 @@ func heal(amount: int) -> void:
 
 func apply_buff_from_config(config: Dictionary, source: int = 0) -> void:
 	_buff_manager.apply_buff(config, source)
-	var buff_type := String(config.get("type", ""))
-	if buff_type == "stun" or buff_type == "freeze":
-		cancel_cast(buff_type)
+	# 控制效果打断施法
+	var effects: Array = config.get("effects", [])
+	for effect in effects:
+		if effect is Dictionary and String(effect.get("type", "")) == "control":
+			var affects: Array = effect.get("affects", [])
+			if "act" in affects or "skill" in affects:
+				cancel_cast(String(effect.get("control_type", "control")))
+				break
 
 
 func get_buff_manager() -> BuffManager:
 	return _buff_manager
+
+
+func _get_attack_speed() -> float:
+	if _stats == null or not ("attack_speed" in _stats):
+		return 1.0
+	var base_as := float(_stats.attack_speed)
+	return _buff_manager.get_modified_stat("attack_speed", base_as)
+
+
+func _get_defense() -> float:
+	if _stats == null or not ("defense" in _stats):
+		return 0.0
+	return _buff_manager.get_modified_stat("defense", float(_stats.defense))
 
 
 func get_cooldowns_dict() -> Dictionary:

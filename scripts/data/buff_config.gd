@@ -1,6 +1,7 @@
 class_name BuffConfig
 
 const CONFIG_PATH := "res://data/buffs.json"
+const BuffEffectRegistry = preload("res://scripts/combat/buff_effect_registry.gd")
 
 var _buffs: Dictionary = {}
 var _loaded := false
@@ -22,16 +23,22 @@ func load_config() -> void:
 	for id_str in data:
 		var buff_id := int(id_str)
 		var raw: Dictionary = data[id_str]
+		var effects_raw: Array = raw.get("effects", [])
+		var effects: Array = []
+		for effect in effects_raw:
+			if effect is Dictionary:
+				effects.append(BuffEffectRegistry.parse_effect(effect as Dictionary))
 		_buffs[buff_id] = {
 			"id": buff_id,
-			"name": raw.get("name", ""),
-			"type": raw.get("type", ""),
+			"name": String(raw.get("name", "")),
+			"description": String(raw.get("description", "")),
+			"category": String(raw.get("category", "debuff")),
 			"duration": float(raw.get("duration", 0.0)),
-			"interval": float(raw.get("interval", 0)),
-			"tick_damage": int(raw.get("tick_damage", 0)),
-			"slow_ratio": float(raw.get("slow_ratio", 0.0)),
 			"max_stacks": int(raw.get("max_stacks", 1)),
-			"effect_scene": raw.get("effect_scene", ""),
+			"stack_behavior": String(raw.get("stack_behavior", "refresh")),
+			"icon": String(raw.get("icon", "")),
+			"effect_scene": String(raw.get("effect_scene", "")),
+			"effects": effects,
 		}
 	_loaded = true
 
@@ -50,3 +57,14 @@ func get_all_buffs() -> Dictionary:
 
 func is_valid_buff(buff_id: int) -> bool:
 	return not get_buff(buff_id).is_empty()
+
+
+func get_buffs_by_category(category: String) -> Array:
+	var result: Array = []
+	if not _loaded:
+		load_config()
+	for buff_id in _buffs:
+		var buff: Dictionary = _buffs[buff_id]
+		if String(buff.get("category", "")) == category:
+			result.append(buff)
+	return result

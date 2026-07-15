@@ -6,6 +6,8 @@ const ProjectileGenerator = preload("res://addons/game_tools/projectile_generato
 const SpineEffectImporter = preload("res://addons/game_tools/spine_effect_importer.gd")
 const SkillSequenceEditor = preload("res://addons/game_tools/skill_sequence_editor.gd")
 const LevelEditor = preload("res://addons/game_tools/level_editor.gd")
+const BuffEditor = preload("res://addons/game_tools/buff_editor.gd")
+const BuffIconGenerator = preload("res://addons/game_tools/buff_icon_generator.gd")
 
 var _submenu: PopupMenu
 var _combat_action_editor: Window
@@ -13,6 +15,8 @@ var _projectile_generator: Window
 var _spine_effect_importer: Window
 var _skill_sequence_editor: Window
 var _level_editor: Window
+var _buff_editor: Window
+var _buff_icon_generator: Window
 
 
 func _enter_tree() -> void:
@@ -29,6 +33,8 @@ func _enter_tree() -> void:
 	_submenu.add_item("配置攻击判定...", 5)
 	_submenu.add_item("配置技能节点...", 8)
 	_submenu.add_item("配置关卡...", 9)
+	_submenu.add_item("配置 Buff...", 10)
+	_submenu.add_item("生成 Buff 图标...", 11)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
 
@@ -44,6 +50,10 @@ func _exit_tree() -> void:
 		_skill_sequence_editor.queue_free()
 	if is_instance_valid(_level_editor):
 		_level_editor.queue_free()
+	if is_instance_valid(_buff_editor):
+		_buff_editor.queue_free()
+	if is_instance_valid(_buff_icon_generator):
+		_buff_icon_generator.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -71,6 +81,10 @@ func _on_menu_pressed(id: int) -> void:
 			_open_skill_sequence_editor()
 		9:
 			_open_level_editor()
+		10:
+			_open_buff_editor()
+		11:
+			_open_buff_icon_generator()
 
 
 func _open_combat_action_editor() -> void:
@@ -106,6 +120,20 @@ func _open_level_editor() -> void:
 		_level_editor = LevelEditor.new()
 		EditorInterface.get_base_control().add_child(_level_editor)
 	_level_editor.open_editor()
+
+
+func _open_buff_editor() -> void:
+	if not is_instance_valid(_buff_editor):
+		_buff_editor = BuffEditor.new()
+		EditorInterface.get_base_control().add_child(_buff_editor)
+	_buff_editor.open_editor()
+
+
+func _open_buff_icon_generator() -> void:
+	if not is_instance_valid(_buff_icon_generator):
+		_buff_icon_generator = BuffIconGenerator.new()
+		EditorInterface.get_base_control().add_child(_buff_icon_generator)
+	_buff_icon_generator.open_generator()
 
 
 # ---- 场景导入 ----
@@ -650,6 +678,9 @@ func _default_character_base_stats() -> Dictionary:
 		"attack": 1,
 		"defense": 0,
 		"move_speed": 220.0,
+		"crit_rate": 0.0,
+		"crit_damage": 1.5,
+		"attack_speed": 1.0,
 	}
 
 

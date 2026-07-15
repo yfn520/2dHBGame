@@ -272,6 +272,11 @@ func _physics_process(delta: float) -> void:
 		# animation itself is the authoritative movement lock.
 		if _combat_anim_playing:
 			can_move = false
+	# Buff 控制效果（冰冻/麻痹/眩晕）限制移动
+	if combat != null and combat.has_method("get_buff_manager"):
+		var buff_manager = combat.get_buff_manager()
+		if buff_manager != null and not buff_manager.can_move():
+			can_move = false
 
 	var direction := _get_move_direction()
 	var climb_direction := _get_climb_direction()
@@ -302,11 +307,20 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 
+func _get_move_speed() -> float:
+	var base: float = _combat_stats.move_speed if _combat_stats != null else 0.0
+	if combat != null and combat.has_method("get_buff_manager"):
+		var bm = combat.get_buff_manager()
+		if bm != null:
+			return bm.get_modified_stat("move_speed", base)
+	return base
+
+
 func _handle_ground_movement(direction: float, jump_pressed: bool, delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	velocity.x = direction * _combat_stats.move_speed
+	velocity.x = direction * _get_move_speed()
 
 	if jump_pressed and not was_jump_pressed and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -321,7 +335,7 @@ func _handle_ladder_movement(direction: float, climb_direction: float, jump_pres
 
 	if jump_pressed and not was_jump_pressed:
 		_exit_ladder_state()
-		velocity.x = direction * _combat_stats.move_speed
+		velocity.x = direction * _get_move_speed()
 		velocity.y = JUMP_VELOCITY
 	elif current_ladder == null:
 		_exit_ladder_state()
@@ -450,7 +464,7 @@ func _update_ally_follow(delta: float) -> void:
 		return
 	var dir := signf(dx)
 	_face_direction(dir)
-	velocity.x = dir * minf(_combat_stats.move_speed * 0.95, maxf(40.0, absf(dx) * 6.0))
+	velocity.x = dir * minf(_get_move_speed() * 0.95, maxf(40.0, absf(dx) * 6.0))
 
 
 func _update_ally_attack(target: Node2D) -> void:
@@ -477,7 +491,7 @@ func _update_ally_attack(target: Node2D) -> void:
 		return
 	_ally_is_holding_attack = false
 	if dist > stop_range:
-		velocity.x = dir * _combat_stats.move_speed
+		velocity.x = dir * _get_move_speed()
 		return
 	velocity.x = 0.0
 	if combat != null and combat.has_method("try_use_skill") and skill_id > 0:
@@ -686,6 +700,11 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 		velocity.x = 0.0
 	if combat != null and combat.has_method("take_damage"):
 		combat.take_damage(amount, source, play_hit_reaction)
+
+
+func heal(amount: int) -> void:
+	if combat != null and combat.has_method("heal"):
+		combat.heal(amount)
 
 
 ## 施加 Buff (由弹道/SkillExecutor 调用)

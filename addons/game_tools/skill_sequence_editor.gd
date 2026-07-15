@@ -4,6 +4,7 @@ extends Window
 const SKILLS_PATH := "res://data/skills.json"
 const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
+const BUFFS_PATH := "res://data/buffs.json"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
 const CombatActionPreview = preload("res://addons/game_tools/combat_action_preview.gd")
 
@@ -577,7 +578,7 @@ func _show_node_details(index: int) -> void:
 		"spawn_projectile": _build_projectile_fields(form, node)
 		"play_effect": _build_effect_fields(form, node)
 		"apply_target_buff": _build_target_buff_fields(form, node)
-		"apply_self_buff": _add_node_spin(form, "Buff ID", "buff_id", node, 0.0, 0.0, 999999.0, 1.0)
+		"apply_self_buff": _build_buff_ids_fields(form, node)
 		"heal":
 			_add_node_spin(form, "固定治疗", "amount", node, 0.0, 0.0, 999999.0, 1.0)
 			_add_node_spin(form, "攻击倍率", "ratio", node, 0.0, 0.0, 99.0, 0.1)
@@ -628,7 +629,7 @@ func _build_damage_fields(form: GridContainer, node: Dictionary, include_origin:
 	if include_origin:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
-	_add_node_spin(form, "附加 Buff ID", "buff_id", node, 0.0, 0.0, 999999.0, 1.0)
+	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
 
 
@@ -645,7 +646,7 @@ func _build_area_fields(form: GridContainer, node: Dictionary) -> void:
 
 func _build_damage_fields_without_result(form: GridContainer, node: Dictionary) -> void:
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
-	_add_node_spin(form, "附加 Buff ID", "buff_id", node, 0.0, 0.0, 999999.0, 1.0)
+	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
 
 
@@ -662,7 +663,7 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_spin(form, "生命周期", "lifetime", node, 5.0, 0.1, 99.0, 0.1)
 	_add_node_spin(form, "最大穿透数", "max_pierce", node, 0.0, -1.0, 99.0, 1.0)
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
-	_add_node_spin(form, "附加 Buff ID", "buff_id", node, 0.0, 0.0, 999999.0, 1.0)
+	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
 	var emission := String(node.get("emission", "single"))
 	var aim := String(node.get("aim_mode", "facing_elevation"))
@@ -847,7 +848,7 @@ func _build_target_buff_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_node_option(form, "触发频率", "delivery", node, [{"value": "each_hit", "label": "每次命中"}, {"value": "each_target", "label": "每个目标一次"}], false)
 	else:
 		_add_origin_fields(form, node)
-	_add_node_spin(form, "Buff ID", "buff_id", node, 0.0, 0.0, 999999.0, 1.0)
+	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "施加概率", "chance", node, 1.0, 0.0, 1.0, 0.05)
 
 
@@ -954,6 +955,137 @@ func _add_node_option(form: GridContainer, label_text: String, field: String, no
 			option.select(index)
 	option.item_selected.connect(_on_node_option_selected.bind(field, rebuild, option))
 	form.add_child(option)
+
+
+## apply_self_buff / apply_target_buff / 伤害附带 buff 节点的多 buff 列表表单：
+## 把节点字段从旧 buff_id (int) 迁移到 buff_ids (Array[int])，
+## 每行一个 buff 下拉 + 删除按钮，底部一个"添加 Buff"按钮。
+func _build_buff_ids_fields(form: GridContainer, node: Dictionary) -> void:
+	# 数据迁移：旧 buff_id (int) → 新 buff_ids (Array[int])
+	if not node.has("buff_ids"):
+		if node.has("buff_id"):
+			var legacy := int(node.get("buff_id", 0))
+			node["buff_ids"] = [legacy] if legacy > 0 else []
+			node.erase("buff_id")
+		else:
+			node["buff_ids"] = []
+		var idx := _selected_node_index()
+		if idx >= 0:
+			var skill := _current_skill()
+			var nodes: Array = skill.get("nodes", [])
+			if idx < nodes.size() and nodes[idx] is Dictionary:
+				nodes[idx] = node
+				skill["nodes"] = nodes
+				_skills[_current_skill_id] = skill
+
+	var label := Label.new()
+	label.text = "Buff IDs"
+	form.add_child(label)
+
+	var list_container := VBoxContainer.new()
+	list_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list_container.add_theme_constant_override("separation", 4)
+	form.add_child(list_container)
+
+	var buff_ids: Array = node.get("buff_ids", [])
+	for i in range(buff_ids.size()):
+		list_container.add_child(_make_buff_ids_row(i, int(buff_ids[i])))
+
+	var add_btn := Button.new()
+	add_btn.text = "添加 Buff"
+	add_btn.pressed.connect(_on_buff_ids_add)
+	list_container.add_child(add_btn)
+
+
+func _make_buff_ids_row(row_index: int, current_id: int) -> HBoxContainer:
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 4)
+
+	var option := OptionButton.new()
+	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	option.add_item("0 - 无")
+	option.set_item_metadata(0, 0)
+	var buffs := _read_json(BUFFS_PATH)
+	var buff_ids: Array = buffs.keys()
+	buff_ids.sort_custom(func(a, b): return int(a) < int(b))
+	for id_str in buff_ids:
+		var buff: Dictionary = buffs[id_str]
+		var buff_id := int(id_str)
+		var display_name := String(buff.get("name", "未命名"))
+		option.add_item("%d - %s" % [buff_id, display_name])
+		option.set_item_metadata(option.item_count - 1, buff_id)
+	for index in range(option.item_count):
+		if int(option.get_item_metadata(index)) == current_id:
+			option.select(index)
+			break
+	option.item_selected.connect(_on_buff_ids_changed.bind(row_index, option))
+	row.add_child(option)
+
+	var del_btn := Button.new()
+	del_btn.text = "×"
+	del_btn.custom_minimum_size = Vector2(28, 28)
+	del_btn.pressed.connect(_on_buff_ids_remove.bind(row_index))
+	row.add_child(del_btn)
+	return row
+
+
+func _on_buff_ids_changed(item_index: int, row_index: int, option: OptionButton) -> void:
+	var new_id := int(option.get_item_metadata(item_index))
+	var node_idx := _selected_node_index()
+	if node_idx < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if node_idx >= nodes.size() or not nodes[node_idx] is Dictionary:
+		return
+	var node: Dictionary = nodes[node_idx]
+	var arr: Array = node.get("buff_ids", [])
+	if row_index >= 0 and row_index < arr.size():
+		arr[row_index] = new_id
+		node["buff_ids"] = arr
+		nodes[node_idx] = node
+		skill["nodes"] = nodes
+		_skills[_current_skill_id] = skill
+	_rebuild_node_list_keep(node_idx)
+
+
+func _on_buff_ids_add() -> void:
+	var node_idx := _selected_node_index()
+	if node_idx < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if node_idx >= nodes.size() or not nodes[node_idx] is Dictionary:
+		return
+	var node: Dictionary = nodes[node_idx]
+	var arr: Array = node.get("buff_ids", [])
+	arr.append(0)
+	node["buff_ids"] = arr
+	nodes[node_idx] = node
+	skill["nodes"] = nodes
+	_skills[_current_skill_id] = skill
+	_show_node_details(node_idx)
+	_rebuild_node_list_keep(node_idx)
+
+
+func _on_buff_ids_remove(row_index: int) -> void:
+	var node_idx := _selected_node_index()
+	if node_idx < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if node_idx >= nodes.size() or not nodes[node_idx] is Dictionary:
+		return
+	var node: Dictionary = nodes[node_idx]
+	var arr: Array = node.get("buff_ids", [])
+	if row_index >= 0 and row_index < arr.size():
+		arr.remove_at(row_index)
+		node["buff_ids"] = arr
+		nodes[node_idx] = node
+		skill["nodes"] = nodes
+		_skills[_current_skill_id] = skill
+		_show_node_details(node_idx)
+		_rebuild_node_list_keep(node_idx)
 
 
 func _open_scene_picker(edit: LineEdit, field: String) -> void:
@@ -1068,8 +1200,8 @@ func _default_node(type_name: String) -> Dictionary:
 		"fullscreen_damage": return {"type": type_name, "result_key": "fullscreen_hit", "damage_ratio": 1.0}
 		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0}
 		"play_effect": return {"type": type_name, "scene": "", "target": "origin"}
-		"apply_target_buff": return {"type": type_name, "target": "result", "result_key": "last_result", "buff_id": 0, "chance": 1.0}
-		"apply_self_buff": return {"type": type_name, "buff_id": 0}
+		"apply_target_buff": return {"type": type_name, "target": "result", "result_key": "last_result", "buff_ids": [], "chance": 1.0}
+		"apply_self_buff": return {"type": type_name, "buff_ids": []}
 		"heal": return {"type": type_name, "amount": 10}
 		"move_x": return {"type": type_name, "distance": 32.0}
 		"wait_time": return {"type": type_name, "seconds": 0.1}
@@ -1139,7 +1271,7 @@ func _apply_fullscreen_template() -> void:
 
 func _apply_self_buff_template() -> void:
 	var action := _default_action()
-	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "apply_self_buff", "buff_id": 0}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用自身 Buff 模板。")
+	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "apply_self_buff", "buff_ids": []}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用自身 Buff 模板。")
 
 
 func _apply_sequence_template() -> void:
