@@ -25,10 +25,17 @@ var _effect_scene_edit: LineEdit
 var _effects_container: VBoxContainer
 var _status_label: Label
 
+# 左右分隔拖动条
+var _left_panel: VBoxContainer
+var _divider: Control
+var _dragging := false
+const _LEFT_MIN_WIDTH := 150.0
+const _LEFT_MAX_WIDTH := 560.0
+
 
 func _ready() -> void:
 	title = "Buff 配置编辑器"
-	size = Vector2i(820, 600)
+	size = Vector2i(1100, 720)
 	close_requested.connect(hide)
 	_load_config()
 	_build_layout()
@@ -39,6 +46,26 @@ func open_editor() -> void:
 	_load_config()
 	_refresh_buff_list()
 	popup_centered()
+
+
+# ---- 左右分隔条拖动 ----
+
+func _on_divider_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_dragging = true
+
+
+func _input(event: InputEvent) -> void:
+	if not _dragging:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		_dragging = false
+		return
+	if event is InputEventMouseMotion:
+		var left_x: float = _left_panel.global_position.x
+		var new_width: float = event.global_position.x - left_x
+		new_width = clampf(new_width, _LEFT_MIN_WIDTH, _LEFT_MAX_WIDTH)
+		_left_panel.custom_minimum_size = Vector2(new_width, 0)
 
 
 # ---- 数据加载 ----
@@ -73,27 +100,27 @@ func _build_layout() -> void:
 	# 主内容区（左列表 + 右表单）占满剩余空间
 	var main := HBoxContainer.new()
 	main.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main.add_theme_constant_override("separation", 6)
+	main.add_theme_constant_override("separation", 0)
 	root.add_child(main)
 
 	# 左侧 buff 列表
-	var left := VBoxContainer.new()
-	left.custom_minimum_size = Vector2(240, 0)
-	left.add_theme_constant_override("separation", 4)
-	main.add_child(left)
+	_left_panel = VBoxContainer.new()
+	_left_panel.custom_minimum_size = Vector2(240, 0)
+	_left_panel.add_theme_constant_override("separation", 4)
+	main.add_child(_left_panel)
 
 	var list_label := Label.new()
 	list_label.text = "Buff 列表"
-	left.add_child(list_label)
+	_left_panel.add_child(list_label)
 
 	_buff_list = ItemList.new()
 	_buff_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_buff_list.item_selected.connect(_on_buff_selected)
-	left.add_child(_buff_list)
+	_left_panel.add_child(_buff_list)
 
 	var btn_row := HBoxContainer.new()
 	btn_row.add_theme_constant_override("separation", 4)
-	left.add_child(btn_row)
+	_left_panel.add_child(btn_row)
 
 	var add_btn := Button.new()
 	add_btn.text = "新增"
@@ -106,6 +133,18 @@ func _build_layout() -> void:
 	del_btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	del_btn.pressed.connect(_on_delete_buff)
 	btn_row.add_child(del_btn)
+
+	# 可拖动分隔条：鼠标悬停变为左右伸缩标识，拖动调整左框宽度
+	_divider = Panel.new()
+	_divider.custom_minimum_size = Vector2(6, 0)
+	_divider.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_divider.set_default_cursor_shape(Control.CURSOR_HSIZE)
+	_divider.gui_input.connect(_on_divider_gui_input)
+	var sep_style := StyleBoxFlat.new()
+	sep_style.bg_color = Color(0.5, 0.5, 0.5, 0.35)
+	sep_style.set_content_margin_all(0)
+	_divider.add_theme_stylebox_override("panel", sep_style)
+	main.add_child(_divider)
 
 	# 右侧编辑面板
 	var right := VBoxContainer.new()
@@ -145,10 +184,10 @@ func _build_layout() -> void:
 	_stack_behavior_option = _add_grid_option(info_grid, "叠加方式", STACK_BEHAVIOR_OPTIONS)
 	_stack_behavior_option.item_selected.connect(_on_option_changed.bind("stack_behavior"))
 
-	_icon_edit = _add_grid_edit(info_grid, "图标路径")
+	_icon_edit = _add_grid_edit(info_grid, "图标路径", PackedStringArray(["*.png ; PNG 图片", "*.jpg ; JPG 图片", "*.svg ; SVG 矢量图", "*.webp ; WebP 图片"]))
 	_icon_edit.text_changed.connect(_on_field_changed.bind("icon"))
 
-	_effect_scene_edit = _add_grid_edit(info_grid, "特效场景")
+	_effect_scene_edit = _add_grid_edit(info_grid, "特效场景", PackedStringArray(["*.tscn ; 场景文件", "*.scn ; 场景文件"]))
 	_effect_scene_edit.text_changed.connect(_on_field_changed.bind("effect_scene"))
 
 	# 描述
@@ -197,14 +236,49 @@ func _build_layout() -> void:
 	bottom.add_child(save_btn)
 
 
-func _add_grid_edit(parent: GridContainer, label_text: String) -> LineEdit:
+func _add_grid_edit(parent: GridContainer, label_text: String, browse_filters: PackedStringArray = []) -> LineEdit:
 	var label := Label.new()
 	label.text = label_text
 	parent.add_child(label)
 	var edit := LineEdit.new()
-	edit.custom_minimum_size = Vector2(280, 0)
-	parent.add_child(edit)
+	edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	edit.custom_minimum_size = Vector2(220, 0)
+	if not browse_filters.is_empty():
+		# 第二列：输入框 + 浏览按钮，合成 HBox 保持 grid 两列结构
+		var hbox := HBoxContainer.new()
+		hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		hbox.add_theme_constant_override("separation", 4)
+		hbox.add_child(edit)
+		var btn := Button.new()
+		btn.text = "浏览"
+		btn.custom_minimum_size = Vector2(60, 0)
+		btn.tooltip_text = "打开项目资源选择框"
+		btn.pressed.connect(_on_browse_resource.bind(edit, browse_filters))
+		hbox.add_child(btn)
+		parent.add_child(hbox)
+	else:
+		parent.add_child(edit)
 	return edit
+
+
+# 打开 Godot 项目资源选择对话框（EditorFileDialog）。
+# 选中后把 res:// 路径回填到 LineEdit，触发 text_changed 同步数据。
+func _on_browse_resource(edit: LineEdit, filters: PackedStringArray) -> void:
+	var dialog := EditorFileDialog.new()
+	dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	dialog.access = EditorFileDialog.ACCESS_RESOURCES
+	dialog.filters = filters
+	# 定位到当前路径所在目录
+	var current := edit.text.strip_edges()
+	if current.begins_with("res://"):
+		dialog.current_dir = current.get_base_dir()
+	add_child(dialog)
+	dialog.file_selected.connect(func(path: String):
+		edit.text = path
+		dialog.queue_free()
+	)
+	dialog.canceled.connect(dialog.queue_free)
+	dialog.popup_centered_clamped(Vector2i(900, 600))
 
 
 func _add_grid_spin(parent: GridContainer, label_text: String, min_val: float, max_val: float, step_val: float) -> SpinBox:
@@ -365,7 +439,7 @@ func _populate_effect_fields(container: HBoxContainer, effect: Dictionary) -> vo
 				var current: Array = effect.get(fname, [])
 				for affect_opt in options:
 					var checkbox := CheckBox.new()
-					checkbox.text = String(affect_opt)
+					checkbox.text = BuffEffectRegistry.get_option_label(fname, String(affect_opt))
 					checkbox.button_pressed = String(affect_opt) in current
 					checkbox.toggled.connect(_on_affects_toggled.bind(container, String(affect_opt)))
 					container.add_child(checkbox)
@@ -377,7 +451,7 @@ func _add_field_option(container: HBoxContainer, label_text: String, options: Ar
 	container.add_child(label)
 	var option := OptionButton.new()
 	for i in range(options.size()):
-		option.add_item(options[i], i)
+		option.add_item(BuffEffectRegistry.get_option_label(field_name, String(options[i])), i)
 		option.set_item_metadata(i, options[i])
 	option.select(options.find(current) if current in options else 0)
 	option.item_selected.connect(_on_effect_field_option_changed.bind(container, field_name, option))

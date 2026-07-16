@@ -9,6 +9,24 @@ const STAT_OPTIONS := ["attack", "defense", "move_speed", "max_hp", "crit_rate",
 const MODE_OPTIONS := ["add", "mul", "set"]
 const DAMAGE_TYPE_OPTIONS := ["physical", "fire", "poison", "true"]
 const AFFECTS_OPTIONS := ["act", "move", "skill", "be_damaged"]
+const CONTROL_TYPE_OPTIONS := ["stun", "freeze", "paralysis", "silence", "sleep", "invincible"]
+
+## 英文枚举值 -> 中文注解。buff_editor 渲染 option / checkbox_group 时
+## 会查此表，给显示文本追加 "(中文)" 后缀，metadata 仍保留英文键。
+const OPTION_LABELS := {
+	"stat": {
+		"attack": "攻击", "defense": "防御", "move_speed": "移速",
+		"max_hp": "最大生命", "crit_rate": "暴击率",
+		"crit_damage": "暴击伤害", "attack_speed": "攻速",
+	},
+	"mode": {"add": "加算", "mul": "乘算", "set": "直接设置"},
+	"damage_type": {"physical": "物理", "fire": "火焰", "poison": "毒", "true": "真实"},
+	"affects": {"act": "行动", "move": "移动", "skill": "施法", "be_damaged": "受击"},
+	"control_type": {
+		"stun": "眩晕", "freeze": "冻结", "paralysis": "麻痹",
+		"silence": "沉默", "sleep": "沉睡", "invincible": "无敌",
+	},
+}
 
 
 static func get_type_info(type_str: String) -> Dictionary:
@@ -50,7 +68,7 @@ static func get_type_info(type_str: String) -> Dictionary:
 			return {
 				"label": "控制效果",
 				"fields": [
-					{"name": "control_type", "label": "控制类型", "kind": "string", "default": "stun"},
+					{"name": "control_type", "label": "控制类型", "kind": "option", "options": CONTROL_TYPE_OPTIONS, "default": "stun"},
 					{"name": "affects", "label": "影响行为", "kind": "checkbox_group", "options": AFFECTS_OPTIONS, "default": ["act"]},
 				],
 			}
@@ -60,6 +78,15 @@ static func get_type_info(type_str: String) -> Dictionary:
 
 static func get_all_types() -> Array:
 	return ["stat_modifier", "dot", "hot", "shield", "control"]
+
+
+## 返回 option / checkbox_group 项的显示文本：英文值 + 中文注解。
+## 无中文映射时回退为原值。metadata 仍存英文键，不影响 JSON 存储。
+static func get_option_label(field_name: String, value: String) -> String:
+	var labels: Dictionary = OPTION_LABELS.get(field_name, {})
+	if labels.has(value):
+		return "%s (%s)" % [value, labels[value]]
+	return value
 
 
 ## 把原始 JSON 字典解析为运行时字典（含 tick_timer/remaining 运行时字段）
