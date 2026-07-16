@@ -14,6 +14,9 @@ var _visual_authored_x := 0.0
 var _actor_scale := 1.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+## 受击特效场景路径。子类在 _setup_actor_specifics() 中设置；留空则不生成受击特效。
+var hit_effect_scene := ""
+
 
 func _ready() -> void:
 	_setup_actor_base()

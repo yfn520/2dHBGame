@@ -129,6 +129,7 @@ func get_target_distance_x() -> float:
 
 func _setup_actor_specifics() -> void:
 	add_to_group("enemies")
+	hit_effect_scene = "res://effects/effect_hit_monster/effect.tscn"
 	# 等 CombatComponent 初始化后连接死亡信号
 	call_deferred("_connect_signals")
 

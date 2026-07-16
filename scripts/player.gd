@@ -38,6 +38,7 @@ var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 
 func _setup_actor_specifics() -> void:
 	add_to_group("player")
+	hit_effect_scene = "res://effects/effect_hit_player/effect.tscn"
 	if character_id <= 0 and GameRegistry.roster_data != null:
 		character_id = GameRegistry.roster_data.active_character_id
 	_actor_scale = _get_configured_actor_scale()

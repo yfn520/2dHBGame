@@ -558,6 +558,44 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 		_die()
 	elif play_hit_reaction and _owner.has_method("play_combat_animation"):
 		_owner.play_combat_animation("hit")
+		_spawn_hit_effect()
+
+
+## 生成受击特效：加载 scene 类别导出的独立特效场景，挂到 _owner 身上，
+## 跟随移动、按朝向镜像，播放完毕自动 queue_free()。
+## 注意：scene 类别导出的 effect.tscn 不含自动销毁脚本，需在此手动连接信号。
+func _spawn_hit_effect() -> void:
+	if not ("hit_effect_scene" in _owner):
+		return
+	var scene_path := String(_owner.get("hit_effect_scene"))
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+	var packed := load(scene_path) as PackedScene
+	if packed == null:
+		return
+	var effect_node: Node = packed.instantiate()
+	if not (effect_node is Node2D):
+		effect_node.queue_free()
+		return
+	var attach_root := _owner as Node2D
+	if attach_root == null:
+		effect_node.queue_free()
+		return
+	var effect := effect_node as Node2D
+	var attach_sprite: AnimatedSprite2D = attach_root.get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
+	var visual_root := attach_root.get_node_or_null("CharacterActionSet") as Node2D
+	var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
+	attach_root.add_child(effect)
+	effect.position = Vector2.ZERO
+	effect.scale *= Vector2(visual_scale, visual_scale)
+	if effect is AnimatedSprite2D and attach_sprite != null:
+		(effect as AnimatedSprite2D).flip_h = attach_sprite.flip_h
+	var visual_z := visual_root.z_index if visual_root != null else (attach_sprite.z_index if attach_sprite != null else 0)
+	effect.z_as_relative = true
+	effect.z_index = visual_z + 1
+	# scene 类别导出的场景不含自动销毁脚本，手动连接 animation_finished → queue_free
+	if effect is AnimatedSprite2D:
+		(effect as AnimatedSprite2D).animation_finished.connect(effect.queue_free)
 
 
 func heal(amount: int) -> void:
