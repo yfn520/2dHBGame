@@ -401,14 +401,14 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 	var coord_space := String(node.get("coordinate_space", "world"))
+	var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+	var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
 	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
 	if effect is Node2D and coord_space == "character_local" and _owner is Node2D:
 		# Action attachments use frame-pixel coordinates relative to the character foot.
 		# Keep them parented to the actor so they follow movement, and mirror exactly when
 		# the source character sprite is flipped.
 		var effect_node := effect as Node2D
-		var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
-		var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
 		var mirror_x := -1.0 if _sprite != null and _sprite.flip_h else 1.0
 		_owner.add_child(effect_node)
 		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
@@ -430,8 +430,9 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 		return
 	scene.add_child(effect)
 	if effect is Node2D:
-		# World-space effects keep the previous behavior and do not follow the caster.
-		(effect as Node2D).global_position = position_value + offset
+		# World-space effects: 同样应用角色视觉缩放，使特效大小与角色缩放一致
+		(effect as Node2D).global_position = position_value + offset * visual_scale
+		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
 
 
 func _apply_buff_to_target(target: Area2D, node: Dictionary) -> void:

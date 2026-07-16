@@ -262,7 +262,23 @@ func _instantiate_projectile(node: Dictionary) -> Node2D:
 		push_error("弹道节点缺少可加载的 scene: %s" % scene_path)
 		return null
 	var packed := load(scene_path) as PackedScene
-	return packed.instantiate() as Node2D if packed != null else null
+	var projectile := packed.instantiate() as Node2D if packed != null else null
+	if projectile != null:
+		# 应用角色视觉缩放，使弹道大小与角色缩放一致
+		var vscale := _get_visual_scale()
+		if not is_zero_approx(vscale) and not is_equal_approx(vscale, 1.0):
+			projectile.scale *= Vector2(vscale, vscale)
+	return projectile
+
+
+## 读取角色 CharacterActionSet 的视觉缩放，用于弹道/特效等比缩放。
+func _get_visual_scale() -> float:
+	if _owner == null:
+		return 1.0
+	var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+	if visual_root != null and not is_zero_approx(visual_root.scale.x):
+		return absf(visual_root.scale.x)
+	return 1.0
 
 
 func _setup_projectile(projectile: Node2D, node: Dictionary, direction: Vector2, speed: float, context: SkillCastContext, result_key: String) -> void:

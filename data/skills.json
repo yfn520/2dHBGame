@@ -15,7 +15,9 @@
 			},
 			{
 				"buff_chance": 0.3,
-				"buff_ids": [1001],
+				"buff_ids": [
+					1001.0
+				],
 				"damage_ratio": 1.0,
 				"result_key": "slimu_attack_hit",
 				"type": "melee_damage"
@@ -45,7 +47,9 @@
 			{
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.5,
-				"buff_ids": [1001],
+				"buff_ids": [
+					1001.0
+				],
 				"damage_ratio": 1.5,
 				"elevation_degrees": 0.0,
 				"emission": "single",
@@ -82,7 +86,9 @@
 			},
 			{
 				"buff_chance": 1.0,
-				"buff_ids": [1001],
+				"buff_ids": [
+					1001.0
+				],
 				"damage_ratio": 2.0,
 				"origin": "hit_window",
 				"radius": 60.0,
@@ -628,6 +634,7 @@
 			},
 			{
 				"aim_mode": "facing_elevation",
+				"buff_ids": [],
 				"damage_ratio": 1.0,
 				"emission": "single",
 				"lifetime": 5.0,
@@ -647,6 +654,11 @@
 		]
 	},
 	"3202": {
+		"ai_range_cache": {
+			"entries": [],
+			"policy": "any_damage_node",
+			"source_hash": "29fcb17f3e7a7e48"
+		},
 		"name": "弓手技能1",
 		"nodes": [
 			{
@@ -659,9 +671,11 @@
 			},
 			{
 				"aim_mode": "facing_elevation",
+				"buff_ids": [],
 				"damage_ratio": 1.0,
-				"emission": "single",
+				"emission": "sequence",
 				"lifetime": 5.0,
+				"max_pierce": 2.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scene": "res://scenes/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
@@ -708,8 +722,8 @@
 			},
 			{
 				"buff_ids": [
-					1108,
-					1105
+					1108.0,
+					1105.0
 				],
 				"type": "apply_self_buff"
 			},
@@ -738,10 +752,11 @@
 				"type": "wait_hit_window"
 			},
 			{
-				"aim_mode": "enemy_area",
+				"aim_mode": "forward_area",
 				"arc_height": 180.0,
 				"area_height": 90.0,
 				"area_width": 260.0,
+				"buff_ids": [],
 				"count": 6.0,
 				"damage_ratio": 1.5,
 				"emission": "area_rain",
@@ -750,7 +765,7 @@
 				"lifetime": 3.0,
 				"origin": "hit_window",
 				"result_key": "rain_hit",
-				"scene": "res://scenes/effects/projectiles/effect-500个序列png特效下载_2套_10-10_7/effect-500个序列png特效下载_2套_10-10_7_visual.tscn",
+				"scene": "res://scenes/effects/projectiles/effect_gongshou_skill2.tscn",
 				"speed": 360.0,
 				"target_search_range": 500.0,
 				"trajectory": "ballistic",

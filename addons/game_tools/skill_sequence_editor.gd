@@ -537,6 +537,8 @@ func _node_summary(node: Dictionary) -> String:
 func _on_node_selected(index: int) -> void:
 	_show_node_details(index)
 	_timeline.set_selected_node(index)
+	# 选中节点变化时刷新特效预览（切到 play_effect 节点会显示其配置的特效）
+	_refresh_preview()
 
 
 func _selected_node_index() -> int:
@@ -1329,24 +1331,38 @@ func _load_visual_transform(asset_path: String) -> Dictionary:
 		"offset": Vector2.ZERO,
 		"scale": Vector2.ONE,
 		"centered": true,
+		"visual_scale": 1.0,
 	}
 	var character_config_path := asset_path.path_join("character_config.json")
 	if FileAccess.file_exists(character_config_path):
 		var json := JSON.new()
 		if json.parse(FileAccess.get_file_as_string(character_config_path)) == OK and json.data is Dictionary:
-			var offset: Dictionary = json.data.get("display_offset", {})
+			var cfg: Dictionary = json.data
+			var offset: Dictionary = cfg.get("display_offset", {})
 			result["root_position"] = Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0)))
+			# display_scale 是角色视觉缩放，运行时 visual_scale = absf(CharacterActionSet.scale.x)
+			# 预览直接读 character_config 的 display_scale，避免依赖角色主场景文件
+			result["visual_scale"] = absf(float(cfg.get("display_scale", 1.0)))
 	var scene_path := asset_path.path_join("godot/character_actions.tscn")
 	var packed := load(scene_path) as PackedScene
 	if packed == null:
 		return result
 	var instance := packed.instantiate()
+	# character_actions.tscn 的根节点就是 CharacterActionSet
+	var action_set := instance as Node2D
+	if action_set != null and action_set.name == "CharacterActionSet":
+		result["visual_scale"] = absf(action_set.scale.x)
 	var sprite := instance.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 	if sprite != null:
 		result["position"] = sprite.position
 		result["offset"] = sprite.offset
 		result["scale"] = sprite.scale
 		result["centered"] = sprite.centered
+	# 若根节点不是 CharacterActionSet，尝试作为子节点查找
+	if action_set == null or action_set.name != "CharacterActionSet":
+		var found := instance.get_node_or_null("CharacterActionSet") as Node2D
+		if found != null:
+			result["visual_scale"] = absf(found.scale.x)
 	instance.free()
 	return result
 
@@ -1356,10 +1372,12 @@ func _refresh_preview() -> void:
 		return
 	if _sprite_frames == null or _preview_action.is_empty():
 		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		_refresh_effect_preview()
 		return
 	var count := _sprite_frames.get_frame_count(_preview_action)
 	if count == 0:
 		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		_refresh_effect_preview()
 		return
 	var frame := clampi(int(_frame_slider.value), 0, count - 1)
 	var texture := _sprite_frames.get_frame_texture(_preview_action, frame)
@@ -1368,6 +1386,77 @@ func _refresh_preview() -> void:
 	if not windows.is_empty() and windows[0] is Dictionary:
 		window = windows[0]
 	_preview.set_preview(texture, _sprite_scale, frame, window, true, _visual_transform)
+	_refresh_effect_preview()
+
+
+## 根据当前选中节点刷新挂载预览（play_effect 特效 / spawn_projectile 弹道）。
+## 位置计算对齐真实运行时：
+## - play_effect character_local: position = (offset.x * mirror_x * visual_scale, offset.y * visual_scale)，挂角色根
+## - play_effect world: position = origin + offset，挂场景根
+## - spawn_projectile: global_position = origin，挂场景根，方向由 aim_mode 决定
+func _refresh_effect_preview() -> void:
+	if _preview == null:
+		return
+	var node := _selected_node()
+	if node.is_empty():
+		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+		return
+	var type_name := String(node.get("type", ""))
+	if type_name != "play_effect" and type_name != "spawn_projectile":
+		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+		return
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+		return
+	var packed := load(scene_path) as PackedScene
+	if packed == null:
+		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+		return
+	var visual_scale: float = float(_visual_transform.get("visual_scale", 1.0))
+	# 预览固定朝右（facing_right=true）；运行时 flip_h=true 朝右，mirror_x=1
+	var mirror_x := 1.0
+	if type_name == "play_effect":
+		var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+		var coord_space := String(node.get("coordinate_space", "world"))
+		# character_local: 挂角色根，position = offset * mirror_x * visual_scale
+		# world: 挂场景根，global_position = origin(角色根) + offset
+		var effect_offset := Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale) if coord_space == "character_local" else offset
+		_preview.set_effect(packed, effect_offset, true, visual_scale, coord_space == "character_local")
+	else:
+		# spawn_projectile: 挂场景根，global_position = origin
+		# origin 由字段决定：hit_window → hit_box 位置；caster → 角色根；socket → 帧坐标
+		# 预览中统一用 hit_window 偏移（若有）否则用角色根（origin）
+		# origin 偏移乘 visual_scale：角色缩放时 hit_window/forward 位置也等比缩放
+		var origin_offset := _resolve_preview_origin(node) * visual_scale
+		_preview.set_effect(packed, origin_offset, true, visual_scale, false)
+
+
+## 预览中解析 spawn_projectile 的 origin 偏移（相对角色根）。
+## hit_window: 取第一个 hit_window 的 forward/y（与预览绘制的命中框一致）
+## caster/socket/nearest_enemy: 用角色根（零偏移）
+func _resolve_preview_origin(node: Dictionary) -> Vector2:
+	var origin_type := String(node.get("origin", "hit_window"))
+	if origin_type == "hit_window":
+		var windows: Array = _action_data.get("hit_windows", [])
+		if not windows.is_empty() and windows[0] is Dictionary:
+			var w: Dictionary = windows[0]
+			var forward := float(w.get("forward", 0.0))
+			var y := float(w.get("y", 0.0))
+			# 预览固定朝右，forward 正方向即 +X
+			return Vector2(absf(forward), y)
+	# caster / socket / nearest_enemy 在预览中均用角色根（零偏移）
+	return Vector2.ZERO
+
+
+func _selected_node() -> Dictionary:
+	var index := _selected_node_index()
+	if index < 0:
+		return {}
+	var nodes: Array = _current_skill().get("nodes", [])
+	if index >= nodes.size() or not nodes[index] is Dictionary:
+		return {}
+	return nodes[index]
 
 
 func _prev_frame() -> void:

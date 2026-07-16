@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://scenes/effects/projectiles/effect_gongshou_skill2/effect_gongshou_skill2_visual.tscn" id="2_visual"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_collision"]
-size = Vector2(32.0, 9.0)
+size = Vector2(48.0, 16.0)
 
 [node name="effect_gongshou_skill2" type="Area2D"]
 collision_layer = 4
@@ -13,9 +13,8 @@ script = ExtResource("1_projectile")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_collision")
-position = Vector2(9.5, 0.0)
 
 [node name="Visual" type="Node2D" parent="."]
-scale = Vector2(1.0, 1.0)
+scale = Vector2(0.25, 0.25)
 
 [node name="VisualScene" parent="Visual" instance=ExtResource("2_visual")]
