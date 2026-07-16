@@ -19,7 +19,8 @@ var _hit_targets: Dictionary = {}
 
 func _ready() -> void:
 	z_as_relative = false
-	z_index = 100
+	# 弹道渲染在角色/怪物（z_index=100）之上，确保箭矢等特效始终可见
+	z_index = 200
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 	area_entered.connect(_on_area_entered)
 

@@ -387,11 +387,18 @@ func _execute_target_buff_node(node: Dictionary) -> void:
 
 
 func _spawn_effect_on_target(target: Area2D, node: Dictionary) -> void:
-	if target != null and is_instance_valid(target):
-		_spawn_effect_at(target.global_position, node)
+	if target == null or not is_instance_valid(target):
+		return
+	# target 通常是受击者的 HurtBox；真正要挂载的角色/怪物节点存在 _owner_entity 上。
+	# 透传给 _spawn_effect_at，使 character_local 模式下的 attachment 能挂到被击者身上。
+	var target_owner: Node = target.get("_owner_entity") if "_owner_entity" in target else null
+	_spawn_effect_at(target.global_position, node, target_owner)
 
-
-func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
+## 在指定位置生成特效。
+## target_owner 仅在 coordinate_space == "character_local" 且为 Node2D 时生效：
+## 优先把 attachment 挂到 target_owner（被击者），否则回落到 _owner（施法者）。
+## 这保证了"弹道命中后挂受击特效"可以挂到被击者身上，跟随被击者移动并按其朝向镜像。
+func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: Node = null) -> void:
 	var scene_path := String(node.get("scene", ""))
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return
@@ -401,26 +408,43 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 	var coord_space := String(node.get("coordinate_space", "world"))
-	var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
-	var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
 	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
-	if effect is Node2D and coord_space == "character_local" and _owner is Node2D:
+
+	# 选定挂载根：character_local 模式下优先挂到被击者（target_owner），
+	# 没有则回落到施法者（_owner）。其余模式下挂到当前场景根。
+	var attach_root: Node2D = null
+	if coord_space == "character_local":
+		if target_owner != null and target_owner is Node2D:
+			attach_root = target_owner as Node2D
+		elif _owner is Node2D:
+			attach_root = _owner as Node2D
+
+	# visual_scale 与朝向镜像都按挂载根计算，使 attachment 与被挂者尺寸/朝向一致。
+	# attach_root 为 null（world 坐标）时回落到施法者 _owner 的视觉缩放，保持原行为。
+	var scale_root: Node2D = attach_root if attach_root != null else (_owner as Node2D if _owner is Node2D else null)
+	var attach_sprite: AnimatedSprite2D = null
+	if scale_root != null:
+		attach_sprite = scale_root.get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
+	var visual_root := scale_root.get_node_or_null("CharacterActionSet") as Node2D if scale_root != null else null
+	var visual_scale := absf(visual_root.scale.x) if visual_root != null and not is_zero_approx(visual_root.scale.x) else 1.0
+
+	if effect is Node2D and coord_space == "character_local" and attach_root != null:
 		# Action attachments use frame-pixel coordinates relative to the character foot.
 		# Keep them parented to the actor so they follow movement, and mirror exactly when
-		# the source character sprite is flipped.
+		# the attach root sprite is flipped.
 		var effect_node := effect as Node2D
-		var mirror_x := -1.0 if _sprite != null and _sprite.flip_h else 1.0
-		_owner.add_child(effect_node)
+		var mirror_x := -1.0 if attach_sprite != null and attach_sprite.flip_h else 1.0
+		attach_root.add_child(effect_node)
 		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
-		if effect_node is AnimatedSprite2D and _sprite != null:
-			# 效果场景可烘焙水平镜像（flip_h），与角色朝向取异或，使特效内部镜像独立于角色朝向。
-			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != _sprite.flip_h
+		if effect_node is AnimatedSprite2D and attach_sprite != null:
+			# 效果场景可烘焙水平镜像（flip_h），与挂载根朝向取异或，使特效内部镜像独立于挂载根朝向。
+			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != attach_sprite.flip_h
 		elif mirror_x < 0.0:
 			effect_node.scale.x *= -1.0
 		# The character visuals are a sibling at z=100 in imported actor scenes.
 		# Resolve front/behind relative to that node rather than relative to the world root.
-		var visual_z := visual_root.z_index if visual_root != null else (_sprite.z_index if _sprite != null else 0)
+		var visual_z := visual_root.z_index if visual_root != null else (attach_sprite.z_index if attach_sprite != null else 0)
 		var attachment_layer := String(node.get("attachment_layer", "front"))
 		effect_node.z_as_relative = true
 		effect_node.z_index = visual_z + (-1 if attachment_layer == "behind" else 1)
@@ -430,7 +454,7 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary) -> void:
 		return
 	scene.add_child(effect)
 	if effect is Node2D:
-		# World-space effects: 同样应用角色视觉缩放，使特效大小与角色缩放一致
+		# World-space effects: 同样应用挂载根视觉缩放，使特效大小与角色缩放一致
 		(effect as Node2D).global_position = position_value + offset * visual_scale
 		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
 

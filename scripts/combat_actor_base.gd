@@ -53,15 +53,18 @@ func _can_process_combat(delta: float) -> bool:
 	_check_combat_anim_release()
 	if combat != null and "combat_state" in combat:
 		if combat.combat_state == combat.CombatState.HIT:
-			velocity.x = move_toward(velocity.x, 0, 400 * delta)
+			# 受击立即停步，避免滑步
+			velocity = Vector2.ZERO
 			return false
 	if _combat_anim_playing:
-		velocity.x = move_toward(velocity.x, 0, 400 * delta)
+		# 技能动画播放期间立即停步，避免移动中释放技能滑步
+		velocity = Vector2.ZERO
 		return false
 	if combat != null and combat.has_method("get_buff_manager"):
 		var buff_manager = combat.get_buff_manager()
 		if buff_manager != null and not buff_manager.can_move():
-			velocity.x = move_toward(velocity.x, 0, 400 * delta)
+			# 控制限制（眩晕/冻结等）立即停步
+			velocity = Vector2.ZERO
 			return false
 	return true
 
