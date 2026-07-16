@@ -68,4 +68,4 @@ func _unequip_to_inventory(slot: String) -> bool:
 
 
 func _recalculate_stats() -> void:
-	stats.recalculate(get_equipped_configs())
+	stats.recalculate()

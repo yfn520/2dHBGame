@@ -1,4 +1,5 @@
-extends CharacterBody2D
+extends CombatActorBase
+## 玩家角色：输入控制 + 队友 AI。共用逻辑由 CombatActorBase 提供。
 
 const JUMP_VELOCITY := -420.0
 const LADDER_SPEED := 140.0
@@ -15,21 +16,13 @@ const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
 const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
 
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var was_jump_pressed := false
 var is_climbing_ladder := false
 var current_ladder: Area2D
 
-@onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
-@onready var visual_root: Node2D = $CharacterActionSet
 @onready var camera: Camera2D = $Camera2D
 @onready var ladder_detector: Area2D = $LadderDetector
-@onready var combat: Node = $CombatComponent
 
-var _combat_anim_playing := false
-var _combat_actions: Dictionary = {}
-var _visual_authored_x := 0.0
-var character_id: int = 0
 var _player_controlled := true
 var _follow_target: Node2D = null
 var _ally_attack_target: Node2D = null
@@ -39,16 +32,12 @@ var _ally_hold_skill_id := 0
 var _ally_returning_to_follow := false
 var _ally_follow_side: float = -1.0
 var _party_slot_index := 0
-var _actor_scale := 1.0
-var _facing_sign := 1.0
+var character_id: int = 0
 var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 
 
-func _ready() -> void:
+func _setup_actor_specifics() -> void:
 	add_to_group("player")
-	var debug_overlay := CombatDebugOverlay.new()
-	add_child(debug_overlay)
-	debug_overlay.setup(self)
 	if character_id <= 0 and GameRegistry.roster_data != null:
 		character_id = GameRegistry.roster_data.active_character_id
 	_actor_scale = _get_configured_actor_scale()
@@ -61,9 +50,6 @@ func _ready() -> void:
 			GameRegistry.equipment_provider.equipped.connect(_on_equipment_changed)
 		if not GameRegistry.equipment_provider.unequipped.is_connected(_on_equipment_changed):
 			GameRegistry.equipment_provider.unequipped.connect(_on_equipment_changed)
-	_visual_authored_x = visual_root.position.x
-	_facing_sign = 1.0 if sprite.flip_h else -1.0
-	_apply_visual_facing_offset()
 	camera.limit_left = 0
 	camera.limit_top = 0
 	camera.limit_right = LEVEL_SIZE.x
@@ -79,14 +65,6 @@ func set_party_character_id(value: int) -> void:
 
 func get_party_character_id() -> int:
 	return character_id
-
-
-func get_actor_scale() -> float:
-	return _actor_scale
-
-
-func get_facing_sign() -> float:
-	return _facing_sign
 
 
 func set_player_controlled(value: bool) -> void:
@@ -126,7 +104,7 @@ func set_follow_target(target: Node2D, slot_index: int = 0) -> void:
 			_ally_follow_side = signf(dx)
 
 
-func get_combat_stats():
+func get_combat_stats() -> BaseCombatStats:
 	return _combat_stats
 
 
@@ -206,42 +184,10 @@ func _apply_character_display_config() -> void:
 	_apply_scaled_rectangle_shape(hurt_collision, body_position, body_size)
 
 
-func get_combat_actions() -> Dictionary:
-	return _combat_actions
-
-
 func _get_configured_actor_scale() -> float:
 	if character_id > 0 and GameRegistry.character_config != null:
 		return GameRegistry.character_config.get_actor_scale(character_id)
 	return 1.0
-
-
-func _get_vector2_from_dict(data, fallback: Vector2) -> Vector2:
-	if data is Dictionary:
-		return Vector2(
-			float(data.get("x", fallback.x)),
-			float(data.get("y", fallback.y))
-		)
-	return fallback
-
-
-func _get_rectangle_size(collision_shape: CollisionShape2D) -> Vector2:
-	if collision_shape != null and collision_shape.shape is RectangleShape2D:
-		return (collision_shape.shape as RectangleShape2D).size
-	return Vector2.ONE
-
-
-func _apply_scaled_rectangle_shape(collision_shape: CollisionShape2D, base_position: Vector2, base_size: Vector2) -> void:
-	if collision_shape == null:
-		return
-	collision_shape.position = base_position * _actor_scale
-	if collision_shape.shape is RectangleShape2D:
-		collision_shape.shape = collision_shape.shape.duplicate()
-		var rectangle := collision_shape.shape as RectangleShape2D
-		rectangle.size = Vector2(
-			maxf(1.0, base_size.x * _actor_scale),
-			maxf(1.0, base_size.y * _actor_scale)
-		)
 
 
 func _load_combat_actions(asset_path: String, character_config: Dictionary) -> void:
@@ -254,25 +200,13 @@ func _load_combat_actions(asset_path: String, character_config: Dictionary) -> v
 		_combat_actions = json.data.get("actions", {})
 
 
-func _physics_process(delta: float) -> void:
+func _update_actor(delta: float) -> void:
 	if not _player_controlled:
 		_update_ally_ai(delta)
-		move_and_slide()
 		return
-	# 战斗状态限制移动
 	var can_move := true
-	if combat != null and "combat_state" in combat:
-		if combat.combat_state == combat.CombatState.DEAD:
-			velocity = Vector2.ZERO
-			move_and_slide()
-			return
-		if combat.combat_state == combat.CombatState.HIT:
-			can_move = false
-		# Combat state may reset before the visual action finishes, so the
-		# animation itself is the authoritative movement lock.
-		if _combat_anim_playing:
-			can_move = false
 	# Buff 控制效果（冰冻/麻痹/眩晕）限制移动
+	# 注：DEAD/HIT/anim_playing 已由基类 _can_process_combat 处理
 	if combat != null and combat.has_method("get_buff_manager"):
 		var buff_manager = combat.get_buff_manager()
 		if buff_manager != null and not buff_manager.can_move():
@@ -304,16 +238,15 @@ func _physics_process(delta: float) -> void:
 	_update_animation(direction)
 
 	was_jump_pressed = jump_pressed
-	move_and_slide()
 
 
-func _get_move_speed() -> float:
-	var base: float = _combat_stats.move_speed if _combat_stats != null else 0.0
-	if combat != null and combat.has_method("get_buff_manager"):
-		var bm = combat.get_buff_manager()
-		if bm != null:
-			return bm.get_modified_stat("move_speed", base)
-	return base
+func _get_idle_animation() -> String:
+	if not _player_controlled:
+		return "idle"
+	var direction := _get_move_direction()
+	if not is_climbing_ladder and absf(direction) > 0.0 and is_on_floor():
+		return "run"
+	return "idle"
 
 
 func _handle_ground_movement(direction: float, jump_pressed: bool, delta: float) -> void:
@@ -389,11 +322,6 @@ func _get_ladder_center_x(ladder: Area2D) -> float:
 	return ladder.global_position.x
 
 
-## Mirror the scene-authored visual-root offset; collision boxes stay actor-local.
-func _apply_visual_facing_offset() -> void:
-	visual_root.position.x = -_visual_authored_x if sprite.flip_h else _visual_authored_x
-
-
 func _update_animation(direction: float) -> void:
 	if _combat_anim_playing:
 		return
@@ -413,7 +341,8 @@ func _update_animation(direction: float) -> void:
 		sprite.play(next_animation)
 
 
-## 播放战斗动画 (由 CombatComponent 调用)
+# === 队友 AI ===
+
 func _update_ally_ai(delta: float) -> void:
 	_ally_attack_hold_timer = maxf(0.0, _ally_attack_hold_timer - delta)
 	# Visual state can be restored by another animation callback before our
@@ -478,7 +407,7 @@ func _update_ally_attack(target: Node2D) -> void:
 		_clear_ally_attack_hold()
 	var dir := signf(dx)
 	if dir == 0.0:
-		dir = -_facing_sign
+		dir = -get_facing_sign()
 	_face_attack_target(target)
 	if dist <= stop_range:
 		_ally_is_holding_attack = true
@@ -609,35 +538,6 @@ func _is_valid_enemy_target(target) -> bool:
 	return true
 
 
-func _edge_distance_x_to(target: Node2D) -> float:
-	if target == null or not is_instance_valid(target):
-		return INF
-	var center_distance := absf(target.global_position.x - global_position.x)
-	return maxf(0.0, center_distance - _combat_half_width(self) - _combat_half_width(target))
-
-
-func _combat_half_width(node: Node) -> float:
-	if node == null:
-		return 0.0
-	var shape_node := node.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
-	if shape_node == null:
-		shape_node = node.get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if shape_node != null and shape_node.shape is RectangleShape2D:
-		var rectangle := shape_node.shape as RectangleShape2D
-		return absf(rectangle.size.x * shape_node.global_scale.x) * 0.5
-	return 0.0
-
-
-func _face_direction(dir: float) -> void:
-	if dir == 0.0:
-		return
-	_facing_sign = signf(dir)
-	var new_flip := dir > 0.0
-	if sprite.flip_h != new_flip:
-		sprite.flip_h = new_flip
-		_apply_visual_facing_offset()
-
-
 func _face_attack_target(target: Node2D) -> void:
 	if target == null or not is_instance_valid(target):
 		return
@@ -645,69 +545,3 @@ func _face_attack_target(target: Node2D) -> void:
 	if absf(dx) <= ALLY_FACE_TARGET_DEAD_ZONE:
 		return
 	_face_direction(signf(dx))
-
-
-func play_combat_animation(anim_name: String) -> void:
-	var target_animation := anim_name
-	if not sprite.sprite_frames.has_animation(target_animation):
-		if target_animation == "hit" and sprite.sprite_frames.has_animation("hurt"):
-			target_animation = "hurt"
-	if sprite.sprite_frames.has_animation(target_animation):
-		_combat_anim_playing = true
-		sprite.animation = target_animation
-		sprite.stop()
-		sprite.frame = 0
-		sprite.play()
-		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
-			sprite.animation_finished.connect(_on_combat_anim_finished)
-	else:
-		_combat_anim_playing = true
-		get_tree().create_timer(0.3).timeout.connect(_end_combat_anim)
-
-
-func _on_combat_anim_finished() -> void:
-	_end_combat_anim()
-
-
-func _end_combat_anim() -> void:
-	_combat_anim_playing = false
-	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
-		sprite.animation_finished.disconnect(_on_combat_anim_finished)
-
-	# 死亡后不再恢复动画
-	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
-		_hold_animation_last_frame()
-		return
-
-	# 攻击/受击结束后恢复移动动画，避免停在末帧
-	var next_animation := "idle"
-	var direction := _get_move_direction()
-	if not is_climbing_ladder and absf(direction) > 0.0 and is_on_floor():
-		next_animation = "run"
-	if sprite.animation != next_animation:
-		sprite.play(next_animation)
-
-
-## 受伤 (由 HurtBox 调用)
-func _hold_animation_last_frame() -> void:
-	var frame_count := sprite.sprite_frames.get_frame_count(sprite.animation)
-	sprite.pause()
-	sprite.frame = maxi(0, frame_count - 1)
-
-
-func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
-	if play_hit_reaction:
-		velocity.x = 0.0
-	if combat != null and combat.has_method("take_damage"):
-		combat.take_damage(amount, source, play_hit_reaction)
-
-
-func heal(amount: int) -> void:
-	if combat != null and combat.has_method("heal"):
-		combat.heal(amount)
-
-
-## 施加 Buff (由弹道/SkillExecutor 调用)
-func apply_buff_from_config(config: Dictionary, source: int = 0) -> void:
-	if combat != null and combat.has_method("apply_buff_from_config"):
-		combat.apply_buff_from_config(config, source)

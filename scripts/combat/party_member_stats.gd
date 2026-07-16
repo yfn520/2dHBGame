@@ -1,62 +1,29 @@
-extends RefCounted
+extends BaseCombatStats
+## 队友战斗属性：从 GameRegistry 单例读取角色配置 + 装备加成，同步 hp 到 roster。
 
 var character_id: int = 0
 var level: int = 1
 var exp: int = 0
 
-var max_hp: int = 100
-var hp: int = 100
-var attack: int = 1
-var defense: int = 0
-var move_speed: float = 220.0
-var crit_rate: float = 0.0
-var crit_damage: float = 1.5
-var attack_speed: float = 1.0
-
 
 func setup(p_character_id: int) -> void:
 	character_id = p_character_id
+	# 设置默认值（基类默认为 0）
+	max_hp = 100
+	attack = 1
+	defense = 0
+	move_speed = 220.0
+	crit_rate = 0.0
+	crit_damage = 1.5
+	attack_speed = 1.0
 	recalculate(false)
 
 
 func recalculate(preserve_current_hp: bool = true) -> void:
 	if character_id <= 0:
 		return
-	var roster = GameRegistry.roster_data
-	var config = GameRegistry.character_config
-	if roster != null:
-		roster.ensure_character(character_id)
-		level = roster.get_level(character_id)
-		exp = roster.get_exp(character_id)
-
-	var stats: Dictionary = {}
-	if config != null:
-		stats = config.get_stats_at_level(character_id, level)
-	max_hp = int(stats.get("max_hp", max_hp))
-	attack = int(stats.get("attack", attack))
-	defense = int(stats.get("defense", defense))
-	move_speed = float(stats.get("move_speed", move_speed))
-	crit_rate = float(stats.get("crit_rate", crit_rate))
-	crit_damage = float(stats.get("crit_damage", crit_damage))
-	attack_speed = float(stats.get("attack_speed", attack_speed))
-
-	if GameRegistry.equipment_provider != null:
-		for equip_info in GameRegistry.equipment_provider.get_equipped_configs(character_id):
-			var item_stats: Dictionary = equip_info.get("stats", {})
-			max_hp += int(item_stats.get("max_hp", 0))
-			attack += int(item_stats.get("attack", 0))
-			defense += int(item_stats.get("defense", 0))
-			move_speed += float(item_stats.get("move_speed", 0.0))
-
-	var stored_hp: int = int(roster.get_hp(character_id)) if roster != null else -1
-	if stored_hp > 0:
-		hp = mini(stored_hp, max_hp)
-	elif preserve_current_hp and hp > 0:
-		hp = mini(hp, max_hp)
-	else:
-		hp = max_hp
-	if roster != null:
-		roster.set_hp(hp, character_id)
+	super.recalculate(preserve_current_hp)
+	sync_hp_to_roster()
 
 
 func sync_hp_to_roster() -> void:
@@ -64,5 +31,27 @@ func sync_hp_to_roster() -> void:
 		GameRegistry.roster_data.set_hp(hp, character_id)
 
 
-func is_alive() -> bool:
-	return hp > 0
+func _get_base_stats_dict() -> Dictionary:
+	if character_id <= 0:
+		return {}
+	var roster = GameRegistry.roster_data
+	var config = GameRegistry.character_config
+	if roster != null:
+		roster.ensure_character(character_id)
+		level = roster.get_level(character_id)
+		exp = roster.get_exp(character_id)
+	if config == null:
+		return {}
+	return config.get_stats_at_level(character_id, level)
+
+
+func _get_equipped_items() -> Array:
+	if GameRegistry.equipment_provider == null:
+		return []
+	return GameRegistry.equipment_provider.get_equipped_configs(character_id)
+
+
+func _get_stored_hp() -> int:
+	if GameRegistry.roster_data == null or character_id <= 0:
+		return 0
+	return int(GameRegistry.roster_data.get_hp(character_id))

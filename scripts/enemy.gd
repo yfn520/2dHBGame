@@ -1,5 +1,5 @@
-extends CharacterBody2D
-## 怪物主体脚本
+extends CombatActorBase
+## 怪物主体脚本：AI 状态机 + 怪物配置加载。共用逻辑由 CombatActorBase 提供。
 ## AI状态机: IDLE → PATROL → CHASE → ATTACK → HIT → DEAD
 
 enum AIState { IDLE, PATROL, CHASE, ATTACK, HIT, DEAD }
@@ -10,33 +10,23 @@ const TARGET_SWITCH_GAIN := 48.0
 const TARGET_LOSE_MULTIPLIER := 1.5
 const FACE_TARGET_DEAD_ZONE := 8.0
 
-@onready var sprite: AnimatedSprite2D = $CharacterActionSet/AnimatedSprite2D
-@onready var visual_root: Node2D = $CharacterActionSet
-@onready var combat: Node = $CombatComponent
-
 var _enemy_id: int = 0
 var _config: Dictionary = {}       # 来自 enemies.json
 var _character_config: Dictionary = {}
-var _combat_actions: Dictionary = {}
 var _stats: EnemyStats = null
 var _party_manager: PartyManager = null
 var _target: CharacterBody2D = null
-var _actor_scale := 1.0
 
 var _ai_state: AIState = AIState.IDLE
 var _spawn_position: Vector2 = Vector2.ZERO
 var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
 var _skill_index: int = 0
-var _combat_anim_playing := false
-var _visual_authored_x := 0.0
 var _target_switch_timer: float = 0.0
 
 # 节点驱动 AI 距离缓存：skill_id (int) → cache (Dictionary)
 var _ai_caches: Dictionary = {}
 var _ai_debug_text: String = ""
-
-var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
@@ -61,16 +51,8 @@ func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
 	_set_ai_state(AIState.IDLE)
 
 
-func get_combat_stats() -> EnemyStats:
+func get_combat_stats() -> BaseCombatStats:
 	return _stats
-
-
-func get_combat_actions() -> Dictionary:
-	return _combat_actions
-
-
-func get_actor_scale() -> float:
-	return _actor_scale
 
 
 func _load_character_config() -> void:
@@ -143,15 +125,35 @@ func get_target_distance_x() -> float:
 	return _edge_distance_x_to(target)
 
 
-func _ready() -> void:
+# === 基类钩子 ===
+
+func _setup_actor_specifics() -> void:
 	add_to_group("enemies")
-	var debug_overlay := CombatDebugOverlay.new()
-	add_child(debug_overlay)
-	debug_overlay.setup(self)
-	_visual_authored_x = visual_root.position.x
-	_apply_visual_facing_offset()
 	# 等 CombatComponent 初始化后连接死亡信号
 	call_deferred("_connect_signals")
+
+
+func _update_actor(delta: float) -> void:
+	if _config.is_empty():
+		return
+	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
+	match _ai_state:
+		AIState.IDLE:
+			_update_idle(delta)
+		AIState.PATROL:
+			_update_patrol(delta)
+		AIState.CHASE:
+			_update_chase(delta)
+		AIState.ATTACK:
+			_update_attack(delta)
+
+
+func _get_idle_animation() -> String:
+	match _ai_state:
+		AIState.CHASE, AIState.PATROL:
+			return "run"
+		_:
+			return "idle"
 
 
 func _connect_signals() -> void:
@@ -182,83 +184,7 @@ func _apply_display_config() -> void:
 	_apply_scaled_rectangle_shape(hurt_collision, body_position, body_size)
 
 
-func _get_vector2_from_dict(data, fallback: Vector2) -> Vector2:
-	if data is Dictionary:
-		return Vector2(
-			float(data.get("x", fallback.x)),
-			float(data.get("y", fallback.y))
-		)
-	return fallback
-
-
-func _get_rectangle_size(collision_shape: CollisionShape2D) -> Vector2:
-	if collision_shape != null and collision_shape.shape is RectangleShape2D:
-		return (collision_shape.shape as RectangleShape2D).size
-	return Vector2.ONE
-
-
-func _apply_scaled_rectangle_shape(collision_shape: CollisionShape2D, base_position: Vector2, base_size: Vector2) -> void:
-	if collision_shape == null:
-		return
-	collision_shape.position = base_position * _actor_scale
-	if collision_shape.shape is RectangleShape2D:
-		collision_shape.shape = collision_shape.shape.duplicate()
-		var rectangle := collision_shape.shape as RectangleShape2D
-		rectangle.size = Vector2(
-			maxf(1.0, base_size.x * _actor_scale),
-			maxf(1.0, base_size.y * _actor_scale)
-		)
-
-
-func _physics_process(delta: float) -> void:
-	if _config.is_empty():
-		return
-	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
-	# Keep the animation lock aligned with what is actually visible. A stale
-	# true value here made enemies run/idle forever while their AI was skipped.
-	if _combat_anim_playing and (sprite.animation == &"idle" or sprite.animation == &"run"):
-		_combat_anim_playing = false
-
-	# 重力
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	# 战斗状态限制 AI
-	if combat != null and "combat_state" in combat:
-		if combat.combat_state == combat.CombatState.DEAD:
-			velocity = Vector2.ZERO
-			move_and_slide()
-			return
-		if combat.combat_state == combat.CombatState.HIT:
-			velocity.x = move_toward(velocity.x, 0, 400 * delta)
-			move_and_slide()
-			return
-		if _combat_anim_playing:
-			velocity.x = move_toward(velocity.x, 0, 400 * delta)
-			move_and_slide()
-			return
-	# Buff 控制效果（冰冻/麻痹/眩晕）限制移动
-	if combat != null and combat.has_method("get_buff_manager"):
-		var buff_manager = combat.get_buff_manager()
-		if buff_manager != null and not buff_manager.can_move():
-			velocity.x = move_toward(velocity.x, 0, 400 * delta)
-			move_and_slide()
-			return
-
-	match _ai_state:
-		AIState.IDLE:
-			_update_idle(delta)
-		AIState.PATROL:
-			_update_patrol(delta)
-		AIState.CHASE:
-			_update_chase(delta)
-		AIState.ATTACK:
-			_update_attack(delta)
-
-	move_and_slide()
-
-
-## ---- AI 状态 ----
+# === AI 状态机 ===
 
 func _set_ai_state(new_state: AIState) -> void:
 	_ai_state = new_state
@@ -284,17 +210,6 @@ func _update_idle(delta: float) -> void:
 			_set_ai_state(AIState.CHASE)
 		else:
 			_set_ai_state(AIState.PATROL)
-
-
-func _get_move_speed() -> float:
-	var base := 80.0
-	if _config != null:
-		base = float(_config.get("move_speed", base))
-	if combat != null and combat.has_method("get_buff_manager"):
-		var bm = combat.get_buff_manager()
-		if bm != null:
-			return bm.get_modified_stat("move_speed", base)
-	return base
 
 
 func _update_patrol(_delta: float) -> void:
@@ -386,7 +301,7 @@ func _update_attack(_delta: float) -> void:
 	_ai_debug_text = "等待冷却（当前 %.0f）" % dist
 
 
-## ---- 技能选择（节点驱动） ----
+# === 技能选择（节点驱动） ===
 
 func _try_use_next_skill(distance_x: float) -> bool:
 	if combat == null:
@@ -541,7 +456,7 @@ func get_ai_debug_text() -> String:
 	return text
 
 
-## ---- 辅助 ----
+# === 辅助 ===
 
 func _can_detect_player() -> bool:
 	_refresh_target()
@@ -555,25 +470,6 @@ func _distance_x_to_target() -> float:
 	if _target == null or not is_instance_valid(_target):
 		return INF
 	return _edge_distance_x_to(_target)
-
-
-func _edge_distance_x_to(target: Node2D) -> float:
-	if target == null or not is_instance_valid(target):
-		return INF
-	var center_distance := absf(target.global_position.x - global_position.x)
-	return maxf(0.0, center_distance - _combat_half_width(self) - _combat_half_width(target))
-
-
-func _combat_half_width(node: Node) -> float:
-	if node == null:
-		return 0.0
-	var shape_node := node.get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
-	if shape_node == null:
-		shape_node = node.get_node_or_null("CollisionShape2D") as CollisionShape2D
-	if shape_node != null and shape_node.shape is RectangleShape2D:
-		var rectangle := shape_node.shape as RectangleShape2D
-		return absf(rectangle.size.x * shape_node.global_scale.x) * 0.5
-	return 0.0
 
 
 func _refresh_target() -> void:
@@ -655,15 +551,6 @@ func _pick_patrol_target() -> void:
 	_face_direction(signf(_patrol_target - global_position.x))
 
 
-func _face_direction(dir: float) -> void:
-	if dir == 0.0:
-		return
-	var new_flip := dir > 0.0
-	if sprite.flip_h != new_flip:
-		sprite.flip_h = new_flip
-		_apply_visual_facing_offset()
-
-
 func _face_target(target: Node2D) -> void:
 	if target == null or not is_instance_valid(target):
 		return
@@ -671,10 +558,6 @@ func _face_target(target: Node2D) -> void:
 	if absf(dx) <= FACE_TARGET_DEAD_ZONE:
 		return
 	_face_direction(signf(dx))
-
-
-func _apply_visual_facing_offset() -> void:
-	visual_root.position.x = -_visual_authored_x if sprite.flip_h else _visual_authored_x
 
 
 func _play_anim(anim_name: String) -> void:
@@ -685,74 +568,6 @@ func _play_anim(anim_name: String) -> void:
 		return
 	if sprite.animation != anim_name:
 		sprite.play(anim_name)
-
-
-## 播放战斗动画 (由 CombatComponent 调用)
-func play_combat_animation(anim_name: String) -> void:
-	var target_animation := anim_name
-	if not sprite.sprite_frames.has_animation(target_animation):
-		if target_animation == "hit" and sprite.sprite_frames.has_animation("hurt"):
-			target_animation = "hurt"
-	if sprite.sprite_frames.has_animation(target_animation):
-		_combat_anim_playing = true
-		sprite.animation = target_animation
-		sprite.stop()
-		sprite.frame = 0
-		sprite.play()
-		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
-			sprite.animation_finished.connect(_on_combat_anim_finished)
-	else:
-		_combat_anim_playing = true
-		get_tree().create_timer(0.3).timeout.connect(_end_combat_anim)
-
-
-func _on_combat_anim_finished() -> void:
-	_end_combat_anim()
-
-
-func _end_combat_anim() -> void:
-	_combat_anim_playing = false
-	if sprite.animation_finished.is_connected(_on_combat_anim_finished):
-		sprite.animation_finished.disconnect(_on_combat_anim_finished)
-
-	# 死亡后不再恢复动画
-	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
-		_hold_animation_last_frame()
-		return
-
-	# 攻击/受击结束后恢复移动动画，避免停在末帧
-	var target_animation := "idle"
-	if _ai_state == AIState.CHASE or _ai_state == AIState.PATROL:
-		target_animation = "run"
-	if _ai_state == AIState.ATTACK:
-		target_animation = "idle"
-	if sprite.animation != target_animation:
-		sprite.play(target_animation)
-
-
-## 受伤 (由 HurtBox 调用)
-func _hold_animation_last_frame() -> void:
-	var frame_count := sprite.sprite_frames.get_frame_count(sprite.animation)
-	sprite.pause()
-	sprite.frame = maxi(0, frame_count - 1)
-
-
-func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
-	if play_hit_reaction:
-		velocity.x = 0.0
-	if combat != null and combat.has_method("take_damage"):
-		combat.take_damage(amount, source, play_hit_reaction)
-
-
-func heal(amount: int) -> void:
-	if combat != null and combat.has_method("heal"):
-		combat.heal(amount)
-
-
-## 施加 Buff
-func apply_buff_from_config(buff_cfg: Dictionary, source: int = 0) -> void:
-	if combat != null and combat.has_method("apply_buff_from_config"):
-		combat.apply_buff_from_config(buff_cfg, source)
 
 
 ## 死亡回调
