@@ -638,7 +638,7 @@ func _show_node_details(index: int) -> void:
 		"wait_hit_window": _build_window_fields(form, node)
 		"wait_time": _add_node_spin(form, "等待秒数", "seconds", node, 0.1, 0.0, 30.0, 0.05)
 		"melee_damage":
-			_build_damage_fields(form, node, false)
+			_build_damage_fields(form, node, false, false)
 			_add_owner_attack_editor(form)
 			_add_ai_range_readonly(form, "近战自动有效距离")
 		"area_damage":
@@ -646,7 +646,7 @@ func _show_node_details(index: int) -> void:
 			_add_owner_attack_editor(form)
 			_add_ai_range_readonly(form, "AOE 自动有效距离")
 		"fullscreen_damage":
-			_build_damage_fields(form, node, false)
+			_build_damage_fields(form, node, false, true)
 			_add_owner_attack_editor(form)
 		"spawn_projectile": _build_projectile_fields(form, node)
 		"play_effect": _build_effect_fields(form, node)
@@ -730,13 +730,15 @@ func _build_window_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_option(form, "攻击有效区间", "hit_window_index", node, options, false)
 
 
-func _build_damage_fields(form: GridContainer, node: Dictionary, include_origin: bool) -> void:
+func _build_damage_fields(form: GridContainer, node: Dictionary, include_origin: bool, include_buff: bool) -> void:
 	_add_result_key(form, node)
 	if include_origin:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
-	_build_buff_ids_fields(form, node)
-	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
+	# 近战伤害不再在节点上配置 buff（统一走 apply_target_buff 节点），保留 fullscreen/area 的旧入口
+	if include_buff:
+		_build_buff_ids_fields(form, node)
+		_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
 
 
 func _build_area_fields(form: GridContainer, node: Dictionary) -> void:
