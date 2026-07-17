@@ -312,8 +312,22 @@
 		]
 	},
 	"2501": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"kind": "melee",
+					"max_edge_distance": 81.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "5dbcce1ef2b69dde"
+		},
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "gbl_atk",
 		"nodes": [
 			{
@@ -341,18 +355,18 @@
 		"ai_range_cache": {
 			"entries": [
 				{
-					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"detail": "forward=94.0 width=68.0 scale=1.00 body_half=44.0",
 					"kind": "melee",
-					"max_edge_distance": 81.0,
+					"max_edge_distance": 82.0,
 					"min_edge_distance": 0.0,
 					"node_index": 2,
 					"source": "hit_window"
 				}
 			],
 			"policy": "any_damage_node",
-			"source_hash": "5dbcce1ef2b69dde"
+			"source_hash": "bad208ca6403d248"
 		},
-		"cooldown": 1.0,
+		"cooldown": 3.0,
 		"description": "",
 		"name": "gbl_skill",
 		"nodes": [
@@ -361,17 +375,19 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
-				"buff_chance": 1.0,
-				"buff_ids": [
-					1106
-				],
 				"damage_ratio": 1.5,
 				"result_key": "new_hit",
 				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					1106.0
+				],
+				"type": "apply_self_buff"
 			},
 			{
 				"type": "wait_animation_end"
@@ -389,7 +405,7 @@
 					"kind": "melee",
 					"max_edge_distance": 69.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -429,12 +445,12 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "projectile"
 				}
 			],
 			"policy": "any_damage_node",
-			"source_hash": "aa25aa6218e42336"
+			"source_hash": "8853c11fae4cb065"
 		},
 		"cooldown": 3.0,
 		"description": "",
@@ -445,23 +461,26 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
-			"aim_mode": "nearest_enemy",
-			"ai_max_range": 280.0,
-			"ai_min_range": 0.0,
-			"buff_ids": [],
-			"damage_ratio": 1.1,
-			"emission": "single",
-			"lifetime": 5.0,
-			"origin": "hit_window",
-			"result_key": "projectile_hit",
-			"scale": 7.01,
-			"scene": "res://scenes/effects/projectiles/effect-huoqiu.tscn",
-			"speed": 300.0,
-			"trajectory": "straight",
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "nearest_enemy",
+				"buff_chance": 0.8,
+				"buff_ids": [
+					1002.0
+				],
+				"damage_ratio": 1.1,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scale": 7.01,
+				"scene": "res://scenes/effects/projectiles/effect-huoqiu.tscn",
+				"speed": 300.0,
+				"trajectory": "straight",
 				"type": "spawn_projectile"
 			},
 			{

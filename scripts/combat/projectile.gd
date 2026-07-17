@@ -13,8 +13,12 @@ var buff_chance := 0.0
 var lifetime := 5.0
 var source_entity: Node
 var rotate_to_velocity := true
+# 非对称素材（如箭矢）需要按飞行方向镜像 flip_h。
+# 导出已将素材统一规范为「朝右」，向左飞时 flip_h = true。
+var flip_to_velocity := true
 
 var _hit_targets: Dictionary = {}
+var _visual_sprite: AnimatedSprite2D
 
 
 func _ready() -> void:
@@ -23,6 +27,8 @@ func _ready() -> void:
 	z_index = 200
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 	area_entered.connect(_on_area_entered)
+	# 缓存 Visual 子节点的 AnimatedSprite2D 用于镜像翻转
+	_visual_sprite = _find_visual_sprite()
 
 
 func _physics_process(delta: float) -> void:
@@ -30,6 +36,22 @@ func _physics_process(delta: float) -> void:
 	velocity.y += projectile_gravity * delta
 	if rotate_to_velocity and velocity.length_squared() > 0.001:
 		rotation = velocity.angle()
+	# 仅在不旋转模式下按飞行方向镜像 flip_h。
+	# 旋转模式（rotate_to_velocity=true）已通过 Area2D rotation 对齐速度方向，
+	# 再叠加 flip_h 会在旋转坐标系下产生反向，导致朝向错误。
+	if not rotate_to_velocity and flip_to_velocity and _visual_sprite != null and velocity.length_squared() > 0.001:
+		_visual_sprite.flip_h = velocity.x < 0.0
+
+
+func _find_visual_sprite() -> AnimatedSprite2D:
+	# 弹道场景结构：Area2D > Visual/VisualScene(AnimatedSprite2D)
+	var visual_root := get_node_or_null("Visual")
+	if visual_root == null:
+		return null
+	for child in visual_root.get_children():
+		if child is AnimatedSprite2D:
+			return child
+	return visual_root as AnimatedSprite2D
 
 
 func setup(direction: Vector2, speed: float, node_damage: int, pierce: int, node_buff_ids: Array = [], chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:

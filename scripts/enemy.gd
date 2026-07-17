@@ -291,11 +291,19 @@ func _update_attack(_delta: float) -> void:
 		_ai_debug_text = "后撤至 %.0f（当前 %.0f）" % [retreat_target, dist]
 		return
 
-	# 若目标超出所有可用最大距离：回追
-	var max_engage := _get_max_engage_distance()
-	if max_engage > 0.0 and dist > max_engage * 1.25:
-		_set_ai_state(AIState.CHASE)
-		return
+	# 距离判断：优先看冷却完成的技能
+	# - 有冷却完成技能但当前够不着 → 切 CHASE 靠近释放（避免原地等远程冷却而忽略可用的近战）
+	# - 全冷却 → 仍在攻击范围内则原地等，超出范围则回追
+	var ready_max := _get_max_ready_engage_distance()
+	if ready_max > 0.0:
+		if dist > ready_max:
+			_set_ai_state(AIState.CHASE)
+			return
+	else:
+		var max_engage := _get_max_engage_distance()
+		if max_engage > 0.0 and dist > max_engage * 1.25:
+			_set_ai_state(AIState.CHASE)
+			return
 
 	velocity.x = 0.0
 	_ai_debug_text = "等待冷却（当前 %.0f）" % dist
@@ -354,29 +362,58 @@ func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float) -> i
 	return available_ids[0]
 
 
-## 返回当前距离下最近的可起手最大距离（用于追击目标）。
+## 返回当前距离下最近的起手最大距离（用于追击目标）。
+## 双轨逻辑：
+## - 有冷却完成技能时：只看 ready_best（哪怕当前够不着返回0，也表示继续追击靠近去释放）
+## - 全冷却时：返回 any_best，停在攻击范围内等冷却，避免无限贴近
 func _get_nearest_engage_distance(distance_x: float) -> float:
-	var best := 0.0
+	var ready_best := 0.0
+	var any_best := 0.0
+	var has_ready := false
 	for sid in _get_configured_skill_ids():
-		if combat != null and combat._cooldowns.get(sid, 0.0) > 0.0:
-			continue
 		var cache := _get_ai_cache(sid)
 		if cache.is_empty():
 			continue
+		var on_cd: bool = combat != null and float(combat._cooldowns.get(sid, 0.0)) > 0.0
+		if not on_cd:
+			has_ready = true
 		for entry_value in cache.get("entries", []):
 			if not entry_value is Dictionary:
 				continue
 			var entry: Dictionary = entry_value
 			var max_d := float(entry.get("max_edge_distance", 0.0))
-			if max_d < 99990.0 and max_d >= distance_x and (best == 0.0 or max_d < best):
-				best = max_d
-	return best
+			if max_d >= 99990.0 or max_d < distance_x:
+				continue
+			if any_best == 0.0 or max_d < any_best:
+				any_best = max_d
+			if not on_cd and (ready_best == 0.0 or max_d < ready_best):
+				ready_best = max_d
+	# 有可用技能时只看 ready_best（可能为0表示还没到攻击距离，继续追击）
+	# 全冷却时返回 any_best（停在攻击范围等冷却）
+	if has_ready:
+		return ready_best
+	return any_best
 
 
-## 返回所有冷却中技能的最大可起手距离（用于判断是否需要回追）。
+## 返回所有技能的最大起手距离（用于判断是否需要回追）。
 func _get_max_engage_distance() -> float:
 	var best := 0.0
 	for sid in _get_configured_skill_ids():
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		var max_d := AIRangeCompiler.get_max_engage_distance(cache)
+		if max_d > best:
+			best = max_d
+	return best
+
+
+## 返回冷却完成技能的最大起手距离（用于 ATTACK 状态判断是否需要靠近释放）。
+func _get_max_ready_engage_distance() -> float:
+	var best := 0.0
+	for sid in _get_configured_skill_ids():
+		if combat != null and combat._cooldowns.get(sid, 0.0) > 0.0:
+			continue
 		var cache := _get_ai_cache(sid)
 		if cache.is_empty():
 			continue

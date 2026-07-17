@@ -207,3 +207,21 @@ func _spawn_effect(buff: BuffInstance) -> void:
 	var fx := scene.instantiate()
 	buff.effect_node = fx
 	_owner.add_child(fx)
+	if fx is Node2D:
+		var node2d := fx as Node2D
+		# 角色原点在脚底，把 buff 特效抬到身体中心，避免出现在脚底
+		node2d.position.y = _get_body_center_y()
+		# 渲染在角色身前，避免被角色遮挡（与 combat_component 的 attachment_layer=front 一致）
+		var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+		var visual_z := visual_root.z_index if visual_root != null else 0
+		node2d.z_as_relative = true
+		node2d.z_index = visual_z + 1
+
+
+## 读取角色 CollisionShape2D 的纵向中心（相对原点），用于把 buff 特效抬到身体高度。
+## 角色原点通常在脚底，碰撞盒中心即身体中心。
+func _get_body_center_y() -> float:
+	var col := _owner.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if col == null or col.shape == null:
+		return -50.0
+	return col.position.y
