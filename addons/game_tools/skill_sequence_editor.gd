@@ -576,11 +576,15 @@ func _show_node_details(index: int) -> void:
 		"wait_time": _add_node_spin(form, "等待秒数", "seconds", node, 0.1, 0.0, 30.0, 0.05)
 		"melee_damage":
 			_build_damage_fields(form, node, false)
+			_add_owner_attack_editor(form)
 			_add_ai_range_readonly(form, "近战自动有效距离")
 		"area_damage":
 			_build_area_fields(form, node)
+			_add_owner_attack_editor(form)
 			_add_ai_range_readonly(form, "AOE 自动有效距离")
-		"fullscreen_damage": _build_damage_fields(form, node, false)
+		"fullscreen_damage":
+			_build_damage_fields(form, node, false)
+			_add_owner_attack_editor(form)
 		"spawn_projectile": _build_projectile_fields(form, node)
 		"play_effect": _build_effect_fields(form, node)
 		"apply_target_buff": _build_target_buff_fields(form, node)
@@ -692,12 +696,23 @@ func _build_damage_fields_without_result(form: GridContainer, node: Dictionary) 
 func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_result_key(form, node)
 	_add_node_scene_picker(form, "弹道场景", "scene", node)
+	_add_node_spin(form, "缩放", "scale", node, 1.0, 0.01, 20.0, 0.05)
 	_add_origin_fields(form, node)
 	_add_node_option(form, "轨迹", "trajectory", node, [{"value": "straight", "label": "直线"}, {"value": "ballistic", "label": "抛物线"}], true)
 	_add_node_option(form, "瞄准/落点", "aim_mode", node, [{"value": "facing_elevation", "label": "朝向 + 仰角"}, {"value": "nearest_enemy", "label": "指向最近敌人"}, {"value": "enemy_area", "label": "敌人附近区域"}, {"value": "forward_area", "label": "施法者前方区域"}], true)
 	_add_node_option(form, "发射方式", "emission", node, [{"value": "single", "label": "单发"}, {"value": "sequence", "label": "连续"}, {"value": "fan", "label": "扇形齐射"}, {"value": "area_rain", "label": "区域落雨"}], true)
-	_add_node_spin(form, "AI 最小起手距离", "ai_min_range", node, 0.0, 0.0, 9999.0, 1.0)
-	_add_node_spin(form, "AI 最大起手距离", "ai_max_range", node, 0.0, 0.0, 9999.0, 1.0)
+	_add_node_spin(form, "最小施法距离", "ai_min_range", node, 0.0, 0.0, 9999.0, 1.0)
+	var max_range_spin := _add_node_spin(form, "最大施法距离", "ai_max_range", node, 0.0, 0.0, 9999.0, 1.0)
+	if float(node.get("ai_max_range", 0.0)) <= 0.0:
+		# 上一行是 label，这行是 spin → 在 spin 后追加感叹号提示
+		var warn := Label.new()
+		warn.text = "⚠"
+		warn.add_theme_color_override("font_color", Color("ffca64"))
+		warn.tooltip_text = "未配置最大施法距离：AI 不会释放此弹道技能。请填入一个合理距离（如 280）。"
+		form.add_child(warn)
+		# SpinBox 值变化时动态显隐感叹号
+		max_range_spin.value_changed.connect(func(v: float) -> void:
+			warn.visible = (v <= 0.0))
 	_add_node_spin(form, "速度", "speed", node, 300.0, 1.0, 9999.0, 1.0)
 	_add_node_spin(form, "生命周期", "lifetime", node, 5.0, 0.1, 99.0, 0.1)
 	_add_node_spin(form, "最大穿透数", "max_pierce", node, 0.0, -1.0, 99.0, 1.0)
@@ -943,6 +958,81 @@ func _add_node_spin(form: GridContainer, label_text: String, field: String, node
 	spin.value_changed.connect(_on_node_number_changed.bind(field))
 	form.add_child(spin)
 	return spin
+
+
+## 编辑当前技能所属角色/怪物的攻击力（attack）。伤害 = attack × damage_ratio。
+## 改动直接写回 characters.json / enemies.json，无需另开编辑器。
+func _add_owner_attack_editor(form: GridContainer) -> void:
+	var label := Label.new()
+	label.text = "攻击力（所属角色/怪物）"
+	form.add_child(label)
+	var info := _find_skill_owner_row(int(_current_skill_id))
+	if info.is_empty():
+		var none_label := Label.new()
+		none_label.text = "未找到所属角色/怪物"
+		none_label.add_theme_color_override("font_color", Color("ff9800"))
+		form.add_child(none_label)
+		return
+	var row: Dictionary = info["row"]
+	var table_key: String = info["key"]
+	var table_path: String = info["table_path"]
+	var owner_name := String(row.get("name", table_key))
+	var attack := float(row.get("attack", 1.0))
+	var spin := SpinBox.new()
+	spin.min_value = 0.0
+	spin.max_value = 99999.0
+	spin.step = 1.0
+	spin.value = attack
+	spin.suffix = "  (%s)" % owner_name
+	spin.value_changed.connect(_on_owner_attack_changed.bind(table_path, table_key))
+	form.add_child(spin)
+
+
+## 在 characters.json / enemies.json 中查找技能所属的整行数据及表路径。
+## 返回 {"row": Dictionary, "key": String, "table_path": String}，未找到返回空 Dictionary。
+func _find_skill_owner_row(skill_id: int) -> Dictionary:
+	for table_path in [CHARACTERS_PATH, ENEMIES_PATH]:
+		var table := _load_json(table_path)
+		for key in table:
+			var row_value: Variant = table[key]
+			if not row_value is Dictionary:
+				continue
+			var row: Dictionary = row_value
+			var asset := String(row.get("asset", ""))
+			if asset.is_empty():
+				continue
+			if int(row.get("normal_skill", 0)) == skill_id:
+				return {"row": row, "key": key, "table_path": table_path}
+			for sid_value in row.get("skills", []):
+				if int(sid_value) == skill_id:
+					return {"row": row, "key": key, "table_path": table_path}
+			for unlock_key in row.get("skill_unlocks", {}):
+				var unlock: Dictionary = (row.get("skill_unlocks", {}) as Dictionary).get(unlock_key, {})
+				if int(unlock.get("skill_id", 0)) == skill_id:
+					return {"row": row, "key": key, "table_path": table_path}
+			for sid_value in row.get("ai_skill_priority", []):
+				if int(sid_value) == skill_id:
+					return {"row": row, "key": key, "table_path": table_path}
+	return {}
+
+
+## 攻击力 SpinBox 改动回调：写回对应表配置并保存。
+func _on_owner_attack_changed(value: float, table_path: String, table_key: String) -> void:
+	if _loading:
+		return
+	var table: Dictionary = _load_json(table_path)
+	if not table.has(table_key):
+		return
+	var row: Dictionary = table[table_key]
+	row["attack"] = value
+	table[table_key] = row
+	_save_config_file(table_path, table)
+	# 同步刷新内存缓存
+	if table_path == CHARACTERS_PATH:
+		_characters_config = table.duplicate(true)
+	elif table_path == ENEMIES_PATH:
+		_enemies_config = table.duplicate(true)
+	_status.text = "已更新 %s 的攻击力为 %.0f" % [table_key, value]
 
 
 ## 只读显示：用当前技能所属资源即时编译 ai_range_cache，展示该节点类型的自动距离。
@@ -1239,7 +1329,7 @@ func _default_node(type_name: String) -> Dictionary:
 		"melee_damage": return {"type": type_name, "result_key": "melee_hit", "damage_ratio": 1.0}
 		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.0}
 		"fullscreen_damage": return {"type": type_name, "result_key": "fullscreen_hit", "damage_ratio": 1.0}
-		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0}
+		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0, "scale": 1.0}
 		"play_effect": return {"type": type_name, "scene": "", "target": "origin"}
 		"apply_target_buff": return {"type": type_name, "target": "result", "result_key": "last_result", "buff_ids": [], "chance": 1.0}
 		"apply_self_buff": return {"type": type_name, "buff_ids": []}
@@ -1297,7 +1387,7 @@ func _apply_melee_template() -> void:
 
 func _apply_projectile_template() -> void:
 	var action := _default_action()
-	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用单发弹道模板，请填写弹道场景。")
+	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用单发弹道模板，请填写弹道场景。")
 
 
 func _apply_area_template() -> void:
@@ -1317,12 +1407,12 @@ func _apply_self_buff_template() -> void:
 
 func _apply_sequence_template() -> void:
 	var action := _default_action()
-	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "arrow_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "sequence", "count": 3, "interval": 0.15, "speed": 420.0, "lifetime": 2.0, "damage_ratio": 0.8}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用三连弹道模板，请填写弹道场景。")
+	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "arrow_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "sequence", "count": 3, "interval": 0.15, "ai_min_range": 0.0, "ai_max_range": 320.0, "speed": 420.0, "lifetime": 2.0, "damage_ratio": 0.8}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用三连弹道模板，请填写弹道场景。")
 
 
 func _apply_rain_template() -> void:
 	var action := _default_action()
-	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "rain_hit", "scene": "", "origin": "hit_window", "trajectory": "ballistic", "aim_mode": "enemy_area", "emission": "area_rain", "count": 12, "interval": 0.08, "target_search_range": 500.0, "area_width": 260.0, "area_height": 90.0, "arc_height": 180.0, "gravity": 900.0, "speed": 360.0, "lifetime": 3.0, "damage_ratio": 0.7}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用斜向上箭雨模板，请填写弹道场景。")
+	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "rain_hit", "scene": "", "origin": "hit_window", "trajectory": "ballistic", "aim_mode": "enemy_area", "emission": "area_rain", "count": 12, "interval": 0.08, "ai_min_range": 0.0, "ai_max_range": 380.0, "target_search_range": 500.0, "area_width": 260.0, "area_height": 90.0, "arc_height": 180.0, "gravity": 900.0, "speed": 360.0, "lifetime": 3.0, "damage_ratio": 0.7}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用斜向上箭雨模板，请填写弹道场景。")
 
 
 func _clear_nodes() -> void:
@@ -1467,8 +1557,10 @@ func _refresh_effect_preview() -> void:
 		# origin 由字段决定：hit_window → hit_box 位置；caster → 角色根；socket → 帧坐标
 		# 预览中统一用 hit_window 偏移（若有）否则用角色根（origin）
 		# origin 偏移乘 visual_scale：角色缩放时 hit_window/forward 位置也等比缩放
+		# 弹道缩放 = 角色视觉缩放 × 节点 scale 字段（与运行时 skill_executor._instantiate_projectile 一致）
 		var origin_offset := _resolve_preview_origin(node) * visual_scale
-		_preview.set_effect(packed, origin_offset, true, visual_scale, false)
+		var node_scale := float(node.get("scale", 1.0))
+		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
 
 
 ## 预览中解析 spawn_projectile 的 origin 偏移（相对角色根）。

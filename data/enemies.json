@@ -68,11 +68,13 @@
 		"normal_skill": 2401.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2402.0
+		]
 	},
 	"1006": {
 		"asset": "res://assets/enemies/gebulin",
-		"attack": 2.0,
+		"attack": 3.0,
 		"attack_range": 80.0,
 		"character_config": "res://assets/enemies/gebulin/character_config.json",
 		"defense": 0.0,
@@ -85,7 +87,9 @@
 		"normal_skill": 2501.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2502.0
+		]
 	},
 	"1007": {
 		"asset": "res://assets/enemies/hjjx",
@@ -102,7 +106,9 @@
 		"normal_skill": 2601.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2602.0
+		]
 	},
 	"1008": {
 		"asset": "res://assets/enemies/hjqs",

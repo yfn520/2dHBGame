@@ -57,6 +57,7 @@
 				"max_pierce": 0.0,
 				"origin": "hit_window",
 				"result_key": "acid_hit",
+				"scale": 2.0,
 				"scene": "res://scenes/effects/projectiles/fireball.tscn",
 				"speed": 260.0,
 				"trajectory": "straight",
@@ -159,8 +160,22 @@
 		]
 	},
 	"2301": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=97.0 width=64.0 scale=1.00 body_half=83.0",
+					"kind": "melee",
+					"max_edge_distance": 44.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "117b0653aca5c2d3"
+		},
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "wolf_atk",
 		"nodes": [
 			{
@@ -185,8 +200,22 @@
 		]
 	},
 	"2302": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=96.0 width=46.0 scale=1.00 body_half=83.0",
+					"kind": "melee",
+					"max_edge_distance": 34.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "2c1937b5beb2a202"
+		},
 		"cast_range": 60.0,
-		"cooldown": 1.0,
+		"cooldown": 3.0,
 		"description": "",
 		"name": "wolf_skill",
 		"nodes": [
@@ -199,6 +228,10 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"buff_chance": 0.8,
+				"buff_ids": [
+					1008.0
+				],
 				"damage_ratio": 1.0,
 				"result_key": "new_hit",
 				"type": "melee_damage"
@@ -237,6 +270,47 @@
 			}
 		]
 	},
+	"2402": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=58.0 width=64.0 scale=1.00 body_half=27.0",
+					"kind": "melee",
+					"max_edge_distance": 61.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "7b5fcab327b55248"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "kl_skill",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_ids": [],
+				"damage_ratio": 2.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"2501": {
 		"cast_range": 60.0,
 		"cooldown": 0.5,
@@ -263,9 +337,67 @@
 			}
 		]
 	},
+	"2502": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"kind": "melee",
+					"max_edge_distance": 81.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "5dbcce1ef2b69dde"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "gbl_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_chance": 1.0,
+				"buff_ids": [
+					1106
+				],
+				"damage_ratio": 1.5,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"2601": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=49.0 scale=1.00 body_half=48.5",
+					"kind": "melee",
+					"max_edge_distance": 69.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "ebce25c4e36279dc"
+		},
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "hjjx_atk",
 		"nodes": [
 			{
@@ -280,6 +412,57 @@
 				"damage_ratio": 1.0,
 				"result_key": "melee_hit",
 				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2602": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "aa25aa6218e42336"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "hjr_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+			"aim_mode": "nearest_enemy",
+			"ai_max_range": 280.0,
+			"ai_min_range": 0.0,
+			"buff_ids": [],
+			"damage_ratio": 1.1,
+			"emission": "single",
+			"lifetime": 5.0,
+			"origin": "hit_window",
+			"result_key": "projectile_hit",
+			"scale": 7.01,
+			"scene": "res://scenes/effects/projectiles/effect-huoqiu.tscn",
+			"speed": 300.0,
+			"trajectory": "straight",
+				"type": "spawn_projectile"
 			},
 			{
 				"type": "wait_animation_end"
@@ -549,6 +732,7 @@
 				"min_range": 90.0,
 				"origin": "hit_window",
 				"result_key": "fireball_hit",
+				"scale": 2.0,
 				"scene": "res://scenes/effects/projectiles/fireball.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
@@ -640,6 +824,7 @@
 				"lifetime": 5.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
+				"scale": 2.0,
 				"scene": "res://scenes/effects/projectiles/effect-arrow.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
@@ -659,6 +844,7 @@
 			"policy": "any_damage_node",
 			"source_hash": "29fcb17f3e7a7e48"
 		},
+		"cooldown": 1.0,
 		"name": "弓手技能1",
 		"nodes": [
 			{
@@ -672,12 +858,14 @@
 			{
 				"aim_mode": "facing_elevation",
 				"buff_ids": [],
-				"damage_ratio": 1.0,
+				"damage_ratio": 0.9,
 				"emission": "sequence",
+				"interval": 0.1,
 				"lifetime": 5.0,
-				"max_pierce": 2.0,
+				"max_pierce": 10.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
+				"scale": 2.0,
 				"scene": "res://scenes/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
@@ -697,6 +885,7 @@
 			"policy": "any_damage_node",
 			"source_hash": "3824b5a6515258af"
 		},
+		"cooldown": 2.0,
 		"name": "弓手技能2",
 		"nodes": [
 			{
@@ -741,6 +930,7 @@
 			"policy": "any_damage_node",
 			"source_hash": "47a16785565b1438"
 		},
+		"cooldown": 5.0,
 		"name": "弓手技能3",
 		"nodes": [
 			{
@@ -752,21 +942,23 @@
 				"type": "wait_hit_window"
 			},
 			{
-				"aim_mode": "forward_area",
-				"arc_height": 180.0,
+				"aim_mode": "enemy_area",
+				"arc_height": 100.0,
 				"area_height": 90.0,
 				"area_width": 260.0,
 				"buff_ids": [],
-				"count": 6.0,
+				"count": 8.0,
 				"damage_ratio": 1.5,
 				"emission": "area_rain",
-				"gravity": 900.0,
+				"gravity": 1500.0,
 				"interval": 0.08,
 				"lifetime": 3.0,
+				"max_pierce": 20.0,
 				"origin": "hit_window",
 				"result_key": "rain_hit",
+				"scale": 5.01,
 				"scene": "res://scenes/effects/projectiles/effect_gongshou_skill2.tscn",
-				"speed": 360.0,
+				"speed": 540.0,
 				"target_search_range": 500.0,
 				"trajectory": "ballistic",
 				"type": "spawn_projectile"

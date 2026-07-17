@@ -268,6 +268,10 @@ func _instantiate_projectile(node: Dictionary) -> Node2D:
 		var vscale := _get_visual_scale()
 		if not is_zero_approx(vscale) and not is_equal_approx(vscale, 1.0):
 			projectile.scale *= Vector2(vscale, vscale)
+		# 应用技能节点配置的弹道缩放（视觉与碰撞盒同步缩放）
+		var node_scale := float(node.get("scale", 1.0))
+		if not is_zero_approx(node_scale) and not is_equal_approx(node_scale, 1.0):
+			projectile.scale *= Vector2(node_scale, node_scale)
 	return projectile
 
 

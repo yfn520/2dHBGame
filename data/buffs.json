@@ -146,7 +146,7 @@
 		"effect_scene": "",
 		"effects": [
 			{
-				"damage": 6.0,
+				"damage": 3,
 				"damage_type": "physical",
 				"interval": 0.8,
 				"type": "dot"
