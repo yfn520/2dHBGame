@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/combat/damage_number.gd" id="1_script"]
+
+[node name="DamageNumber" type="Label"]
+z_as_relative = false
+z_index = 300
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_script")

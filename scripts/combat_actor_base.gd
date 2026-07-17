@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var combat: Node = $CombatComponent
 
 var _combat_anim_playing := false
+var _hit_flash: HitFlashController = null
 var _combat_actions: Dictionary = {}
 var _visual_authored_x := 0.0
 var _actor_scale := 1.0
@@ -26,6 +27,14 @@ func _setup_actor_base() -> void:
 	debug_overlay.setup(self)
 	_visual_authored_x = visual_root.position.x
 	_apply_visual_facing_offset()
+	# 受击闪白控制器
+	_hit_flash = HitFlashController.new()
+	add_child(_hit_flash)
+	_hit_flash.setup(sprite)
+	# 伤害飘字生成器
+	var spawner := DamageNumberSpawner.new()
+	add_child(spawner)
+	spawner.setup(self, combat)
 
 
 ## 子类 override：加 group、连信号、初始化 stats 等
@@ -111,6 +120,10 @@ func play_combat_animation(anim_name: String) -> void:
 		sprite.stop()
 		sprite.frame = 0
 		sprite.play()
+		# 受击动画触发闪白
+		if target_animation == "hit" or target_animation == "hurt":
+			if _hit_flash != null:
+				_hit_flash.flash(0.1)
 		if not sprite.animation_finished.is_connected(_on_combat_anim_finished):
 			sprite.animation_finished.connect(_on_combat_anim_finished)
 	else:
