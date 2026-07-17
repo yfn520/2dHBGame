@@ -233,7 +233,7 @@ func _execute_node(node: Dictionary) -> bool:
 			_cast_context.current_action = _current_action
 			if _owner.has_method("play_combat_animation"):
 				_owner.play_combat_animation(_current_action)
-		"wait_action_event", "wait_hit_window", "wait_animation_end", "wait_time":
+		"wait_action_event", "wait_action_frame", "wait_hit_window", "wait_animation_end", "wait_time":
 			_waiting = node.duplicate(true)
 			if _is_wait_ready():
 				_waiting.clear()
@@ -274,6 +274,11 @@ func _is_wait_ready() -> bool:
 				return false
 			_consume_action_event(_current_action, event_name)
 			return true
+		"wait_action_frame":
+			# 不依赖外部 events 配置，直接按精灵当前帧推进
+			if _sprite == null:
+				return false
+			return _sprite.frame >= int(_waiting.get("frame", 0))
 		"wait_hit_window":
 			if _sprite == null:
 				return false

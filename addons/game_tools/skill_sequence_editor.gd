@@ -22,6 +22,7 @@ const ACTION_TYPES := {
 }
 const CONTROL_TYPES := {
 	"wait_action_event": "等待动作事件",
+	"wait_action_frame": "等待动作帧",
 	"wait_hit_window": "等待攻击有效区间",
 	"wait_animation_end": "等待动画结束",
 	"wait_time": "等待时长",
@@ -527,6 +528,8 @@ func _node_summary(node: Dictionary) -> String:
 		return "  " + String(node.get("action", ""))
 	if type_name == "wait_action_event":
 		return "  " + String(node.get("event", ""))
+	if type_name == "wait_action_frame":
+		return "  帧 %d" % int(node.get("frame", 0))
 	if type_name == "wait_hit_window":
 		return "  #%d" % (int(node.get("hit_window_index", 0)) + 1)
 	if node.has("result_key"):
@@ -568,6 +571,7 @@ func _show_node_details(index: int) -> void:
 	match type_name:
 		"play_animation": _build_animation_fields(form, node)
 		"wait_action_event": _build_event_fields(form, node)
+		"wait_action_frame": _build_frame_wait_fields(form, node)
 		"wait_hit_window": _build_window_fields(form, node)
 		"wait_time": _add_node_spin(form, "等待秒数", "seconds", node, 0.1, 0.0, 30.0, 0.05)
 		"melee_damage":
@@ -614,6 +618,39 @@ func _build_event_fields(form: GridContainer, node: Dictionary) -> void:
 	if options.is_empty():
 		options.append({"value": "release", "label": "release（当前动作未配置）"})
 	_add_node_option(form, "动画事件", "event", node, options, false)
+
+
+## 等待动作帧节点：不依赖外部 events 配置，直接按精灵当前帧推进
+func _build_frame_wait_fields(form: GridContainer, node: Dictionary) -> void:
+	var frame_count := _current_action_frame_count()
+	var frame_spin := _add_node_spin(form, "目标帧号", "frame", node, 0.0, 0.0, float(maxi(0, frame_count - 1)), 1.0)
+	# 改目标帧时同步上方动作预览：暂停播放并跳到该帧
+	frame_spin.value_changed.connect(_on_frame_target_changed)
+	# 只读提示当前动作帧数，避免用户输入超出范围
+	var hint := Label.new()
+	hint.text = "当前动作共 %d 帧（0~%d），改动会同步预览" % [frame_count, maxi(0, frame_count - 1)]
+	hint.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
+	form.add_child(Label.new())
+	form.add_child(hint)
+
+
+## 等待动作帧 SpinBox 变化时：暂停播放并把上方预览帧同步到目标帧
+func _on_frame_target_changed(value: float) -> void:
+	# 停止播放，更新按钮状态（不触发 toggled 信号避免副作用）
+	_is_playing = false
+	if _play_button != null:
+		_play_button.set_pressed_no_signal(false)
+		_play_button.text = "播放"
+	# 同步帧滑条（会触发 _on_frame_changed → 时间轴 + 预览刷新）
+	if _frame_slider != null:
+		_frame_slider.value = int(value)
+
+
+## 读取当前预览动作的真实精灵帧数；资源未加载时回退 8
+func _current_action_frame_count() -> int:
+	if _sprite_frames != null and not _preview_action.is_empty() and _sprite_frames.has_animation(_preview_action):
+		return _sprite_frames.get_frame_count(_preview_action)
+	return 8
 
 
 func _build_window_fields(form: GridContainer, node: Dictionary) -> void:
@@ -894,7 +931,7 @@ func _add_node_scene_picker(form: GridContainer, label_text: String, field: Stri
 	row.add_child(browse_btn)
 
 
-func _add_node_spin(form: GridContainer, label_text: String, field: String, node: Dictionary, default_value: float, minimum: float, maximum: float, step_value: float) -> void:
+func _add_node_spin(form: GridContainer, label_text: String, field: String, node: Dictionary, default_value: float, minimum: float, maximum: float, step_value: float) -> SpinBox:
 	var label := Label.new()
 	label.text = label_text
 	form.add_child(label)
@@ -905,6 +942,7 @@ func _add_node_spin(form: GridContainer, label_text: String, field: String, node
 	spin.value = float(node.get(field, default_value))
 	spin.value_changed.connect(_on_node_number_changed.bind(field))
 	form.add_child(spin)
+	return spin
 
 
 ## 只读显示：用当前技能所属资源即时编译 ai_range_cache，展示该节点类型的自动距离。
@@ -1196,6 +1234,7 @@ func _default_node(type_name: String) -> Dictionary:
 	match type_name:
 		"play_animation": return {"type": type_name, "action": _default_action()}
 		"wait_action_event": return {"type": type_name, "event": "release"}
+		"wait_action_frame": return {"type": type_name, "frame": 0}
 		"wait_hit_window": return {"type": type_name, "hit_window_index": 0}
 		"melee_damage": return {"type": type_name, "result_key": "melee_hit", "damage_ratio": 1.0}
 		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.0}

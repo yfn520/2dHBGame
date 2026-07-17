@@ -21,6 +21,7 @@ const NODE_LABELS := {
 	"heal": "治疗",
 	"move_x": "水平移动",
 	"wait_action_event": "等待动作事件",
+	"wait_action_frame": "等待动作帧",
 	"wait_hit_window": "等待攻击有效区间",
 	"wait_animation_end": "等待动画结束",
 	"wait_time": "等待时长",
@@ -137,6 +138,8 @@ func _node_frames() -> Array[int]:
 		var node_type := String(node.get("type", ""))
 		if node_type == "wait_action_event":
 			cursor = _event_frame(String(node.get("event", "release")), cursor)
+		elif node_type == "wait_action_frame":
+			cursor = int(node.get("frame", cursor))
 		elif node_type == "wait_hit_window":
 			cursor = _window_frame(int(node.get("hit_window_index", 0)), cursor)
 		elif node_type == "wait_animation_end" or node_type == "end_skill":
