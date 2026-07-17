@@ -1,5 +1,19 @@
 {
 	"2001": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=36.0 width=27.0 scale=1.00 body_half=12.0",
+					"kind": "melee",
+					"max_edge_distance": 35.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "0d77604e2913a471"
+		},
 		"cast_range": 60.0,
 		"cooldown": 1.0,
 		"description": "史莱姆普通攻击。攻击范围由外部动作有效区间决定。",
@@ -15,9 +29,7 @@
 			},
 			{
 				"buff_chance": 0.3,
-				"buff_ids": [
-					1001.0
-				],
+				"buff_ids": [],
 				"damage_ratio": 1.0,
 				"result_key": "slimu_attack_hit",
 				"type": "melee_damage"
@@ -105,6 +117,55 @@
 			}
 		]
 	},
+	"2004": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=30.0 width=26.0 scale=1.00 body_half=12.0",
+					"kind": "melee",
+					"max_edge_distance": 29.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "14ea9da3e9a2afbd"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "slm-skill1",
+		"nodes": [
+			{
+				"action": "skill1",
+				"damage_ratio": 1.1,
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_ids": [],
+				"damage_ratio": 0.9,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					1101.0
+				],
+				"type": "apply_self_buff"
+			},
+			{
+				"damage_ratio": 1.1,
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"2101": {
 		"cast_range": 90.0,
 		"cooldown": 1.2,
@@ -120,6 +181,7 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"buff_ids": [],
 				"damage_ratio": 1.0,
 				"result_key": "puppet_attack_hit",
 				"type": "melee_damage"
@@ -149,6 +211,50 @@
 			{
 				"damage_ratio": 1.4,
 				"result_key": "puppet_skill_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2103": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=30.0 width=70.0 scale=1.50 body_half=48.8",
+					"kind": "melee",
+					"max_edge_distance": 46.75,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "dc035684cea06928"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "kl-skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_chance": 0.8,
+				"buff_ids": [
+					1007.0
+				],
+				"damage_ratio": 1.5,
+				"result_key": "new_hit",
 				"type": "melee_damage"
 			},
 			{
@@ -319,7 +425,7 @@
 					"kind": "melee",
 					"max_edge_distance": 81.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -359,7 +465,7 @@
 					"kind": "melee",
 					"max_edge_distance": 82.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -493,7 +599,7 @@
 	},
 	"2701": {
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "hjqs_atkl",
 		"nodes": [
 			{
@@ -517,9 +623,63 @@
 			}
 		]
 	},
+	"2702": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=101.0 width=56.0 scale=1.00 body_half=40.0",
+					"kind": "melee",
+					"max_edge_distance": 87.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "0777c5bab20ead9a"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "hjqs-skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_chance": 0.5,
+				"buff_ids": [],
+				"damage_ratio": 2.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					1106.0,
+					1108.0
+				],
+				"type": "apply_self_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"2801": {
+		"ai_range_cache": {
+			"entries": [],
+			"policy": "any_damage_node",
+			"source_hash": ""
+		},
 		"cast_range": 10.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "hy_atk",
 		"nodes": [
 			{
@@ -531,14 +691,18 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"ai_max_range": 280.0,
 				"aim_mode": "facing_elevation",
+				"buff_ids": [],
 				"damage_ratio": 1.0,
 				"emission": "single",
+				"gravity": 1200.0,
 				"lifetime": 5.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
-				"scene": "",
-				"speed": 300.0,
+				"scale": 0.81,
+				"scene": "res://scenes/effects/projectiles/effect-zhongzi.tscn",
+				"speed": 500.0,
 				"trajectory": "ballistic",
 				"type": "spawn_projectile"
 			},
@@ -551,8 +715,22 @@
 		]
 	},
 	"2802": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "纯辅助技能，任意距离可起手",
+					"kind": "support",
+					"max_edge_distance": 99999.0,
+					"min_edge_distance": 0.0,
+					"node_index": -1,
+					"source": "support"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "21d6851ad5c95623"
+		},
 		"cast_range": 0.0,
-		"cooldown": 1.0,
+		"cooldown": 3.0,
 		"description": "",
 		"name": "hy_skll",
 		"nodes": [
@@ -561,24 +739,15 @@
 				"type": "play_animation"
 			},
 			{
-				"attachment_blend_mode": "normal",
-				"attachment_box_height": 120.0,
-				"attachment_box_width": 120.0,
-				"attachment_layer": "front",
-				"coordinate_space": "character_local",
-				"offset_x": -29.0683229813665,
-				"offset_y": -112.031055900621,
-				"origin": "caster",
-				"scene": "res://scenes/effects/attachments/effect-花妖-skill/effect.tscn",
-				"target": "origin",
-				"type": "play_effect"
-			},
-			{
 				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
-				"buff_ids": [],
+				"buff_ids": [
+					1206.0
+				],
+				"effect_offset_x": 26.1224479675293,
+				"effect_offset_y": -39.1836700439453,
 				"type": "apply_self_buff"
 			},
 			{
@@ -658,6 +827,7 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"buff_ids": [],
 				"damage_ratio": 1.8,
 				"origin": "hit_window",
 				"radius": 80.0,
@@ -743,6 +913,7 @@
 			},
 			{
 				"aim_mode": "facing_elevation",
+				"buff_ids": [],
 				"damage_ratio": 0.5,
 				"elevation_degrees": 0.0,
 				"emission": "single",

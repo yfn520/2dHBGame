@@ -76,9 +76,20 @@ func apply_self_buff(node: Dictionary) -> void:
 		return
 	var buff_ids := _read_buff_ids(node)
 	var source_id := _owner.get_instance_id() if _owner != null else 0
+	# 节点可配置 effect_offset_x/y 微调 buff 特效位置、effect_scale 缩放特效，注入到 config 副本传递给 buff_manager
+	var has_offset := node.has("effect_offset_x") or node.has("effect_offset_y")
+	var has_scale := node.has("effect_scale")
 	for buff_id in buff_ids:
 		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
 		if not config.is_empty():
+			if has_offset or has_scale:
+				config = config.duplicate(true)
+				if node.has("effect_offset_x"):
+					config["effect_offset_x"] = float(node.get("effect_offset_x", 0.0))
+				if node.has("effect_offset_y"):
+					config["effect_offset_y"] = float(node.get("effect_offset_y", 0.0))
+				if has_scale:
+					config["effect_scale"] = maxf(0.01, float(node.get("effect_scale", 1.0)))
 			_owner.apply_buff_from_config(config, source_id)
 
 

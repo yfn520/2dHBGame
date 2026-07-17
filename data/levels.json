@@ -4,11 +4,11 @@
 		"description": "初始关卡",
 		"enemies": [
 			{
-				"enemy_id": 1007,
+				"enemy_id": 1009,
 				"mode": "point",
-				"spawn_id": "spawn_3",
-				"x": 689.902160644531,
-				"y": 376.081390380859
+				"spawn_id": "spawn_0",
+				"x": 618.267150878906,
+				"y": 447.091186523438
 			}
 		],
 		"name": "星地",

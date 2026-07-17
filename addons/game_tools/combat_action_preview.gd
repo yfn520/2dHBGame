@@ -1,6 +1,9 @@
 @tool
 extends Control
 
+# 特效层拖拽时发射当前偏移（绘制空间绝对值，已含 visual_scale 和 body_center_y）
+signal effect_offset_changed(offset: Vector2)
+
 var frame_texture: Texture2D
 var sprite_scale := 1.0
 var frame_index := 0
@@ -19,6 +22,11 @@ var _effect_offset := Vector2.ZERO
 var _effect_active := false
 var _effect_visual_scale := 1.0
 var _effect_is_local := false
+
+# 拖拽调整 buff 特效偏移
+var _dragging := false
+var _drag_start_mouse := Vector2.ZERO
+var _drag_start_offset := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -57,6 +65,47 @@ func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale:
 	_effect_is_local = is_local
 	_rebuild_effect_instance()
 	queue_redraw()
+
+
+# 鼠标在特效附近按下并拖动时，实时调整 _effect_offset 并发射 delta 信号给编辑器回写。
+# 仅 apply_self_buff（character_local + 含 body_center_y）使用，其他类型不影响节点字段。
+func _gui_input(event: InputEvent) -> void:
+	if not _effect_active or _effect_layer == null:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			var zoom := _compute_zoom()
+			var origin := Vector2(size.x * 0.5, size.y * 0.5 + 12.0)
+			var effect_pos := origin + _effect_offset * zoom
+			# 鼠标距特效中心 80px 内开始拖拽（给手柄式交互留足容差）
+			if event.position.distance_to(effect_pos) <= 80.0:
+				_dragging = true
+				_drag_start_mouse = event.position
+				_drag_start_offset = _effect_offset
+				accept_event()
+		else:
+			if _dragging:
+				_dragging = false
+				accept_event()
+	elif event is InputEventMouseMotion and _dragging:
+		var zoom := _compute_zoom()
+		var delta: Vector2 = (event.position - _drag_start_mouse) / zoom
+		_effect_offset = _drag_start_offset + delta
+		var origin := Vector2(size.x * 0.5, size.y * 0.5 + 12.0)
+		_effect_layer.position = origin + _effect_offset * zoom
+		queue_redraw()
+		effect_offset_changed.emit(_effect_offset)
+		accept_event()
+
+
+func _compute_zoom() -> float:
+	if frame_texture == null:
+		return 1.0
+	var texture_size := frame_texture.get_size()
+	var world_size := texture_size * sprite_scale
+	var available := size - Vector2(32, 52)
+	var zoom := minf(available.x / world_size.x, available.y / world_size.y)
+	return maxf(0.01, zoom)
 
 
 func _rebuild_effect_instance() -> void:

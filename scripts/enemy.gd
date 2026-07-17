@@ -375,19 +375,20 @@ func _get_nearest_engage_distance(distance_x: float) -> float:
 		if cache.is_empty():
 			continue
 		var on_cd: bool = combat != null and float(combat._cooldowns.get(sid, 0.0)) > 0.0
-		if not on_cd:
-			has_ready = true
 		for entry_value in cache.get("entries", []):
 			if not entry_value is Dictionary:
 				continue
 			var entry: Dictionary = entry_value
 			var max_d := float(entry.get("max_edge_distance", 0.0))
+			# 跳过纯辅助节点（max=99999）和当前距离够不着的节点
 			if max_d >= 99990.0 or max_d < distance_x:
 				continue
 			if any_best == 0.0 or max_d < any_best:
 				any_best = max_d
-			if not on_cd and (ready_best == 0.0 or max_d < ready_best):
-				ready_best = max_d
+			if not on_cd:
+				has_ready = true
+				if ready_best == 0.0 or max_d < ready_best:
+					ready_best = max_d
 	# 有可用技能时只看 ready_best（可能为0表示还没到攻击距离，继续追击）
 	# 全冷却时返回 any_best（停在攻击范围等冷却）
 	if has_ready:

@@ -275,6 +275,9 @@ func _on_browse_resource(edit: LineEdit, filters: PackedStringArray) -> void:
 	add_child(dialog)
 	dialog.file_selected.connect(func(path: String):
 		edit.text = path
+		# 程序化设置 LineEdit.text 不会触发 text_changed 信号，需手动同步数据
+		# 通过 emit_signal 触发已连接的 _on_field_changed 回调
+		edit.text_changed.emit(path)
 		dialog.queue_free()
 	)
 	dialog.canceled.connect(dialog.queue_free)
@@ -521,17 +524,24 @@ func _on_add_buff() -> void:
 	for buff_id in _buffs:
 		max_id = maxi(max_id, buff_id)
 	var new_id := max_id + 1
-	_buffs[new_id] = {
-		"name": "新 Buff",
-		"description": "",
-		"category": "debuff",
-		"duration": 3.0,
-		"max_stacks": 1,
-		"stack_behavior": "refresh",
-		"icon": "",
-		"effect_scene": "",
-		"effects": [],
-	}
+	# 若有选中 buff，拷贝其配置作为新 buff 基础，方便快速新增同类型 buff
+	if _selected_id != 0 and _buffs.has(_selected_id):
+		var source: Dictionary = _buffs[_selected_id]
+		_buffs[new_id] = source.duplicate(true)
+		_buffs[new_id]["name"] = String(source.get("name", "")) + " 副本"
+		_buffs[new_id]["effects"] = (source.get("effects", []) as Array).duplicate(true)
+	else:
+		_buffs[new_id] = {
+			"name": "新 Buff",
+			"description": "",
+			"category": "debuff",
+			"duration": 3.0,
+			"max_stacks": 1,
+			"stack_behavior": "refresh",
+			"icon": "",
+			"effect_scene": "",
+			"effects": [],
+		}
 	_selected_id = new_id
 	_refresh_buff_list()
 	_show_buff_details(new_id)

@@ -78,6 +78,12 @@ var _preview_action := "attack"
 var _visual_transform: Dictionary = {}
 var _sprite_scale := 1.0
 
+# apply_self_buff 节点详情中的特效控件引用（拖拽回写时同步显示）
+var _effect_offset_x_spin: SpinBox
+var _effect_offset_y_spin: SpinBox
+var _effect_scale_slider: HSlider
+var _effect_scale_spin: SpinBox
+
 
 func _init() -> void:
 	title = "技能节点配置"
@@ -192,6 +198,7 @@ func _build_ui() -> void:
 	_preview = CombatActionPreview.new()
 	_preview.custom_minimum_size = Vector2(280, 220)
 	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_preview.effect_offset_changed.connect(_on_effect_offset_changed)
 	preview_col.add_child(_preview)
 	var frame_row := HBoxContainer.new()
 	preview_col.add_child(frame_row)
@@ -510,6 +517,7 @@ func _rebuild_node_list(keep_index := -1) -> void:
 		var type_name := String(node.get("type", ""))
 		var category := "动作" if ACTION_TYPES.has(type_name) else "控制"
 		_node_list.add_item("%02d  [%s] %s%s" % [index + 1, category, _node_label(type_name), _node_summary(node)])
+		_node_list.set_item_tooltip(index, _node_tooltip(node))
 	if _node_list.item_count > 0:
 		var sel := keep_index if (keep_index >= 0 and keep_index < _node_list.item_count) else 0
 		_node_list.select(sel)
@@ -537,6 +545,57 @@ func _node_summary(node: Dictionary) -> String:
 	return ""
 
 
+## 节点列表项的鼠标悬停提示：apply_self_buff / apply_target_buff 及任何带 buff_ids 的节点
+## 展示 buff 名称、类别、效果、触发概率，便于一眼看清该节点会施加什么 buff。
+func _node_tooltip(node: Dictionary) -> String:
+	var type_name := String(node.get("type", ""))
+	var buff_ids: Array = node.get("buff_ids", [])
+	if buff_ids.is_empty() and not node.has("buff_id"):
+		return ""
+	var buffs := _read_json(BUFFS_PATH)
+	var lines := PackedStringArray()
+	match type_name:
+		"apply_self_buff":
+			lines.append("施加自身 Buff")
+		"apply_target_buff":
+			lines.append("施加目标 Buff（命中后挂到被击者）")
+		"spawn_projectile":
+			lines.append("弹道命中时附带 Buff")
+		"melee_damage", "area_damage", "fullscreen_damage":
+			lines.append("伤害命中时附带 Buff")
+		_:
+			lines.append("附带 Buff")
+	var chance := float(node.get("chance", node.get("buff_chance", 1.0)))
+	if chance < 1.0:
+		lines.append("触发概率：%.0f%%" % (chance * 100.0))
+	else:
+		lines.append("触发概率：100%%")
+	for id_value in buff_ids:
+		var buff_id := int(id_value)
+		if buff_id <= 0:
+			continue
+		var buff: Dictionary = buffs.get(str(buff_id), {})
+		if buff.is_empty():
+			lines.append("· #%d（未找到配置）" % buff_id)
+			continue
+		var bname := String(buff.get("name", "未命名"))
+		var category := String(buff.get("category", ""))
+		var desc := String(buff.get("description", ""))
+		var stacks := int(buff.get("max_stacks", 1))
+		var dur := float(buff.get("duration", 0.0))
+		var header := "· #%d %s" % [buff_id, bname]
+		if category.length() > 0:
+			header += " [%s]" % category
+		if stacks > 1:
+			header += " 可叠%d层" % stacks
+		if dur > 0.0:
+			header += " %.1fs" % dur
+		lines.append(header)
+		if desc.length() > 0:
+			lines.append("  " + desc)
+	return "\n".join(lines)
+
+
 func _on_node_selected(index: int) -> void:
 	_show_node_details(index)
 	_timeline.set_selected_node(index)
@@ -552,6 +611,10 @@ func _selected_node_index() -> int:
 func _clear_node_details() -> void:
 	for child in _node_details.get_children():
 		child.queue_free()
+	_effect_offset_x_spin = null
+	_effect_offset_y_spin = null
+	_effect_scale_slider = null
+	_effect_scale_spin = null
 
 
 func _show_node_details(index: int) -> void:
@@ -960,6 +1023,42 @@ func _add_node_spin(form: GridContainer, label_text: String, field: String, node
 	return spin
 
 
+## 添加 HSlider + SpinBox 联动控件编辑数值字段（Slider 占主体，SpinBox 显示精确值）。
+## 通过成员变量 _effect_scale_slider / _effect_scale_spin 暴露引用以便外部同步。
+func _add_node_slider(form: GridContainer, label_text: String, field: String, node: Dictionary, default_value: float, minimum: float, maximum: float, step_value: float) -> void:
+	var label := Label.new()
+	label.text = label_text
+	form.add_child(label)
+	var container := HBoxContainer.new()
+	container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var slider := HSlider.new()
+	slider.min_value = minimum
+	slider.max_value = maximum
+	slider.step = step_value
+	slider.value = float(node.get(field, default_value))
+	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var spin := SpinBox.new()
+	spin.min_value = minimum
+	spin.max_value = maximum
+	spin.step = step_value
+	spin.value = float(node.get(field, default_value))
+	spin.custom_minimum_size.x = 70
+	# 双向同步：slider 变化时更新 spin 并写回字段；spin 变化时反之
+	slider.value_changed.connect(func(v: float) -> void:
+		if _effect_scale_spin != null and is_instance_valid(_effect_scale_spin):
+			_effect_scale_spin.value = v
+		_on_node_number_changed(v, field))
+	spin.value_changed.connect(func(v: float) -> void:
+		if _effect_scale_slider != null and is_instance_valid(_effect_scale_slider):
+			_effect_scale_slider.value = v
+		_on_node_number_changed(v, field))
+	container.add_child(slider)
+	container.add_child(spin)
+	form.add_child(container)
+	_effect_scale_slider = slider
+	_effect_scale_spin = spin
+
+
 ## 编辑当前技能所属角色/怪物的攻击力（attack）。伤害 = attack × damage_ratio。
 ## 改动直接写回 characters.json / enemies.json，无需另开编辑器。
 func _add_owner_attack_editor(form: GridContainer) -> void:
@@ -1126,6 +1225,18 @@ func _build_buff_ids_fields(form: GridContainer, node: Dictionary) -> void:
 	add_btn.pressed.connect(_on_buff_ids_add)
 	list_container.add_child(add_btn)
 
+	# apply_self_buff 节点：特效偏移微调 + 缩放 Slider（选中 buff 有 effect_scene 时可在预览中直接拖拽）
+	if String(node.get("type", "")) == "apply_self_buff":
+		_effect_offset_x_spin = _add_node_spin(form, "特效偏移 X", "effect_offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
+		_effect_offset_y_spin = _add_node_spin(form, "特效偏移 Y", "effect_offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
+		_add_node_slider(form, "特效缩放", "effect_scale", node, 1.0, 0.1, 3.0, 0.05)
+		var drag_tip := Label.new()
+		drag_tip.text = "提示：在预览窗口中按住左键拖拽特效可直接调整偏移"
+		drag_tip.add_theme_color_override("font_color", Color("9aa0a6"))
+		drag_tip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		form.add_child(drag_tip)
+		form.add_child(Control.new())
+
 
 func _make_buff_ids_row(row_index: int, current_id: int) -> HBoxContainer:
 	var row := HBoxContainer.new()
@@ -1177,6 +1288,7 @@ func _on_buff_ids_changed(item_index: int, row_index: int, option: OptionButton)
 		skill["nodes"] = nodes
 		_skills[_current_skill_id] = skill
 	_rebuild_node_list_keep(node_idx)
+	_refresh_preview()
 
 
 func _on_buff_ids_add() -> void:
@@ -1280,6 +1392,7 @@ func _update_node(field: String, value: Variant, rebuild := false) -> void:
 		_show_node_details(index)
 	_rebuild_node_list_keep(index)
 	_refresh_timeline()
+	_refresh_preview()
 
 
 func _reload_action_preview(action_name: String) -> void:
@@ -1461,6 +1574,7 @@ func _load_visual_transform(asset_path: String) -> Dictionary:
 		"scale": Vector2.ONE,
 		"centered": true,
 		"visual_scale": 1.0,
+		"body_center_y": -50.0,
 	}
 	var character_config_path := asset_path.path_join("character_config.json")
 	if FileAccess.file_exists(character_config_path):
@@ -1472,6 +1586,14 @@ func _load_visual_transform(asset_path: String) -> Dictionary:
 			# display_scale 是角色视觉缩放，运行时 visual_scale = absf(CharacterActionSet.scale.x)
 			# 预览直接读 character_config 的 display_scale，避免依赖角色主场景文件
 			result["visual_scale"] = absf(float(cfg.get("display_scale", 1.0)))
+			# body_position.y 对应运行时 CollisionShape2D.position.y，用于模拟 buff 特效抬到身体中心
+			var body_pos: Dictionary = cfg.get("body_position", {})
+			if body_pos.has("y"):
+				result["body_center_y"] = float(body_pos.get("y", -50.0))
+			else:
+				var body_box: Dictionary = cfg.get("body_box", {})
+				if body_box.has("yOffset"):
+					result["body_center_y"] = float(body_box.get("yOffset", -50.0))
 	var scene_path := asset_path.path_join("godot/character_actions.tscn")
 	var packed := load(scene_path) as PackedScene
 	if packed == null:
@@ -1531,10 +1653,25 @@ func _refresh_effect_preview() -> void:
 		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
 		return
 	var type_name := String(node.get("type", ""))
-	if type_name != "play_effect" and type_name != "spawn_projectile":
+	if type_name != "play_effect" and type_name != "spawn_projectile" and type_name != "apply_self_buff":
 		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
 		return
-	var scene_path := String(node.get("scene", ""))
+	var scene_path := ""
+	if type_name == "apply_self_buff":
+		# 从第一个 buff 配置读取 effect_scene
+		var buff_ids: Array = node.get("buff_ids", [])
+		if buff_ids.is_empty():
+			_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+			return
+		var first_id := int(buff_ids[0])
+		if first_id <= 0:
+			_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
+			return
+		var buffs := _read_json(BUFFS_PATH)
+		var buff: Dictionary = buffs.get(str(first_id), {})
+		scene_path = String(buff.get("effect_scene", ""))
+	else:
+		scene_path = String(node.get("scene", ""))
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
 		return
@@ -1552,6 +1689,15 @@ func _refresh_effect_preview() -> void:
 		# world: 挂场景根，global_position = origin(角色根) + offset
 		var effect_offset := Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale) if coord_space == "character_local" else offset
 		_preview.set_effect(packed, effect_offset, true, visual_scale, coord_space == "character_local")
+	elif type_name == "apply_self_buff":
+		# apply_self_buff: 挂角色根，运行时 _spawn_effect 先抬到身体中心（body_center_y）再叠加 effect_offset
+		# 预览对齐运行时：offset.y 先叠加 body_center_y，再乘 visual_scale
+		# 特效缩放 = 角色视觉缩放 × 节点 effect_scale（与 buff_manager._spawn_effect 应用 scale 一致）
+		var body_center_y := float(_visual_transform.get("body_center_y", -50.0))
+		var offset := Vector2(float(node.get("effect_offset_x", 0.0)), float(node.get("effect_offset_y", 0.0)))
+		var effect_offset := Vector2(offset.x * mirror_x * visual_scale, (offset.y + body_center_y) * visual_scale)
+		var effect_scale := float(node.get("effect_scale", 1.0))
+		_preview.set_effect(packed, effect_offset, true, visual_scale * effect_scale, true)
 	else:
 		# spawn_projectile: 挂场景根，global_position = origin
 		# origin 由字段决定：hit_window → hit_box 位置；caster → 角色根；socket → 帧坐标
@@ -1561,6 +1707,41 @@ func _refresh_effect_preview() -> void:
 		var origin_offset := _resolve_preview_origin(node) * visual_scale
 		var node_scale := float(node.get("scale", 1.0))
 		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
+
+
+## 预览窗口拖拽特效时的回调：从绘制空间绝对偏移反推节点 effect_offset_x/y 并写回。
+## 不调用 _refresh_preview() —— preview 内部已自行更新位置，避免重建实例打断拖拽。
+## SpinBox 用 set_value_no_signal 同步显示，避免触发 value_changed -> _update_node -> refresh 链路。
+## 坐标换算（对齐 _refresh_effect_preview 的 apply_self_buff 分支）：
+##   effect_offset.x = offset.x * mirror_x * visual_scale   →   offset.x = effect_offset.x / (mirror_x * visual_scale)
+##   effect_offset.y = (offset.y + body_center_y) * visual_scale   →   offset.y = effect_offset.y / visual_scale - body_center_y
+func _on_effect_offset_changed(effect_offset: Vector2) -> void:
+	var index := _selected_node_index()
+	if index < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if index >= nodes.size() or not nodes[index] is Dictionary:
+		return
+	var node: Dictionary = nodes[index]
+	if String(node.get("type", "")) != "apply_self_buff":
+		return
+	var visual_scale: float = float(_visual_transform.get("visual_scale", 1.0))
+	if visual_scale <= 0.01:
+		visual_scale = 1.0
+	var body_center_y := float(_visual_transform.get("body_center_y", -50.0))
+	# 预览固定朝右，mirror_x = 1
+	var new_x := effect_offset.x / visual_scale
+	var new_y := effect_offset.y / visual_scale - body_center_y
+	node["effect_offset_x"] = new_x
+	node["effect_offset_y"] = new_y
+	nodes[index] = node
+	skill["nodes"] = nodes
+	_skills[_current_skill_id] = skill
+	if _effect_offset_x_spin != null and is_instance_valid(_effect_offset_x_spin):
+		_effect_offset_x_spin.set_value_no_signal(new_x)
+	if _effect_offset_y_spin != null and is_instance_valid(_effect_offset_y_spin):
+		_effect_offset_y_spin.set_value_no_signal(new_y)
 
 
 ## 预览中解析 spawn_projectile 的 origin 偏移（相对角色根）。

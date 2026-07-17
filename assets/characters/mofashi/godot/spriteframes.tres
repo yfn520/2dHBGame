@@ -1,6 +1,6 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://di1k1hwk4wg8k"]
 
-[ext_resource type="Texture2D" uid="uid://bfprwjdavo8pj" path="res://assets/characters/mofashi/godot/all_actions_atlas.png" id="sheet"]
+[ext_resource type="Texture2D" path="res://assets/characters/mofashi/godot/all_actions_atlas.png" id="sheet"]
 
 [sub_resource type="AtlasTexture" id="atlas_3_1"]
 atlas = ExtResource("sheet")

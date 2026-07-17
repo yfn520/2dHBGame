@@ -44,6 +44,7 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 	var entries: Array = []
 	var current_action := ""
 	var source_hash_input := ""
+	var has_support_node := false
 
 	var nodes: Array = skill.get("nodes", [])
 	for index in range(nodes.size()):
@@ -72,7 +73,7 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 					entries.append(entry)
 					source_hash_input += _entry_hash(entry)
 			"spawn_projectile":
-				var entry := _compile_projectile(node, index)
+				var entry := _compile_projectile(node, current_action, actions, body_half_width, actor_scale, index)
 				if not entry.is_empty():
 					entries.append(entry)
 					source_hash_input += _entry_hash(entry)
@@ -87,7 +88,8 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 				})
 				source_hash_input += "fullscreen|"
 			"apply_target_buff", "apply_self_buff", "heal", "play_effect", "move_x":
-				# 不计入攻击距离
+				# 不计入攻击距离，但标记技能有辅助节点
+				has_support_node = true
 				pass
 			"wait_action_event", "wait_animation_end", "wait_time", "end_skill":
 				pass
@@ -98,6 +100,18 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 	source_hash_input += "actions=%s|" % _actions_hash(actions)
 	source_hash_input += "body=%s|" % _body_hash(character_config)
 	source_hash_input += "scale=%.4f" % actor_scale
+
+	# 纯辅助技能（无伤害节点但有 apply_self_buff/heal/play_effect 等）：任意距离可起手
+	# 否则 AI 的 _pick_weighted_skill 会因 entries 为空而永远选不中这类技能
+	if entries.is_empty() and has_support_node:
+		entries.append({
+			"node_index": -1,
+			"source": "support",
+			"kind": "support",
+			"min_edge_distance": 0.0,
+			"max_edge_distance": 99999.0,
+			"detail": "纯辅助技能，任意距离可起手",
+		})
 
 	return {
 		"policy": POLICY_ANY_DAMAGE_NODE,
@@ -211,21 +225,54 @@ static func _compile_area(node: Dictionary, current_action: String, actions: Dic
 	}
 
 
-static func _compile_projectile(node: Dictionary, node_index: int) -> Dictionary:
-	# 弹道节点：使用设计参数 ai_min_range / ai_max_range
-	# 兼容旧字段 min_range（迁移期）
+static func _compile_projectile(node: Dictionary, current_action: String, actions: Dictionary, body_half_width: float, actor_scale: float, node_index: int) -> Dictionary:
+	# 弹道节点 AI 距离：
+	# - ballistic + facing_elevation：自动按抛物线物理公式算射程（无需手填 ai_max_range）
+	# - 其他（直线/追踪/nearest_enemy）：使用设计参数 ai_min_range / ai_max_range
+	var trajectory := String(node.get("trajectory", "straight"))
+	var aim_mode := String(node.get("aim_mode", "facing_elevation"))
 	var min_d := maxf(0.0, float(node.get("ai_min_range", node.get("min_range", 0.0))))
 	var max_d := float(node.get("ai_max_range", 0.0))
+
+	# 抛物线自动射程：从 hit_window 发射点水平抛出，落地时间 t=sqrt(2h/g)，水平射程=v·t
+	if trajectory == "ballistic" and aim_mode == "facing_elevation":
+		var window := _resolve_hit_window(node, current_action, actions)
+		if window.is_empty():
+			# 无攻击框时回退到手填参数
+			if max_d > 0.0:
+				return _make_projectile_entry(node_index, min_d, max_d, "ai_min=%.0f ai_max=%.0f (no_hit_window)" % [min_d, max_d])
+			push_warning("[AIRangeCompiler] ballistic spawn_projectile 找不到攻击框且无 ai_max_range (node=%d)" % node_index)
+			return {}
+		var speed := maxf(1.0, float(node.get("speed", 300.0)))
+		var gravity := maxf(1.0, float(node.get("gravity", 900.0)))
+		# 发射点：authored_x（或 forward）作水平偏移，y 作发射高度（y 为负=向上）
+		var launch_x := absf(float(window.get("authored_x", window.get("forward", 0.0)))) * actor_scale
+		var launch_h := absf(float(window.get("y", 0.0))) * actor_scale
+		var elevation := deg_to_rad(absf(float(node.get("elevation_degrees", 0.0))))
+		# 水平射程：v·cos(θ)·(v·sin(θ)/g + sqrt((v·sin(θ))²/g² + 2h/g))
+		# θ=0 时简化为 v·sqrt(2h/g)
+		var v_sin := speed * sin(elevation)
+		var v_cos := speed * cos(elevation)
+		var flight_time := v_sin / gravity + sqrt(maxf(0.0, v_sin * v_sin / (gravity * gravity) + 2.0 * launch_h / gravity))
+		var range_px := v_cos * flight_time
+		var max_edge := maxf(0.0, launch_x + range_px - body_half_width - SAFETY_MARGIN)
+		return _make_projectile_entry(node_index, min_d, max_edge, "ballistic v=%.0f g=%.0f h=%.0f launch_x=%.0f range=%.0f scale=%.2f body_half=%.1f" % [speed, gravity, launch_h, launch_x, range_px, actor_scale, body_half_width])
+
+	# 非抛物线：依赖手填 ai_max_range
 	if max_d <= 0.0:
 		push_warning("[AIRangeCompiler] spawn_projectile 节点缺少 ai_max_range (node=%d)" % node_index)
 		return {}
+	return _make_projectile_entry(node_index, min_d, max_d, "ai_min=%.0f ai_max=%.0f" % [min_d, max_d])
+
+
+static func _make_projectile_entry(node_index: int, min_d: float, max_d: float, detail: String) -> Dictionary:
 	return {
 		"node_index": node_index,
 		"source": "projectile",
 		"kind": "projectile",
 		"min_edge_distance": min_d,
 		"max_edge_distance": max_d,
-		"detail": "ai_min=%.0f ai_max=%.0f" % [min_d, max_d],
+		"detail": detail,
 	}
 
 

@@ -14,7 +14,9 @@
 		"normal_skill": 2001.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2004.0
+		]
 	},
 	"1003": {
 		"actor_scale": 1.5,
@@ -32,7 +34,9 @@
 		"normal_skill": 2101.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2103.0
+		]
 	},
 	"1004": {
 		"asset": "res://assets/enemies/wolf",
@@ -125,7 +129,9 @@
 		"normal_skill": 2701.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			2702.0
+		]
 	},
 	"1009": {
 		"asset": "res://assets/enemies/huayao",

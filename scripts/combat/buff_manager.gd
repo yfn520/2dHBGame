@@ -211,6 +211,13 @@ func _spawn_effect(buff: BuffInstance) -> void:
 		var node2d := fx as Node2D
 		# 角色原点在脚底，把 buff 特效抬到身体中心，避免出现在脚底
 		node2d.position.y = _get_body_center_y()
+		# 叠加技能节点 apply_self_buff 配置的微调偏移：
+		# x 按朝向镜像（对齐预览 mirror_x），y 不翻转（垂直方向不受朝向影响）
+		var facing := _get_owner_facing_sign()
+		node2d.position.x += buff.effect_offset.x * facing
+		node2d.position.y += buff.effect_offset.y
+		# 应用技能节点配置的特效缩放（默认 1.0）
+		node2d.scale *= Vector2(buff.effect_scale, buff.effect_scale)
 		# 渲染在角色身前，避免被角色遮挡（与 combat_component 的 attachment_layer=front 一致）
 		var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
 		var visual_z := visual_root.z_index if visual_root != null else 0
@@ -225,3 +232,11 @@ func _get_body_center_y() -> float:
 	if col == null or col.shape == null:
 		return -50.0
 	return col.position.y
+
+
+## 读取角色当前朝向符号：1.0=朝右，-1.0=朝左。对齐 combat_actor_base.get_facing_sign。
+## 用于把预览中按朝右配置的 effect_offset.x 在朝左时翻转。
+func _get_owner_facing_sign() -> float:
+	if _owner != null and _owner.has_method("get_facing_sign"):
+		return float(_owner.get_facing_sign())
+	return 1.0

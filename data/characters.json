@@ -16,9 +16,9 @@
 			"max_hp": 20.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60.0,
+		"max_level": 60,
 		"name": "new_kivin",
-		"normal_skill": 3001.0,
+		"normal_skill": 3001,
 		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
 		"skill_unlocks": {
 			"skill1": {
@@ -62,9 +62,9 @@
 			"max_hp": 14.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60.0,
+		"max_level": 60,
 		"name": "mofashi",
-		"normal_skill": 3101.0,
+		"normal_skill": 3101,
 		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
 		"skill_unlocks": {
 			"skill1": {
@@ -104,9 +104,9 @@
 			"max_hp": 15.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60.0,
+		"max_level": 60,
 		"name": "gong'sho",
-		"normal_skill": 3201.0,
+		"normal_skill": 3201,
 		"scene": "res://assets/characters/gongshou/godot/gongshou.tscn",
 		"skill_unlocks": {
 			"skill1": {
@@ -127,6 +127,51 @@
 			3202.0,
 			3203.0,
 			3204.0
+		]
+	},
+	"1004": {
+		"actor_scale": 0.7,
+		"asset": "res://assets/characters/new_fashi",
+		"base_stats": {
+			"attack": 1,
+			"attack_speed": 1.0,
+			"crit_damage": 1.5,
+			"crit_rate": 0.0,
+			"defense": 0,
+			"max_hp": 200,
+			"move_speed": 220.0
+		},
+		"character_config": "res://assets/characters/new_fashi/character_config.json",
+		"description": "",
+		"growth": {
+			"attack": 1,
+			"defense": 0,
+			"max_hp": 15,
+			"move_speed": 0.0
+		},
+		"max_level": 60,
+		"name": "法师，备案1",
+		"normal_skill": 3301,
+		"scene": "res://assets/characters/new_fashi/godot/new_fashi.tscn",
+		"skill_unlocks": {
+			"skill1": {
+				"skill_id": 3302,
+				"unlock_level": 1
+			},
+			"skill2": {
+				"skill_id": 3303,
+				"unlock_level": 1
+			},
+			"skill3": {
+				"skill_id": 3304,
+				"unlock_level": 1
+			}
+		},
+		"skills": [
+			3301,
+			3302,
+			3303,
+			3304
 		]
 	}
 }

@@ -31,7 +31,7 @@
 	},
 	"body_position": {
 		"x": 0.0,
-		"y": -36.0
+		"y": -38.0
 	},
 	"body_size": {
 		"x": 29.0,
@@ -39,13 +39,13 @@
 	},
 	"centered": true,
 	"character_name": "kivin",
-	"collision_bottom": 2.0,
+	"collision_bottom": 0.0,
 	"combat_actions": "res://assets/characters/new_kivin/combat_actions.json",
 	"combat_source": "res://assets/characters/new_kivin/combat/attack_frames.json",
 	"default_animation": "idle",
 	"display_offset": {
 		"x": -11.0,
-		"y": -50.0
+		"y": -52.0
 	},
 	"display_scale": 1.0,
 	"foot_center": {

@@ -14,6 +14,8 @@ var effect_scene: String = ""
 var effects: Array = []
 var source_entity: int = 0
 var effect_node: Node = null
+var effect_offset: Vector2 = Vector2.ZERO
+var effect_scale: float = 1.0
 
 
 func _init(config: Dictionary, source: int = 0) -> void:
@@ -27,6 +29,10 @@ func _init(config: Dictionary, source: int = 0) -> void:
 	stack_behavior = String(config.get("stack_behavior", "refresh"))
 	icon = String(config.get("icon", ""))
 	effect_scene = String(config.get("effect_scene", ""))
+	# 技能节点 apply_self_buff 可注入 effect_offset_x/y 微调特效位置
+	effect_offset = Vector2(float(config.get("effect_offset_x", 0.0)), float(config.get("effect_offset_y", 0.0)))
+	# 技能节点 apply_self_buff 可注入 effect_scale 缩放特效（默认 1.0）
+	effect_scale = maxf(0.01, float(config.get("effect_scale", 1.0)))
 	# 深拷贝 effects（含运行时字段如 tick_timer / remaining）
 	var raw_effects = config.get("effects", [])
 	if raw_effects is Array:

@@ -39,6 +39,9 @@ var _enemy_name_label: Label
 var _enemy_hp_bar: ProgressBar
 var _enemy_hp_text: Label
 var _enemy_info_label: Label
+var _enemy_buff_bar: HBoxContainer
+var _enemy_combat: Node
+var _tracked_enemy: Node
 
 
 func _ready() -> void:
@@ -198,6 +201,13 @@ func _build_enemy_panel() -> Control:
 	_enemy_info_label.theme_type_variation = &"HUDMuted"
 	_enemy_info_label.add_theme_font_size_override("font_size", 12)
 	vbox.add_child(_enemy_info_label)
+
+	_enemy_buff_bar = HBoxContainer.new()
+	_enemy_buff_bar.name = "EnemyBuffBar"
+	_enemy_buff_bar.alignment = BoxContainer.ALIGNMENT_CENTER
+	_enemy_buff_bar.add_theme_constant_override("separation", 2)
+	_enemy_buff_bar.custom_minimum_size = Vector2(0, 24)
+	vbox.add_child(_enemy_buff_bar)
 	return _enemy_panel
 
 
@@ -616,10 +626,12 @@ func _refresh_enemy_panel() -> void:
 	var enemy := _select_current_enemy()
 	if enemy == null:
 		_enemy_panel.visible = false
+		_disconnect_enemy_combat()
 		return
 	var stats = enemy.get_combat_stats() if enemy.has_method("get_combat_stats") else null
 	if stats == null:
 		_enemy_panel.visible = false
+		_disconnect_enemy_combat()
 		return
 	_enemy_panel.visible = true
 	_enemy_name_label.text = enemy.get_enemy_name() if enemy.has_method("get_enemy_name") else enemy.name
@@ -637,6 +649,68 @@ func _refresh_enemy_panel() -> void:
 		target_name,
 		dist_text,
 	]
+	# 跟踪的敌人变化时，重新连接 buff 信号
+	if _tracked_enemy != enemy:
+		_tracked_enemy = enemy
+		_disconnect_enemy_combat()
+		_connect_enemy_combat(enemy)
+	_refresh_enemy_buffs()
+
+
+## 连接锁定敌人的 buff 信号，使 buff 变化时即时刷新图标。
+func _connect_enemy_combat(enemy: Node) -> void:
+	if enemy == null:
+		return
+	_enemy_combat = enemy.get_node_or_null("CombatComponent")
+	if _enemy_combat == null or not _enemy_combat.has_method("get_buff_manager"):
+		return
+	var buff_manager = _enemy_combat.get_buff_manager()
+	if buff_manager == null:
+		return
+	if buff_manager.has_signal("buff_applied") and not buff_manager.buff_applied.is_connected(_on_enemy_buff_changed):
+		buff_manager.buff_applied.connect(_on_enemy_buff_changed)
+	if buff_manager.has_signal("buff_removed") and not buff_manager.buff_removed.is_connected(_on_enemy_buff_changed):
+		buff_manager.buff_removed.connect(_on_enemy_buff_changed)
+	if buff_manager.has_signal("buff_ticked") and not buff_manager.buff_ticked.is_connected(_on_enemy_buff_changed):
+		buff_manager.buff_ticked.connect(_on_enemy_buff_changed)
+
+
+## 断开旧敌人的 buff 信号连接。
+func _disconnect_enemy_combat() -> void:
+	if _enemy_combat == null or not is_instance_valid(_enemy_combat):
+		_enemy_combat = null
+		return
+	if _enemy_combat.has_method("get_buff_manager"):
+		var buff_manager = _enemy_combat.get_buff_manager()
+		if buff_manager != null:
+			if buff_manager.has_signal("buff_applied") and buff_manager.buff_applied.is_connected(_on_enemy_buff_changed):
+				buff_manager.buff_applied.disconnect(_on_enemy_buff_changed)
+			if buff_manager.has_signal("buff_removed") and buff_manager.buff_removed.is_connected(_on_enemy_buff_changed):
+				buff_manager.buff_removed.disconnect(_on_enemy_buff_changed)
+			if buff_manager.has_signal("buff_ticked") and buff_manager.buff_ticked.is_connected(_on_enemy_buff_changed):
+				buff_manager.buff_ticked.disconnect(_on_enemy_buff_changed)
+	_enemy_combat = null
+
+
+func _on_enemy_buff_changed(_buff = null, _damage = null) -> void:
+	_refresh_enemy_buffs()
+
+
+func _refresh_enemy_buffs() -> void:
+	if _enemy_buff_bar == null:
+		return
+	for child in _enemy_buff_bar.get_children():
+		child.queue_free()
+	if _enemy_combat == null or not is_instance_valid(_enemy_combat) or not _enemy_combat.has_method("get_buff_manager"):
+		return
+	var buff_manager = _enemy_combat.get_buff_manager()
+	if buff_manager == null:
+		return
+	var buffs: Array = buff_manager.get_active_buffs()
+	for buff in buffs:
+		if buff == null:
+			continue
+		_enemy_buff_bar.add_child(_make_buff_icon(buff))
 
 
 func _select_current_enemy() -> Node:

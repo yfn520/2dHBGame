@@ -1,0 +1,63 @@
+{
+	"actions_scene": "res://assets/characters/new_fashi/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/new_fashi/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill1",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead",
+		"jump"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 186.0,
+			"width": 75.0,
+			"x": 84.0,
+			"y": 37.0
+		},
+		"forwardDistance": 1.0,
+		"height": 186.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 75.0,
+		"yOffset": -93.0
+	},
+	"body_position": {
+		"x": 1.0,
+		"y": -93.0
+	},
+	"body_size": {
+		"x": 75.0,
+		"y": 186.0
+	},
+	"centered": true,
+	"character_name": "法师，备案1",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/characters/new_fashi/combat_actions.json",
+	"combat_source": "res://assets/characters/new_fashi/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -1.0,
+		"y": -104.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 121.0,
+		"y": 224.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "new_fashi",
+	"spriteframes": "res://assets/characters/new_fashi/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}
