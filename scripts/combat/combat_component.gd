@@ -395,7 +395,10 @@ func _execute_target_buff_node(node: Dictionary) -> void:
 	if target_mode == "result" or target_mode == "last_result":
 		_cast_context.subscribe(String(node.get("result_key", "last_result")), Callable(self, "_apply_buff_to_target").bind(node.duplicate(true)), String(node.get("delivery", "each_hit")))
 		return
-	for target in _skill_executor.resolve_targets(node, _resolve_origin(node), _cast_context):
+	var origin := _resolve_origin(node)
+	var targets := _skill_executor.resolve_targets(node, origin, _cast_context)
+	print("[DEBUG apply_target_buff] node=%s origin=%s targets=%d" % [String(node.get("type","")), origin, targets.size()])
+	for target in targets:
 		_apply_buff_to_target(target, node)
 
 
@@ -421,6 +424,13 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 	var coord_space := String(node.get("coordinate_space", "world"))
+
+	# 全屏特效：挂到 UIRoot 的 ScreenLayer，按 cover 模式铺满 viewport，单次播放后自动销毁。
+	# 忽略 offset 和 visual_scale（运行时按 viewport 自适应），不受相机移动影响。
+	if coord_space == "fullscreen":
+		_spawn_fullscreen_effect(effect, node)
+		return
+
 	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
 
 	# 选定挂载根：character_local 模式下优先挂到被击者（target_owner），
@@ -468,8 +478,75 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 	scene.add_child(effect)
 	if effect is Node2D:
 		# World-space effects: 同样应用挂载根视觉缩放，使特效大小与角色缩放一致
-		(effect as Node2D).global_position = position_value + offset * visual_scale
+		# tscn 中烘焙的 position（来自 GameTool 的 spawnOffset）作为附加偏移，
+		# 与技能节点的 offset_x/offset_y 叠加，使设计期偏移在运行时生效。
+		var baked_offset := (effect as Node2D).position
+		(effect as Node2D).global_position = position_value + (offset + baked_offset) * visual_scale
 		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
+
+
+## 全屏特效：挂到 UIRoot 的 ScreenLayer（z=20），按 cover 模式铺满 viewport。
+## 单次播放完成后自动 queue_free；循环特效按 node.duration（秒）销毁，缺省 2.0 秒。
+func _spawn_fullscreen_effect(effect: Node, node: Dictionary) -> void:
+	if effect is not Node2D:
+		effect.queue_free()
+		return
+	var effect_node := effect as Node2D
+	# 找到 UIRoot.ScreenLayer（z=20）；找不到则回落到当前场景根
+	var screen_layer: CanvasLayer = null
+	var tree := _owner.get_tree() if _owner != null else null
+	if tree != null:
+		# UIRoot 通常是 GameRoot 的子节点，与 current_scene 同级
+		var root := tree.root
+		for child in root.get_children():
+			if child is UIRoot:
+				screen_layer = (child as UIRoot).get_node_or_null("ScreenLayer") as CanvasLayer
+				break
+	if screen_layer == null:
+		# 回落：直接挂到 current_scene（无 CanvasLayer 隔离，可能被相机影响）
+		if tree != null and tree.current_scene != null:
+			screen_layer = null
+			tree.current_scene.add_child(effect_node)
+		else:
+			effect_node.queue_free()
+			return
+	else:
+		screen_layer.add_child(effect_node)
+	# 计算 cover 缩放：取 viewport 尺寸与特效首帧尺寸的较大比例
+	var viewport_size := get_viewport().get_visible_rect().size
+	# 读特效首帧尺寸：AnimatedSprite2D 的 sprite_frames 首帧纹理
+	var frame_size := Vector2(viewport_size)
+	if effect_node is AnimatedSprite2D:
+		var sprite := effect_node as AnimatedSprite2D
+		var frames := sprite.sprite_frames
+		if frames != null and frames.has_animation(sprite.animation):
+			var anim_frames := frames.get_frame_count(sprite.animation)
+			if anim_frames > 0:
+				var tex := frames.get_frame_texture(sprite.animation, 0)
+				if tex != null:
+					frame_size = tex.get_size()
+	# centered 已为 true，position = viewport 中心；scale 取较大比例铺满
+	effect_node.position = viewport_size * 0.5
+	var cover_scale := maxf(viewport_size.x / frame_size.x, viewport_size.y / frame_size.y)
+	effect_node.scale = Vector2(cover_scale, cover_scale)
+	# 自动销毁：循环特效按 duration，单次按 animation_finished
+	var is_loop := false
+	if effect_node is AnimatedSprite2D:
+		var frames2 := (effect_node as AnimatedSprite2D).sprite_frames
+		if frames2 != null and frames2.has_animation((effect_node as AnimatedSprite2D).animation):
+			is_loop = frames2.get_animation_loop((effect_node as AnimatedSprite2D).animation)
+	if is_loop:
+		var duration := float(node.get("duration", 2.0))
+		# 用 SceneTreeTimer 延迟销毁，不阻塞技能流程
+		var timer := get_tree().create_timer(duration)
+		timer.timeout.connect(effect_node.queue_free)
+	else:
+		if effect_node is AnimatedSprite2D:
+			(effect_node as AnimatedSprite2D).animation_finished.connect(effect_node.queue_free)
+		else:
+			# 非 AnimatedSprite2D 无法监听完成，回落到 2 秒销毁
+			var timer2 := get_tree().create_timer(2.0)
+			timer2.timeout.connect(effect_node.queue_free)
 
 
 func _apply_buff_to_target(target: Area2D, node: Dictionary) -> void:
@@ -496,7 +573,11 @@ func _resolve_origin(node: Dictionary) -> Vector2:
 		if socket_position is Vector2:
 			return socket_position
 	if origin_type == "caster" and _owner is Node2D:
-		return (_owner as Node2D).global_position
+		var base_pos := (_owner as Node2D).global_position
+		# 抬到身体中心：读 HurtBox/CollisionShape2D.position.y（角色根坐标系，负值）
+		if _owner.has_method("get_body_center_y"):
+			return base_pos + Vector2(0.0, _owner.get_body_center_y())
+		return base_pos
 	if origin_type == "nearest_enemy":
 		var target := _skill_executor.find_nearest_enemy(float(node.get("target_search_range", 99999.0)))
 		if target != null:

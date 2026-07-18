@@ -102,6 +102,10 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"buff_chance": 0.2,
+				"buff_ids": [
+					1001.0
+				],
 				"damage_channel": "magic",
 				"damage_ratio": 2.0,
 				"damage_tag": "poison",
@@ -109,8 +113,6 @@
 				"radius": 60.0,
 				"result_key": "poison_cloud_hit",
 				"shape": "circle",
-				"status_buildup": 80.0,
-				"status_type": "poison",
 				"type": "area_damage"
 			},
 			{
@@ -703,7 +705,10 @@
 			{
 				"ai_max_range": 280.0,
 				"aim_mode": "facing_elevation",
-				"buff_ids": [],
+				"buff_chance": 0.2,
+				"buff_ids": [
+					1306.0
+				],
 				"damage_channel": "physical",
 				"damage_ratio": 1.0,
 				"damage_tag": "blunt",
@@ -715,8 +720,6 @@
 				"scale": 0.81,
 				"scene": "res://assets/effects/projectiles/effect-zhongzi.tscn",
 				"speed": 500.0,
-				"status_buildup": 60.0,
-				"status_type": "wet",
 				"trajectory": "ballistic",
 				"type": "spawn_projectile"
 			},
@@ -841,7 +844,10 @@
 				"type": "wait_hit_window"
 			},
 			{
-				"buff_ids": [],
+				"buff_chance": 0.2,
+				"buff_ids": [
+					1301.0
+				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.8,
 				"damage_tag": "frost",
@@ -849,8 +855,6 @@
 				"radius": 80.0,
 				"result_key": "kivin_skill2_hit",
 				"shape": "circle",
-				"status_buildup": 50.0,
-				"status_type": "chill",
 				"type": "area_damage"
 			},
 			{
@@ -976,6 +980,10 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"buff_chance": 0.2,
+				"buff_ids": [
+					1302.0
+				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.8,
 				"damage_tag": "thunder",
@@ -983,8 +991,6 @@
 				"radius": 90.0,
 				"result_key": "mage_skill2_hit",
 				"shape": "circle",
-				"status_buildup": 40.0,
-				"status_type": "shock",
 				"type": "area_damage"
 			},
 			{
@@ -1214,9 +1220,18 @@
 	},
 	"3301": {
 		"ai_range_cache": {
-			"entries": [],
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "projectile"
+				}
+			],
 			"policy": "any_damage_node",
-			"source_hash": ""
+			"source_hash": "ead5ad769ee8009c"
 		},
 		"cooldown": 1.0,
 		"name": "attack",
@@ -1226,23 +1241,187 @@
 				"type": "play_animation"
 			},
 			{
-				"hit_window_index": 0,
+				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
 				"ai_max_range": 280.0,
 				"ai_min_range": 0.0,
 				"aim_mode": "facing_elevation",
-				"buff_ids": [],
+				"buff_ids": [
+					1308.0
+				],
 				"damage_ratio": 1.0,
 				"emission": "single",
 				"lifetime": 5.0,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
-				"scene": "",
+				"scale": 5.01,
+				"scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3302": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "741fb5b6a4ea84a1"
+		},
+		"cooldown": 3.0,
+		"name": "fs_dianqiu",
+		"nodes": [
+			{
+				"action": "skill1",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"buff_ids": [
+					1004.0
+				],
+				"damage_ratio": 1.0,
+				"emission": "fan",
+				"lifetime": 5.0,
+				"max_pierce": 20.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scale": 2.01,
+				"scene": "res://assets/effects/projectiles/fireball.tscn",
+				"speed": 300.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3303": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "纯辅助技能，任意距离可起手",
+					"kind": "support",
+					"max_edge_distance": 99999.0,
+					"min_edge_distance": 0.0,
+					"node_index": -1.0,
+					"source": "support"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "4bf6bf632251deea"
+		},
+		"cooldown": 5.0,
+		"name": "fs_area",
+		"nodes": [
+			{
+				"action": "skill2",
+				"type": "play_animation"
+			},
+			{
+				"attachment_blend_mode": "add",
+				"attachment_box_height": 200.496894409938,
+				"attachment_box_width": 244.472049689441,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"offset_x": 6.45341614906833,
+				"offset_y": -131.356366459627,
+				"origin": "caster",
+				"scene": "res://assets/effects/attachments/effect-newfs-skill2/effect.tscn",
+				"target": "origin",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_ids": [
+					1003.0
+				],
+				"chance": 1.0,
+				"origin": "caster",
+				"radius": 200.0,
+				"result_key": "last_result",
+				"target": "area",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3304": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"kind": "fullscreen",
+					"max_edge_distance": 99999.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "fullscreen"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "c5df78cd6f3072d6"
+		},
+		"cooldown": 7.0,
+		"name": "fs_skill3",
+		"nodes": [
+			{
+				"action": "skill3",
+				"type": "play_animation"
+			},
+			{
+				"coordinate_space": "fullscreen",
+				"scene": "res://assets/effects/scenes/effect-fs-maxs/effect.tscn",
+				"target": "origin",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_chance": 1.0,
+				"buff_ids": [
+					1004.0
+				],
+				"damage_channel": "magic",
+				"damage_ratio": 1.0,
+				"damage_tag": "thunder",
+				"result_key": "fullscreen_hit",
+				"type": "fullscreen_damage"
 			},
 			{
 				"type": "wait_animation_end"

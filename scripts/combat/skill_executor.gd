@@ -22,7 +22,7 @@ func execute_damage_area(node: Dictionary, origin: Vector2, context: SkillCastCo
 	var width := maxf(1.0, float(node.get("width", radius * 2.0)))
 	var height := maxf(1.0, float(node.get("height", radius * 2.0)))
 	for hurt_box in find_enemy_hurt_boxes():
-		var delta := hurt_box.global_position - origin
+		var delta := _hurt_box_center(hurt_box) - origin
 		var inside := delta.length() <= radius if shape == "circle" else absf(delta.x) <= width * 0.5 and absf(delta.y) <= height * 0.5
 		if not inside:
 			continue
@@ -63,7 +63,7 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 	var reaction_vuln := 0.0           # damage_boost 注入到 tag_vulnerability
 	var reaction_armor_pen := 0.0      # armor_pen_bonus 注入到 tag_armor_pen
 	var reaction_shield_mult := 0.0    # shield_damage_boost 对最终伤害乘以加成
-	var buildup_boost := 0.0           # buildup_boost 放大对应异常 status_buildup
+	var buildup_boost := 0.0           # buildup_boost 临时提升异常 buff 命中率（重构后语义）
 	if reaction_triggered:
 		match reaction_type:
 			"damage_boost":
@@ -73,11 +73,8 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 			"shield_damage_boost":
 				reaction_shield_mult = float(reaction_effect.get("value", 0.0))
 			"buildup_boost":
-				# 仅当节点 status_type 与反应 status 一致时放大（设计案 9.2）
-				var boost_status := String(reaction_effect.get("status", ""))
-				var node_status := String(node.get("status_type", ""))
-				if boost_status.is_empty() or boost_status == node_status:
-					buildup_boost = float(reaction_effect.get("value", 0.0))
+				# 反应触发时透传 value 到 apply_buff_with_pity，叠加到异常 buff 命中率
+				buildup_boost = float(reaction_effect.get("value", 0.0))
 	# 计算伤害（含反应注入的临时修正）
 	var result := _calculate_damage_with_reaction(node, target, reaction_vuln, reaction_armor_pen)
 	# 护盾伤害加成：对最终伤害乘以加成（护盾吸收前，设计案 9.2）
@@ -221,46 +218,55 @@ func _get_lifesteal_efficiency(node_type: String) -> float:
 
 func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false, buildup_boost: float = 0.0) -> void:
 	if hurt_box == null or not is_instance_valid(hurt_box):
+		print("[DEBUG apply_target_buff] hurt_box invalid")
 		return
 	var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	if target == null:
+		print("[DEBUG apply_target_buff] target null")
 		return
-	# 异常积累分流（设计案第8章）：节点配置 status_type 时走 buildup 路径，
-	# 不再走 buff_ids + chance 的固定概率施加。
-	var status_type := String(node.get("status_type", ""))
-	if not status_type.is_empty():
-		# 反应附加伤害跳过异常积累（设计案 9.2：避免无限循环）
-		if skip_buildup:
+	# 反应附加伤害跳过概率判定（设计案 9.2：避免无限循环），直接施加
+	if skip_buildup:
+		var skip_buff_ids := _read_buff_ids(node)
+		if skip_buff_ids.is_empty() or not target.has_method("apply_buff_from_config"):
 			return
-		var base := maxf(0.0, float(node.get("status_buildup", 0.0)))
-		if base <= 0.0:
-			return
-		# 元素反应 buildup_boost（例如潮湿+冰霜 → 冻结积累 +50%，设计案 9.2）
-		if buildup_boost > 0.0:
-			base = base * (1.0 + buildup_boost)
-		# 攻击方异常强度（P1 已打通：BaseCombatStats.status_intensity，钳制 0~2.0）
-		var intensity := 0.0
-		if _stats != null and "status_intensity" in _stats:
-			intensity = float(_stats.status_intensity)
-		if target.has_method("get_buff_manager"):
-			var target_bm = target.get_buff_manager()
-			if target_bm != null and target_bm.has_method("apply_status_buildup"):
-				target_bm.apply_status_buildup(status_type, base, intensity, _owner)
+		var skip_source_id := _owner.get_instance_id() if _owner != null else 0
+		for buff_id in skip_buff_ids:
+			var skip_config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
+			if not skip_config.is_empty():
+				target.apply_buff_from_config(skip_config, skip_source_id)
 		return
-	# 旧链路：buff_ids + chance 固定概率施加
+	# 统一走保底累积：异常 buff（config 配了 status_type）失败累积 pity，非异常 buff 纯概率
 	var chance := float(node.get("chance", node.get("buff_chance", 1.0)))
-	if randf() > chance:
-		return
+	# 失败时累积概率增量（节点未配置时为 -1，由 buff_manager 回落到 PITY_INCREMENT 默认值）
+	var pity_increment := float(node.get("pity_increment", -1.0))
 	var buff_ids := _read_buff_ids(node)
+	print("[DEBUG apply_target_buff] target=%s chance=%f buff_ids=%s" % [target.name, chance, buff_ids])
 	if buff_ids.is_empty():
+		print("[DEBUG apply_target_buff] buff_ids empty")
 		return
-	if not target.has_method("apply_buff_from_config"):
+	# target 是角色节点（Player/Enemy），buff_manager 在其 combat 子节点（CombatComponent）上
+	var target_bm = null
+	if "combat" in target:
+		var combat_node = target.get("combat")
+		if combat_node != null and combat_node.has_method("get_buff_manager"):
+			target_bm = combat_node.get_buff_manager()
+	if target_bm == null and target.has_method("get_buff_manager"):
+		target_bm = target.get_buff_manager()
+	print("[DEBUG apply_target_buff] target_bm=%s" % str(target_bm))
+	if target_bm == null:
 		return
 	var source_id := _owner.get_instance_id() if _owner != null else 0
 	for buff_id in buff_ids:
 		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
+		print("[DEBUG apply_target_buff] buff_id=%d config_empty=%s" % [int(buff_id), config.is_empty()])
 		if not config.is_empty():
-			target.apply_buff_from_config(config, source_id)
+			if target_bm.has_method("apply_buff_with_pity"):
+				var ok: bool = target_bm.apply_buff_with_pity(config, chance, source_id, buildup_boost, pity_increment)
+				print("[DEBUG apply_target_buff] apply_buff_with_pity -> %s" % str(ok))
+			elif randf() <= chance and target.has_method("apply_buff_from_config"):
+				# fallback：无保底累积方法时走旧概率链路
+				target.apply_buff_from_config(config, source_id)
+				print("[DEBUG apply_target_buff] fallback apply_buff_from_config")
 
 
 func apply_self_buff(node: Dictionary) -> void:
@@ -680,27 +686,34 @@ func _find_area_targets(origin: Vector2, node: Dictionary) -> Array[Area2D]:
 	var result: Array[Area2D] = []
 	var radius := maxf(0.0, float(node.get("radius", 80.0)))
 	for hurt_box in find_enemy_hurt_boxes():
-		if hurt_box.global_position.distance_to(origin) <= radius:
+		if _hurt_box_center(hurt_box).distance_to(origin) <= radius:
 			result.append(hurt_box)
 	return result
 
 
-## 伤害节点附加 buff/异常积累（设计案 7.3 + 8.1 + 9.2）。
-## skip_buildup: 反应附加伤害调用时为 true，跳过异常积累
-## buildup_boost: 元素反应 buildup_boost 放大对应异常的 status_buildup
+## 获取 hurt_box 的身体中心位置（对齐 origin=caster 的身体中心参考系）。
+## hurt_box.global_position 是 HurtBox 节点位置（= 角色根/脚底），
+## 叠加 _owner_entity.get_body_center_y() 抬到身体中心，与 _resolve_origin(caster) 一致。
+func _hurt_box_center(hurt_box: Area2D) -> Vector2:
+	var pos := hurt_box.global_position
+	var target_owner: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
+	if target_owner != null and target_owner.has_method("get_body_center_y"):
+		pos.y += float(target_owner.get_body_center_y())
+	return pos
+
+
+## 伤害节点附加 buff（设计案 7.3 + 9.2，重构后统一走保底累积）。
+## skip_buildup: 反应附加伤害调用时为 true，跳过概率判定直接施加
+## buildup_boost: 元素反应临时命中率加成（如潮湿+冰霜 +50%），透传到 apply_buff_with_pity
 func _apply_optional_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false, buildup_boost: float = 0.0) -> void:
-	# 异常积累分流：节点配置 status_type 时走 buildup 路径（与 apply_target_buff 一致）
-	var status_type := String(node.get("status_type", ""))
-	if not status_type.is_empty():
-		apply_target_buff(node, hurt_box, skip_buildup, buildup_boost)
-		return
-	# 旧链路：buff_chance + buff_ids 固定概率施加
-	if randf() > float(node.get("buff_chance", 0.0)):
-		return
+	# 读取伤害节点配置的 buff_chance 和 buff_ids，复用 apply_target_buff 的保底累积链路
+	var buff_chance := float(node.get("buff_chance", 0.0))
 	var buff_ids := _read_buff_ids(node)
 	if buff_ids.is_empty():
 		return
-	apply_target_buff({"buff_ids": buff_ids, "chance": 1.0}, hurt_box, skip_buildup, buildup_boost)
+	# 透传节点配置的 pity_increment（失败时累积概率增量）
+	var pity_increment := float(node.get("pity_increment", -1.0))
+	apply_target_buff({"buff_ids": buff_ids, "chance": buff_chance, "pity_increment": pity_increment}, hurt_box, skip_buildup, buildup_boost)
 
 
 func _get_facing() -> Vector2:

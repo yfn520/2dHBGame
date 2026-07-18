@@ -43,6 +43,8 @@ class DropPathEdit:
 			return "res://" + normalized.substr(project_root.length()).trim_prefix("/")
 		return normalized
 
+const DEFAULT_OUTPUT_DIR := "res://assets/effects"
+
 var _dir_edit: LineEdit
 var _output_edit: LineEdit
 var _animation_edit: LineEdit
@@ -193,7 +195,12 @@ func _on_dir_changed(path: String) -> void:
 	if folder.is_empty():
 		folder = "spine_effect"
 	_syncing_output_path = true
-	_output_edit.text = path.path_join("%s_visual.tscn" % folder.to_snake_case())
+	# 若 spine 源目录已在 res://assets/effects/ 下，visual.tscn 与源同级；
+	# 否则默认导出到 res://assets/effects/<folder>/<folder>_visual.tscn
+	if path.begins_with(DEFAULT_OUTPUT_DIR + "/"):
+		_output_edit.text = path.path_join("%s_visual.tscn" % folder.to_snake_case())
+	else:
+		_output_edit.text = "%s/%s/%s_visual.tscn" % [DEFAULT_OUTPUT_DIR, folder.to_snake_case(), folder.to_snake_case()]
 	_syncing_output_path = false
 
 

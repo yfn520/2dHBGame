@@ -136,6 +136,14 @@ func _setup_actor_specifics() -> void:
 func _update_actor(delta: float) -> void:
 	if _config.is_empty():
 		return
+	# Buff 控制效果（冰冻/麻痹/眩晕/沉睡）限制移动与 AI 推进
+	# can_move 内部先调 can_act，覆盖 act/move 两类控制；silence(只 skill) 不拦截移动
+	# 注：DEAD/HIT/anim_playing 已由基类 _can_process_combat 处理
+	if combat != null and combat.has_method("get_buff_manager"):
+		var buff_manager = combat.get_buff_manager()
+		if buff_manager != null and not buff_manager.can_move():
+			velocity = Vector2.ZERO
+			return
 	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
 	match _ai_state:
 		AIState.IDLE:

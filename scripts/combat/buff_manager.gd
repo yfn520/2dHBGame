@@ -11,6 +11,12 @@ var _owner: Node  # 角色节点，需要有 take_damage 方法
 var _status_buildups: Dictionary = {}
 # 触发阈值，按单位类型设置（normal/elite/boss）
 var _status_threshold: int = StatusSystem.THRESHOLDS["normal"]
+# 保底累积（异常 buff 概率失败时累积概率补偿，设计案重构）
+# 按 buff_id 索引的累积概率增量（0.0~1.0），仅异常 buff 累积
+var _pity_chances: Dictionary = {}
+const PITY_INCREMENT := 0.2        # 每次失败 +20%
+const PITY_MAX := 1.0              # 累积上限 100%
+const PITY_DECAY_PER_SEC := 0.1    # 每秒衰减 0.1（复用原 BUILDUP_DECAY 语义）
 
 
 func _init(owner: Node) -> void:
@@ -51,6 +57,11 @@ func _process(delta: float) -> void:
 		_status_buildups[status_type] = maxf(0.0, float(_status_buildups[status_type]) - StatusSystem.BUILDUP_DECAY_PER_SEC * delta)
 		if float(_status_buildups[status_type]) <= 0.0:
 			_status_buildups.erase(status_type)
+	# 保底累积衰减（每秒 -0.1，避免脱战久后回来仍保底）
+	for buff_id in _pity_chances.keys():
+		_pity_chances[buff_id] = maxf(0.0, float(_pity_chances[buff_id]) - PITY_DECAY_PER_SEC * delta)
+		if float(_pity_chances[buff_id]) <= 0.0:
+			_pity_chances.erase(buff_id)
 	for buff in to_remove:
 		_remove_buff(buff)
 
@@ -110,6 +121,45 @@ func get_status_buildup(status_type: String) -> float:
 ## 查询异常触发阈值
 func get_status_threshold() -> int:
 	return _status_threshold
+
+
+## 保底累积施加 buff（异常 buff 概率失败时累积概率补偿）。
+## config: buff 配置（从 buffs.json 读取）
+## base_chance: 技能节点配置的原始概率
+## source: 攻击者 instance_id
+## buildup_boost: 元素反应临时命中率加成（如潮湿+冰霜 +50%），仅本次有效
+## pity_increment: 失败时累积的概率增量（来自技能节点 pity_increment 字段，缺省 PITY_INCREMENT）
+## 返回: 是否成功施加
+## - 异常 buff（config 配了 status_type）：失败累积 +pity_increment，成功清零
+## - 非异常 buff：纯概率判定，失败不累积
+func apply_buff_with_pity(config: Dictionary, base_chance: float, source: int = 0, buildup_boost: float = 0.0, pity_increment: float = -1.0) -> bool:
+	var buff_id := int(config.get("id", 0))
+	var status_type := String(config.get("status_type", ""))
+	var is_status_buff := not status_type.is_empty()
+	var actual_chance := clampf(base_chance, 0.0, 1.0)
+	# 未传 pity_increment（<=0）时回落到默认常量
+	var inc := PITY_INCREMENT if pity_increment <= 0.0 else clampf(pity_increment, 0.0, PITY_MAX)
+	if is_status_buff:
+		var pity := float(_pity_chances.get(buff_id, 0.0))
+		actual_chance = clampf(base_chance + pity + buildup_boost, 0.0, PITY_MAX)
+	if randf() > actual_chance:
+		# 失败：异常 buff 累积 pity
+		if is_status_buff:
+			_pity_chances[buff_id] = minf(PITY_MAX, float(_pity_chances.get(buff_id, 0.0)) + inc)
+		return false
+	# 成功：施加 buff，清空该 buff 的 pity
+	if is_status_buff:
+		_pity_chances[buff_id] = 0.0
+	if _owner != null and _owner.has_method("apply_buff_from_config"):
+		_owner.apply_buff_from_config(config, source)
+	else:
+		apply_buff(config, source)
+	return true
+
+
+## 查询当前保底累积值（供 UI 显示）
+func get_pity_chance(buff_id: int) -> float:
+	return float(_pity_chances.get(buff_id, 0.0))
 
 
 func apply_buff(config: Dictionary, source: int = 0) -> void:

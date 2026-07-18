@@ -1,7 +1,15 @@
 class_name StatusSystem
 extends RefCounted
 
-## 异常状态积累系统（设计案第8章）。
+## @deprecated 异常状态积累系统（设计案第8章原方案）。
+## 已被 buff_manager.apply_buff_with_pity 的保底累积机制取代（设计案重构）：
+##   异常 buff 现在通过技能节点 buff_ids + chance 概率施加，
+##   失败时按 buff_id 累积保底概率（每次 +20%，成功清零，每秒 -0.1 衰减），
+##   不再使用独立的 status_buildup 积累值。
+## 本文件保留 STATUS_BUFF_ID / STATUS_TYPES 常量供映射查询和元素反应系统使用，
+## apply_status_buildup / calculate_buildup / get_threshold / get_unit_type 不再被主链路调用。
+##
+## 历史方案（已废弃）：
 ## 异常不采用单次固定概率，而采用积累制：
 ##   实际积累 = 基础积累 × (1 + 异常强度) ÷ (1 + 目标异常抗性)
 ## 积累达到阈值后触发对应异常 buff。

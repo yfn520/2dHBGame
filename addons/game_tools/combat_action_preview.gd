@@ -28,6 +28,16 @@ var _dragging := false
 var _drag_start_mouse := Vector2.ZERO
 var _drag_start_offset := Vector2.ZERO
 
+# 范围指示器：可视化 apply_target_buff(area) / area_damage 的命中范围
+# center_offset: 角色根坐标系下的圆心偏移（已含 visual_scale）
+# radius: 命中半径（角色根坐标系）
+# shape: "circle" 或 "rect"（rect 时用 _range_size 作为宽高）
+var _range_active := false
+var _range_center_offset := Vector2.ZERO
+var _range_radius := 80.0
+var _range_shape := "circle"
+var _range_size := Vector2(160.0, 80.0)
+
 
 func _ready() -> void:
 	# 创建特效层，z_index 高于精灵但仍在预览框内
@@ -64,6 +74,22 @@ func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale:
 	_effect_visual_scale = maxf(0.01, visual_scale)
 	_effect_is_local = is_local
 	_rebuild_effect_instance()
+	queue_redraw()
+
+
+## 设置命中范围指示器。
+## - active: 是否显示
+## - center_offset: 圆心相对角色根的偏移（已乘 visual_scale，预览绘制空间）
+## - radius: 圆形半径（角色根坐标系，未乘 visual_scale）
+## - shape: "circle" 或 "rect"
+## - size: rect 模式下的宽高（角色根坐标系）
+## radius/size 不在此方法内乘 visual_scale，绘制时统一乘 zoom + visual_scale
+func set_range_indicator(active: bool, center_offset: Vector2, radius: float, shape: String = "circle", size: Vector2 = Vector2(160.0, 80.0)) -> void:
+	_range_active = active
+	_range_center_offset = center_offset
+	_range_radius = maxf(0.0, radius)
+	_range_shape = shape
+	_range_size = size
 	queue_redraw()
 
 
@@ -177,5 +203,28 @@ func _draw() -> void:
 		) * zoom
 		draw_rect(Rect2(center - hit_size * 0.5, hit_size), Color(1.0, 0.2, 0.2, 0.22), true)
 		draw_rect(Rect2(center - hit_size * 0.5, hit_size), Color("ff5252"), false, 2.0)
+	# 命中范围指示器：apply_target_buff(area) / area_damage 节点的可视化
+	# 圆心 = origin（角色根）+ center_offset * visual_scale，绘制时再乘 zoom
+	# 半径/尺寸也乘 visual_scale * zoom，对齐运行时角色缩放下范围的实际大小
+	if _range_active:
+		var visual_scale_for_range := _effect_visual_scale if _effect_active else 1.0
+		var range_center := origin + _range_center_offset * zoom
+		var ring_color := Color("4caf50")
+		var fill_color := Color(0.30, 0.69, 0.31, 0.15)
+		if _range_shape == "rect":
+			var rect_size := _range_size * visual_scale_for_range * zoom
+			draw_rect(Rect2(range_center - rect_size * 0.5, rect_size), fill_color, true)
+			draw_rect(Rect2(range_center - rect_size * 0.5, rect_size), ring_color, false, 1.5)
+		else:
+			var r := _range_radius * visual_scale_for_range * zoom
+			draw_circle(range_center, r, fill_color)
+			# draw_circle 不支持描边，用多段线模拟空心圆
+			var point_count := 48
+			var prev := range_center + Vector2(r, 0)
+			for i in range(1, point_count + 1):
+				var angle := TAU * float(i) / float(point_count)
+				var next := range_center + Vector2(cos(angle), sin(angle)) * r
+				draw_line(prev, next, ring_color, 1.5)
+				prev = next
 	var direction_text := "朝右" if facing_right else "朝左（素材默认）"
 	draw_string(ThemeDB.fallback_font, Vector2(14, 24), "帧 %d · %s · Sprite位置(%.1f, %.1f)" % [frame_index, direction_text, sprite_position.x, sprite_position.y], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color("e8eaed"))

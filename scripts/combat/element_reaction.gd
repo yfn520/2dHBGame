@@ -7,7 +7,7 @@ extends RefCounted
 ##
 ## 反应类型：
 ## - damage_boost: 主伤害 +X%（注入 vuln_mult，在 DamageCalculator 之前应用）
-## - buildup_boost: 对应异常 buildup ×(1+X)（在 apply_status_buildup 之前应用）
+## - buildup_boost: 临时提升异常 buff 命中率 +X%（透传到 apply_buff_with_pity，叠加到 actual_chance）
 ## - consume_both: 消耗前置 buff + 当前攻击的异常积累，施加 debuff
 ## - armor_pen_bonus: 主伤害额外无视 X% 护甲（注入 tag_armor_pen）
 ## - shield_damage_boost: 对护盾伤害 +X%（护盾吸收前应用）

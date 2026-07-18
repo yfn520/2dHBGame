@@ -1,0 +1,21 @@
+{
+  "resourceKey": "effect-fs-maxs",
+  "scenePath": "res://assets/effects/scenes/effect-fs-maxs/effect.tscn",
+  "atlasPath": "res://assets/effects/scenes/effect-fs-maxs/effect_atlas.png",
+  "visualScale": {
+    "x": 1,
+    "y": 1
+  },
+  "spawnOffset": {
+    "x": 0,
+    "y": 0
+  },
+  "frameSize": {
+    "width": 256,
+    "height": 256
+  },
+  "fps": 12,
+  "loop": true,
+  "blendMode": "normal",
+  "frameCount": 8
+}

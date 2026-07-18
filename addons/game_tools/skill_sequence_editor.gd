@@ -45,6 +45,14 @@ const ATTACHMENT_LAYER_OPTIONS := [
 	{"value": "front", "label": "角色前"},
 	{"value": "behind", "label": "角色后"},
 ]
+const COORD_SPACE_OPTIONS := [
+	{"value": "world", "label": "世界坐标（挂场景根，受相机影响）"},
+	{"value": "character_local", "label": "角色本地坐标（跟随角色移动）"},
+	{"value": "fullscreen", "label": "全屏覆盖（挂 UIRoot.ScreenLayer，铺满屏幕）"},
+]
+
+## 请求打开 Buff 配置编辑器并选中指定 buff_id（<=0 表示不指定）。
+signal request_open_buff(buff_id: int)
 
 var _skills: Dictionary = {}
 var _characters_config: Dictionary = {}
@@ -744,6 +752,7 @@ func _build_damage_fields(form: GridContainer, node: Dictionary, include_origin:
 	if include_buff:
 		_build_buff_ids_fields(form, node)
 		_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
+		_add_node_spin(form, "失败累积增量", "pity_increment", node, 0.2, 0.0, 1.0, 0.05)
 
 
 func _build_area_fields(form: GridContainer, node: Dictionary) -> void:
@@ -763,6 +772,7 @@ func _build_damage_fields_without_result(form: GridContainer, node: Dictionary) 
 	_build_damage_tag_fields(form, node)
 	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
+	_add_node_spin(form, "失败累积增量", "pity_increment", node, 0.2, 0.0, 1.0, 0.05)
 
 
 ## 伤害标签与通道、可暴击/可闪避/可格挡 配置（设计案第4/5章）
@@ -814,6 +824,7 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
 	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
+	_add_node_spin(form, "失败累积增量", "pity_increment", node, 0.2, 0.0, 1.0, 0.05)
 	var emission := String(node.get("emission", "single"))
 	var aim := String(node.get("aim_mode", "facing_elevation"))
 	if aim == "facing_elevation" or emission == "fan":
@@ -838,6 +849,21 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_scene_picker(form, "特效场景", "scene", node)
 	_add_effect_metadata_helper(form, node)
+	# 坐标系选择：world / character_local / fullscreen
+	# 默认 character_local（向后兼容旧的 attachment_meta.json 自动填充）
+	var coord_space := String(node.get("coordinate_space", "character_local"))
+	_add_node_option(form, "坐标系", "coordinate_space", node, COORD_SPACE_OPTIONS, false)
+	# 全屏模式下隐藏 target/origin/offset/attachment_layer（运行时忽略），只保留 duration
+	if coord_space == "fullscreen":
+		var hint := Label.new()
+		hint.text = "全屏模式：特效按 cover 方式铺满 viewport，单次播放后自动销毁；循环动画按 duration 秒销毁。"
+		hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		hint.add_theme_color_override("font_color", Color("ffca64"))
+		form.add_child(Label.new())
+		form.add_child(hint)
+		_add_node_spin(form, "持续秒数（循环动画用）", "duration", node, 2.0, 0.1, 30.0, 0.1)
+		_add_effect_event_helper(form, node)
+		return
 	_add_node_option(form, "目标", "target", node, TARGET_OPTIONS, true)
 	if String(node.get("target", "origin")) == "result":
 		_add_node_line(form, "结果集", "result_key", node)
@@ -997,25 +1023,12 @@ func _build_target_buff_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_node_option(form, "触发频率", "delivery", node, [{"value": "each_hit", "label": "每次命中"}, {"value": "each_target", "label": "每个目标一次"}], false)
 	else:
 		_add_origin_fields(form, node)
-	# 异常积累分流（设计案第8章）：选了异常类型后走 buildup 路径，不再使用 buff_ids + chance
-	var status_options: Array = [
-		{"value": "", "label": "无（走 Buff 列表）"},
-		{"value": "burn", "label": "燃烧"},
-		{"value": "chill", "label": "寒冷"},
-		{"value": "freeze", "label": "冻结"},
-		{"value": "shock", "label": "感电"},
-		{"value": "poison", "label": "中毒"},
-		{"value": "mark", "label": "标记"},
-		{"value": "grievous", "label": "重伤"},
-		{"value": "erosion", "label": "侵蚀"},
-		{"value": "wet", "label": "潮湿"},
-	]
-	_add_node_option(form, "异常类型", "status_type", node, status_options, true)
-	if String(node.get("status_type", "")).is_empty():
-		_build_buff_ids_fields(form, node)
-		_add_node_spin(form, "施加概率", "chance", node, 1.0, 0.0, 1.0, 0.05)
-	else:
-		_add_node_spin(form, "积累值", "status_buildup", node, 20.0, 0.0, 9999.0, 5.0)
+		if String(node.get("target", "")) == "area":
+			_add_node_spin(form, "范围半径", "radius", node, 80.0, 0.0, 9999.0, 1.0)
+	# Buff 列表 + 施加概率（与 apply_self_buff 一致，从 buffs.json 全量取）
+	_build_buff_ids_fields(form, node)
+	_add_node_spin(form, "施加概率", "chance", node, 1.0, 0.0, 1.0, 0.05)
+	_add_node_spin(form, "失败累积增量", "pity_increment", node, 0.2, 0.0, 1.0, 0.05)
 
 
 func _add_result_key(form: GridContainer, node: Dictionary) -> void:
@@ -1228,8 +1241,8 @@ func _add_node_option(form: GridContainer, label_text: String, field: String, no
 	for value in options:
 		# 统一显示格式：英文值 (中文注解)。
 		# 空 value（如「无」选项）只显示 label，避免 " (无)" 的前导空格
-		var raw_value := String(value.get("value", ""))
-		var raw_label := String(value.get("label", raw_value))
+		var raw_value := str(value.get("value", ""))
+		var raw_label := str(value.get("label", raw_value))
 		var display: String
 		if raw_value.is_empty():
 			display = raw_label
@@ -1283,7 +1296,15 @@ func _build_buff_ids_fields(form: GridContainer, node: Dictionary) -> void:
 	var add_btn := Button.new()
 	add_btn.text = "添加 Buff"
 	add_btn.pressed.connect(_on_buff_ids_add)
-	list_container.add_child(add_btn)
+	var edit_buff_btn := Button.new()
+	edit_buff_btn.text = "→ Buff编辑器"
+	edit_buff_btn.tooltip_text = "打开 Buff 配置编辑器并选中当前节点配置的第一个 Buff"
+	edit_buff_btn.pressed.connect(_on_jump_to_buff_editor)
+	var buff_btn_row := HBoxContainer.new()
+	buff_btn_row.add_theme_constant_override("separation", 4)
+	buff_btn_row.add_child(add_btn)
+	buff_btn_row.add_child(edit_buff_btn)
+	list_container.add_child(buff_btn_row)
 
 	# apply_self_buff 节点：特效偏移微调 + 缩放 Slider（选中 buff 有 effect_scene 时可在预览中直接拖拽）
 	if String(node.get("type", "")) == "apply_self_buff":
@@ -1368,6 +1389,25 @@ func _on_buff_ids_add() -> void:
 	_skills[_current_skill_id] = skill
 	_show_node_details(node_idx)
 	_rebuild_node_list_keep(node_idx)
+
+
+## 跳转到 Buff 配置编辑器，选中当前节点配置的第一个有效 buff。
+func _on_jump_to_buff_editor() -> void:
+	var node_idx := _selected_node_index()
+	if node_idx < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if node_idx >= nodes.size() or not nodes[node_idx] is Dictionary:
+		return
+	var node: Dictionary = nodes[node_idx]
+	var buff_ids: Array = node.get("buff_ids", [])
+	for id_value in buff_ids:
+		var bid := int(id_value)
+		if bid > 0:
+			request_open_buff.emit(bid)
+			return
+	request_open_buff.emit(0)
 
 
 func _on_buff_ids_remove(row_index: int) -> void:
@@ -1485,11 +1525,17 @@ func _add_node_from_picker(picker: OptionButton) -> void:
 	var type_name := String(picker.get_item_metadata(picker.selected))
 	var skill := _current_skill()
 	var nodes: Array = skill.get("nodes", [])
-	nodes.append(_default_node(type_name))
+	# 在当前选中节点之后插入；无选中时追加到末尾
+	var insert_index := _selected_node_index()
+	if insert_index < 0:
+		insert_index = nodes.size()
+	else:
+		insert_index += 1
+	nodes.insert(insert_index, _default_node(type_name))
 	skill["nodes"] = nodes
 	_skills[_current_skill_id] = skill
-	_rebuild_node_list_keep(nodes.size() - 1)
-	_show_node_details(nodes.size() - 1)
+	_rebuild_node_list_keep(insert_index)
+	_show_node_details(insert_index)
 	_refresh_timeline()
 
 
@@ -1570,7 +1616,15 @@ func _apply_area_template() -> void:
 
 func _apply_fullscreen_template() -> void:
 	var action := _default_action()
-	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "fullscreen_damage", "result_key": "fullscreen_hit", "damage_ratio": 1.0}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用全场伤害模板。")
+	# 全屏伤害模板：含一个全屏覆盖特效节点，用户只需选择 scene 即可看到满屏特效
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "fullscreen_damage", "result_key": "fullscreen_hit", "damage_ratio": 1.0},
+		{"type": "play_effect", "scene": "", "coordinate_space": "fullscreen", "target": "origin", "duration": 2.0},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用全场伤害模板（含全屏特效节点，请选择特效场景）。")
 
 
 func _apply_self_buff_template() -> void:
@@ -1684,11 +1738,13 @@ func _refresh_preview() -> void:
 	if _sprite_frames == null or _preview_action.is_empty():
 		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
 		_refresh_effect_preview()
+		_refresh_range_indicator()
 		return
 	var count := _sprite_frames.get_frame_count(_preview_action)
 	if count == 0:
 		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
 		_refresh_effect_preview()
+		_refresh_range_indicator()
 		return
 	var frame := clampi(int(_frame_slider.value), 0, count - 1)
 	var texture := _sprite_frames.get_frame_texture(_preview_action, frame)
@@ -1698,6 +1754,7 @@ func _refresh_preview() -> void:
 		window = windows[0]
 	_preview.set_preview(texture, _sprite_scale, frame, window, true, _visual_transform)
 	_refresh_effect_preview()
+	_refresh_range_indicator()
 
 
 ## 根据当前选中节点刷新挂载预览（play_effect 特效 / spawn_projectile 弹道）。
@@ -1769,6 +1826,34 @@ func _refresh_effect_preview() -> void:
 		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
 
 
+## 根据当前选中节点刷新命中范围指示器（apply_target_buff 的 area / area_damage）。
+## 圆心 = 角色根 + origin 偏移（caster→0, hit_window→forward/y），半径/尺寸来自节点字段。
+## 半径/尺寸在运行时角色坐标系下生效；预览中乘 visual_scale 后再由 preview 乘 zoom 绘制。
+func _refresh_range_indicator() -> void:
+	if _preview == null:
+		return
+	var node := _selected_node()
+	if node.is_empty():
+		_preview.set_range_indicator(false, Vector2.ZERO, 0.0)
+		return
+	var type_name := String(node.get("type", ""))
+	var visual_scale := float(_visual_transform.get("visual_scale", 1.0))
+	var center_offset := _resolve_preview_origin(node) * visual_scale
+	if type_name == "apply_target_buff":
+		if String(node.get("target", "")) != "area":
+			_preview.set_range_indicator(false, Vector2.ZERO, 0.0)
+			return
+		var radius := float(node.get("radius", 80.0))
+		_preview.set_range_indicator(true, center_offset, radius, "circle")
+	elif type_name == "area_damage":
+		var shape := String(node.get("shape", "circle"))
+		var radius := float(node.get("radius", 80.0))
+		var size := Vector2(float(node.get("width", 160.0)), float(node.get("height", 80.0)))
+		_preview.set_range_indicator(true, center_offset, radius, shape, size)
+	else:
+		_preview.set_range_indicator(false, Vector2.ZERO, 0.0)
+
+
 ## 预览窗口拖拽特效时的回调：从绘制空间绝对偏移反推节点 effect_offset_x/y 并写回。
 ## 不调用 _refresh_preview() —— preview 内部已自行更新位置，避免重建实例打断拖拽。
 ## SpinBox 用 set_value_no_signal 同步显示，避免触发 value_changed -> _update_node -> refresh 链路。
@@ -1817,7 +1902,11 @@ func _resolve_preview_origin(node: Dictionary) -> Vector2:
 			var y := float(w.get("y", 0.0))
 			# 预览固定朝右，forward 正方向即 +X
 			return Vector2(absf(forward), y)
-	# caster / socket / nearest_enemy 在预览中均用角色根（零偏移）
+	if origin_type == "caster":
+		# 抬到身体中心：读 _visual_transform.body_center_y（对应运行时 CollisionShape2D.position.y）
+		var body_center_y := float(_visual_transform.get("body_center_y", 0.0))
+		return Vector2(0.0, body_center_y)
+	# socket / nearest_enemy 在预览中用角色根（零偏移）
 	return Vector2.ZERO
 
 

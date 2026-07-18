@@ -60,8 +60,17 @@ func _ready() -> void:
 
 
 func open_editor() -> void:
+	open_editor_with_buff(0)
+
+
+## 打开编辑器并选中指定 buff。buff_id <= 0 或不存在时按默认行为打开。
+func open_editor_with_buff(buff_id: int = 0) -> void:
 	_load_config()
+	if buff_id > 0 and _buffs.has(buff_id):
+		_selected_id = buff_id
 	_refresh_buff_list()
+	if _selected_id > 0:
+		_show_buff_details(_selected_id)
 	popup_centered()
 
 

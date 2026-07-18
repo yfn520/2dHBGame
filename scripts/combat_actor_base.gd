@@ -106,6 +106,18 @@ func get_facing_sign() -> float:
 	return 1.0 if sprite.flip_h else -1.0
 
 
+## 角色身体中心的 Y 偏移（角色根坐标系，通常为负值，如 -93）。
+## 读取 HurtBox/CollisionShape2D.position.y，回落到 CollisionShape2D，再回落 0。
+## 用于范围技能以身体中心为圆心、buff 特效抬到身体中心等场景。
+func get_body_center_y() -> float:
+	var shape_node := get_node_or_null("HurtBox/CollisionShape2D") as CollisionShape2D
+	if shape_node == null:
+		shape_node = get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if shape_node != null:
+		return float(shape_node.position.y)
+	return 0.0
+
+
 # === 战斗动画三件套 ===
 
 ## 播放战斗动画 (由 CombatComponent 调用)

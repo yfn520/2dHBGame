@@ -19,7 +19,8 @@
 		"id": 1001,
 		"max_stacks": 5.0,
 		"name": "中毒",
-		"stack_behavior": "stack"
+		"stack_behavior": "stack",
+		"status_type": "poison"
 	},
 	"1002": {
 		"category": "debuff",
@@ -28,7 +29,7 @@
 		"effect_scene": "res://assets/effects/burn_fx.tscn",
 		"effects": [
 			{
-				"attack_ratio": 0.20,
+				"attack_ratio": 0.2,
 				"damage": 8.0,
 				"damage_channel": "magic",
 				"damage_tag": "fire",
@@ -41,7 +42,8 @@
 		"id": 1002,
 		"max_stacks": 1.0,
 		"name": "燃烧",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "burn"
 	},
 	"1003": {
 		"category": "debuff",
@@ -62,7 +64,8 @@
 		"id": 1003,
 		"max_stacks": 1.0,
 		"name": "冰冻",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "freeze"
 	},
 	"1004": {
 		"category": "debuff",
@@ -82,7 +85,8 @@
 		"id": 1004,
 		"max_stacks": 1.0,
 		"name": "麻痹",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1005": {
 		"category": "buff",
@@ -102,7 +106,8 @@
 		"id": 1005,
 		"max_stacks": 1.0,
 		"name": "无敌",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1006": {
 		"category": "debuff",
@@ -124,7 +129,8 @@
 		"id": 1006,
 		"max_stacks": 1.0,
 		"name": "眩晕",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1007": {
 		"category": "debuff",
@@ -143,7 +149,8 @@
 		"id": 1007,
 		"max_stacks": 1.0,
 		"name": "减速",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1008": {
 		"category": "debuff",
@@ -165,7 +172,8 @@
 		"id": 1008,
 		"max_stacks": 3.0,
 		"name": "流血",
-		"stack_behavior": "stack"
+		"stack_behavior": "stack",
+		"status_type": ""
 	},
 	"1009": {
 		"category": "debuff",
@@ -190,7 +198,8 @@
 		"id": 1009,
 		"max_stacks": 1.0,
 		"name": "腐蚀",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1010": {
 		"category": "debuff",
@@ -212,7 +221,8 @@
 		"id": 1010,
 		"max_stacks": 10.0,
 		"name": "剧毒",
-		"stack_behavior": "stack"
+		"stack_behavior": "stack",
+		"status_type": ""
 	},
 	"1011": {
 		"category": "debuff",
@@ -231,7 +241,8 @@
 		"id": 1011,
 		"max_stacks": 1.0,
 		"name": "攻击削弱",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1012": {
 		"category": "debuff",
@@ -250,7 +261,8 @@
 		"id": 1012,
 		"max_stacks": 1.0,
 		"name": "防御削弱",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1013": {
 		"category": "debuff",
@@ -269,7 +281,8 @@
 		"id": 1013,
 		"max_stacks": 1.0,
 		"name": "致盲",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1014": {
 		"category": "debuff",
@@ -294,7 +307,8 @@
 		"id": 1014,
 		"max_stacks": 1.0,
 		"name": "迟缓",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1015": {
 		"category": "debuff",
@@ -319,7 +333,8 @@
 		"id": 1015,
 		"max_stacks": 1.0,
 		"name": "虚弱",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1016": {
 		"category": "debuff",
@@ -341,7 +356,8 @@
 		"id": 1016,
 		"max_stacks": 1.0,
 		"name": "睡眠",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1101": {
 		"category": "buff",
@@ -360,7 +376,8 @@
 		"id": 1101,
 		"max_stacks": 1.0,
 		"name": "攻击强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1102": {
 		"category": "buff",
@@ -379,7 +396,8 @@
 		"id": 1102,
 		"max_stacks": 1.0,
 		"name": "防御强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1103": {
 		"category": "debuff",
@@ -399,7 +417,8 @@
 		"id": 1103,
 		"max_stacks": 1.0,
 		"name": "沉默",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1104": {
 		"category": "buff",
@@ -416,7 +435,8 @@
 		"id": 1104,
 		"max_stacks": 1.0,
 		"name": "护盾",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1105": {
 		"category": "buff",
@@ -435,7 +455,8 @@
 		"id": 1105,
 		"max_stacks": 1.0,
 		"name": "速度强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1106": {
 		"category": "buff",
@@ -454,7 +475,8 @@
 		"id": 1106,
 		"max_stacks": 1.0,
 		"name": "暴击强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1107": {
 		"category": "buff",
@@ -473,7 +495,8 @@
 		"id": 1107,
 		"max_stacks": 1.0,
 		"name": "暴伤强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1108": {
 		"category": "buff",
@@ -492,7 +515,8 @@
 		"id": 1108,
 		"max_stacks": 1.0,
 		"name": "攻速强化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1109": {
 		"category": "buff",
@@ -517,7 +541,8 @@
 		"id": 1109,
 		"max_stacks": 1.0,
 		"name": "神力",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1111": {
 		"category": "buff",
@@ -526,7 +551,7 @@
 		"effect_scene": "",
 		"effects": [
 			{
-				"amount": 300.0,
+				"amount": 50.0,
 				"type": "shield"
 			}
 		],
@@ -534,7 +559,8 @@
 		"id": 1111,
 		"max_stacks": 1.0,
 		"name": "强效护盾",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1201": {
 		"category": "buff",
@@ -552,7 +578,8 @@
 		"id": 1201,
 		"max_stacks": 1.0,
 		"name": "回复",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1202": {
 		"category": "buff",
@@ -570,7 +597,8 @@
 		"id": 1202,
 		"max_stacks": 1.0,
 		"name": "神圣祝福",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1203": {
 		"category": "buff",
@@ -601,7 +629,8 @@
 		"id": 1203,
 		"max_stacks": 1.0,
 		"name": "狂暴",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1204": {
 		"category": "buff",
@@ -623,7 +652,8 @@
 		"id": 1204,
 		"max_stacks": 1.0,
 		"name": "圣盾",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1205": {
 		"category": "buff",
@@ -648,7 +678,8 @@
 		"id": 1205,
 		"max_stacks": 1.0,
 		"name": "战斗狂热",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1206": {
 		"category": "buff",
@@ -666,7 +697,8 @@
 		"id": 1206,
 		"max_stacks": 1.0,
 		"name": "huayao_skill",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
 	},
 	"1301": {
 		"category": "debuff",
@@ -691,7 +723,8 @@
 		"id": 1301,
 		"max_stacks": 5.0,
 		"name": "寒冷",
-		"stack_behavior": "stack"
+		"stack_behavior": "stack",
+		"status_type": "chill"
 	},
 	"1302": {
 		"category": "debuff",
@@ -710,7 +743,8 @@
 		"id": 1302,
 		"max_stacks": 1.0,
 		"name": "感电",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "shock"
 	},
 	"1303": {
 		"category": "debuff",
@@ -729,7 +763,8 @@
 		"id": 1303,
 		"max_stacks": 1.0,
 		"name": "标记",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "mark"
 	},
 	"1304": {
 		"category": "debuff",
@@ -748,7 +783,8 @@
 		"id": 1304,
 		"max_stacks": 1.0,
 		"name": "重伤",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "grievous"
 	},
 	"1305": {
 		"category": "debuff",
@@ -765,7 +801,8 @@
 		"id": 1305,
 		"max_stacks": 15.0,
 		"name": "侵蚀",
-		"stack_behavior": "stack"
+		"stack_behavior": "stack",
+		"status_type": "erosion"
 	},
 	"1306": {
 		"category": "debuff",
@@ -784,7 +821,8 @@
 		"id": 1306,
 		"max_stacks": 1.0,
 		"name": "潮湿",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": "wet"
 	},
 	"1307": {
 		"category": "debuff",
@@ -809,6 +847,30 @@
 		"id": 1307,
 		"max_stacks": 1.0,
 		"name": "融化",
-		"stack_behavior": "refresh"
+		"stack_behavior": "refresh",
+		"status_type": ""
+	},
+	"1308": {
+		"category": "debuff",
+		"description": "每0.5秒受到火焰伤害",
+		"duration": 3.0,
+		"effect_scene": "res://assets/effects/burn_fx.tscn",
+		"effects": [
+			{
+				"attack_ratio": 0.2,
+				"damage": 2,
+				"damage_channel": "magic",
+				"damage_tag": "fire",
+				"damage_type": "fire",
+				"interval": 0.5,
+				"type": "dot"
+			}
+		],
+		"icon": "res://assets/icons/buffs/1002.png",
+		"id": 1308,
+		"max_stacks": 1.0,
+		"name": "fs_attack_fire",
+		"stack_behavior": "refresh",
+		"status_type": "burn"
 	}
 }

@@ -1,0 +1,29 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "actionName": "skill2",
+  "characterName": "newfs",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": 6.453416149068332,
+    "y": -131.35636645962734
+  },
+  "displayScale": {
+    "x": 3.132763975155279,
+    "y": 3.132763975155279
+  },
+  "effectRotation": 0,
+  "effectScale": 2,
+  "effectMirror": false,
+  "boxSize": {
+    "width": 244.47204968944098,
+    "height": 200.49689440993785
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/attachments/effect-newfs-skill2/effect.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

@@ -112,6 +112,7 @@ func _open_skill_sequence_editor() -> void:
 	if not is_instance_valid(_skill_sequence_editor):
 		_skill_sequence_editor = SkillSequenceEditor.new()
 		EditorInterface.get_base_control().add_child(_skill_sequence_editor)
+		_skill_sequence_editor.request_open_buff.connect(_open_buff_editor_with_buff)
 	_skill_sequence_editor.open_editor()
 
 
@@ -127,6 +128,13 @@ func _open_buff_editor() -> void:
 		_buff_editor = BuffEditor.new()
 		EditorInterface.get_base_control().add_child(_buff_editor)
 	_buff_editor.open_editor()
+
+
+func _open_buff_editor_with_buff(buff_id: int) -> void:
+	if not is_instance_valid(_buff_editor):
+		_buff_editor = BuffEditor.new()
+		EditorInterface.get_base_control().add_child(_buff_editor)
+	_buff_editor.open_editor_with_buff(buff_id)
 
 
 func _open_buff_icon_generator() -> void:
