@@ -492,26 +492,22 @@ func _spawn_fullscreen_effect(effect: Node, node: Dictionary) -> void:
 		effect.queue_free()
 		return
 	var effect_node := effect as Node2D
-	# 找到 UIRoot.ScreenLayer（z=20）；找不到则回落到当前场景根
-	var screen_layer: CanvasLayer = null
+	# 通过 group 查找 UIRoot（UIRoot 是 GameRoot 的子节点，不是 tree.root 的直接子节点）
+	# 用 group 避免依赖层级结构，任意嵌套位置都能找到
 	var tree := _owner.get_tree() if _owner != null else null
-	if tree != null:
-		# UIRoot 通常是 GameRoot 的子节点，与 current_scene 同级
-		var root := tree.root
-		for child in root.get_children():
-			if child is UIRoot:
-				screen_layer = (child as UIRoot).get_node_or_null("ScreenLayer") as CanvasLayer
-				break
-	if screen_layer == null:
-		# 回落：直接挂到 current_scene（无 CanvasLayer 隔离，可能被相机影响）
-		if tree != null and tree.current_scene != null:
-			screen_layer = null
+	if tree == null:
+		effect_node.queue_free()
+		return
+	var ui_root := tree.get_first_node_in_group("ui_root") as UIRoot
+	if ui_root == null or ui_root.get_screen_layer() == null:
+		# 回落：找不到 UIRoot 时挂到 current_scene，但会受相机影响（仅作兜底）
+		if tree.current_scene != null:
 			tree.current_scene.add_child(effect_node)
 		else:
 			effect_node.queue_free()
 			return
 	else:
-		screen_layer.add_child(effect_node)
+		ui_root.get_screen_layer().add_child(effect_node)
 	# 计算 cover 缩放：取 viewport 尺寸与特效首帧尺寸的较大比例
 	var viewport_size := get_viewport().get_visible_rect().size
 	# 读特效首帧尺寸：AnimatedSprite2D 的 sprite_frames 首帧纹理
@@ -525,7 +521,8 @@ func _spawn_fullscreen_effect(effect: Node, node: Dictionary) -> void:
 				var tex := frames.get_frame_texture(sprite.animation, 0)
 				if tex != null:
 					frame_size = tex.get_size()
-	# centered 已为 true，position = viewport 中心；scale 取较大比例铺满
+	# CanvasLayer 子节点坐标系：左上角为原点，position = viewport 中心
+	# ScreenLayer 默认 follow_viewport_enabled=false，不受相机影响，特效始终居中
 	effect_node.position = viewport_size * 0.5
 	var cover_scale := maxf(viewport_size.x / frame_size.x, viewport_size.y / frame_size.y)
 	effect_node.scale = Vector2(cover_scale, cover_scale)

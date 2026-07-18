@@ -32,6 +32,8 @@ var _enemy_spawner: Node
 
 func _ready() -> void:
 	skin = UISkin.new()
+	# 加入 group，便于 combat_component 等系统在任意层级查找 UIRoot（避免依赖 tree.root 直接子节点）
+	add_to_group("ui_root")
 	_build_layers()
 	_build_content()
 
@@ -196,6 +198,11 @@ func set_debug_draw_flags(collision: bool, hurtbox: bool, hitbox: bool) -> void:
 	DebugDraw.show_collision = collision
 	DebugDraw.show_hurtbox = hurtbox
 	DebugDraw.show_hitbox = hitbox
+
+
+## 返回 ScreenLayer（z=20），供全屏特效等系统挂载不受相机影响的节点。
+func get_screen_layer() -> CanvasLayer:
+	return _screen_layer
 
 
 # ---- 构建 ----
