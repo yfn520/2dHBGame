@@ -32,9 +32,9 @@ THIN_BORDER = Border(
 # 示例技能数据
 ROWS = [
     [1001, "普攻", "melee", 1.0, 0.5, "attack", 40, "", 0, 0, 0, 0, 0],
-    [1002, "火球术", "projectile", 1.5, 3.0, "skill1", 300, "res://scenes/effects/fireball.tscn", 0, 0, 2001, 1.0, 0],
+    [1002, "火球术", "projectile", 1.5, 3.0, "skill1", 300, "res://assets/effects/fireball.tscn", 0, 0, 2001, 1.0, 0],
     [1003, "旋风斩", "aoe", 2.0, 5.0, "skill2", 0, "", 0, 80, 0, 0, 1005],
-    [1004, "冰霜箭", "penetrate", 1.2, 4.0, "skill3", 400, "res://scenes/effects/frost_arrow.tscn", -1, 0, 1003, 0.5, 0],
+    [1004, "冰霜箭", "penetrate", 1.2, 4.0, "skill3", 400, "res://assets/effects/frost_arrow.tscn", -1, 0, 1003, 0.5, 0],
     [1005, "全屏斩", "fullscreen", 3.0, 10.0, "skill2", 0, "", 0, 0, 0, 0, 0],
 ]
 

@@ -51,7 +51,7 @@
   "1001": {
     "name": "中毒", "description": "每秒受到毒伤害，可叠加5层",
     "category": "debuff", "duration": 5, "max_stacks": 5,
-    "stack_behavior": "stack", "icon": "", "effect_scene": "res://scenes/effects/poison_fx.tscn",
+    "stack_behavior": "stack", "icon": "", "effect_scene": "res://assets/effects/poison_fx.tscn",
     "effects": [{"type": "dot", "interval": 1.0, "damage": 5, "damage_type": "poison"}]
   },
   "1002": { ... "effects": [{"type": "dot", "interval": 0.5, "damage": 8, "damage_type": "fire"}] },

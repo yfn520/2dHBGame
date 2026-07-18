@@ -11,7 +11,7 @@ var _timer: SceneTreeTimer = null
 func setup(sprite: CanvasItem) -> void:
 	_sprite = sprite
 	_shader_mat = ShaderMaterial.new()
-	_shader_mat.shader = preload("res://scenes/effects/hit_flash.gdshader")
+	_shader_mat.shader = preload("res://assets/effects/hit_flash.gdshader")
 	# hit_alpha 用 shader 默认值，无需运行时设置
 
 

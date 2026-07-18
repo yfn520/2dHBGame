@@ -4,7 +4,7 @@ class_name DamageNumberSpawner
 
 var _owner_node: Node2D
 var _combat: Node
-var _packed: PackedScene = preload("res://scenes/effects/damage_number.tscn")
+var _packed: PackedScene = preload("res://assets/effects/damage_number.tscn")
 
 
 func setup(owner_node: Node2D, combat: Node) -> void:

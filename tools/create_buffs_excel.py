@@ -26,12 +26,12 @@ THIN_BORDER = Border(
 )
 
 ROWS = [
-    [1001, "中毒", "poison", 5.0, 1.0, 5, 0, 5, "res://scenes/effects/poison_fx.tscn"],
-    [1002, "燃烧", "burn", 3.0, 0.5, 8, 0, 1, "res://scenes/effects/burn_fx.tscn"],
-    [1003, "冰冻", "freeze", 2.0, 0, 0, 0, 1, "res://scenes/effects/freeze_fx.tscn"],
-    [1004, "麻痹", "paralysis", 1.5, 0, 0, 0, 1, "res://scenes/effects/paralysis_fx.tscn"],
-    [1005, "无敌", "invincible", 3.0, 0, 0, 0, 1, "res://scenes/effects/invincible_fx.tscn"],
-    [1006, "眩晕", "stun", 2.0, 0, 0, 0, 1, "res://scenes/effects/stun_fx.tscn"],
+    [1001, "中毒", "poison", 5.0, 1.0, 5, 0, 5, "res://assets/effects/poison_fx.tscn"],
+    [1002, "燃烧", "burn", 3.0, 0.5, 8, 0, 1, "res://assets/effects/burn_fx.tscn"],
+    [1003, "冰冻", "freeze", 2.0, 0, 0, 0, 1, "res://assets/effects/freeze_fx.tscn"],
+    [1004, "麻痹", "paralysis", 1.5, 0, 0, 0, 1, "res://assets/effects/paralysis_fx.tscn"],
+    [1005, "无敌", "invincible", 3.0, 0, 0, 0, 1, "res://assets/effects/invincible_fx.tscn"],
+    [1006, "眩晕", "stun", 2.0, 0, 0, 0, 1, "res://assets/effects/stun_fx.tscn"],
     [1007, "减速", "slow", 4.0, 0, 0, 0.5, 1, ""],
 ]
 

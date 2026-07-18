@@ -13,7 +13,7 @@
 
 | 文件 | 状态 | 说明 |
 |---|---|---|
-| `scenes/effects/hit_flash.gdshader` | ✅ 已创建 | CanvasItem shader，`flash_amount` 控制白色混合 |
+| `assets/effects/hit_flash.gdshader` | ✅ 已创建 | CanvasItem shader，`flash_amount` 控制白色混合 |
 | `scripts/combat/hit_flash_controller.gd` | ✅ 已创建 | `class_name HitFlashController`，`setup(sprite)` + `flash(duration)` + `_restore()` |
 | `scripts/combat/damage_number.gd` | ✅ 已创建 | `class_name DamageNumber` extends Label，`popup(value, world_pos, is_crit)` 用 Tween 飘动淡出 |
 
@@ -21,7 +21,7 @@
 
 | 文件 | 状态 | 说明 |
 |---|---|---|
-| `scenes/effects/damage_number.tscn` | ⏳ 待创建 | Label 场景，z_index=300 |
+| `assets/effects/damage_number.tscn` | ⏳ 待创建 | Label 场景，z_index=300 |
 | `scripts/combat/damage_number_spawner.gd` | ⏳ 待创建 | 监听 `combat.took_damage` 信号，生成飘字 |
 | `scripts/combat_actor_base.gd` | ⏳ 待修改 | 集成 HitFlashController + DamageNumberSpawner |
 
@@ -48,9 +48,9 @@
 
 ### 一、新建伤害飘字场景
 
-**新建文件**：`scenes/effects/damage_number.tscn`
+**新建文件**：`assets/effects/damage_number.tscn`
 
-结构（参考 `scenes/effects/stun_fx.tscn` 的极简格式）：
+结构（参考 `assets/effects/stun_fx.tscn` 的极简格式）：
 
 ```
 [gd_scene load_steps=2 format=3]
@@ -85,7 +85,7 @@ class_name DamageNumberSpawner
 
 var _owner_node: Node2D
 var _combat: Node
-var _packed: PackedScene = preload("res://scenes/effects/damage_number.tscn")
+var _packed: PackedScene = preload("res://assets/effects/damage_number.tscn")
 
 
 func setup(owner_node: Node2D, combat: Node) -> void:
@@ -182,7 +182,7 @@ if sprite.sprite_frames.has_animation(target_animation):
 
 | 文件 | 用途 |
 |---|---|
-| `scenes/effects/damage_number.tscn` | 伤害飘字场景（Label + z_index=300） |
+| `assets/effects/damage_number.tscn` | 伤害飘字场景（Label + z_index=300） |
 | `scripts/combat/damage_number_spawner.gd` | 飘字生成器（监听 took_damage 信号） |
 
 ### 修改文件（1 个）

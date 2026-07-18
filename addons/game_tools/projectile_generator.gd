@@ -1,7 +1,7 @@
 @tool
 extends Window
 
-const DEFAULT_OUTPUT_DIR := "res://scenes/effects/projectiles"
+const DEFAULT_OUTPUT_DIR := "res://assets/effects/projectiles"
 const PROJECTILE_SCRIPT := "res://scripts/combat/projectile.gd"
 const SKILLS_PATH := "res://data/skills.json"
 

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/effects/buffs/effect-yuanxing-huixue/effect-yuanxing-huixue_visual.tscn" id="1_visual"]
+
+[node name="effect-yuanxing-huixue" type="Node2D"]
+
+[node name="Visual" type="Node2D" parent="."]
+scale = Vector2(1.0, 1.0)
+
+[node name="VisualScene" parent="Visual" instance=ExtResource("1_visual")]

@@ -21,7 +21,7 @@ Buff 系统已在上一会话完整落地（11 个 buff、5 种效果类型 `sta
 | `addons/game_tools/skill_sequence_editor.gd` | 完整 | `_add_buff_id_option` 下拉，5 处节点已接入 |
 | `scripts/ui/battle_hud.gd` | 基本完整 | `_main_buff_bar` + `_make_buff_icon`：有 icon 加载 TextureRect，否则用名称首字 Label 回退；缺倒计时进度条（非本次范围） |
 | buff 图标资源 | **全部缺失** | 无 `assets/icons/` 目录；所有 buff 走 Label 回退 |
-| buff 特效场景 | 6 个缺失 | `scenes/effects/` 下无 `poison/burn/freeze/paralysis/invincible/stun_fx.tscn`，运行时静默跳过（**本次不动**，属视觉资产而非数据/测试范围） |
+| buff 特效场景 | 6 个缺失 | `assets/effects/` 下无 `poison/burn/freeze/paralysis/invincible/stun_fx.tscn`，运行时静默跳过（**本次不动**，属视觉资产而非数据/测试范围） |
 
 ### 待验证的集成点（测试项）
 

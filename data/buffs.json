@@ -3,7 +3,7 @@
 		"category": "debuff",
 		"description": "每秒受到毒伤害，可叠加5层",
 		"duration": 5.0,
-		"effect_scene": "res://scenes/effects/poison_fx.tscn",
+		"effect_scene": "res://assets/effects/poison_fx.tscn",
 		"effects": [
 			{
 				"attack_ratio": 0.08,
@@ -25,7 +25,7 @@
 		"category": "debuff",
 		"description": "每0.5秒受到火焰伤害",
 		"duration": 3.0,
-		"effect_scene": "res://scenes/effects/burn_fx.tscn",
+		"effect_scene": "res://assets/effects/burn_fx.tscn",
 		"effects": [
 			{
 				"attack_ratio": 0.20,
@@ -47,7 +47,7 @@
 		"category": "debuff",
 		"description": "无法行动",
 		"duration": 2.0,
-		"effect_scene": "res://scenes/effects/freeze_fx.tscn",
+		"effect_scene": "res://assets/effects/freeze_fx.tscn",
 		"effects": [
 			{
 				"affects": [
@@ -68,7 +68,7 @@
 		"category": "debuff",
 		"description": "无法移动",
 		"duration": 1.5,
-		"effect_scene": "res://scenes/effects/paralysis_fx.tscn",
+		"effect_scene": "res://assets/effects/paralysis_fx.tscn",
 		"effects": [
 			{
 				"affects": [
@@ -88,7 +88,7 @@
 		"category": "buff",
 		"description": "免疫所有伤害",
 		"duration": 3.0,
-		"effect_scene": "res://scenes/effects/invincible_fx.tscn",
+		"effect_scene": "res://assets/effects/invincible_fx.tscn",
 		"effects": [
 			{
 				"affects": [
@@ -108,7 +108,7 @@
 		"category": "debuff",
 		"description": "无法行动和使用技能",
 		"duration": 2.0,
-		"effect_scene": "res://scenes/effects/stun_fx.tscn",
+		"effect_scene": "res://assets/effects/stun_fx.tscn",
 		"effects": [
 			{
 				"affects": [
@@ -540,7 +540,7 @@
 		"category": "buff",
 		"description": "每秒恢复10点生命值",
 		"duration": 6.0,
-		"effect_scene": "res://scenes/effects/buffs/effect-yuanxing-huixue.tscn",
+		"effect_scene": "res://assets/effects/buffs/effect-yuanxing-huixue.tscn",
 		"effects": [
 			{
 				"heal": 5.0,
@@ -654,7 +654,7 @@
 		"category": "buff",
 		"description": "每秒恢复10点生命值",
 		"duration": 2.0,
-		"effect_scene": "res://scenes/effects/buffs/effect-yuanxing-huixue.tscn",
+		"effect_scene": "res://assets/effects/buffs/effect-yuanxing-huixue.tscn",
 		"effects": [
 			{
 				"heal": 5.0,

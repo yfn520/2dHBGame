@@ -32,14 +32,14 @@
 
 | Buff ID | 名称 | 引用路径（不存在） |
 |---------|------|-------------------|
-| 1001 | 中毒 | `res://scenes/effects/poison_fx.tscn` |
-| 1002 | 燃烧 | `res://scenes/effects/burn_fx.tscn` |
-| 1003 | 冰冻 | `res://scenes/effects/freeze_fx.tscn` |
-| 1004 | 麻痹 | `res://scenes/effects/paralysis_fx.tscn` |
-| 1005 | 无敌 | `res://scenes/effects/invincible_fx.tscn` |
-| 1006 | 眩晕 | `res://scenes/effects/stun_fx.tscn` |
+| 1001 | 中毒 | `res://assets/effects/poison_fx.tscn` |
+| 1002 | 燃烧 | `res://assets/effects/burn_fx.tscn` |
+| 1003 | 冰冻 | `res://assets/effects/freeze_fx.tscn` |
+| 1004 | 麻痹 | `res://assets/effects/paralysis_fx.tscn` |
+| 1005 | 无敌 | `res://assets/effects/invincible_fx.tscn` |
+| 1006 | 眩晕 | `res://assets/effects/stun_fx.tscn` |
 
-`scenes/effects/` 目录下当前只有 `attachments/` 与 `projectiles/` 两个子目录，这 6 个 `.tscn` 文件均不存在。运行时 [_spawn_effect](file:///d:/game/2dHBGame/scripts/combat/buff_manager.gd#L206-L216) 静默跳过，buff 无视觉反馈。
+`assets/effects/` 目录下当前只有 `attachments/` 与 `projectiles/` 两个子目录，这 6 个 `.tscn` 文件均不存在。运行时 [_spawn_effect](file:///d:/game/2dHBGame/scripts/combat/buff_manager.gd#L206-L216) 静默跳过，buff 无视觉反馈。
 
 其余 24 条 buff 的 `effect_scene` 为空串。
 
@@ -315,7 +315,7 @@ func load_config() -> void:
 1. `party_member_stats.gd` L11 `move_speed` 是公开字段（已读源码确认）
 2. 当前 30 条 buff 无一使用 `stack_behavior: "independent"`（已 grep 确认）
 3. `BuffManager.get_speed_multiplier()` 全代码库无调用方（已 grep 确认）
-4. 6 个悬空 `effect_scene` 路径在 `scenes/effects/` 下确实不存在（已 LS 确认）
+4. 6 个悬空 `effect_scene` 路径在 `assets/effects/` 下确实不存在（已 LS 确认）
 5. `buff_icon_generator.gd` 已就绪（已读源码，无需改动）
 
 ### 决策
@@ -337,7 +337,7 @@ func load_config() -> void:
 
 ### 2. 视觉资产补齐验证
 
-- 6 个 `.tscn` 文件存在于 `scenes/effects/` 下
+- 6 个 `.tscn` 文件存在于 `assets/effects/` 下
 - 运行时施加 1001/1002/1003/1004/1005/1006 buff，确认对应特效节点被 `_spawn_effect` 实例化并添加到角色下
 - 故意把某 buff 的 `effect_scene` 改为不存在的路径，确认 Output 面板出现 `push_warning` 文字（而非静默跳过）
 

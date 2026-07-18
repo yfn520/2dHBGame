@@ -61,7 +61,7 @@
 ```json
 [
   {"type": "area_damage", "result_key": "explosion_hit", "origin": "hit_window", "shape": "circle", "radius": 100, "damage_ratio": 1.5},
-  {"type": "play_effect", "scene": "res://scenes/effects/hit.tscn", "target": "result", "result_key": "explosion_hit", "delivery": "each_target"}
+  {"type": "play_effect", "scene": "res://assets/effects/hit.tscn", "target": "result", "result_key": "explosion_hit", "delivery": "each_target"}
 ]
 ```
 
@@ -80,7 +80,7 @@
 {
   "type": "spawn_projectile",
   "result_key": "arrow_hit",
-  "scene": "res://scenes/effects/projectiles/arrow.tscn",
+  "scene": "res://assets/effects/projectiles/arrow.tscn",
   "origin": "socket",
   "socket": "bow",
   "trajectory": "straight",
@@ -112,8 +112,8 @@
 
 ```json
 [
-  {"type": "spawn_projectile", "result_key": "fireball_hit", "scene": "res://scenes/effects/projectiles/fireball.tscn", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "speed": 300, "lifetime": 5, "damage_ratio": 1.5, "ai_min_range": 90, "ai_max_range": 300},
-  {"type": "play_effect", "scene": "res://scenes/effects/fireball_impact.tscn", "target": "result", "result_key": "fireball_hit", "delivery": "each_hit"}
+  {"type": "spawn_projectile", "result_key": "fireball_hit", "scene": "res://assets/effects/projectiles/fireball.tscn", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "speed": 300, "lifetime": 5, "damage_ratio": 1.5, "ai_min_range": 90, "ai_max_range": 300},
+  {"type": "play_effect", "scene": "res://assets/effects/fireball_impact.tscn", "target": "result", "result_key": "fireball_hit", "delivery": "each_hit"}
 ]
 ```
 

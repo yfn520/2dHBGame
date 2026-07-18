@@ -74,7 +74,7 @@
 				"origin": "hit_window",
 				"result_key": "acid_hit",
 				"scale": 2.0,
-				"scene": "res://scenes/effects/projectiles/fireball.tscn",
+				"scene": "res://assets/effects/projectiles/fireball.tscn",
 				"speed": 260.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -594,7 +594,7 @@
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 7.01,
-				"scene": "res://scenes/effects/projectiles/effect-huoqiu.tscn",
+				"scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -713,7 +713,7 @@
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 0.81,
-				"scene": "res://scenes/effects/projectiles/effect-zhongzi.tscn",
+				"scene": "res://assets/effects/projectiles/effect-zhongzi.tscn",
 				"speed": 500.0,
 				"status_buildup": 60.0,
 				"status_type": "wet",
@@ -948,7 +948,7 @@
 				"origin": "hit_window",
 				"result_key": "fireball_hit",
 				"scale": 2.0,
-				"scene": "res://scenes/effects/projectiles/fireball.tscn",
+				"scene": "res://assets/effects/projectiles/fireball.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -1052,7 +1052,7 @@
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 2.0,
-				"scene": "res://scenes/effects/projectiles/effect-arrow.tscn",
+				"scene": "res://assets/effects/projectiles/effect-arrow.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -1095,7 +1095,7 @@
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 2.0,
-				"scene": "res://scenes/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
+				"scene": "res://assets/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -1130,7 +1130,7 @@
 				"offset_x": -6.72670807453414,
 				"offset_y": -157.552795031056,
 				"origin": "caster",
-				"scene": "res://scenes/effects/attachments/effect-gong'sho-skill1/effect.tscn",
+				"scene": "res://assets/effects/attachments/effect-gong'sho-skill1/effect.tscn",
 				"target": "origin",
 				"type": "play_effect"
 			},
@@ -1198,7 +1198,7 @@
 				"origin": "hit_window",
 				"result_key": "rain_hit",
 				"scale": 5.01,
-				"scene": "res://scenes/effects/projectiles/effect_gongshou_skill2.tscn",
+				"scene": "res://assets/effects/projectiles/effect_gongshou_skill2.tscn",
 				"speed": 540.0,
 				"target_search_range": 500.0,
 				"trajectory": "ballistic",
