@@ -62,7 +62,7 @@ func _can_process_combat(delta: float) -> bool:
 	_check_combat_anim_release()
 	if combat != null and "combat_state" in combat:
 		if combat.combat_state == combat.CombatState.HIT:
-			# 受击立即停步，避免滑步
+			# 受击瞬移后立即停步，避免滑步
 			velocity = Vector2.ZERO
 			return false
 	if _combat_anim_playing:

@@ -15,7 +15,6 @@ var _hit_stun_timer := 0.0
 var _abyss_cost_accumulator := 0.0
 # 再生特征累积器（设计案 10.1 regen）：每秒回血 2% max_hp
 var _regen_accumulator := 0.0
-var _invincible_after_hit := 0.0
 var _manual_skill_input_enabled := true
 
 var _owner: Node
@@ -90,8 +89,6 @@ func _process(delta: float) -> void:
 		_hit_stun_timer -= delta
 		if _hit_stun_timer <= 0.0 and combat_state == CombatState.HIT:
 			combat_state = CombatState.IDLE
-	if _invincible_after_hit > 0.0:
-		_invincible_after_hit -= delta
 	if _pending_skill.is_empty():
 		if _hit_box != null and _hit_box.has_method("is_active") and _hit_box.is_active():
 			_hit_box.deactivate()
@@ -553,7 +550,7 @@ func _clear_cast(_cancelled: bool) -> void:
 
 func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true, damage_result: Dictionary = {}) -> void:
 	_resolve_stats()
-	if combat_state == CombatState.DEAD or _stats == null or _invincible_after_hit > 0.0 or _buff_manager.is_invincible():
+	if combat_state == CombatState.DEAD or _stats == null or _buff_manager.is_invincible():
 		return
 	# 闪避成功：不造成伤害和命中类异常积累（设计案 5.7）
 	if damage_result.has("dodged") and bool(damage_result.get("dodged", false)):
@@ -580,8 +577,9 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 			_play_block_reaction()
 		else:
 			combat_state = CombatState.HIT
-			_hit_stun_timer = 0.1
-			_invincible_after_hit = 0.8
+			_hit_stun_timer = 0.15
+			# 受击瞬移：往后退一小段距离（无无敌帧，可被连续命中）
+			_apply_hit_knockback(source)
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 	took_damage.emit(actual, source)
 	# 反伤（设计案 7.4）：实际受伤后回调攻击者，上限 8% 攻击者最大生命
@@ -623,6 +621,22 @@ func _apply_reflect_damage(actual: int, source: Node) -> void:
 		# 反伤为真实通道（不被防御减免），不触发反伤循环（source=_owner 避免再次反伤）
 		# damage_result 标记 channel=true 让 take_damage 走新链路跳过 defense 减法
 		source.take_damage(reflect, _owner, false, {"damage": reflect, "channel": "true"})
+
+
+## 受击瞬移：往后退一小段距离（约 12px）。
+## source 为空时（如 DoT）朝当前朝向反方向退。
+func _apply_hit_knockback(source: Node) -> void:
+	if _owner == null:
+		return
+	var dir := Vector2.ZERO
+	if source != null and is_instance_valid(source):
+		dir = (_owner.global_position - source.global_position).normalized()
+	if dir == Vector2.ZERO:
+		var facing: float = 1.0
+		if _owner.has_method("get_facing_sign"):
+			facing = float(_owner.get_facing_sign())
+		dir = Vector2(-facing, 0.0)
+	_owner.global_position += dir * 12.0
 
 
 ## 深渊装备代价（设计案 4.3）。
