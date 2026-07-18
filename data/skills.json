@@ -30,7 +30,9 @@
 			{
 				"buff_chance": 0.3,
 				"buff_ids": [],
+				"damage_channel": "physical",
 				"damage_ratio": 1.0,
+				"damage_tag": "blunt",
 				"result_key": "slimu_attack_hit",
 				"type": "melee_damage"
 			},
@@ -62,7 +64,9 @@
 				"buff_ids": [
 					1001.0
 				],
+				"damage_channel": "magic",
 				"damage_ratio": 1.5,
+				"damage_tag": "poison",
 				"elevation_degrees": 0.0,
 				"emission": "single",
 				"lifetime": 3.0,
@@ -98,15 +102,15 @@
 				"type": "wait_hit_window"
 			},
 			{
-				"buff_chance": 1.0,
-				"buff_ids": [
-					1001.0
-				],
+				"damage_channel": "magic",
 				"damage_ratio": 2.0,
+				"damage_tag": "poison",
 				"origin": "hit_window",
 				"radius": 60.0,
 				"result_key": "poison_cloud_hit",
 				"shape": "circle",
+				"status_buildup": 80.0,
+				"status_type": "poison",
 				"type": "area_damage"
 			},
 			{
@@ -182,7 +186,9 @@
 			},
 			{
 				"buff_ids": [],
+				"damage_channel": "physical",
 				"damage_ratio": 1.0,
+				"damage_tag": "blunt",
 				"result_key": "puppet_attack_hit",
 				"type": "melee_damage"
 			},
@@ -293,7 +299,9 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"damage_channel": "physical",
 				"damage_ratio": 1.0,
+				"damage_tag": "pierce",
 				"result_key": "melee_hit",
 				"type": "melee_damage"
 			},
@@ -578,7 +586,9 @@
 				"buff_ids": [
 					1002.0
 				],
+				"damage_channel": "magic",
 				"damage_ratio": 1.1,
+				"damage_tag": "fire",
 				"emission": "single",
 				"lifetime": 5.0,
 				"origin": "hit_window",
@@ -694,7 +704,9 @@
 				"ai_max_range": 280.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [],
+				"damage_channel": "physical",
 				"damage_ratio": 1.0,
+				"damage_tag": "blunt",
 				"emission": "single",
 				"gravity": 1200.0,
 				"lifetime": 5.0,
@@ -703,6 +715,8 @@
 				"scale": 0.81,
 				"scene": "res://scenes/effects/projectiles/effect-zhongzi.tscn",
 				"speed": 500.0,
+				"status_buildup": 60.0,
+				"status_type": "wet",
 				"trajectory": "ballistic",
 				"type": "spawn_projectile"
 			},
@@ -722,7 +736,7 @@
 					"kind": "support",
 					"max_edge_distance": 99999.0,
 					"min_edge_distance": 0.0,
-					"node_index": -1,
+					"node_index": -1.0,
 					"source": "support"
 				}
 			],
@@ -828,11 +842,15 @@
 			},
 			{
 				"buff_ids": [],
+				"damage_channel": "magic",
 				"damage_ratio": 1.8,
+				"damage_tag": "frost",
 				"origin": "hit_window",
 				"radius": 80.0,
 				"result_key": "kivin_skill2_hit",
 				"shape": "circle",
+				"status_buildup": 50.0,
+				"status_type": "chill",
 				"type": "area_damage"
 			},
 			{
@@ -858,7 +876,9 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"damage_channel": "magic",
 				"damage_ratio": 2.0,
+				"damage_tag": "holy",
 				"result_key": "kivin_skill3_hit",
 				"type": "melee_damage"
 			},
@@ -913,8 +933,13 @@
 			},
 			{
 				"aim_mode": "facing_elevation",
-				"buff_ids": [],
+				"buff_chance": 0.6,
+				"buff_ids": [
+					1002.0
+				],
+				"damage_channel": "magic",
 				"damage_ratio": 0.5,
+				"damage_tag": "fire",
 				"elevation_degrees": 0.0,
 				"emission": "single",
 				"lifetime": 5.0,
@@ -951,11 +976,15 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"damage_channel": "magic",
 				"damage_ratio": 1.8,
+				"damage_tag": "thunder",
 				"origin": "hit_window",
 				"radius": 90.0,
 				"result_key": "mage_skill2_hit",
 				"shape": "circle",
+				"status_buildup": 40.0,
+				"status_type": "shock",
 				"type": "area_damage"
 			},
 			{
@@ -994,6 +1023,11 @@
 		]
 	},
 	"3201": {
+		"ai_range_cache": {
+			"entries": [],
+			"policy": "any_damage_node",
+			"source_hash": "47a16785565b1438"
+		},
 		"cast_range": 60.0,
 		"cooldown": 0.5,
 		"name": "弓手普攻",
@@ -1007,9 +1041,12 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"ai_max_range": 280.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [],
+				"damage_channel": "physical",
 				"damage_ratio": 1.0,
+				"damage_tag": "pierce",
 				"emission": "single",
 				"lifetime": 5.0,
 				"origin": "hit_window",
@@ -1048,7 +1085,9 @@
 			{
 				"aim_mode": "facing_elevation",
 				"buff_ids": [],
+				"damage_channel": "physical",
 				"damage_ratio": 0.9,
+				"damage_tag": "pierce",
 				"emission": "sequence",
 				"interval": 0.1,
 				"lifetime": 5.0,
@@ -1116,9 +1155,18 @@
 	},
 	"3204": {
 		"ai_range_cache": {
-			"entries": [],
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "projectile"
+				}
+			],
 			"policy": "any_damage_node",
-			"source_hash": "47a16785565b1438"
+			"source_hash": "f822c907cd1f3e54"
 		},
 		"cooldown": 5.0,
 		"name": "弓手技能3",
@@ -1132,13 +1180,16 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"ai_max_range": 280.0,
 				"aim_mode": "enemy_area",
 				"arc_height": 100.0,
 				"area_height": 90.0,
 				"area_width": 260.0,
 				"buff_ids": [],
 				"count": 8.0,
+				"damage_channel": "physical",
 				"damage_ratio": 1.5,
+				"damage_tag": "pierce",
 				"emission": "area_rain",
 				"gravity": 1500.0,
 				"interval": 0.08,
@@ -1151,6 +1202,46 @@
 				"speed": 540.0,
 				"target_search_range": 500.0,
 				"trajectory": "ballistic",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"3301": {
+		"ai_range_cache": {
+			"entries": [],
+			"policy": "any_damage_node",
+			"source_hash": ""
+		},
+		"cooldown": 1.0,
+		"name": "attack",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"buff_ids": [],
+				"damage_ratio": 1.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scene": "",
+				"speed": 300.0,
+				"trajectory": "straight",
 				"type": "spawn_projectile"
 			},
 			{

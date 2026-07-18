@@ -80,7 +80,7 @@ func _spawn_level_enemies(level_id: int) -> void:
 
 ## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。
 func _unhandled_input(event: InputEvent) -> void:
-	if not event is InputEventKey or not event.pressed:
+	if not event is InputEventKey or not event.pressed or event.echo:
 		return
 	match event.keycode:
 		KEY_B:
@@ -112,6 +112,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		KEY_F6:
 			ui_root.set_debug_draw_flags(DebugDraw.show_collision, DebugDraw.show_hurtbox, not DebugDraw.show_hitbox)
+			get_viewport().set_input_as_handled()
+		KEY_M:
+			# 主界面 UI 资源验证：切换显隐（按 M 键）
+			ui_root.toggle_main_ui()
 			get_viewport().set_input_as_handled()
 
 

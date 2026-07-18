@@ -11,6 +11,10 @@ enum CombatState { IDLE, ATTACKING, SKILL, HIT, DEAD }
 var combat_state: CombatState = CombatState.IDLE
 var _cooldowns: Dictionary = {}
 var _hit_stun_timer := 0.0
+# 深渊装备代价累积器（设计案 4.3）：每秒给自己施加侵蚀 buildup
+var _abyss_cost_accumulator := 0.0
+# 再生特征累积器（设计案 10.1 regen）：每秒回血 2% max_hp
+var _regen_accumulator := 0.0
 var _invincible_after_hit := 0.0
 var _manual_skill_input_enabled := true
 
@@ -78,6 +82,10 @@ func _process(delta: float) -> void:
 		_cooldowns[skill_id] = maxf(0.0, float(_cooldowns.get(skill_id, 0.0)) - delta)
 	if combat_state == CombatState.DEAD:
 		return
+	# 深渊装备代价（设计案 4.3）：穿戴深渊装备时每秒给自己施加侵蚀 buildup
+	_apply_abyss_cost(delta)
+	# 再生特征（设计案 10.1 regen）：每秒回血 2% max_hp
+	_apply_regen(delta)
 	if _hit_stun_timer > 0.0:
 		_hit_stun_timer -= delta
 		if _hit_stun_timer <= 0.0 and combat_state == CombatState.HIT:
@@ -170,7 +178,10 @@ func try_use_skill(skill_id: int) -> bool:
 	_last_skill_attempt = "cast:%d" % skill_id
 	var base_cooldown := float(skill.get("cooldown", 0.0))
 	var atk_speed := _get_attack_speed()
-	_cooldowns[skill_id] = base_cooldown / atk_speed if atk_speed > 0.0 else base_cooldown
+	# 技能急速：实际冷却 = 基础 / 攻速 × 100/(100+急速)（设计案 6.2 递减收益）
+	var haste := _get_skill_haste()
+	var haste_mult := 100.0 / (100.0 + haste) if haste > -100.0 else 1.0
+	_cooldowns[skill_id] = base_cooldown / atk_speed * haste_mult if atk_speed > 0.0 else base_cooldown * haste_mult
 	combat_state = CombatState.SKILL
 	attack_started.emit(skill_id)
 	_cast_serial += 1
@@ -472,7 +483,8 @@ func _execute_heal_node(node: Dictionary) -> void:
 	var amount := int(node.get("amount", 0))
 	if amount <= 0:
 		amount = _skill_executor.calculate_damage(float(node.get("ratio", 0.0)))
-	heal(amount)
+	# 技能 heal 节点：施疗者=自身，传入自身 stats 供 heal() 读 heal_bonus
+	heal(amount, _stats)
 
 
 func _execute_move_node(node: Dictionary) -> void:
@@ -539,37 +551,153 @@ func _clear_cast(_cancelled: bool) -> void:
 	_cast_context = null
 
 
-func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
+func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true, damage_result: Dictionary = {}) -> void:
 	_resolve_stats()
 	if combat_state == CombatState.DEAD or _stats == null or _invincible_after_hit > 0.0 or _buff_manager.is_invincible():
 		return
+	# 闪避成功：不造成伤害和命中类异常积累（设计案 5.7）
+	if damage_result.has("dodged") and bool(damage_result.get("dodged", false)):
+		_play_dodge_reaction()
+		return
 	if play_hit_reaction and not _is_current_frame_armored():
 		cancel_cast("hit")
+	# 护盾吸收（设计案 7.2：护盾承受最终伤害）
 	amount = _buff_manager.modify_damage(amount)
 	if amount <= 0:
 		return
-	var defense := _get_defense()
-	var actual := maxi(1, amount - int(defense))
+	# 新链路（damage_result 非空）：amount 已是最终伤害，跳过 defense 减法
+	# 旧链路（damage_result 为空）：做 defense 减法兼容
+	var actual := amount
+	if damage_result.is_empty():
+		var defense := _get_defense()
+		actual = maxi(1, amount - int(defense))
 	_stats.hp = maxi(0, _stats.hp - actual)
 	if _owner.has_method("sync_combat_hp"):
 		_owner.sync_combat_hp()
 	if play_hit_reaction and _stats.hp > 0:
-		combat_state = CombatState.HIT
-		_hit_stun_timer = 0.1
-		_invincible_after_hit = 0.8
+		# 格挡反应优先于普通受击
+		if damage_result.has("blocked") and bool(damage_result.get("blocked", false)):
+			_play_block_reaction()
+		else:
+			combat_state = CombatState.HIT
+			_hit_stun_timer = 0.1
+			_invincible_after_hit = 0.8
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 	took_damage.emit(actual, source)
+	# 反伤（设计案 7.4）：实际受伤后回调攻击者，上限 8% 攻击者最大生命
+	_apply_reflect_damage(actual, source)
 	if _stats.hp <= 0:
 		_die()
 	elif play_hit_reaction and _owner.has_method("play_combat_animation"):
 		_owner.play_combat_animation("hit")
 
 
-func heal(amount: int) -> void:
+## 反伤结算（设计案 7.4）。
+## 反伤率 = max(自身 reflect_rate, buff 修饰后)，反伤量 = actual × 反伤率
+## 上限 = 8% × 攻击者最大生命（防止小怪反死高血量玩家）
+## 反伤不触发命中类异常积累、不再触发反伤（避免无限循环）
+func _apply_reflect_damage(actual: int, source: Node) -> void:
+	if actual <= 0 or source == null or not is_instance_valid(source):
+		return
+	if not source.has_method("take_damage"):
+		return
+	var reflect_rate := float(_stats.reflect_rate) if "reflect_rate" in _stats else 0.0
+	if _buff_manager != null:
+		reflect_rate = _buff_manager.get_modified_stat("reflect_rate", reflect_rate)
+	reflect_rate = clampf(reflect_rate, 0.0, 0.5)
+	if reflect_rate <= 0.0:
+		return
+	var reflect := int(roundi(float(actual) * reflect_rate))
+	if reflect <= 0:
+		return
+	# 上限：8% × 攻击者最大生命
+	var source_max_hp := 0
+	if source.has_method("get_combat_stats"):
+		var source_stats = source.get_combat_stats()
+		if source_stats != null and "max_hp" in source_stats:
+			source_max_hp = int(source_stats.max_hp)
+	if source_max_hp > 0:
+		var cap := int(roundi(float(source_max_hp) * 0.08))
+		reflect = mini(reflect, cap)
+	if reflect > 0:
+		# 反伤为真实通道（不被防御减免），不触发反伤循环（source=_owner 避免再次反伤）
+		# damage_result 标记 channel=true 让 take_damage 走新链路跳过 defense 减法
+		source.take_damage(reflect, _owner, false, {"damage": reflect, "channel": "true"})
+
+
+## 深渊装备代价（设计案 4.3）。
+## 穿戴深渊装备时 abyss_cost > 0，每秒给自己施加侵蚀 buildup。
+## 自己攻击自己（source=_owner），buildup 公式与正常一致。
+func _apply_abyss_cost(delta: float) -> void:
+	if _stats == null or not "abyss_cost" in _stats:
+		return
+	var cost := float(_stats.abyss_cost)
+	if cost <= 0.0:
+		return
+	_abyss_cost_accumulator += delta
+	if _abyss_cost_accumulator < 1.0:
+		return
+	# 每秒施加一次
+	_abyss_cost_accumulator = 0.0
+	if _buff_manager != null and _buff_manager.has_method("apply_status_buildup"):
+		_buff_manager.apply_status_buildup("erosion", cost, 0.0, _owner)
+
+
+## 再生特征（设计案 10.1 regen）。
+## 每秒回血 2% max_hp，不触发 heal_bonus/heal_received（视为被动恢复）。
+func _apply_regen(delta: float) -> void:
+	if _stats == null or not "traits" in _stats:
+		return
+	if not _stats.traits.has("regen"):
+		return
+	_regen_accumulator += delta
+	if _regen_accumulator < 1.0:
+		return
+	_regen_accumulator = 0.0
+	var regen_amount := int(roundi(float(_stats.max_hp) * 0.02))
+	if regen_amount > 0 and _stats.hp < _stats.max_hp:
+		_stats.hp = mini(_stats.max_hp, _stats.hp + regen_amount)
+		if _owner.has_method("sync_combat_hp"):
+			_owner.sync_combat_hp()
+		hp_changed.emit(_stats.hp, _stats.max_hp)
+
+
+## 闪避反应（设计案 5.7）。P0 仅做状态切换，后续可扩展动画。
+func _play_dodge_reaction() -> void:
+	if _owner.has_method("play_combat_animation"):
+		_owner.play_combat_animation("dodge")
+
+
+## 格挡反应（设计案 5.7）。P0 仅做状态切换，后续可扩展动画。
+func _play_block_reaction() -> void:
+	if _owner.has_method("play_combat_animation"):
+		_owner.play_combat_animation("block")
+
+
+## 治疗（设计案 7.1）。
+## amount: 基础治疗量（HoT 传 effect.heal，技能 heal 节点传 amount）
+## healer_stats: 施疗者 stats（用于读取 heal_bonus 施疗者侧乘区）。
+##   传 null 时按自疗处理，读取自身 heal_bonus。
+## 最终治疗 = amount × (1 + 施疗者 heal_bonus) × max(0.2, 1 + 目标 heal_received)
+func heal(amount: int, healer_stats = null) -> void:
 	_resolve_stats()
 	if _stats == null:
 		return
-	_stats.hp = mini(_stats.max_hp, _stats.hp + maxi(0, amount))
+	# 施疗者侧：治疗强度 heal_bonus（加算乘区）
+	var heal_bonus := 0.0
+	if healer_stats != null and "heal_bonus" in healer_stats:
+		heal_bonus = float(healer_stats.heal_bonus)
+	elif _buff_manager != null:
+		# 自疗或未传施疗者：读取自身 heal_bonus
+		heal_bonus = _buff_manager.get_modified_stat("heal_bonus", float(_stats.heal_bonus) if "heal_bonus" in _stats else 0.0)
+	var base := float(amount) * (1.0 + heal_bonus)
+	# 目标侧：受疗加成 heal_received（负值=重伤削弱，正值=增强），保底 20%
+	var heal_mult := 1.0
+	if _buff_manager != null:
+		heal_mult = 1.0 + _buff_manager.get_modified_stat("heal_received", 0.0)
+	heal_mult = maxf(0.2, heal_mult)
+	var actual := int(roundi(base * heal_mult))
+	_stats.hp = mini(_stats.max_hp, _stats.hp + maxi(0, actual))
 	if _owner.has_method("sync_combat_hp"):
 		_owner.sync_combat_hp()
 	hp_changed.emit(_stats.hp, _stats.max_hp)
@@ -596,6 +724,16 @@ func _get_attack_speed() -> float:
 		return 1.0
 	var base_as := float(_stats.attack_speed)
 	return _buff_manager.get_modified_stat("attack_speed", base_as)
+
+
+## 技能急速（设计案 6.2）。buff 可修饰 skill_haste。
+func _get_skill_haste() -> float:
+	if _stats == null or not ("skill_haste" in _stats):
+		return 0.0
+	var base_haste := float(_stats.skill_haste)
+	if _buff_manager == null:
+		return base_haste
+	return _buff_manager.get_modified_stat("skill_haste", base_haste)
 
 
 func _get_defense() -> float:

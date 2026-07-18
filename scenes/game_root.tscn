@@ -10,7 +10,7 @@ script = ExtResource("1_script")
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1939485336]
 
 [node name="Player" parent="." unique_id=441688693 instance=ExtResource("3_player")]
-lineup_character_ids = Array[int]([1004])
+lineup_character_ids = Array[int]([1003])
 
 [node name="UIRoot" type="Node" parent="." unique_id=1278849301]
 script = ExtResource("7_ui_root")

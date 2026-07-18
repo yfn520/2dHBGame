@@ -16,6 +16,9 @@ var source_entity: int = 0
 var effect_node: Node = null
 var effect_offset: Vector2 = Vector2.ZERO
 var effect_scale: float = 1.0
+# 施盾者护盾强度（设计案 7.2）：shield effect 的 amount × (1 + shield_bonus) 作为实际吸收量。
+# 由 buff_manager.apply_buff 在创建实例时注入，_reset_shield_remaining 重算时使用。
+var shield_bonus: float = 0.0
 
 
 func _init(config: Dictionary, source: int = 0) -> void:
@@ -113,6 +116,8 @@ func add_stack() -> bool:
 
 
 func _reset_shield_remaining() -> void:
+	# 应用施盾者护盾强度（设计案 7.2）：amount × (1 + shield_bonus)
 	for effect in effects:
 		if effect is Dictionary and String(effect.get("type", "")) == "shield":
-			effect["remaining"] = int(effect.get("amount", 0))
+			var base_amount := int(effect.get("amount", 0))
+			effect["remaining"] = int(roundi(float(base_amount) * (1.0 + shield_bonus)))

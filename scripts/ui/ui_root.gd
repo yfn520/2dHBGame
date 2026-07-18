@@ -22,6 +22,7 @@ var _hud: BattleHud
 var _main_menu: MainMenu
 var _task_drawer: TaskDrawer
 var _debug_panel: DebugPanel
+var _main_ui: Control
 
 var _popup_stack: Array[Control] = []
 var _tooltip: Control = null
@@ -75,6 +76,19 @@ func toggle_task_drawer() -> void:
 	_task_drawer.toggle()
 
 
+# ---- 主界面 UI（资源验证） ----
+
+func toggle_main_ui() -> void:
+	if _main_ui == null:
+		return
+	_main_ui.visible = not _main_ui.visible
+	_set_world_input_for_ui(_main_ui.visible or is_modal_open())
+
+
+func is_main_ui_open() -> bool:
+	return _main_ui != null and _main_ui.visible
+
+
 # ---- 弹窗 ----
 
 ## 在 PopupLayer 显示一个阻塞弹窗，加入关闭栈。
@@ -122,7 +136,7 @@ func hide_tooltip() -> void:
 	_tooltip = null
 
 
-## 按优先级关闭最上层：弹窗 → 任务抽屉 → 主菜单。
+## 按优先级关闭最上层：弹窗 → 任务抽屉 → 主菜单 → 主界面 UI。
 func close_top() -> void:
 	if not _popup_stack.is_empty():
 		var top: Control = _popup_stack.back()
@@ -133,10 +147,14 @@ func close_top() -> void:
 		return
 	if _main_menu != null and _main_menu.is_open():
 		_main_menu.close()
+		return
+	if _main_ui != null and _main_ui.visible:
+		_main_ui.visible = false
+		_set_world_input_for_ui(false)
 
 
 func is_modal_open() -> bool:
-	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open())
+	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open()) or (_main_ui != null and _main_ui.visible)
 
 
 func is_main_menu_open() -> bool:
@@ -239,3 +257,12 @@ func _build_content() -> void:
 	_debug_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_debug_panel.visible = false
 	_debug_layer.add_child(_debug_panel)
+
+	# 主界面 UI（资源验证）
+	_main_ui = preload("res://scripts/ui/main_ui.gd").new()
+	_main_ui.name = "MainUI"
+	_main_ui.theme = skin.theme
+	_main_ui.ui_root = self
+	_main_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_main_ui.visible = false
+	_screen_layer.add_child(_main_ui)

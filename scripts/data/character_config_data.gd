@@ -114,10 +114,31 @@ func get_stats_at_level(character_id: int, level: int) -> Dictionary:
 	var safe_level := clampi(level, 1, max_level)
 	var step := safe_level - 1
 	return {
+		# 原有 4 项 + attack_speed/crit_rate/crit_damage
 		"max_hp": int(base.get("max_hp", 100)) + int(growth.get("max_hp", 0)) * step,
 		"attack": int(base.get("attack", 1)) + int(growth.get("attack", 0)) * step,
 		"defense": int(base.get("defense", 0)) + int(growth.get("defense", 0)) * step,
 		"move_speed": float(base.get("move_speed", 220.0)) + float(growth.get("move_speed", 0.0)) * float(step),
+		"attack_speed": float(base.get("attack_speed", 1.0)) + float(growth.get("attack_speed", 0.0)) * float(step),
+		"crit_rate": float(base.get("crit_rate", 0.05)) + float(growth.get("crit_rate", 0.0)) * float(step),
+		"crit_damage": float(base.get("crit_damage", 1.5)) + float(growth.get("crit_damage", 0.0)) * float(step),
+		# 设计案第3章 MVP 属性扩展
+		"magic_resist": int(base.get("magic_resist", 0)) + int(growth.get("magic_resist", 0)) * step,
+		"block_rate": float(base.get("block_rate", 0.0)) + float(growth.get("block_rate", 0.0)) * float(step),
+		"dodge_rate": float(base.get("dodge_rate", 0.0)) + float(growth.get("dodge_rate", 0.0)) * float(step),
+		"status_resist": float(base.get("status_resist", 0.0)) + float(growth.get("status_resist", 0.0)) * float(step),
+		"status_intensity": float(base.get("status_intensity", 0.0)) + float(growth.get("status_intensity", 0.0)) * float(step),
+		"skill_haste": float(base.get("skill_haste", 0.0)) + float(growth.get("skill_haste", 0.0)) * float(step),
+		"armor_pen_percent": float(base.get("armor_pen_percent", 0.0)) + float(growth.get("armor_pen_percent", 0.0)) * float(step),
+		"armor_pen_flat": int(base.get("armor_pen_flat", 0)) + int(growth.get("armor_pen_flat", 0)) * step,
+		"magic_pen_percent": float(base.get("magic_pen_percent", 0.0)) + float(growth.get("magic_pen_percent", 0.0)) * float(step),
+		"magic_pen_flat": int(base.get("magic_pen_flat", 0)) + int(growth.get("magic_pen_flat", 0)) * step,
+		"heal_bonus": float(base.get("heal_bonus", 0.0)) + float(growth.get("heal_bonus", 0.0)) * float(step),
+		"shield_bonus": float(base.get("shield_bonus", 0.0)) + float(growth.get("shield_bonus", 0.0)) * float(step),
+		"heal_received": float(base.get("heal_received", 0.0)) + float(growth.get("heal_received", 0.0)) * float(step),
+		"lifesteal": float(base.get("lifesteal", 0.0)) + float(growth.get("lifesteal", 0.0)) * float(step),
+		"reflect_rate": float(base.get("reflect_rate", 0.0)) + float(growth.get("reflect_rate", 0.0)) * float(step),
+		"abyss_cost": float(base.get("abyss_cost", 0.0)) + float(growth.get("abyss_cost", 0.0)) * float(step),
 	}
 
 

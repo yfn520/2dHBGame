@@ -164,16 +164,16 @@ func _hold_animation_last_frame() -> void:
 
 # === 战斗代理三件套（由 HurtBox / 弹道 / SkillExecutor 调用）===
 
-func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true) -> void:
+func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true, damage_result: Dictionary = {}) -> void:
 	if play_hit_reaction:
 		velocity.x = 0.0
 	if combat != null and combat.has_method("take_damage"):
-		combat.take_damage(amount, source, play_hit_reaction)
+		combat.take_damage(amount, source, play_hit_reaction, damage_result)
 
 
-func heal(amount: int) -> void:
+func heal(amount: int, healer_stats = null) -> void:
 	if combat != null and combat.has_method("heal"):
-		combat.heal(amount)
+		combat.heal(amount, healer_stats)
 
 
 ## 施加 Buff (由弹道/SkillExecutor 调用)

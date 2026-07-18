@@ -6,7 +6,10 @@
 		"effect_scene": "res://scenes/effects/poison_fx.tscn",
 		"effects": [
 			{
+				"attack_ratio": 0.08,
 				"damage": 3.0,
+				"damage_channel": "magic",
+				"damage_tag": "poison",
 				"damage_type": "poison",
 				"interval": 1.0,
 				"type": "dot"
@@ -25,7 +28,10 @@
 		"effect_scene": "res://scenes/effects/burn_fx.tscn",
 		"effects": [
 			{
+				"attack_ratio": 0.20,
 				"damage": 8.0,
+				"damage_channel": "magic",
+				"damage_tag": "fire",
 				"damage_type": "fire",
 				"interval": 0.5,
 				"type": "dot"
@@ -146,7 +152,10 @@
 		"effect_scene": "",
 		"effects": [
 			{
+				"attack_ratio": 0.05,
 				"damage": 3.0,
+				"damage_channel": "physical",
+				"damage_tag": "slash",
 				"damage_type": "physical",
 				"interval": 0.8,
 				"type": "dot"
@@ -190,7 +199,10 @@
 		"effect_scene": "",
 		"effects": [
 			{
+				"attack_ratio": 0.06,
 				"damage": 3.0,
+				"damage_channel": "magic",
+				"damage_tag": "poison",
 				"damage_type": "poison",
 				"interval": 0.5,
 				"type": "dot"
@@ -654,6 +666,149 @@
 		"id": 1206,
 		"max_stacks": 1.0,
 		"name": "huayao_skill",
+		"stack_behavior": "refresh"
+	},
+	"1301": {
+		"category": "debuff",
+		"description": "寒冷：移动速度与攻击速度降低30%，并积累冻结进度（设计案 8.2 寒冷）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "move_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			},
+			{
+				"mode": "mul",
+				"stat": "attack_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			}
+		],
+		"icon": "",
+		"id": 1301,
+		"max_stacks": 5.0,
+		"name": "寒冷",
+		"stack_behavior": "stack"
+	},
+	"1302": {
+		"category": "debuff",
+		"description": "感电：下次受到的雷电伤害提高25%（设计案 8.2 感电）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"armor_pen_bonus": 0.0,
+				"tag": "thunder",
+				"type": "tag_modifier",
+				"vuln_bonus": 0.25
+			}
+		],
+		"icon": "",
+		"id": 1302,
+		"max_stacks": 1.0,
+		"name": "感电",
+		"stack_behavior": "refresh"
+	},
+	"1303": {
+		"category": "debuff",
+		"description": "标记：受到的穿刺伤害无视20%护甲（设计案 8.2 标记）",
+		"duration": 6.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"armor_pen_bonus": 0.2,
+				"tag": "pierce",
+				"type": "tag_modifier",
+				"vuln_bonus": 0.0
+			}
+		],
+		"icon": "",
+		"id": 1303,
+		"max_stacks": 1.0,
+		"name": "标记",
+		"stack_behavior": "refresh"
+	},
+	"1304": {
+		"category": "debuff",
+		"description": "重伤：受到的治疗降低50%（设计案 8.2 重伤）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "add",
+				"stat": "heal_received",
+				"type": "stat_modifier",
+				"value": -0.5
+			}
+		],
+		"icon": "",
+		"id": 1304,
+		"max_stacks": 1.0,
+		"name": "重伤",
+		"stack_behavior": "refresh"
+	},
+	"1305": {
+		"category": "debuff",
+		"description": "侵蚀：每层受到的所有伤害+1%，最多15层（设计案 8.2 侵蚀）",
+		"duration": 8.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"type": "vulnerability_modifier",
+				"value": 0.01
+			}
+		],
+		"icon": "",
+		"id": 1305,
+		"max_stacks": 15.0,
+		"name": "侵蚀",
+		"stack_behavior": "stack"
+	},
+	"1306": {
+		"category": "debuff",
+		"description": "潮湿：移速降低10%，作为雷电/冰霜元素反应的前置状态（设计案 9.1）",
+		"duration": 6.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "move_speed",
+				"type": "stat_modifier",
+				"value": 0.9
+			}
+		],
+		"icon": "",
+		"id": 1306,
+		"max_stacks": 1.0,
+		"name": "潮湿",
+		"stack_behavior": "refresh"
+	},
+	"1307": {
+		"category": "debuff",
+		"description": "融化：护甲与魔抗降低15%，由燃烧+冰霜反应触发（设计案 9.2）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "defense",
+				"type": "stat_modifier",
+				"value": 0.85
+			},
+			{
+				"mode": "mul",
+				"stat": "magic_resist",
+				"type": "stat_modifier",
+				"value": 0.85
+			}
+		],
+		"icon": "",
+		"id": 1307,
+		"max_stacks": 1.0,
+		"name": "融化",
 		"stack_behavior": "refresh"
 	}
 }

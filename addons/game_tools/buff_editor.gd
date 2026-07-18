@@ -5,9 +5,25 @@ extends Window
 
 const CONFIG_PATH := "res://data/buffs.json"
 const BuffEffectRegistry = preload("res://scripts/combat/buff_effect_registry.gd")
+const _StatusSystem = preload("res://scripts/combat/status_system.gd")
 
 const CATEGORY_OPTIONS := {"buff": "增益", "debuff": "减益"}
 const STACK_BEHAVIOR_OPTIONS := {"stack": "叠层", "refresh": "刷新", "independent": "独立"}
+# 异常类型元数据（设计案第8章）：标记该 buff 是哪个异常的触发 buff。
+# 纯编辑器展示用，运行时 apply_status_buildup 通过 StatusSystem.STATUS_BUFF_ID 反查，
+# 不依赖此字段。空字符串表示普通 Buff（非异常触发）。
+const STATUS_TYPE_OPTIONS := {
+	"": "无（普通 Buff）",
+	"burn": "燃烧",
+	"chill": "寒冷",
+	"freeze": "冻结",
+	"shock": "感电",
+	"poison": "中毒",
+	"mark": "标记",
+	"grievous": "重伤",
+	"erosion": "侵蚀",
+	"wet": "潮湿",
+}
 
 var _buffs: Dictionary = {}
 var _selected_id: int = 0
@@ -20,6 +36,7 @@ var _category_option: OptionButton
 var _duration_spin: SpinBox
 var _max_stacks_spin: SpinBox
 var _stack_behavior_option: OptionButton
+var _status_type_option: OptionButton
 var _icon_edit: LineEdit
 var _effect_scene_edit: LineEdit
 var _effects_container: VBoxContainer
@@ -84,6 +101,17 @@ func _load_config() -> void:
 	var data := json.data as Dictionary
 	for id_str in data:
 		_buffs[int(id_str)] = (data[id_str] as Dictionary).duplicate(true)
+	# 一次性迁移：补全 status_type 元数据字段。
+	# 运行时不依赖此字段（apply_status_buildup 通过 STATUS_BUFF_ID 反查），
+	# 此处仅为编辑器展示，让用户一眼看出哪些 buff 是异常触发 buff。
+	# 反向映射：buff_id → status_type
+	var status_reverse: Dictionary = {}
+	for s_type in _StatusSystem.STATUS_BUFF_ID:
+		status_reverse[int(_StatusSystem.STATUS_BUFF_ID[s_type])] = String(s_type)
+	for buff_id in _buffs:
+		var buff: Dictionary = _buffs[buff_id]
+		if not buff.has("status_type"):
+			buff["status_type"] = String(status_reverse.get(int(buff_id), ""))
 
 
 # ---- 布局 ----
@@ -173,7 +201,7 @@ func _build_layout() -> void:
 	_name_edit.text_changed.connect(_on_field_changed.bind("name"))
 
 	_category_option = _add_grid_option(info_grid, "类别", CATEGORY_OPTIONS)
-	_category_option.item_selected.connect(_on_option_changed.bind("category"))
+	_category_option.item_selected.connect(_on_option_changed.bind("category", _category_option))
 
 	_duration_spin = _add_grid_spin(info_grid, "持续时间", 0.0, 9999.0, 0.5)
 	_duration_spin.value_changed.connect(_on_spin_changed.bind("duration"))
@@ -182,7 +210,11 @@ func _build_layout() -> void:
 	_max_stacks_spin.value_changed.connect(_on_spin_changed.bind("max_stacks"))
 
 	_stack_behavior_option = _add_grid_option(info_grid, "叠加方式", STACK_BEHAVIOR_OPTIONS)
-	_stack_behavior_option.item_selected.connect(_on_option_changed.bind("stack_behavior"))
+	_stack_behavior_option.item_selected.connect(_on_option_changed.bind("stack_behavior", _stack_behavior_option))
+
+	_status_type_option = _add_grid_option(info_grid, "异常类型", STATUS_TYPE_OPTIONS)
+	_status_type_option.tooltip_text = "元数据：标记该 buff 是哪个异常的触发 buff。\n运行时通过 StatusSystem.STATUS_BUFF_ID 反查，不依赖此字段。\n选“无”表示普通 Buff。"
+	_status_type_option.item_selected.connect(_on_option_changed.bind("status_type", _status_type_option))
 
 	_icon_edit = _add_grid_edit(info_grid, "图标路径", PackedStringArray(["*.png ; PNG 图片", "*.jpg ; JPG 图片", "*.svg ; SVG 矢量图", "*.webp ; WebP 图片"]))
 	_icon_edit.text_changed.connect(_on_field_changed.bind("icon"))
@@ -305,7 +337,18 @@ func _add_grid_option(parent: GridContainer, label_text: String, options: Dictio
 	var option := OptionButton.new()
 	var idx := 0
 	for key in options:
-		option.add_item("%s - %s" % [key, options[key]], idx)
+		# 统一显示格式：英文值 (中文注解)。
+		# 空 key（如「无」选项）只显示 label，避免 " (无)" 的前导空格
+		var key_str := String(key)
+		var label_val := String(options[key])
+		var display: String
+		if key_str.is_empty():
+			display = label_val
+		elif label_val.is_empty():
+			display = key_str
+		else:
+			display = "%s (%s)" % [key_str, label_val]
+		option.add_item(display, idx)
 		option.set_item_metadata(idx, key)
 		idx += 1
 	parent.add_child(option)
@@ -353,6 +396,7 @@ func _show_buff_details(buff_id: int) -> void:
 	_duration_spin.value = float(buff.get("duration", 0.0))
 	_max_stacks_spin.value = int(buff.get("max_stacks", 1))
 	_stack_behavior_option.select(_option_index_for_key(_stack_behavior_option, String(buff.get("stack_behavior", "refresh"))))
+	_status_type_option.select(_option_index_for_key(_status_type_option, String(buff.get("status_type", ""))))
 	_icon_edit.text = String(buff.get("icon", ""))
 	_effect_scene_edit.text = String(buff.get("effect_scene", ""))
 	_refresh_effects(buff.get("effects", []))
@@ -385,7 +429,10 @@ func _make_effect_row(effect: Dictionary) -> Control:
 	var idx := 0
 	for type_key in BuffEffectRegistry.get_all_types():
 		var info := BuffEffectRegistry.get_type_info(String(type_key))
-		type_option.add_item("%s - %s" % [type_key, info.get("label", type_key)], idx)
+		# 统一显示格式：英文值 (中文注解)
+		var type_label := String(info.get("label", type_key))
+		var display := "%s (%s)" % [type_key, type_label]
+		type_option.add_item(display, idx)
 		type_option.set_item_metadata(idx, type_key)
 		idx += 1
 	type_option.select(_effect_type_index(String(effect.get("type", ""))))
@@ -502,10 +549,9 @@ func _on_desc_changed() -> void:
 	_buffs[_selected_id]["description"] = _desc_edit.text
 
 
-func _on_option_changed(index: int, field_name: String) -> void:
+func _on_option_changed(index: int, field_name: String, option: OptionButton) -> void:
 	if _loading or _selected_id == 0:
 		return
-	var option := _category_option if field_name == "category" else _stack_behavior_option
 	_buffs[_selected_id][field_name] = option.get_item_metadata(index)
 	_refresh_buff_list()
 
@@ -538,6 +584,7 @@ func _on_add_buff() -> void:
 			"duration": 3.0,
 			"max_stacks": 1,
 			"stack_behavior": "refresh",
+			"status_type": "",
 			"icon": "",
 			"effect_scene": "",
 			"effects": [],

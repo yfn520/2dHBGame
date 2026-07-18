@@ -13,6 +13,21 @@ var base_move_speed: float = 220.0
 var base_crit_rate: float = 0.0
 var base_crit_damage: float = 1.5
 var base_attack_speed: float = 1.0
+# 设计案第3章 MVP 属性扩展（base_* 镜像基类扩展字段，区分裸属性与最终属性）
+var base_magic_resist: int = 0
+var base_block_rate: float = 0.0
+var base_dodge_rate: float = 0.0
+var base_status_resist: float = 0.0
+var base_skill_haste: float = 0.0
+var base_armor_pen_percent: float = 0.0
+var base_armor_pen_flat: int = 0
+var base_magic_pen_percent: float = 0.0
+var base_magic_pen_flat: int = 0
+var base_heal_bonus: float = 0.0
+var base_shield_bonus: float = 0.0
+var base_heal_received: float = 0.0
+var base_lifesteal: float = 0.0
+var base_reflect_rate: float = 0.0
 
 var character_id: int = 0
 var level: int = 1
@@ -50,6 +65,21 @@ func recalculate(preserve_current_hp: bool = true) -> void:
 	crit_rate = 0.0
 	crit_damage = 1.5
 	attack_speed = 1.0
+	# 扩展字段默认值（基类 recalculate 会从 base_stats dict 读取覆盖）
+	magic_resist = 0
+	block_rate = 0.0
+	dodge_rate = 0.0
+	status_resist = 0.0
+	skill_haste = 0.0
+	armor_pen_percent = 0.0
+	armor_pen_flat = 0
+	magic_pen_percent = 0.0
+	magic_pen_flat = 0
+	heal_bonus = 0.0
+	shield_bonus = 0.0
+	heal_received = 0.0
+	lifesteal = 0.0
+	reflect_rate = 0.0
 	super.recalculate(preserve_current_hp)
 	stats_changed.emit()
 
@@ -76,17 +106,24 @@ func _get_base_stats_dict() -> Dictionary:
 	base_crit_rate = float(base_stats.get("crit_rate", base_crit_rate))
 	base_crit_damage = float(base_stats.get("crit_damage", base_crit_damage))
 	base_attack_speed = float(base_stats.get("attack_speed", base_attack_speed))
+	# 扩展字段 base_* 同步
+	base_magic_resist = int(base_stats.get("magic_resist", base_magic_resist))
+	base_block_rate = float(base_stats.get("block_rate", base_block_rate))
+	base_dodge_rate = float(base_stats.get("dodge_rate", base_dodge_rate))
+	base_status_resist = float(base_stats.get("status_resist", base_status_resist))
+	base_skill_haste = float(base_stats.get("skill_haste", base_skill_haste))
+	base_armor_pen_percent = float(base_stats.get("armor_pen_percent", base_armor_pen_percent))
+	base_armor_pen_flat = int(base_stats.get("armor_pen_flat", base_armor_pen_flat))
+	base_magic_pen_percent = float(base_stats.get("magic_pen_percent", base_magic_pen_percent))
+	base_magic_pen_flat = int(base_stats.get("magic_pen_flat", base_magic_pen_flat))
+	base_heal_bonus = float(base_stats.get("heal_bonus", base_heal_bonus))
+	base_shield_bonus = float(base_stats.get("shield_bonus", base_shield_bonus))
+	base_heal_received = float(base_stats.get("heal_received", base_heal_received))
+	base_lifesteal = float(base_stats.get("lifesteal", base_lifesteal))
+	base_reflect_rate = float(base_stats.get("reflect_rate", base_reflect_rate))
 
-	# 返回 base_* 作为 final 的初始值（基类会读 dict 覆盖 final 字段）
-	return {
-		"max_hp": base_max_hp,
-		"attack": base_attack,
-		"defense": base_defense,
-		"move_speed": base_move_speed,
-		"crit_rate": base_crit_rate,
-		"crit_damage": base_crit_damage,
-		"attack_speed": base_attack_speed,
-	}
+	# 返回完整 base_stats dict 给基类 recalculate 读取（扩展字段必须转发，否则 final 全 0）
+	return base_stats
 
 
 func _get_equipped_items() -> Array:
@@ -137,6 +174,20 @@ func to_dict() -> Dictionary:
 		"base_crit_rate": base_crit_rate,
 		"base_crit_damage": base_crit_damage,
 		"base_attack_speed": base_attack_speed,
+		"base_magic_resist": base_magic_resist,
+		"base_block_rate": base_block_rate,
+		"base_dodge_rate": base_dodge_rate,
+		"base_status_resist": base_status_resist,
+		"base_skill_haste": base_skill_haste,
+		"base_armor_pen_percent": base_armor_pen_percent,
+		"base_armor_pen_flat": base_armor_pen_flat,
+		"base_magic_pen_percent": base_magic_pen_percent,
+		"base_magic_pen_flat": base_magic_pen_flat,
+		"base_heal_bonus": base_heal_bonus,
+		"base_shield_bonus": base_shield_bonus,
+		"base_heal_received": base_heal_received,
+		"base_lifesteal": base_lifesteal,
+		"base_reflect_rate": base_reflect_rate,
 		"hp": hp,
 	}
 
@@ -149,6 +200,20 @@ func from_dict(data: Dictionary) -> void:
 	base_crit_rate = float(data.get("base_crit_rate", base_crit_rate))
 	base_crit_damage = float(data.get("base_crit_damage", base_crit_damage))
 	base_attack_speed = float(data.get("base_attack_speed", base_attack_speed))
+	base_magic_resist = int(data.get("base_magic_resist", base_magic_resist))
+	base_block_rate = float(data.get("base_block_rate", base_block_rate))
+	base_dodge_rate = float(data.get("base_dodge_rate", base_dodge_rate))
+	base_status_resist = float(data.get("base_status_resist", base_status_resist))
+	base_skill_haste = float(data.get("base_skill_haste", base_skill_haste))
+	base_armor_pen_percent = float(data.get("base_armor_pen_percent", base_armor_pen_percent))
+	base_armor_pen_flat = int(data.get("base_armor_pen_flat", base_armor_pen_flat))
+	base_magic_pen_percent = float(data.get("base_magic_pen_percent", base_magic_pen_percent))
+	base_magic_pen_flat = int(data.get("base_magic_pen_flat", base_magic_pen_flat))
+	base_heal_bonus = float(data.get("base_heal_bonus", base_heal_bonus))
+	base_shield_bonus = float(data.get("base_shield_bonus", base_shield_bonus))
+	base_heal_received = float(data.get("base_heal_received", base_heal_received))
+	base_lifesteal = float(data.get("base_lifesteal", base_lifesteal))
+	base_reflect_rate = float(data.get("base_reflect_rate", base_reflect_rate))
 	max_hp = base_max_hp
 	hp = int(data.get("hp", max_hp))
 	if hp <= 0:

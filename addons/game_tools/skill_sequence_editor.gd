@@ -291,7 +291,10 @@ func _add_button(parent: Container, text_value: String, callback: Callable) -> v
 func _make_type_picker(values: Dictionary) -> OptionButton:
 	var picker := OptionButton.new()
 	for type_name in values:
-		picker.add_item(String(values[type_name]))
+		# 统一显示格式：英文值 (中文注解)
+		var type_label := String(values[type_name])
+		var display := "%s (%s)" % [type_name, type_label]
+		picker.add_item(display)
 		picker.set_item_metadata(picker.item_count - 1, type_name)
 	return picker
 
@@ -735,6 +738,8 @@ func _build_damage_fields(form: GridContainer, node: Dictionary, include_origin:
 	if include_origin:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
+	_add_node_spin(form, "固定伤害", "flat_damage", node, 0.0, 0.0, 99999.0, 1.0)
+	_build_damage_tag_fields(form, node)
 	# 近战伤害不再在节点上配置 buff（统一走 apply_target_buff 节点），保留 fullscreen/area 的旧入口
 	if include_buff:
 		_build_buff_ids_fields(form, node)
@@ -754,8 +759,33 @@ func _build_area_fields(form: GridContainer, node: Dictionary) -> void:
 
 func _build_damage_fields_without_result(form: GridContainer, node: Dictionary) -> void:
 	_add_node_spin(form, "伤害倍率", "damage_ratio", node, 1.0, 0.0, 99.0, 0.1)
+	_add_node_spin(form, "固定伤害", "flat_damage", node, 0.0, 0.0, 99999.0, 1.0)
+	_build_damage_tag_fields(form, node)
 	_build_buff_ids_fields(form, node)
 	_add_node_spin(form, "Buff 概率", "buff_chance", node, 0.0, 0.0, 1.0, 0.05)
+
+
+## 伤害标签与通道、可暴击/可闪避/可格挡 配置（设计案第4/5章）
+func _build_damage_tag_fields(form: GridContainer, node: Dictionary) -> void:
+	# 防御通道：物理/魔法/真实
+	var channel_options: Array = []
+	for ch in DamageTags.CHANNELS:
+		channel_options.append({"value": ch, "label": DamageTags.get_channel_label(ch)})
+	_add_node_option(form, "防御通道", "damage_channel", node, channel_options, false)
+	# 伤害标签：按当前通道过滤
+	var current_channel := String(node.get("damage_channel", "physical"))
+	var tag_options: Array = []
+	for tag in DamageTags.get_tags_by_channel(current_channel):
+		tag_options.append({"value": tag, "label": DamageTags.get_tag_label(tag)})
+	if tag_options.is_empty():
+		for tag in DamageTags.TAGS:
+			tag_options.append({"value": tag, "label": DamageTags.get_tag_label(tag)})
+	_add_node_option(form, "伤害标签", "damage_tag", node, tag_options, false)
+	# 可暴击/可闪避/可格挡（是/否下拉，缺省"是"）
+	var bool_options := [{"value": true, "label": "是"}, {"value": false, "label": "否"}]
+	_add_node_option(form, "可暴击", "can_crit", node, bool_options, false)
+	_add_node_option(form, "可闪避", "can_dodge", node, bool_options, false)
+	_add_node_option(form, "可格挡", "can_block", node, bool_options, false)
 
 
 func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
@@ -967,8 +997,25 @@ func _build_target_buff_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_node_option(form, "触发频率", "delivery", node, [{"value": "each_hit", "label": "每次命中"}, {"value": "each_target", "label": "每个目标一次"}], false)
 	else:
 		_add_origin_fields(form, node)
-	_build_buff_ids_fields(form, node)
-	_add_node_spin(form, "施加概率", "chance", node, 1.0, 0.0, 1.0, 0.05)
+	# 异常积累分流（设计案第8章）：选了异常类型后走 buildup 路径，不再使用 buff_ids + chance
+	var status_options: Array = [
+		{"value": "", "label": "无（走 Buff 列表）"},
+		{"value": "burn", "label": "燃烧"},
+		{"value": "chill", "label": "寒冷"},
+		{"value": "freeze", "label": "冻结"},
+		{"value": "shock", "label": "感电"},
+		{"value": "poison", "label": "中毒"},
+		{"value": "mark", "label": "标记"},
+		{"value": "grievous", "label": "重伤"},
+		{"value": "erosion", "label": "侵蚀"},
+		{"value": "wet", "label": "潮湿"},
+	]
+	_add_node_option(form, "异常类型", "status_type", node, status_options, true)
+	if String(node.get("status_type", "")).is_empty():
+		_build_buff_ids_fields(form, node)
+		_add_node_spin(form, "施加概率", "chance", node, 1.0, 0.0, 1.0, 0.05)
+	else:
+		_add_node_spin(form, "积累值", "status_buildup", node, 20.0, 0.0, 9999.0, 5.0)
 
 
 func _add_result_key(form: GridContainer, node: Dictionary) -> void:
@@ -1179,7 +1226,18 @@ func _add_node_option(form: GridContainer, label_text: String, field: String, no
 	form.add_child(label)
 	var option := OptionButton.new()
 	for value in options:
-		option.add_item(String(value.get("label", value.get("value", ""))))
+		# 统一显示格式：英文值 (中文注解)。
+		# 空 value（如「无」选项）只显示 label，避免 " (无)" 的前导空格
+		var raw_value := String(value.get("value", ""))
+		var raw_label := String(value.get("label", raw_value))
+		var display: String
+		if raw_value.is_empty():
+			display = raw_label
+		elif raw_label.is_empty():
+			display = raw_value
+		else:
+			display = "%s (%s)" % [raw_value, raw_label]
+		option.add_item(display)
 		option.set_item_metadata(option.item_count - 1, value.get("value", ""))
 	for index in range(option.item_count):
 		if str(option.get_item_metadata(index)) == str(node.get(field, option.get_item_metadata(0))):
