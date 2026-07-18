@@ -1736,13 +1736,13 @@ func _refresh_preview() -> void:
 	if _preview == null:
 		return
 	if _sprite_frames == null or _preview_action.is_empty():
-		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		_preview.set_preview(null, 1.0, 0, {}, false, _visual_transform)
 		_refresh_effect_preview()
 		_refresh_range_indicator()
 		return
 	var count := _sprite_frames.get_frame_count(_preview_action)
 	if count == 0:
-		_preview.set_preview(null, 1.0, 0, {}, true, _visual_transform)
+		_preview.set_preview(null, 1.0, 0, {}, false, _visual_transform)
 		_refresh_effect_preview()
 		_refresh_range_indicator()
 		return
@@ -1752,7 +1752,8 @@ func _refresh_preview() -> void:
 	var windows: Array = _action_data.get("hit_windows", [])
 	if not windows.is_empty() and windows[0] is Dictionary:
 		window = windows[0]
-	_preview.set_preview(texture, _sprite_scale, frame, window, true, _visual_transform)
+	# 朝左（与素材默认朝向一致，对齐 combat_action_editor 预览）
+	_preview.set_preview(texture, _sprite_scale, frame, window, false, _visual_transform)
 	_refresh_effect_preview()
 	_refresh_range_indicator()
 
@@ -1797,7 +1798,7 @@ func _refresh_effect_preview() -> void:
 		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
 		return
 	var visual_scale: float = float(_visual_transform.get("visual_scale", 1.0))
-	# 预览固定朝右（facing_right=true）；运行时 flip_h=true 朝右，mirror_x=1
+	# 预览固定朝左（facing_right=false，与素材默认朝向一致）；运行时 flip_h=false 朝左，mirror_x=+1
 	var mirror_x := 1.0
 	if type_name == "play_effect":
 		var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
@@ -1875,7 +1876,7 @@ func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 	if visual_scale <= 0.01:
 		visual_scale = 1.0
 	var body_center_y := float(_visual_transform.get("body_center_y", -50.0))
-	# 预览固定朝右，mirror_x = 1
+	# 预览固定朝左，mirror_x = +1
 	var new_x := effect_offset.x / visual_scale
 	var new_y := effect_offset.y / visual_scale - body_center_y
 	node["effect_offset_x"] = new_x
@@ -1900,8 +1901,8 @@ func _resolve_preview_origin(node: Dictionary) -> Vector2:
 			var w: Dictionary = windows[0]
 			var forward := float(w.get("forward", 0.0))
 			var y := float(w.get("y", 0.0))
-			# 预览固定朝右，forward 正方向即 +X
-			return Vector2(absf(forward), y)
+			# 预览固定朝左，forward 正方向即 -X（命中框在角色左侧）
+			return Vector2(-absf(forward), y)
 	if origin_type == "caster":
 		# 抬到身体中心：读 _visual_transform.body_center_y（对应运行时 CollisionShape2D.position.y）
 		var body_center_y := float(_visual_transform.get("body_center_y", 0.0))
