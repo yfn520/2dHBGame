@@ -943,7 +943,7 @@
 					"kind": "melee",
 					"max_edge_distance": 72.5,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -982,7 +982,7 @@
 					"kind": "melee",
 					"max_edge_distance": 77.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -1005,6 +1005,111 @@
 				"damage_ratio": 2.0,
 				"result_key": "melee_hit",
 				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50111": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=101.0 width=49.0 scale=1.00 body_half=54.5",
+					"kind": "melee",
+					"max_edge_distance": 69.0,
+					"min_edge_distance": 0.0,
+					"node_index": 3.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "9ae77bc01ed3f92a"
+		},
+		"cooldown": 1.0,
+		"name": "sh_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"attachment_blend_mode": "normal",
+				"attachment_box_height": 120.0,
+				"attachment_box_width": 120.0,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"offset_x": -90.2422360248447,
+				"offset_y": -51.6211180124224,
+				"origin": "caster",
+				"scene": "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect.tscn",
+				"target": "origin",
+				"type": "play_effect"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50112": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "bf829ccf0b2f6303"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "sh_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"buff_chance": 0.7,
+				"buff_ids": [
+					10025
+				],
+				"damage_ratio": 2.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scene": "res://assets/effects/projectiles/effect-sh-skill.tscn",
+				"speed": 500.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
 			},
 			{
 				"type": "wait_animation_end"

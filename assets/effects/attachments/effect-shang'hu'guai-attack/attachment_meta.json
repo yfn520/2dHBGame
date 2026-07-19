@@ -1,0 +1,29 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "actionName": "attack",
+  "characterName": "shang'hu'guai",
+  "eventHint": "",
+  "fallbackFrame": 2,
+  "triggerFrame": 2,
+  "characterOffset": {
+    "x": -90.24223602484471,
+    "y": -51.621118012422386
+  },
+  "displayScale": {
+    "x": 1.875,
+    "y": 1.875
+  },
+  "effectRotation": 0,
+  "effectScale": 1,
+  "effectMirror": false,
+  "boxSize": {
+    "width": 120,
+    "height": 120
+  },
+  "layer": "front",
+  "blendMode": "normal",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

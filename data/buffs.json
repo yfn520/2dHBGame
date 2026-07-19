@@ -16,7 +16,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10001.png",
-		"id": 10001.0,
+		"id": 10001,
 		"max_stacks": 5.0,
 		"name": "中毒",
 		"stack_behavior": "stack",
@@ -39,7 +39,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10002.png",
-		"id": 10002.0,
+		"id": 10002,
 		"max_stacks": 1.0,
 		"name": "燃烧",
 		"stack_behavior": "refresh",
@@ -61,7 +61,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10003.png",
-		"id": 10003.0,
+		"id": 10003,
 		"max_stacks": 1.0,
 		"name": "冰冻",
 		"stack_behavior": "refresh",
@@ -82,7 +82,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10004.png",
-		"id": 10004.0,
+		"id": 10004,
 		"max_stacks": 1.0,
 		"name": "麻痹",
 		"stack_behavior": "refresh",
@@ -105,7 +105,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10005.png",
-		"id": 10005.0,
+		"id": 10005,
 		"max_stacks": 1.0,
 		"name": "眩晕",
 		"stack_behavior": "refresh",
@@ -125,7 +125,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10006.png",
-		"id": 10006.0,
+		"id": 10006,
 		"max_stacks": 1.0,
 		"name": "减速",
 		"stack_behavior": "refresh",
@@ -148,7 +148,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10007.png",
-		"id": 10007.0,
+		"id": 10007,
 		"max_stacks": 3.0,
 		"name": "流血",
 		"stack_behavior": "stack",
@@ -174,7 +174,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10008.png",
-		"id": 10008.0,
+		"id": 10008,
 		"max_stacks": 1.0,
 		"name": "腐蚀",
 		"stack_behavior": "refresh",
@@ -197,7 +197,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10009.png",
-		"id": 10009.0,
+		"id": 10009,
 		"max_stacks": 10.0,
 		"name": "剧毒",
 		"stack_behavior": "stack",
@@ -217,7 +217,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10010.png",
-		"id": 10010.0,
+		"id": 10010,
 		"max_stacks": 1.0,
 		"name": "攻击削弱",
 		"stack_behavior": "refresh",
@@ -237,7 +237,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10011.png",
-		"id": 10011.0,
+		"id": 10011,
 		"max_stacks": 1.0,
 		"name": "防御削弱",
 		"stack_behavior": "refresh",
@@ -257,7 +257,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10012.png",
-		"id": 10012.0,
+		"id": 10012,
 		"max_stacks": 1.0,
 		"name": "致盲",
 		"stack_behavior": "refresh",
@@ -283,7 +283,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10013.png",
-		"id": 10013.0,
+		"id": 10013,
 		"max_stacks": 1.0,
 		"name": "迟缓",
 		"stack_behavior": "refresh",
@@ -309,7 +309,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10014.png",
-		"id": 10014.0,
+		"id": 10014,
 		"max_stacks": 1.0,
 		"name": "虚弱",
 		"stack_behavior": "refresh",
@@ -332,7 +332,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10015.png",
-		"id": 10015.0,
+		"id": 10015,
 		"max_stacks": 1.0,
 		"name": "睡眠",
 		"stack_behavior": "refresh",
@@ -353,7 +353,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10016.png",
-		"id": 10016.0,
+		"id": 10016,
 		"max_stacks": 1.0,
 		"name": "沉默",
 		"stack_behavior": "refresh",
@@ -379,7 +379,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10017.png",
-		"id": 10017.0,
+		"id": 10017,
 		"max_stacks": 5.0,
 		"name": "寒冷",
 		"stack_behavior": "stack",
@@ -399,7 +399,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10018.png",
-		"id": 10018.0,
+		"id": 10018,
 		"max_stacks": 1.0,
 		"name": "感电",
 		"stack_behavior": "refresh",
@@ -419,7 +419,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10019.png",
-		"id": 10019.0,
+		"id": 10019,
 		"max_stacks": 1.0,
 		"name": "标记",
 		"stack_behavior": "refresh",
@@ -439,7 +439,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10020.png",
-		"id": 10020.0,
+		"id": 10020,
 		"max_stacks": 1.0,
 		"name": "重伤",
 		"stack_behavior": "refresh",
@@ -457,7 +457,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10021.png",
-		"id": 10021.0,
+		"id": 10021,
 		"max_stacks": 15.0,
 		"name": "侵蚀",
 		"stack_behavior": "stack",
@@ -477,7 +477,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10022.png",
-		"id": 10022.0,
+		"id": 10022,
 		"max_stacks": 1.0,
 		"name": "潮湿",
 		"stack_behavior": "refresh",
@@ -503,7 +503,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10023.png",
-		"id": 10023.0,
+		"id": 10023,
 		"max_stacks": 1.0,
 		"name": "融化",
 		"stack_behavior": "refresh",
@@ -526,11 +526,37 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/10024.png",
-		"id": 10024.0,
+		"id": 10024,
 		"max_stacks": 1.0,
 		"name": "fs_attack_fire",
 		"stack_behavior": "refresh",
 		"status_type": "burn"
+	},
+	"10025": {
+		"category": "debuff",
+		"description": "寒冷：移动速度与攻击速度降低30%，并积累冻结进度（设计案 8.2 寒冷）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "move_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			},
+			{
+				"mode": "mul",
+				"stat": "attack_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			}
+		],
+		"icon": "res://assets/icons/buffs/10017.png",
+		"id": 10025,
+		"max_stacks": 5.0,
+		"name": "寒冷-50112",
+		"stack_behavior": "stack",
+		"status_type": "chill"
 	},
 	"20001": {
 		"category": "buff",
@@ -547,7 +573,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20001.png",
-		"id": 20001.0,
+		"id": 20001,
 		"max_stacks": 1.0,
 		"name": "无敌",
 		"stack_behavior": "refresh",
@@ -567,7 +593,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20002.png",
-		"id": 20002.0,
+		"id": 20002,
 		"max_stacks": 1.0,
 		"name": "攻击强化",
 		"stack_behavior": "refresh",
@@ -587,7 +613,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20003.png",
-		"id": 20003.0,
+		"id": 20003,
 		"max_stacks": 1.0,
 		"name": "防御强化",
 		"stack_behavior": "refresh",
@@ -605,7 +631,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20004.png",
-		"id": 20004.0,
+		"id": 20004,
 		"max_stacks": 1.0,
 		"name": "护盾",
 		"stack_behavior": "refresh",
@@ -625,7 +651,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20005.png",
-		"id": 20005.0,
+		"id": 20005,
 		"max_stacks": 1.0,
 		"name": "速度强化",
 		"stack_behavior": "refresh",
@@ -645,7 +671,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20006.png",
-		"id": 20006.0,
+		"id": 20006,
 		"max_stacks": 1.0,
 		"name": "暴击强化",
 		"stack_behavior": "refresh",
@@ -665,7 +691,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20007.png",
-		"id": 20007.0,
+		"id": 20007,
 		"max_stacks": 1.0,
 		"name": "暴伤强化",
 		"stack_behavior": "refresh",
@@ -685,7 +711,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20008.png",
-		"id": 20008.0,
+		"id": 20008,
 		"max_stacks": 1.0,
 		"name": "攻速强化",
 		"stack_behavior": "refresh",
@@ -711,7 +737,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20009.png",
-		"id": 20009.0,
+		"id": 20009,
 		"max_stacks": 1.0,
 		"name": "神力",
 		"stack_behavior": "refresh",
@@ -729,7 +755,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20010.png",
-		"id": 20010.0,
+		"id": 20010,
 		"max_stacks": 1.0,
 		"name": "强效护盾",
 		"stack_behavior": "refresh",
@@ -748,7 +774,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20011.png",
-		"id": 20011.0,
+		"id": 20011,
 		"max_stacks": 1.0,
 		"name": "回复",
 		"stack_behavior": "refresh",
@@ -767,7 +793,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20012.png",
-		"id": 20012.0,
+		"id": 20012,
 		"max_stacks": 1.0,
 		"name": "神圣祝福",
 		"stack_behavior": "refresh",
@@ -799,7 +825,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20013.png",
-		"id": 20013.0,
+		"id": 20013,
 		"max_stacks": 1.0,
 		"name": "狂暴",
 		"stack_behavior": "refresh",
@@ -822,7 +848,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20014.png",
-		"id": 20014.0,
+		"id": 20014,
 		"max_stacks": 1.0,
 		"name": "圣盾",
 		"stack_behavior": "refresh",
@@ -848,7 +874,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20015.png",
-		"id": 20015.0,
+		"id": 20015,
 		"max_stacks": 1.0,
 		"name": "战斗狂热",
 		"stack_behavior": "refresh",
@@ -867,7 +893,7 @@
 			}
 		],
 		"icon": "res://assets/icons/buffs/20016.png",
-		"id": 20016.0,
+		"id": 20016,
 		"max_stacks": 1.0,
 		"name": "huayao_skill",
 		"stack_behavior": "refresh",

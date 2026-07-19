@@ -224,5 +224,24 @@
 		"skills": [
 			50102.0
 		]
+	},
+	"8012": {
+		"asset": "res://assets/enemies/shang'hu'guai",
+		"attack": 2.0,
+		"attack_range": 80.0,
+		"character_config": "res://assets/enemies/shang'hu'guai/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "shang'hu'guai",
+		"normal_skill": 50111.0,
+		"patrol_range": 120.0,
+		"skill_weights": [],
+		"skills": [
+			50112.0
+		]
 	}
 }
