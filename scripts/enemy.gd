@@ -299,21 +299,18 @@ func _update_attack(_delta: float) -> void:
 		_ai_debug_text = "后撤至 %.0f（当前 %.0f）" % [retreat_target, dist]
 		return
 
-	# 距离判断：优先看冷却完成的技能
-	# - 有冷却完成技能但当前够不着 → 切 CHASE 靠近释放（避免原地等远程冷却而忽略可用的近战）
-	# - 全冷却 → 仍在攻击范围内则原地等，超出范围则回追
-	# 注：全冷却时回追阈值用 max_engage（不带 1.25 系数），与 _get_nearest_engage_distance
-	# 的 any_best 对齐，避免 ATTACK/CHASE 在阈值附近滞回切换造成 idle/run 快速闪烁
-	var ready_max := _get_max_ready_engage_distance()
-	if ready_max > 0.0:
-		if dist > ready_max:
-			_set_ai_state(AIState.CHASE)
-			return
-	else:
-		var max_engage := _get_max_engage_distance()
-		if max_engage > 0.0 and dist > max_engage:
-			_set_ai_state(AIState.CHASE)
-			return
+	# 距离判断：用所有技能的最大起手距离作为统一回追阈值。
+	# 只要还在攻击范围内（dist <= max_engage），就保持 ATTACK 等待冷却。
+	# 若 dist 超出 max_engage（玩家持续跑动拉开距离），不切回 CHASE，
+	# 而是直接在 ATTACK 里以追击速度跟随并播 run 动画，
+	# 避免 ATTACK/CHASE 频繁切换导致 idle/run 视觉闪烁。
+	var max_engage := _get_max_engage_distance()
+	if max_engage > 0.0 and dist > max_engage:
+		var dir := signf(_target.global_position.x - global_position.x)
+		velocity.x = dir * _get_move_speed() * 1.2
+		_play_anim("run")
+		_ai_debug_text = "追击中（当前 %.0f > %.0f）" % [dist, max_engage]
+		return
 
 	velocity.x = 0.0
 	_ai_debug_text = "等待冷却（当前 %.0f）" % dist
@@ -414,21 +411,6 @@ func _get_nearest_engage_distance(distance_x: float) -> float:
 func _get_max_engage_distance() -> float:
 	var best := 0.0
 	for sid in _get_configured_skill_ids():
-		var cache := _get_ai_cache(sid)
-		if cache.is_empty():
-			continue
-		var max_d := AIRangeCompiler.get_max_engage_distance(cache)
-		if max_d > best:
-			best = max_d
-	return best
-
-
-## 返回冷却完成技能的最大起手距离（用于 ATTACK 状态判断是否需要靠近释放）。
-func _get_max_ready_engage_distance() -> float:
-	var best := 0.0
-	for sid in _get_configured_skill_ids():
-		if combat != null and combat._cooldowns.get(sid, 0.0) > 0.0:
-			continue
 		var cache := _get_ai_cache(sid)
 		if cache.is_empty():
 			continue
