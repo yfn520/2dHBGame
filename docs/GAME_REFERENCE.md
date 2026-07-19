@@ -311,6 +311,7 @@ GameRegistry.inventory_provider.remove_item_by_id(2001, 1)    # 使用1瓶药水
 |--------|------|
 | 导入所有场景 | 扫描 `world/stitched/`，生成关卡场景 |
 | 导入所有角色 | 扫描 `assets/characters/`，修正路径，生成配置 |
+| 导入 UI 场景 Zip... | 导入 GameTool UI 场景包到 `assets/ui/`，并兼容旧版目录结构 |
 | 转换 Excel → JSON | 扫描 `data/excel/`，通过 Python 生成 JSON |
 
 ### 命令行

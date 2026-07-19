@@ -1,0 +1,193 @@
+{
+  "generatedBy": "FrameRonin UI Prototype Generator",
+  "type": "godot_ui_scene",
+  "designSize": {
+    "width": 1920,
+    "height": 1080
+  },
+  "scenePath": "res://assets/ui/ui_main_lp.tscn",
+  "backgroundPath": null,
+  "nodes": [
+    {
+      "name": "player_",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 16,
+        "y": 15,
+        "width": 409,
+        "height": 144
+      },
+      "zIndex": 0,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "image_002",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 32,
+        "y": 14,
+        "width": 118,
+        "height": 148
+      },
+      "zIndex": 1,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "image_004",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 142,
+        "y": 127,
+        "width": 39,
+        "height": 16
+      },
+      "zIndex": 2,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "progress_005",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 150,
+        "y": 63,
+        "width": 252,
+        "height": 28
+      },
+      "zIndex": 3,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_006",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 151,
+        "y": 95,
+        "width": 251,
+        "height": 27
+      },
+      "zIndex": 4,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_003",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 184,
+        "y": 127,
+        "width": 176,
+        "height": 16
+      },
+      "zIndex": 5,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "image_005",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 69,
+        "y": 933,
+        "width": 1757,
+        "height": 122
+      },
+      "zIndex": 6,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_001",
+      "kind": "texture_button",
+      "rect": {
+        "x": 94,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 7,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_002",
+      "kind": "texture_button",
+      "rect": {
+        "x": 311,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 9,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_003",
+      "kind": "texture_button",
+      "rect": {
+        "x": 526,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 10,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_004",
+      "kind": "texture_button",
+      "rect": {
+        "x": 739,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 11,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_005",
+      "kind": "texture_button",
+      "rect": {
+        "x": 951,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 12,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_006",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1165,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 13,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_007",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1377,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 14,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_009",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1590,
+        "y": 948,
+        "width": 213,
+        "height": 90
+      },
+      "zIndex": 15,
+      "godotType": "TextureButton"
+    }
+  ],
+  "bindings": []
+}

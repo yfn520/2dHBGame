@@ -8,6 +8,7 @@ const SkillSequenceEditor = preload("res://addons/game_tools/skill_sequence_edit
 const LevelEditor = preload("res://addons/game_tools/level_editor.gd")
 const BuffEditor = preload("res://addons/game_tools/buff_editor.gd")
 const BuffIconGenerator = preload("res://addons/game_tools/buff_icon_generator.gd")
+const UiSceneZipImporter = preload("res://addons/game_tools/ui_scene_zip_importer.gd")
 
 var _submenu: PopupMenu
 var _combat_action_editor: Window
@@ -17,6 +18,8 @@ var _skill_sequence_editor: Window
 var _level_editor: Window
 var _buff_editor: Window
 var _buff_icon_generator: Window
+var _ui_zip_file_dialog: EditorFileDialog
+var _ui_zip_result_dialog: AcceptDialog
 
 
 func _enter_tree() -> void:
@@ -26,6 +29,7 @@ func _enter_tree() -> void:
 	_submenu.add_item("导入所有角色", 1)
 	_submenu.add_item("导入所有怪物", 3)
 	_submenu.add_item("从 Zip 导入角色/怪物...", 12)
+	_submenu.add_item("导入 UI 场景 Zip...", 13)
 	_submenu.add_item("转换 Excel → JSON", 2)
 	_submenu.add_item("生成 JSON → Excel (配置用)", 4)
 	_submenu.add_separator()
@@ -55,6 +59,10 @@ func _exit_tree() -> void:
 		_buff_editor.queue_free()
 	if is_instance_valid(_buff_icon_generator):
 		_buff_icon_generator.queue_free()
+	if is_instance_valid(_ui_zip_file_dialog):
+		_ui_zip_file_dialog.queue_free()
+	if is_instance_valid(_ui_zip_result_dialog):
+		_ui_zip_result_dialog.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -88,6 +96,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_buff_icon_generator()
 		12:
 			_open_zip_importer()
+		13:
+			_open_ui_scene_zip_importer()
 
 
 func _open_combat_action_editor() -> void:
@@ -145,6 +155,46 @@ func _open_buff_icon_generator() -> void:
 		_buff_icon_generator = BuffIconGenerator.new()
 		EditorInterface.get_base_control().add_child(_buff_icon_generator)
 	_buff_icon_generator.open_generator()
+
+
+# ---- UI 场景 Zip 导入 ----
+
+func _open_ui_scene_zip_importer() -> void:
+	if not is_instance_valid(_ui_zip_file_dialog):
+		_ui_zip_file_dialog = EditorFileDialog.new()
+		_ui_zip_file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+		_ui_zip_file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
+		_ui_zip_file_dialog.add_filter("*.zip", "GameTool UI 场景包")
+		_ui_zip_file_dialog.title = "选择 GameTool 导出的 UI 场景 Zip"
+		_ui_zip_file_dialog.file_selected.connect(_on_ui_scene_zip_selected)
+		EditorInterface.get_base_control().add_child(_ui_zip_file_dialog)
+	_ui_zip_file_dialog.popup_centered(Vector2i(900, 600))
+
+
+func _on_ui_scene_zip_selected(zip_path: String) -> void:
+	var result: Dictionary = UiSceneZipImporter.import_zip(zip_path)
+	var message := String(result.get("message", "未知错误"))
+	if not bool(result.get("ok", false)):
+		push_error("[GameTools] UI 场景 Zip 导入失败：%s" % message)
+		_show_ui_zip_result("UI 场景导入失败", message)
+		return
+
+	EditorInterface.get_resource_filesystem().scan()
+	print("[GameTools] UI 场景 Zip 导入完成：%s" % message.replace("\n", " "))
+	_show_ui_zip_result("UI 场景导入完成", message)
+
+
+func _show_ui_zip_result(title_text: String, message: String) -> void:
+	if is_instance_valid(_ui_zip_result_dialog):
+		_ui_zip_result_dialog.queue_free()
+	_ui_zip_result_dialog = AcceptDialog.new()
+	_ui_zip_result_dialog.title = title_text
+	_ui_zip_result_dialog.dialog_text = message
+	_ui_zip_result_dialog.min_size = Vector2i(560, 180)
+	_ui_zip_result_dialog.confirmed.connect(_ui_zip_result_dialog.queue_free)
+	_ui_zip_result_dialog.close_requested.connect(_ui_zip_result_dialog.queue_free)
+	EditorInterface.get_base_control().add_child(_ui_zip_result_dialog)
+	_ui_zip_result_dialog.popup_centered(Vector2i(560, 220))
 
 
 # ---- Zip 导入（角色 / 怪物） ----

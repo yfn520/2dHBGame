@@ -1,0 +1,231 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_ba60ab01.png" id="res_1"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_38afd007.png" id="res_2"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_43e25224.png" id="res_3"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_3212e5ba.png" id="res_4"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_81f24685.png" id="res_5"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_07_c0e12e37.png" id="res_6"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_51de9202.png" id="res_7"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_9eb2a61f.png" id="res_8"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_19f65334.png" id="res_9"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_c00904ba.png" id="res_10"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_38c3c75f.png" id="res_11"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_ca09ed87.png" id="res_12"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_ddb89938.png" id="res_13"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_07_a684a41b.png" id="res_14"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_08_4c5ea847.png" id="res_15"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_005_progress_color.svg" id="res_16"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_006_progress_color.svg" id="res_17"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_003_progress_color.svg" id="res_18"]
+
+[node name="UiScreen" type="Control"]
+offset_right = 1920
+offset_bottom = 1080
+
+[node name="player_" type="TextureRect" parent="."]
+expand_mode = 1
+stretch_mode = 0
+offset_right = 425
+offset_bottom = 159
+offset_left = 16
+offset_top = 15
+layout_mode = 1
+mouse_filter = 2
+z_index = 0
+modulate = Color(1, 1, 1, 0.75)
+texture = ExtResource("res_1")
+
+[node name="image_002" type="TextureRect" parent="."]
+offset_right = 150
+stretch_mode = 5
+offset_bottom = 162
+offset_left = 32
+offset_top = 14
+layout_mode = 1
+mouse_filter = 2
+z_index = 1
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+texture = ExtResource("res_2")
+
+[node name="image_004" type="TextureRect" parent="."]
+offset_right = 181
+stretch_mode = 5
+offset_bottom = 143
+offset_left = 142
+offset_top = 127
+layout_mode = 1
+mouse_filter = 2
+z_index = 2
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+texture = ExtResource("res_6")
+
+[node name="progress_005" type="TextureProgressBar" parent="."]
+nine_patch_stretch = true
+offset_right = 402
+offset_bottom = 91
+offset_left = 150
+offset_top = 63
+layout_mode = 1
+z_index = 3
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_16")
+texture_over = ExtResource("res_3")
+
+[node name="progress_006" type="TextureProgressBar" parent="."]
+nine_patch_stretch = true
+offset_right = 402
+offset_bottom = 122
+offset_left = 151
+offset_top = 95
+layout_mode = 1
+z_index = 4
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_17")
+texture_over = ExtResource("res_4")
+
+[node name="progress_003" type="TextureProgressBar" parent="."]
+nine_patch_stretch = true
+offset_right = 360
+offset_bottom = 143
+offset_left = 184
+offset_top = 127
+layout_mode = 1
+z_index = 5
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_18")
+texture_over = ExtResource("res_5")
+
+[node name="image_005" type="TextureRect" parent="."]
+expand_mode = 1
+stretch_mode = 0
+offset_right = 1826
+offset_bottom = 1055
+offset_left = 69
+offset_top = 933
+layout_mode = 1
+mouse_filter = 2
+z_index = 6
+modulate = Color(1, 1, 1, 1)
+texture = ExtResource("res_7")
+
+[node name="button_001" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 307
+offset_bottom = 1038
+offset_left = 94
+offset_top = 948
+layout_mode = 1
+z_index = 7
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_8")
+
+[node name="button_002" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 524
+offset_bottom = 1038
+offset_left = 311
+offset_top = 948
+layout_mode = 1
+z_index = 9
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_9")
+
+[node name="button_003" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 739
+offset_bottom = 1038
+offset_left = 526
+offset_top = 948
+layout_mode = 1
+z_index = 10
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_10")
+
+[node name="button_004" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 952
+offset_bottom = 1038
+offset_left = 739
+offset_top = 948
+layout_mode = 1
+z_index = 11
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_11")
+
+[node name="button_005" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 1164
+offset_bottom = 1038
+offset_left = 951
+offset_top = 948
+layout_mode = 1
+z_index = 12
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_12")
+
+[node name="button_006" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 1378
+offset_bottom = 1038
+offset_left = 1165
+offset_top = 948
+layout_mode = 1
+z_index = 13
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_13")
+
+[node name="button_007" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 1590
+offset_bottom = 1038
+offset_left = 1377
+offset_top = 948
+layout_mode = 1
+z_index = 14
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_14")
+
+[node name="button_009" type="TextureButton" parent="."]
+ignore_texture_size = true
+stretch_mode = 0
+offset_right = 1803
+offset_bottom = 1038
+offset_left = 1590
+offset_top = 948
+layout_mode = 1
+z_index = 15
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+texture_normal = ExtResource("res_15")
