@@ -134,7 +134,7 @@ func _get_pre_buff_stacks(target: Node, reaction: Dictionary) -> int:
 	return 1
 
 
-## 反应消耗类：施加 debuff（consume_both 用，例如燃烧+冰霜 → 融化 1307）。
+## 反应消耗类：施加 debuff（consume_both 用，例如燃烧+冰霜 → 融化 10023）。
 func _apply_reaction_debuff(reaction_effect: Dictionary, target: Node) -> void:
 	var debuff_id := int(reaction_effect.get("debuff_id", 0))
 	if debuff_id <= 0 or target == null:

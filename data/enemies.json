@@ -1,5 +1,5 @@
 {
-	"1001": {
+	"8001": {
 		"asset": "res://assets/enemies/slimu",
 		"attack": 2.0,
 		"attack_range": 40.0,
@@ -11,7 +11,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "史莱姆",
-		"normal_skill": 2001.0,
+		"normal_skill": 50001.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -20,7 +20,7 @@
 			"swarm"
 		]
 	},
-	"1003": {
+	"8002": {
 		"actor_scale": 1.5,
 		"asset": "res://assets/enemies/kuilei4",
 		"attack": 2.0,
@@ -33,7 +33,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "傀儡",
-		"normal_skill": 2101.0,
+		"normal_skill": 50011.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -42,7 +42,7 @@
 			"regen"
 		]
 	},
-	"1004": {
+	"8003": {
 		"asset": "res://assets/enemies/wolf",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -54,7 +54,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "xiao'huei'heu'i",
-		"normal_skill": 2301.0,
+		"normal_skill": 50021.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -62,7 +62,7 @@
 			"flesh"
 		]
 	},
-	"1005": {
+	"8004": {
 		"asset": "res://assets/enemies/kulou",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -74,7 +74,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "kulou",
-		"normal_skill": 2401.0,
+		"normal_skill": 50031.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -82,7 +82,7 @@
 			"undead"
 		]
 	},
-	"1006": {
+	"8005": {
 		"asset": "res://assets/enemies/gebulin",
 		"attack": 3.0,
 		"attack_range": 80.0,
@@ -94,7 +94,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "ge'bu'ling",
-		"normal_skill": 2501.0,
+		"normal_skill": 50041.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -103,7 +103,7 @@
 			"fast"
 		]
 	},
-	"1007": {
+	"8006": {
 		"asset": "res://assets/enemies/hjjx",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -115,7 +115,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "huei'jingju'xiang",
-		"normal_skill": 2601.0,
+		"normal_skill": 50051.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -124,7 +124,7 @@
 			"high_mr"
 		]
 	},
-	"1008": {
+	"8007": {
 		"asset": "res://assets/enemies/hjqs",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -136,7 +136,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "huei'jing'qi'shi2",
-		"normal_skill": 2701.0,
+		"normal_skill": 50061.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -145,7 +145,7 @@
 			"shell"
 		]
 	},
-	"1009": {
+	"8008": {
 		"asset": "res://assets/enemies/huayao",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -157,7 +157,7 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "花妖",
-		"normal_skill": 2801.0,
+		"normal_skill": 50071.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [],
@@ -166,7 +166,7 @@
 			"back_caster"
 		]
 	},
-	"1010": {
+	"8009": {
 		"asset": "res://assets/enemies/d'j's2",
 		"attack": 2.0,
 		"attack_range": 80.0,
@@ -178,11 +178,32 @@
 		"max_hp": 50.0,
 		"move_speed": 80.0,
 		"name": "d'j's2",
-		"normal_skill": 2901.0,
+		"normal_skill": 50081.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
 		"skills": [
-			2902.0
+			50082.0
+		]
+	},
+	"8010": {
+		"asset": "res://assets/enemies/shu'ren",
+		"attack": 2.0,
+		"attack_range": 80.0,
+		"character_config": "res://assets/enemies/shu'ren/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "shu'ren",
+		"normal_skill": 50091.0,
+		"patrol_range": 120.0,
+		"skill_weights": [
+			1.0
+		],
+		"skills": [
+			50092.0
 		]
 	}
 }

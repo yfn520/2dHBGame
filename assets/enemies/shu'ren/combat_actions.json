@@ -1,0 +1,97 @@
+{
+	"actions": {
+		"attack": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 2,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -101.0,
+					"end_frame": 2,
+					"forward": 101.0,
+					"height": 79.0,
+					"id": "hitbox-1784346285112-igazm:region-1784346285112-mxh74",
+					"source_attack_id": "hitbox-1784346285112-igazm",
+					"source_region_id": "region-1784346285112-mxh74",
+					"start_frame": 2,
+					"width": 55.0,
+					"y": -84.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"dead": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"hurt": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"idle": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"run": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"skill": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 2,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -105.0,
+					"end_frame": 2,
+					"forward": 105.0,
+					"height": 59.0,
+					"id": "hitbox-1784346292487-7donl:region-1784346292487-bafu0",
+					"source_attack_id": "hitbox-1784346292487-7donl",
+					"source_region_id": "region-1784346292487-bafu0",
+					"start_frame": 2,
+					"width": 48.0,
+					"y": -28.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"source_schema_version": 3,
+	"sprite_scale": 1.0,
+	"version": 3
+}

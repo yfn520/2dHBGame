@@ -575,21 +575,38 @@ func _on_spin_changed(value: float, field_name: String) -> void:
 
 
 func _on_add_buff() -> void:
-	var max_id := 1000
+	# buff ID 按类别分段：debuff 10001-19999，buff 20001-29999
+	# 新增时根据选中 buff 的 category（或默认 debuff）选择对应段
+	var new_category := "debuff"
+	if _selected_id != 0 and _buffs.has(_selected_id):
+		new_category = String(_buffs[_selected_id].get("category", "debuff"))
+	# 确定段位起点和上限
+	var seg_start := 10000  # debuff 段
+	var seg_limit := 19999
+	if new_category == "buff":
+		seg_start = 20000
+		seg_limit = 29999
+	# 找出该段内已有最大 ID
+	var max_id := seg_start
 	for buff_id in _buffs:
-		max_id = maxi(max_id, buff_id)
+		if buff_id > seg_start and buff_id <= seg_limit:
+			max_id = maxi(max_id, buff_id)
 	var new_id := max_id + 1
+	if new_id > seg_limit:
+		push_error("[BuffEditor] buff ID 段已满（%d-%d）" % [seg_start + 1, seg_limit])
+		return
 	# 若有选中 buff，拷贝其配置作为新 buff 基础，方便快速新增同类型 buff
 	if _selected_id != 0 and _buffs.has(_selected_id):
 		var source: Dictionary = _buffs[_selected_id]
 		_buffs[new_id] = source.duplicate(true)
 		_buffs[new_id]["name"] = String(source.get("name", "")) + " 副本"
 		_buffs[new_id]["effects"] = (source.get("effects", []) as Array).duplicate(true)
+		_buffs[new_id]["category"] = new_category
 	else:
 		_buffs[new_id] = {
 			"name": "新 Buff",
 			"description": "",
-			"category": "debuff",
+			"category": new_category,
 			"duration": 3.0,
 			"max_stacks": 1,
 			"stack_behavior": "refresh",

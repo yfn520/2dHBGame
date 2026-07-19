@@ -4,14 +4,14 @@
 		"description": "初始关卡",
 		"enemies": [
 			{
-				"enemy_id": 1009,
+				"enemy_id": 8008,
 				"mode": "point",
 				"spawn_id": "spawn_0",
 				"x": 618.267150878906,
 				"y": 447.091186523438
 			},
 			{
-				"enemy_id": 1010,
+				"enemy_id": 8009,
 				"mode": "point",
 				"spawn_id": "spawn_1",
 				"x": 780.646240234375,
@@ -29,7 +29,7 @@
 		"enemies": [
 			{
 				"count": 3,
-				"enemy_id": 1001,
+				"enemy_id": 8001,
 				"mode": "group",
 				"scatter_x": 20.0,
 				"spawn_id": "spawn_0",

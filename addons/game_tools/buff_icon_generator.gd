@@ -8,7 +8,7 @@ extends Window
 
 const CONFIG_PATH := "res://data/buffs.json"
 const ICON_DIR := "res://assets/icons/buffs/"
-const ICON_SIZE := 32
+const ICON_SIZE := 64
 
 var _log: RichTextLabel
 
@@ -118,8 +118,8 @@ func _render_and_save(buff_name: String, category: String, res_path: String) -> 
 	panel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.2, 0.55, 0.25, 1.0) if category == "buff" else Color(0.6, 0.2, 0.2, 1.0)
-	style.set_corner_radius_all(6)
-	style.set_border_width_all(1)
+	style.set_corner_radius_all(8)
+	style.set_border_width_all(2)
 	style.border_color = Color(0.1, 0.1, 0.1, 0.85)
 	panel.add_theme_stylebox_override("panel", style)
 
@@ -127,7 +127,7 @@ func _render_and_save(buff_name: String, category: String, res_path: String) -> 
 	label.set_anchors_preset(Control.PRESET_FULL_RECT)
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_font_size_override("font_size", 32)
 	label.add_theme_color_override("font_color", Color.WHITE)
 	label.text = buff_name.substr(0, 1) if not buff_name.is_empty() else "?"
 	panel.add_child(label)

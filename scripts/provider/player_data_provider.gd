@@ -37,35 +37,35 @@ func _apply_local_mock_snapshot() -> void:
 		"inventory": {
 			"next_uid": 40,
 			"items": [
-				{"uid": 1, "item_id": 1001, "count": 1},
-				{"uid": 2, "item_id": 1002, "count": 1},
-				{"uid": 3, "item_id": 1003, "count": 1},
-				{"uid": 4, "item_id": 1004, "count": 1},
-				{"uid": 5, "item_id": 1005, "count": 1},
-				{"uid": 6, "item_id": 1006, "count": 1},
-				{"uid": 7, "item_id": 1007, "count": 1},
-				{"uid": 8, "item_id": 1008, "count": 1},
-				{"uid": 9, "item_id": 1011, "count": 1},
-				{"uid": 10, "item_id": 1014, "count": 1},
-				{"uid": 20, "item_id": 2001, "count": 12},
-				{"uid": 21, "item_id": 2002, "count": 3},
-				{"uid": 30, "item_id": 3001, "count": 35},
-				{"uid": 31, "item_id": 3002, "count": 18}
+				{"uid": 1, "item_id": 100001, "count": 1},
+				{"uid": 2, "item_id": 100002, "count": 1},
+				{"uid": 3, "item_id": 100003, "count": 1},
+				{"uid": 4, "item_id": 100004, "count": 1},
+				{"uid": 5, "item_id": 100005, "count": 1},
+				{"uid": 6, "item_id": 100006, "count": 1},
+				{"uid": 7, "item_id": 100007, "count": 1},
+				{"uid": 8, "item_id": 100008, "count": 1},
+				{"uid": 9, "item_id": 100011, "count": 1},
+				{"uid": 10, "item_id": 100013, "count": 1},
+				{"uid": 20, "item_id": 100014, "count": 12},
+				{"uid": 21, "item_id": 100015, "count": 3},
+				{"uid": 30, "item_id": 100016, "count": 35},
+				{"uid": 31, "item_id": 100017, "count": 18}
 			]
 		},
 		"equipment": {
 			"by_character": {
-				"1001": {
-				"weapon": {"uid": 101, "item_id": 1009},
-				"armor": {"uid": 102, "item_id": 1010},
-				"ring": {"uid": 103, "item_id": 1004}
+				"7001": {
+				"weapon": {"uid": 101, "item_id": 100009},
+				"armor": {"uid": 102, "item_id": 100010},
+				"ring": {"uid": 103, "item_id": 100004}
 			}
 		}
 	},
 	"characters": {
-		"1001": {"character_id": 1001, "level": 1, "exp": 60, "hp": -1}
+		"7001": {"character_id": 7001, "level": 1, "exp": 60, "hp": -1}
 	},
-	"lineup_ids": [1001],
-	"active_character_id": 1001,
+	"lineup_ids": [7001],
+	"active_character_id": 7001,
 	"active_index": 0
 })

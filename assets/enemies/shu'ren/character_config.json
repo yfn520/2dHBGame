@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/shu'ren/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/shu'ren/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 158.0,
+			"width": 104.0,
+			"x": 81.0,
+			"y": 52.0
+		},
+		"forwardDistance": 3.0,
+		"height": 158.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 104.0,
+		"yOffset": -80.0
+	},
+	"body_position": {
+		"x": 3.0,
+		"y": -80.0
+	},
+	"body_size": {
+		"x": 104.0,
+		"y": 158.0
+	},
+	"centered": true,
+	"character_name": "shu'ren",
+	"collision_bottom": -1.0,
+	"combat_actions": "res://assets/enemies/shu'ren/combat_actions.json",
+	"combat_source": "res://assets/enemies/shu'ren/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -10.0,
+		"y": -91.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 130.0,
+		"y": 211.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "shu'ren",
+	"spriteframes": "res://assets/enemies/shu'ren/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

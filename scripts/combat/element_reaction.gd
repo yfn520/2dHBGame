@@ -18,7 +18,7 @@ const _DamageTags = preload("res://scripts/data/damage_tags.gd")
 ## 反应定义：前置状态 + 后续攻击 → 反应效果
 const REACTIONS := [
 	{
-		"pre_status": "wet",          # 潮湿 buff 1306
+		"pre_status": "wet",          # 潮湿 buff 10022
 		"attack_tag": "thunder",      # 雷电打潮湿
 		"effect": {"type": "damage_boost", "value": 0.25},
 	},
@@ -28,12 +28,12 @@ const REACTIONS := [
 		"effect": {"type": "buildup_boost", "value": 0.50, "status": "freeze"},
 	},
 	{
-		"pre_status": "burn",         # 燃烧 buff 1002
+		"pre_status": "burn",         # 燃烧 buff 10002
 		"attack_tag": "frost",        # 冰霜打燃烧 → 消耗两者，护甲魔抗 -15% 4秒
-		"effect": {"type": "consume_both", "debuff_id": 1307, "debuff_stacks": 1},
+		"effect": {"type": "consume_both", "debuff_id": 10023, "debuff_stacks": 1},
 	},
 	{
-		"pre_status": "mark",         # 标记 buff 1303
+		"pre_status": "mark",         # 标记 buff 10019
 		"attack_tag": "pierce",       # 穿刺打标记 → 额外无视 20% 护甲
 		"effect": {"type": "armor_pen_bonus", "value": 0.20},
 	},
@@ -48,7 +48,7 @@ const REACTIONS := [
 		"effect": {"type": "shield_damage_boost", "value": 0.30},
 	},
 	{
-		"pre_status": "erosion",      # 侵蚀 buff 1305
+		"pre_status": "erosion",      # 侵蚀 buff 10021
 		"attack_tag": "holy",         # 神圣打侵蚀 → 消耗最多3层，每层 60% 攻击力神圣伤害
 		"effect": {"type": "consume_stacks", "max_stacks": 3, "per_stack_damage_ratio": 0.6},
 	},
@@ -56,10 +56,10 @@ const REACTIONS := [
 
 ## buff_id → 反应前置标识（用于反查目标 active buff 是否含前置状态）
 const PRE_STATUS_BUFF_ID := {
-	"wet": 1306,
-	"burn": 1002,
-	"mark": 1303,
-	"erosion": 1305,
+	"wet": 10022,
+	"burn": 10002,
+	"mark": 10019,
+	"erosion": 10021,
 	# shield 不是 buff_id，而是检测 effect type
 }
 

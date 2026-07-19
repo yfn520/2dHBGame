@@ -257,16 +257,34 @@ func _finalize_zip_import(group: String, target_dir: String) -> void:
 	# 等待资源文件系统扫描完成（最多等 10 秒）
 	# 第一次 scan 会触发 Godot 为 PNG 自动生成 .import 文件并 reimport
 	var fs := EditorInterface.get_resource_filesystem()
+	# 先等一帧让 scan 真正启动（scan 是异步的，刚调用完 is_scanning 可能仍返回 false）
+	await get_tree().create_timer(0.2).timeout
 	var waited := 0
 	while fs.is_scanning() and waited < 100:
 		await get_tree().create_timer(0.1).timeout
 		waited += 1
 	# 再扫一次确保 .import 文件也被识别（避免 reimport 时找不到源文件）
 	EditorInterface.get_resource_filesystem().scan()
+	await get_tree().create_timer(0.2).timeout
 	waited = 0
 	while fs.is_scanning() and waited < 100:
 		await get_tree().create_timer(0.1).timeout
 		waited += 1
+
+	# 确保 atlas png 的 .import 文件已生成；未生成则显式 scan 该目录并等待
+	var atlas_path := target_dir.path_join("godot/all_actions_atlas.png")
+	var atlas_import_path := atlas_path + ".import"
+	if FileAccess.file_exists(atlas_path) and not FileAccess.file_exists(atlas_import_path):
+		# png 存在但 .import 还没生成，说明 scan 还没处理到这个文件
+		var atlas_dir := atlas_path.get_base_dir()
+		if fs.has_method("scan"):
+			EditorInterface.get_resource_filesystem().scan()
+		await get_tree().create_timer(0.5).timeout
+		waited = 0
+		while fs.is_scanning() and waited < 100:
+			await get_tree().create_timer(0.1).timeout
+			waited += 1
+
 	var folder_name := target_dir.get_file()
 	var resource_type := "enemy" if group == "enemies" else "character"
 	# 只导入这一个角色/怪物，不调用全量 _do_import_enemies / _do_import_characters
@@ -297,7 +315,7 @@ func _sync_single_enemy_config(target_dir: String, folder_name: String) -> void:
 				enemies_cfg = cfg_json.data
 	# 收集已有 asset 路径，找 max_id
 	var existing_assets: Dictionary = {}
-	var max_id := 1000
+	var max_id := 8000
 	for id_str in enemies_cfg:
 		var eid := int(id_str)
 		if eid > max_id:
@@ -603,7 +621,7 @@ func _do_import_enemies() -> void:
 
 	# 收集已有的 asset 路径，避免重复
 	var existing_assets: Dictionary = {}
-	var max_id := 1000
+	var max_id := 8000
 	for id_str in enemies_cfg:
 		var eid := int(id_str)
 		if eid > max_id:
@@ -856,7 +874,7 @@ func _get_enemy_skills_for_actions(manifest: Dictionary) -> Array[int]:
 		return result
 	for id_value in json.data:
 		var skill_id := int(id_value)
-		if skill_id < 2000:
+		if skill_id < 5000:
 			continue
 		var skill: Dictionary = json.data[id_value]
 		if action_names.has(String(skill.get("animation", ""))):
@@ -891,7 +909,7 @@ func _sync_character_configs(base_dir: String, folders: Array[String]) -> void:
 			characters_cfg = json.data
 
 	var existing_assets: Dictionary = {}
-	var max_id := 1000
+	var max_id := 7000
 	for id_str in characters_cfg:
 		var cid := int(id_str)
 		max_id = maxi(max_id, cid)
@@ -964,8 +982,8 @@ func _make_default_character_config(folder: String, character_name: String, asse
 
 
 func _default_character_normal_skill(_folder: String, character_id: int) -> int:
-	var base_id := character_id if character_id > 0 else 1001
-	return 3001 + maxi(0, base_id - 1001) * 100
+	var base_id := character_id if character_id > 0 else 7001
+	return 6001 + maxi(0, base_id - 7001) * 10
 
 
 func _default_character_skill_unlocks(folder: String, character_id: int) -> Dictionary:
@@ -982,13 +1000,9 @@ func _default_character_skill_list(folder: String, character_id: int) -> Array[i
 	return [normal, normal + 1, normal + 2, normal + 3]
 
 
-func _default_enemy_normal_skill(folder: String, enemy_id: int) -> int:
-	if folder == "slimu":
-		return 2001
-	if folder == "kuilei4":
-		return 2101
-	var base_id := enemy_id if enemy_id > 0 else 1001
-	return 2001 + maxi(0, base_id - 1001) * 100
+func _default_enemy_normal_skill(_folder: String, enemy_id: int) -> int:
+	var base_id := enemy_id if enemy_id > 0 else 8001
+	return 50001 + maxi(0, base_id - 8001) * 10
 
 
 func _default_character_base_stats() -> Dictionary:

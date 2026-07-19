@@ -1,5 +1,5 @@
 {
-	"1001": {
+	"7001": {
 		"actor_scale": 1.0,
 		"asset": "res://assets/characters/new_kivin",
 		"base_stats": {
@@ -34,30 +34,30 @@
 		},
 		"max_level": 60.0,
 		"name": "new_kivin",
-		"normal_skill": 3001.0,
+		"normal_skill": 6001.0,
 		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
 		"skill_unlocks": {
 			"skill1": {
-				"skill_id": 3002.0,
+				"skill_id": 6002.0,
 				"unlock_level": 1.0
 			},
 			"skill2": {
-				"skill_id": 3003.0,
+				"skill_id": 6003.0,
 				"unlock_level": 1.0
 			},
 			"skill3": {
-				"skill_id": 3004.0,
+				"skill_id": 6004.0,
 				"unlock_level": 1.0
 			}
 		},
 		"skills": [
-			3001.0,
-			3002.0,
-			3003.0,
-			3004.0
+			6001.0,
+			6002.0,
+			6003.0,
+			6004.0
 		]
 	},
-	"1003": {
+	"7002": {
 		"actor_scale": 1.0,
 		"asset": "res://assets/characters/gongshou",
 		"base_stats": {
@@ -92,30 +92,30 @@
 		},
 		"max_level": 60.0,
 		"name": "gong'sho",
-		"normal_skill": 3201.0,
+		"normal_skill": 6011.0,
 		"scene": "res://assets/characters/gongshou/godot/gongshou.tscn",
 		"skill_unlocks": {
 			"skill1": {
-				"skill_id": 3202.0,
+				"skill_id": 6012.0,
 				"unlock_level": 1.0
 			},
 			"skill2": {
-				"skill_id": 3203.0,
+				"skill_id": 6013.0,
 				"unlock_level": 1.0
 			},
 			"skill3": {
-				"skill_id": 3204.0,
+				"skill_id": 6014.0,
 				"unlock_level": 1.0
 			}
 		},
 		"skills": [
-			3201.0,
-			3202.0,
-			3203.0,
-			3204.0
+			6011.0,
+			6012.0,
+			6013.0,
+			6014.0
 		]
 	},
-	"1004": {
+	"7003": {
 		"actor_scale": 0.7,
 		"asset": "res://assets/characters/new_fashi",
 		"attack": 10.0,
@@ -151,27 +151,27 @@
 		},
 		"max_level": 60.0,
 		"name": "newfs",
-		"normal_skill": 3301.0,
+		"normal_skill": 6021.0,
 		"scene": "res://assets/characters/new_fashi/godot/new_fashi.tscn",
 		"skill_unlocks": {
 			"skill1": {
-				"skill_id": 3302.0,
+				"skill_id": 6022.0,
 				"unlock_level": 1.0
 			},
 			"skill2": {
-				"skill_id": 3303.0,
+				"skill_id": 6023.0,
 				"unlock_level": 1.0
 			},
 			"skill3": {
-				"skill_id": 3304.0,
+				"skill_id": 6024.0,
 				"unlock_level": 1.0
 			}
 		},
 		"skills": [
-			3301.0,
-			3302.0,
-			3303.0,
-			3304.0
+			6021.0,
+			6022.0,
+			6023.0,
+			6024.0
 		]
 	}
 }

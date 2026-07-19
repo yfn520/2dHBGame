@@ -4,7 +4,7 @@ signal roster_changed()
 signal active_character_changed(character_id: int)
 signal character_progress_changed(character_id: int)
 
-const DEFAULT_CHARACTER_ID := 1001
+const DEFAULT_CHARACTER_ID := 7001
 
 var characters: Dictionary = {}
 var lineup_ids: Array[int] = []

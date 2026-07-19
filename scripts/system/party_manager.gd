@@ -6,7 +6,7 @@ signal active_character_changed(character: CharacterBody2D)
 signal party_changed()
 
 @export_category("上阵配置")
-@export var lineup_character_ids: Array[int] = [1001, 1002]
+@export var lineup_character_ids: Array[int] = [7001]
 @export_range(0, 8, 1) var initial_active_index := 0
 
 var active_character: CharacterBody2D

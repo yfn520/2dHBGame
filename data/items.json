@@ -1,5 +1,5 @@
 {
-	"1001": {
+	"100001": {
 		"name": "铁剑",
 		"type": "weapon",
 		"description": "用于近战测试的普通铁剑。",
@@ -10,7 +10,7 @@
 			"attack": 5
 		}
 	},
-	"1002": {
+	"100002": {
 		"name": "铁甲",
 		"type": "armor",
 		"description": "基础护甲，提供少量生命加成。",
@@ -22,7 +22,7 @@
 			"max_hp": 10
 		}
 	},
-	"1003": {
+	"100003": {
 		"name": "铁靴",
 		"type": "boots",
 		"description": "用于验证移动速度装备的靴子。",
@@ -34,7 +34,7 @@
 			"move_speed": 10
 		}
 	},
-	"1004": {
+	"100004": {
 		"name": "生命戒指",
 		"type": "ring",
 		"description": "提升最大生命值的戒指。",
@@ -45,7 +45,7 @@
 			"max_hp": 20
 		}
 	},
-	"1005": {
+	"100005": {
 		"name": "月光项链",
 		"type": "necklace",
 		"description": "同时提供攻击和防御的项链。",
@@ -57,7 +57,7 @@
 			"defense": 1
 		}
 	},
-	"1006": {
+	"100006": {
 		"name": "旧圣物",
 		"type": "relic",
 		"description": "用于扩展装备槽测试的圣物。",
@@ -68,7 +68,7 @@
 			"attack": 3
 		}
 	},
-	"1007": {
+	"100007": {
 		"name": "旅行坐骑",
 		"type": "mount",
 		"description": "提供速度加成的坐骑占位物品。",
@@ -79,7 +79,7 @@
 			"move_speed": 15
 		}
 	},
-	"1008": {
+	"100008": {
 		"name": "星辰神器",
 		"type": "artifact",
 		"description": "后期属性测试用的神器占位物品。",
@@ -91,7 +91,7 @@
 			"max_hp": 15
 		}
 	},
-	"1009": {
+	"100009": {
 		"name": "英雄之刃",
 		"type": "weapon",
 		"description": "new_kivin 的测试穿戴武器。",
@@ -102,7 +102,7 @@
 			"attack": 8
 		}
 	},
-	"1010": {
+	"100010": {
 		"name": "骑士板甲",
 		"type": "armor",
 		"description": "new_kivin 的测试穿戴护甲。",
@@ -114,7 +114,7 @@
 			"max_hp": 30
 		}
 	},
-	"1011": {
+	"100011": {
 		"name": "迅捷靴",
 		"type": "boots",
 		"description": "用于切换测试的高速靴子。",
@@ -125,7 +125,7 @@
 			"move_speed": 25
 		}
 	},
-	"1013": {
+	"100012": {
 		"name": "法师杖",
 		"type": "weapon",
 		"description": "mofashi 的测试穿戴武器。",
@@ -136,7 +136,7 @@
 			"attack": 10
 		}
 	},
-	"1014": {
+	"100013": {
 		"name": "远古圣物",
 		"type": "relic",
 		"description": "用于穿戴/卸下测试的强化圣物。",
@@ -148,7 +148,7 @@
 			"defense": 2
 		}
 	},
-	"2001": {
+	"100014": {
 		"name": "生命药水",
 		"type": "consumable",
 		"description": "恢复 30 点生命值，使用逻辑暂未开放。",
@@ -157,7 +157,7 @@
 		"heal_amount": 30,
 		"stats": {}
 	},
-	"2002": {
+	"100015": {
 		"name": "解毒剂",
 		"type": "consumable",
 		"description": "预留的解毒道具。",
@@ -166,7 +166,7 @@
 		"heal_amount": 0,
 		"stats": {}
 	},
-	"3001": {
+	"100016": {
 		"name": "木材",
 		"type": "material",
 		"description": "基础制作材料。",
@@ -175,7 +175,7 @@
 		"heal_amount": 0,
 		"stats": {}
 	},
-	"3002": {
+	"100017": {
 		"name": "铁矿石",
 		"type": "material",
 		"description": "基础制作材料。",

@@ -2179,9 +2179,9 @@ func _compute_new_skill_id() -> int:
 				var config_type := parts[0]
 				var hero_id := int(parts[1])
 				if config_type == "char":
-					base_id = 3000 + (hero_id - 1001) * 100 + 1
+					base_id = 6000 + (hero_id - 7001) * 10 + 1
 				elif config_type == "enemy":
-					base_id = 2000 + (hero_id - 1001) * 100 + 1
+					base_id = 50000 + (hero_id - 8001) * 10 + 1
 	else:
 		for id_str in _skills.keys():
 			base_id = maxi(base_id, int(id_str))

@@ -1,5 +1,5 @@
 {
-	"1001": {
+	"10001": {
 		"category": "debuff",
 		"description": "每秒受到毒伤害，可叠加5层",
 		"duration": 5.0,
@@ -15,14 +15,14 @@
 				"type": "dot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1001.png",
-		"id": 1001,
+		"icon": "res://assets/icons/buffs/10001.png",
+		"id": 10001.0,
 		"max_stacks": 5.0,
 		"name": "中毒",
 		"stack_behavior": "stack",
 		"status_type": "poison"
 	},
-	"1002": {
+	"10002": {
 		"category": "debuff",
 		"description": "每0.5秒受到火焰伤害",
 		"duration": 3.0,
@@ -38,14 +38,14 @@
 				"type": "dot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1002.png",
-		"id": 1002,
+		"icon": "res://assets/icons/buffs/10002.png",
+		"id": 10002.0,
 		"max_stacks": 1.0,
 		"name": "燃烧",
 		"stack_behavior": "refresh",
 		"status_type": "burn"
 	},
-	"1003": {
+	"10003": {
 		"category": "debuff",
 		"description": "无法行动",
 		"duration": 2.0,
@@ -60,14 +60,14 @@
 				"type": "control"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1003.png",
-		"id": 1003,
+		"icon": "res://assets/icons/buffs/10003.png",
+		"id": 10003.0,
 		"max_stacks": 1.0,
 		"name": "冰冻",
 		"stack_behavior": "refresh",
 		"status_type": "freeze"
 	},
-	"1004": {
+	"10004": {
 		"category": "debuff",
 		"description": "无法移动",
 		"duration": 1.5,
@@ -81,35 +81,14 @@
 				"type": "control"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1004.png",
-		"id": 1004,
+		"icon": "res://assets/icons/buffs/10004.png",
+		"id": 10004.0,
 		"max_stacks": 1.0,
 		"name": "麻痹",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1005": {
-		"category": "buff",
-		"description": "免疫所有伤害",
-		"duration": 3.0,
-		"effect_scene": "res://assets/effects/invincible_fx.tscn",
-		"effects": [
-			{
-				"affects": [
-					"be_damaged"
-				],
-				"control_type": "invincible",
-				"type": "control"
-			}
-		],
-		"icon": "res://assets/icons/buffs/1005.png",
-		"id": 1005,
-		"max_stacks": 1.0,
-		"name": "无敌",
-		"stack_behavior": "refresh",
-		"status_type": ""
-	},
-	"1006": {
+	"10005": {
 		"category": "debuff",
 		"description": "无法行动和使用技能",
 		"duration": 2.0,
@@ -125,14 +104,14 @@
 				"type": "control"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1006.png",
-		"id": 1006,
+		"icon": "res://assets/icons/buffs/10005.png",
+		"id": 10005.0,
 		"max_stacks": 1.0,
 		"name": "眩晕",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1007": {
+	"10006": {
 		"category": "debuff",
 		"description": "移动速度降低50%",
 		"duration": 4.0,
@@ -145,14 +124,14 @@
 				"value": 0.5
 			}
 		],
-		"icon": "res://assets/icons/buffs/1007.png",
-		"id": 1007,
+		"icon": "res://assets/icons/buffs/10006.png",
+		"id": 10006.0,
 		"max_stacks": 1.0,
 		"name": "减速",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1008": {
+	"10007": {
 		"category": "debuff",
 		"description": "每0.8秒受到物理伤害，可叠加3层",
 		"duration": 5.0,
@@ -168,14 +147,14 @@
 				"type": "dot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1008.png",
-		"id": 1008,
+		"icon": "res://assets/icons/buffs/10007.png",
+		"id": 10007.0,
 		"max_stacks": 3.0,
 		"name": "流血",
 		"stack_behavior": "stack",
 		"status_type": ""
 	},
-	"1009": {
+	"10008": {
 		"category": "debuff",
 		"description": "每秒受到毒伤害，并降低防御力20%",
 		"duration": 6.0,
@@ -194,14 +173,14 @@
 				"value": 0.8
 			}
 		],
-		"icon": "res://assets/icons/buffs/1009.png",
-		"id": 1009,
+		"icon": "res://assets/icons/buffs/10008.png",
+		"id": 10008.0,
 		"max_stacks": 1.0,
 		"name": "腐蚀",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1010": {
+	"10009": {
 		"category": "debuff",
 		"description": "每0.5秒受到毒伤害，可叠加10层",
 		"duration": 8.0,
@@ -217,14 +196,14 @@
 				"type": "dot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1010.png",
-		"id": 1010,
+		"icon": "res://assets/icons/buffs/10009.png",
+		"id": 10009.0,
 		"max_stacks": 10.0,
 		"name": "剧毒",
 		"stack_behavior": "stack",
 		"status_type": ""
 	},
-	"1011": {
+	"10010": {
 		"category": "debuff",
 		"description": "攻击力降低30%",
 		"duration": 8.0,
@@ -237,14 +216,14 @@
 				"value": 0.7
 			}
 		],
-		"icon": "res://assets/icons/buffs/1011.png",
-		"id": 1011,
+		"icon": "res://assets/icons/buffs/10010.png",
+		"id": 10010.0,
 		"max_stacks": 1.0,
 		"name": "攻击削弱",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1012": {
+	"10011": {
 		"category": "debuff",
 		"description": "防御力降低50%",
 		"duration": 8.0,
@@ -257,14 +236,14 @@
 				"value": 0.5
 			}
 		],
-		"icon": "res://assets/icons/buffs/1012.png",
-		"id": 1012,
+		"icon": "res://assets/icons/buffs/10011.png",
+		"id": 10011.0,
 		"max_stacks": 1.0,
 		"name": "防御削弱",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1013": {
+	"10012": {
 		"category": "debuff",
 		"description": "暴击率降低30%",
 		"duration": 6.0,
@@ -277,14 +256,14 @@
 				"value": -0.3
 			}
 		],
-		"icon": "res://assets/icons/buffs/1013.png",
-		"id": 1013,
+		"icon": "res://assets/icons/buffs/10012.png",
+		"id": 10012.0,
 		"max_stacks": 1.0,
 		"name": "致盲",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1014": {
+	"10013": {
 		"category": "debuff",
 		"description": "移动速度降低30%，攻击速度降低20%",
 		"duration": 5.0,
@@ -303,14 +282,14 @@
 				"value": 0.8
 			}
 		],
-		"icon": "res://assets/icons/buffs/1014.png",
-		"id": 1014,
+		"icon": "res://assets/icons/buffs/10013.png",
+		"id": 10013.0,
 		"max_stacks": 1.0,
 		"name": "迟缓",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1015": {
+	"10014": {
 		"category": "debuff",
 		"description": "攻击力与防御力各降低30%",
 		"duration": 6.0,
@@ -329,14 +308,14 @@
 				"value": 0.7
 			}
 		],
-		"icon": "res://assets/icons/buffs/1015.png",
-		"id": 1015,
+		"icon": "res://assets/icons/buffs/10014.png",
+		"id": 10014.0,
 		"max_stacks": 1.0,
 		"name": "虚弱",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1016": {
+	"10015": {
 		"category": "debuff",
 		"description": "陷入沉睡，无法行动和使用技能",
 		"duration": 3.0,
@@ -352,54 +331,14 @@
 				"type": "control"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1016.png",
-		"id": 1016,
+		"icon": "res://assets/icons/buffs/10015.png",
+		"id": 10015.0,
 		"max_stacks": 1.0,
 		"name": "睡眠",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1101": {
-		"category": "buff",
-		"description": "攻击力提升30%",
-		"duration": 2.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "mul",
-				"stat": "attack",
-				"type": "stat_modifier",
-				"value": 1.5
-			}
-		],
-		"icon": "res://assets/icons/buffs/1101.png",
-		"id": 1101,
-		"max_stacks": 1.0,
-		"name": "攻击强化",
-		"stack_behavior": "refresh",
-		"status_type": ""
-	},
-	"1102": {
-		"category": "buff",
-		"description": "防御力提升50%",
-		"duration": 10.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "mul",
-				"stat": "defense",
-				"type": "stat_modifier",
-				"value": 1.5
-			}
-		],
-		"icon": "res://assets/icons/buffs/1102.png",
-		"id": 1102,
-		"max_stacks": 1.0,
-		"name": "防御强化",
-		"stack_behavior": "refresh",
-		"status_type": ""
-	},
-	"1103": {
+	"10016": {
 		"category": "debuff",
 		"description": "无法使用技能",
 		"duration": 3.0,
@@ -413,14 +352,248 @@
 				"type": "control"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1103.png",
-		"id": 1103,
+		"icon": "res://assets/icons/buffs/10016.png",
+		"id": 10016.0,
 		"max_stacks": 1.0,
 		"name": "沉默",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1104": {
+	"10017": {
+		"category": "debuff",
+		"description": "寒冷：移动速度与攻击速度降低30%，并积累冻结进度（设计案 8.2 寒冷）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "move_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			},
+			{
+				"mode": "mul",
+				"stat": "attack_speed",
+				"type": "stat_modifier",
+				"value": 0.7
+			}
+		],
+		"icon": "res://assets/icons/buffs/10017.png",
+		"id": 10017.0,
+		"max_stacks": 5.0,
+		"name": "寒冷",
+		"stack_behavior": "stack",
+		"status_type": "chill"
+	},
+	"10018": {
+		"category": "debuff",
+		"description": "感电：下次受到的雷电伤害提高25%（设计案 8.2 感电）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"armor_pen_bonus": 0.0,
+				"tag": "thunder",
+				"type": "tag_modifier",
+				"vuln_bonus": 0.25
+			}
+		],
+		"icon": "res://assets/icons/buffs/10018.png",
+		"id": 10018.0,
+		"max_stacks": 1.0,
+		"name": "感电",
+		"stack_behavior": "refresh",
+		"status_type": "shock"
+	},
+	"10019": {
+		"category": "debuff",
+		"description": "标记：受到的穿刺伤害无视20%护甲（设计案 8.2 标记）",
+		"duration": 6.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"armor_pen_bonus": 0.2,
+				"tag": "pierce",
+				"type": "tag_modifier",
+				"vuln_bonus": 0.0
+			}
+		],
+		"icon": "res://assets/icons/buffs/10019.png",
+		"id": 10019.0,
+		"max_stacks": 1.0,
+		"name": "标记",
+		"stack_behavior": "refresh",
+		"status_type": "mark"
+	},
+	"10020": {
+		"category": "debuff",
+		"description": "重伤：受到的治疗降低50%（设计案 8.2 重伤）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "add",
+				"stat": "heal_received",
+				"type": "stat_modifier",
+				"value": -0.5
+			}
+		],
+		"icon": "res://assets/icons/buffs/10020.png",
+		"id": 10020.0,
+		"max_stacks": 1.0,
+		"name": "重伤",
+		"stack_behavior": "refresh",
+		"status_type": "grievous"
+	},
+	"10021": {
+		"category": "debuff",
+		"description": "侵蚀：每层受到的所有伤害+1%，最多15层（设计案 8.2 侵蚀）",
+		"duration": 8.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"type": "vulnerability_modifier",
+				"value": 0.01
+			}
+		],
+		"icon": "res://assets/icons/buffs/10021.png",
+		"id": 10021.0,
+		"max_stacks": 15.0,
+		"name": "侵蚀",
+		"stack_behavior": "stack",
+		"status_type": "erosion"
+	},
+	"10022": {
+		"category": "debuff",
+		"description": "潮湿：移速降低10%，作为雷电/冰霜元素反应的前置状态（设计案 9.1）",
+		"duration": 6.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "move_speed",
+				"type": "stat_modifier",
+				"value": 0.9
+			}
+		],
+		"icon": "res://assets/icons/buffs/10022.png",
+		"id": 10022.0,
+		"max_stacks": 1.0,
+		"name": "潮湿",
+		"stack_behavior": "refresh",
+		"status_type": "wet"
+	},
+	"10023": {
+		"category": "debuff",
+		"description": "融化：护甲与魔抗降低15%，由燃烧+冰霜反应触发（设计案 9.2）",
+		"duration": 4.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "defense",
+				"type": "stat_modifier",
+				"value": 0.85
+			},
+			{
+				"mode": "mul",
+				"stat": "magic_resist",
+				"type": "stat_modifier",
+				"value": 0.85
+			}
+		],
+		"icon": "res://assets/icons/buffs/10023.png",
+		"id": 10023.0,
+		"max_stacks": 1.0,
+		"name": "融化",
+		"stack_behavior": "refresh",
+		"status_type": ""
+	},
+	"10024": {
+		"category": "debuff",
+		"description": "每0.5秒受到火焰伤害",
+		"duration": 3.0,
+		"effect_scene": "res://assets/effects/burn_fx.tscn",
+		"effects": [
+			{
+				"attack_ratio": 0.2,
+				"damage": 2.0,
+				"damage_channel": "magic",
+				"damage_tag": "fire",
+				"damage_type": "fire",
+				"interval": 0.5,
+				"type": "dot"
+			}
+		],
+		"icon": "res://assets/icons/buffs/10024.png",
+		"id": 10024.0,
+		"max_stacks": 1.0,
+		"name": "fs_attack_fire",
+		"stack_behavior": "refresh",
+		"status_type": "burn"
+	},
+	"20001": {
+		"category": "buff",
+		"description": "免疫所有伤害",
+		"duration": 3.0,
+		"effect_scene": "res://assets/effects/invincible_fx.tscn",
+		"effects": [
+			{
+				"affects": [
+					"be_damaged"
+				],
+				"control_type": "invincible",
+				"type": "control"
+			}
+		],
+		"icon": "res://assets/icons/buffs/20001.png",
+		"id": 20001.0,
+		"max_stacks": 1.0,
+		"name": "无敌",
+		"stack_behavior": "refresh",
+		"status_type": ""
+	},
+	"20002": {
+		"category": "buff",
+		"description": "攻击力提升30%",
+		"duration": 2.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "attack",
+				"type": "stat_modifier",
+				"value": 1.5
+			}
+		],
+		"icon": "res://assets/icons/buffs/20002.png",
+		"id": 20002.0,
+		"max_stacks": 1.0,
+		"name": "攻击强化",
+		"stack_behavior": "refresh",
+		"status_type": ""
+	},
+	"20003": {
+		"category": "buff",
+		"description": "防御力提升50%",
+		"duration": 10.0,
+		"effect_scene": "",
+		"effects": [
+			{
+				"mode": "mul",
+				"stat": "defense",
+				"type": "stat_modifier",
+				"value": 1.5
+			}
+		],
+		"icon": "res://assets/icons/buffs/20003.png",
+		"id": 20003.0,
+		"max_stacks": 1.0,
+		"name": "防御强化",
+		"stack_behavior": "refresh",
+		"status_type": ""
+	},
+	"20004": {
 		"category": "buff",
 		"description": "吸收100点伤害",
 		"duration": 10.0,
@@ -431,14 +604,14 @@
 				"type": "shield"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1104.png",
-		"id": 1104,
+		"icon": "res://assets/icons/buffs/20004.png",
+		"id": 20004.0,
 		"max_stacks": 1.0,
 		"name": "护盾",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1105": {
+	"20005": {
 		"category": "buff",
 		"description": "移动速度提升30%",
 		"duration": 8.0,
@@ -451,14 +624,14 @@
 				"value": 1.3
 			}
 		],
-		"icon": "res://assets/icons/buffs/1105.png",
-		"id": 1105,
+		"icon": "res://assets/icons/buffs/20005.png",
+		"id": 20005.0,
 		"max_stacks": 1.0,
 		"name": "速度强化",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1106": {
+	"20006": {
 		"category": "buff",
 		"description": "暴击率提升20%",
 		"duration": 8.0,
@@ -471,14 +644,14 @@
 				"value": 0.2
 			}
 		],
-		"icon": "res://assets/icons/buffs/1106.png",
-		"id": 1106,
+		"icon": "res://assets/icons/buffs/20006.png",
+		"id": 20006.0,
 		"max_stacks": 1.0,
 		"name": "暴击强化",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1107": {
+	"20007": {
 		"category": "buff",
 		"description": "暴击伤害提升50%",
 		"duration": 8.0,
@@ -491,14 +664,14 @@
 				"value": 0.5
 			}
 		],
-		"icon": "res://assets/icons/buffs/1107.png",
-		"id": 1107,
+		"icon": "res://assets/icons/buffs/20007.png",
+		"id": 20007.0,
 		"max_stacks": 1.0,
 		"name": "暴伤强化",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1108": {
+	"20008": {
 		"category": "buff",
 		"description": "攻击速度提升30%",
 		"duration": 8.0,
@@ -511,14 +684,14 @@
 				"value": 1.3
 			}
 		],
-		"icon": "res://assets/icons/buffs/1108.png",
-		"id": 1108,
+		"icon": "res://assets/icons/buffs/20008.png",
+		"id": 20008.0,
 		"max_stacks": 1.0,
 		"name": "攻速强化",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1109": {
+	"20009": {
 		"category": "buff",
 		"description": "攻击力提升50%，防御力提升20%",
 		"duration": 8.0,
@@ -537,14 +710,14 @@
 				"value": 1.2
 			}
 		],
-		"icon": "res://assets/icons/buffs/1109.png",
-		"id": 1109,
+		"icon": "res://assets/icons/buffs/20009.png",
+		"id": 20009.0,
 		"max_stacks": 1.0,
 		"name": "神力",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1111": {
+	"20010": {
 		"category": "buff",
 		"description": "吸收300点伤害",
 		"duration": 10.0,
@@ -555,14 +728,14 @@
 				"type": "shield"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1111.png",
-		"id": 1111,
+		"icon": "res://assets/icons/buffs/20010.png",
+		"id": 20010.0,
 		"max_stacks": 1.0,
 		"name": "强效护盾",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1201": {
+	"20011": {
 		"category": "buff",
 		"description": "每秒恢复10点生命值",
 		"duration": 6.0,
@@ -574,14 +747,14 @@
 				"type": "hot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1201.png",
-		"id": 1201,
+		"icon": "res://assets/icons/buffs/20011.png",
+		"id": 20011.0,
 		"max_stacks": 1.0,
 		"name": "回复",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1202": {
+	"20012": {
 		"category": "buff",
 		"description": "每0.5秒恢复8点生命值",
 		"duration": 5.0,
@@ -593,14 +766,14 @@
 				"type": "hot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1202.png",
-		"id": 1202,
+		"icon": "res://assets/icons/buffs/20012.png",
+		"id": 20012.0,
 		"max_stacks": 1.0,
 		"name": "神圣祝福",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1203": {
+	"20013": {
 		"category": "buff",
 		"description": "攻击力提升50%，防御力降低30%，暴击率提升10%",
 		"duration": 8.0,
@@ -625,14 +798,14 @@
 				"value": 0.1
 			}
 		],
-		"icon": "res://assets/icons/buffs/1203.png",
-		"id": 1203,
+		"icon": "res://assets/icons/buffs/20013.png",
+		"id": 20013.0,
 		"max_stacks": 1.0,
 		"name": "狂暴",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1204": {
+	"20014": {
 		"category": "buff",
 		"description": "吸收200点伤害，每秒恢复5点生命值",
 		"duration": 10.0,
@@ -648,14 +821,14 @@
 				"type": "hot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1204.png",
-		"id": 1204,
+		"icon": "res://assets/icons/buffs/20014.png",
+		"id": 20014.0,
 		"max_stacks": 1.0,
 		"name": "圣盾",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1205": {
+	"20015": {
 		"category": "buff",
 		"description": "攻击速度提升40%，暴击率提升15%",
 		"duration": 8.0,
@@ -674,14 +847,14 @@
 				"value": 0.15
 			}
 		],
-		"icon": "res://assets/icons/buffs/1205.png",
-		"id": 1205,
+		"icon": "res://assets/icons/buffs/20015.png",
+		"id": 20015.0,
 		"max_stacks": 1.0,
 		"name": "战斗狂热",
 		"stack_behavior": "refresh",
 		"status_type": ""
 	},
-	"1206": {
+	"20016": {
 		"category": "buff",
 		"description": "每秒恢复10点生命值",
 		"duration": 2.0,
@@ -693,184 +866,11 @@
 				"type": "hot"
 			}
 		],
-		"icon": "res://assets/icons/buffs/1201.png",
-		"id": 1206,
+		"icon": "res://assets/icons/buffs/20016.png",
+		"id": 20016.0,
 		"max_stacks": 1.0,
 		"name": "huayao_skill",
 		"stack_behavior": "refresh",
 		"status_type": ""
-	},
-	"1301": {
-		"category": "debuff",
-		"description": "寒冷：移动速度与攻击速度降低30%，并积累冻结进度（设计案 8.2 寒冷）",
-		"duration": 4.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "mul",
-				"stat": "move_speed",
-				"type": "stat_modifier",
-				"value": 0.7
-			},
-			{
-				"mode": "mul",
-				"stat": "attack_speed",
-				"type": "stat_modifier",
-				"value": 0.7
-			}
-		],
-		"icon": "",
-		"id": 1301,
-		"max_stacks": 5.0,
-		"name": "寒冷",
-		"stack_behavior": "stack",
-		"status_type": "chill"
-	},
-	"1302": {
-		"category": "debuff",
-		"description": "感电：下次受到的雷电伤害提高25%（设计案 8.2 感电）",
-		"duration": 4.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"armor_pen_bonus": 0.0,
-				"tag": "thunder",
-				"type": "tag_modifier",
-				"vuln_bonus": 0.25
-			}
-		],
-		"icon": "",
-		"id": 1302,
-		"max_stacks": 1.0,
-		"name": "感电",
-		"stack_behavior": "refresh",
-		"status_type": "shock"
-	},
-	"1303": {
-		"category": "debuff",
-		"description": "标记：受到的穿刺伤害无视20%护甲（设计案 8.2 标记）",
-		"duration": 6.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"armor_pen_bonus": 0.2,
-				"tag": "pierce",
-				"type": "tag_modifier",
-				"vuln_bonus": 0.0
-			}
-		],
-		"icon": "",
-		"id": 1303,
-		"max_stacks": 1.0,
-		"name": "标记",
-		"stack_behavior": "refresh",
-		"status_type": "mark"
-	},
-	"1304": {
-		"category": "debuff",
-		"description": "重伤：受到的治疗降低50%（设计案 8.2 重伤）",
-		"duration": 4.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "add",
-				"stat": "heal_received",
-				"type": "stat_modifier",
-				"value": -0.5
-			}
-		],
-		"icon": "",
-		"id": 1304,
-		"max_stacks": 1.0,
-		"name": "重伤",
-		"stack_behavior": "refresh",
-		"status_type": "grievous"
-	},
-	"1305": {
-		"category": "debuff",
-		"description": "侵蚀：每层受到的所有伤害+1%，最多15层（设计案 8.2 侵蚀）",
-		"duration": 8.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"type": "vulnerability_modifier",
-				"value": 0.01
-			}
-		],
-		"icon": "",
-		"id": 1305,
-		"max_stacks": 15.0,
-		"name": "侵蚀",
-		"stack_behavior": "stack",
-		"status_type": "erosion"
-	},
-	"1306": {
-		"category": "debuff",
-		"description": "潮湿：移速降低10%，作为雷电/冰霜元素反应的前置状态（设计案 9.1）",
-		"duration": 6.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "mul",
-				"stat": "move_speed",
-				"type": "stat_modifier",
-				"value": 0.9
-			}
-		],
-		"icon": "",
-		"id": 1306,
-		"max_stacks": 1.0,
-		"name": "潮湿",
-		"stack_behavior": "refresh",
-		"status_type": "wet"
-	},
-	"1307": {
-		"category": "debuff",
-		"description": "融化：护甲与魔抗降低15%，由燃烧+冰霜反应触发（设计案 9.2）",
-		"duration": 4.0,
-		"effect_scene": "",
-		"effects": [
-			{
-				"mode": "mul",
-				"stat": "defense",
-				"type": "stat_modifier",
-				"value": 0.85
-			},
-			{
-				"mode": "mul",
-				"stat": "magic_resist",
-				"type": "stat_modifier",
-				"value": 0.85
-			}
-		],
-		"icon": "",
-		"id": 1307,
-		"max_stacks": 1.0,
-		"name": "融化",
-		"stack_behavior": "refresh",
-		"status_type": ""
-	},
-	"1308": {
-		"category": "debuff",
-		"description": "每0.5秒受到火焰伤害",
-		"duration": 3.0,
-		"effect_scene": "res://assets/effects/burn_fx.tscn",
-		"effects": [
-			{
-				"attack_ratio": 0.2,
-				"damage": 2,
-				"damage_channel": "magic",
-				"damage_tag": "fire",
-				"damage_type": "fire",
-				"interval": 0.5,
-				"type": "dot"
-			}
-		],
-		"icon": "res://assets/icons/buffs/1002.png",
-		"id": 1308,
-		"max_stacks": 1.0,
-		"name": "fs_attack_fire",
-		"stack_behavior": "refresh",
-		"status_type": "burn"
 	}
 }

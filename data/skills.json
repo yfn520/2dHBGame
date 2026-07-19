@@ -1,5 +1,5 @@
 {
-	"2001": {
+	"50001": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -44,7 +44,7 @@
 			}
 		]
 	},
-	"2002": {
+	"50002": {
 		"cast_range": 200.0,
 		"cooldown": 4.0,
 		"description": "远程酸液示例；当前临时使用火球弹道场景，可在节点编辑器中替换视觉。",
@@ -62,7 +62,7 @@
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.5,
 				"buff_ids": [
-					1001.0
+					10001
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.5,
@@ -87,7 +87,7 @@
 			}
 		]
 	},
-	"2003": {
+	"50003": {
 		"cast_range": 0.0,
 		"cooldown": 8.0,
 		"description": "在攻击有效区间中心造成范围伤害。",
@@ -104,7 +104,7 @@
 			{
 				"buff_chance": 0.2,
 				"buff_ids": [
-					1001.0
+					10001
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 2.0,
@@ -123,7 +123,7 @@
 			}
 		]
 	},
-	"2004": {
+	"50004": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -159,7 +159,7 @@
 			},
 			{
 				"buff_ids": [
-					1101.0
+					20002
 				],
 				"type": "apply_self_buff"
 			},
@@ -172,7 +172,7 @@
 			}
 		]
 	},
-	"2101": {
+	"50011": {
 		"cast_range": 90.0,
 		"cooldown": 1.2,
 		"description": "傀儡普通攻击。",
@@ -202,7 +202,7 @@
 			}
 		]
 	},
-	"2102": {
+	"50012": {
 		"cast_range": 110.0,
 		"cooldown": 4.0,
 		"description": "傀儡近战技能。",
@@ -229,7 +229,7 @@
 			}
 		]
 	},
-	"2103": {
+	"50013": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -259,7 +259,7 @@
 			{
 				"buff_chance": 0.8,
 				"buff_ids": [
-					1007.0
+					10006
 				],
 				"damage_ratio": 1.5,
 				"result_key": "new_hit",
@@ -273,7 +273,7 @@
 			}
 		]
 	},
-	"2301": {
+	"50021": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -315,7 +315,7 @@
 			}
 		]
 	},
-	"2302": {
+	"50022": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -346,7 +346,7 @@
 			{
 				"buff_chance": 0.8,
 				"buff_ids": [
-					1008.0
+					10007
 				],
 				"damage_ratio": 1.0,
 				"result_key": "new_hit",
@@ -360,7 +360,7 @@
 			}
 		]
 	},
-	"2401": {
+	"50031": {
 		"cast_range": 60.0,
 		"cooldown": 0.5,
 		"name": "kl_atk",
@@ -386,7 +386,7 @@
 			}
 		]
 	},
-	"2402": {
+	"50032": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -427,7 +427,7 @@
 			}
 		]
 	},
-	"2501": {
+	"50041": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -467,7 +467,7 @@
 			}
 		]
 	},
-	"2502": {
+	"50042": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -501,7 +501,7 @@
 			},
 			{
 				"buff_ids": [
-					1106.0
+					20006
 				],
 				"type": "apply_self_buff"
 			},
@@ -513,7 +513,7 @@
 			}
 		]
 	},
-	"2601": {
+	"50051": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -553,7 +553,7 @@
 			}
 		]
 	},
-	"2602": {
+	"50052": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -586,7 +586,7 @@
 				"aim_mode": "nearest_enemy",
 				"buff_chance": 0.8,
 				"buff_ids": [
-					1002.0
+					10002
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.1,
@@ -609,7 +609,7 @@
 			}
 		]
 	},
-	"2701": {
+	"50061": {
 		"cast_range": 60.0,
 		"cooldown": 1.0,
 		"name": "hjqs_atkl",
@@ -635,7 +635,7 @@
 			}
 		]
 	},
-	"2702": {
+	"50062": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -671,8 +671,8 @@
 			},
 			{
 				"buff_ids": [
-					1106.0,
-					1108.0
+					20006,
+					20008
 				],
 				"type": "apply_self_buff"
 			},
@@ -684,7 +684,7 @@
 			}
 		]
 	},
-	"2801": {
+	"50071": {
 		"ai_range_cache": {
 			"entries": [],
 			"policy": "any_damage_node",
@@ -707,7 +707,7 @@
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.2,
 				"buff_ids": [
-					1306.0
+					10022
 				],
 				"damage_channel": "physical",
 				"damage_ratio": 1.0,
@@ -731,7 +731,7 @@
 			}
 		]
 	},
-	"2802": {
+	"50072": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -761,7 +761,7 @@
 			},
 			{
 				"buff_ids": [
-					1206.0
+					20016
 				],
 				"effect_offset_x": 26.1224479675293,
 				"effect_offset_y": -39.1836700439453,
@@ -775,7 +775,7 @@
 			}
 		]
 	},
-	"2901": {
+	"50081": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -814,7 +814,7 @@
 			}
 		]
 	},
-	"2902": {
+	"50082": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -822,7 +822,7 @@
 					"kind": "melee",
 					"max_edge_distance": 10.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -854,7 +854,88 @@
 			}
 		]
 	},
-	"3001": {
+	"50091": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=101.0 width=55.0 scale=1.00 body_half=52.0",
+					"kind": "melee",
+					"max_edge_distance": 74.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "4c7a79b91611f71c"
+		},
+		"cast_range": 50.0,
+		"cooldown": 1.0,
+		"description": "shu'ren 普通攻击。",
+		"name": "shu'ren 普攻",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "shuren_attack_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50092": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=105.0 width=48.0 scale=1.00 body_half=52.0",
+					"kind": "melee",
+					"max_edge_distance": 75.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "9892003f3e8f13a0"
+		},
+		"cooldown": 3.0,
+		"description": "shu'ren 技能1。",
+		"name": "shu'ren 技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "shuren_skill1_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6001": {
 		"cast_range": 50.0,
 		"cooldown": 0.5,
 		"description": "new_kivin 普通攻击。",
@@ -881,7 +962,7 @@
 			}
 		]
 	},
-	"3002": {
+	"6002": {
 		"cast_range": 70.0,
 		"cooldown": 3.0,
 		"description": "new_kivin 近战技能。",
@@ -908,7 +989,7 @@
 			}
 		]
 	},
-	"3003": {
+	"6003": {
 		"cast_range": 0.0,
 		"cooldown": 5.0,
 		"description": "new_kivin 范围技能。",
@@ -925,7 +1006,7 @@
 			{
 				"buff_chance": 0.2,
 				"buff_ids": [
-					1301.0
+					10017
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.8,
@@ -944,7 +1025,7 @@
 			}
 		]
 	},
-	"3004": {
+	"6004": {
 		"cast_range": 90.0,
 		"cooldown": 7.0,
 		"description": "new_kivin 强力近战技能。",
@@ -973,7 +1054,7 @@
 			}
 		]
 	},
-	"3201": {
+	"6011": {
 		"ai_range_cache": {
 			"entries": [],
 			"policy": "any_damage_node",
@@ -1016,7 +1097,7 @@
 			}
 		]
 	},
-	"3202": {
+	"6012": {
 		"ai_range_cache": {
 			"entries": [],
 			"policy": "any_damage_node",
@@ -1059,7 +1140,7 @@
 			}
 		]
 	},
-	"3203": {
+	"6013": {
 		"ai_range_cache": {
 			"entries": [],
 			"policy": "any_damage_node",
@@ -1091,8 +1172,8 @@
 			},
 			{
 				"buff_ids": [
-					1108.0,
-					1105.0
+					20008,
+					20005
 				],
 				"type": "apply_self_buff"
 			},
@@ -1104,7 +1185,7 @@
 			}
 		]
 	},
-	"3204": {
+	"6014": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -1163,7 +1244,7 @@
 			}
 		]
 	},
-	"3301": {
+	"6021": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -1194,7 +1275,7 @@
 				"ai_min_range": 0.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [
-					1308.0
+					10024
 				],
 				"damage_ratio": 1.0,
 				"emission": "single",
@@ -1215,7 +1296,7 @@
 			}
 		]
 	},
-	"3302": {
+	"6022": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -1259,7 +1340,7 @@
 				"ai_min_range": 0.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [
-					1004.0
+					10004
 				],
 				"damage_ratio": 1.0,
 				"emission": "fan",
@@ -1281,7 +1362,7 @@
 			}
 		]
 	},
-	"3303": {
+	"6023": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -1322,7 +1403,7 @@
 			},
 			{
 				"buff_ids": [
-					1003.0
+					10003
 				],
 				"chance": 1.0,
 				"origin": "caster",
@@ -1339,7 +1420,7 @@
 			}
 		]
 	},
-	"3304": {
+	"6024": {
 		"ai_range_cache": {
 			"entries": [
 				{
@@ -1386,7 +1467,7 @@
 			{
 				"buff_chance": 1.0,
 				"buff_ids": [
-					1002.0
+					10002
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.0,
