@@ -218,11 +218,9 @@ func _get_lifesteal_efficiency(node_type: String) -> float:
 
 func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false, buildup_boost: float = 0.0) -> void:
 	if hurt_box == null or not is_instance_valid(hurt_box):
-		print("[DEBUG apply_target_buff] hurt_box invalid")
 		return
 	var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	if target == null:
-		print("[DEBUG apply_target_buff] target null")
 		return
 	# 反应附加伤害跳过概率判定（设计案 9.2：避免无限循环），直接施加
 	if skip_buildup:
@@ -240,9 +238,7 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 	# 失败时累积概率增量（节点未配置时为 -1，由 buff_manager 回落到 PITY_INCREMENT 默认值）
 	var pity_increment := float(node.get("pity_increment", -1.0))
 	var buff_ids := _read_buff_ids(node)
-	print("[DEBUG apply_target_buff] target=%s chance=%f buff_ids=%s" % [target.name, chance, buff_ids])
 	if buff_ids.is_empty():
-		print("[DEBUG apply_target_buff] buff_ids empty")
 		return
 	# target 是角色节点（Player/Enemy），buff_manager 在其 combat 子节点（CombatComponent）上
 	var target_bm = null
@@ -252,21 +248,17 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 			target_bm = combat_node.get_buff_manager()
 	if target_bm == null and target.has_method("get_buff_manager"):
 		target_bm = target.get_buff_manager()
-	print("[DEBUG apply_target_buff] target_bm=%s" % str(target_bm))
 	if target_bm == null:
 		return
 	var source_id := _owner.get_instance_id() if _owner != null else 0
 	for buff_id in buff_ids:
 		var config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
-		print("[DEBUG apply_target_buff] buff_id=%d config_empty=%s" % [int(buff_id), config.is_empty()])
 		if not config.is_empty():
 			if target_bm.has_method("apply_buff_with_pity"):
-				var ok: bool = target_bm.apply_buff_with_pity(config, chance, source_id, buildup_boost, pity_increment)
-				print("[DEBUG apply_target_buff] apply_buff_with_pity -> %s" % str(ok))
+				target_bm.apply_buff_with_pity(config, chance, source_id, buildup_boost, pity_increment)
 			elif randf() <= chance and target.has_method("apply_buff_from_config"):
 				# fallback：无保底累积方法时走旧概率链路
 				target.apply_buff_from_config(config, source_id)
-				print("[DEBUG apply_target_buff] fallback apply_buff_from_config")
 
 
 func apply_self_buff(node: Dictionary) -> void:

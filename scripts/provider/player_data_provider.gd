@@ -56,22 +56,16 @@ func _apply_local_mock_snapshot() -> void:
 		"equipment": {
 			"by_character": {
 				"1001": {
-					"weapon": {"uid": 101, "item_id": 1009},
-					"armor": {"uid": 102, "item_id": 1010},
-					"ring": {"uid": 103, "item_id": 1004}
-				},
-				"1002": {
-					"weapon": {"uid": 201, "item_id": 1013},
-					"necklace": {"uid": 202, "item_id": 1005},
-					"artifact": {"uid": 203, "item_id": 1008}
-				}
+				"weapon": {"uid": 101, "item_id": 1009},
+				"armor": {"uid": 102, "item_id": 1010},
+				"ring": {"uid": 103, "item_id": 1004}
 			}
-		},
-		"characters": {
-			"1001": {"character_id": 1001, "level": 1, "exp": 60, "hp": -1},
-			"1002": {"character_id": 1002, "level": 1, "exp": 60, "hp": -1}
-		},
-		"lineup_ids": [1001, 1002],
-		"active_character_id": 1001,
-		"active_index": 0
-	})
+		}
+	},
+	"characters": {
+		"1001": {"character_id": 1001, "level": 1, "exp": 60, "hp": -1}
+	},
+	"lineup_ids": [1001],
+	"active_character_id": 1001,
+	"active_index": 0
+})

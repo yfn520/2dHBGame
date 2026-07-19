@@ -57,68 +57,6 @@
 			3004.0
 		]
 	},
-	"1002": {
-		"actor_scale": 2.5,
-		"ai_skill_priority": [
-			3102.0,
-			3101.0
-		],
-		"asset": "res://assets/characters/mofashi",
-		"base_stats": {
-			"armor_pen_flat": 0.0,
-			"armor_pen_percent": 0.0,
-			"attack": 2.0,
-			"attack_speed": 1.0,
-			"block_rate": 0.0,
-			"crit_damage": 1.5,
-			"crit_rate": 0.05,
-			"defense": 0.0,
-			"dodge_rate": 0.0,
-			"heal_bonus": 0.0,
-			"heal_received": 0.0,
-			"lifesteal": 0.0,
-			"magic_pen_flat": 5.0,
-			"magic_pen_percent": 0.1,
-			"magic_resist": 20.0,
-			"max_hp": 180.0,
-			"move_speed": 210.0,
-			"shield_bonus": 0.0,
-			"skill_haste": 10.0,
-			"status_resist": 0.0
-		},
-		"character_config": "res://assets/characters/mofashi/character_config.json",
-		"description": "默认法师角色",
-		"growth": {
-			"attack": 2.0,
-			"defense": 0.0,
-			"max_hp": 14.0,
-			"move_speed": 0.0
-		},
-		"max_level": 60.0,
-		"name": "mofashi",
-		"normal_skill": 3101.0,
-		"scene": "res://assets/characters/mofashi/godot/mofashi.tscn",
-		"skill_unlocks": {
-			"skill1": {
-				"skill_id": 3102.0,
-				"unlock_level": 1.0
-			},
-			"skill2": {
-				"skill_id": 3103.0,
-				"unlock_level": 1.0
-			},
-			"skill3": {
-				"skill_id": 3104.0,
-				"unlock_level": 1.0
-			}
-		},
-		"skills": [
-			3101.0,
-			3102.0,
-			3103.0,
-			3104.0
-		]
-	},
 	"1003": {
 		"actor_scale": 1.0,
 		"asset": "res://assets/characters/gongshou",

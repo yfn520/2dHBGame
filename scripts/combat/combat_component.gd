@@ -41,6 +41,8 @@ var _cast_timeout := 5.0
 var _action_elapsed := 0.0
 var _action_duration := 0.0
 var _last_skill_attempt := "none"
+# 已异步预热的特效 scene 路径集合，避免重复 ResourceLoader.load_threaded_request
+var _preloaded_scenes: Dictionary = {}
 
 
 func _ready() -> void:
@@ -74,6 +76,35 @@ func _resolve_stats() -> void:
 		_stats = GameRegistry.character_stats
 	_skill_executor._stats = _stats
 	_skill_executor._buff_manager = _buff_manager
+	# 异步预热该英雄所有技能的特效资源，避免首次释放技能时同步 load 卡顿一帧
+	_preload_skill_effect_scenes()
+
+
+## 扫描 _owner 的所有技能节点，对 play_effect / spawn_projectile / fullscreen_damage 引用的
+## 特效 scene 异步加载（ResourceLoader.load_threaded_request），首次释放时直接从缓存命中。
+## 同路径只请求一次，重复调用安全。
+func _preload_skill_effect_scenes() -> void:
+	if _owner == null or not _owner.has_method("get_skill_for_input"):
+		return
+	for slot_name in ["normal", "skill1", "skill2", "skill3"]:
+		var skill_id := int(_owner.get_skill_for_input(slot_name))
+		if skill_id <= 0:
+			continue
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
+		if skill.is_empty():
+			continue
+		var nodes: Array = skill.get("nodes", [])
+		for node_value in nodes:
+			if not (node_value is Dictionary):
+				continue
+			var node: Dictionary = node_value
+			var scene_path := String(node.get("scene", ""))
+			if scene_path.is_empty() or _preloaded_scenes.has(scene_path):
+				continue
+			if not ResourceLoader.exists(scene_path):
+				continue
+			_preloaded_scenes[scene_path] = true
+			ResourceLoader.load_threaded_request(scene_path)
 
 
 func _process(delta: float) -> void:
@@ -397,7 +428,6 @@ func _execute_target_buff_node(node: Dictionary) -> void:
 		return
 	var origin := _resolve_origin(node)
 	var targets := _skill_executor.resolve_targets(node, origin, _cast_context)
-	print("[DEBUG apply_target_buff] node=%s origin=%s targets=%d" % [String(node.get("type","")), origin, targets.size()])
 	for target in targets:
 		_apply_buff_to_target(target, node)
 

@@ -23,6 +23,7 @@ func _ready() -> void:
 
 ## 构建布局：顶部状态栏 + 中间（左聊天框 + 右任务） + 底部技能栏。
 ## 4 个区域都是 Panel + 标题 + GridContainer，图标按编号顺序排列并标注编号。
+## 内容总高度可能超过屏幕，外层包 ScrollContainer 避免底部技能栏被裁掉。
 func _build_layout() -> void:
 	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -32,9 +33,17 @@ func _build_layout() -> void:
 	margin.add_theme_constant_override("margin_bottom", 16)
 	add_child(margin)
 
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	margin.add_child(scroll)
+
 	var root := VBoxContainer.new()
 	root.add_theme_constant_override("separation", 10)
-	margin.add_child(root)
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(root)
 
 	# 顶部状态栏（顶部ui）
 	root.add_child(_build_module_panel(_MODULES[0]))
