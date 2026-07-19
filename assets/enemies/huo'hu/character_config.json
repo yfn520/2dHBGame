@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/huo'hu/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/huo'hu/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 133.0,
+			"width": 67.0,
+			"x": 96.0,
+			"y": 62.0
+		},
+		"forwardDistance": 5.0,
+		"height": 133.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 67.0,
+		"yOffset": -69.0
+	},
+	"body_position": {
+		"x": 5.0,
+		"y": -69.0
+	},
+	"body_size": {
+		"x": 67.0,
+		"y": 133.0
+	},
+	"centered": true,
+	"character_name": "huo'hu",
+	"collision_bottom": -2.5,
+	"combat_actions": "res://assets/enemies/huo'hu/combat_actions.json",
+	"combat_source": "res://assets/enemies/huo'hu/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -5.0,
+		"y": -78.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 125.0,
+		"y": 198.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "huo'hu",
+	"spriteframes": "res://assets/enemies/huo'hu/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

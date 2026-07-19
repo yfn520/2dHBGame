@@ -312,7 +312,18 @@ func _update_attack(_delta: float) -> void:
 		_ai_debug_text = "追击中（当前 %.0f > %.0f）" % [dist, max_engage]
 		return
 
+	# 有就绪技能但当前距离够不着（例如长手技能刚进 CD，短手普攻就绪但够不着）：
+	# 主动靠近到最近就绪技能的射程内，而非原地等长手技能 CD。
+	var ready_nearest := _get_nearest_ready_engage_distance(dist)
+	if ready_nearest > 0.0 and dist > ready_nearest:
+		var dir := signf(_target.global_position.x - global_position.x)
+		velocity.x = dir * _get_move_speed()
+		_play_anim("run")
+		_ai_debug_text = "靠近就绪技能（当前 %.0f > %.0f）" % [dist, ready_nearest]
+		return
+
 	velocity.x = 0.0
+	_play_anim("idle")
 	_ai_debug_text = "等待冷却（当前 %.0f）" % dist
 
 
@@ -418,6 +429,36 @@ func _get_max_engage_distance() -> float:
 		if max_d > best:
 			best = max_d
 	return best
+
+
+## 返回就绪技能中能在当前距离命中的最近 max_edge；
+## 若当前距离够不着我方任何就绪技能，返回所有就绪技能中最大的 max_edge（用于靠近）。
+## 若没有就绪技能，返回 0。
+func _get_nearest_ready_engage_distance(distance_x: float) -> float:
+	var ready_hit_best := 0.0      # 就绪且当前能命中的最近 max_edge
+	var ready_any_best := 0.0      # 就绪技能中最大的 max_edge（用于靠近）
+	if combat == null:
+		return 0.0
+	for sid in _get_configured_skill_ids():
+		if float(combat._cooldowns.get(sid, 0.0)) > 0.0:
+			continue
+		var cache := _get_ai_cache(sid)
+		if cache.is_empty():
+			continue
+		for entry_value in cache.get("entries", []):
+			if not entry_value is Dictionary:
+				continue
+			var entry: Dictionary = entry_value
+			var max_d := float(entry.get("max_edge_distance", 0.0))
+			if max_d >= 99990.0:
+				continue
+			if max_d > ready_any_best:
+				ready_any_best = max_d
+			if max_d >= distance_x:
+				if ready_hit_best == 0.0 or max_d < ready_hit_best:
+					ready_hit_best = max_d
+	# 优先返回能命中的；够不着则返回最大 max_edge 让怪物靠近
+	return ready_hit_best if ready_hit_best > 0.0 else ready_any_best
 
 
 ## 若目标过近且只有设了最小距离的远程节点可用，返回需后撤到的距离。

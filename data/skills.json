@@ -62,7 +62,7 @@
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.5,
 				"buff_ids": [
-					10001
+					10001.0
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.5,
@@ -104,7 +104,7 @@
 			{
 				"buff_chance": 0.2,
 				"buff_ids": [
-					10001
+					10001.0
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 2.0,
@@ -159,7 +159,7 @@
 			},
 			{
 				"buff_ids": [
-					20002
+					20002.0
 				],
 				"type": "apply_self_buff"
 			},
@@ -259,7 +259,7 @@
 			{
 				"buff_chance": 0.8,
 				"buff_ids": [
-					10006
+					10006.0
 				],
 				"damage_ratio": 1.5,
 				"result_key": "new_hit",
@@ -346,7 +346,7 @@
 			{
 				"buff_chance": 0.8,
 				"buff_ids": [
-					10007
+					10007.0
 				],
 				"damage_ratio": 1.0,
 				"result_key": "new_hit",
@@ -501,7 +501,7 @@
 			},
 			{
 				"buff_ids": [
-					20006
+					20006.0
 				],
 				"type": "apply_self_buff"
 			},
@@ -586,7 +586,7 @@
 				"aim_mode": "nearest_enemy",
 				"buff_chance": 0.8,
 				"buff_ids": [
-					10002
+					10002.0
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.1,
@@ -671,8 +671,8 @@
 			},
 			{
 				"buff_ids": [
-					20006,
-					20008
+					20006.0,
+					20008.0
 				],
 				"type": "apply_self_buff"
 			},
@@ -707,7 +707,7 @@
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.2,
 				"buff_ids": [
-					10022
+					10022.0
 				],
 				"damage_channel": "physical",
 				"damage_ratio": 1.0,
@@ -761,7 +761,7 @@
 			},
 			{
 				"buff_ids": [
-					20016
+					20016.0
 				],
 				"effect_offset_x": 26.1224479675293,
 				"effect_offset_y": -39.1836700439453,
@@ -862,7 +862,7 @@
 					"kind": "melee",
 					"max_edge_distance": 74.5,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -903,7 +903,7 @@
 					"kind": "melee",
 					"max_edge_distance": 75.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -925,6 +925,85 @@
 			{
 				"damage_ratio": 1.0,
 				"result_key": "shuren_skill1_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50101": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=75.0 width=66.0 scale=1.00 body_half=33.5",
+					"kind": "melee",
+					"max_edge_distance": 72.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "6f20b7223ad1c2d0"
+		},
+		"cooldown": 1.0,
+		"name": "hh_ack",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50102": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=83.0 width=59.0 scale=1.00 body_half=33.5",
+					"kind": "melee",
+					"max_edge_distance": 77.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "4d30dd69c4f3765a"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "hh_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 2.0,
+				"result_key": "melee_hit",
 				"type": "melee_damage"
 			},
 			{
@@ -1006,7 +1085,7 @@
 			{
 				"buff_chance": 0.2,
 				"buff_ids": [
-					10017
+					10017.0
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.8,
@@ -1172,8 +1251,8 @@
 			},
 			{
 				"buff_ids": [
-					20008,
-					20005
+					20008.0,
+					20005.0
 				],
 				"type": "apply_self_buff"
 			},
@@ -1275,7 +1354,7 @@
 				"ai_min_range": 0.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [
-					10024
+					10024.0
 				],
 				"damage_ratio": 1.0,
 				"emission": "single",
@@ -1340,7 +1419,7 @@
 				"ai_min_range": 0.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [
-					10004
+					10004.0
 				],
 				"damage_ratio": 1.0,
 				"emission": "fan",
@@ -1403,7 +1482,7 @@
 			},
 			{
 				"buff_ids": [
-					10003
+					10003.0
 				],
 				"chance": 1.0,
 				"origin": "caster",
@@ -1467,7 +1546,7 @@
 			{
 				"buff_chance": 1.0,
 				"buff_ids": [
-					10002
+					10002.0
 				],
 				"damage_channel": "magic",
 				"damage_ratio": 1.0,

@@ -205,5 +205,24 @@
 		"skills": [
 			50092.0
 		]
+	},
+	"8011": {
+		"asset": "res://assets/enemies/huo'hu",
+		"attack": 2.0,
+		"attack_range": 80.0,
+		"character_config": "res://assets/enemies/huo'hu/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "huo'hu",
+		"normal_skill": 50101.0,
+		"patrol_range": 120.0,
+		"skill_weights": [],
+		"skills": [
+			50102.0
+		]
 	}
 }
