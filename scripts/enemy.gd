@@ -302,6 +302,8 @@ func _update_attack(_delta: float) -> void:
 	# 距离判断：优先看冷却完成的技能
 	# - 有冷却完成技能但当前够不着 → 切 CHASE 靠近释放（避免原地等远程冷却而忽略可用的近战）
 	# - 全冷却 → 仍在攻击范围内则原地等，超出范围则回追
+	# 注：全冷却时回追阈值用 max_engage（不带 1.25 系数），与 _get_nearest_engage_distance
+	# 的 any_best 对齐，避免 ATTACK/CHASE 在阈值附近滞回切换造成 idle/run 快速闪烁
 	var ready_max := _get_max_ready_engage_distance()
 	if ready_max > 0.0:
 		if dist > ready_max:
@@ -309,7 +311,7 @@ func _update_attack(_delta: float) -> void:
 			return
 	else:
 		var max_engage := _get_max_engage_distance()
-		if max_engage > 0.0 and dist > max_engage * 1.25:
+		if max_engage > 0.0 and dist > max_engage:
 			_set_ai_state(AIState.CHASE)
 			return
 
@@ -371,9 +373,14 @@ func _pick_weighted_skill(skills: Array, weights: Array, distance_x: float) -> i
 
 
 ## 返回当前距离下最近的起手最大距离（用于追击目标）。
-## 双轨逻辑：
-## - 有冷却完成技能时：只看 ready_best（哪怕当前够不着返回0，也表示继续追击靠近去释放）
-## - 全冷却时：返回 any_best，停在攻击范围内等冷却，避免无限贴近
+## 优先级（避免 ATTACK/CHASE 在阈值附近滞回闪烁）：
+## 1) 有就绪技能且当前能命中 → 返回 ready_best，停下攻击
+## 2) 有就绪技能但当前够不着 → 返回 0，继续追击靠近去释放
+## 3) 全冷却但有技能当前能命中 → 返回 any_best，停下等冷却
+## 4) 全冷却且当前够不着 → 返回 0，继续追击
+## 关键：has_ready 在技能层级判断（不在 entry 层级），
+## 这样就绪技能即使所有 entry 因 max_edge < distance 被跳过，
+## 也仍会被识别为"有就绪技能"，触发继续追击而非停在 CD 中技能的最大距离上
 func _get_nearest_engage_distance(distance_x: float) -> float:
 	var ready_best := 0.0
 	var any_best := 0.0
@@ -383,6 +390,8 @@ func _get_nearest_engage_distance(distance_x: float) -> float:
 		if cache.is_empty():
 			continue
 		var on_cd: bool = combat != null and float(combat._cooldowns.get(sid, 0.0)) > 0.0
+		if not on_cd:
+			has_ready = true
 		for entry_value in cache.get("entries", []):
 			if not entry_value is Dictionary:
 				continue
@@ -394,11 +403,8 @@ func _get_nearest_engage_distance(distance_x: float) -> float:
 			if any_best == 0.0 or max_d < any_best:
 				any_best = max_d
 			if not on_cd:
-				has_ready = true
 				if ready_best == 0.0 or max_d < ready_best:
 					ready_best = max_d
-	# 有可用技能时只看 ready_best（可能为0表示还没到攻击距离，继续追击）
-	# 全冷却时返回 any_best（停在攻击范围等冷却）
 	if has_ready:
 		return ready_best
 	return any_best

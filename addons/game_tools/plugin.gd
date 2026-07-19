@@ -25,6 +25,7 @@ func _enter_tree() -> void:
 	_submenu.add_item("导入所有场景", 0)
 	_submenu.add_item("导入所有角色", 1)
 	_submenu.add_item("导入所有怪物", 3)
+	_submenu.add_item("从 Zip 导入角色/怪物...", 12)
 	_submenu.add_item("转换 Excel → JSON", 2)
 	_submenu.add_item("生成 JSON → Excel (配置用)", 4)
 	_submenu.add_separator()
@@ -85,6 +86,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_buff_editor()
 		11:
 			_open_buff_icon_generator()
+		12:
+			_open_zip_importer()
 
 
 func _open_combat_action_editor() -> void:
@@ -142,6 +145,314 @@ func _open_buff_icon_generator() -> void:
 		_buff_icon_generator = BuffIconGenerator.new()
 		EditorInterface.get_base_control().add_child(_buff_icon_generator)
 	_buff_icon_generator.open_generator()
+
+
+# ---- Zip 导入（角色 / 怪物） ----
+
+var _zip_file_dialog: EditorFileDialog
+var _zip_group_dialog: Window
+var _zip_pending_path: String = ""
+
+## 弹出文件选择器选 zip；选中后弹 group 选择窗口（角色 / 怪物），再解压。
+func _open_zip_importer() -> void:
+	if not is_instance_valid(_zip_file_dialog):
+		_zip_file_dialog = EditorFileDialog.new()
+		_zip_file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+		_zip_file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
+		_zip_file_dialog.add_filter("*.zip", "Godot 角色资源包")
+		_zip_file_dialog.title = "选择外部 Zip 资源包"
+		_zip_file_dialog.file_selected.connect(_on_zip_selected)
+		EditorInterface.get_base_control().add_child(_zip_file_dialog)
+	_zip_file_dialog.popup_centered(Vector2i(900, 600))
+
+
+func _on_zip_selected(zip_path: String) -> void:
+	# 先解析 zip 中的 manifest.json，提取 characterName 显示给用户
+	var preview_name := _peek_zip_character_name(zip_path)
+	# 自定义 Window：完整控制布局，避免 ConfirmationDialog 默认按钮挤压内容
+	if is_instance_valid(_zip_group_dialog):
+		_zip_group_dialog.queue_free()
+	_zip_group_dialog = Window.new()
+	_zip_group_dialog.title = "从 Zip 导入"
+	_zip_pending_path = zip_path
+	var content := VBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.add_theme_constant_override("separation", 14)
+	content.offset_left = 18
+	content.offset_top = 14
+	content.offset_right = -18
+	content.offset_bottom = -14
+	_zip_group_dialog.add_child(content)
+	# 标题
+	var title_label := Label.new()
+	title_label.text = "检测到角色：%s" % (preview_name if not preview_name.is_empty() else "<未知>")
+	title_label.add_theme_font_size_override("font_size", 16)
+	content.add_child(title_label)
+	# 副说明
+	var desc_label := Label.new()
+	desc_label.text = "选择导入目标："
+	desc_label.add_theme_font_size_override("font_size", 13)
+	content.add_child(desc_label)
+	# 按钮区
+	var btn_box := HBoxContainer.new()
+	btn_box.alignment = BoxContainer.ALIGNMENT_CENTER
+	btn_box.add_theme_constant_override("separation", 16)
+	var char_btn := Button.new()
+	char_btn.text = "角色 (characters)"
+	char_btn.custom_minimum_size = Vector2(160, 40)
+	char_btn.pressed.connect(_on_zip_group_chosen.bind("characters"))
+	var enemy_btn := Button.new()
+	enemy_btn.text = "怪物 (enemies)"
+	enemy_btn.custom_minimum_size = Vector2(160, 40)
+	enemy_btn.pressed.connect(_on_zip_group_chosen.bind("enemies"))
+	var cancel_btn := Button.new()
+	cancel_btn.text = "取消"
+	cancel_btn.custom_minimum_size = Vector2(80, 40)
+	cancel_btn.pressed.connect(_on_zip_group_cancel)
+	btn_box.add_child(char_btn)
+	btn_box.add_child(enemy_btn)
+	btn_box.add_child(cancel_btn)
+	content.add_child(btn_box)
+	# 路径显示
+	var path_label := Label.new()
+	path_label.text = "Zip: %s" % zip_path
+	path_label.add_theme_font_size_override("font_size", 11)
+	path_label.add_theme_color_override("font_color", Color(0.6, 0.6, 0.6))
+	content.add_child(path_label)
+	_zip_group_dialog.close_requested.connect(_on_zip_group_cancel)
+	_zip_group_dialog.wrap_controls = true
+	_zip_group_dialog.min_size = Vector2i(560, 180)
+	EditorInterface.get_base_control().add_child(_zip_group_dialog)
+	_zip_group_dialog.popup_centered(Vector2i(560, 180))
+
+
+func _on_zip_group_chosen(group: String) -> void:
+	var zip_path := _zip_pending_path
+	if is_instance_valid(_zip_group_dialog):
+		_zip_group_dialog.queue_free()
+	_zip_pending_path = ""
+	_on_zip_group_confirmed(zip_path, group)
+
+
+func _on_zip_group_cancel() -> void:
+	if is_instance_valid(_zip_group_dialog):
+		_zip_group_dialog.queue_free()
+	_zip_pending_path = ""
+
+
+## 用户选好 group 后调用：解压 zip 到 res://assets/{group}/{characterName}/，再走原有导入流程
+func _on_zip_group_confirmed(zip_path: String, group: String) -> void:
+	if is_instance_valid(_zip_group_dialog):
+		_zip_group_dialog.queue_free()
+	var target_dir := _extract_zip_to_assets(zip_path, group)
+	if target_dir.is_empty():
+		return
+	# 触发文件系统扫描，让 Godot 识别新文件并生成 .import 元数据
+	EditorInterface.get_resource_filesystem().scan()
+	# 异步等待扫描完成后再调用 _finalize_zip_import
+	call_deferred("_finalize_zip_import", group, target_dir)
+
+
+func _finalize_zip_import(group: String, target_dir: String) -> void:
+	# 等待资源文件系统扫描完成（最多等 10 秒）
+	# 第一次 scan 会触发 Godot 为 PNG 自动生成 .import 文件并 reimport
+	var fs := EditorInterface.get_resource_filesystem()
+	var waited := 0
+	while fs.is_scanning() and waited < 100:
+		await get_tree().create_timer(0.1).timeout
+		waited += 1
+	# 再扫一次确保 .import 文件也被识别（避免 reimport 时找不到源文件）
+	EditorInterface.get_resource_filesystem().scan()
+	waited = 0
+	while fs.is_scanning() and waited < 100:
+		await get_tree().create_timer(0.1).timeout
+		waited += 1
+	var folder_name := target_dir.get_file()
+	var resource_type := "enemy" if group == "enemies" else "character"
+	# 只导入这一个角色/怪物，不调用全量 _do_import_enemies / _do_import_characters
+	# 避免重写其他怪物的 spriteframes.tres 造成无谓的 git 改动
+	var imported := _do_import_single_character(target_dir, folder_name, "", -1.0, resource_type)
+	if imported:
+		if group == "enemies":
+			_sync_single_enemy_config(target_dir, folder_name)
+		else:
+			var imported_folders: Array[String] = [folder_name]
+			_sync_character_configs("res://assets/characters", imported_folders)
+		EditorInterface.get_resource_filesystem().scan()
+		print("[GameTools] Zip 导入完成: %s → %s" % [folder_name, target_dir])
+	else:
+		push_error("[GameTools] Zip 导入失败：单角色导入步骤返回 false，请检查 %s 中的资源完整性" % target_dir)
+
+
+## 只更新单个怪物的 enemies.json 配置（新增或同步技能），不重写其他怪物的资源文件
+func _sync_single_enemy_config(target_dir: String, folder_name: String) -> void:
+	var config_path := "res://data/enemies.json"
+	var manifest_path := target_dir.path_join("manifest.json")
+	var enemies_cfg: Dictionary = {}
+	if FileAccess.file_exists(config_path):
+		var cfg_file := FileAccess.open(config_path, FileAccess.READ)
+		if cfg_file != null:
+			var cfg_json := JSON.new()
+			if cfg_json.parse(cfg_file.get_as_text()) == OK and cfg_json.data is Dictionary:
+				enemies_cfg = cfg_json.data
+	# 收集已有 asset 路径，找 max_id
+	var existing_assets: Dictionary = {}
+	var max_id := 1000
+	for id_str in enemies_cfg:
+		var eid := int(id_str)
+		if eid > max_id:
+			max_id = eid
+		var asset: String = enemies_cfg[id_str].get("asset", "")
+		if not asset.is_empty():
+			existing_assets[asset] = eid
+	# 解析 manifest
+	var manifest_data: Dictionary = {}
+	var enemy_name := folder_name
+	if FileAccess.file_exists(manifest_path):
+		var mj := JSON.new()
+		if mj.parse(FileAccess.get_file_as_string(manifest_path)) == OK and mj.data is Dictionary:
+			manifest_data = mj.data
+			enemy_name = String(manifest_data.get("characterName", folder_name))
+	var detected_skills := _get_enemy_skills_for_actions(manifest_data)
+	var normal_skill := _default_enemy_normal_skill(folder_name, max_id + 1)
+	var asset_key := "res://assets/enemies/%s" % folder_name
+	var new_count := 0
+	var synced_count := 0
+	if asset_key not in existing_assets:
+		max_id += 1
+		var extra_skills := detected_skills.filter(func(skill_id): return int(skill_id) != normal_skill)
+		enemies_cfg[str(max_id)] = {
+			"name": enemy_name,
+			"asset": asset_key,
+			"character_config": asset_key.path_join("character_config.json"),
+			"max_hp": 50,
+			"attack": 2,
+			"defense": 0,
+			"move_speed": 80.0,
+			"attack_range": 80.0,
+			"detect_range": 300.0,
+			"patrol_range": 120.0,
+			"normal_skill": normal_skill,
+			"skills": extra_skills,
+			"skill_weights": _make_equal_skill_weights(extra_skills.size()),
+			"drop_items": [],
+			"exp": 10,
+		}
+		existing_assets[asset_key] = max_id
+		new_count += 1
+		print("[GameTools] 新增怪物配置: %s (ID: %d)" % [enemy_name, max_id])
+	else:
+		# 同步已有怪物的技能配置
+		for config_id in enemies_cfg:
+			var existing: Dictionary = enemies_cfg[config_id]
+			if String(existing.get("asset", "")) != asset_key:
+				continue
+			if not existing.has("normal_skill"):
+				existing["normal_skill"] = _default_enemy_normal_skill(folder_name, int(config_id))
+				synced_count += 1
+			var filtered := _filter_existing_enemy_skills(existing.get("skills", []), manifest_data)
+			filtered.erase(int(existing.get("normal_skill", 0)))
+			if filtered != existing.get("skills", []):
+				existing["skills"] = filtered
+				existing["skill_weights"] = _make_equal_skill_weights(filtered.size())
+				enemies_cfg[config_id] = existing
+				synced_count += 1
+				print("[GameTools] 同步怪物技能: %s -> %s" % [config_id, filtered])
+	# 写回配置表
+	if new_count > 0 or synced_count > 0:
+		var sorted_keys: Array = enemies_cfg.keys()
+		sorted_keys.sort()
+		var sorted_cfg: Dictionary = {}
+		for key in sorted_keys:
+			sorted_cfg[key] = enemies_cfg[key]
+		_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
+		print("[GameTools] enemies.json 已更新：新增 %d，同步 %d" % [new_count, synced_count])
+
+
+## 读取 zip 中的 manifest.json，返回 characterName；失败返回空字符串
+func _peek_zip_character_name(zip_path: String) -> String:
+	var reader := ZIPReader.new()
+	var err := reader.open(zip_path)
+	if err != OK:
+		return ""
+	var files := reader.get_files()
+	var manifest_path := ""
+	for f in files:
+		if f.get_file() == "manifest.json":
+			manifest_path = f
+			break
+	if manifest_path.is_empty():
+		reader.close()
+		return ""
+	var bytes := reader.read_file(manifest_path)
+	reader.close()
+	var text := bytes.get_string_from_utf8().trim_prefix("\uFEFF")
+	var json := JSON.new()
+	if json.parse(text) != OK or not (json.data is Dictionary):
+		return ""
+	return String(json.data.get("characterName", ""))
+
+
+## 把 zip 解压到 res://assets/{group}/{characterName}/，返回目标 res:// 路径；失败返回空
+func _extract_zip_to_assets(zip_path: String, group: String) -> String:
+	var reader := ZIPReader.new()
+	var err := reader.open(zip_path)
+	if err != OK:
+		push_error("无法打开 zip: %s (err=%d)" % [zip_path, err])
+		return ""
+	var files := reader.get_files()
+	if files.is_empty():
+		push_error("zip 内无文件: %s" % zip_path)
+		reader.close()
+		return ""
+	# 找 manifest.json 解析 characterName
+	var character_name := ""
+	var manifest_path := ""
+	for f in files:
+		if f.get_file() == "manifest.json":
+			manifest_path = f
+			break
+	if not manifest_path.is_empty():
+		var md_bytes := reader.read_file(manifest_path)
+		var md_text := md_bytes.get_string_from_utf8().trim_prefix("\uFEFF")
+		var json := JSON.new()
+		if json.parse(md_text) == OK and json.data is Dictionary:
+			character_name = String(json.data.get("characterName", ""))
+	if character_name.is_empty():
+		push_error("zip 中未找到 characterName")
+		reader.close()
+		return ""
+	# 目标目录
+	var target_res := "res://assets/%s/%s" % [group, character_name]
+	var target_abs := ProjectSettings.globalize_path(target_res)
+	# 创建目标目录
+	var dir := DirAccess.open("res://assets")
+	if dir == null:
+		push_error("无法打开 res://assets")
+		reader.close()
+		return ""
+	dir.make_dir_recursive("%s/%s" % [group, character_name])
+	# 解压所有文件：路径分隔符统一为 /，去掉前导 /
+	var written := 0
+	for f in files:
+		if f.ends_with("/"):
+			continue
+		var normalized := f.replace("\\", "/").trim_prefix("/")
+		var out_path := "%s/%s" % [target_abs.replace("\\", "/"), normalized]
+		# 确保父目录存在
+		var parent_abs := out_path.get_base_dir()
+		DirAccess.make_dir_recursive_absolute(parent_abs)
+		var out_file := FileAccess.open(out_path, FileAccess.WRITE)
+		if out_file == null:
+			push_warning("无法写入: %s" % out_path)
+			continue
+		var data := reader.read_file(f)
+		out_file.store_buffer(data)
+		out_file.close()
+		written += 1
+	reader.close()
+	print("[GameTools] 已解压 %d 个文件到 %s" % [written, target_res])
+	return target_res
 
 
 # ---- 场景导入 ----

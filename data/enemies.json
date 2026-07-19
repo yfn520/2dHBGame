@@ -14,10 +14,11 @@
 		"normal_skill": 2001.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2004.0
-		],
-		"traits": ["flesh", "swarm"]
+		"skills": [],
+		"traits": [
+			"flesh",
+			"swarm"
+		]
 	},
 	"1003": {
 		"actor_scale": 1.5,
@@ -35,10 +36,11 @@
 		"normal_skill": 2101.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2103.0
-		],
-		"traits": ["construct", "regen"]
+		"skills": [],
+		"traits": [
+			"construct",
+			"regen"
+		]
 	},
 	"1004": {
 		"asset": "res://assets/enemies/wolf",
@@ -55,10 +57,10 @@
 		"normal_skill": 2301.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2302.0
-		],
-		"traits": ["flesh"]
+		"skills": [],
+		"traits": [
+			"flesh"
+		]
 	},
 	"1005": {
 		"asset": "res://assets/enemies/kulou",
@@ -75,10 +77,10 @@
 		"normal_skill": 2401.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2402.0
-		],
-		"traits": ["undead"]
+		"skills": [],
+		"traits": [
+			"undead"
+		]
 	},
 	"1006": {
 		"asset": "res://assets/enemies/gebulin",
@@ -95,10 +97,11 @@
 		"normal_skill": 2501.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2502.0
-		],
-		"traits": ["flesh", "fast"]
+		"skills": [],
+		"traits": [
+			"flesh",
+			"fast"
+		]
 	},
 	"1007": {
 		"asset": "res://assets/enemies/hjjx",
@@ -115,10 +118,11 @@
 		"normal_skill": 2601.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2602.0
-		],
-		"traits": ["heavy_armor", "high_mr"]
+		"skills": [],
+		"traits": [
+			"heavy_armor",
+			"high_mr"
+		]
 	},
 	"1008": {
 		"asset": "res://assets/enemies/hjqs",
@@ -135,10 +139,11 @@
 		"normal_skill": 2701.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [
-			2702.0
-		],
-		"traits": ["heavy_armor", "shell"]
+		"skills": [],
+		"traits": [
+			"heavy_armor",
+			"shell"
+		]
 	},
 	"1009": {
 		"asset": "res://assets/enemies/huayao",
@@ -155,9 +160,29 @@
 		"normal_skill": 2801.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
+		"skills": [],
+		"traits": [
+			"flesh",
+			"back_caster"
+		]
+	},
+	"1010": {
+		"asset": "res://assets/enemies/d'j's2",
+		"attack": 2.0,
+		"attack_range": 80.0,
+		"character_config": "res://assets/enemies/d'j's2/character_config.json",
+		"defense": 0.0,
+		"detect_range": 300.0,
+		"drop_items": [],
+		"exp": 10.0,
+		"max_hp": 50.0,
+		"move_speed": 80.0,
+		"name": "d'j's2",
+		"normal_skill": 2901.0,
+		"patrol_range": 120.0,
+		"skill_weights": [],
 		"skills": [
-			2802.0
-		],
-		"traits": ["flesh", "back_caster"]
+			2902.0
+		]
 	}
 }

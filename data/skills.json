@@ -775,6 +775,85 @@
 			}
 		]
 	},
+	"2901": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=86.0 width=56.0 scale=1.00 body_half=98.5",
+					"kind": "melee",
+					"max_edge_distance": 13.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "2c92eb4137ec0c8d"
+		},
+		"cooldown": 1.0,
+		"name": "attack",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"2902": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=93.0 width=35.0 scale=1.00 body_half=98.5",
+					"kind": "melee",
+					"max_edge_distance": 10.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "caeebe2a96501052"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "djs_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"3001": {
 		"cast_range": 50.0,
 		"cooldown": 0.5,
@@ -1144,7 +1223,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 4,
+					"node_index": 4.0,
 					"source": "projectile"
 				}
 			],

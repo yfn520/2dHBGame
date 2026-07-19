@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/d'j's2/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/d'j's2/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 103.0,
+			"width": 197.0,
+			"x": 24.0,
+			"y": 71.0
+		},
+		"forwardDistance": 0.0,
+		"height": 103.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 197.0,
+		"yOffset": -53.0
+	},
+	"body_position": {
+		"x": 0.0,
+		"y": -53.0
+	},
+	"body_size": {
+		"x": 197.0,
+		"y": 103.0
+	},
+	"centered": true,
+	"character_name": "d'j's2",
+	"collision_bottom": -1.5,
+	"combat_actions": "res://assets/enemies/d'j's2/combat_actions.json",
+	"combat_source": "res://assets/enemies/d'j's2/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -3.0,
+		"y": -55.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 123.0,
+		"y": 175.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "d'j's2",
+	"spriteframes": "res://assets/enemies/d'j's2/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

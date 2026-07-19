@@ -11,6 +11,9 @@ enum CombatState { IDLE, ATTACKING, SKILL, HIT, DEAD }
 var combat_state: CombatState = CombatState.IDLE
 var _cooldowns: Dictionary = {}
 var _hit_stun_timer := 0.0
+# 角色受击后无敌帧计时器（0.5s），仅玩家有效；怪物受击改为瞬移后退，不加无敌
+var _post_hit_iframes_timer := 0.0
+const POST_HIT_IFRAMES_DURATION := 0.5
 # 深渊装备代价累积器（设计案 4.3）：每秒给自己施加侵蚀 buildup
 var _abyss_cost_accumulator := 0.0
 # 再生特征累积器（设计案 10.1 regen）：每秒回血 2% max_hp
@@ -120,6 +123,11 @@ func _process(delta: float) -> void:
 		_hit_stun_timer -= delta
 		if _hit_stun_timer <= 0.0 and combat_state == CombatState.HIT:
 			combat_state = CombatState.IDLE
+	# 角色受击后无敌帧递减
+	if _post_hit_iframes_timer > 0.0:
+		_post_hit_iframes_timer -= delta
+		if _post_hit_iframes_timer <= 0.0:
+			_post_hit_iframes_timer = 0.0
 	if _pending_skill.is_empty():
 		if _hit_box != null and _hit_box.has_method("is_active") and _hit_box.is_active():
 			_hit_box.deactivate()
@@ -658,7 +666,10 @@ func _clear_cast(_cancelled: bool) -> void:
 
 func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = true, damage_result: Dictionary = {}) -> void:
 	_resolve_stats()
+	# 无敌判定：死亡 / buff 控制（冰冻等） / 角色受击后无敌帧（0.5s）
 	if combat_state == CombatState.DEAD or _stats == null or _buff_manager.is_invincible():
+		return
+	if _post_hit_iframes_timer > 0.0:
 		return
 	# 闪避成功：不造成伤害和命中类异常积累（设计案 5.7）
 	if damage_result.has("dodged") and bool(damage_result.get("dodged", false)):
@@ -686,8 +697,12 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 		else:
 			combat_state = CombatState.HIT
 			_hit_stun_timer = 0.15
-			# 受击瞬移：往后退一小段距离（无无敌帧，可被连续命中）
-			_apply_hit_knockback(source)
+			# 怪物受击：瞬移后退 12px（无无敌帧，可被连续命中）
+			# 角色受击：不后退，但获得 0.5s 无敌帧避免连续受击
+			if _owner != null and _owner.is_in_group("enemies"):
+				_apply_hit_knockback(source)
+			elif _owner != null and _owner.is_in_group("player"):
+				_post_hit_iframes_timer = POST_HIT_IFRAMES_DURATION
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 	took_damage.emit(actual, source)
 	# 反伤（设计案 7.4）：实际受伤后回调攻击者，上限 8% 攻击者最大生命
