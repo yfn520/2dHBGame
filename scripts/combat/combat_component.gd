@@ -1,4 +1,4 @@
-extends Node
+﻿extends Node
 ## Node-only skill runner. Control nodes advance the cast; action nodes do work.
 
 signal hp_changed(current: int, max_hp: int)
@@ -167,12 +167,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if combat_state == CombatState.DEAD or not _buff_manager.can_act():
 		return
-	if event is InputEventKey and event.pressed:
-		match event.keycode:
-			KEY_J: _try_use_owner_skill("normal")
-			KEY_K: _try_use_owner_skill("skill1")
-			KEY_L: _try_use_owner_skill("skill2")
-			KEY_U: _try_use_owner_skill("skill3")
+	if event.is_action_pressed(InputActions.ATTACK):
+		_try_use_owner_skill("normal")
+	elif event.is_action_pressed(InputActions.SKILL1):
+		_try_use_owner_skill("skill1")
+	elif event.is_action_pressed(InputActions.SKILL2):
+		_try_use_owner_skill("skill2")
+	elif event.is_action_pressed(InputActions.SKILL3):
+		_try_use_owner_skill("skill3")
 
 
 func set_manual_skill_input_enabled(enabled: bool) -> void:

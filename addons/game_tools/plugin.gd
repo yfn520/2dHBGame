@@ -46,8 +46,12 @@ func _enter_tree() -> void:
 	_submenu.add_item("生成 Buff 图标...", 11)
 	_submenu.add_item("配置角色/怪物...", 14)
 	_submenu.add_item("配置物品...", 15)
+	_submenu.add_separator()
+	# PC 调试触屏：勾选后写入 application/run/force_touch_controls=true
+	_submenu.add_check_item("PC 调试显示触屏控件", 16)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
+	_sync_force_touch_menu_check()
 
 
 func _exit_tree() -> void:
@@ -112,6 +116,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_character_editor()
 		15:
 			_open_item_editor()
+		16:
+			_toggle_force_touch_controls()
 
 
 func _open_combat_action_editor() -> void:
@@ -183,6 +189,30 @@ func _open_item_editor() -> void:
 		_item_editor = ItemEditor.new()
 		EditorInterface.get_base_control().add_child(_item_editor)
 	_item_editor.open_editor()
+
+
+# ---- PC 触屏调试开关 ----
+
+const FORCE_TOUCH_SETTING := "application/run/force_touch_controls"
+
+## 切换 application/run/force_touch_controls 并保存到 project.godot。
+## 勾选后 PC 运行游戏也会显示触屏控件（配合 emulate_touch_from_mouse 可用鼠标模拟触摸）。
+func _toggle_force_touch_controls() -> void:
+	var current: bool = bool(ProjectSettings.get_setting(FORCE_TOUCH_SETTING, false))
+	ProjectSettings.set_setting(FORCE_TOUCH_SETTING, not current)
+	var err := ProjectSettings.save()
+	if err != OK:
+		push_error("[GameTools] 保存 project.godot 失败 (err=%d)" % err)
+	_sync_force_touch_menu_check()
+	print("[GameTools] PC 调试显示触屏控件: %s" % ("" if not current else "关闭（已恢复鼠标/键盘模式）"))
+
+## 按 ProjectSettings 当前值同步菜单勾选状态。
+func _sync_force_touch_menu_check() -> void:
+	var idx := _submenu.get_item_index(16)
+	if idx == -1:
+		return
+	var enabled: bool = bool(ProjectSettings.get_setting(FORCE_TOUCH_SETTING, false))
+	_submenu.set_item_checked(idx, enabled)
 
 
 # ---- UI 场景 Zip 导入 ----

@@ -23,6 +23,7 @@ var _main_menu: MainMenu
 var _task_drawer: TaskDrawer
 var _debug_panel: DebugPanel
 var _main_ui: Control
+var _touch_controls: TouchControls
 
 var _popup_stack: Array[Control] = []
 var _tooltip: Control = null
@@ -167,10 +168,12 @@ func is_popup_open() -> bool:
 	return not _popup_stack.is_empty()
 
 
-## 菜单打开时屏蔽手动技能输入。
+## 菜单打开时屏蔽手动技能输入并隐藏触屏控件。
 func _set_world_input_for_ui(open: bool) -> void:
 	if _party_manager != null and _party_manager.has_method("set_manual_skill_input_enabled"):
 		_party_manager.set_manual_skill_input_enabled(not open)
+	if _touch_controls != null:
+		_touch_controls.set_controls_visible(not open)
 
 
 func _on_main_menu_changed(opened: bool, tab: StringName) -> void:
@@ -273,3 +276,8 @@ func _build_content() -> void:
 	_main_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_main_ui.visible = false
 	_screen_layer.add_child(_main_ui)
+
+	# 触屏控件（CanvasLayer，layer=15）
+	_touch_controls = TouchControls.new()
+	_touch_controls.name = "TouchControls"
+	add_child(_touch_controls)

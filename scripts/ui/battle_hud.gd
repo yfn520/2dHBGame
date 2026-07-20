@@ -286,10 +286,32 @@ func _build_bottom_panel() -> Control:
 		btn.theme_type_variation = &"HUDButton"
 		btn.custom_minimum_size = Vector2(62, 42)
 		btn.focus_mode = Control.FOCUS_NONE
-		btn.disabled = true
+		btn.disabled = false
+		btn.pressed.connect(_on_skill_button_pressed.bind(skill_info["slot"]))
 		skill_row.add_child(btn)
 		_skill_buttons.append(btn)
 	return box
+
+
+# 触屏/鼠标点击 HUD 技能按钮 → 通过 InputMap 注入动作事件
+func _on_skill_button_pressed(slot: String) -> void:
+	var action_name := ""
+	match slot:
+		"normal":
+			action_name = InputActions.ATTACK
+		"skill1":
+			action_name = InputActions.SKILL1
+		"skill2":
+			action_name = InputActions.SKILL2
+		"skill3":
+			action_name = InputActions.SKILL3
+		_:
+			return
+	var event := InputEventAction.new()
+	event.action = action_name
+	event.pressed = true
+	event.strength = 1.0
+	Input.parse_input_event(event)
 
 
 func _make_entry_button(text_value: String) -> Button:

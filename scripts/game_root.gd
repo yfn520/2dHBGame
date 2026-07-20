@@ -1,4 +1,4 @@
-extends Node2D
+﻿extends Node2D
 ## 游戏根节点：只持有 UIRoot 作为唯一 UI 入口，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
 
 @onready var level_container: Node2D = $LevelContainer
@@ -80,43 +80,45 @@ func _spawn_level_enemies(level_id: int) -> void:
 
 ## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。
 func _unhandled_input(event: InputEvent) -> void:
-	if not event is InputEventKey or not event.pressed or event.echo:
+	if not event.is_pressed() or event.is_echo():
 		return
-	match event.keycode:
-		KEY_B:
-			ui_root.toggle_main_menu(UIRoot.TAB_INVENTORY)
+	if event.is_action_pressed(InputActions.TOGGLE_INVENTORY):
+		ui_root.toggle_main_menu(UIRoot.TAB_INVENTORY)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(InputActions.TOGGLE_EQUIPMENT):
+		ui_root.toggle_main_menu(UIRoot.TAB_EQUIPMENT)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(InputActions.SWITCH_CHARACTER):
+		party_manager.switch_next_character()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(InputActions.RELOAD_LEVEL):
+		# 测试：R 键重载当前关卡
+		_level_manager.reload_current()
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed(InputActions.CANCEL):
+		# 按优先级关闭：弹窗 → 任务抽屉 → 主菜单
+		if ui_root.is_modal_open():
+			ui_root.close_top()
 			get_viewport().set_input_as_handled()
-		KEY_C:
-			ui_root.toggle_main_menu(UIRoot.TAB_EQUIPMENT)
-			get_viewport().set_input_as_handled()
-		KEY_TAB:
-			party_manager.switch_next_character()
-			get_viewport().set_input_as_handled()
-		KEY_R:
-			# 测试：R 键重载当前关卡
-			_level_manager.reload_current()
-			get_viewport().set_input_as_handled()
-		KEY_ESCAPE:
-			# 按优先级关闭：弹窗 → 任务抽屉 → 主菜单
-			if ui_root.is_modal_open():
-				ui_root.close_top()
+	elif event.is_action_pressed(InputActions.TOGGLE_DEBUG):
+		ui_root.toggle_debug_panel()
+		get_viewport().set_input_as_handled()
+	elif event is InputEventKey and event.pressed and not event.echo:
+		# F4/F5/F6 调试开关保留物理键（开发专用，无需触屏化）
+		match event.keycode:
+			KEY_F4:
+				ui_root.set_debug_draw_flags(not DebugDraw.show_collision, DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
 				get_viewport().set_input_as_handled()
-		KEY_F3:
-			ui_root.toggle_debug_panel()
-			get_viewport().set_input_as_handled()
-		KEY_F4:
-			ui_root.set_debug_draw_flags(not DebugDraw.show_collision, DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
-			get_viewport().set_input_as_handled()
-		KEY_F5:
-			ui_root.set_debug_draw_flags(DebugDraw.show_collision, not DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
-			get_viewport().set_input_as_handled()
-		KEY_F6:
-			ui_root.set_debug_draw_flags(DebugDraw.show_collision, DebugDraw.show_hurtbox, not DebugDraw.show_hitbox)
-			get_viewport().set_input_as_handled()
-		KEY_M:
-			# 主界面 UI 资源验证：切换显隐（按 M 键）
-			ui_root.toggle_main_ui()
-			get_viewport().set_input_as_handled()
+			KEY_F5:
+				ui_root.set_debug_draw_flags(DebugDraw.show_collision, not DebugDraw.show_hurtbox, DebugDraw.show_hitbox)
+				get_viewport().set_input_as_handled()
+			KEY_F6:
+				ui_root.set_debug_draw_flags(DebugDraw.show_collision, DebugDraw.show_hurtbox, not DebugDraw.show_hitbox)
+				get_viewport().set_input_as_handled()
+			KEY_M:
+				# 主界面 UI 资源验证：切换显隐（按 M 键）
+				ui_root.toggle_main_ui()
+				get_viewport().set_input_as_handled()
 
 
 func _place_player_at_spawn() -> void:

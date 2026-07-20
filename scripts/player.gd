@@ -1,4 +1,4 @@
-extends CombatActorBase
+﻿extends CombatActorBase
 ## 玩家角色：输入控制 + 队友 AI。共用逻辑由 CombatActorBase 提供。
 
 const JUMP_VELOCITY := -420.0
@@ -214,7 +214,7 @@ func _update_actor(delta: float) -> void:
 
 	var direction := _get_move_direction()
 	var climb_direction := _get_climb_direction()
-	var jump_pressed := Input.is_physical_key_pressed(KEY_SPACE)
+	var jump_pressed := Input.is_action_pressed(InputActions.JUMP)
 
 	_update_ladder_contact()
 
@@ -279,10 +279,10 @@ func _handle_ladder_movement(direction: float, climb_direction: float, jump_pres
 func _get_move_direction() -> float:
 	var direction := 0.0
 
-	if Input.is_physical_key_pressed(KEY_LEFT) or Input.is_physical_key_pressed(KEY_A):
+	if Input.is_action_pressed(InputActions.MOVE_LEFT):
 		direction -= 1.0
 
-	if Input.is_physical_key_pressed(KEY_RIGHT) or Input.is_physical_key_pressed(KEY_D):
+	if Input.is_action_pressed(InputActions.MOVE_RIGHT):
 		direction += 1.0
 
 	return direction
@@ -291,10 +291,10 @@ func _get_move_direction() -> float:
 func _get_climb_direction() -> float:
 	var direction := 0.0
 
-	if Input.is_physical_key_pressed(KEY_UP) or Input.is_physical_key_pressed(KEY_W):
+	if Input.is_action_pressed(InputActions.MOVE_UP):
 		direction -= 1.0
 
-	if Input.is_physical_key_pressed(KEY_DOWN) or Input.is_physical_key_pressed(KEY_S):
+	if Input.is_action_pressed(InputActions.MOVE_DOWN):
 		direction += 1.0
 
 	return direction

@@ -1038,6 +1038,10 @@ func _on_tab_pressed(tab: StringName) -> void:
 func _on_overlay_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		close()
+		return
+	# 触屏：手指落下即关闭（与鼠标左键保持一致行为）
+	if event is InputEventScreenTouch and event.pressed:
+		close()
 
 
 func _on_equipment_slot_pressed(slot: String) -> void:
