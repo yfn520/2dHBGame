@@ -9,6 +9,8 @@ const LevelEditor = preload("res://addons/game_tools/level_editor.gd")
 const BuffEditor = preload("res://addons/game_tools/buff_editor.gd")
 const BuffIconGenerator = preload("res://addons/game_tools/buff_icon_generator.gd")
 const UiSceneZipImporter = preload("res://addons/game_tools/ui_scene_zip_importer.gd")
+const CharacterEditor = preload("res://addons/game_tools/character_editor.gd")
+const ItemEditor = preload("res://addons/game_tools/item_editor.gd")
 
 var _submenu: PopupMenu
 var _combat_action_editor: Window
@@ -20,6 +22,8 @@ var _buff_editor: Window
 var _buff_icon_generator: Window
 var _ui_zip_file_dialog: EditorFileDialog
 var _ui_zip_result_dialog: AcceptDialog
+var _character_editor: Window
+var _item_editor: Window
 
 
 func _enter_tree() -> void:
@@ -40,6 +44,8 @@ func _enter_tree() -> void:
 	_submenu.add_item("配置关卡...", 9)
 	_submenu.add_item("配置 Buff...", 10)
 	_submenu.add_item("生成 Buff 图标...", 11)
+	_submenu.add_item("配置角色/怪物...", 14)
+	_submenu.add_item("配置物品...", 15)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 	add_tool_submenu_item("游戏工具", _submenu)
 
@@ -63,6 +69,10 @@ func _exit_tree() -> void:
 		_ui_zip_file_dialog.queue_free()
 	if is_instance_valid(_ui_zip_result_dialog):
 		_ui_zip_result_dialog.queue_free()
+	if is_instance_valid(_character_editor):
+		_character_editor.queue_free()
+	if is_instance_valid(_item_editor):
+		_item_editor.queue_free()
 	remove_tool_menu_item("游戏工具")
 
 
@@ -98,6 +108,10 @@ func _on_menu_pressed(id: int) -> void:
 			_open_zip_importer()
 		13:
 			_open_ui_scene_zip_importer()
+		14:
+			_open_character_editor()
+		15:
+			_open_item_editor()
 
 
 func _open_combat_action_editor() -> void:
@@ -155,6 +169,20 @@ func _open_buff_icon_generator() -> void:
 		_buff_icon_generator = BuffIconGenerator.new()
 		EditorInterface.get_base_control().add_child(_buff_icon_generator)
 	_buff_icon_generator.open_generator()
+
+
+func _open_character_editor() -> void:
+	if not is_instance_valid(_character_editor):
+		_character_editor = CharacterEditor.new()
+		EditorInterface.get_base_control().add_child(_character_editor)
+	_character_editor.open_editor()
+
+
+func _open_item_editor() -> void:
+	if not is_instance_valid(_item_editor):
+		_item_editor = ItemEditor.new()
+		EditorInterface.get_base_control().add_child(_item_editor)
+	_item_editor.open_editor()
 
 
 # ---- UI 场景 Zip 导入 ----
