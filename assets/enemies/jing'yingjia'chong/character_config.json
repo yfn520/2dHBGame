@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/jing'yingjia'chong/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/jing'yingjia'chong/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 159.0,
+			"width": 120.0,
+			"x": 66.0,
+			"y": 49.0
+		},
+		"forwardDistance": -6.0,
+		"height": 159.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 120.0,
+		"yOffset": -77.0
+	},
+	"body_position": {
+		"x": -6.0,
+		"y": -79.5
+	},
+	"body_size": {
+		"x": 120.0,
+		"y": 159.0
+	},
+	"centered": true,
+	"character_name": "jing'yingjia'chong",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/jing'yingjia'chong/combat_actions.json",
+	"combat_source": "res://assets/enemies/jing'yingjia'chong/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -13.0,
+		"y": -88.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 133.0,
+		"y": 206.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "jing'yingjia'chong",
+	"spriteframes": "res://assets/enemies/jing'yingjia'chong/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

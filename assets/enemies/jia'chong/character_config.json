@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/jia'chong/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/jia'chong/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 106.0,
+			"width": 128.0,
+			"x": 74.0,
+			"y": 62.0
+		},
+		"forwardDistance": 13.0,
+		"height": 106.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 128.0,
+		"yOffset": -59.0
+	},
+	"body_position": {
+		"x": 13.0,
+		"y": -59.0
+	},
+	"body_size": {
+		"x": 128.0,
+		"y": 106.0
+	},
+	"centered": true,
+	"character_name": "jia'chong",
+	"collision_bottom": -6.0,
+	"combat_actions": "res://assets/enemies/jia'chong/combat_actions.json",
+	"combat_source": "res://assets/enemies/jia'chong/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -6.0,
+		"y": -55.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 126.0,
+		"y": 175.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "jia'chong",
+	"spriteframes": "res://assets/enemies/jia'chong/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

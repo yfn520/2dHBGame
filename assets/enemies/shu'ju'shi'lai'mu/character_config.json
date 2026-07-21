@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/shu'ju'shi'lai'mu/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/shu'ju'shi'lai'mu/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 116.0,
+			"width": 147.0,
+			"x": 53.0,
+			"y": 60.0
+		},
+		"forwardDistance": 0.0,
+		"height": 116.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 147.0,
+		"yOffset": -55.0
+	},
+	"body_position": {
+		"x": 0.0,
+		"y": -58.0
+	},
+	"body_size": {
+		"x": 147.0,
+		"y": 116.0
+	},
+	"centered": true,
+	"character_name": "shu'ju'shi'lai'mu",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/shu'ju'shi'lai'mu/combat_actions.json",
+	"combat_source": "res://assets/enemies/shu'ju'shi'lai'mu/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -7.0,
+		"y": -57.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 127.0,
+		"y": 174.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "shu'ju'shi'lai'mu",
+	"spriteframes": "res://assets/enemies/shu'ju'shi'lai'mu/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

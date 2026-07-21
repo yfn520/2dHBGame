@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/m'fengy/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/m'fengy/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 93.0,
+			"width": 77.0,
+			"x": 79.0,
+			"y": 50.0
+		},
+		"forwardDistance": -5.0,
+		"height": 93.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 77.0,
+		"yOffset": -127.0
+	},
+	"body_position": {
+		"x": -5.0,
+		"y": -127.0
+	},
+	"body_size": {
+		"x": 77.0,
+		"y": 93.0
+	},
+	"centered": true,
+	"character_name": "m'fengy",
+	"collision_bottom": -80.5,
+	"combat_actions": "res://assets/enemies/m'fengy/combat_actions.json",
+	"combat_source": "res://assets/enemies/m'fengy/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -3.0,
+		"y": -103.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 123.0,
+		"y": 223.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "m'fengy",
+	"spriteframes": "res://assets/enemies/m'fengy/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

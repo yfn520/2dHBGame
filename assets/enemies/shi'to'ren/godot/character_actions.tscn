@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/enemies/shi'to'ren/godot/spriteframes.tres" id="frames"]
+
+[node name="CharacterActionSet" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("frames")
+animation = &"idle"
+centered = true

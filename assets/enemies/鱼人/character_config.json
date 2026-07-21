@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/鱼人/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/鱼人/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 125.0,
+			"width": 65.0,
+			"x": 93.0,
+			"y": 66.0
+		},
+		"forwardDistance": -3.0,
+		"height": 125.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 65.0,
+		"yOffset": -61.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -62.5
+	},
+	"body_size": {
+		"x": 65.0,
+		"y": 125.0
+	},
+	"centered": true,
+	"character_name": "鱼人",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/鱼人/combat_actions.json",
+	"combat_source": "res://assets/enemies/鱼人/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -8.0,
+		"y": -71.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 128.0,
+		"y": 190.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "鱼人",
+	"spriteframes": "res://assets/enemies/鱼人/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/xong'da/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/xong'da/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 170.0,
+			"width": 119.0,
+			"x": 67.0,
+			"y": 37.0
+		},
+		"forwardDistance": -3.0,
+		"height": 170.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 119.0,
+		"yOffset": -88.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -88.0
+	},
+	"body_size": {
+		"x": 119.0,
+		"y": 170.0
+	},
+	"centered": true,
+	"character_name": "xong'da",
+	"collision_bottom": -3.0,
+	"combat_actions": "res://assets/enemies/xong'da/combat_actions.json",
+	"combat_source": "res://assets/enemies/xong'da/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -9.0,
+		"y": -90.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 129.0,
+		"y": 210.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "xong'da",
+	"spriteframes": "res://assets/enemies/xong'da/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

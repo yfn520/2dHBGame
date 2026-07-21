@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/mo'o1/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/mo'o1/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 129.0,
+			"width": 73.0,
+			"x": 87.0,
+			"y": 54.0
+		},
+		"forwardDistance": -2.0,
+		"height": 129.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 73.0,
+		"yOffset": -65.0
+	},
+	"body_position": {
+		"x": -2.0,
+		"y": -65.0
+	},
+	"body_size": {
+		"x": 73.0,
+		"y": 129.0
+	},
+	"centered": true,
+	"character_name": "mo'o1",
+	"collision_bottom": -0.5,
+	"combat_actions": "res://assets/enemies/mo'o1/combat_actions.json",
+	"combat_source": "res://assets/enemies/mo'o1/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -6.0,
+		"y": -63.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 126.0,
+		"y": 183.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "mo'o1",
+	"spriteframes": "res://assets/enemies/mo'o1/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

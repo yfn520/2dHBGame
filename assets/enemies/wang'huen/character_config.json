@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/wang'huen/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/wang'huen/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 140.0,
+			"width": 91.0,
+			"x": 88.0,
+			"y": 47.0
+		},
+		"forwardDistance": 7.0,
+		"height": 140.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 91.0,
+		"yOffset": -83.0
+	},
+	"body_position": {
+		"x": 7.0,
+		"y": -83.0
+	},
+	"body_size": {
+		"x": 91.0,
+		"y": 140.0
+	},
+	"centered": true,
+	"character_name": "wang'huen",
+	"collision_bottom": -13.0,
+	"combat_actions": "res://assets/enemies/wang'huen/combat_actions.json",
+	"combat_source": "res://assets/enemies/wang'huen/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -7.0,
+		"y": -80.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 127.0,
+		"y": 200.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "wang'huen",
+	"spriteframes": "res://assets/enemies/wang'huen/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

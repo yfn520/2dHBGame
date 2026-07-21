@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/shuei'mu/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/shuei'mu/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 154.0,
+			"width": 96.0,
+			"x": 83.0,
+			"y": 31.0
+		},
+		"forwardDistance": 1.0,
+		"height": 154.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 96.0,
+		"yOffset": -110.0
+	},
+	"body_position": {
+		"x": 1.0,
+		"y": -110.0
+	},
+	"body_size": {
+		"x": 96.0,
+		"y": 154.0
+	},
+	"centered": true,
+	"character_name": "shuei'mu",
+	"collision_bottom": -33.0,
+	"combat_actions": "res://assets/enemies/shuei'mu/combat_actions.json",
+	"combat_source": "res://assets/enemies/shuei'mu/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -10.0,
+		"y": -98.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 130.0,
+		"y": 218.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "shuei'mu",
+	"spriteframes": "res://assets/enemies/shuei'mu/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

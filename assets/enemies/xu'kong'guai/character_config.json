@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/xu'kong'guai/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/xu'kong'guai/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 147.0,
+			"width": 90.0,
+			"x": 90.0,
+			"y": 45.0
+		},
+		"forwardDistance": -3.0,
+		"height": 147.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 90.0,
+		"yOffset": -78.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -78.0
+	},
+	"body_size": {
+		"x": 90.0,
+		"y": 147.0
+	},
+	"centered": true,
+	"character_name": "xu'kong'guai",
+	"collision_bottom": -4.5,
+	"combat_actions": "res://assets/enemies/xu'kong'guai/combat_actions.json",
+	"combat_source": "res://assets/enemies/xu'kong'guai/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -18.0,
+		"y": -77.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 138.0,
+		"y": 197.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "xu'kong'guai",
+	"spriteframes": "res://assets/enemies/xu'kong'guai/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

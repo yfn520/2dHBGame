@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/焰灵/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/焰灵/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 175.0,
+			"width": 96.0,
+			"x": 95.0,
+			"y": 20.0
+		},
+		"forwardDistance": -3.0,
+		"height": 175.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 96.0,
+		"yOffset": -105.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -105.0
+	},
+	"body_size": {
+		"x": 96.0,
+		"y": 175.0
+	},
+	"centered": true,
+	"character_name": "焰灵",
+	"collision_bottom": -17.5,
+	"combat_actions": "res://assets/enemies/焰灵/combat_actions.json",
+	"combat_source": "res://assets/enemies/焰灵/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -26.0,
+		"y": -93.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 146.0,
+		"y": 213.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "焰灵",
+	"spriteframes": "res://assets/enemies/焰灵/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

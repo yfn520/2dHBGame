@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/enemies/xong'da/godot/character_actions.tscn" id="1_visual"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="0_script"]
+[ext_resource type="Script" path="res://scripts/combat/combat_component.gd" id="2_combat"]
+[ext_resource type="Script" path="res://scripts/combat/hurt_box.gd" id="3_hurt"]
+[ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]
+
+[sub_resource type="RectangleShape2D" id="1_shape"]
+size = Vector2(119.0, 170.0)
+
+[sub_resource type="RectangleShape2D" id="2_hit_shape"]
+size = Vector2(30, 30)
+
+[sub_resource type="RectangleShape2D" id="3_hurt_shape"]
+size = Vector2(119.0, 170.0)
+
+[node name="xong'da" type="CharacterBody2D"]
+groups = ["enemies"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("0_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.0, -88.0)
+shape = SubResource("1_shape")
+
+[node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
+position = Vector2(-9.0, -90.0)
+scale = Vector2(1.0, 1.0)
+
+[node name="HitBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+script = ExtResource("4_hit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource("2_hit_shape")
+disabled = true
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("3_hurt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-3.0, -88.0)
+shape = SubResource("3_hurt_shape")
+
+[node name="CombatComponent" type="Node" parent="."]
+script = ExtResource("2_combat")

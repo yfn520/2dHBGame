@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/花精/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/花精/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 171.0,
+			"width": 112.0,
+			"x": 68.0,
+			"y": 31.0
+		},
+		"forwardDistance": 3.0,
+		"height": 171.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 112.0,
+		"yOffset": -88.0
+	},
+	"body_position": {
+		"x": 3.0,
+		"y": -88.0
+	},
+	"body_size": {
+		"x": 112.0,
+		"y": 171.0
+	},
+	"centered": true,
+	"character_name": "花精",
+	"collision_bottom": -2.5,
+	"combat_actions": "res://assets/enemies/花精/combat_actions.json",
+	"combat_source": "res://assets/enemies/花精/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -1.0,
+		"y": -84.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 121.0,
+		"y": 204.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "花精",
+	"spriteframes": "res://assets/enemies/花精/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

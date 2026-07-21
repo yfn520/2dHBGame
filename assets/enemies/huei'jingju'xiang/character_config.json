@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/huei'jingju'xiang/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/huei'jingju'xiang/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 118.0,
+			"width": 97.0,
+			"x": 78.0,
+			"y": 68.0
+		},
+		"forwardDistance": -5.0,
+		"height": 118.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 97.0,
+		"yOffset": -55.0
+	},
+	"body_position": {
+		"x": -5.0,
+		"y": -59.0
+	},
+	"body_size": {
+		"x": 97.0,
+		"y": 118.0
+	},
+	"centered": true,
+	"character_name": "huei'jingju'xiang",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/huei'jingju'xiang/combat_actions.json",
+	"combat_source": "res://assets/enemies/huei'jingju'xiang/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -12.0,
+		"y": -67.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 132.0,
+		"y": 183.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "huei'jingju'xiang",
+	"spriteframes": "res://assets/enemies/huei'jingju'xiang/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}
