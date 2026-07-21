@@ -18,7 +18,7 @@ func spawn_npcs_for_level(spawns: Array) -> void:
 			continue
 		var placement: Dictionary = value
 		var npc_id := int(placement.get("npc_id", 0))
-		var config := GameRegistry.npc_config.get_npc(npc_id)
+		var config: Dictionary = GameRegistry.npc_config.get_npc(npc_id)
 		if config.is_empty():
 			push_warning("跳过不存在的 NPC 摆放: %d" % npc_id)
 			continue

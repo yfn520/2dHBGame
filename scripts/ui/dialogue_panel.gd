@@ -20,7 +20,7 @@ func show_node(node: Dictionary, npc: Dictionary) -> void:
 	_load_portrait(String(node.get("portrait", npc.get("portrait", ""))))
 	for child in _choices.get_children():
 		child.queue_free()
-	var visible_choices := GameRegistry.dialogue_service.get_visible_choices(node)
+	var visible_choices: Array = GameRegistry.dialogue_service.get_visible_choices(node)
 	for index in range(visible_choices.size()):
 		var choice: Dictionary = visible_choices[index]
 		var button := Button.new()

@@ -363,7 +363,7 @@ func _on_dialogue_started(_npc_id: int) -> void:
 
 
 func _on_dialogue_node_changed(node: Dictionary) -> void:
-	var npc := GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id)
+	var npc: Dictionary = GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id)
 	_dialogue_panel.show_node(node, npc)
 
 

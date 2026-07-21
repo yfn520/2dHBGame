@@ -156,7 +156,7 @@ func _refresh_tasks() -> void:
 		return
 	for child in _task_list.get_children():
 		child.queue_free()
-	var tasks := _service.get_visible_tasks() if _service != null else []
+	var tasks: Array = _service.get_visible_tasks() if _service != null else []
 	if tasks.is_empty():
 		_build_empty_state_in(_task_list)
 		return
@@ -172,7 +172,7 @@ func _refresh_tasks() -> void:
 		card.add_child(box)
 		var title := Label.new()
 		var status := String(quest.get("status", "active"))
-		var status_label := {"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status)
+		var status_label: String = {"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status)
 		title.text = "%s  [%s]" % [String(quest.get("title", "任务")), status_label]
 		title.add_theme_font_size_override("font_size", 16)
 		box.add_child(title)
