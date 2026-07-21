@@ -62,6 +62,8 @@ var _enemies: Dictionary = {}      # int id -> dict
 var _current_tab := 0              # 0=角色, 1=怪物
 var _selected_id := 0
 var _loading := false
+# 实体预览图标缓存：id_str -> Texture2D（idle 第一帧）
+var _preview_textures: Dictionary = {}
 
 # UI 控件引用
 var _tab_bar: TabBar
@@ -177,6 +179,11 @@ func _build_layout() -> void:
 
 	_entity_list = ItemList.new()
 	_entity_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	# 网格图标模式（参考 skill_sequence_editor 左侧列表）
+	_entity_list.max_columns = 2
+	_entity_list.fixed_icon_size = Vector2i(72, 72)
+	_entity_list.fixed_column_width = 150
+	_entity_list.same_column_width = true
 	_entity_list.item_selected.connect(_on_entity_selected)
 	_left_panel.add_child(_entity_list)
 
@@ -259,9 +266,17 @@ func _refresh_entity_list() -> void:
 	var data: Dictionary = _characters if _current_tab == 0 else _enemies
 	var ids := data.keys()
 	ids.sort()
+	print("[CharacterEditor] _refresh_entity_list tab=%d data_size=%d ids=%s" % [_current_tab, data.size(), str(ids)])
 	for id in ids:
-		var name: String = String(data[id].get("name", ""))
-		_entity_list.add_item("%d - %s" % [id, name])
+		var id_str := str(id)
+		var config: Dictionary = data[id]
+		var display_name := str(config.get("name", id_str))
+		var label_text := "%s  %s" % [id_str, display_name]
+		_entity_list.add_item(label_text)
+		_entity_list.set_item_metadata(_entity_list.item_count - 1, id)
+		var tex := _get_entity_preview_texture(id_str, config)
+		if tex != null:
+			_entity_list.set_item_icon(_entity_list.item_count - 1, tex)
 	# 选中当前 _selected_id（若存在于当前 tab）
 	if _selected_id > 0 and data.has(_selected_id):
 		var idx := 0
@@ -272,15 +287,35 @@ func _refresh_entity_list() -> void:
 			idx += 1
 
 
+## 加载实体 idle 动画第一帧作为列表图标（带缓存，参考 skill_sequence_editor._get_entity_preview_texture）。
+func _get_entity_preview_texture(id_str: String, config: Dictionary) -> Texture2D:
+	if _preview_textures.has(id_str):
+		return _preview_textures[id_str]
+	var asset := String(config.get("asset", ""))
+	if asset.is_empty():
+		_preview_textures[id_str] = null
+		return null
+	var sf_path := asset.path_join("godot/spriteframes.tres")
+	if not ResourceLoader.exists(sf_path):
+		_preview_textures[id_str] = null
+		return null
+	var sf := load(sf_path) as SpriteFrames
+	if sf == null or not sf.has_animation("idle") or sf.get_frame_count("idle") == 0:
+		_preview_textures[id_str] = null
+		return null
+	var tex := sf.get_frame_texture("idle", 0)
+	_preview_textures[id_str] = tex
+	return tex
+
+
 func _on_entity_selected(idx: int) -> void:
 	if idx < 0 or idx >= _entity_list.item_count:
 		return
-	var data: Dictionary = _characters if _current_tab == 0 else _enemies
-	var ids := data.keys()
-	ids.sort()
-	if idx < ids.size():
-		_selected_id = ids[idx]
-		_show_entity_details(_selected_id)
+	var id = _entity_list.get_item_metadata(idx)
+	if id == null:
+		return
+	_selected_id = int(id)
+	_show_entity_details(_selected_id)
 
 
 # ---- 表单构建 ----

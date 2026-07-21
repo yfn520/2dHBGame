@@ -133,6 +133,7 @@ func _apply_camera_limits(level_instance: Node) -> void:
 	camera.limit_top = int(min_y)
 	camera.limit_right = int(max_x)
 	camera.limit_bottom = int(max_y)
+	print("[LevelManager] camera limits: L=%d T=%d R=%d B=%d (player y=%f, camera offset=%s)" % [camera.limit_left, camera.limit_top, camera.limit_right, camera.limit_bottom, _player.global_position.y, str(camera.position)])
 
 
 ## 重新加载当前关卡（死亡重生等）

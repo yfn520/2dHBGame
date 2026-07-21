@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://pixelwork_map_stitch"]
+
+[ext_resource type="Texture2D" path="./images/source.png" id="tex_1"]
+
+[node name="scene_horizontal_2d_horizontal_2d_51" type="Node2D"]
+
+[node name="source" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+centered = false
+texture = ExtResource("tex_1")
+
+[node name="collision_body" type="StaticBody2D" parent="."]
+
+[node name="collision_polygon_1" type="CollisionPolygon2D" parent="collision_body"]
+polygon = PackedVector2Array(0, 0, 36, 0, 36, 736, 1528, 736, 1528, 0, 1536, 0, 1536, 864, 0, 864)

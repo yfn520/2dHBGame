@@ -1,6 +1,6 @@
 {
 	"7001": {
-		"actor_scale": 1.0,
+		"actor_scale": 2.0,
 		"asset": "res://assets/characters/new_kivin",
 		"base_stats": {
 			"armor_pen_flat": 0.0,
@@ -32,7 +32,7 @@
 			"max_hp": 20.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60.0,
+		"max_level": 60,
 		"name": "new_kivin",
 		"normal_skill": 6001.0,
 		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
@@ -116,7 +116,7 @@
 		]
 	},
 	"7003": {
-		"actor_scale": 0.5,
+		"actor_scale": 0.7,
 		"asset": "res://assets/characters/new_fashi",
 		"attack": 10.0,
 		"base_stats": {
@@ -149,7 +149,7 @@
 			"max_hp": 15.0,
 			"move_speed": 0.0
 		},
-		"max_level": 60,
+		"max_level": 60.0,
 		"name": "newfs",
 		"normal_skill": 6021.0,
 		"scene": "res://assets/characters/new_fashi/godot/new_fashi.tscn",

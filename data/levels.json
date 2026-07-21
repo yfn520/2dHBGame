@@ -1,11 +1,11 @@
 {
-	"3": {
+		"5": {
 		"bgm": "",
 		"description": "",
 		"enemies": [],
-		"name": "city",
-		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 497,
+		"name": "city3",
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 184,
 		"spawn_y": 397
 	},
 	"1": {
@@ -43,5 +43,23 @@
 		"scene_path": "res://scenes/jungle_01.tscn",
 		"spawn_x": 160.0,
 		"spawn_y": 350.0
+	},
+	"3": {
+		"bgm": "",
+		"description": "",
+		"enemies": [],
+		"name": "city",
+		"scene_path": "res://scenes/city.tscn",
+		"spawn_x": 497.0,
+		"spawn_y": 397.0
+	},
+	"4": {
+		"bgm": "",
+		"description": "",
+		"enemies": [],
+		"name": "city2",
+		"scene_path": "res://scenes/city2.tscn",
+		"spawn_x": 184.0,
+		"spawn_y": 397.0
 	}
 }

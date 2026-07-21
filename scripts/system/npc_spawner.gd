@@ -16,7 +16,7 @@ func spawn_npcs_for_level(level_id: int) -> void:
 	if _spawn_container == null or GameRegistry.npc_config == null or GameRegistry.npc_placement_config == null:
 		_record_spawn_error("NPC spawner is missing its container or configuration")
 		return
-	var spawns: Array[Dictionary] = GameRegistry.npc_placement_config.get_for_level(level_id)
+	var spawns: Array = GameRegistry.npc_placement_config.get_for_level(level_id)
 	for value in spawns:
 		if not value is Dictionary:
 			continue

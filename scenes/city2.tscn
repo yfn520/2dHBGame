@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/city2/map_stitch_godot.tscn" id="1_map"]
+
+[node name="City2" type="Node2D"]
+
+[node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(184, 397)

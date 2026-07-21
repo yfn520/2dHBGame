@@ -172,7 +172,7 @@ func _refresh_tasks() -> void:
 		card.add_child(box)
 		var title := Label.new()
 		var status := String(quest.get("status", "active"))
-		var status_label: String = {"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status)
+		var status_label := String({"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status))
 		title.text = "%s  [%s]" % [String(quest.get("title", "任务")), status_label]
 		title.add_theme_font_size_override("font_size", 16)
 		box.add_child(title)
