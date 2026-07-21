@@ -59,6 +59,7 @@ var _stackable_check: CheckBox
 var _max_count_spin: SpinBox
 var _heal_amount_spin: SpinBox
 var _icon_edit: LineEdit
+var _icon_preview: TextureRect
 var _desc_edit: TextEdit
 var _stats_spins: Dictionary = {}   # field_name -> SpinBox
 var _status_label: Label
@@ -276,6 +277,7 @@ func _show_item_details(item_id: int) -> void:
 	_max_count_spin = null
 	_heal_amount_spin = null
 	_icon_edit = null
+	_icon_preview = null
 	_desc_edit = null
 	_stats_spins.clear()
 
@@ -328,7 +330,15 @@ func _show_item_details(item_id: int) -> void:
 
 	_icon_edit = _add_grid_edit(info_grid2, "图标路径 icon（如 res://assets/icons/items/100001.png）", "图标资源路径，当前可空", ["*.png ; PNG 图片", "*.jpg ; JPG 图片", "*.svg ; SVG 矢量图", "*.webp ; WebP 图片"])
 	_icon_edit.text = String(data.get("icon", ""))
-	_icon_edit.text_changed.connect(_on_field_changed.bind("icon"))
+	_icon_edit.text_changed.connect(_on_icon_changed)
+
+	# icon 预览（路径下方显示图标，直观些）
+	_icon_preview = TextureRect.new()
+	_icon_preview.custom_minimum_size = Vector2(72, 72)
+	_icon_preview.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icon_preview.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_icon_preview.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	_content_ref.add_child(_icon_preview)
 
 	# 2. 描述
 	_add_section_header(_content_ref, "描述 description（物品介绍文本）")
@@ -351,6 +361,7 @@ func _show_item_details(item_id: int) -> void:
 		spin.value_changed.connect(_on_stats_spin_changed.bind(field))
 
 	_loading = false
+	_refresh_icon_preview()
 
 
 # ---- 事件回调 ----
@@ -360,6 +371,33 @@ func _on_field_changed(new_text: String, field: String) -> void:
 		return
 	_items[_selected_id][field] = new_text
 	_refresh_item_list()
+
+func _on_icon_changed(new_text: String) -> void:
+	if _loading or not _items.has(_selected_id):
+		return
+	_items[_selected_id]["icon"] = new_text
+	_refresh_item_list()
+	_refresh_icon_preview()
+
+## 根据 _icon_edit.text 的路径加载图标并显示到 _icon_preview。
+## 路径为空或资源不存在时清空预览。
+func _refresh_icon_preview() -> void:
+	if _icon_preview == null:
+		return
+	var path := ""
+	if _icon_edit != null:
+		path = _icon_edit.text.strip_edges()
+	if path.is_empty():
+		_icon_preview.texture = null
+		return
+	if not path.begins_with("res://"):
+		_icon_preview.texture = null
+		return
+	if not ResourceLoader.exists(path):
+		_icon_preview.texture = null
+		return
+	var tex := load(path) as Texture2D
+	_icon_preview.texture = tex
 
 func _on_type_changed(_idx: int) -> void:
 	if _loading or not _items.has(_selected_id) or _type_option == null:
