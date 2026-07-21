@@ -78,12 +78,61 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 		else:
 			_player.global_position = spawn_pos
 
+	# 根据关卡场景的 Sprite2D 整体边界动态设置玩家相机边界
+	# （覆盖 player.gd 里硬编码的 1376×768，支持任意尺寸的拼接地图）
+	_apply_camera_limits(level_instance)
+
 	level_loaded.emit(level_id, config.get("name", ""))
 
 
 ## 传送到指定关卡的指定坐标
 func teleport_to(level_id: int, pos: Vector2) -> void:
 	load_level(level_id, pos)
+
+
+## 扫描关卡场景里所有 Sprite2D 的世界 AABB，算出整体边界并设置玩家相机 limit。
+## 覆盖 player.gd 里硬编码的 1376×768，支持任意尺寸的拼接地图。
+func _apply_camera_limits(level_instance: Node) -> void:
+	if _player == null:
+		return
+	var camera: Camera2D = _player.get_node_or_null("Camera2D")
+	if camera == null:
+		return
+	var min_x := INF
+	var min_y := INF
+	var max_x := -INF
+	var max_y := -INF
+	for sprite in level_instance.find_children("*", "Sprite2D", true, false):
+		var tex: Texture2D = sprite.texture
+		if tex == null:
+			continue
+		var half_w := tex.get_width() / 2.0
+		var half_h := tex.get_height() / 2.0
+		var pos: Vector2 = sprite.global_position
+		var left: float
+		var right: float
+		var top: float
+		var bottom: float
+		if sprite.centered:
+			left = pos.x - half_w
+			right = pos.x + half_w
+			top = pos.y - half_h
+			bottom = pos.y + half_h
+		else:
+			left = pos.x
+			right = pos.x + tex.get_width()
+			top = pos.y
+			bottom = pos.y + tex.get_height()
+		min_x = minf(min_x, left)
+		min_y = minf(min_y, top)
+		max_x = maxf(max_x, right)
+		max_y = maxf(max_y, bottom)
+	if is_inf(min_x):
+		return
+	camera.limit_left = int(min_x)
+	camera.limit_top = int(min_y)
+	camera.limit_right = int(max_x)
+	camera.limit_bottom = int(max_y)
 
 
 ## 重新加载当前关卡（死亡重生等）

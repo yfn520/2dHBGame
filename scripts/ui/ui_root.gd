@@ -4,6 +4,7 @@ extends Node
 ## GameRoot 只持有本节点，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
 
 signal main_menu_changed(opened: bool, tab: StringName)
+signal interact_requested()
 
 const TAB_CHARACTER := &"character"
 const TAB_EQUIPMENT := &"equipment"
@@ -24,6 +25,10 @@ var _task_drawer: TaskDrawer
 var _debug_panel: DebugPanel
 var _main_ui: Control
 var _touch_controls: TouchControls
+var _dialogue_panel: DialoguePanel
+var _interaction_prompt: Label
+var _notification_label: Label
+var _dialogue_previous_pause := false
 
 var _popup_stack: Array[Control] = []
 var _tooltip: Control = null
@@ -49,6 +54,18 @@ func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 		_main_menu.setup(party_manager)
 	if _debug_panel != null:
 		_debug_panel.setup(party_manager, enemy_spawner)
+	if _task_drawer != null:
+		_task_drawer.setup(GameRegistry.quest_service)
+	_connect_npc_services()
+
+
+func set_interaction_target(npc: NpcActor) -> void:
+	var available := is_instance_valid(npc)
+	if _interaction_prompt != null:
+		_interaction_prompt.visible = available
+		_interaction_prompt.text = "E  与 %s 对话" % npc.get_display_name() if available else ""
+	if _touch_controls != null:
+		_touch_controls.set_interact_available(available)
 
 
 # ---- 主菜单 ----
@@ -143,6 +160,9 @@ func hide_tooltip() -> void:
 func close_top() -> void:
 	if not _popup_stack.is_empty():
 		var top: Control = _popup_stack.back()
+		if top == _dialogue_panel and GameRegistry.dialogue_service != null:
+			GameRegistry.dialogue_service.finish(false)
+			return
 		close_popup(top)
 		return
 	if _task_drawer != null and _task_drawer.is_open():
@@ -238,6 +258,23 @@ func _build_content() -> void:
 	_hud.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_hud.ui_root = self
 	_hud_layer.add_child(_hud)
+	_interaction_prompt = Label.new()
+	_interaction_prompt.name = "InteractionPrompt"
+	_interaction_prompt.anchor_left = 0.5
+	_interaction_prompt.anchor_top = 0.72
+	_interaction_prompt.anchor_right = 0.5
+	_interaction_prompt.anchor_bottom = 0.72
+	_interaction_prompt.offset_left = -180
+	_interaction_prompt.offset_top = -24
+	_interaction_prompt.offset_right = 180
+	_interaction_prompt.offset_bottom = 24
+	_interaction_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_interaction_prompt.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_interaction_prompt.add_theme_font_size_override("font_size", 18)
+	_interaction_prompt.add_theme_color_override("font_outline_color", Color.BLACK)
+	_interaction_prompt.add_theme_constant_override("outline_size", 6)
+	_interaction_prompt.visible = false
+	_hud_layer.add_child(_interaction_prompt)
 
 	# 主菜单
 	_main_menu = preload("res://scripts/ui/main_menu.gd").new()
@@ -260,6 +297,12 @@ func _build_content() -> void:
 	_task_drawer.drawer_changed.connect(_on_task_drawer_changed)
 	_screen_layer.add_child(_task_drawer)
 
+	_dialogue_panel = preload("res://scripts/ui/dialogue_panel.gd").new()
+	_dialogue_panel.name = "DialoguePanel"
+	_dialogue_panel.theme = skin.theme
+	_dialogue_panel.visible = false
+	_popup_layer.add_child(_dialogue_panel)
+
 	# Debug 面板
 	_debug_panel = preload("res://scripts/ui/debug_panel.gd").new()
 	_debug_panel.name = "DebugPanel"
@@ -280,4 +323,62 @@ func _build_content() -> void:
 	# 触屏控件（CanvasLayer，layer=15）
 	_touch_controls = TouchControls.new()
 	_touch_controls.name = "TouchControls"
+	_touch_controls.interact_pressed.connect(func(): interact_requested.emit())
 	add_child(_touch_controls)
+
+	_notification_label = Label.new()
+	_notification_label.name = "NpcNotification"
+	_notification_label.anchor_left = 0.5
+	_notification_label.anchor_right = 0.5
+	_notification_label.offset_left = -260
+	_notification_label.offset_top = 54
+	_notification_label.offset_right = 260
+	_notification_label.offset_bottom = 96
+	_notification_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_notification_label.add_theme_font_size_override("font_size", 18)
+	_notification_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_notification_label.add_theme_constant_override("outline_size", 5)
+	_notification_label.visible = false
+	_notification_label.process_mode = Node.PROCESS_MODE_ALWAYS
+	_notification_layer.add_child(_notification_label)
+
+
+func _connect_npc_services() -> void:
+	if GameRegistry.dialogue_service != null:
+		if not GameRegistry.dialogue_service.dialogue_started.is_connected(_on_dialogue_started):
+			GameRegistry.dialogue_service.dialogue_started.connect(_on_dialogue_started)
+		if not GameRegistry.dialogue_service.node_changed.is_connected(_on_dialogue_node_changed):
+			GameRegistry.dialogue_service.node_changed.connect(_on_dialogue_node_changed)
+		if not GameRegistry.dialogue_service.dialogue_finished.is_connected(_on_dialogue_finished):
+			GameRegistry.dialogue_service.dialogue_finished.connect(_on_dialogue_finished)
+	if GameRegistry.quest_service != null and not GameRegistry.quest_service.notification_requested.is_connected(_show_notification):
+		GameRegistry.quest_service.notification_requested.connect(_show_notification)
+
+
+func _on_dialogue_started(_npc_id: int) -> void:
+	set_interaction_target(null)
+	_dialogue_previous_pause = get_tree().paused
+	show_popup(_dialogue_panel)
+	get_tree().paused = true
+
+
+func _on_dialogue_node_changed(node: Dictionary) -> void:
+	var npc := GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id)
+	_dialogue_panel.show_node(node, npc)
+
+
+func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:
+	close_popup(_dialogue_panel)
+	get_tree().paused = _dialogue_previous_pause
+
+
+func _show_notification(text: String) -> void:
+	if _notification_label == null:
+		return
+	_notification_label.text = text
+	_notification_label.visible = true
+	var expected := text
+	get_tree().create_timer(2.5, true).timeout.connect(func():
+		if is_instance_valid(_notification_label) and _notification_label.text == expected:
+			_notification_label.visible = false
+	)

@@ -8,6 +8,8 @@
 var player: CharacterBody2D
 var _level_manager: Node
 var _enemy_spawner: Node
+var _npc_spawner: NpcSpawner
+var _interaction_manager: InteractionManager
 
 
 
@@ -31,9 +33,23 @@ func _ready() -> void:
 	_enemy_spawner.name = "EnemySpawner"
 	add_child(_enemy_spawner)
 	_enemy_spawner.setup(party_manager, level_container)
+	_enemy_spawner.enemy_defeated.connect(_on_enemy_defeated)
+
+	# NPC 与交互管理器独立于战斗角色，关卡切换时按配置重建。
+	_npc_spawner = NpcSpawner.new()
+	_npc_spawner.name = "NpcSpawner"
+	add_child(_npc_spawner)
+	_npc_spawner.setup(level_container)
 
 	# 初始化统一 UIRoot（HUD / 主菜单 / 任务抽屉 / Debug 面板均在内部构建）
 	ui_root.setup(party_manager, _enemy_spawner)
+	_interaction_manager = InteractionManager.new()
+	_interaction_manager.name = "InteractionManager"
+	add_child(_interaction_manager)
+	_interaction_manager.setup(party_manager, _npc_spawner, ui_root)
+	ui_root.interact_requested.connect(_interaction_manager.try_interact)
+	if GameRegistry.quest_service != null:
+		GameRegistry.quest_service.quest_updated.connect(_on_quest_updated)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -64,10 +80,12 @@ func _on_level_loaded(level_id: int, level_name: String) -> void:
 	print("[GameRoot] 关卡已加载: %s (%s)" % [level_name, level_id])
 	# 生成怪物（测试用：在关卡中生成几只 slime）
 	_spawn_level_enemies(level_id)
+	_spawn_level_npcs(level_id)
 
 
 func _on_level_unloaded(_level_id: int) -> void:
 	_enemy_spawner.clear_all()
+	_npc_spawner.clear_all()
 
 
 func _spawn_level_enemies(level_id: int) -> void:
@@ -76,6 +94,21 @@ func _spawn_level_enemies(level_id: int) -> void:
 	if spawns.is_empty():
 		return
 	_enemy_spawner.spawn_enemies_for_level(spawns)
+
+
+func _spawn_level_npcs(level_id: int) -> void:
+	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
+	_npc_spawner.spawn_npcs_for_level(level_cfg.get("npcs", []))
+
+
+func _on_enemy_defeated(enemy_id: int) -> void:
+	if GameRegistry.quest_service != null:
+		GameRegistry.quest_service.record_kill(enemy_id)
+
+
+func _on_quest_updated(_quest_id: int) -> void:
+	if _npc_spawner != null:
+		_npc_spawner.refresh_indicators()
 
 
 ## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。

@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "coordinate_system": "top_left_origin_y_down_pixels",
+  "canvas": {
+    "width": 4147,
+    "height": 864
+  },
+  "source": {
+    "file": "city.png",
+    "width": 1536,
+    "height": 864
+  },
+  "overlap": {
+    "horizontal_percent": 15,
+    "vertical_percent": 15
+  },
+  "layers": {
+    "background": null,
+    "occlusion": null,
+    "collision": {
+      "name": "collision_layer",
+      "image": "images/collision_layer.png"
+    }
+  },
+  "collisions": {
+    "mode": "polygon",
+    "polygon_count": 1,
+    "rect_count": 4,
+    "cell_size": 4
+  },
+  "tiles": [
+    {
+      "key": "0,0",
+      "name": "source",
+      "image": "images/source.png",
+      "pixel": {
+        "x": 1306,
+        "y": 0,
+        "width": 1536,
+        "height": 864
+      },
+      "tile": {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "feather": {
+        "top": 0,
+        "right": 15,
+        "bottom": 0,
+        "left": 15
+      },
+      "seam_bias": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    {
+      "key": "0.85,0",
+      "name": "tile_0.85_0",
+      "image": "images/tile_0.85_0.png",
+      "pixel": {
+        "x": 2611,
+        "y": 0,
+        "width": 1536,
+        "height": 864
+      },
+      "tile": {
+        "x": 0.85,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "feather": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 15
+      },
+      "seam_bias": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    },
+    {
+      "key": "-0.85,0",
+      "name": "tile_-0.85_0",
+      "image": "images/tile_-0.85_0.png",
+      "pixel": {
+        "x": 0,
+        "y": 0,
+        "width": 1536,
+        "height": 864
+      },
+      "tile": {
+        "x": -0.85,
+        "y": 0,
+        "w": 1,
+        "h": 1
+      },
+      "feather": {
+        "top": 0,
+        "right": 15,
+        "bottom": 0,
+        "left": 0
+      },
+      "seam_bias": {
+        "top": 0,
+        "right": 0,
+        "bottom": 0,
+        "left": 0
+      }
+    }
+  ]
+}

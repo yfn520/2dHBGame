@@ -19,6 +19,7 @@ const RELOAD_LEVEL := "reload_level"
 const CANCEL := "cancel"
 const TOGGLE_DEBUG := "toggle_debug"
 const TOGGLE_MAIN_UI := "toggle_main_ui"
+const INTERACT := "interact"
 
 ## 技能槽位名称数组，对应 combat_component._try_use_owner_skill 的 slot_name 参数。
 ## 顺序与 BattleHud 底部 4 个技能按钮一一对应。

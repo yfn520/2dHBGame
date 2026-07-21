@@ -1,6 +1,6 @@
 class_name TaskDrawer
 extends Control
-## 右侧抽屉式任务面板。任务系统未实现时展示真实空状态。
+## 右侧抽屉式任务面板，展示任务状态与目标进度。
 
 signal drawer_changed(opened: bool)
 
@@ -14,11 +14,20 @@ var _panel: PanelContainer
 var _content: VBoxContainer
 var _open: bool = false
 var _current_x: float = DRAWER_WIDTH
+var _service: QuestService
+var _task_list: VBoxContainer
 
 
 func _ready() -> void:
 	_build_layout()
 	_update_position(true)
+
+
+func setup(service: QuestService) -> void:
+	_service = service
+	if _service != null and not _service.quest_updated.is_connected(_on_quest_updated):
+		_service.quest_updated.connect(_on_quest_updated)
+	_refresh_tasks()
 
 
 func _process(delta: float) -> void:
@@ -104,8 +113,14 @@ func _build_layout() -> void:
 	var sep := HSeparator.new()
 	_content.add_child(sep)
 
-	# 空状态（任务系统未实现）
-	_build_empty_state()
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_content.add_child(scroll)
+	_task_list = VBoxContainer.new()
+	_task_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_task_list.add_theme_constant_override("separation", 10)
+	scroll.add_child(_task_list)
+	_refresh_tasks()
 
 
 func _build_empty_state() -> void:
@@ -129,11 +144,76 @@ func _build_empty_state() -> void:
 	empty_box.add_child(hint)
 
 	var desc := Label.new()
-	desc.text = "任务系统尚在开发中，敬请期待。"
+	desc.text = "靠近带有 ! 标记的 NPC 接取任务。"
 	desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	desc.theme_type_variation = &"HUDMuted"
 	desc.add_theme_font_size_override("font_size", 13)
 	empty_box.add_child(desc)
+
+
+func _refresh_tasks() -> void:
+	if _task_list == null:
+		return
+	for child in _task_list.get_children():
+		child.queue_free()
+	var tasks := _service.get_visible_tasks() if _service != null else []
+	if tasks.is_empty():
+		_build_empty_state_in(_task_list)
+		return
+	for quest_value in tasks:
+		if not quest_value is Dictionary:
+			continue
+		var quest: Dictionary = quest_value
+		var card := PanelContainer.new()
+		card.theme_type_variation = &"Window"
+		_task_list.add_child(card)
+		var box := VBoxContainer.new()
+		box.add_theme_constant_override("separation", 4)
+		card.add_child(box)
+		var title := Label.new()
+		var status := String(quest.get("status", "active"))
+		var status_label := {"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status)
+		title.text = "%s  [%s]" % [String(quest.get("title", "任务")), status_label]
+		title.add_theme_font_size_override("font_size", 16)
+		box.add_child(title)
+		var description := Label.new()
+		description.text = String(quest.get("description", ""))
+		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		description.modulate = Color(0.82, 0.78, 0.70)
+		box.add_child(description)
+		var objectives: Array = quest.get("objectives", [])
+		for index in range(objectives.size()):
+			if not objectives[index] is Dictionary:
+				continue
+			var objective: Dictionary = objectives[index]
+			var progress := _service.get_objective_progress(int(quest.get("id", 0)), objective, index)
+			var line := Label.new()
+			line.text = "• %s  %d/%d" % [_objective_text(objective), int(progress.get("current", 0)), int(progress.get("required", 1))]
+			line.modulate = Color("7edb8f") if bool(progress.get("complete", false)) else Color.WHITE
+			box.add_child(line)
+
+
+func _build_empty_state_in(parent: Container) -> void:
+	var hint := Label.new()
+	var spacer := Control.new()
+	spacer.custom_minimum_size.y = 120
+	parent.add_child(spacer)
+	hint.text = "暂无任务\n靠近带有 ! 标记的 NPC 接取任务。"
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	parent.add_child(hint)
+
+
+func _objective_text(objective: Dictionary) -> String:
+	match String(objective.get("type", "")):
+		"talk": return "与 NPC %d 对话" % int(objective.get("npc_id", 0))
+		"kill": return "击败怪物 %d" % int(objective.get("enemy_id", 0))
+		"collect": return "收集物品 %d" % int(objective.get("item_id", 0))
+		_: return "完成目标"
+
+
+func _on_quest_updated(_quest_id: int) -> void:
+	_refresh_tasks()
 
 
 func _update_position(instant: bool) -> void:

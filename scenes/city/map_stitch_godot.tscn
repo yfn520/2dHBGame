@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://pixelwork_map_stitch"]
+
+[ext_resource type="Texture2D" path="./images/source.png" id="tex_1"]
+[ext_resource type="Texture2D" path="./images/tile_0.85_0.png" id="tex_2"]
+[ext_resource type="Texture2D" path="./images/tile_-0.85_0.png" id="tex_3"]
+
+[node name="city" type="Node2D"]
+
+[node name="source" type="Sprite2D" parent="."]
+position = Vector2(1306, 0)
+centered = false
+texture = ExtResource("tex_1")
+
+[node name="tile_0.85_0" type="Sprite2D" parent="."]
+position = Vector2(2611, 0)
+centered = false
+texture = ExtResource("tex_2")
+
+[node name="tile_-0.85_0" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+centered = false
+texture = ExtResource("tex_3")
+
+[node name="collision_body" type="StaticBody2D" parent="."]
+
+[node name="collision_polygon_1" type="CollisionPolygon2D" parent="collision_body"]
+polygon = PackedVector2Array(0, 0, 4, 0, 4, 4, 28, 4, 28, 724, 4124, 724, 4124, 8, 4147, 8, 4147, 864, 0, 864)

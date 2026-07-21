@@ -11,8 +11,10 @@ const BuffIconGenerator = preload("res://addons/game_tools/buff_icon_generator.g
 const UiSceneZipImporter = preload("res://addons/game_tools/ui_scene_zip_importer.gd")
 const CharacterEditor = preload("res://addons/game_tools/character_editor.gd")
 const ItemEditor = preload("res://addons/game_tools/item_editor.gd")
+const MapZipImporter = preload("res://addons/game_tools/map_zip_importer.gd")
 
 var _submenu: PopupMenu
+var _top_menu_bar: MenuBar
 var _combat_action_editor: Window
 var _projectile_generator: Window
 var _spine_effect_importer: Window
@@ -24,34 +26,78 @@ var _ui_zip_file_dialog: EditorFileDialog
 var _ui_zip_result_dialog: AcceptDialog
 var _character_editor: Window
 var _item_editor: Window
+var _map_zip_file_dialog: EditorFileDialog
+var _map_zip_result_dialog: AcceptDialog
 
 
 func _enter_tree() -> void:
 	_submenu = PopupMenu.new()
-	_submenu.name = "GameToolsMenu"
-	_submenu.add_item("导入所有场景", 0)
-	_submenu.add_item("导入所有角色", 1)
-	_submenu.add_item("导入所有怪物", 3)
-	_submenu.add_item("从 Zip 导入角色/怪物...", 12)
-	_submenu.add_item("导入 UI 场景 Zip...", 13)
-	_submenu.add_item("转换 Excel → JSON", 2)
-	_submenu.add_item("生成 JSON → Excel (配置用)", 4)
-	_submenu.add_separator()
-	_submenu.add_item("导入 Spine 特效...", 7)
-	_submenu.add_item("生成弹道...", 6)
-	_submenu.add_item("配置攻击判定...", 5)
-	_submenu.add_item("配置技能节点...", 8)
-	_submenu.add_item("配置关卡...", 9)
-	_submenu.add_item("配置 Buff...", 10)
-	_submenu.add_item("生成 Buff 图标...", 11)
-	_submenu.add_item("配置角色/怪物...", 14)
-	_submenu.add_item("配置物品...", 15)
+	_submenu.name = "游戏工具"
+
+	# === 资源生成 ===
+	var import_menu := PopupMenu.new()
+	import_menu.name = "ImportMenu"
+	import_menu.add_item("导入所有场景", 0)
+	import_menu.add_item("导入所有角色", 1)
+	import_menu.add_item("导入所有怪物", 3)
+	import_menu.add_item("从 Zip 导入角色/怪物...", 12)
+	import_menu.add_item("导入 UI 场景 Zip...", 13)
+	import_menu.add_item("导入地图包...", 17)
+	import_menu.add_item("导入 Spine 特效...", 7)
+	import_menu.add_item("生成 Buff 图标...", 11)
+	import_menu.add_item("生成弹道...", 6)
+	import_menu.id_pressed.connect(_on_menu_pressed)
+	_submenu.add_child(import_menu)
+	_submenu.add_submenu_item("资源生成", "ImportMenu")
+
+	# === 配置编辑 ===
+	var config_menu := PopupMenu.new()
+	config_menu.name = "ConfigMenu"
+	config_menu.add_item("配置角色/怪物...", 14)
+	config_menu.add_item("配置物品...", 15)
+	config_menu.add_item("配置攻击判定...", 5)
+	config_menu.add_item("配置技能节点...", 8)
+	config_menu.add_item("配置 Buff...", 10)
+	config_menu.add_item("配置关卡...", 9)
+	config_menu.id_pressed.connect(_on_menu_pressed)
+	_submenu.add_child(config_menu)
+	_submenu.add_submenu_item("配置编辑", "ConfigMenu")
+
+	# === 数据转换 ===
+	var convert_menu := PopupMenu.new()
+	convert_menu.name = "ConvertMenu"
+	convert_menu.add_item("转换 Excel → JSON", 2)
+	convert_menu.add_item("生成 JSON → Excel (配置用)", 4)
+	convert_menu.id_pressed.connect(_on_menu_pressed)
+	_submenu.add_child(convert_menu)
+	_submenu.add_submenu_item("数据转换", "ConvertMenu")
+
+	# === 顶层：调试开关 ===
 	_submenu.add_separator()
 	# PC 调试触屏：勾选后写入 application/run/force_touch_controls=true
 	_submenu.add_check_item("PC 调试显示触屏控件", 16)
 	_submenu.id_pressed.connect(_on_menu_pressed)
-	add_tool_submenu_item("游戏工具", _submenu)
+
+	# 挂到顶部菜单栏（和"场景/项目"同级）；找不到 MenuBar 时退回到"工具"子菜单。
+	_top_menu_bar = _find_editor_menu_bar()
+	if _top_menu_bar != null:
+		_top_menu_bar.add_child(_submenu)
+	else:
+		add_tool_submenu_item("游戏工具", _submenu)
 	_sync_force_touch_menu_check()
+
+
+## 在编辑器主控件树中查找顶部菜单栏。Godot 4 顶部菜单是 MenuBar，藏在 base_control 下多层嵌套里。
+## 用递归 find_children(name, type, recursive=true, owner_owned=false) 精确过滤 MenuBar。
+func _find_editor_menu_bar() -> MenuBar:
+	var base := EditorInterface.get_base_control()
+	var candidates := base.find_children("*", "MenuBar", true, false)
+	if candidates.is_empty():
+		push_warning("[GameTools] 未找到顶部 MenuBar，回退到 工具 子菜单")
+		return null
+	var menu_bar := candidates[0] as MenuBar
+	print("[GameTools] 顶部 MenuBar 已定位: %s" % menu_bar.get_path())
+	return menu_bar
 
 
 func _exit_tree() -> void:
@@ -73,11 +119,19 @@ func _exit_tree() -> void:
 		_ui_zip_file_dialog.queue_free()
 	if is_instance_valid(_ui_zip_result_dialog):
 		_ui_zip_result_dialog.queue_free()
+	if is_instance_valid(_map_zip_file_dialog):
+		_map_zip_file_dialog.queue_free()
+	if is_instance_valid(_map_zip_result_dialog):
+		_map_zip_result_dialog.queue_free()
 	if is_instance_valid(_character_editor):
 		_character_editor.queue_free()
 	if is_instance_valid(_item_editor):
 		_item_editor.queue_free()
-	remove_tool_menu_item("游戏工具")
+	if _top_menu_bar != null and is_instance_valid(_submenu):
+		_submenu.queue_free()
+		_top_menu_bar = null
+	else:
+		remove_tool_menu_item("游戏工具")
 
 
 # ---- 菜单回调 ----
@@ -118,6 +172,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_item_editor()
 		16:
 			_toggle_force_touch_controls()
+		17:
+			_open_map_zip_importer()
 
 
 func _open_combat_action_editor() -> void:
@@ -253,6 +309,48 @@ func _show_ui_zip_result(title_text: String, message: String) -> void:
 	_ui_zip_result_dialog.close_requested.connect(_ui_zip_result_dialog.queue_free)
 	EditorInterface.get_base_control().add_child(_ui_zip_result_dialog)
 	_ui_zip_result_dialog.popup_centered(Vector2i(560, 220))
+
+
+# ---- 地图包导入 ----
+
+func _open_map_zip_importer() -> void:
+	if not is_instance_valid(_map_zip_file_dialog):
+		_map_zip_file_dialog = EditorFileDialog.new()
+		_map_zip_file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+		_map_zip_file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
+		_map_zip_file_dialog.add_filter("*.zip", "GameTool 地图包")
+		_map_zip_file_dialog.title = "选择 GameTool 地图拼接导出的 Zip"
+		_map_zip_file_dialog.file_selected.connect(_on_map_zip_selected)
+		EditorInterface.get_base_control().add_child(_map_zip_file_dialog)
+	_map_zip_file_dialog.popup_centered(Vector2i(900, 600))
+
+
+func _on_map_zip_selected(zip_path: String) -> void:
+	var result: Dictionary = MapZipImporter.import_zip(zip_path)
+	var message := String(result.get("message", "未知错误"))
+	if not bool(result.get("ok", false)):
+		push_error("[GameTools] 地图包导入失败：%s" % message)
+		_show_map_zip_result("地图包导入失败", message)
+		return
+
+	EditorInterface.get_resource_filesystem().scan()
+	# 注：GameRegistry.level_config 是 autoload 单例，仅在游戏运行时初始化。
+	# 编辑器模式下不重载它，levels.json 已直接写盘，下次运行游戏会自动加载最新数据。
+	print("[GameTools] 地图包导入完成：%s" % message.replace("\n", " "))
+	_show_map_zip_result("地图包导入完成", message)
+
+
+func _show_map_zip_result(title_text: String, message: String) -> void:
+	if is_instance_valid(_map_zip_result_dialog):
+		_map_zip_result_dialog.queue_free()
+	_map_zip_result_dialog = AcceptDialog.new()
+	_map_zip_result_dialog.title = title_text
+	_map_zip_result_dialog.dialog_text = message
+	_map_zip_result_dialog.min_size = Vector2i(560, 220)
+	_map_zip_result_dialog.confirmed.connect(_map_zip_result_dialog.queue_free)
+	_map_zip_result_dialog.close_requested.connect(_map_zip_result_dialog.queue_free)
+	EditorInterface.get_base_control().add_child(_map_zip_result_dialog)
+	_map_zip_result_dialog.popup_centered(Vector2i(560, 260))
 
 
 # ---- Zip 导入（角色 / 怪物） ----

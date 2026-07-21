@@ -62,7 +62,18 @@ var _current_hero_key := ""
 var _action_data: Dictionary = {}
 var _loading := false
 
-var _hero_select: OptionButton
+# 左侧角色/怪物库
+var _entity_tab_bar: TabBar
+var _entity_list: ItemList
+var _list_label: Label
+var _left_panel: VBoxContainer
+var _divider: Panel
+var _current_entity_tab := 0  # 0=角色, 1=怪物
+var _dragging_divider := false
+var _preview_textures: Dictionary = {}  # id_str -> Texture2D
+const _LEFT_MIN_WIDTH := 150.0
+const _LEFT_MAX_WIDTH := 560.0
+
 var _skill_select: OptionButton
 var _skill_name_edit: LineEdit
 var _name_edit: LineEdit
@@ -95,8 +106,8 @@ var _effect_scale_spin: SpinBox
 
 func _init() -> void:
 	title = "技能节点配置"
-	size = Vector2i(1040, 860)
-	min_size = Vector2i(820, 700)
+	size = Vector2i(1280, 860)
+	min_size = Vector2i(1040, 700)
 	close_requested.connect(_on_close_requested)
 	set_process(false)
 
@@ -111,7 +122,7 @@ func _ready() -> void:
 	_build_ui()
 	_load_skills()
 	_load_character_configs()
-	_rebuild_hero_select()
+	_refresh_entity_list()
 	_rebuild_skill_select()
 
 
@@ -120,7 +131,7 @@ func open_editor() -> void:
 		_build_ui()
 	_load_skills()
 	_load_character_configs()
-	_rebuild_hero_select()
+	_refresh_entity_list()
 	_rebuild_skill_select()
 	popup_centered(size)
 
@@ -132,22 +143,50 @@ func _build_ui() -> void:
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 8)
 	add_child(root)
-	var hero_row := HBoxContainer.new()
-	root.add_child(hero_row)
-	var hero_label := Label.new()
-	hero_label.text = "英雄"
-	hero_row.add_child(hero_label)
-	_hero_select = OptionButton.new()
-	_hero_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_hero_select.item_selected.connect(_on_hero_selected)
-	hero_row.add_child(_hero_select)
-	var save := Button.new()
-	save.text = "保存 skills.json"
-	save.pressed.connect(_save_skills)
-	hero_row.add_child(save)
-
+	var main := HBoxContainer.new()
+	main.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	main.add_theme_constant_override("separation", 0)
+	root.add_child(main)
+	# === 左侧角色/怪物库 ===
+	_left_panel = VBoxContainer.new()
+	_left_panel.custom_minimum_size = Vector2(320, 0)
+	_left_panel.add_theme_constant_override("separation", 4)
+	main.add_child(_left_panel)
+	_entity_tab_bar = TabBar.new()
+	_entity_tab_bar.add_tab("角色")
+	_entity_tab_bar.add_tab("怪物")
+	_entity_tab_bar.tab_changed.connect(_on_entity_tab_changed)
+	_left_panel.add_child(_entity_tab_bar)
+	_list_label = Label.new()
+	_list_label.text = "角色列表"
+	_left_panel.add_child(_list_label)
+	_entity_list = ItemList.new()
+	_entity_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_entity_list.icon_mode = ItemList.ICON_MODE_TOP
+	_entity_list.max_columns = 2
+	_entity_list.fixed_icon_size = Vector2i(72, 72)
+	_entity_list.fixed_column_width = 150
+	_entity_list.same_column_width = true
+	_entity_list.item_selected.connect(_on_entity_selected)
+	_left_panel.add_child(_entity_list)
+	# === 分隔条 ===
+	_divider = Panel.new()
+	_divider.custom_minimum_size = Vector2(6, 0)
+	_divider.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_divider.set_default_cursor_shape(Control.CURSOR_HSIZE)
+	_divider.gui_input.connect(_on_divider_gui_input)
+	var sep_style := StyleBoxFlat.new()
+	sep_style.bg_color = Color(0.5, 0.5, 0.5, 0.35)
+	sep_style.set_content_margin_all(0)
+	_divider.add_theme_stylebox_override("panel", sep_style)
+	main.add_child(_divider)
+	# === 右侧编辑区 ===
+	var right := VBoxContainer.new()
+	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	right.add_theme_constant_override("separation", 8)
+	main.add_child(right)
 	var skill_row := HBoxContainer.new()
-	root.add_child(skill_row)
+	right.add_child(skill_row)
 	var label := Label.new()
 	label.text = "技能"
 	skill_row.add_child(label)
@@ -171,10 +210,14 @@ func _build_ui() -> void:
 	del_skill_btn.text = "删除技能"
 	del_skill_btn.pressed.connect(_delete_current_skill)
 	skill_row.add_child(del_skill_btn)
+	var save := Button.new()
+	save.text = "保存 skills.json"
+	save.pressed.connect(_save_skills)
+	skill_row.add_child(save)
 
 	var tabs := TabContainer.new()
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	root.add_child(tabs)
+	right.add_child(tabs)
 	var base_page := GridContainer.new()
 	base_page.name = "基础"
 	base_page.columns = 2
@@ -286,7 +329,7 @@ func _build_ui() -> void:
 	_add_button(presets, "清空节点", _clear_nodes)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	root.add_child(_status)
+	right.add_child(_status)
 
 
 func _add_button(parent: Container, text_value: String, callback: Callable) -> void:
@@ -350,40 +393,78 @@ func _load_character_configs() -> void:
 	_enemies_config = _read_json(ENEMIES_PATH).duplicate(true)
 
 
-func _rebuild_hero_select() -> void:
-	if _hero_select == null:
+## 刷新左侧角色/怪物库列表（按 ID 排序，2 列网格 + 预览图标）。
+func _refresh_entity_list() -> void:
+	if _entity_list == null:
 		return
-	_hero_select.clear()
-	_hero_select.add_item("全部技能")
-	_hero_select.set_item_metadata(0, "")
-	var char_ids: Array = _characters_config.keys()
-	char_ids.sort_custom(func(a, b): return int(a) < int(b))
-	for id in char_ids:
-		var config: Dictionary = _characters_config[id]
-		var display_name := String(config.get("name", "未命名"))
-		_hero_select.add_item("[英雄] %s  %s" % [id, display_name])
-		_hero_select.set_item_metadata(_hero_select.item_count - 1, "char:%s" % id)
-	var enemy_ids: Array = _enemies_config.keys()
-	enemy_ids.sort_custom(func(a, b): return int(a) < int(b))
-	for id in enemy_ids:
-		var config: Dictionary = _enemies_config[id]
-		var display_name := String(config.get("name", "未命名"))
-		_hero_select.add_item("[怪物] %s  %s" % [id, display_name])
-		_hero_select.set_item_metadata(_hero_select.item_count - 1, "enemy:%s" % id)
-	if _hero_select.item_count > 0:
-		var index := 0
-		for candidate in range(_hero_select.item_count):
-			if String(_hero_select.get_item_metadata(candidate)) == _current_hero_key:
-				index = candidate
-		_hero_select.select(index)
+	_entity_list.clear()
+	var data: Dictionary = _characters_config if _current_entity_tab == 0 else _enemies_config
+	var keys: Array = data.keys()
+	keys.sort_custom(func(a, b): return int(a) < int(b))
+	for key in keys:
+		var id_str := String(key)
+		var config: Dictionary = data[id_str]
+		var display_name := String(config.get("name", id_str))
+		var label_text := "%s  %s" % [id_str, display_name]
+		_entity_list.add_item(label_text)
+		var meta := "char:%s" % id_str if _current_entity_tab == 0 else "enemy:%s" % id_str
+		_entity_list.set_item_metadata(_entity_list.item_count - 1, meta)
+		var tex := _get_entity_preview_texture(id_str, config)
+		if tex != null:
+			_entity_list.set_item_icon(_entity_list.item_count - 1, tex)
+	# 恢复选中
+	if not _current_hero_key.is_empty():
+		for i in range(_entity_list.item_count):
+			if String(_entity_list.get_item_metadata(i)) == _current_hero_key:
+				_entity_list.select(i)
+				break
 
 
-func _on_hero_selected(index: int) -> void:
-	if index < 0 or index >= _hero_select.item_count:
+## 加载实体 idle 动画第一帧作为缩略图。失败时缓存 null 避免重复加载。
+func _get_entity_preview_texture(id_str: String, config: Dictionary) -> Texture2D:
+	if _preview_textures.has(id_str):
+		return _preview_textures[id_str]
+	var asset := String(config.get("asset", ""))
+	if asset.is_empty():
+		_preview_textures[id_str] = null
+		return null
+	var sf_path := asset.path_join("godot/spriteframes.tres")
+	if not ResourceLoader.exists(sf_path):
+		_preview_textures[id_str] = null
+		return null
+	var sf := load(sf_path) as SpriteFrames
+	if sf == null or not sf.has_animation("idle") or sf.get_frame_count("idle") == 0:
+		_preview_textures[id_str] = null
+		return null
+	var tex := sf.get_frame_texture("idle", 0)
+	_preview_textures[id_str] = tex
+	return tex
+
+
+## Tab 切换：刷新列表标题和内容。
+func _on_entity_tab_changed(tab: int) -> void:
+	_current_entity_tab = tab
+	_list_label.text = "角色列表" if tab == 0 else "怪物列表"
+	_refresh_entity_list()
+
+
+## 列表选中：设置 _current_hero_key 并刷新技能下拉。
+func _on_entity_selected(idx: int) -> void:
+	if idx < 0 or idx >= _entity_list.item_count:
 		return
-	_current_hero_key = String(_hero_select.get_item_metadata(index))
+	_current_hero_key = String(_entity_list.get_item_metadata(idx))
 	_current_skill_id = ""
 	_rebuild_skill_select()
+
+
+## 拖动分隔条调整左列宽度。
+func _on_divider_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		_dragging_divider = event.pressed
+	elif event is InputEventMouseMotion and _dragging_divider:
+		var w: float = _left_panel.size.x + event.relative.x
+		w = clampf(w, _LEFT_MIN_WIDTH, _LEFT_MAX_WIDTH)
+		_left_panel.custom_minimum_size.x = w
 
 
 func _get_hero_skill_ids(hero_key: String) -> Array:

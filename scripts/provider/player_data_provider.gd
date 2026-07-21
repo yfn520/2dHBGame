@@ -4,24 +4,26 @@ var inventory: InventoryData
 var equipment: EquipmentData
 var roster: CharacterRosterData
 var character_config: CharacterConfigData
+var quest_state: QuestStateData
 
 
-func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: CharacterRosterData, p_character_config: CharacterConfigData) -> void:
+func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: CharacterRosterData, p_character_config: CharacterConfigData, p_quest_state: QuestStateData = null) -> void:
 	inventory = p_inventory
 	equipment = p_equipment
 	roster = p_roster
 	character_config = p_character_config
+	quest_state = p_quest_state
 
 
 func load_local() -> bool:
-	var loaded := SaveManager.load_save(inventory, equipment, roster, character_config)
+	var loaded := SaveManager.load_save(inventory, equipment, roster, character_config, quest_state)
 	if not loaded or inventory.get_items().is_empty():
 		_apply_local_mock_snapshot()
 	return loaded
 
 
 func save_local() -> void:
-	SaveManager.save(inventory, equipment, roster)
+	SaveManager.save(inventory, equipment, roster, quest_state)
 
 
 func apply_server_snapshot(snapshot: Dictionary) -> void:
@@ -30,6 +32,8 @@ func apply_server_snapshot(snapshot: Dictionary) -> void:
 	if snapshot.has("equipment"):
 		equipment.from_dict(snapshot.get("equipment", {}))
 	roster.apply_server_snapshot(snapshot)
+	if quest_state != null and snapshot.has("world_state"):
+		quest_state.from_dict(snapshot.get("world_state", {}))
 
 
 func _apply_local_mock_snapshot() -> void:

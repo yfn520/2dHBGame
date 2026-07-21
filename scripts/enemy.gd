@@ -4,6 +4,8 @@ extends CombatActorBase
 
 enum AIState { IDLE, PATROL, CHASE, ATTACK, HIT, DEAD }
 
+signal defeated(enemy_id: int)
+
 const CONFIG_FILE := "character_config.json"
 const TARGET_SWITCH_COOLDOWN := 0.8
 const TARGET_SWITCH_GAIN := 48.0
@@ -649,6 +651,7 @@ func _play_anim(anim_name: String) -> void:
 func _on_enemy_died() -> void:
 	_set_ai_state(AIState.DEAD)
 	velocity = Vector2.ZERO
+	defeated.emit(_enemy_id)
 	if GameRegistry.roster_data != null:
 		GameRegistry.roster_data.add_exp_to_lineup(int(_config.get("exp", 0)))
 	# 死亡动画后延迟移除

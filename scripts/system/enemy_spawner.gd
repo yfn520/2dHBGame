@@ -7,6 +7,8 @@ var _party_manager: PartyManager
 var _spawn_container: Node2D
 var _active_enemies: Array[Node] = []
 
+signal enemy_defeated(enemy_id: int)
+
 
 func setup(party_manager: PartyManager, spawn_container: Node2D) -> void:
 	_party_manager = party_manager
@@ -52,6 +54,8 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 		enemy.init_from_config(enemy_id, _party_manager)
 
 	_active_enemies.append(enemy)
+	if enemy.has_signal("defeated"):
+		enemy.defeated.connect(_on_enemy_defeated)
 	enemy.tree_exiting.connect(_on_enemy_removed.bind(enemy))
 	return enemy
 
@@ -107,3 +111,7 @@ func get_active_enemies() -> Array[Node]:
 
 func _on_enemy_removed(enemy: Node) -> void:
 	_active_enemies.erase(enemy)
+
+
+func _on_enemy_defeated(enemy_id: int) -> void:
+	enemy_defeated.emit(enemy_id)

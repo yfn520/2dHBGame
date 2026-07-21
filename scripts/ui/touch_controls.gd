@@ -12,12 +12,15 @@ extends CanvasLayer
 const FORCE_TOUCH_SETTING := "application/run/force_touch_controls"
 const TouchJoystickScript := preload("res://scripts/ui/virtual_joystick.gd")
 
+signal interact_pressed()
+
 var _joystick: TouchJoystick
 var _jump_button: Button
 var _inventory_button: Button
 var _equipment_button: Button
 var _switch_button: Button
 var _cancel_button: Button
+var _interact_button: Button
 var _root_panel: Control
 var _active: bool = false
 
@@ -98,6 +101,24 @@ func _build_layout() -> void:
 	side.add_child(_switch_button)
 	_cancel_button = _make_action_button("返回", InputActions.CANCEL)
 	side.add_child(_cancel_button)
+
+	_interact_button = _make_button("对话", 120, 52)
+	_interact_button.anchor_left = 1.0
+	_interact_button.anchor_top = 1.0
+	_interact_button.anchor_right = 1.0
+	_interact_button.anchor_bottom = 1.0
+	_interact_button.offset_left = -400.0
+	_interact_button.offset_top = -148.0
+	_interact_button.offset_right = -270.0
+	_interact_button.offset_bottom = -88.0
+	_interact_button.visible = false
+	_interact_button.pressed.connect(func(): interact_pressed.emit())
+	_root_panel.add_child(_interact_button)
+
+
+func set_interact_available(available: bool) -> void:
+	if _interact_button != null:
+		_interact_button.visible = _active and available
 
 
 func _make_button(text: String, w: float, h: float) -> Button:
