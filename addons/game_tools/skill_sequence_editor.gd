@@ -395,6 +395,7 @@ func _load_character_configs() -> void:
 
 
 ## 刷新左侧角色/怪物库列表（按 ID 排序，2 列网格 + 预览图标）。
+## 未配置任何技能的实体前加「⚠」标识，方便识别待配置项。
 func _refresh_entity_list() -> void:
 	if _entity_list == null:
 		return
@@ -406,19 +407,47 @@ func _refresh_entity_list() -> void:
 		var id_str := String(key)
 		var config: Dictionary = data[id_str]
 		var display_name := String(config.get("name", id_str))
-		var label_text := "%s  %s" % [id_str, display_name]
-		_entity_list.add_item(label_text)
 		var meta := "char:%s" % id_str if _current_entity_tab == 0 else "enemy:%s" % id_str
+		# 检查是否配置过技能（不含自动分配的 normal_skill）
+		var has_skills := _entity_has_skills(config)
+		var label_text: String
+		var tooltip_text := ""
+		if has_skills:
+			label_text = "%s  %s" % [id_str, display_name]
+		else:
+			label_text = "⚠ %s  %s" % [id_str, display_name]
+			tooltip_text = "该实体尚未配置任何技能，请点击后在右侧添加技能"
+		_entity_list.add_item(label_text)
 		_entity_list.set_item_metadata(_entity_list.item_count - 1, meta)
+		if not tooltip_text.is_empty():
+			_entity_list.set_item_tooltip(_entity_list.item_count - 1, tooltip_text)
 		var tex := _get_entity_preview_texture(id_str, config)
 		if tex != null:
 			_entity_list.set_item_icon(_entity_list.item_count - 1, tex)
+			# 未配置技能的实体图标加红色色调提示
+			if not has_skills:
+				_entity_list.set_item_icon_modulate(_entity_list.item_count - 1, Color(1.0, 0.6, 0.4))
 	# 恢复选中
 	if not _current_hero_key.is_empty():
 		for i in range(_entity_list.item_count):
 			if String(_entity_list.get_item_metadata(i)) == _current_hero_key:
 				_entity_list.select(i)
 				break
+
+
+## 判断实体是否配置过技能（不含自动分配的 normal_skill）：
+## skills 数组非空，或 skill_unlocks 中有技能 ID
+func _entity_has_skills(config: Dictionary) -> bool:
+	var skills_arr: Array = config.get("skills", [])
+	if not skills_arr.is_empty():
+		return true
+	var unlocks: Dictionary = config.get("skill_unlocks", {})
+	for slot in unlocks.values():
+		if slot is Dictionary:
+			var sid := int(slot.get("skill_id", 0))
+			if sid > 0:
+				return true
+	return false
 
 
 ## 加载实体 idle 动画第一帧作为缩略图。失败时缓存 null 避免重复加载。
