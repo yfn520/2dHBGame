@@ -25,6 +25,7 @@ func open_editor() -> void:
 		_build_ui()
 	_load_enemy_list()
 	popup_centered(Vector2i(920, 720))
+	mode = Window.MODE_MAXIMIZED
 
 
 func _build_ui() -> void:

@@ -282,7 +282,8 @@ func _open_ui_scene_zip_importer() -> void:
 		_ui_zip_file_dialog.title = "选择 GameTool 导出的 UI 场景 Zip"
 		_ui_zip_file_dialog.file_selected.connect(_on_ui_scene_zip_selected)
 		EditorInterface.get_base_control().add_child(_ui_zip_file_dialog)
-	_ui_zip_file_dialog.popup_centered(Vector2i(900, 600))
+	_ui_zip_file_dialog.popup_centered_ratio(0.95)
+	_ui_zip_file_dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_ui_scene_zip_selected(zip_path: String) -> void:
@@ -322,7 +323,8 @@ func _open_map_zip_importer() -> void:
 		_map_zip_file_dialog.title = "选择 GameTool 地图拼接导出的 Zip"
 		_map_zip_file_dialog.file_selected.connect(_on_map_zip_selected)
 		EditorInterface.get_base_control().add_child(_map_zip_file_dialog)
-	_map_zip_file_dialog.popup_centered(Vector2i(900, 600))
+	_map_zip_file_dialog.popup_centered_ratio(0.95)
+	_map_zip_file_dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_map_zip_selected(zip_path: String) -> void:
@@ -369,7 +371,8 @@ func _open_zip_importer() -> void:
 		_zip_file_dialog.title = "选择外部 Zip 资源包"
 		_zip_file_dialog.file_selected.connect(_on_zip_selected)
 		EditorInterface.get_base_control().add_child(_zip_file_dialog)
-	_zip_file_dialog.popup_centered(Vector2i(900, 600))
+	_zip_file_dialog.popup_centered_ratio(0.95)
+	_zip_file_dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_zip_selected(zip_path: String) -> void:
@@ -509,6 +512,7 @@ func _finalize_zip_import(group: String, target_dir: String) -> void:
 
 
 ## 只更新单个怪物的 enemies.json 配置（新增或同步技能），不重写其他怪物的资源文件
+## 如果怪物已存在且配置过 skills，会弹确认对话框：先问是否覆盖，再问是否保留已配置技能
 func _sync_single_enemy_config(target_dir: String, folder_name: String) -> void:
 	var config_path := "res://data/enemies.json"
 	var manifest_path := target_dir.path_join("manifest.json")
@@ -540,9 +544,8 @@ func _sync_single_enemy_config(target_dir: String, folder_name: String) -> void:
 	var detected_skills := _get_enemy_skills_for_actions(manifest_data)
 	var normal_skill := _default_enemy_normal_skill(folder_name, max_id + 1)
 	var asset_key := "res://assets/enemies/%s" % folder_name
-	var new_count := 0
-	var synced_count := 0
 	if asset_key not in existing_assets:
+		# 新怪物：直接写入默认配置
 		max_id += 1
 		var extra_skills := detected_skills.filter(func(skill_id): return int(skill_id) != normal_skill)
 		enemies_cfg[str(max_id)] = {
@@ -562,35 +565,100 @@ func _sync_single_enemy_config(target_dir: String, folder_name: String) -> void:
 			"drop_items": [],
 			"exp": 10,
 		}
-		existing_assets[asset_key] = max_id
-		new_count += 1
+		_write_enemy_config(config_path, enemies_cfg)
 		print("[GameTools] 新增怪物配置: %s (ID: %d)" % [enemy_name, max_id])
-	else:
-		# 同步已有怪物的技能配置
-		for config_id in enemies_cfg:
-			var existing: Dictionary = enemies_cfg[config_id]
-			if String(existing.get("asset", "")) != asset_key:
-				continue
-			if not existing.has("normal_skill"):
-				existing["normal_skill"] = _default_enemy_normal_skill(folder_name, int(config_id))
-				synced_count += 1
-			var filtered := _filter_existing_enemy_skills(existing.get("skills", []), manifest_data)
-			filtered.erase(int(existing.get("normal_skill", 0)))
-			if filtered != existing.get("skills", []):
-				existing["skills"] = filtered
-				existing["skill_weights"] = _make_equal_skill_weights(filtered.size())
-				enemies_cfg[config_id] = existing
-				synced_count += 1
-				print("[GameTools] 同步怪物技能: %s -> %s" % [config_id, filtered])
-	# 写回配置表
-	if new_count > 0 or synced_count > 0:
-		var sorted_keys: Array = enemies_cfg.keys()
-		sorted_keys.sort()
-		var sorted_cfg: Dictionary = {}
-		for key in sorted_keys:
-			sorted_cfg[key] = enemies_cfg[key]
-		_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
-		print("[GameTools] enemies.json 已更新：新增 %d，同步 %d" % [new_count, synced_count])
+		return
+	# 已存在怪物：先确认是否覆盖
+	var existing_id := int(existing_assets[asset_key])
+	var existing_enemy: Dictionary = enemies_cfg[str(existing_id)]
+	var has_custom_skills := existing_enemy.has("skills") and (existing_enemy["skills"] as Array).size() > 0
+	if not has_custom_skills:
+		# 没配置过技能，直接按 manifest 重新检测写入
+		_apply_enemy_skill_sync(existing_enemy, manifest_data, normal_skill)
+		enemies_cfg[str(existing_id)] = existing_enemy
+		_write_enemy_config(config_path, enemies_cfg)
+		print("[GameTools] 同步怪物技能（无自定义配置）: %s" % existing_id)
+		return
+	# 配置过技能：先弹「是否覆盖」
+	_ask_overwrite_enemy_skills(existing_id, enemy_name, func():
+		# 用户选「覆盖」：再问「是否保留已配置技能」
+		_ask_keep_existing_skills(existing_id, enemy_name, func(keep: bool):
+			if keep:
+				# 保留：只补 normal_skill，不动 skills/skill_weights
+				if not existing_enemy.has("normal_skill"):
+					existing_enemy["normal_skill"] = _default_enemy_normal_skill(folder_name, existing_id)
+				enemies_cfg[str(existing_id)] = existing_enemy
+				_write_enemy_config(config_path, enemies_cfg)
+				print("[GameTools] 保留怪物已配置技能: %s" % existing_id)
+			else:
+				# 不保留：按 manifest 重新检测写入
+				_apply_enemy_skill_sync(existing_enemy, manifest_data, normal_skill)
+				enemies_cfg[str(existing_id)] = existing_enemy
+				_write_enemy_config(config_path, enemies_cfg)
+				print("[GameTools] 覆盖怪物技能（按 manifest 重新检测）: %s" % existing_id)
+		)
+	, func():
+		# 用户选「不覆盖」：什么都不做
+		print("[GameTools] 用户取消覆盖怪物配置: %s" % existing_id)
+	)
+
+
+## 把已存在怪物的 skills/skill_weights 按 manifest 重新检测同步（覆盖）
+func _apply_enemy_skill_sync(existing: Dictionary, manifest_data: Dictionary, normal_skill: int) -> void:
+	if not existing.has("normal_skill"):
+		existing["normal_skill"] = normal_skill
+	var filtered := _filter_existing_enemy_skills(existing.get("skills", []), manifest_data)
+	filtered.erase(int(existing.get("normal_skill", 0)))
+	existing["skills"] = filtered
+	existing["skill_weights"] = _make_equal_skill_weights(filtered.size())
+
+
+## 写回 enemies.json（按 key 排序）
+func _write_enemy_config(config_path: String, enemies_cfg: Dictionary) -> void:
+	var sorted_keys: Array = enemies_cfg.keys()
+	sorted_keys.sort()
+	var sorted_cfg: Dictionary = {}
+	for key in sorted_keys:
+		sorted_cfg[key] = enemies_cfg[key]
+	_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
+
+
+## 弹「是否覆盖怪物配置」确认对话框。on_yes / on_no 为两个回调
+func _ask_overwrite_enemy_skills(enemy_id: int, enemy_name: String, on_yes: Callable, on_no: Callable) -> void:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = "覆盖怪物配置"
+	dialog.dialog_text = "怪物 %s (ID: %d) 已存在且配置过技能。\n是否覆盖该怪物的配置？" % [enemy_name, enemy_id]
+	dialog.ok_button_text = "覆盖"
+	dialog.cancel_button_text = "不覆盖"
+	EditorInterface.get_base_control().add_child(dialog)
+	dialog.confirmed.connect(func():
+		dialog.queue_free()
+		on_yes.call()
+	)
+	dialog.canceled.connect(func():
+		dialog.queue_free()
+		on_no.call()
+	)
+	dialog.popup_centered(Vector2i(480, 180))
+
+
+## 弹「是否保留已配置技能」确认对话框。on_decide 接收 bool 参数（true=保留, false=不保留）
+func _ask_keep_existing_skills(enemy_id: int, enemy_name: String, on_decide: Callable) -> void:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = "保留已配置技能？"
+	dialog.dialog_text = "是否保留 %s (ID: %d) 已配置的技能？\n\n• 保留：维持现有 skills/skill_weights 不变\n• 不保留：按 manifest 动画重新检测技能" % [enemy_name, enemy_id]
+	dialog.ok_button_text = "保留"
+	dialog.cancel_button_text = "不保留"
+	EditorInterface.get_base_control().add_child(dialog)
+	dialog.confirmed.connect(func():
+		dialog.queue_free()
+		on_decide.call(true)
+	)
+	dialog.canceled.connect(func():
+		dialog.queue_free()
+		on_decide.call(false)
+	)
+	dialog.popup_centered(Vector2i(500, 200))
 
 
 ## 读取 zip 中的 manifest.json，返回 characterName；失败返回空字符串
@@ -836,85 +904,166 @@ func _do_import_enemies() -> void:
 		if not asset.is_empty():
 			existing_assets[asset] = eid
 
+	# 先扫描目录，收集待导入的怪物文件夹 + 解析 manifest
+	var pending_enemies: Array = []   # Array of {folder, char_path, manifest_data, enemy_name, asset_key}
 	dir.list_dir_begin()
-	var imported_count := 0
-	var new_count := 0
-	var synced_count := 0
 	var folder := dir.get_next()
 	while folder != "":
 		if dir.current_is_dir() and not folder.begins_with("."):
 			var char_path := enemy_dir.path_join(folder)
 			var manifest_path := char_path.path_join("manifest.json")
 			if FileAccess.file_exists(manifest_path):
-				if _do_import_single_character(char_path, folder, "", -1.0, "enemy"):
-					imported_count += 1
-					var manifest_text := FileAccess.get_file_as_string(manifest_path)
-					var mj := JSON.new()
-					var manifest_data: Dictionary = {}
-					var enemy_name := folder
-					if mj.parse(manifest_text) == OK and mj.data is Dictionary:
-						manifest_data = mj.data
-						enemy_name = manifest_data.get("characterName", folder)
-					var detected_skills := _get_enemy_skills_for_actions(manifest_data)
-					var normal_skill := _default_enemy_normal_skill(folder, max_id + 1)
-					# 检查是否需要写入怪物配置表
-					var asset_key := "res://assets/enemies/%s" % folder
-					if asset_key not in existing_assets:
-						max_id += 1
-						var extra_skills := detected_skills.filter(func(skill_id): return int(skill_id) != normal_skill)
-						enemies_cfg[str(max_id)] = {
-							"name": enemy_name,
-							"asset": asset_key,
-							"character_config": asset_key.path_join("character_config.json"),
-							"max_hp": 50,
-							"attack": 2,
-							"defense": 0,
-							"move_speed": 80.0,
-							"attack_range": 80.0,
-							"detect_range": 300.0,
-							"patrol_range": 120.0,
-							"normal_skill": normal_skill,
-							"skills": extra_skills,
-							"skill_weights": _make_equal_skill_weights(extra_skills.size()),
-							"drop_items": [],
-							"exp": 10,
-						}
-						existing_assets[asset_key] = max_id
-						new_count += 1
-						print("[GameTools] 新增怪物配置: %s (ID: %d)" % [enemy_name, max_id])
-					else:
-						# Preserve curated choices for existing enemies, but remove skills whose
-						# animation is no longer present in this enemy asset.
-						for config_id in enemies_cfg:
-							var existing: Dictionary = enemies_cfg[config_id]
-							if String(existing.get("asset", "")) != asset_key:
-								continue
-							if not existing.has("normal_skill"):
-								existing["normal_skill"] = _default_enemy_normal_skill(folder, int(config_id))
-								synced_count += 1
-							var filtered := _filter_existing_enemy_skills(existing.get("skills", []), manifest_data)
-							filtered.erase(int(existing.get("normal_skill", 0)))
-							if filtered != existing.get("skills", []):
-								existing["skills"] = filtered
-								existing["skill_weights"] = _make_equal_skill_weights(filtered.size())
-								enemies_cfg[config_id] = existing
-								synced_count += 1
-								print("[GameTools] 同步怪物技能: %s -> %s" % [config_id, filtered])
+				var manifest_text := FileAccess.get_file_as_string(manifest_path)
+				var mj := JSON.new()
+				var manifest_data: Dictionary = {}
+				var enemy_name := folder
+				if mj.parse(manifest_text) == OK and mj.data is Dictionary:
+					manifest_data = mj.data
+					enemy_name = String(manifest_data.get("characterName", folder))
+				var asset_key := "res://assets/enemies/%s" % folder
+				pending_enemies.append({
+					"folder": folder,
+					"char_path": char_path,
+					"manifest_data": manifest_data,
+					"enemy_name": enemy_name,
+					"asset_key": asset_key,
+				})
 		folder = dir.get_next()
 	dir.list_dir_end()
 
+	# 识别哪些已存在怪物配置过 skills（需要确认是否覆盖）
+	var custom_skill_names: Array = []
+	for pending in pending_enemies:
+		var asset_key: String = pending["asset_key"]
+		if asset_key in existing_assets:
+			var eid := int(existing_assets[asset_key])
+			var existing: Dictionary = enemies_cfg[str(eid)]
+			var skills_arr: Array = existing.get("skills", [])
+			if skills_arr.size() > 0:
+				custom_skill_names.append("%s (ID:%d)" % [pending["enemy_name"], eid])
+
+	# 如果有配置过 skills 的已存在怪物，弹确认对话框
+	var overwrite_skills := false
+	if not custom_skill_names.is_empty():
+		overwrite_skills = await _ask_batch_overwrite_skills(custom_skill_names)
+		if overwrite_skills:
+			# 再问是否保留已配置技能
+			var keep_existing := await _ask_batch_keep_skills(custom_skill_names)
+			# keep_existing=true: 保留所有已配置 skills，只补 normal_skill
+			# keep_existing=false: 按 manifest 重新检测覆盖
+			# 两种情况都继续导入流程
+			if not keep_existing:
+				overwrite_skills = true  # 真正覆盖
+			else:
+				overwrite_skills = false  # 保留
+
+	# 执行导入
+	var imported_count := 0
+	var new_count := 0
+	var synced_count := 0
+	for pending in pending_enemies:
+		var p_folder: String = pending["folder"]
+		var p_char_path: String = pending["char_path"]
+		var p_manifest: Dictionary = pending["manifest_data"]
+		var p_enemy_name: String = pending["enemy_name"]
+		var p_asset_key: String = pending["asset_key"]
+		if _do_import_single_character(p_char_path, p_folder, "", -1.0, "enemy"):
+			imported_count += 1
+			var detected_skills := _get_enemy_skills_for_actions(p_manifest)
+			var normal_skill := _default_enemy_normal_skill(p_folder, max_id + 1)
+			if p_asset_key not in existing_assets:
+				max_id += 1
+				var extra_skills := detected_skills.filter(func(skill_id): return int(skill_id) != normal_skill)
+				enemies_cfg[str(max_id)] = {
+					"name": p_enemy_name,
+					"asset": p_asset_key,
+					"character_config": p_asset_key.path_join("character_config.json"),
+					"max_hp": 50,
+					"attack": 2,
+					"defense": 0,
+					"move_speed": 80.0,
+					"attack_range": 80.0,
+					"detect_range": 300.0,
+					"patrol_range": 120.0,
+					"normal_skill": normal_skill,
+					"skills": extra_skills,
+					"skill_weights": _make_equal_skill_weights(extra_skills.size()),
+					"drop_items": [],
+					"exp": 10,
+				}
+				existing_assets[p_asset_key] = max_id
+				new_count += 1
+				print("[GameTools] 新增怪物配置: %s (ID: %d)" % [p_enemy_name, max_id])
+			else:
+				# 已存在怪物
+				var existing_id := int(existing_assets[p_asset_key])
+				var existing: Dictionary = enemies_cfg[str(existing_id)]
+				if not existing.has("normal_skill"):
+					existing["normal_skill"] = _default_enemy_normal_skill(p_folder, existing_id)
+					synced_count += 1
+				if overwrite_skills:
+					# 覆盖：按 manifest 重新检测技能
+					_apply_enemy_skill_sync(existing, p_manifest, normal_skill)
+					synced_count += 1
+					print("[GameTools] 覆盖怪物技能: %s" % existing_id)
+				else:
+					# 保留：不动 skills/skill_weights
+					print("[GameTools] 保留怪物已配置技能: %s" % existing_id)
+				enemies_cfg[str(existing_id)] = existing
+
 	# 写回怪物配置表
 	if new_count > 0 or synced_count > 0:
-		var sorted_keys: Array = enemies_cfg.keys()
-		sorted_keys.sort()
-		var sorted_cfg: Dictionary = {}
-		for key in sorted_keys:
-			sorted_cfg[key] = enemies_cfg[key]
-		_write_file(config_path, JSON.stringify(sorted_cfg, "\t") + "\n")
+		_write_enemy_config(config_path, enemies_cfg)
 		print("[GameTools] enemies.json 已更新：新增 %d，同步 %d" % [new_count, synced_count])
 
 	print("[GameTools] 怪物导入完成: %d 个怪物" % imported_count)
 	EditorInterface.get_resource_filesystem().scan()
+
+
+## 批量导入时弹「是否覆盖已配置技能」确认对话框，返回 true=覆盖
+func _ask_batch_overwrite_skills(enemy_names: Array) -> bool:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = "覆盖已配置技能？"
+	var name_list := ", ".join(enemy_names)
+	if name_list.length() > 200:
+		name_list = name_list.substr(0, 200) + "..."
+	dialog.dialog_text = "以下怪物已配置过技能：\n%s\n\n是否覆盖这些怪物的技能配置？" % name_list
+	dialog.ok_button_text = "覆盖"
+	dialog.cancel_button_text = "保留不动"
+	EditorInterface.get_base_control().add_child(dialog)
+	var result := await _await_dialog_result(dialog)
+	return result
+
+
+## 批量覆盖时再问「是否保留已配置技能」（选保留则不真正覆盖），返回 true=保留
+func _ask_batch_keep_skills(enemy_names: Array) -> bool:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = "保留已配置技能？"
+	dialog.dialog_text = "确认覆盖方式：\n\n• 确定（保留）：维持现有 skills/skill_weights 不变\n• 取消（不保留）：按 manifest 动画重新检测技能"
+	dialog.ok_button_text = "保留"
+	dialog.cancel_button_text = "不保留"
+	EditorInterface.get_base_control().add_child(dialog)
+	var result := await _await_dialog_result(dialog)
+	return result
+
+
+## 等待 ConfirmationDialog 的 confirmed/canceled 信号，返回 true=confirmed, false=canceled
+func _await_dialog_result(dialog: ConfirmationDialog) -> bool:
+	var decided := false
+	var confirmed := false
+	dialog.confirmed.connect(func():
+		confirmed = true
+		decided = true
+	)
+	dialog.canceled.connect(func():
+		confirmed = false
+		decided = true
+	)
+	dialog.popup_centered(Vector2i(500, 220))
+	while not decided:
+		await get_tree().create_timer(0.05).timeout
+	dialog.queue_free()
+	return confirmed
 
 
 func _do_import_single_character(source_dir: String, folder_name: String, player_scene: String, display_scale_override: float = -1.0, resource_type: String = "character") -> bool:

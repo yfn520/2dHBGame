@@ -108,6 +108,7 @@ func open_editor() -> void:
 	if _selected_id > 0:
 		_show_entity_details(_selected_id)
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 
 
 # ---- 数据加载 ----

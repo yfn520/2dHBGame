@@ -50,6 +50,7 @@ func open_generator() -> void:
 	if get_child_count() == 0:
 		_build_ui()
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 
 
 func _build_ui() -> void:
@@ -229,7 +230,8 @@ func _open_file_dialog(request: String) -> void:
 		"output":
 			_file_dialog.file_mode = EditorFileDialog.FILE_MODE_SAVE_FILE
 			_file_dialog.add_filter("*.tscn ; Scene")
-	_file_dialog.popup_centered(Vector2i(900, 650))
+	_file_dialog.popup_centered_ratio(0.95)
+	_file_dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_file_selected(path: String) -> void:

@@ -22,6 +22,7 @@ func _ready() -> void:
 
 func open_generator() -> void:
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 	_run()
 
 

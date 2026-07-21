@@ -72,6 +72,7 @@ func open_editor_with_buff(buff_id: int = 0) -> void:
 	if _selected_id > 0:
 		_show_buff_details(_selected_id)
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 
 
 # ---- 左右分隔条拖动 ----
@@ -322,7 +323,8 @@ func _on_browse_resource(edit: LineEdit, filters: PackedStringArray) -> void:
 		dialog.queue_free()
 	)
 	dialog.canceled.connect(dialog.queue_free)
-	dialog.popup_centered_clamped(Vector2i(900, 600))
+	dialog.popup_centered_ratio(0.95)
+	dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _add_grid_spin(parent: GridContainer, label_text: String, min_val: float, max_val: float, step_val: float) -> SpinBox:

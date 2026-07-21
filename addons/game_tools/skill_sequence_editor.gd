@@ -134,6 +134,7 @@ func open_editor() -> void:
 	_refresh_entity_list()
 	_rebuild_skill_select()
 	popup_centered(size)
+	mode = Window.MODE_MAXIMIZED
 
 
 func _build_ui() -> void:
@@ -1535,7 +1536,8 @@ func _open_scene_picker(edit: LineEdit, field: String) -> void:
 	else:
 		dialog.current_dir = "res://"
 		dialog.current_file = ""
-	dialog.popup_centered_ratio(0.7)
+	dialog.popup_centered_ratio(0.95)
+	dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_node_text_changed(value: String, field: String) -> void:

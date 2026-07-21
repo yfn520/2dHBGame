@@ -75,6 +75,7 @@ func open_importer() -> void:
 	if get_child_count() == 0:
 		_build_ui()
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 
 
 func _build_ui() -> void:
@@ -178,7 +179,8 @@ func _add_spin(parent: Control, label_text: String, default_value: float, min_va
 
 
 func _open_dir_dialog() -> void:
-	_dir_dialog.popup_centered(Vector2i(900, 650))
+	_dir_dialog.popup_centered_ratio(0.95)
+	_dir_dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_dir_selected(path: String) -> void:

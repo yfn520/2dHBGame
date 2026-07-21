@@ -113,6 +113,7 @@ func open_editor() -> void:
 	_load_data()
 	_refresh_level_list()
 	popup_centered(size)
+	mode = Window.MODE_MAXIMIZED
 
 
 # ============================================================
@@ -597,7 +598,8 @@ func _on_browse_scene() -> void:
 	add_child(dialog)
 	dialog.file_selected.connect(_on_scene_picked.bind(dialog))
 	dialog.canceled.connect(_on_dialog_closed.bind(dialog))
-	dialog.popup_centered(Vector2i(700, 480))
+	dialog.popup_centered_ratio(0.95)
+	dialog.mode = Window.MODE_MAXIMIZED
 
 
 func _on_scene_picked(path: String, dialog: FileDialog) -> void:

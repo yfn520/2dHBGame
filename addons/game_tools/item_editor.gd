@@ -89,6 +89,7 @@ func open_editor() -> void:
 	if _selected_id > 0:
 		_show_item_details(_selected_id)
 	popup_centered()
+	mode = Window.MODE_MAXIMIZED
 
 
 # ---- 数据加载 ----
@@ -685,4 +686,5 @@ func _on_browse_resource(edit: LineEdit, filters: PackedStringArray) -> void:
 		dialog.queue_free()
 	)
 	EditorInterface.get_base_control().add_child(dialog)
-	dialog.popup_centered(Vector2i(800, 600))
+	dialog.popup_centered_ratio(0.95)
+	dialog.mode = Window.MODE_MAXIMIZED
