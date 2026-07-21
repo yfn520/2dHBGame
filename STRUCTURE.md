@@ -6,6 +6,7 @@
 - `res://scenes/player.tscn`: `PartyManager` scene; its exported `Array[int]` is the inspector-configured lineup of character IDs.
 - `res://assets/characters/<name>/godot/<name>.tscn`: complete playable-character prefab with body collision, foot-anchored artwork, camera, HitBox, HurtBox, and combat component.
 - `res://scenes/*.tscn`: level scenes (auto-generated from `world/stitched/`)
+- `res://assets/npcs/<slug>/godot/npc_visual.tscn`: generated standing-NPC visual scene with its own foot anchor, display scale, name label, quest label, and default idle animation.
 
 ## Scripts
 
@@ -22,6 +23,8 @@
 - `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
 - `party_manager.gd`: exposes the playable lineup as `Array[int]`, instantiates all lineup members, switches the active controller, and keeps inactive members in simple follow/assist AI.
 - `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
+- `npc_spawner.gd`: spawns only validated `NpcPlacementConfig` records, skips invalid definitions, and retains errors for failed instance IDs.
+- `dialogue_service.gd` / `quest_service.gd`: execute the strictly authored dialogue conditions/actions and task objectives.
 
 ### Level (`res://scripts/level/`)
 
@@ -34,6 +37,8 @@
 - `skill_config.gd` - Skills.json loader
 - `buff_config.gd` - Buffs.json loader
 - `level_config.gd` - Levels.json loader
+- `npc_config.gd` - Strict `npcs.json` and per-package `npc_asset.json` loader; validates package ownership, metadata types, resources, and dialogue IDs.
+- `npc_placement_config.gd` - Sole runtime source for per-level NPC instances from `npc_placements.json`.
 - `inventory_data.gd` - Bag data model with add/remove/query, signals, serialization
 - `equipment_data.gd` - Equipment slot state with uid+item_id tracking, signals, serialization
 - `character_stats.gd` - Character stats with equipment bonus calculation
@@ -80,6 +85,13 @@
 - `res://assets/characters/girl/`: imported character sprite frames and animations
 - `res://world/stitched/jungle_01/`: imported jungle map art and collision data
 - `res://world/stitched/xing/`: imported star map art and collision data
+- `res://assets/npcs/<slug>/`: self-contained NPC package (`npc_asset.json`, `portrait.png`, atlas, SpriteFrames, and visual scene).
+
+## NPC Data Flow
+
+`data/npcs.json` selects an NPC package and dialogue. `data/dialogues.json` and `data/quests.json` hold content. `data/npc_placements.json` assigns instances to levels. `GameRegistry` loads dialogues before NPC definitions so broken dialogue references fail during configuration. `GameRoot` asks `NpcSpawner` for the current level only; `LevelConfig` has no NPC API.
+
+The web authoring tool may read `characters.json` and character manifests during conversion, but the resulting package is copied and independent. It may read `levels.json` and referenced scenes to find map art, but never writes either file.
 
 ## Design Notes
 

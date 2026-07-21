@@ -7,6 +7,7 @@ var level_config
 var enemy_config
 var character_config
 var npc_config
+var npc_placement_config
 var dialogue_config
 var quest_config
 
@@ -38,10 +39,12 @@ func _ready() -> void:
 	enemy_config.load_config()
 	character_config = load("res://scripts/data/character_config_data.gd").new()
 	character_config.load_config()
-	npc_config = load("res://scripts/data/npc_config.gd").new()
-	npc_config.load_config()
 	dialogue_config = load("res://scripts/data/dialogue_config.gd").new()
 	dialogue_config.load_config()
+	npc_config = load("res://scripts/data/npc_config.gd").new()
+	npc_config.load_config(dialogue_config)
+	npc_placement_config = load("res://scripts/data/npc_placement_config.gd").new()
+	npc_placement_config.load_config()
 	quest_config = load("res://scripts/data/quest_config.gd").new()
 	quest_config.load_config()
 

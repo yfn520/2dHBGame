@@ -7,6 +7,26 @@
 | Player animation atlas | `res://assets/action/godot/all_actions_atlas.png` | Existing | Imported action atlas containing `idle` and `run`. |
 | Player sprite frames | `res://assets/action/godot/spriteframes.tres` | Existing | Godot `SpriteFrames` resource used by the player scene. |
 | UISkin resource | `res://scripts/ui/ui_skin.gd` | Existing | Holds shared Theme and semantic Icon map; wireframe phase. |
+| NPC package | `res://assets/npcs/<slug>/` | Generated | Self-contained runtime resource; no character-table dependency. |
+
+## NPC Asset Contract
+
+```text
+assets/npcs/<slug>/
+  npc_asset.json
+  portrait.png
+  godot/
+    all_actions_atlas.png
+    spriteframes.tres
+    npc_visual.tscn
+```
+
+- `npc_asset.json` version is exactly `1`; `id` equals `<slug>`.
+- Required metadata: `display_name`, `default_animation`, `spriteframes`, `visual_scene`, `portrait`, `frame_size`, `foot_center`, and positive `display_scale`.
+- Resource paths must stay under the same NPC package and must exist.
+- The atlas is horizontal and contains the complete authored idle sequence. AI creation produces four frames; conversion preserves every idle frame declared by the source character manifest.
+- `npc_visual.tscn` is generated with the foot anchor and labels already positioned. Runtime code only instantiates it.
+- `portrait.png` is generated independently from the mother image or replaced manually; it is not cropped from the first idle frame.
 
 ## UI Asset Contract
 

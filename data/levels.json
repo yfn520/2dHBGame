@@ -21,7 +21,6 @@
 			}
 		],
 		"name": "星地",
-		"npcs": [],
 		"scene_path": "res://scenes/shulin.tscn",
 		"spawn_x": 160.0,
 		"spawn_y": 350.0
@@ -41,7 +40,6 @@
 			}
 		],
 		"name": "丛林",
-		"npcs": [],
 		"scene_path": "res://scenes/jungle_01.tscn",
 		"spawn_x": 160.0,
 		"spawn_y": 350.0

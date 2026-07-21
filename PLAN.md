@@ -1,5 +1,31 @@
 # PLAN
 
+## Current Focus: NPC one-stop authoring hard cut
+
+### Goal
+
+Use the web NPC workshop as the only NPC creation and placement entry. Runtime data is split into `npcs.json`, `dialogues.json`, `quests.json`, and `npc_placements.json`; `levels.json` and `characters.json` are never NPC runtime sources.
+
+### Status
+
+- [x] Standard self-contained packages under `res://assets/npcs/<slug>/`.
+- [x] AI mother image, idle generation/background removal, independent portrait, manual replacement, foot anchor preview, and character-manifest conversion.
+- [x] Strict `/api/npc-generation/draft` schema with one repair attempt and project-reference validation.
+- [x] Pending in-memory resources and one final transaction for resources plus four JSON files.
+- [x] Hash conflict detection, mandatory backup, sequential writes, rollback, and unchanged hashes after failure.
+- [x] Recursive `.tscn` map-scene resolution to the referenced `source.png` and slug-based unique placement IDs.
+- [x] Godot hard-cut config, placement loader, visual-scene instantiation, strict package ownership, dialogue validation, and spawn error retention.
+- [x] NPC-focused frontend, backend, and Godot tests plus headless editor parsing.
+- [ ] Produce and approve final village-elder artwork through the configured AI provider, then save it to the selected forest map through the workshop.
+
+### Acceptance
+
+- A staged NPC does not touch project files until **统一提交**.
+- Saving never modifies `data/levels.json` or `data/characters.json`.
+- Every referenced visual resource stays under its own NPC package.
+- The actor root is the foot position; `npc_visual.tscn` owns the art anchor, display scale, and labels.
+- Invalid packages/dialogues are rejected and invalid placements never create placeholder actors.
+
 ## Goal
 
 Build a minimal playable 2D side-scroller framework on top of `map_stitch_godot.tscn`.

@@ -31,31 +31,8 @@ func load_config() -> void:
 			"bgm": raw.get("bgm", ""),
 			"description": raw.get("description", ""),
 			"enemies": _normalize_enemies(raw.get("enemies", [])),
-			"npcs": _normalize_npcs(raw.get("npcs", [])),
 		}
 	_loaded = true
-
-
-func _normalize_npcs(raw_npcs: Variant) -> Array:
-	if not raw_npcs is Array:
-		return []
-	var result: Array = []
-	var index := 0
-	for value in raw_npcs:
-		if not value is Dictionary:
-			continue
-		var entry: Dictionary = value
-		result.append({
-			"instance_id": String(entry.get("instance_id", "npc_%d" % index)),
-			"npc_id": int(entry.get("npc_id", 0)),
-			"x": float(entry.get("x", 0.0)),
-			"y": float(entry.get("y", 0.0)),
-			"facing": String(entry.get("facing", "")),
-			"scale": maxf(0.01, float(entry.get("scale", 1.0))),
-			"interaction_radius": maxf(0.0, float(entry.get("interaction_radius", 0.0))),
-		})
-		index += 1
-	return result
 
 
 ## 把旧格式 enemies 记录规范化为带 spawn_id/mode/scatter_x 的新格式。
@@ -126,7 +103,6 @@ func save_all(levels: Dictionary) -> void:
 			"bgm": raw.get("bgm", ""),
 			"description": raw.get("description", ""),
 			"enemies": raw.get("enemies", []),
-			"npcs": raw.get("npcs", []),
 		}
 		data[str(key)] = out
 	var file := FileAccess.open(CONFIG_PATH, FileAccess.WRITE)

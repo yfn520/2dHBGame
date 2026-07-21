@@ -11,6 +11,15 @@
 
 ## Decisions
 
+- NPC authoring is a hard cut with no legacy fallback. `data/npc_placements.json` is the only placement source, and `levels.json.npcs` is unsupported.
+- Each NPC runtime visual is a self-contained `assets/npcs/<slug>` package. `npc_asset.json` paths must remain inside that directory and its `id` must equal the directory slug.
+- The `NpcActor` root position is the foot point. Generated `npc_visual.tscn` owns `AnimatedSprite2D.offset`, resource display scale, `NameLabel`, and `QuestLabel`; placement scale stays on the actor root as a separate map-instance layer.
+- The web workshop stages generated resources in memory. It validates all resources and four JSON documents, checks original file hashes, completes a mandatory backup, then writes resources followed by data. Hashes update only after complete success.
+- A failed resource write is rolled back by restoring all four original JSON texts and deleting only newly created NPC directories. A backup failure starts no writes.
+- Character reuse is authoring-time conversion only: the real idle row is read from the character manifest and every idle frame is copied into a new NPC atlas. Runtime NPC code never reads `characters.json`.
+- AI NPC content uses a strict schema. Only `quest_state`, `flag_equals`, and `item_count` conditions; `set_flag`, `start_quest`, `give_item`, and `close_dialogue` actions; and `talk`, `kill`, and `collect` objectives are accepted. Schema and project references share one repair retry.
+- Map placement resolves PackedScene references recursively until the map scene's `source.png` is found. Instance IDs begin with the NPC package slug and are unique per level.
+
 - Playable characters are complete independent `CharacterBody2D` prefabs. `player.tscn` is now a `PartyManager` control container whose exported `Array[PackedScene]` supports inspector drag-and-drop lineup configuration; it currently contains only `new_kivin` at index 0.
 - Character artwork alignment is prefab-owned: `visual.position + (foot_center - image_center) * visual.scale` must equal the body collision bottom center. For `new_kivin`, `(-11, -29.5) + (11, 50) = (0, 20.5)`.
 - `PartyManager` is an editor tool and previews the scene at `initial_active_index` directly in `player.tscn`; the preview has no owner and is never serialized or spawned at runtime.

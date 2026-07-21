@@ -16,12 +16,10 @@ extends Window
 
 const LEVELS_PATH := "res://data/levels.json"
 const ENEMIES_PATH := "res://data/enemies.json"
-const NPCS_PATH := "res://data/npcs.json"
 const SCENE_DIR_HINT := "res://scenes"
 
 var _levels: Dictionary = {}          # id_str → level dict
 var _enemies_cfg: Dictionary = {}     # id_str → enemy dict
-var _npcs_cfg: Dictionary = {}
 var _current_level_id: String = ""
 var _selected_spawn_id: String = ""
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
@@ -70,18 +68,6 @@ var _scatter_value_label: Label
 var _spawn_dup_btn: Button
 var _spawn_del_btn: Button
 var _enemy_palette: EnemyPaletteList  # 怪物库，可拖拽到地图
-
-# ---- UI: NPC 摆放 ----
-var _npc_palette: NpcPaletteList
-var _npc_list: ItemList
-var _npc_picker: OptionButton
-var _npc_facing_picker: OptionButton
-var _npc_x_spin: SpinBox
-var _npc_y_spin: SpinBox
-var _npc_scale_spin: SpinBox
-var _npc_radius_spin: SpinBox
-var _selected_npc_instance_id := ""
-var _npc_preview_textures: Dictionary = {}
 
 # ---- UI: 底部 ----
 var _status: Label
@@ -136,11 +122,9 @@ func open_editor() -> void:
 func _load_data() -> void:
 	_levels = _read_json(LEVELS_PATH).duplicate(true)
 	_enemies_cfg = _read_json(ENEMIES_PATH).duplicate(true)
-	_npcs_cfg = _read_json(NPCS_PATH).duplicate(true)
 	_normalize_all_levels()
 	_preview_textures.clear()
 	_refresh_enemy_palette()
-	_refresh_npc_palette()
 
 
 ## 刷新怪物库列表（按 ID 排序）。选中怪物库的项会同步到刷怪属性里的怪物下拉。
@@ -174,22 +158,6 @@ func _on_palette_selected(index: int) -> void:
 			break
 
 
-func _refresh_npc_palette() -> void:
-	if _npc_palette == null:
-		return
-	_npc_palette.clear()
-	var keys := _npcs_cfg.keys()
-	keys.sort_custom(func(a, b): return int(a) < int(b))
-	for key in keys:
-		var id_str := String(key)
-		var npc: Dictionary = _npcs_cfg[id_str]
-		_npc_palette.add_item("%s  %s" % [id_str, String(npc.get("name", id_str))])
-		_npc_palette.set_item_metadata(_npc_palette.item_count - 1, id_str)
-		var texture := _get_npc_preview_texture(int(id_str))
-		if texture != null:
-			_npc_palette.set_item_icon(_npc_palette.item_count - 1, texture)
-
-
 func _read_json(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):
 		return {}
@@ -206,36 +174,7 @@ func _normalize_all_levels() -> void:
 	for id_str in _levels:
 		var level: Dictionary = _levels[id_str]
 		level["enemies"] = _normalize_enemies(level.get("enemies", []))
-		level["npcs"] = _normalize_npcs(level.get("npcs", []))
 		_levels[id_str] = level
-
-
-func _normalize_npcs(raw: Variant) -> Array:
-	if not raw is Array:
-		return []
-	var result: Array = []
-	var used: Dictionary = {}
-	var index := 0
-	for value in raw:
-		if not value is Dictionary:
-			continue
-		var entry: Dictionary = value
-		var instance_id := String(entry.get("instance_id", "npc_%d" % index))
-		while used.has(instance_id):
-			index += 1
-			instance_id = "npc_%d" % index
-		used[instance_id] = true
-		result.append({
-			"instance_id": instance_id,
-			"npc_id": int(entry.get("npc_id", 0)),
-			"x": float(entry.get("x", 0.0)),
-			"y": float(entry.get("y", 0.0)),
-			"facing": String(entry.get("facing", "right")),
-			"scale": maxf(0.01, float(entry.get("scale", 1.0))),
-			"interaction_radius": maxf(0.0, float(entry.get("interaction_radius", 0.0))),
-		})
-		index += 1
-	return result
 
 
 ## 把旧 enemies 记录补齐 spawn_id/mode/scatter_x。
@@ -425,7 +364,7 @@ func _build_ui() -> void:
 	_drop_overlay.gui_input.connect(_on_viewport_gui_input)
 	_viewport_container.add_child(_drop_overlay)
 
-	# 右栏：怪物与 NPC 两类地图摆放
+	# 右栏：怪物地图摆放
 	var right := VBoxContainer.new()
 	right.custom_minimum_size.x = 340
 	main.add_child(right)
@@ -482,54 +421,6 @@ func _build_ui() -> void:
 	_count_spin.value_changed.connect(_on_spawn_num_changed.bind("count"))
 	_scatter_slider = _add_grid_slider(_spawn_props, "散布 X", 0.0, 500.0, 1.0)
 	_scatter_slider.value_changed.connect(_on_spawn_num_changed.bind("scatter_x"))
-
-	var npc_box := VBoxContainer.new()
-	npc_box.name = "NPC"
-	placement_tabs.add_child(npc_box)
-	npc_box.add_child(_make_label("NPC 库（拖拽到地图放置）", 13))
-	_npc_palette = NpcPaletteList.new()
-	_npc_palette.editor = self
-	_npc_palette.custom_minimum_size.y = 260
-	_npc_palette.icon_mode = ItemList.ICON_MODE_TOP
-	_npc_palette.max_columns = 3
-	_npc_palette.fixed_icon_size = Vector2i(72, 72)
-	_npc_palette.fixed_column_width = 150
-	npc_box.add_child(_npc_palette)
-	npc_box.add_child(_make_label("NPC 摆放列表", 14))
-	_npc_list = ItemList.new()
-	_npc_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_npc_list.item_selected.connect(_on_npc_selected)
-	npc_box.add_child(_npc_list)
-	var npc_buttons := HBoxContainer.new()
-	npc_box.add_child(npc_buttons)
-	_add_btn(npc_buttons, "复制", _on_duplicate_npc)
-	_add_btn(npc_buttons, "删除", _on_delete_npc)
-	var npc_props := GridContainer.new()
-	npc_props.columns = 2
-	npc_props.add_theme_constant_override("h_separation", 6)
-	npc_props.add_theme_constant_override("v_separation", 4)
-	npc_box.add_child(npc_props)
-	_npc_picker = OptionButton.new()
-	_npc_picker.item_selected.connect(_on_npc_field_changed)
-	npc_props.add_child(_make_label("NPC"))
-	npc_props.add_child(_npc_picker)
-	_npc_facing_picker = OptionButton.new()
-	_npc_facing_picker.add_item("朝右", 0)
-	_npc_facing_picker.set_item_metadata(0, "right")
-	_npc_facing_picker.add_item("朝左", 1)
-	_npc_facing_picker.set_item_metadata(1, "left")
-	_npc_facing_picker.item_selected.connect(_on_npc_field_changed)
-	npc_props.add_child(_make_label("朝向"))
-	npc_props.add_child(_npc_facing_picker)
-	_npc_x_spin = _add_grid_spin(npc_props, "X", -9999.0, 99999.0, 1.0)
-	_npc_x_spin.value_changed.connect(_on_npc_num_changed.bind("x"))
-	_npc_y_spin = _add_grid_spin(npc_props, "Y", -9999.0, 99999.0, 1.0)
-	_npc_y_spin.value_changed.connect(_on_npc_num_changed.bind("y"))
-	_npc_scale_spin = _add_grid_spin(npc_props, "缩放", 0.05, 10.0, 0.05)
-	_npc_scale_spin.value_changed.connect(_on_npc_num_changed.bind("scale"))
-	_npc_radius_spin = _add_grid_spin(npc_props, "交互半径", 0.0, 999.0, 1.0)
-	_npc_radius_spin.value_changed.connect(_on_npc_num_changed.bind("interaction_radius"))
-	_refresh_npc_palette()
 
 	# 底部状态与操作
 	var bottom := HBoxContainer.new()
@@ -650,10 +541,8 @@ func _on_level_selected(index: int) -> void:
 		return
 	_current_level_id = String(_level_list.get_item_metadata(index))
 	_selected_spawn_id = ""
-	_selected_npc_instance_id = ""
 	_load_level_fields()
 	_refresh_spawn_list()
-	_refresh_npc_list()
 	_load_map_for_current_level()
 	_refresh_markers()
 
@@ -744,7 +633,6 @@ func _on_new_level() -> void:
 		"bgm": "",
 		"description": "",
 		"enemies": [],
-		"npcs": [],
 	}
 	_current_level_id = id_str
 	_refresh_level_list()
@@ -771,14 +659,6 @@ func _on_duplicate_level() -> void:
 		new_enemies.append(entry)
 		i += 1
 	copy["enemies"] = new_enemies
-	var new_npcs: Array = []
-	for npc_index in range((copy.get("npcs", []) as Array).size()):
-		var npc_value = copy.get("npcs", [])[npc_index]
-		if npc_value is Dictionary:
-			var npc_entry: Dictionary = npc_value.duplicate(true)
-			npc_entry["instance_id"] = "npc_%d" % npc_index
-			new_npcs.append(npc_entry)
-	copy["npcs"] = new_npcs
 	copy["name"] = String(copy.get("name", "")) + " 副本"
 	_levels[id_str] = copy
 	_current_level_id = id_str
@@ -1010,166 +890,6 @@ func _compute_new_spawn_id() -> String:
 	return "spawn_0"  # fallback，理论上不会执行到这里
 
 
-func _refresh_npc_list() -> void:
-	if _npc_list == null:
-		return
-	_npc_list.clear()
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	var npcs: Array = level.get("npcs", [])
-	for index in range(npcs.size()):
-		if not npcs[index] is Dictionary:
-			continue
-		var entry: Dictionary = npcs[index]
-		var id_str := str(int(entry.get("npc_id", 0)))
-		var cfg: Dictionary = _npcs_cfg.get(id_str, {})
-		var title := String(cfg.get("name", "缺失 NPC #%s" % id_str))
-		_npc_list.add_item("%s  %s" % [String(entry.get("instance_id", "")), title])
-		_npc_list.set_item_metadata(_npc_list.item_count - 1, String(entry.get("instance_id", "")))
-		if cfg.is_empty():
-			_npc_list.set_item_custom_fg_color(_npc_list.item_count - 1, Color("ff6868"))
-		if String(entry.get("instance_id", "")) == _selected_npc_instance_id:
-			_npc_list.select(_npc_list.item_count - 1)
-	_refresh_npc_props()
-
-
-func _on_npc_selected(index: int) -> void:
-	if index < 0 or index >= _npc_list.item_count:
-		return
-	_selected_npc_instance_id = String(_npc_list.get_item_metadata(index))
-	_refresh_npc_props()
-
-
-func _get_selected_npc() -> Dictionary:
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	for value in level.get("npcs", []):
-		if value is Dictionary and String(value.get("instance_id", "")) == _selected_npc_instance_id:
-			return value
-	return {}
-
-
-func _refresh_npc_props() -> void:
-	if _npc_picker == null:
-		return
-	_loading = true
-	_npc_picker.clear()
-	var keys := _npcs_cfg.keys()
-	keys.sort_custom(func(a, b): return int(a) < int(b))
-	for key in keys:
-		var cfg: Dictionary = _npcs_cfg[key]
-		_npc_picker.add_item("%s %s" % [String(key), String(cfg.get("name", key))])
-		_npc_picker.set_item_metadata(_npc_picker.item_count - 1, int(key))
-	var entry := _get_selected_npc()
-	if not entry.is_empty():
-		for index in range(_npc_picker.item_count):
-			if int(_npc_picker.get_item_metadata(index)) == int(entry.get("npc_id", 0)):
-				_npc_picker.select(index)
-				break
-		_npc_facing_picker.select(1 if String(entry.get("facing", "right")) == "left" else 0)
-		_npc_x_spin.value = float(entry.get("x", 0.0))
-		_npc_y_spin.value = float(entry.get("y", 0.0))
-		_npc_scale_spin.value = float(entry.get("scale", 1.0))
-		_npc_radius_spin.value = float(entry.get("interaction_radius", 0.0))
-	_loading = false
-
-
-func _on_npc_field_changed(_index: int) -> void:
-	if _loading:
-		return
-	var entry := _get_selected_npc()
-	if entry.is_empty():
-		return
-	if _npc_picker.item_count > 0:
-		entry["npc_id"] = int(_npc_picker.get_selected_metadata())
-	entry["facing"] = String(_npc_facing_picker.get_selected_metadata())
-	_update_selected_npc(entry)
-
-
-func _on_npc_num_changed(value: float, field: String) -> void:
-	if _loading:
-		return
-	var entry := _get_selected_npc()
-	if entry.is_empty():
-		return
-	entry[field] = value
-	_update_selected_npc(entry)
-
-
-func _update_selected_npc(entry: Dictionary) -> void:
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	var npcs: Array = level.get("npcs", [])
-	for index in range(npcs.size()):
-		if npcs[index] is Dictionary and String(npcs[index].get("instance_id", "")) == _selected_npc_instance_id:
-			npcs[index] = entry
-	level["npcs"] = npcs
-	_levels[_current_level_id] = level
-	_refresh_npc_list()
-	_refresh_markers()
-
-
-func _compute_new_npc_instance_id() -> String:
-	var used: Dictionary = {}
-	for value in (_levels.get(_current_level_id, {}) as Dictionary).get("npcs", []):
-		if value is Dictionary:
-			used[String(value.get("instance_id", ""))] = true
-	var index := 0
-	while used.has("npc_%d" % index):
-		index += 1
-	return "npc_%d" % index
-
-
-func _add_npc_at(world_pos: Vector2, npc_id: int) -> void:
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	var instance_id := _compute_new_npc_instance_id()
-	var cfg: Dictionary = _npcs_cfg.get(str(npc_id), {})
-	var npcs: Array = level.get("npcs", [])
-	npcs.append({
-		"instance_id": instance_id,
-		"npc_id": npc_id,
-		"x": world_pos.x,
-		"y": world_pos.y,
-		"facing": String(cfg.get("facing", "right")),
-		"scale": float(cfg.get("scale", 1.0)),
-		"interaction_radius": 0.0,
-	})
-	level["npcs"] = npcs
-	_levels[_current_level_id] = level
-	_selected_npc_instance_id = instance_id
-	_refresh_npc_list()
-	_refresh_markers()
-
-
-func _on_duplicate_npc() -> void:
-	var entry := _get_selected_npc()
-	if entry.is_empty():
-		return
-	var copy := entry.duplicate(true)
-	copy["instance_id"] = _compute_new_npc_instance_id()
-	copy["x"] = float(copy.get("x", 0.0)) + 48.0
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	var npcs: Array = level.get("npcs", [])
-	npcs.append(copy)
-	level["npcs"] = npcs
-	_levels[_current_level_id] = level
-	_selected_npc_instance_id = String(copy["instance_id"])
-	_refresh_npc_list()
-	_refresh_markers()
-
-
-func _on_delete_npc() -> void:
-	if _selected_npc_instance_id.is_empty():
-		return
-	var level: Dictionary = _levels.get(_current_level_id, {})
-	var kept: Array = []
-	for value in level.get("npcs", []):
-		if not value is Dictionary or String(value.get("instance_id", "")) != _selected_npc_instance_id:
-			kept.append(value)
-	level["npcs"] = kept
-	_levels[_current_level_id] = level
-	_selected_npc_instance_id = ""
-	_refresh_npc_list()
-	_refresh_markers()
-
-
 # ============================================================
 # 添加刷怪点模式
 # ============================================================
@@ -1229,12 +949,12 @@ func _add_spawn_at(world_pos: Vector2, mode: String) -> void:
 # 拖拽放置：从怪物库拖到地图
 # ============================================================
 
-## 判断是否能放置怪物或 NPC，且当前有关卡。
+## 判断是否能放置怪物，且当前有关卡。
 func _can_drop_spawn_at(_screen_pos: Vector2, data: Variant) -> bool:
 	if not data is Dictionary:
 		return false
 	var d: Dictionary = data
-	if String(d.get("type", "")) not in ["enemy_spawn", "npc_spawn"]:
+	if String(d.get("type", "")) != "enemy_spawn":
 		return false
 	return not _current_level_id.is_empty()
 
@@ -1245,12 +965,6 @@ func _drop_spawn_at(screen_pos: Vector2, data: Variant) -> void:
 		return
 	var d: Dictionary = data
 	var world_pos := _screen_to_world(screen_pos)
-	if String(d.get("type", "")) == "npc_spawn":
-		var npc_id := int(d.get("npc_id", 0))
-		if npc_id > 0:
-			_add_npc_at(world_pos, npc_id)
-			_status.text = "已放置 NPC %s 于 (%.0f, %.0f)" % [str(npc_id), world_pos.x, world_pos.y]
-		return
 	var enemy_id := int(d.get("enemy_id", 0))
 	if enemy_id == 0:
 		return
@@ -1685,30 +1399,6 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 			canvas_item.draw_string(font, p + label_offset + offset / _zoom + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, 0.8))
 		canvas_item.draw_string(font, p + label_offset, label_line1, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1, 1, 1, 0.95))
 		canvas_item.draw_string(font, p + label_offset + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1, 1, 1, 0.95))
-	# NPC 摆放：青色圆点 + 交互范围 + idle 缩略图。
-	for npc_value in level.get("npcs", []):
-		if not npc_value is Dictionary:
-			continue
-		var npc_entry: Dictionary = npc_value
-		var npc_id := int(npc_entry.get("npc_id", 0))
-		var npc_pos := Vector2(float(npc_entry.get("x", 0)), float(npc_entry.get("y", 0)))
-		var cfg: Dictionary = _npcs_cfg.get(str(npc_id), {})
-		var color := Color("35d0ba") if not cfg.is_empty() else Color("ff4d67")
-		var radius := _marker_radius / _zoom
-		var interaction := float(npc_entry.get("interaction_radius", 0.0))
-		if interaction <= 0.0:
-			interaction = float(cfg.get("interaction_radius", 96.0))
-		canvas_item.draw_circle(npc_pos, interaction, Color(color.r, color.g, color.b, 0.08))
-		canvas_item.draw_arc(npc_pos, interaction, 0.0, TAU, 48, Color(color.r, color.g, color.b, 0.35), 1.0 / _zoom)
-		canvas_item.draw_circle(npc_pos, radius, color)
-		var texture := _get_npc_preview_texture(npc_id)
-		if texture != null:
-			var tex_size := texture.get_size()
-			var draw_scale := minf((radius * 1.7) / tex_size.x, (radius * 1.7) / tex_size.y)
-			var draw_size := tex_size * draw_scale
-			canvas_item.draw_texture_rect(texture, Rect2(npc_pos - draw_size * 0.5, draw_size), false)
-		var label := "%s [%s] %s" % [String(cfg.get("name", "缺失 NPC")), str(npc_id), String(npc_entry.get("instance_id", ""))]
-		canvas_item.draw_string(ThemeDB.fallback_font, npc_pos + Vector2(radius + 5.0 / _zoom, -radius), label, HORIZONTAL_ALIGNMENT_LEFT, -1, maxi(8, int(12.0 / _zoom)), color)
 
 
 ## 绘制玩家出生点标记：菱形 + 十字 + 标签，区别于圆形刷怪点。
@@ -1768,25 +1458,6 @@ func _get_enemy_preview_texture(enemy_id: int) -> Texture2D:
 	return tex
 
 
-func _get_npc_preview_texture(npc_id: int) -> Texture2D:
-	if _npc_preview_textures.has(npc_id):
-		return _npc_preview_textures[npc_id]
-	var cfg: Dictionary = _npcs_cfg.get(str(npc_id), {})
-	var asset := String(cfg.get("asset", ""))
-	var frames_path := asset.path_join("godot/spriteframes.tres")
-	if asset.is_empty() or not ResourceLoader.exists(frames_path):
-		_npc_preview_textures[npc_id] = null
-		return null
-	var frames := load(frames_path) as SpriteFrames
-	var idle := String(cfg.get("idle_animation", "idle"))
-	if frames == null or not frames.has_animation(idle) or frames.get_frame_count(idle) == 0:
-		_npc_preview_textures[npc_id] = null
-		return null
-	var texture := frames.get_frame_texture(idle, 0)
-	_npc_preview_textures[npc_id] = texture
-	return texture
-
-
 func _enemy_display_name(enemy_id: int) -> String:
 	var id_str := str(enemy_id)
 	if _enemies_cfg.has(id_str):
@@ -1808,7 +1479,6 @@ func _on_save() -> void:
 	# 落盘前再次规范化字段
 	for id_str in _levels:
 		_levels[id_str]["enemies"] = _normalize_enemies(_levels[id_str].get("enemies", []))
-		_levels[id_str]["npcs"] = _normalize_npcs(_levels[id_str].get("npcs", []))
 	var data: Dictionary = {}
 	var keys: Array = _levels.keys()
 	keys.sort_custom(func(a, b): return int(a) < int(b))
@@ -1822,7 +1492,6 @@ func _on_save() -> void:
 			"bgm": String(level.get("bgm", "")),
 			"description": String(level.get("description", "")),
 			"enemies": level.get("enemies", []),
-			"npcs": level.get("npcs", []),
 		}
 	var file := FileAccess.open(LEVELS_PATH, FileAccess.WRITE)
 	if file == null:
@@ -1848,12 +1517,9 @@ func _on_save() -> void:
 func _on_discard() -> void:
 	_levels.clear()
 	_enemies_cfg.clear()
-	_npcs_cfg.clear()
 	_preview_textures.clear()
-	_npc_preview_textures.clear()
 	_current_level_id = ""
 	_selected_spawn_id = ""
-	_selected_npc_instance_id = ""
 	_load_data()
 	_refresh_level_list()
 	_status.text = "已放弃未保存修改。"
@@ -1957,23 +1623,6 @@ class EnemyPaletteList:
 		s.set_border_width_all(1)
 		s.set_content_margin_all(6)
 		return s
-
-
-class NpcPaletteList:
-	extends ItemList
-	var editor: Node = null
-
-	func _get_drag_data(pos: Vector2) -> Variant:
-		var index := get_item_at_position(pos, true)
-		if index < 0:
-			return null
-		var npc_id := int(get_item_metadata(index))
-		var preview := Label.new()
-		preview.text = "放置 NPC: %s" % get_item_text(index)
-		preview.add_theme_color_override("font_color", Color.WHITE)
-		preview.add_theme_stylebox_override("normal", EnemyPaletteList._make_preview_style())
-		set_drag_preview(preview)
-		return {"type": "npc_spawn", "npc_id": npc_id}
 
 
 # ============================================================

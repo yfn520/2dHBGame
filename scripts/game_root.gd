@@ -97,8 +97,7 @@ func _spawn_level_enemies(level_id: int) -> void:
 
 
 func _spawn_level_npcs(level_id: int) -> void:
-	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
-	_npc_spawner.spawn_npcs_for_level(level_cfg.get("npcs", []))
+	_npc_spawner.spawn_npcs_for_level(level_id)
 
 
 func _on_enemy_defeated(enemy_id: int) -> void:

@@ -1,10 +1,14 @@
 class_name NpcActor
 extends Node2D
 
+## NPC 实体：实例化 npc_visual.tscn，不做任何视觉位置计算。
+## 所有布局（脚底锚点、标签位置、缩放）在工具端生成 npc_visual.tscn 时写好。
+
 var npc_id := 0
 var instance_id := ""
 var interaction_radius := 96.0
 
+var _visual: Node2D
 var _sprite: AnimatedSprite2D
 var _name_label: Label
 var _quest_label: Label
@@ -12,20 +16,22 @@ var _quest_label: Label
 
 func setup(config: Dictionary, placement: Dictionary) -> bool:
 	npc_id = int(config.get("id", 0))
-	instance_id = String(placement.get("instance_id", "npc_%d" % npc_id))
+	instance_id = String(placement.get("instance_id", ""))
+	if npc_id <= 0 or instance_id.is_empty():
+		push_error("NPC 实例缺少 npc_id 或 instance_id")
+		return false
 	name = instance_id
 	interaction_radius = float(placement.get("interaction_radius", 0.0))
-	if interaction_radius <= 0.0:
-		interaction_radius = float(config.get("interaction_radius", 96.0))
 	global_position = Vector2(float(placement.get("x", 0.0)), float(placement.get("y", 0.0)))
-	var authored_scale := maxf(0.01, float(placement.get("scale", config.get("scale", 1.0))))
-	scale = Vector2.ONE * authored_scale
-	_build_nodes(config)
-	var facing := String(placement.get("facing", ""))
-	if facing.is_empty():
-		facing = String(config.get("facing", "right"))
+	scale = Vector2.ONE * float(placement.get("scale", 1.0))
+	if not _load_visual(config):
+		return false
+	_build_interaction_area()
+	var facing := String(placement.get("facing", config.get("default_facing", "right")))
 	_sprite.flip_h = facing == "left"
-	return _load_visual(config)
+	_update_name_label(config)
+	refresh_quest_indicator()
+	return true
 
 
 func get_display_name() -> String:
@@ -45,12 +51,46 @@ func refresh_quest_indicator() -> void:
 		_quest_label.text = ""
 
 
-func _build_nodes(config: Dictionary) -> void:
-	_sprite = AnimatedSprite2D.new()
-	_sprite.name = "Sprite"
-	_sprite.centered = true
-	add_child(_sprite)
+## 实例化 npc_visual.tscn；所有视觉布局已在生成时写好，这里只取节点引用。
+func _load_visual(config: Dictionary) -> bool:
+	var asset := config.get("asset_data", {}) as Dictionary
+	var visual_path := String(asset.get("visual_scene", ""))
+	if visual_path.is_empty() or not ResourceLoader.exists(visual_path):
+		push_error("NPC %d visual_scene 无效: %s" % [npc_id, visual_path])
+		return false
+	var scene := load(visual_path) as PackedScene
+	if scene == null:
+		push_error("NPC %d 无法加载 visual_scene: %s" % [npc_id, visual_path])
+		return false
+	var instance := scene.instantiate()
+	if not instance is Node2D:
+		instance.queue_free()
+		push_error("NPC %d visual_scene 根节点必须是 Node2D" % npc_id)
+		return false
+	_visual = instance as Node2D
+	add_child(_visual)
+	_sprite = _visual.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
+	if _sprite == null:
+		push_error("NPC %d visual_scene 缺少 AnimatedSprite2D" % npc_id)
+		_visual.queue_free()
+		return false
+	var default_animation := String(asset.get("default_animation", ""))
+	if _sprite.sprite_frames == null or not _sprite.sprite_frames.has_animation(default_animation):
+		push_error("NPC %d 缺少默认动画: %s" % [npc_id, default_animation])
+		_visual.queue_free()
+		return false
+	_sprite.play(default_animation)
+	_name_label = _visual.get_node_or_null("NameLabel") as Label
+	_quest_label = _visual.get_node_or_null("QuestLabel") as Label
+	if _name_label == null or _quest_label == null:
+		push_error("NPC %d visual_scene must contain NameLabel and QuestLabel" % npc_id)
+		_visual.queue_free()
+		return false
+	return true
 
+
+## InteractionArea 的 radius 来自 placement 数据（运行时决定），不放 npc_visual.tscn。
+func _build_interaction_area() -> void:
 	var area := Area2D.new()
 	area.name = "InteractionArea"
 	area.collision_layer = 0
@@ -62,45 +102,8 @@ func _build_nodes(config: Dictionary) -> void:
 	shape_node.shape = circle
 	area.add_child(shape_node)
 
-	_name_label = Label.new()
-	_name_label.name = "NameLabel"
+
+func _update_name_label(config: Dictionary) -> void:
+	if _name_label == null:
+		return
 	_name_label.text = String(config.get("name", "NPC"))
-	_name_label.position = Vector2(-80, 8)
-	_name_label.size = Vector2(160, 26)
-	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_name_label.add_theme_font_size_override("font_size", 14)
-	_name_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	_name_label.add_theme_constant_override("outline_size", 4)
-	add_child(_name_label)
-
-	_quest_label = Label.new()
-	_quest_label.name = "QuestIndicator"
-	_quest_label.position = Vector2(-24, -142)
-	_quest_label.size = Vector2(48, 44)
-	_quest_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_quest_label.add_theme_font_size_override("font_size", 32)
-	_quest_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	_quest_label.add_theme_constant_override("outline_size", 6)
-	add_child(_quest_label)
-	refresh_quest_indicator()
-
-
-func _load_visual(config: Dictionary) -> bool:
-	var asset := String(config.get("asset", ""))
-	var frames_path := asset.path_join("godot/spriteframes.tres")
-	if asset.is_empty() or not ResourceLoader.exists(frames_path):
-		push_warning("NPC %d 素材不存在: %s" % [npc_id, frames_path])
-		return false
-	var frames := load(frames_path) as SpriteFrames
-	if frames == null:
-		return false
-	_sprite.sprite_frames = frames
-	var idle := String(config.get("idle_animation", "idle"))
-	if not frames.has_animation(idle):
-		idle = String(frames.get_animation_names()[0]) if not frames.get_animation_names().is_empty() else ""
-	if idle.is_empty():
-		return false
-	_sprite.play(idle)
-	# 当前角色导出以 240x240 为基准，脚底约在图像下方；NPC 根节点代表脚底。
-	_sprite.position.y = -120.0
-	return true
