@@ -77,7 +77,9 @@
 		"normal_skill": 50031.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [],
+		"skills": [
+			50033.0
+		],
 		"traits": [
 			"undead"
 		]
@@ -97,7 +99,9 @@
 		"normal_skill": 50041.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [],
+		"skills": [
+			50043.0
+		],
 		"traits": [
 			"flesh",
 			"fast"
@@ -118,7 +122,9 @@
 		"normal_skill": 50051.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": [],
+		"skills": [
+			50053.0
+		],
 		"traits": [
 			"heavy_armor",
 			"high_mr"
@@ -259,7 +265,9 @@
 		"normal_skill": 50121.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			50122.0
+		]
 	},
 	"8014": {
 		"asset": "res://assets/enemies/shu'ju'shi'lai'mu",

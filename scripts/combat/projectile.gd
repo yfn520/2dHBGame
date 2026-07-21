@@ -22,6 +22,9 @@ var flip_to_velocity := true
 var damage_node: Dictionary = {}
 var on_hit_callback: Callable = Callable()
 var _has_new_link := false
+# 节点配置的视觉镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees 字段）
+var visual_mirror := false
+var visual_rotation_degrees := 0.0
 
 var _hit_targets: Dictionary = {}
 var _visual_sprite: AnimatedSprite2D
@@ -41,12 +44,16 @@ func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	velocity.y += projectile_gravity * delta
 	if rotate_to_velocity and velocity.length_squared() > 0.001:
-		rotation = velocity.angle()
-	# 仅在不旋转模式下按飞行方向镜像 flip_h。
-	# 旋转模式（rotate_to_velocity=true）已通过 Area2D rotation 对齐速度方向，
-	# 再叠加 flip_h 会在旋转坐标系下产生反向，导致朝向错误。
-	if not rotate_to_velocity and flip_to_velocity and _visual_sprite != null and velocity.length_squared() > 0.001:
-		_visual_sprite.flip_h = velocity.x < 0.0
+		rotation = velocity.angle() + deg_to_rad(visual_rotation_degrees)
+	elif not rotate_to_velocity:
+		rotation = deg_to_rad(visual_rotation_degrees)
+	# 镜像 flip_h：不旋转模式下按飞行方向自动翻转，再 XOR 节点配置的 mirror 修正。
+	# 旋转模式下 auto_flip 始终为 false，仅用 mirror 手动翻转。
+	if _visual_sprite != null:
+		var auto_flip := false
+		if not rotate_to_velocity and flip_to_velocity and velocity.length_squared() > 0.001:
+			auto_flip = velocity.x < 0.0
+		_visual_sprite.flip_h = auto_flip != visual_mirror
 
 
 func _find_visual_sprite() -> AnimatedSprite2D:
@@ -98,6 +105,8 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	max_pierce = int(node.get("max_pierce", 0))
 	buff_ids = _read_buff_ids_compat(node)
 	buff_chance = float(node.get("buff_chance", 0.0))
+	visual_mirror = bool(node.get("mirror", false))
+	visual_rotation_degrees = float(node.get("rotation_degrees", 0.0))
 
 
 func _read_buff_ids_compat(node: Dictionary) -> Array:

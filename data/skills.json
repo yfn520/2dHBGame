@@ -361,8 +361,22 @@
 		]
 	},
 	"50031": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=58.0 width=64.0 scale=1.00 body_half=27.0",
+					"kind": "melee",
+					"max_edge_distance": 61.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "7b5fcab327b55248"
+		},
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "kl_atk",
 		"nodes": [
 			{
@@ -417,6 +431,46 @@
 				"buff_ids": [],
 				"damage_ratio": 2.0,
 				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50033": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=60.0 width=80.0 scale=1.00 body_half=27.0",
+					"kind": "melee",
+					"max_edge_distance": 71.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "0ae09c337b50da7f"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "8004_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 3.0,
+				"result_key": "new_hit",
 				"type": "melee_damage"
 			},
 			{
@@ -513,6 +567,46 @@
 			}
 		]
 	},
+	"50043": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"kind": "melee",
+					"max_edge_distance": 81.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "5dbcce1ef2b69dde"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "8005_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 3.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
 	"50051": {
 		"ai_range_cache": {
 			"entries": [
@@ -597,6 +691,58 @@
 				"result_key": "projectile_hit",
 				"scale": 7.01,
 				"scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+				"speed": 300.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50053": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "8853c11fae4cb065"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "8006_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"buff_ids": [],
+				"damage_ratio": 3.0,
+				"emission": "single",
+				"lifetime": 5.0,
+				"mirror": true,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"scale": 1.51,
+				"scene": "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
@@ -1074,7 +1220,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "projectile"
 				}
 			],
@@ -1099,7 +1245,7 @@
 				"aim_mode": "facing_elevation",
 				"buff_chance": 0.7,
 				"buff_ids": [
-					10025
+					10025.0
 				],
 				"damage_ratio": 2.0,
 				"emission": "single",
@@ -1110,6 +1256,84 @@
 				"speed": 500.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50121": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=106.0 width=41.0 scale=1.00 body_half=45.5",
+					"kind": "melee",
+					"max_edge_distance": 79.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "30e4cc14bea4ea59"
+		},
+		"name": "8013-atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50122": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=106.0 width=41.0 scale=1.00 body_half=45.5",
+					"kind": "melee",
+					"max_edge_distance": 79.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "30e4cc14bea4ea59"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "8013_skill",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
 			},
 			{
 				"type": "wait_animation_end"

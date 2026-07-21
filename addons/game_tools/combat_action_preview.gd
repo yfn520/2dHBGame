@@ -22,6 +22,9 @@ var _effect_offset := Vector2.ZERO
 var _effect_active := false
 var _effect_visual_scale := 1.0
 var _effect_is_local := false
+# 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
+var _effect_mirror := false
+var _effect_rotation_degrees := 0.0
 
 # 拖拽调整 buff 特效偏移
 var _dragging := false
@@ -73,6 +76,16 @@ func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale:
 	_effect_active = active and scene != null
 	_effect_visual_scale = maxf(0.01, visual_scale)
 	_effect_is_local = is_local
+	_effect_mirror = false
+	_effect_rotation_degrees = 0.0
+	_rebuild_effect_instance()
+	queue_redraw()
+
+
+## 设置弹道特效的镜像/旋转修正（spawn_projectile 节点的 mirror / rotation_degrees）。
+func set_effect_orientation(mirror: bool, rotation_degrees: float) -> void:
+	_effect_mirror = mirror
+	_effect_rotation_degrees = rotation_degrees
 	_rebuild_effect_instance()
 	queue_redraw()
 
@@ -147,7 +160,12 @@ func _rebuild_effect_instance() -> void:
 		# 应用角色视觉缩放：character_local 模式对齐运行时 effect_node.scale *= visual_scale
 		# world 模式（弹道）运行时不缩放，但预览中按用户期望也应用，使弹道视觉与角色缩放一致
 		if instance is Node2D:
-			(instance as Node2D).scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
+			var node2d := instance as Node2D
+			node2d.scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
+			# 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
+			node2d.rotation = deg_to_rad(_effect_rotation_degrees)
+			if _effect_mirror:
+				node2d.scale.x *= -1.0
 
 
 func _draw() -> void:

@@ -216,30 +216,20 @@ func _build_ui() -> void:
 	save.pressed.connect(_save_skills)
 	skill_row.add_child(save)
 
-	var tabs := TabContainer.new()
-	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	right.add_child(tabs)
-	var base_page := GridContainer.new()
-	base_page.name = "基础"
-	base_page.columns = 2
-	base_page.add_theme_constant_override("h_separation", 12)
-	base_page.add_theme_constant_override("v_separation", 8)
-	tabs.add_child(base_page)
-	_name_edit = _add_line(base_page, "技能名称", "name")
-	_description_edit = _add_line(base_page, "技能描述", "description")
-	_cooldown_spin = _add_spin(base_page, "冷却时间", "cooldown", 0.0, 0.0, 999.0, 0.1)
-	var help := Label.new()
-	help.text = "技能本体只配置基础信息。伤害、弹道、范围、Buff 和特效全部在节点中配置。AI 距离由节点和攻击框自动计算，保存时生成 ai_range_cache。"
-	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	help.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	base_page.add_child(help)
-	var filler := Control.new()
-	base_page.add_child(filler)
-
+	# 基础信息（技能名称已在上方 skill_row，此处放描述和冷却）
+	var base_grid := GridContainer.new()
+	base_grid.columns = 2
+	base_grid.add_theme_constant_override("h_separation", 12)
+	base_grid.add_theme_constant_override("v_separation", 4)
+	right.add_child(base_grid)
+	_description_edit = _add_line(base_grid, "技能描述", "description")
+	_cooldown_spin = _add_spin(base_grid, "冷却时间", "cooldown", 0.0, 0.0, 999.0, 0.1)
+	_name_edit = _skill_name_edit  # 复用 skill_row 的名称输入框，避免重复
+	# 不再分页，直接把编排内容放到 right 下方
 	var sequence_page := VBoxContainer.new()
-	sequence_page.name = "编排"
+	sequence_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	sequence_page.add_theme_constant_override("separation", 6)
-	tabs.add_child(sequence_page)
+	right.add_child(sequence_page)
 	var preview_timeline_row := HBoxContainer.new()
 	preview_timeline_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	sequence_page.add_child(preview_timeline_row)
@@ -955,6 +945,15 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_node_spin(form, "前方落点距离", "forward_distance", node, 250.0, 1.0, 9999.0, 1.0)
 	elif String(node.get("trajectory", "straight")) == "ballistic":
 		_add_node_spin(form, "重力", "gravity", node, 900.0, 0.0, 9999.0, 10.0)
+	# 弹道视觉修正：镜像/旋转（对齐运行时 projectile.visual_mirror / visual_rotation_degrees）
+	var mirror_label := Label.new()
+	mirror_label.text = "镜像"
+	form.add_child(mirror_label)
+	var mirror_check := CheckBox.new()
+	mirror_check.button_pressed = bool(node.get("mirror", false))
+	mirror_check.toggled.connect(func(v: bool) -> void: _update_node("mirror", v, false))
+	form.add_child(mirror_check)
+	_add_node_spin(form, "旋转角度", "rotation_degrees", node, 0.0, -360.0, 360.0, 1.0)
 
 
 func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
@@ -1660,7 +1659,7 @@ func _default_node(type_name: String) -> Dictionary:
 		"melee_damage": return {"type": type_name, "result_key": "melee_hit", "damage_ratio": 1.0}
 		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.0}
 		"fullscreen_damage": return {"type": type_name, "result_key": "fullscreen_hit", "damage_ratio": 1.0}
-		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0, "scale": 1.0}
+		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0, "scale": 1.0, "mirror": false, "rotation_degrees": 0.0}
 		"play_effect": return {"type": type_name, "scene": "", "target": "origin"}
 		"apply_target_buff": return {"type": type_name, "target": "result", "result_key": "last_result", "buff_ids": [], "chance": 1.0}
 		"apply_self_buff": return {"type": type_name, "buff_ids": []}
@@ -1937,6 +1936,7 @@ func _refresh_effect_preview() -> void:
 		var origin_offset := _resolve_preview_origin(node) * visual_scale
 		var node_scale := float(node.get("scale", 1.0))
 		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
+		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
 
 
 ## 根据当前选中节点刷新命中范围指示器（apply_target_buff 的 area / area_damage）。
@@ -2162,8 +2162,14 @@ func _add_new_skill() -> void:
 		_status.text = "无法分配新技能 ID。"
 		return
 	var id_str := str(new_id)
+	# 默认命名：当前选中实体 ID + _skill（如 8001_skill）；未选实体时回退「新技能」
+	var default_name := "新技能"
+	if not _current_hero_key.is_empty():
+		var parts := _current_hero_key.split(":")
+		if parts.size() >= 2:
+			default_name = "%s_skill" % parts[1]
 	var new_skill := {
-		"name": "新技能",
+		"name": default_name,
 		"description": "",
 		"cooldown": 1.0,
 		"nodes": [
@@ -2183,6 +2189,7 @@ func _add_new_skill() -> void:
 	_load_skill_fields()
 	_load_action_data()
 	_refresh_all()
+	_refresh_entity_list()
 	if not _current_hero_key.is_empty():
 		_status.text = "已创建技能 %s 并关联到当前英雄，已保存 skills.json 和角色配置。" % id_str
 	else:
@@ -2215,6 +2222,7 @@ func _do_delete_current_skill(skill_id: int) -> void:
 	_unlink_skill_from_all_heroes(skill_id)
 	_current_skill_id = ""
 	_rebuild_skill_select()
+	_refresh_entity_list()
 	_status.text = "已删除技能 %s，已保存 skills.json 和角色配置。" % id_str
 
 
@@ -2371,6 +2379,7 @@ func _save_skills() -> void:
 		return
 	file.store_string(JSON.stringify(_skills, "\t") + "\n")
 	_status.text = "已保存 skills.json。%s" % compiled_summary
+	_refresh_entity_list()
 
 
 func _format_cache_summary(cache: Dictionary) -> String:
