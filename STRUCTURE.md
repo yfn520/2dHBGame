@@ -1,5 +1,11 @@
 # STRUCTURE
 
+## Skill VFX Data Flow
+
+The web `AI 技能特效导演` reads `data/skills.json`, the selected actor manifest, and `combat_actions.json`. It produces a strict phase plan, searches existing VFX libraries, processes chosen/generated frames, and transactionally writes only `res://assets/skill_fx/<bundle_id>/`. Each package owns `skill_fx_bundle.json`, visual atlases, generated Godot effect scenes, and preview metadata.
+
+`addons/game_tools/skill_sequence_editor.gd` is the only importer. It verifies skill/action hashes and all trigger references, backs up `skills.json`, converts package tracks to idempotent `play_effect` nodes, and leaves gameplay nodes unchanged. `scripts/combat/combat_component.gd` executes those nodes with nonblocking delay and applies anchor, follow, facing mirror, lifetime, scale, rotation, tint, and opacity.
+
 ## Runtime Scenes
 
 - `res://scenes/game_root.tscn`: persistent runtime root that owns the party controller, current level container, and a single `UIRoot` node as the only UI entry point.
@@ -61,7 +67,7 @@
 ### Combat (`res://scripts/combat/`)
 
 - `state_machine.gd` - Generic state machine with enter/update/exit callbacks
-- `combat_component.gd` - Combat logic: attack, skills, damage, buffs, cooldowns
+- `combat_component.gd` - Combat logic: attack, skills, damage, buffs, cooldowns, and nonblocking imported skill-VFX playback.
 - `hit_box.gd` - Attack detection Area2D
 - `hurt_box.gd` - Hit reception Area2D (group "hurt_box")
 - `skill_executor.gd` - Skill execution by type (melee/projectile/aoe/fullscreen/self)
@@ -75,6 +81,7 @@
 - `import_stitched_world.gd` - CLI tool to import world maps from `world/stitched/`
 - `import_character.gd` - CLI tool to import character sprites from `assets/characters/`
 - `addons/game_tools/plugin.gd` - Editor import entry points keep playable characters under `assets/characters` and enemies under `assets/enemies`; enemy skill lists are filtered against the actions present in each enemy manifest.
+- `addons/game_tools/skill_sequence_editor.gd` - Final importer for independent AI skill-VFX bundles; validates bindings/hashes, previews tracks, backs up skills, and creates or updates tagged `play_effect` nodes.
 
 ## Assets
 

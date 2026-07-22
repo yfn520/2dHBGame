@@ -11,6 +11,19 @@
 
 ## Decisions
 
+- Skill VFX authoring uses one exchange contract: `assets/skill_fx/<bundle_id>/skill_fx_bundle.json`. The web tool may create packages but never writes `skills.json`; the Godot Skill Sequence Editor is the only importer.
+- A VFX plan may trigger only from `skill_start`, a real action event, a real hit-window start, or a real skill-node index. Package paths must remain inside their own bundle and all references are rejected before export/import when stale.
+- Imported `play_effect` nodes carry `source_bundle_id` and `source_track_id`. Import first removes nodes from the previously active generated package and then inserts the selected package, so one skill has one active VFX package and repeated imports stay idempotent.
+- The importer preserves gameplay and existing wait nodes. When a matching wait node is absent, event/window timing becomes `delay_ms` on the effect rather than a new blocking skill-sequence wait.
+- `CombatComponent` schedules delayed effects independently. Result-target effects subscribe before the hit and apply delay only after a real result, preventing missed hits and avoiding changes to skill execution timing.
+- VFX visuals support package scene, anchor, local/world/fullscreen space, follow behavior, facing mirror, lifetime, scale, rotation, tint, opacity, layer, and additive/screen/normal blend authored by the generated scene.
+- The optional user VFX brief defaults to empty. The director displays every action frame and sends only the frames explicitly selected by the user. `智能选择` preselects start/end, action-event, hit-window, and a few motion-spread frames; full-select and clear are also available. The selection is saved with the editing state.
+- Per-track AI generation is user-driven draw-card generation: one click makes exactly one image-model request using the full marked action storyboard. The returned 2x2 card contains start/peak/dissolve keys, is processed into the atlas, and is retained with its exact prompt for later reselection.
+- VFX planning is also a draw-card flow: one click requests exactly one structured proposal, automatically selects it, and retains up to 20 prior proposal cards for later switching. The three-proposal comparison flow is removed.
+- Proposal generation exposes elapsed seconds and cancellation in the page, keeps failures in a persistent alert, aborts the browser wait at 80 seconds, and enforces a 75-second backend timeout. Backend code changes require restarting the non-reloading local Uvicorn process.
+- Effect Workbench save/load includes director proposals, per-proposal prompts, up to 20 draw-card results per track, and currently selected atlases. Browser directory permissions cannot be serialized, so a loaded session reconnects the Godot folder before export.
+- Verification for the V1 contract includes five backend schema/package tests, three frontend transaction tests, a Godot importer idempotence/gameplay-preservation test, Godot 4.7 headless parse, targeted frontend lint, Vite production build, and a visible disconnected-state browser smoke test.
+
 - NPC authoring is a hard cut with no legacy fallback. `data/npc_placements.json` is the only placement source, and `levels.json.npcs` is unsupported.
 - Each NPC runtime visual is a self-contained `assets/npcs/<slug>` package. `npc_asset.json` paths must remain inside that directory and its `id` must equal the directory slug.
 - The `NpcActor` root position is the foot point. Generated `npc_visual.tscn` owns `AnimatedSprite2D.offset`, resource display scale, `NameLabel`, and `QuestLabel`; placement scale stays on the actor root as a separate map-instance layer.

@@ -1,5 +1,31 @@
 # PLAN
 
+## Current Focus: AI skill VFX director V1
+
+### Goal
+
+Create 2D skill visuals without professional VFX software: the web workbench reads the real skill/action timing, draws one structured AI proposal at a time, retains proposal history, reuses or generates assets per phase, previews the composite, and exports one independent bundle. The Godot skill editor is the only place that imports the bundle into `skills.json`.
+
+### Status
+
+- [x] Strict AI planning API with event, hit-window, node-index, anchor, timing, and path validation.
+- [x] Unified Spine/Unity/sequence/single-image library index and scored search.
+- [x] Per-phase generation, transparent/additive processing, normalized atlas assembly, and isolated regeneration.
+- [x] Web director for project/actor/skill selection, single-proposal draw history, material confirmation, timeline preview, mirror preview, and nontechnical adjustments.
+- [x] Transactional independent package export under `assets/skill_fx/<bundle_id>/` without editing `skills.json`.
+- [x] Godot Skill Sequence Editor import with package/hash validation, mandatory backup, idempotent `play_effect` updates, and gameplay-node preservation.
+- [x] Runtime nonblocking delay, anchor/follow/mirror/lifetime/scale/rotation/tint/opacity support.
+- [x] Backend, frontend, Godot importer, headless parse, production build, and visible browser smoke tests.
+- [ ] Run one final provider-backed skill through asset generation and approve its art in-game.
+
+### Acceptance
+
+- Web export never modifies `data/skills.json`.
+- Reimporting the same bundle updates its generated nodes instead of duplicating them.
+- Import does not change damage, buff, movement, cost, cooldown, or existing wait nodes.
+- Missing events, nodes, assets, hash matches, or package-local paths block import with a concrete error.
+- VFX delay is scheduled independently and never stalls the skill executor.
+
 ## Current Focus: NPC one-stop authoring hard cut
 
 ### Goal

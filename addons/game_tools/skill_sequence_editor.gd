@@ -5,6 +5,7 @@ const SKILLS_PATH := "res://data/skills.json"
 const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
 const BUFFS_PATH := "res://data/buffs.json"
+const SKILL_FX_ROOT := "res://assets/skill_fx"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
 const CombatActionPreview = preload("res://addons/game_tools/combat_action_preview.gd")
 
@@ -102,6 +103,10 @@ var _effect_offset_x_spin: SpinBox
 var _effect_offset_y_spin: SpinBox
 var _effect_scale_slider: HSlider
 var _effect_scale_spin: SpinBox
+var _skill_fx_dialog: ConfirmationDialog
+var _skill_fx_dialog_text: RichTextLabel
+var _skill_fx_file_dialog: FileDialog
+var _pending_skill_fx_import: Dictionary = {}
 
 
 func _init() -> void:
@@ -215,6 +220,11 @@ func _build_ui() -> void:
 	save.text = "保存 skills.json"
 	save.pressed.connect(_save_skills)
 	skill_row.add_child(save)
+	var import_fx := Button.new()
+	import_fx.text = "导入 AI 特效包"
+	import_fx.tooltip_text = "查找当前技能的独立特效包，校验后自动生成或更新 play_effect 节点"
+	import_fx.pressed.connect(_open_skill_fx_bundle)
+	skill_row.add_child(import_fx)
 
 	# 基础信息（技能名称已在上方 skill_row，此处放描述和冷却）
 	var base_grid := GridContainer.new()
@@ -308,7 +318,7 @@ func _build_ui() -> void:
 	_node_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	detail_scroll.add_child(_node_details)
 	var presets := GridContainer.new()
-	presets.columns = 4
+	presets.columns = 5
 	sequence_page.add_child(presets)
 	_add_button(presets, "套用普攻", _apply_melee_template)
 	_add_button(presets, "套用单发弹道", _apply_projectile_template)
@@ -317,6 +327,13 @@ func _build_ui() -> void:
 	_add_button(presets, "套用自身 Buff", _apply_self_buff_template)
 	_add_button(presets, "套用三连弹道", _apply_sequence_template)
 	_add_button(presets, "套用向上箭雨", _apply_rain_template)
+	_add_button(presets, "套用近战+自Buff", _apply_melee_self_buff_template)
+	_add_button(presets, "套用群体Buff", _apply_area_buff_template)
+	_add_button(presets, "套用扇形弹道", _apply_fan_projectile_template)
+	_add_button(presets, "套用事件Buff", _apply_event_buff_template)
+	_add_button(presets, "套用大招", _apply_ultimate_template)
+	_add_button(presets, "套用抛射弹道", _apply_ballistic_projectile_template)
+	_add_button(presets, "套用位移", _apply_dash_template)
 	_add_button(presets, "清空节点", _clear_nodes)
 	_status = Label.new()
 	_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -982,7 +999,32 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_origin_fields(form, node)
 	_add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
 	_add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
+	_add_node_spin(form, "非阻塞延迟 ms", "delay_ms", node, 0.0, 0.0, 10000.0, 10.0)
+	_add_node_spin(form, "特效缩放", "effect_scale", node, 1.0, 0.05, 12.0, 0.05)
+	_add_node_spin(form, "旋转角度", "rotation_degrees", node, 0.0, -720.0, 720.0, 1.0)
+	_add_node_spin(form, "透明度", "opacity", node, 1.0, 0.0, 1.0, 0.05)
+	_add_node_spin(form, "生命周期 ms", "lifetime_ms", node, 0.0, 0.0, 30000.0, 50.0)
 	_add_node_option(form, "附着层级", "attachment_layer", node, ATTACHMENT_LAYER_OPTIONS, false)
+	var follow_check := CheckBox.new()
+	follow_check.text = "跟随挂载对象"
+	follow_check.button_pressed = bool(node.get("follow_target", true))
+	follow_check.toggled.connect(func(value: bool) -> void: _update_node("follow_target", value, false))
+	form.add_child(Label.new())
+	form.add_child(follow_check)
+	var mirror_facing_check := CheckBox.new()
+	mirror_facing_check.text = "跟随角色朝向镜像"
+	mirror_facing_check.button_pressed = bool(node.get("mirror_with_facing", true))
+	mirror_facing_check.toggled.connect(func(value: bool) -> void: _update_node("mirror_with_facing", value, false))
+	form.add_child(Label.new())
+	form.add_child(mirror_facing_check)
+	if not String(node.get("source_bundle_id", "")).is_empty():
+		var source_label := Label.new()
+		source_label.text = "AI 特效包来源"
+		form.add_child(source_label)
+		var source_value := Label.new()
+		source_value.text = "%s / %s" % [String(node.get("source_bundle_id", "")), String(node.get("source_track_id", ""))]
+		source_value.selectable = true
+		form.add_child(source_value)
 	_add_effect_event_helper(form, node)
 
 
@@ -1660,7 +1702,7 @@ func _default_node(type_name: String) -> Dictionary:
 		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.0}
 		"fullscreen_damage": return {"type": type_name, "result_key": "fullscreen_hit", "damage_ratio": 1.0}
 		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0, "scale": 1.0, "mirror": false, "rotation_degrees": 0.0}
-		"play_effect": return {"type": type_name, "scene": "", "target": "origin"}
+		"play_effect": return {"type": type_name, "scene": "", "target": "origin", "delay_ms": 0, "anchor": "origin", "follow_target": true, "mirror_with_facing": true, "lifetime_ms": 0, "effect_scale": 1.0, "rotation_degrees": 0.0, "opacity": 1.0, "tint": "#ffffff"}
 		"apply_target_buff": return {"type": type_name, "target": "result", "result_key": "last_result", "buff_ids": [], "chance": 1.0}
 		"apply_self_buff": return {"type": type_name, "buff_ids": []}
 		"heal": return {"type": type_name, "amount": 10}
@@ -1751,6 +1793,102 @@ func _apply_sequence_template() -> void:
 func _apply_rain_template() -> void:
 	var action := _default_action()
 	_apply_template([{"type": "play_animation", "action": action}, {"type": "wait_hit_window", "hit_window_index": 0}, {"type": "spawn_projectile", "result_key": "rain_hit", "scene": "", "origin": "hit_window", "trajectory": "ballistic", "aim_mode": "enemy_area", "emission": "area_rain", "count": 12, "interval": 0.08, "ai_min_range": 0.0, "ai_max_range": 380.0, "target_search_range": 500.0, "area_width": 260.0, "area_height": 90.0, "arc_height": 180.0, "gravity": 900.0, "speed": 360.0, "lifetime": 3.0, "damage_ratio": 0.7}, {"type": "wait_animation_end"}, {"type": "end_skill"}], "已套用斜向上箭雨模板，请填写弹道场景。")
+
+
+func _apply_melee_self_buff_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "melee_damage", "result_key": "melee_hit", "damage_ratio": 1.0,
+		 "damage_channel": "physical", "damage_tag": "slash"},
+		{"type": "apply_self_buff", "buff_ids": []},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用近战+自Buff模板。")
+
+
+func _apply_area_buff_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "play_effect", "coordinate_space": "character_local",
+		 "target": "origin", "scene": ""},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "apply_target_buff", "target": "area", "origin": "caster",
+		 "radius": 200.0, "chance": 1.0, "buff_ids": []},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用群体Buff模板，请填写 buff_ids 与特效场景。")
+
+
+func _apply_fan_projectile_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "play_effect", "coordinate_space": "character_local",
+		 "target": "origin", "scene": ""},
+		{"type": "spawn_projectile", "emission": "fan", "trajectory": "straight",
+		 "count": 3, "spread_degrees": 20.0, "max_pierce": 20,
+		 "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.5,
+		 "damage_channel": "magic", "damage_tag": "fire", "scene": ""},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用扇形弹道模板，请填写弹道场景。")
+
+
+func _apply_event_buff_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "play_effect", "coordinate_space": "character_local",
+		 "target": "origin", "scene": ""},
+		{"type": "wait_action_event", "event": "release"},
+		{"type": "apply_self_buff", "buff_ids": []},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用事件Buff模板，需动作配置 release 事件。")
+
+
+func _apply_ultimate_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "play_effect", "coordinate_space": "fullscreen",
+		 "target": "origin", "scene": "", "duration": 2.0},
+		{"type": "play_effect", "coordinate_space": "character_local",
+		 "origin": "caster", "target": "origin", "scene": ""},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "fullscreen_damage", "damage_channel": "magic",
+		 "damage_tag": "fire", "damage_ratio": 3.0},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用大招模板，请填写两个特效场景。")
+
+
+func _apply_ballistic_projectile_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "wait_hit_window", "hit_window_index": 0},
+		{"type": "spawn_projectile", "trajectory": "ballistic", "emission": "single",
+		 "aim_mode": "enemy_area", "arc_height": 100.0, "gravity": 900.0,
+		 "speed": 360.0, "lifetime": 3.0, "damage_ratio": 1.5, "scene": ""},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用抛射弹道模板，请填写弹道场景。")
+
+
+func _apply_dash_template() -> void:
+	var action := _default_action()
+	_apply_template([
+		{"type": "play_animation", "action": action},
+		{"type": "wait_action_frame", "frame": 0},
+		{"type": "move_x", "distance": 64.0},
+		{"type": "wait_animation_end"},
+		{"type": "end_skill"},
+	], "已套用位移模板。")
 
 
 func _clear_nodes() -> void:
@@ -2426,6 +2564,332 @@ func _find_skill_owner_asset(skill_id: int) -> String:
 				if int(sid_value) == skill_id:
 					return asset
 	return ""
+
+
+## Finds the independent AI VFX package for the selected skill and previews the
+## exact play_effect nodes that will be imported. The web tool never writes
+## skills.json directly; this editor remains the only authoritative writer.
+func _open_skill_fx_bundle() -> void:
+	if _current_skill_id.is_empty():
+		_status.text = "请先选择技能，再导入 AI 特效包。"
+		return
+	var matches: Array[String] = []
+	if DirAccess.dir_exists_absolute(SKILL_FX_ROOT):
+		for folder_name in DirAccess.get_directories_at(SKILL_FX_ROOT):
+			var manifest_path := SKILL_FX_ROOT.path_join(String(folder_name)).path_join("skill_fx_bundle.json")
+			var manifest := _read_json(manifest_path)
+			if String(manifest.get("format", "")) == "frame-ronin-skill-fx-bundle-v1" and String(manifest.get("skill_id", "")) == _current_skill_id:
+				matches.append(manifest_path)
+	if matches.size() == 1:
+		_prepare_skill_fx_import(matches[0])
+		return
+	if matches.size() > 1:
+		matches.sort_custom(func(a: String, b: String) -> bool: return FileAccess.get_modified_time(a) > FileAccess.get_modified_time(b))
+		_prepare_skill_fx_import(matches[0])
+		_status.text = "检测到多个特效包，已选择最近修改的一份：%s" % matches[0]
+		return
+	_open_skill_fx_file_dialog()
+
+
+func _open_skill_fx_file_dialog() -> void:
+	if _skill_fx_file_dialog == null:
+		_skill_fx_file_dialog = FileDialog.new()
+		_skill_fx_file_dialog.title = "选择 skill_fx_bundle.json"
+		_skill_fx_file_dialog.access = FileDialog.ACCESS_RESOURCES
+		_skill_fx_file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		_skill_fx_file_dialog.filters = PackedStringArray(["*.json ; Skill FX Bundle"])
+		_skill_fx_file_dialog.file_selected.connect(_prepare_skill_fx_import)
+		add_child(_skill_fx_file_dialog)
+	_skill_fx_file_dialog.current_dir = SKILL_FX_ROOT
+	_skill_fx_file_dialog.popup_centered_ratio(0.72)
+
+
+func _prepare_skill_fx_import(manifest_path: String) -> void:
+	var manifest := _read_json(manifest_path)
+	var validation_error := _validate_skill_fx_manifest(manifest)
+	if not validation_error.is_empty():
+		_status.text = "特效包校验失败：%s" % validation_error
+		return
+	var build_result := _build_skill_fx_nodes(manifest)
+	var build_error := String(build_result.get("error", ""))
+	if not build_error.is_empty():
+		_status.text = "特效包无法导入：%s" % build_error
+		return
+	_pending_skill_fx_import = {
+		"manifest": manifest,
+		"manifest_path": manifest_path,
+		"nodes": build_result.get("nodes", []),
+		"track_count": int(build_result.get("track_count", 0)),
+	}
+	_show_skill_fx_confirmation(manifest, build_result)
+
+
+func _validate_skill_fx_manifest(manifest: Dictionary) -> String:
+	if manifest.is_empty() or String(manifest.get("format", "")) != "frame-ronin-skill-fx-bundle-v1":
+		return "不是 frame-ronin-skill-fx-bundle-v1 文件"
+	if int(manifest.get("version", 0)) != 1:
+		return "仅支持版本 1"
+	if String(manifest.get("skill_id", "")) != _current_skill_id:
+		return "包内 skill_id 与当前技能不一致"
+	var bundle_id := String(manifest.get("bundle_id", ""))
+	if bundle_id.is_empty():
+		return "缺少 bundle_id"
+	var expected_action_hash := String(manifest.get("action_hash", ""))
+	var owner_asset := _find_skill_owner_asset(int(_current_skill_id))
+	if owner_asset.is_empty():
+		return "无法定位技能所属角色或怪物"
+	var combat_path := owner_asset.path_join("combat_actions.json")
+	if expected_action_hash.is_empty() or not FileAccess.file_exists(combat_path):
+		return "缺少动作配置或动作哈希"
+	if FileAccess.get_sha256(combat_path) != expected_action_hash:
+		return "combat_actions.json 已变化，请回网页重新连接项目并导出"
+	var has_existing_bundle_nodes := false
+	for value in _current_skill().get("nodes", []):
+		if value is Dictionary and String(value.get("source_bundle_id", "")) == bundle_id:
+			has_existing_bundle_nodes = true
+			break
+	var expected_skill_hash := String(manifest.get("skill_hash", ""))
+	if not has_existing_bundle_nodes and (expected_skill_hash.is_empty() or FileAccess.get_sha256(SKILLS_PATH) != expected_skill_hash):
+		return "skills.json 已变化，请回网页重新连接项目并导出"
+	var tracks: Array = manifest.get("tracks", [])
+	if tracks.is_empty():
+		return "特效包没有轨道"
+	var ids: Dictionary = {}
+	var events := _event_names()
+	var hit_windows: Array = _action_data.get("hit_windows", [])
+	var clean_node_count := 0
+	for value in _current_skill().get("nodes", []):
+		if value is Dictionary and String(value.get("source_bundle_id", "")).is_empty():
+			clean_node_count += 1
+	for value in tracks:
+		if not value is Dictionary:
+			return "轨道必须是对象"
+		var track: Dictionary = value
+		var track_id := String(track.get("id", ""))
+		if track_id.is_empty() or ids.has(track_id):
+			return "轨道 ID 为空或重复：%s" % track_id
+		ids[track_id] = true
+		var asset: Dictionary = track.get("asset", {})
+		var scene_path := String(asset.get("scene_path", ""))
+		if not scene_path.begins_with("res://"):
+			scene_path = "res://" + scene_path
+		if not scene_path.begins_with("res://assets/skill_fx/%s/" % bundle_id):
+			return "轨道资源越出自身特效包：%s" % track_id
+		if not ResourceLoader.exists(scene_path):
+			return "特效场景不存在或尚未导入：%s" % scene_path
+		var trigger: Dictionary = track.get("trigger", {})
+		match String(trigger.get("type", "")):
+			"skill_start":
+				pass
+			"action_event":
+				if not events.has(String(trigger.get("event", ""))):
+					return "不存在动作事件：%s" % String(trigger.get("event", ""))
+			"hit_window_start":
+				if int(trigger.get("hit_window_index", -1)) < 0 or int(trigger.get("hit_window_index", -1)) >= hit_windows.size():
+					return "攻击窗口索引无效：%s" % track_id
+			"after_skill_node":
+				if int(trigger.get("node_index", -1)) < 0 or int(trigger.get("node_index", -1)) >= clean_node_count:
+					return "技能节点索引无效：%s" % track_id
+			_:
+				return "不支持的触发方式：%s" % String(trigger.get("type", ""))
+	return ""
+
+
+func _build_skill_fx_nodes(manifest: Dictionary) -> Dictionary:
+	var bundle_id := String(manifest.get("bundle_id", ""))
+	var skill := _current_skill()
+	var nodes: Array = []
+	# A skill has one active imported package. Strip previous imported VFX nodes,
+	# while retaining every gameplay/control node byte-for-byte.
+	for value in skill.get("nodes", []):
+		if value is Dictionary and String(value.get("source_bundle_id", "")).is_empty():
+			nodes.append(value.duplicate(true))
+	var play_animation_index := -1
+	for index in range(nodes.size()):
+		if nodes[index] is Dictionary and String(nodes[index].get("type", "")) == "play_animation":
+			play_animation_index = index
+			break
+	if play_animation_index < 0:
+		return {"error": "当前技能没有 play_animation 节点"}
+	var descriptors: Array[Dictionary] = []
+	for value in manifest.get("tracks", []):
+		var track: Dictionary = value
+		var trigger: Dictionary = track.get("trigger", {})
+		var trigger_type := String(trigger.get("type", ""))
+		var base_index := play_animation_index
+		var delay_ms := int(trigger.get("offset_ms", 0))
+		var anchor_node: Dictionary = nodes[play_animation_index]
+		if trigger_type == "action_event":
+			var event_name := String(trigger.get("event", ""))
+			var event_wait_index := _find_wait_node(nodes, "wait_action_event", "event", event_name)
+			if event_wait_index >= 0:
+				base_index = event_wait_index
+				anchor_node = nodes[event_wait_index]
+			else:
+				delay_ms += _action_event_time_ms(event_name)
+		elif trigger_type == "hit_window_start":
+			var window_index := int(trigger.get("hit_window_index", 0))
+			var hit_wait_index := _find_wait_node(nodes, "wait_hit_window", "hit_window_index", window_index)
+			if hit_wait_index >= 0:
+				base_index = hit_wait_index
+				anchor_node = nodes[hit_wait_index]
+			else:
+				delay_ms += _hit_window_time_ms(window_index)
+		elif trigger_type == "after_skill_node":
+			base_index = int(trigger.get("node_index", 0))
+			anchor_node = nodes[base_index]
+		var effect_node := _skill_fx_track_to_node(track, bundle_id, anchor_node, max(0, delay_ms))
+		descriptors.append({"base_index": base_index, "node": effect_node})
+	# Descending insertion keeps all original gameplay node indexes stable.
+	descriptors.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.get("base_index", 0)) > int(b.get("base_index", 0)))
+	for descriptor in descriptors:
+		nodes.insert(int(descriptor.get("base_index", 0)) + 1, descriptor.get("node", {}))
+	return {"nodes": nodes, "track_count": descriptors.size(), "error": ""}
+
+
+func _find_wait_node(nodes: Array, type_name: String, field: String, expected: Variant) -> int:
+	for index in range(nodes.size()):
+		if not nodes[index] is Dictionary:
+			continue
+		var node: Dictionary = nodes[index]
+		if String(node.get("type", "")) == type_name and node.get(field) == expected:
+			return index
+	return -1
+
+
+func _action_event_time_ms(event_name: String) -> int:
+	for value in _action_data.get("events", []):
+		if value is Dictionary and String(value.get("name", "")) == event_name:
+			return roundi(float(value.get("frame", 0)) / maxf(1.0, _play_fps) * 1000.0)
+	return 0
+
+
+func _hit_window_time_ms(window_index: int) -> int:
+	var windows: Array = _action_data.get("hit_windows", [])
+	if window_index < 0 or window_index >= windows.size() or not windows[window_index] is Dictionary:
+		return 0
+	return roundi(float(windows[window_index].get("start_frame", 0)) / maxf(1.0, _play_fps) * 1000.0)
+
+
+func _skill_fx_track_to_node(track: Dictionary, bundle_id: String, anchor_node: Dictionary, delay_ms: int) -> Dictionary:
+	var asset: Dictionary = track.get("asset", {})
+	var transform: Dictionary = track.get("transform", {})
+	var offset: Dictionary = transform.get("offset", {})
+	var scene_path := String(asset.get("scene_path", ""))
+	if not scene_path.begins_with("res://"):
+		scene_path = "res://" + scene_path
+	var coordinate_space := String(track.get("space", "world"))
+	var anchor := String(track.get("anchor", "origin"))
+	var target := "origin"
+	var result_key := ""
+	if String(track.get("phase", "")) == "impact" and anchor_node.has("result_key"):
+		target = "result"
+		result_key = String(anchor_node.get("result_key", "last_result"))
+	var node := {
+		"type": "play_effect",
+		"scene": scene_path,
+		"coordinate_space": coordinate_space,
+		"target": target,
+		"origin": "caster" if coordinate_space == "character_local" else "hit_window",
+		"offset_x": float(offset.get("x", 0.0)),
+		"offset_y": float(offset.get("y", 0.0)),
+		"delay_ms": delay_ms,
+		"anchor": anchor,
+		"follow_target": coordinate_space == "character_local",
+		"mirror_with_facing": String(track.get("direction", "facing")) == "facing",
+		"lifetime_ms": int(track.get("duration_ms", 500)),
+		"effect_scale": float(transform.get("scale", 1.0)),
+		"rotation_degrees": float(transform.get("rotation_degrees", 0.0)),
+		"opacity": float(transform.get("opacity", 1.0)),
+		"tint": String(transform.get("tint", "#ffffff")),
+		"attachment_layer": "behind" if int(track.get("layer", 1)) < 0 else "front",
+		"source_bundle_id": bundle_id,
+		"source_track_id": String(track.get("id", "")),
+	}
+	if target == "result":
+		node["result_key"] = result_key
+	if anchor not in ["origin", "foot", "body_center", "weapon", "hand"]:
+		node["origin"] = "socket"
+		node["socket"] = anchor
+	if coordinate_space == "fullscreen":
+		node["duration"] = maxf(0.05, float(track.get("duration_ms", 500)) / 1000.0)
+	return node
+
+
+func _show_skill_fx_confirmation(manifest: Dictionary, build_result: Dictionary) -> void:
+	if _skill_fx_dialog == null:
+		_skill_fx_dialog = ConfirmationDialog.new()
+		_skill_fx_dialog.title = "导入 AI 技能特效包"
+		_skill_fx_dialog.ok_button_text = "备份并导入"
+		_skill_fx_dialog.cancel_button_text = "取消"
+		_skill_fx_dialog.confirmed.connect(_apply_pending_skill_fx_import)
+		_skill_fx_dialog.canceled.connect(_refresh_effect_preview)
+		_skill_fx_dialog_text = RichTextLabel.new()
+		_skill_fx_dialog_text.custom_minimum_size = Vector2(620, 320)
+		_skill_fx_dialog_text.fit_content = true
+		_skill_fx_dialog.add_child(_skill_fx_dialog_text)
+		add_child(_skill_fx_dialog)
+	var lines := PackedStringArray()
+	lines.append("[b]%s[/b]" % String((manifest.get("proposal", {}) as Dictionary).get("title", manifest.get("bundle_id", ""))))
+	lines.append(String((manifest.get("proposal", {}) as Dictionary).get("summary", "")))
+	lines.append("")
+	lines.append("将导入 %d 条 play_effect 节点：" % int(build_result.get("track_count", 0)))
+	for value in manifest.get("tracks", []):
+		if value is Dictionary:
+			lines.append("• %s / %s / %s" % [String(value.get("title", value.get("id", ""))), String(value.get("phase", "")), String((value.get("trigger", {}) as Dictionary).get("type", ""))])
+	lines.append("")
+	lines.append("玩法、伤害、Buff、位移和消耗节点不会被修改。再次导入同一技能包会更新原特效节点。")
+	_skill_fx_dialog_text.text = "\n".join(lines)
+	# Preview the first package scene in the existing action preview before confirmation.
+	var tracks: Array = manifest.get("tracks", [])
+	if not tracks.is_empty() and tracks[0] is Dictionary:
+		var first: Dictionary = tracks[0]
+		var asset: Dictionary = first.get("asset", {})
+		var scene_path := String(asset.get("scene_path", ""))
+		if not scene_path.begins_with("res://"):
+			scene_path = "res://" + scene_path
+		var packed := load(scene_path) as PackedScene
+		var transform: Dictionary = first.get("transform", {})
+		var offset: Dictionary = transform.get("offset", {})
+		if packed != null:
+			_preview.set_effect(packed, Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0))), true, float(transform.get("scale", 1.0)), String(first.get("space", "world")) == "character_local")
+	_skill_fx_dialog.popup_centered(Vector2i(680, 430))
+
+
+func _apply_pending_skill_fx_import() -> void:
+	if _pending_skill_fx_import.is_empty():
+		return
+	var backup_path := _backup_skills_for_skill_fx()
+	if backup_path.is_empty():
+		_status.text = "无法备份 skills.json，已取消导入。"
+		return
+	var skill := _current_skill()
+	skill["nodes"] = (_pending_skill_fx_import.get("nodes", []) as Array).duplicate(true)
+	_skills[_current_skill_id] = skill
+	_save_skills()
+	var count := int(_pending_skill_fx_import.get("track_count", 0))
+	_status.text = "已导入 %d 条 AI 特效节点。备份：%s" % [count, backup_path]
+	_pending_skill_fx_import.clear()
+	_rebuild_node_list()
+	_refresh_timeline()
+	_refresh_effect_preview()
+
+
+func _backup_skills_for_skill_fx() -> String:
+	if not FileAccess.file_exists(SKILLS_PATH):
+		return ""
+	var timestamp := Time.get_datetime_string_from_system().replace("-", "").replace(":", "").replace("T", "_")
+	var backup_dir := "res://.frame-ronin/backups/skill-fx/%s" % timestamp
+	var absolute_dir := ProjectSettings.globalize_path(backup_dir)
+	if DirAccess.make_dir_recursive_absolute(absolute_dir) != OK:
+		return ""
+	var source := FileAccess.open(SKILLS_PATH, FileAccess.READ)
+	var target_path := backup_dir.path_join("skills.json")
+	var target := FileAccess.open(target_path, FileAccess.WRITE)
+	if source == null or target == null:
+		return ""
+	target.store_buffer(source.get_buffer(source.get_length()))
+	return target_path
 
 
 func _load_json(path: String) -> Dictionary:

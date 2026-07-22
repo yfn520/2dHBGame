@@ -423,12 +423,24 @@ func _execute_effect_node(node: Dictionary) -> void:
 	if target_mode == "result" or target_mode == "last_result":
 		_cast_context.subscribe(String(node.get("result_key", "last_result")), Callable(self, "_spawn_effect_on_target").bind(node.duplicate(true)), String(node.get("delivery", "each_hit")))
 		return
+	var delay_ms := maxi(0, int(node.get("delay_ms", 0)))
+	if delay_ms > 0:
+		var scheduled := node.duplicate(true)
+		scheduled["delay_ms"] = 0
+		get_tree().create_timer(float(delay_ms) / 1000.0).timeout.connect(_execute_delayed_effect_node.bind(scheduled), CONNECT_ONE_SHOT)
+		return
 	var targets := _skill_executor.resolve_targets(node, _resolve_origin(node), _cast_context)
 	if not targets.is_empty():
 		for target in targets:
 			_spawn_effect_on_target(target, node)
 		return
 	_spawn_effect_at(_resolve_origin(node), node)
+
+
+func _execute_delayed_effect_node(node: Dictionary) -> void:
+	if _owner == null or not is_instance_valid(_owner) or combat_state == CombatState.DEAD:
+		return
+	_execute_effect_node(node)
 
 
 func _execute_target_buff_node(node: Dictionary) -> void:
@@ -444,6 +456,12 @@ func _execute_target_buff_node(node: Dictionary) -> void:
 
 func _spawn_effect_on_target(target: Area2D, node: Dictionary) -> void:
 	if target == null or not is_instance_valid(target):
+		return
+	var delay_ms := maxi(0, int(node.get("delay_ms", 0)))
+	if delay_ms > 0:
+		var scheduled := node.duplicate(true)
+		scheduled["delay_ms"] = 0
+		get_tree().create_timer(float(delay_ms) / 1000.0).timeout.connect(_spawn_effect_on_target.bind(target, scheduled), CONNECT_ONE_SHOT)
 		return
 	# target 通常是受击者的 HurtBox；真正要挂载的角色/怪物节点存在 _owner_entity 上。
 	# 透传给 _spawn_effect_at，使 character_local 模式下的 attachment 能挂到被击者身上。
@@ -464,6 +482,9 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 	var coord_space := String(node.get("coordinate_space", "world"))
+	if coord_space == "character_local" and not bool(node.get("follow_target", true)):
+		coord_space = "world"
+	_apply_imported_effect_transform(effect, node)
 
 	# 全屏特效：挂到 UIRoot 的 ScreenLayer，按 cover 模式铺满 viewport，单次播放后自动销毁。
 	# 忽略 offset 和 visual_scale（运行时按 viewport 自适应），不受相机移动影响。
@@ -496,11 +517,13 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# Keep them parented to the actor so they follow movement, and mirror exactly when
 		# the attach root sprite is flipped.
 		var effect_node := effect as Node2D
-		var mirror_x := -1.0 if attach_sprite != null and attach_sprite.flip_h else 1.0
+		offset += _resolve_effect_anchor_offset(node, attach_root)
+		var mirror_enabled := bool(node.get("mirror_with_facing", true))
+		var mirror_x := -1.0 if mirror_enabled and attach_sprite != null and attach_sprite.flip_h else 1.0
 		attach_root.add_child(effect_node)
 		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
-		if effect_node is AnimatedSprite2D and attach_sprite != null:
+		if effect_node is AnimatedSprite2D and mirror_enabled and attach_sprite != null:
 			# 效果场景可烘焙水平镜像（flip_h），与挂载根朝向取异或，使特效内部镜像独立于挂载根朝向。
 			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != attach_sprite.flip_h
 		elif mirror_x < 0.0:
@@ -511,6 +534,7 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		var attachment_layer := String(node.get("attachment_layer", "front"))
 		effect_node.z_as_relative = true
 		effect_node.z_index = visual_z + (-1 if attachment_layer == "behind" else 1)
+		_schedule_imported_effect_lifetime(effect_node, node)
 		return
 	if scene == null:
 		effect.queue_free()
@@ -523,6 +547,41 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		var baked_offset := (effect as Node2D).position
 		(effect as Node2D).global_position = position_value + (offset + baked_offset) * visual_scale
 		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
+		_schedule_imported_effect_lifetime(effect as Node2D, node)
+
+
+func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
+	if effect is not Node2D:
+		return
+	var effect_node := effect as Node2D
+	var authored_scale := clampf(float(node.get("effect_scale", 1.0)), 0.05, 12.0)
+	effect_node.scale *= Vector2(authored_scale, authored_scale)
+	effect_node.rotation += deg_to_rad(float(node.get("rotation_degrees", 0.0)))
+	var tint := Color.from_string(String(node.get("tint", "#ffffff")), Color.WHITE)
+	tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
+	effect_node.modulate *= tint
+
+
+func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vector2:
+	var anchor := String(node.get("anchor", "origin"))
+	if anchor == "origin" or anchor == "foot":
+		return Vector2.ZERO
+	if anchor == "body_center" and attach_root.has_method("get_body_center_y"):
+		return Vector2(0.0, float(attach_root.get_body_center_y()))
+	if attach_root != _owner:
+		return Vector2.ZERO
+	var socket_name := String(node.get("socket", anchor))
+	var socket_position: Variant = _get_socket_position(_current_action, socket_name, _sprite.frame if _sprite != null else 0)
+	if socket_position is Vector2:
+		return (socket_position as Vector2) - attach_root.global_position
+	return Vector2.ZERO
+
+
+func _schedule_imported_effect_lifetime(effect: Node2D, node: Dictionary) -> void:
+	var lifetime_ms := int(node.get("lifetime_ms", 0))
+	if lifetime_ms <= 0 or effect.get_tree() == null:
+		return
+	effect.get_tree().create_timer(float(lifetime_ms) / 1000.0).timeout.connect(effect.queue_free, CONNECT_ONE_SHOT)
 
 
 ## 全屏特效：挂到 UIRoot 的 ScreenLayer（z=20），按 cover 模式铺满 viewport。
