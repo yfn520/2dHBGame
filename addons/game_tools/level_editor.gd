@@ -172,6 +172,11 @@ func _normalize_all_levels() -> void:
 	for id_str in _levels:
 		var level: Dictionary = _levels[id_str]
 		level["enemies"] = _normalize_enemies(level.get("enemies", []))
+		# NPC 摆放的主数据当前由 data/npc_placements.json 管理；但为了兼容
+		# 已经将 npcs 内嵌在 levels.json 的关卡包，这里必须原样保留该字段。
+		# 否则本编辑器的白名单写回会静默删除 NPC 摆放记录。
+		if level.get("npcs", []) is Array:
+			level["npcs"] = (level.get("npcs", []) as Array).duplicate(true)
 		_levels[id_str] = level
 
 
@@ -1492,6 +1497,8 @@ func _on_save() -> void:
 			"bgm": String(level.get("bgm", "")),
 			"description": String(level.get("description", "")),
 			"enemies": level.get("enemies", []),
+			# 兼容保留：不由关卡编辑器 UI 修改的 NPC 数据不能在保存时消失。
+			"npcs": level.get("npcs", []),
 		}
 	var file := FileAccess.open(LEVELS_PATH, FileAccess.WRITE)
 	if file == null:

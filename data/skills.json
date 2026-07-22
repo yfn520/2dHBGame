@@ -711,7 +711,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "projectile"
 				}
 			],
@@ -1344,8 +1344,22 @@
 		]
 	},
 	"6001": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=29.0 width=33.0 scale=2.00 body_half=29.0",
+					"kind": "melee",
+					"max_edge_distance": 60.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "241783783ed7d1db"
+		},
 		"cast_range": 50.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"description": "new_kivin 普通攻击。",
 		"name": "new_kivin 普攻",
 		"nodes": [
@@ -1464,12 +1478,21 @@
 	},
 	"6011": {
 		"ai_range_cache": {
-			"entries": [],
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2,
+					"source": "projectile"
+				}
+			],
 			"policy": "any_damage_node",
-			"source_hash": "47a16785565b1438"
+			"source_hash": "f822c907cd1f3e54"
 		},
 		"cast_range": 60.0,
-		"cooldown": 0.5,
+		"cooldown": 1.0,
 		"name": "弓手普攻",
 		"nodes": [
 			{

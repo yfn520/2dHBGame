@@ -10,6 +10,7 @@ var npc_config
 var npc_placement_config
 var dialogue_config
 var quest_config
+var interaction_binding_config
 
 var inventory_data
 var equipment_data
@@ -41,6 +42,8 @@ func _ready() -> void:
 	character_config.load_config()
 	dialogue_config = load("res://scripts/data/dialogue_config.gd").new()
 	dialogue_config.load_config()
+	interaction_binding_config = load("res://scripts/data/interaction_binding_config.gd").new()
+	interaction_binding_config.load_config()
 	npc_config = load("res://scripts/data/npc_config.gd").new()
 	npc_config.load_config(dialogue_config)
 	npc_placement_config = load("res://scripts/data/npc_placement_config.gd").new()

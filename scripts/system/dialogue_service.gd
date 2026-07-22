@@ -4,6 +4,7 @@ extends Node
 signal dialogue_started(npc_id: int)
 signal node_changed(node: Dictionary)
 signal dialogue_finished(npc_id: int, completed: bool)
+signal intent_selected(npc_id: int, dialogue_id: String, choice_id: String, intent_key: String)
 
 var npc_config: NpcConfig
 var dialogue_config: DialogueConfig
@@ -64,6 +65,9 @@ func choose(index: int) -> void:
 	if index < 0 or index >= visible.size():
 		return
 	var choice: Dictionary = visible[index]
+	var intent_key := String(choice.get("intent_key", "")).strip_edges()
+	if not intent_key.is_empty():
+		intent_selected.emit(current_npc_id, current_dialogue_id, String(choice.get("id", "")), intent_key)
 	_execute_actions(choice.get("actions", []))
 	var next_id := String(choice.get("next_id", choice.get("next", "")))
 	if next_id.is_empty():
