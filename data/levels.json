@@ -1,37 +1,35 @@
 {
-		"5": {
-		"bgm": "",
-		"description": "",
-		"enemies": [],
-		"name": "city3",
-		"scene_path": "res://scenes/city3.tscn",
-		"spawn_x": 184,
-		"spawn_y": 397
-	},
 	"1": {
 		"bgm": "",
 		"description": "初始关卡",
 		"enemies": [
 			{
-				"enemy_id": 8012.0,
+				"enemy_id": 8012,
 				"mode": "point",
 				"spawn_id": "spawn_2",
 				"x": 462.867492675781,
 				"y": 376.524078369141
+			},
+			{
+				"enemy_id": 8006,
+				"mode": "point",
+				"spawn_id": "spawn_0",
+				"x": 340.841156005859,
+				"y": 365.893218994141
 			}
 		],
 		"name": "星地",
 		"scene_path": "res://scenes/shulin.tscn",
-		"spawn_x": 160.0,
-		"spawn_y": 350.0
+		"spawn_x": 160,
+		"spawn_y": 350
 	},
 	"2": {
 		"bgm": "",
 		"description": "第二关卡",
 		"enemies": [
 			{
-				"count": 3.0,
-				"enemy_id": 8001.0,
+				"count": 3,
+				"enemy_id": 8001,
 				"mode": "group",
 				"scatter_x": 20.0,
 				"spawn_id": "spawn_0",
@@ -41,8 +39,8 @@
 		],
 		"name": "丛林",
 		"scene_path": "res://scenes/jungle_01.tscn",
-		"spawn_x": 160.0,
-		"spawn_y": 350.0
+		"spawn_x": 160,
+		"spawn_y": 350
 	},
 	"3": {
 		"bgm": "",
@@ -50,8 +48,8 @@
 		"enemies": [],
 		"name": "city",
 		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 497.0,
-		"spawn_y": 397.0
+		"spawn_x": 497,
+		"spawn_y": 397
 	},
 	"4": {
 		"bgm": "",
@@ -59,7 +57,16 @@
 		"enemies": [],
 		"name": "city2",
 		"scene_path": "res://scenes/city2.tscn",
-		"spawn_x": 184.0,
-		"spawn_y": 397.0
+		"spawn_x": 184,
+		"spawn_y": 397
+	},
+	"5": {
+		"bgm": "",
+		"description": "",
+		"enemies": [],
+		"name": "city3",
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 184,
+		"spawn_y": 397
 	}
 }

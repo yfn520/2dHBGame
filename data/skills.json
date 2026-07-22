@@ -718,7 +718,7 @@
 			"policy": "any_damage_node",
 			"source_hash": "8853c11fae4cb065"
 		},
-		"cooldown": 1.0,
+		"cooldown": 3.0,
 		"description": "",
 		"name": "8006_skill",
 		"nodes": [
@@ -741,8 +741,8 @@
 				"mirror": true,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
-				"scale": 1.51,
-				"scene": "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+				"scale": 6.01,
+				"scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"
