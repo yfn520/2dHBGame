@@ -25,11 +25,8 @@ var _selected_spawn_id: String = ""
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
 var _loading := false
 
-# ---- UI: 关卡列表 ----
-var _level_list: ItemList
-var _level_new_btn: Button
-var _level_dup_btn: Button
-var _level_del_btn: Button
+# ---- UI: 关卡选择（顶部下拉）----
+var _level_picker: OptionButton
 
 # ---- UI: 关卡属性 ----
 var _name_edit: LineEdit
@@ -104,14 +101,14 @@ func _on_close_requested() -> void:
 func _ready() -> void:
 	_build_ui()
 	_load_data()
-	_refresh_level_list()
+	_refresh_level_picker()
 
 
 func open_editor() -> void:
-	if _level_list == null:
+	if _level_picker == null:
 		_build_ui()
 	_load_data()
-	_refresh_level_list()
+	_refresh_level_picker()
 	popup_centered(size)
 	mode = Window.MODE_MAXIMIZED
 
@@ -219,21 +216,30 @@ func _normalize_enemies(raw: Variant) -> Array:
 # ============================================================
 
 func _build_ui() -> void:
-	if _level_list != null:
+	if _level_picker != null:
 		return
 	var root := VBoxContainer.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.add_theme_constant_override("separation", 4)
 	add_child(root)
 
-	# 顶部工具栏
+	# 顶部第一行：关卡选择下拉 + 关卡增删
+	var level_bar := HBoxContainer.new()
+	level_bar.add_theme_constant_override("separation", 6)
+	root.add_child(level_bar)
+	level_bar.add_child(_make_label("关卡", 13))
+	_level_picker = OptionButton.new()
+	_level_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_level_picker.item_selected.connect(_on_level_selected)
+	level_bar.add_child(_level_picker)
+	_add_btn(level_bar, "新建关卡", _on_new_level)
+	_add_btn(level_bar, "复制关卡", _on_duplicate_level)
+	_add_btn(level_bar, "删除关卡", _on_delete_level)
+
+	# 顶部第二行：地图工具栏
 	var toolbar := HBoxContainer.new()
 	toolbar.add_theme_constant_override("separation", 6)
 	root.add_child(toolbar)
-	_add_btn(toolbar, "新建关卡", _on_new_level)
-	_add_btn(toolbar, "复制关卡", _on_duplicate_level)
-	_add_btn(toolbar, "删除关卡", _on_delete_level)
-	toolbar.add_child(VSeparator.new())
 	_add_btn(toolbar, "加载地图", _on_reload_map)
 	_fit_btn = _add_btn(toolbar, "适应窗口", _on_fit_view)
 	_grid_check = CheckBox.new()
@@ -284,51 +290,18 @@ func _build_ui() -> void:
 	main.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	root.add_child(main)
 
-	# 左栏：关卡列表 + 关卡属性
+	# 左栏：怪物库（文字列表，可拖拽到地图）
 	var left := VBoxContainer.new()
-	left.custom_minimum_size.x = 180
+	left.custom_minimum_size.x = 220
 	main.add_child(left)
-	left.add_child(_make_label("关卡列表", 14))
-	_level_list = ItemList.new()
-	_level_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_level_list.item_selected.connect(_on_level_selected)
-	left.add_child(_level_list)
-	var lvl_btns := HBoxContainer.new()
-	left.add_child(lvl_btns)
-	_level_new_btn = _add_btn(lvl_btns, "新建", _on_new_level)
-	_level_dup_btn = _add_btn(lvl_btns, "复制", _on_duplicate_level)
-	_level_del_btn = _add_btn(lvl_btns, "删除", _on_delete_level)
-	left.add_child(_make_label("关卡属性", 13))
-	var lvl_props := GridContainer.new()
-	lvl_props.columns = 2
-	lvl_props.add_theme_constant_override("h_separation", 6)
-	lvl_props.add_theme_constant_override("v_separation", 4)
-	left.add_child(lvl_props)
-	_name_edit = _add_grid_line(lvl_props, "名称")
-	_name_edit.text_changed.connect(_on_level_field_changed.bind("name"))
-	var scene_row := HBoxContainer.new()
-	lvl_props.add_child(_make_label("场景"))
-	lvl_props.add_child(scene_row)
-	_scene_edit = LineEdit.new()
-	_scene_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_scene_edit.text_changed.connect(_on_scene_path_changed)
-	scene_row.add_child(_scene_edit)
-	_scene_browse = Button.new()
-	_scene_browse.text = "..."
-	_scene_browse.tooltip_text = "选择关卡场景文件"
-	_scene_browse.pressed.connect(_on_browse_scene)
-	scene_row.add_child(_scene_browse)
-	_spawn_x_spin = _add_grid_spin(lvl_props, "出生 X", -9999.0, 99999.0, 1.0)
-	_spawn_x_spin.value_changed.connect(_on_level_num_changed.bind("spawn_x"))
-	_spawn_y_spin = _add_grid_spin(lvl_props, "出生 Y", -9999.0, 99999.0, 1.0)
-	_spawn_y_spin.value_changed.connect(_on_level_num_changed.bind("spawn_y"))
-	_bgm_edit = _add_grid_line(lvl_props, "BGM")
-	_bgm_edit.text_changed.connect(_on_level_field_changed.bind("bgm"))
-	lvl_props.add_child(_make_label("描述"))
-	_desc_edit = TextEdit.new()
-	_desc_edit.custom_minimum_size = Vector2(160, 50)
-	_desc_edit.text_changed.connect(_on_desc_changed)
-	lvl_props.add_child(_desc_edit)
+	left.add_child(_make_label("怪物库（拖拽到地图放置）", 13))
+	_enemy_palette = EnemyPaletteList.new()
+	_enemy_palette.editor = self
+	_enemy_palette.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_enemy_palette.icon_mode = ItemList.ICON_MODE_LEFT
+	_enemy_palette.fixed_icon_size = Vector2i(48, 48)
+	_enemy_palette.item_selected.connect(_on_palette_selected)
+	left.add_child(_enemy_palette)
 
 	# 中栏：地图视口
 	var middle := VBoxContainer.new()
@@ -365,28 +338,18 @@ func _build_ui() -> void:
 	_drop_overlay.gui_input.connect(_on_viewport_gui_input)
 	_viewport_container.add_child(_drop_overlay)
 
-	# 右栏：怪物地图摆放
+	# 右栏：刷怪点 + 关卡属性（TabContainer）
 	var right := VBoxContainer.new()
 	right.custom_minimum_size.x = 340
 	main.add_child(right)
 	var placement_tabs := TabContainer.new()
 	placement_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	right.add_child(placement_tabs)
+
+	# Tab 1: 怪物（刷怪点列表 + 属性）
 	var monster_box := VBoxContainer.new()
 	monster_box.name = "怪物"
 	placement_tabs.add_child(monster_box)
-	monster_box.add_child(_make_label("怪物库（拖拽到地图放置）", 13))
-	_enemy_palette = EnemyPaletteList.new()
-	_enemy_palette.editor = self
-	_enemy_palette.custom_minimum_size.y = 300
-	_enemy_palette.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
-	_enemy_palette.icon_mode = ItemList.ICON_MODE_TOP
-	_enemy_palette.max_columns = 4
-	_enemy_palette.fixed_icon_size = Vector2i(72, 72)
-	_enemy_palette.fixed_column_width = 150
-	_enemy_palette.same_column_width = true
-	_enemy_palette.item_selected.connect(_on_palette_selected)
-	monster_box.add_child(_enemy_palette)
 	monster_box.add_child(_make_label("刷怪点列表", 14))
 	_spawn_list = ItemList.new()
 	_spawn_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -422,6 +385,41 @@ func _build_ui() -> void:
 	_count_spin.value_changed.connect(_on_spawn_num_changed.bind("count"))
 	_scatter_slider = _add_grid_slider(_spawn_props, "散布 X", 0.0, 500.0, 1.0)
 	_scatter_slider.value_changed.connect(_on_spawn_num_changed.bind("scatter_x"))
+
+	# Tab 2: 关卡属性
+	var level_props_box := VBoxContainer.new()
+	level_props_box.name = "关卡属性"
+	placement_tabs.add_child(level_props_box)
+	var lvl_props := GridContainer.new()
+	lvl_props.columns = 2
+	lvl_props.add_theme_constant_override("h_separation", 6)
+	lvl_props.add_theme_constant_override("v_separation", 4)
+	level_props_box.add_child(lvl_props)
+	_name_edit = _add_grid_line(lvl_props, "名称")
+	_name_edit.text_changed.connect(_on_level_field_changed.bind("name"))
+	var scene_row := HBoxContainer.new()
+	lvl_props.add_child(_make_label("场景"))
+	lvl_props.add_child(scene_row)
+	_scene_edit = LineEdit.new()
+	_scene_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scene_edit.text_changed.connect(_on_scene_path_changed)
+	scene_row.add_child(_scene_edit)
+	_scene_browse = Button.new()
+	_scene_browse.text = "..."
+	_scene_browse.tooltip_text = "选择关卡场景文件"
+	_scene_browse.pressed.connect(_on_browse_scene)
+	scene_row.add_child(_scene_browse)
+	_spawn_x_spin = _add_grid_spin(lvl_props, "出生 X", -9999.0, 99999.0, 1.0)
+	_spawn_x_spin.value_changed.connect(_on_level_num_changed.bind("spawn_x"))
+	_spawn_y_spin = _add_grid_spin(lvl_props, "出生 Y", -9999.0, 99999.0, 1.0)
+	_spawn_y_spin.value_changed.connect(_on_level_num_changed.bind("spawn_y"))
+	_bgm_edit = _add_grid_line(lvl_props, "BGM")
+	_bgm_edit.text_changed.connect(_on_level_field_changed.bind("bgm"))
+	lvl_props.add_child(_make_label("描述"))
+	_desc_edit = TextEdit.new()
+	_desc_edit.custom_minimum_size = Vector2(160, 50)
+	_desc_edit.text_changed.connect(_on_desc_changed)
+	lvl_props.add_child(_desc_edit)
 
 	# 底部状态与操作
 	var bottom := HBoxContainer.new()
@@ -517,30 +515,30 @@ func _add_grid_slider(parent: GridContainer, label_text: String, minimum: float,
 # 关卡列表
 # ============================================================
 
-func _refresh_level_list() -> void:
-	_level_list.clear()
+func _refresh_level_picker() -> void:
+	_level_picker.clear()
 	var keys: Array = _levels.keys()
 	keys.sort_custom(func(a, b): return int(a) < int(b))
 	for id_str in keys:
 		var level: Dictionary = _levels[id_str]
-		_level_list.add_item("%s  %s" % [id_str, String(level.get("name", ""))])
-		_level_list.set_item_metadata(_level_list.item_count - 1, id_str)
+		_level_picker.add_item("%s  %s" % [id_str, String(level.get("name", ""))])
+		_level_picker.set_item_metadata(_level_picker.item_count - 1, id_str)
 	if _current_level_id.is_empty() and not keys.is_empty():
 		_current_level_id = String(keys[0])
 	# 重新选中
 	var select_idx := 0
-	for i in range(_level_list.item_count):
-		if String(_level_list.get_item_metadata(i)) == _current_level_id:
+	for i in range(_level_picker.item_count):
+		if String(_level_picker.get_item_metadata(i)) == _current_level_id:
 			select_idx = i
 			break
-	_level_list.select(select_idx)
+	_level_picker.select(select_idx)
 	_on_level_selected(select_idx)
 
 
 func _on_level_selected(index: int) -> void:
-	if index < 0 or index >= _level_list.item_count:
+	if index < 0 or index >= _level_picker.item_count:
 		return
-	_current_level_id = String(_level_list.get_item_metadata(index))
+	_current_level_id = String(_level_picker.get_item_metadata(index))
 	_selected_spawn_id = ""
 	_load_level_fields()
 	_refresh_spawn_list()
@@ -569,7 +567,7 @@ func _on_level_field_changed(field: String, value: String) -> void:
 	level[field] = value
 	_levels[_current_level_id] = level
 	if field == "name":
-		_refresh_level_list()
+		_refresh_level_picker()
 
 
 func _on_level_num_changed(value: float, field: String) -> void:
@@ -637,7 +635,7 @@ func _on_new_level() -> void:
 		"enemies": [],
 	}
 	_current_level_id = id_str
-	_refresh_level_list()
+	_refresh_level_picker()
 	_status.text = "已新建关卡 %s，请选择场景并保存。" % id_str
 
 
@@ -664,7 +662,7 @@ func _on_duplicate_level() -> void:
 	copy["name"] = String(copy.get("name", "")) + " 副本"
 	_levels[id_str] = copy
 	_current_level_id = id_str
-	_refresh_level_list()
+	_refresh_level_picker()
 	_status.text = "已复制为关卡 %s。" % id_str
 
 
@@ -674,7 +672,7 @@ func _on_delete_level() -> void:
 	_levels.erase(_current_level_id)
 	_current_level_id = ""
 	_selected_spawn_id = ""
-	_refresh_level_list()
+	_refresh_level_picker()
 	_status.text = "已删除关卡（点击保存后生效）。"
 
 
@@ -1523,7 +1521,7 @@ func _on_discard() -> void:
 	_current_level_id = ""
 	_selected_spawn_id = ""
 	_load_data()
-	_refresh_level_list()
+	_refresh_level_picker()
 	_status.text = "已放弃未保存修改。"
 
 
