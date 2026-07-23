@@ -30,17 +30,20 @@ Create 2D skill visuals without professional VFX software: the web workbench rea
 
 ### Goal
 
-Use the web NPC workshop as the only NPC creation and placement entry. Runtime data is split into `npcs.json`, `dialogues.json`, `quests.json`, and `npc_placements.json`; `levels.json` and `characters.json` are never NPC runtime sources.
+Use the web NPC workshop as the only NPC creation and placement entry. Runtime data is split into `npcs.json`, `dialogues.json`, `quests.json`, `npc_placements.json`, and `npc_interaction_bindings.json`; `levels.json` and `characters.json` are never NPC runtime sources.
 
 ### Status
 
 - [x] Standard self-contained packages under `res://assets/npcs/<slug>/`.
 - [x] AI mother image, idle generation/background removal, independent portrait, manual replacement, foot anchor preview, and character-manifest conversion.
-- [x] Strict `/api/npc-generation/draft` schema with one repair attempt and project-reference validation.
-- [x] Pending in-memory resources and one final transaction for resources plus four JSON files.
+- [x] Step 6 generates dialogue plus an optional `talk` / `kill` / `collect` semantic quest blueprint from selected target/reward names; no business IDs are sent to AI.
+- [x] Strict `/api/npc-generation/draft` schema validates four quest states, one start intent, one turn-in intent, placeholder policy, and reachable endings without an automatic AI repair request.
+- [x] Local staging allocates NPC/dialogue/quest IDs, binds selected enemy/item IDs, resolves templates, and creates explicit start/turn-in interaction bindings.
+- [x] Pending in-memory resources and one final transaction for resources plus five JSON files.
 - [x] Hash conflict detection, mandatory backup, sequential writes, rollback, and unchanged hashes after failure.
 - [x] Recursive `.tscn` map-scene resolution to the referenced `source.png` and slug-based unique placement IDs.
 - [x] Godot hard-cut config, placement loader, visual-scene instantiation, strict package ownership, dialogue validation, and spawn error retention.
+- [x] Godot intent dispatcher performs idempotent quest start and explicit turn-in; generic dialogue completion records talk only, and collect consumption occurs only after successful turn-in.
 - [x] NPC-focused frontend, backend, and Godot tests plus headless editor parsing.
 - [ ] Produce and approve final village-elder artwork through the configured AI provider, then save it to the selected forest map through the workshop.
 
@@ -51,6 +54,8 @@ Use the web NPC workshop as the only NPC creation and placement entry. Runtime d
 - Every referenced visual resource stays under its own NPC package.
 - The actor root is the foot position; `npc_visual.tscn` owns the art anchor, display scale, and labels.
 - Invalid packages/dialogues are rejected and invalid placements never create placeholder actors.
+- Generated quest dialogue covers inactive/active/ready/completed, preserves templates for rebinding, and cannot stage until the blueprint passes validation.
+- Task changes refresh the drawer/NPC markers through `quest_updated` and schedule save persistence.
 
 ## Goal
 

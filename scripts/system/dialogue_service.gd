@@ -102,7 +102,6 @@ func finish(completed: bool = false) -> void:
 	_active = false
 	if completed and quest_service != null:
 		quest_service.record_talk(npc_id)
-		quest_service.turn_in_for_npc(npc_id)
 	current_node_id = ""
 	_graph = {}
 	dialogue_finished.emit(npc_id, completed)

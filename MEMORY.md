@@ -27,10 +27,14 @@
 - NPC authoring is a hard cut with no legacy fallback. `data/npc_placements.json` is the only placement source, and `levels.json.npcs` is unsupported.
 - Each NPC runtime visual is a self-contained `assets/npcs/<slug>` package. `npc_asset.json` paths must remain inside that directory and its `id` must equal the directory slug.
 - The `NpcActor` root position is the foot point. Generated `npc_visual.tscn` owns `AnimatedSprite2D.offset`, resource display scale, `NameLabel`, and `QuestLabel`; placement scale stays on the actor root as a separate map-instance layer.
-- The web workshop stages generated resources in memory. It validates all resources and four JSON documents, checks original file hashes, completes a mandatory backup, then writes resources followed by data. Hashes update only after complete success.
-- A failed resource write is rolled back by restoring all four original JSON texts and deleting only newly created NPC directories. A backup failure starts no writes.
+- The web workshop stages generated resources in memory. It validates all resources and five JSON documents, checks original file hashes, completes a mandatory backup, then writes resources followed by data. Hashes update only after complete success.
+- A failed resource write is rolled back by restoring all five original JSON texts and deleting only newly created NPC directories. A backup failure starts no writes.
 - Character reuse is authoring-time conversion only: the real idle row is read from the character manifest and every idle frame is copied into a new NPC atlas. Runtime NPC code never reads `characters.json`.
-- AI NPC content uses a strict schema. Only `quest_state`, `flag_equals`, and `item_count` conditions; `set_flag`, `start_quest`, `give_item`, and `close_dialogue` actions; and `talk`, `kill`, and `collect` objectives are accepted. Schema and project references share one repair retry.
+- NPC Step 6 defaults to quest generation and requires an explicit `talk`, `kill`, or `collect` choice. Kill targets come from `enemies.json`; collect targets and optional item rewards come from `items.json`.
+- AI receives selected display names but never NPC/dialogue/quest/enemy/item IDs. It returns a semantic dialogue blueprint, four quest-state entries, a quest blueprint, and stable start/turn-in intent keys using a fixed placeholder whitelist.
+- Blueprint validation never triggers an automatic AI repair. Invalid raw JSON stays editable and “重新校验” performs structure validation only.
+- Staging allocates local IDs, creates `start_quest` / `turn_in_quest` interaction bindings, preserves `text_template`, and resolves final text. Orchestration edits re-resolve template-driven text while `text_mode=manual` preserves hand-written lines.
+- Runtime dialogue completion records talk only. Quest acceptance and delivery are explicit intent dispatches; collect items are consumed only on successful delivery, completed quests cannot pay rewards twice, and `quest_updated` refreshes UI and schedules a save.
 - Map placement resolves PackedScene references recursively until the map scene's `source.png` is found. Instance IDs begin with the NPC package slug and are unique per level.
 
 - Playable characters are complete independent `CharacterBody2D` prefabs. `player.tscn` is now a `PartyManager` control container whose exported `Array[PackedScene]` supports inspector drag-and-drop lineup configuration; it currently contains only `new_kivin` at index 0.

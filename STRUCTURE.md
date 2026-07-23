@@ -30,7 +30,8 @@ The web `AI 技能特效导演` reads `data/skills.json`, the selected actor man
 - `party_manager.gd`: exposes the playable lineup as `Array[int]`, instantiates all lineup members, switches the active controller, and keeps inactive members in simple follow/assist AI.
 - `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
 - `npc_spawner.gd`: spawns only validated `NpcPlacementConfig` records, skips invalid definitions, and retains errors for failed instance IDs.
-- `dialogue_service.gd` / `quest_service.gd`: execute the strictly authored dialogue conditions/actions and task objectives.
+- `dialogue_service.gd` / `quest_service.gd`: execute strictly authored dialogue conditions/actions and task objectives; ordinary dialogue completion records talk but never auto-delivers a quest.
+- `npc_interaction_dispatcher.gd`: resolves `dialogue_id.intent_key` through `npc_interaction_bindings.json` and dispatches explicit `start_quest` / `turn_in_quest` operations.
 
 ### Level (`res://scripts/level/`)
 
@@ -60,7 +61,7 @@ The web `AI 技能特效导演` reads `data/skills.json`, the selected actor man
 - `ui_skin.gd` - Shared `UISkin` resource holding a `Theme` and semantic Icon mapping; first phase uses `StyleBoxFlat` wireframes, later replaced by independent PNGs and then `AtlasTexture` without touching business pages.
 - `battle_hud.gd` - Persistent combat HUD (Control in HUDLayer): left-top main/ally cards, top-center enemy info, bottom-center J/K/L/U skill slots, right-top entry buttons; sends semantic requests to UIRoot instead of holding panel references.
 - `main_menu.gd` - Unified main menu (Control in ScreenLayer, max ~900x520): left nav with `character`/`equipment`/`skills`/`inventory` tabs, right content area with ScrollContainer; includes equipment popup and item tooltips.
-- `task_drawer.gd` - Right-side slide-in task drawer (Control in ScreenLayer); shows real empty state while the task system is unimplemented.
+- `task_drawer.gd` - Right-side slide-in task drawer (Control in ScreenLayer); refreshes from real quest state on `quest_updated`.
 - `debug_panel.gd` - F3 debug panel (Control in DebugLayer); shows DebugDraw flags, player/party/enemy runtime info.
 - `character_panel.gd` - Legacy CanvasLayer panel, retained but no longer mounted on GameRoot; functionality absorbed by `MainMenu`.
 
@@ -96,9 +97,11 @@ The web `AI 技能特效导演` reads `data/skills.json`, the selected actor man
 
 ## NPC Data Flow
 
-`data/npcs.json` selects an NPC package and dialogue. `data/dialogues.json` and `data/quests.json` hold content. `data/npc_placements.json` assigns instances to levels. `GameRegistry` loads dialogues before NPC definitions so broken dialogue references fail during configuration. `GameRoot` asks `NpcSpawner` for the current level only; `LevelConfig` has no NPC API.
+`data/npcs.json` selects an NPC package and dialogue. `data/dialogues.json` and `data/quests.json` hold content. `data/npc_interaction_bindings.json` maps stable dialogue intents to explicit quest start/turn-in operations. `data/npc_placements.json` assigns instances to levels. `GameRegistry` loads dialogues before NPC definitions so broken dialogue references fail during configuration, wires the intent dispatcher, and persists quest changes. `GameRoot` asks `NpcSpawner` for the current level only; `LevelConfig` has no NPC API.
 
 The web authoring tool may read `characters.json` and character manifests during conversion, but the resulting package is copied and independent. It may read `levels.json` and referenced scenes to find map art, but never writes either file.
+
+Step 6 sends only the NPC profile and selected target/reward display names to AI. The returned semantic blueprint contains no runtime IDs. Staging allocates IDs, compiles four state entries into a quest-state router, binds the selected enemy/item IDs, resolves placeholder text, and writes authoring templates used by the orchestration editor when targets or counts change.
 
 ## Design Notes
 

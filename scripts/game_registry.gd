@@ -23,8 +23,10 @@ var equipment_provider
 var player_data_provider
 var quest_service
 var dialogue_service
+var npc_interaction_dispatcher
 
 var level_manager: Node
+var _quest_save_scheduled := false
 
 
 func _ready() -> void:
@@ -68,6 +70,10 @@ func _ready() -> void:
 	dialogue_service = load("res://scripts/system/dialogue_service.gd").new()
 	add_child(dialogue_service)
 	dialogue_service.setup(npc_config, dialogue_config, quest_service, inventory_provider)
+	npc_interaction_dispatcher = load("res://scripts/system/npc_interaction_dispatcher.gd").new()
+	add_child(npc_interaction_dispatcher)
+	npc_interaction_dispatcher.setup(dialogue_service, interaction_binding_config, quest_service)
+	quest_service.quest_updated.connect(_on_quest_updated)
 	character_stats.setup(roster_data, character_config)
 	equipment_provider.refresh_current_stats()
 
@@ -79,3 +85,16 @@ func _notification(what: int) -> void:
 
 func save_game() -> void:
 	player_data_provider.save_local()
+
+
+func _on_quest_updated(_quest_id: int) -> void:
+	if _quest_save_scheduled:
+		return
+	_quest_save_scheduled = true
+	get_tree().create_timer(0.25).timeout.connect(_flush_quest_save)
+
+
+func _flush_quest_save() -> void:
+	_quest_save_scheduled = false
+	if player_data_provider != null:
+		save_game()
