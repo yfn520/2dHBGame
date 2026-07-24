@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/npcs/hlk/godot/spriteframes.tres" id="frames"]
+
+[node name="NpcVisual" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+offset = Vector2(-256, -486)
+scale = Vector2(1, 1)
+sprite_frames = ExtResource("frames")
+animation = &"idle"
+centered = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -256
+offset_top = 30
+offset_right = 256
+offset_bottom = 56
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+
+[node name="QuestLabel" type="Label" parent="."]
+offset_left = -24
+offset_top = -534
+offset_right = 24
+offset_bottom = -490
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6

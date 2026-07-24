@@ -34,6 +34,7 @@
 - AI receives selected display names but never NPC/dialogue/quest/enemy/item IDs. It returns a semantic dialogue blueprint, four quest-state entries, a quest blueprint, and stable start/turn-in intent keys using a fixed placeholder whitelist.
 - Blueprint validation never triggers an automatic AI repair. Invalid raw JSON stays editable and “重新校验” performs structure validation only.
 - Staging allocates local IDs, creates `start_quest` / `turn_in_quest` interaction bindings, preserves `text_template`, and resolves final text. Orchestration edits re-resolve template-driven text while `text_mode=manual` preserves hand-written lines.
+- NPC workbench saves retain the resource-panel source snapshot after staging, so saving from the Hub or orchestration step still preserves profile text, the original mother image, idle sheet, individual idle frames, and per-frame transforms. Legacy saves with `resourcePanel=null` can reconstruct editable frames from the compiled atlas; profile text and original pre-atlas transforms require a matching earlier source snapshot because the compiled Godot package never contained them.
 - Runtime dialogue completion records talk only. Quest acceptance and delivery are explicit intent dispatches; collect items are consumed only on successful delivery, completed quests cannot pay rewards twice, and `quest_updated` refreshes UI and schedules a save.
 - Map placement resolves PackedScene references recursively until the map scene's `source.png` is found. Instance IDs begin with the NPC package slug and are unique per level.
 

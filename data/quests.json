@@ -1,1 +1,37 @@
-{}
+{
+	"1001": {
+		"title": "铁锋佣兵团正规击杀契约",
+		"description_template": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 {{target_count}} 只 {{target_name}}，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
+		"description": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 1 只 xiao'huei'heu'i，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "kill_target",
+				"type": "kill",
+				"count": 1,
+				"enemy_id": 8003
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"dialogue_id": "npc_9001",
+			"objective_type": "kill",
+			"target_name": "xiao'huei'heu'i",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "铁锋佣兵团队长霍雷克处发布了一份走正规公会流程的击杀委托，他素来恪守契约不讲情面，无任何通融空间，若有意承接需按流程签订正式契约，不得提出违规要求。",
+				"active": "你已与霍雷克签订正式击杀契约，需击杀 {{target_count}} 只 {{target_name}}，任务过程需严格遵守佣兵公会规章，不得伪造击杀凭证，集齐有效凭证后返回找霍雷克核验。",
+				"ready": "你已击杀足额的 {{target_name}}，请携带有效击杀凭证返回霍雷克处，等待他核验任务结果后按公会统一标准结算酬劳，本次委托无额外物品奖励。",
+				"completed": "你已完成与铁锋佣兵团的击杀契约，霍雷克核验凭证无误后按公会标准结算了酬劳，本次契约正式履行完毕，铁锋佣兵团七年零违约的记录仍在保持。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_kill_contract",
+				"turn_in_intent_key": "turn_in_kill_contract"
+			}
+		}
+	}
+}

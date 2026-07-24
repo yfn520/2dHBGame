@@ -1,4 +1,13 @@
 {
-  "version": 1,
-  "bindings": {}
+	"version": 1,
+	"bindings": {
+		"npc_9001.accept_kill_contract": {
+			"type": "start_quest",
+			"quest_id": 1001
+		},
+		"npc_9001.turn_in_kill_contract": {
+			"type": "turn_in_quest",
+			"quest_id": 1001
+		}
+	}
 }

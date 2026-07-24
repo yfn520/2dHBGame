@@ -1,1 +1,9 @@
-{}
+{
+	"9001": {
+		"name": "霍雷克",
+		"asset": "res://assets/npcs/hlk",
+		"dialogue_id": "npc_9001",
+		"default_facing": "right",
+		"interaction_radius": 96
+	}
+}

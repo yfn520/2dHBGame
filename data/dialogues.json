@@ -1,1 +1,379 @@
-{}
+{
+	"npc_9001": {
+		"entry_node": "quest_state_router",
+		"nodes": {
+			"idle_greeting": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随着抬眼的动作微微扯动，语气冷硬得像淬了冰的铁）铁锋佣兵团霍雷克。这里只有走佣兵公会正规流程的击杀委托，不接私活，不讲情面，没有半分通融余地。有意接取就明确表态，否则不要挡着其他办事的人。",
+				"next_id": "inactive_choice",
+				"default_next": "",
+				"choices": [],
+				"text": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随着抬眼的动作微微扯动，语气冷硬得像淬了冰的铁）铁锋佣兵团霍雷克。这里只有走佣兵公会正规流程的击杀委托，不接私活，不讲情面，没有半分通融余地。有意接取就明确表态，否则不要挡着其他办事的人。",
+				"quest_roles": [
+					"inactive"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "inactive"
+				},
+				"quest_role": "inactive",
+				"editor": {
+					"x": 80,
+					"y": 100
+				}
+			},
+			"inactive_choice": {
+				"type": "branch",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "end_inactive_leave",
+				"choices": [
+					{
+						"id": "accept_choice",
+						"intent_key": "accept_kill_contract",
+						"text": "我愿意按正规流程接下这份委托，请说明具体条款。",
+						"next_id": "quest_brief",
+						"text_template": "我愿意按正规流程接下这份委托，请说明具体条款。"
+					},
+					{
+						"id": "leave_inactive_choice",
+						"intent_key": "leave_without_accept",
+						"text": "我暂时没有接取委托的打算，先告辞了。",
+						"next_id": "end_inactive_leave",
+						"text_template": "我暂时没有接取委托的打算，先告辞了。"
+					}
+				],
+				"text": "",
+				"quest_roles": [
+					"inactive"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "inactive"
+				},
+				"editor": {
+					"x": 380,
+					"y": 100
+				}
+			},
+			"quest_brief": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他推过一张印着铁锋团徽和公会防伪纹的契约纸，逐条说明内容时语速平稳没有任何多余情绪）契约条款写得很清楚：击杀 {{target_count}} 只 {{target_name}}。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动必须符合佣兵规章。我会逐份核验任务凭证，伪造结果的人会被永久列入铁锋的合作黑名单。确认完成后按公会标准结算酬劳，没有额外物品赏赐。契约即刻生效。",
+				"next_id": "end_accept_quest",
+				"default_next": "",
+				"choices": [],
+				"text": "（他推过一张印着铁锋团徽和公会防伪纹的契约纸，逐条说明内容时语速平稳没有任何多余情绪）契约条款写得很清楚：击杀 1 只 xiao'huei'heu'i。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动必须符合佣兵规章。我会逐份核验任务凭证，伪造结果的人会被永久列入铁锋的合作黑名单。确认完成后按公会标准结算酬劳，没有额外物品赏赐。契约即刻生效。",
+				"quest_roles": [
+					"inactive"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "inactive"
+				},
+				"editor": {
+					"x": 680,
+					"y": 100
+				}
+			},
+			"end_accept_quest": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"inactive"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "inactive"
+				},
+				"editor": {
+					"x": 80,
+					"y": 280
+				}
+			},
+			"end_inactive_leave": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"inactive"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "inactive"
+				},
+				"editor": {
+					"x": 380,
+					"y": 280
+				}
+			},
+			"active_checkin": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他甚至没有抬眼，手指摩挲着斧柄上的磨痕，语气平淡没有波澜）契约尚未履行完毕。你需要击杀 {{target_count}} 只 {{target_name}}，带齐有效凭证再来核验。不要尝试耍任何花招，铁锋的核验流程七年没出过差错，没人能蒙混过关。",
+				"next_id": "end_active_talk",
+				"default_next": "",
+				"choices": [],
+				"text": "（他甚至没有抬眼，手指摩挲着斧柄上的磨痕，语气平淡没有波澜）契约尚未履行完毕。你需要击杀 1 只 xiao'huei'heu'i，带齐有效凭证再来核验。不要尝试耍任何花招，铁锋的核验流程七年没出过差错，没人能蒙混过关。",
+				"quest_roles": [
+					"active"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "active"
+				},
+				"quest_role": "active",
+				"editor": {
+					"x": 680,
+					"y": 280
+				}
+			},
+			"end_active_talk": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"active"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "active"
+				},
+				"editor": {
+					"x": 80,
+					"y": 460
+				}
+			},
+			"ready_greeting": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他接过你递来的任务凭证，指尖扫过上面的击杀印记，快速核验完毕后抬眼看你，语气依旧没有起伏）凭证核验通过，{{target_count}} 只 {{target_name}} 的清除结果符合契约要求，可以走结算流程。按规定没有额外物品奖励，酬劳按公会统一标准核算。",
+				"next_id": "ready_choice",
+				"default_next": "",
+				"choices": [],
+				"text": "（他接过你递来的任务凭证，指尖扫过上面的击杀印记，快速核验完毕后抬眼看你，语气依旧没有起伏）凭证核验通过，1 只 xiao'huei'heu'i 的清除结果符合契约要求，可以走结算流程。按规定没有额外物品奖励，酬劳按公会统一标准核算。",
+				"quest_roles": [
+					"ready"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "ready"
+				},
+				"quest_role": "ready",
+				"editor": {
+					"x": 380,
+					"y": 460
+				}
+			},
+			"ready_choice": {
+				"type": "branch",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "end_ready_leave",
+				"choices": [
+					{
+						"id": "turnin_choice",
+						"intent_key": "turn_in_kill_contract",
+						"text": "确认交付击杀凭证，按流程结算酬劳。",
+						"next_id": "turnin_confirm_line",
+						"text_template": "确认交付击杀凭证，按流程结算酬劳。"
+					},
+					{
+						"id": "leave_ready_choice",
+						"intent_key": "hold_turn_in_for_later",
+						"text": "我还有些私事要处理，稍后再来结算。",
+						"next_id": "end_ready_leave",
+						"text_template": "我还有些私事要处理，稍后再来结算。"
+					}
+				],
+				"text": "",
+				"quest_roles": [
+					"ready"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "ready"
+				},
+				"editor": {
+					"x": 680,
+					"y": 460
+				}
+			},
+			"turnin_confirm_line": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他将核算好的酬劳递到你手中，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。后续如果有符合你资质的合规委托，可以走公会流程申请。不要想着找我走后门，我这里没有这种规矩。",
+				"next_id": "end_turnin_finish",
+				"default_next": "",
+				"choices": [],
+				"text": "（他将核算好的酬劳递到你手中，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。后续如果有符合你资质的合规委托，可以走公会流程申请。不要想着找我走后门，我这里没有这种规矩。",
+				"quest_roles": [
+					"ready"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "ready"
+				},
+				"editor": {
+					"x": 80,
+					"y": 640
+				}
+			},
+			"end_ready_leave": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"ready"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "ready"
+				},
+				"editor": {
+					"x": 380,
+					"y": 640
+				}
+			},
+			"end_turnin_finish": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"ready"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "ready"
+				},
+				"editor": {
+					"x": 680,
+					"y": 640
+				}
+			},
+			"completed_greeting": {
+				"type": "line",
+				"speaker": "霍雷克",
+				"text_template": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）你之前的契约已经结清。目前我这里没有适配你评级的新委托，等公会更新委托名录后按正规流程申请即可，不必专程过来搭话。",
+				"next_id": "end_completed_talk",
+				"default_next": "",
+				"choices": [],
+				"text": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）你之前的契约已经结清。目前我这里没有适配你评级的新委托，等公会更新委托名录后按正规流程申请即可，不必专程过来搭话。",
+				"quest_roles": [
+					"completed"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "completed"
+				},
+				"quest_role": "completed",
+				"editor": {
+					"x": 80,
+					"y": 820
+				}
+			},
+			"end_completed_talk": {
+				"type": "end",
+				"speaker": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"text": "",
+				"quest_roles": [
+					"completed"
+				],
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "completed"
+				},
+				"editor": {
+					"x": 380,
+					"y": 820
+				}
+			},
+			"quest_state_router": {
+				"type": "branch",
+				"speaker": "",
+				"text": "",
+				"text_template": "",
+				"routes": [
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1001,
+								"state": "completed"
+							}
+						],
+						"next_id": "completed_greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1001,
+								"state": "ready"
+							}
+						],
+						"next_id": "ready_greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1001,
+								"state": "active"
+							}
+						],
+						"next_id": "active_checkin"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1001,
+								"state": "inactive"
+							}
+						],
+						"next_id": "idle_greeting"
+					}
+				],
+				"default_next": "idle_greeting",
+				"quest_binding": {
+					"quest_id": 1001,
+					"role": "router"
+				},
+				"choices": [],
+				"editor": {
+					"x": 680,
+					"y": 820
+				}
+			}
+		}
+	}
+}

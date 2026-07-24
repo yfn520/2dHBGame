@@ -1,0 +1,18 @@
+{
+	"version": 1,
+	"id": "hlk",
+	"display_name": "霍雷克",
+	"default_animation": "idle",
+	"spriteframes": "res://assets/npcs/hlk/godot/spriteframes.tres",
+	"visual_scene": "res://assets/npcs/hlk/godot/npc_visual.tscn",
+	"portrait": "res://assets/npcs/hlk/portrait.png",
+	"frame_size": {
+		"width": 512,
+		"height": 512
+	},
+	"foot_center": {
+		"x": 256,
+		"y": 486
+	},
+	"display_scale": 1
+}
