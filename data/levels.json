@@ -1,4 +1,13 @@
 {
+		"5": {
+		"bgm": "",
+		"description": "",
+		"enemies": [],
+		"name": "city3",
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 184,
+		"spawn_y": 397
+	},
 	"1": {
 		"bgm": "",
 		"description": "初始关卡",
@@ -57,15 +66,6 @@
 		"enemies": [],
 		"name": "city2",
 		"scene_path": "res://scenes/city2.tscn",
-		"spawn_x": 184,
-		"spawn_y": 397
-	},
-	"5": {
-		"bgm": "",
-		"description": "",
-		"enemies": [],
-		"name": "city3",
-		"scene_path": "res://scenes/city3.tscn",
 		"spawn_x": 184,
 		"spawn_y": 397
 	}

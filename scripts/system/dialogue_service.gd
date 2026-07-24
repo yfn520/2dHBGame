@@ -122,6 +122,11 @@ func _enter_node(node_id: String) -> bool:
 		_execute_actions(node.get("actions", []))
 		match String(node.get("type", "line")):
 			"branch":
+				# A branch with player choices must be presented to the UI. Only
+				# route-only branches are resolved automatically.
+				if not get_visible_choices(node).is_empty():
+					node_changed.emit(node.duplicate(true))
+					return true
 				next_id = _resolve_branch(node)
 				if next_id.is_empty():
 					finish(true)

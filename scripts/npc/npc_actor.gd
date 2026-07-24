@@ -23,9 +23,11 @@ func setup(config: Dictionary, placement: Dictionary) -> bool:
 	name = instance_id
 	interaction_radius = float(placement.get("interaction_radius", 0.0))
 	global_position = Vector2(float(placement.get("x", 0.0)), float(placement.get("y", 0.0)))
-	scale = Vector2.ONE * float(placement.get("scale", 1.0))
+	# 根节点保持世界单位；交互范围不应随 NPC 的纯视觉缩放而改变。
+	var display_scale := maxf(0.01, float(placement.get("scale", 1.0)))
 	if not _load_visual(config):
 		return false
+	_visual.scale = Vector2.ONE * display_scale
 	_build_interaction_area()
 	var facing := String(placement.get("facing", config.get("default_facing", "right")))
 	_sprite.flip_h = facing == "left"

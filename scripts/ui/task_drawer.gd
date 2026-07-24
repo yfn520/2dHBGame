@@ -34,6 +34,8 @@ func _process(delta: float) -> void:
 	var target := 0.0 if _open else DRAWER_WIDTH
 	_current_x = lerpf(_current_x, target, clampf(delta * SLIDE_SPEED, 0.0, 1.0))
 	_update_position(false)
+	if not _open and is_equal_approx(_current_x, DRAWER_WIDTH):
+		visible = false
 
 
 func toggle() -> void:
@@ -75,8 +77,7 @@ func _build_layout() -> void:
 	_panel.name = "DrawerPanel"
 	_panel.theme_type_variation = &"Window"
 	_panel.custom_minimum_size = Vector2(DRAWER_WIDTH, 0)
-	_panel.set_anchors_preset(Control.PRESET_RIGHT_WIDE)
-	_panel.offset_left = -DRAWER_WIDTH
+	_panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	add_child(_panel)
 
 	var margin := MarginContainer.new()
@@ -219,10 +220,20 @@ func _on_quest_updated(_quest_id: int) -> void:
 func _update_position(instant: bool) -> void:
 	if _panel == null:
 		return
+	var viewport := get_viewport()
+	if viewport == null:
+		return
+	var viewport_size := viewport.get_visible_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		return
 	if instant:
 		_current_x = 0.0 if _open else DRAWER_WIDTH
-	# 通过移动整个 Control 的锚点偏移来实现滑入/滑出
-	_panel.position.x = _current_x
+	# TaskDrawer is directly under a CanvasLayer. Percentage/right anchors do
+	# not provide a stable local origin there, so lay it out in viewport pixels.
+	position = Vector2.ZERO
+	size = viewport_size
+	_panel.size = Vector2(DRAWER_WIDTH, viewport_size.y)
+	_panel.position = Vector2(viewport_size.x - DRAWER_WIDTH + _current_x, 0)
 	# 遮罩只在打开时响应
 	var overlay := get_node_or_null("Overlay")
 	if overlay != null:

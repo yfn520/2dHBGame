@@ -5,11 +5,11 @@
 			{
 				"instance_id": "hlk_1",
 				"npc_id": 9001,
-				"x": 1030,
-				"y": 716,
+				"x": 1037,
+				"y": 722,
 				"facing": "right",
-				"scale": 0.125,
-				"interaction_radius": 96
+				"scale": 0.25,
+				"interaction_radius": 180
 			}
 		]
 	}
