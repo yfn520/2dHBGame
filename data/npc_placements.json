@@ -1,4 +1,16 @@
 {
 	"version": 1,
-	"levels": {}
+	"levels": {
+		"5": [
+			{
+				"instance_id": "hlk_1",
+				"npc_id": 9001,
+				"x": 1030,
+				"y": 716,
+				"facing": "right",
+				"scale": 0.125,
+				"interaction_radius": 96
+			}
+		]
+	}
 }
