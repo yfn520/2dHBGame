@@ -1015,6 +1015,14 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_spin(form, "透明度", "opacity", node, 1.0, 0.0, 1.0, 0.05)
 	_add_node_spin(form, "生命周期 ms", "lifetime_ms", node, 0.0, 0.0, 30000.0, 50.0)
 	_add_node_option(form, "附着层级", "attachment_layer", node, ATTACHMENT_LAYER_OPTIONS, false)
+	var mirror_label := Label.new()
+	mirror_label.text = "实例水平镜像"
+	form.add_child(mirror_label)
+	var mirror_check := CheckBox.new()
+	mirror_check.button_pressed = bool(node.get("mirror", false))
+	mirror_check.tooltip_text = "应用元数据后可单独修改；它不会回写或改动原始 TSCN/meta"
+	mirror_check.toggled.connect(func(value: bool) -> void: _update_node("mirror", value, false))
+	form.add_child(mirror_check)
 	var follow_check := CheckBox.new()
 	follow_check.text = "跟随挂载对象"
 	follow_check.button_pressed = bool(node.get("follow_target", true))
@@ -1210,10 +1218,26 @@ func _apply_attachment_meta(node: Dictionary, status_label: Label) -> void:
 	node["offset_y"] = float(local_offset.get("y", 0.0))
 	node["attachment_layer"] = String(meta.get("layer", "front"))
 	node["attachment_blend_mode"] = String(meta.get("blendMode", "normal"))
+	# TSCN contains only intrinsic resource normalization. Meta always supplies
+	# the editable instance preset, including older resources repaired to this contract.
+	var display_scale: Dictionary = meta.get("displayScale", {})
+	node["effect_scale"] = float(meta.get("effectScale", display_scale.get("x", 1.0)))
+	node["rotation_degrees"] = float(meta.get("effectRotation", 0.0))
+	node["mirror"] = bool(meta.get("effectMirror", false))
+	node["mirror_with_facing"] = bool(meta.get(
+		"mirrorWithFacing",
+		String(node["coordinate_space"]) == "character_local"
+	))
 	var box_size: Dictionary = meta.get("boxSize", {})
 	node["attachment_box_width"] = float(box_size.get("width", 0.0))
 	node["attachment_box_height"] = float(box_size.get("height", 0.0))
-	status_label.text = "已应用：偏移(%.0f, %.0f)，%s" % [node["offset_x"], node["offset_y"], "角色前" if node["attachment_layer"] == "front" else "角色后"]
+	status_label.text = "已应用实例基础：偏移(%.0f, %.0f)，缩放 %.2f，旋转 %.0f°，%s" % [
+		node["offset_x"],
+		node["offset_y"],
+		node["effect_scale"],
+		node["rotation_degrees"],
+		"水平镜像" if node["mirror"] else "不镜像",
+	]
 	status_label.add_theme_color_override("font_color", Color("88ff88"))
 	# Persist and rebuild
 	var index := _selected_node_index()
@@ -3046,8 +3070,8 @@ func _skill_fx_track_to_node(track: Dictionary, bundle_id: String, anchor_node: 
 		# Local release/attachment effects share the character's pose, so their
 		# authored X offset and visual must follow the actor's facing as well.
 		"mirror_with_facing": coordinate_space == "character_local",
-		# Explicit mirror is authored by the GameTool preview and is independent
-		# from mirror_with_facing (which follows runtime actor direction).
+		# GameTool placement is copied as the initial instance transform. The
+		# skill node remains freely editable after import.
 		"mirror": bool(track.get("mirror", false)),
 		"lifetime_ms": int(track.get("duration_ms", 500)),
 		"effect_scale": float(transform.get("scale", 1.0)),

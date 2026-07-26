@@ -10,12 +10,14 @@
     "y": -29.0
   },
   "displayScale": {
-    "x": 1.16,
-    "y": 1.16
+    "x": 1.0,
+    "y": 1.0
   },
   "effectRotation": 0.0,
-  "effectScale": 1.0,
-  "effectMirror": false,
+  "effectScale": 1.16,
+  "effectMirror": true,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
   "boxSize": {
     "width": 256,
     "height": 256

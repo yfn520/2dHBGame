@@ -3,7 +3,7 @@
   "version": 1,
   "bundle_id": "gong-sho-6012",
   "skill_id": "6012",
-  "skill_hash": "b3307846762e19cd0ca1fe847ec40ee10c281762706efff955b0e83d6eb1a441",
+  "skill_hash": "42557f0481486cac03a2c3e3e5e274e944c8e9360f55d33fb89cd7e62d2cd30f",
   "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
   "proposal": {
 	"id": "6012_archer_shot-mrw2t81k",
@@ -130,7 +130,7 @@
 		"manual_override": true,
 		"faces_by_default": "right",
 		"rotation": -160.0,
-		"flip_h": true
+		"flip_h": false
 	  },
 	  "asset": {
 		"track_id": "projectile_trail",

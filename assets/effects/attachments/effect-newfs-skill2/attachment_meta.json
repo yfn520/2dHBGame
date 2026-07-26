@@ -16,6 +16,8 @@
   "effectRotation": 0,
   "effectScale": 2,
   "effectMirror": false,
+  "instanceTransformBaked": false,
+  "mirrorWithFacing": true,
   "boxSize": {
     "width": 244.47204968944098,
     "height": 200.49689440993785

@@ -1,14 +1,27 @@
 {
   "format": "frame-ronin-projectile-meta-v1",
   "facesByDefault": "right",
-  "displayScale": { "x": 0.25, "y": 0.25 },
-  "collisionSize": { "width": 32.25, "height": 5.0 },
-  "collisionOffset": { "x": -1.75, "y": 0.5 },
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 32.25,
+    "height": 5.0
+  },
+  "collisionOffset": {
+    "x": -1.75,
+    "y": 0.5
+  },
   "effectRotation": -160.0,
-  "effectScale": 1.0,
+  "effectScale": 0.3,
   "effectMirror": false,
-  "visualOffset": { "x": 0.0, "y": 0.0 },
+  "instanceTransformBaked": false,
+  "visualOffset": {
+    "x": -61.0,
+    "y": -99.0
+  },
   "scenePath": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect.tscn",
-  "fps": 2,
+  "fps": 2.0,
   "frameCount": 1
 }

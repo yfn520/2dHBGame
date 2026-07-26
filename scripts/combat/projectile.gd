@@ -38,6 +38,7 @@ var _hit_targets: Dictionary = {}
 var _visual_sprite: AnimatedSprite2D
 var _visual_root: Node2D
 var _visual_root_base_scale := Vector2.ONE
+var _visual_nodes_cached := false
 # GameTool 导出时 baked 到子节点的 flip_h（素材规范层，朝右素材 baked 成朝左）。
 # rotate_to_velocity=true 时需基于此值抵消，否则 rotation 会让 baked 朝向反转。
 var _visual_sprite_base_flip := false
@@ -50,17 +51,25 @@ func _ready() -> void:
 	get_tree().create_timer(lifetime).timeout.connect(queue_free)
 	area_entered.connect(_on_area_entered)
 	# 缓存 Visual 子节点的 AnimatedSprite2D 用于镜像翻转
-	_visual_sprite = _find_visual_sprite()
-	_visual_root = get_node_or_null("Visual") as Node2D
-	if _visual_root != null:
-		_visual_root_base_scale = _visual_root.scale
-	if _visual_sprite != null:
-		_visual_sprite_base_flip = _visual_sprite.flip_h
+	_cache_visual_nodes()
+	# setup_with_node() normally runs before add_child(). Apply again in
+	# _ready() so no render frame can expose the raw TSCN orientation.
+	_apply_visual_transform()
 
 
 func _physics_process(delta: float) -> void:
-	position += velocity * delta
-	velocity.y += projectile_gravity * delta
+	_update_projectile_transform(delta, true)
+
+
+func _apply_visual_transform() -> void:
+	_update_projectile_transform(0.0, false)
+
+
+func _update_projectile_transform(delta: float, advance_motion: bool) -> void:
+	_cache_visual_nodes()
+	if advance_motion:
+		position += velocity * delta
+		velocity.y += projectile_gravity * delta
 	# rotation 始终应用到 Area2D（和之前一致），让 CollisionShape2D 也跟着旋转
 	# - rotate_to_velocity=true：rotation = velocity.angle() + rotation_degrees（对齐飞行方向）
 	# - rotate_to_velocity=false：rotation = rotation_degrees（固定值）
@@ -94,6 +103,18 @@ func _physics_process(delta: float) -> void:
 		_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * visual_scale_multiplier * sign_x, absf(_visual_root_base_scale.y) * visual_scale_multiplier)
 
 
+func _cache_visual_nodes() -> void:
+	if _visual_nodes_cached:
+		return
+	_visual_nodes_cached = true
+	_visual_sprite = _find_visual_sprite()
+	_visual_root = get_node_or_null("Visual") as Node2D
+	if _visual_root != null:
+		_visual_root_base_scale = _visual_root.scale
+	if _visual_sprite != null:
+		_visual_sprite_base_flip = _visual_sprite.flip_h
+
+
 func _find_visual_sprite() -> AnimatedSprite2D:
 	# 弹道场景结构：Area2D > Visual/VisualScene(AnimatedSprite2D)
 	var visual_root := get_node_or_null("Visual")
@@ -113,6 +134,7 @@ func setup(direction: Vector2, speed: float, _node_damage: int, _pierce: int, _n
 	source_entity = source
 	lifetime = life
 	rotate_to_velocity = should_rotate
+	_apply_visual_transform()
 
 
 func setup_ballistic(initial_velocity: Vector2, gravity_value: float, _node_damage: int, _pierce: int, _node_buff_ids: Array = [], _chance: float = 0.0, source: Node = null, life: float = 5.0, should_rotate := true) -> void:
@@ -121,6 +143,7 @@ func setup_ballistic(initial_velocity: Vector2, gravity_value: float, _node_dama
 	source_entity = source
 	lifetime = life
 	rotate_to_velocity = should_rotate
+	_apply_visual_transform()
 
 
 ## P1 新链路：传入完整 spawn_projectile 节点 + 命中回调。
@@ -152,6 +175,9 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	if source_entity != null:
 		var source_sprite := source_entity.get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
 		_locked_source_flip = source_sprite != null and source_sprite.flip_h
+	# The projectile is configured before it enters the scene tree. Applying the
+	# final launch transform here prevents one raw-TSCN frame from being drawn.
+	_apply_visual_transform()
 
 
 func _read_buff_ids_compat(node: Dictionary) -> Array:

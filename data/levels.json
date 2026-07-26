@@ -60,7 +60,7 @@
 		"spawn_x": 184,
 		"spawn_y": 397
 	},
-				"5": {
+		"5": {
 		"bgm": "",
 		"description": "",
 		"enemies": [],
@@ -68,5 +68,5 @@
 		"scene_path": "res://scenes/city3.tscn",
 		"spawn_x": 184,
 		"spawn_y": 397
-	},
+	}
 }

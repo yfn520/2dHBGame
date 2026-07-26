@@ -52,6 +52,5 @@ animation = &"effect"
 autoplay = &"effect"
 centered = true
 material = SubResource("CanvasItemMaterial_effect")
-rotation = 0.0
-scale = Vector2(6.265527950310558, 6.265527950310558)
+scale = Vector2(3.132763975155279, 3.132763975155279)
 script = ExtResource("2_oneshot")
