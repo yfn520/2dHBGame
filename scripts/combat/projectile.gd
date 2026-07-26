@@ -38,6 +38,9 @@ var _hit_targets: Dictionary = {}
 var _visual_sprite: AnimatedSprite2D
 var _visual_root: Node2D
 var _visual_root_base_scale := Vector2.ONE
+# GameTool 导出时 baked 到子节点的 flip_h（素材规范层，朝右素材 baked 成朝左）。
+# rotate_to_velocity=true 时需基于此值抵消，否则 rotation 会让 baked 朝向反转。
+var _visual_sprite_base_flip := false
 
 
 func _ready() -> void:
@@ -51,30 +54,43 @@ func _ready() -> void:
 	_visual_root = get_node_or_null("Visual") as Node2D
 	if _visual_root != null:
 		_visual_root_base_scale = _visual_root.scale
+	if _visual_sprite != null:
+		_visual_sprite_base_flip = _visual_sprite.flip_h
 
 
 func _physics_process(delta: float) -> void:
 	position += velocity * delta
 	velocity.y += projectile_gravity * delta
-	if rotate_to_velocity and velocity.length_squared() > 0.001:
-		rotation = velocity.angle() + deg_to_rad(visual_rotation_degrees)
-	elif not rotate_to_velocity:
-		rotation = deg_to_rad(visual_rotation_degrees)
-	# 镜像 + 缩放合并到父节点 Visual.scale：
-	# - 子节点 baked flip_h（素材规范层，朝右素材 baked 成朝左）保留不动
-	# - 实例层 mirror 通过父节点 Visual.scale.x = -|base.x| × multiplier 翻转
-	#   叠加子节点 baked flip_h 自然得到正确朝向（素材规范 + 实例镜像 = 实例朝向）
-	# - 实例层 scale 倍率乘到 Visual.scale（base × multiplier）
-	if _visual_root != null:
-		var should_mirror := false
-		if mirror_with_source_facing:
-			# 跟随角色朝向镜像：发射时锁定 source flip，飞行中不随角色转向改变
-			should_mirror = _locked_source_flip != visual_mirror
+	# rotation 始终应用到 Area2D（和之前一致），让 CollisionShape2D 也跟着旋转
+	# - rotate_to_velocity=true：rotation = velocity.angle() + rotation_degrees（对齐飞行方向）
+	# - rotate_to_velocity=false：rotation = rotation_degrees（固定值）
+	#   mirror_with_facing 通过 rotation 镜像（180 - deg）实现，不通过 scale.x 翻转
+	#   这样 scale.x 翻转只用于抵消 baked flip_h，不会让 rotation 视觉反向
+	if rotate_to_velocity:
+		if velocity.length_squared() > 0.001:
+			rotation = velocity.angle() + deg_to_rad(visual_rotation_degrees)
 		else:
-			# Legacy：按速度方向自动镜像（仅当 rotate_to_velocity=false 且 flip_to_velocity=true）
-			var auto_flip := not rotate_to_velocity and flip_to_velocity and velocity.length_squared() > 0.001 and velocity.x < 0.0
-			should_mirror = auto_flip != visual_mirror
-		var sign_x := -1.0 if should_mirror else 1.0
+			rotation = deg_to_rad(visual_rotation_degrees)
+	else:
+		var deg := visual_rotation_degrees
+		if mirror_with_source_facing:
+			# 镜像时 rotation 变换：θ → 180° + θ
+			# 例如 -160°（朝左略上）镜像后 → 20°（朝右略下），保持视觉对称
+			# 推导：朝右素材 + (-160°) = 朝左略上；朝右素材 + 20° = 朝右略下（关于 Y 轴对称）
+			# visual_mirror=true 表示弹道已镜像（朝左），source_flip=true 表示角色朝右
+			# 当两者状态一致（source_flip == visual_mirror）时，朝向相反 → 需镜像 rotation
+			var extra := _locked_source_flip == visual_mirror
+			if extra:
+				deg = 180.0 + deg
+		elif flip_to_velocity:
+			var auto_flip := velocity.length_squared() > 0.001 and velocity.x < 0.0
+			if auto_flip != visual_mirror:
+				deg = 180.0 + deg
+		rotation = deg_to_rad(deg)
+	# 镜像 + 缩放：should_mirror 始终抵消 baked flip_h（baked 后素材朝左，翻转成朝右）
+	# 素材朝右后，rotation 才能正确对齐（朝右素材 rotation=0 朝右，rotation=π 朝左）
+	if _visual_root != null:
+		var sign_x := -1.0
 		_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * visual_scale_multiplier * sign_x, absf(_visual_root_base_scale.y) * visual_scale_multiplier)
 
 

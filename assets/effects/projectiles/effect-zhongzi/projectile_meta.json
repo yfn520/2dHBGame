@@ -1,0 +1,26 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "collisionSize": {
+    "width": 49.0,
+    "height": 46.0
+  },
+  "collisionOffset": {
+    "x": -0.5,
+    "y": 0.5
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": false,
+  "visualOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "scenePath": "res://assets/effects/projectiles/effect-zhongzi.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

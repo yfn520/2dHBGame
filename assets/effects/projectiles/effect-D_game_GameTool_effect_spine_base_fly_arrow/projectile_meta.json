@@ -1,0 +1,26 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "left",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 48.75,
+    "height": 13.75
+  },
+  "collisionOffset": {
+    "x": -3.3125,
+    "y": -1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": false,
+  "visualOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "scenePath": "res://assets/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

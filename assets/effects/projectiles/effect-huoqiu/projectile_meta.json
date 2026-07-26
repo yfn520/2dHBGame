@@ -1,0 +1,26 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "left",
+  "displayScale": {
+	"x": 0.25,
+	"y": 0.25
+  },
+  "collisionSize": {
+	"width": 9.25,
+	"height": 4.5
+  },
+  "collisionOffset": {
+	"x": -2.0,
+	"y": -0.375
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": false,
+  "visualOffset": {
+	"x": 0.0,
+	"y": 0.0
+  },
+  "scenePath": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+  "fps": 12,
+  "frameCount": 8
+}

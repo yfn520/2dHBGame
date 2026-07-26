@@ -1,0 +1,26 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 48.0,
+    "height": 16.0
+  },
+  "collisionOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": false,
+  "visualOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "scenePath": "res://assets/effects/projectiles/effect_gongshou_skill2.tscn",
+  "fps": 12,
+  "frameCount": 8
+}
