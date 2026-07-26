@@ -2240,7 +2240,15 @@ func _refresh_effect_preview() -> void:
 		# Omitting effect_scale here made imported VFX appear too large and shifted
 		# their apparent centre relative to the GameTool preview.
 		var effect_scale := float(node.get("effect_scale", 1.0))
-		_preview.set_effect(packed, effect_offset, true, visual_scale * effect_scale, coord_space == "character_local")
+		var is_fullscreen := coord_space == "fullscreen"
+		_preview.set_effect(
+			packed,
+			effect_offset,
+			true,
+			1.0 if is_fullscreen else visual_scale * effect_scale,
+			coord_space == "character_local",
+			is_fullscreen
+		)
 		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
 	elif type_name == "apply_self_buff":
 		# apply_self_buff: 挂角色根，运行时 _spawn_effect 先抬到身体中心（body_center_y）再叠加 effect_offset
@@ -3195,7 +3203,15 @@ func _show_skill_fx_confirmation(manifest: Dictionary, build_result: Dictionary)
 				preview_offset += _resolve_preview_effect_anchor_offset(first)
 				preview_offset *= float(_visual_transform.get("visual_scale", 1.0))
 			var preview_scale := float(transform.get("scale", 1.0)) * float(_visual_transform.get("visual_scale", 1.0))
-			_preview.set_effect(packed, preview_offset, true, preview_scale, coord_space == "character_local")
+			var is_fullscreen := coord_space == "fullscreen"
+			_preview.set_effect(
+				packed,
+				preview_offset,
+				true,
+				1.0 if is_fullscreen else preview_scale,
+				coord_space == "character_local",
+				is_fullscreen
+			)
 	_skill_fx_dialog.popup_centered(Vector2i(680, 430))
 
 

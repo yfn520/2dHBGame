@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -94.0,
+    "y": -90.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.3,
+  "effectMirror": false,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 256,
+    "height": 256
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/fist_blast/effect.tscn",
+  "fps": 7.5,
+  "frameCount": 3
+}

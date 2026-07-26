@@ -2,6 +2,11 @@ extends AnimatedSprite2D
 
 @export var fallback_lifetime := 2.0
 
+
+func manages_own_lifetime() -> bool:
+	return true
+
+
 func _ready() -> void:
 	if sprite_frames == null or not sprite_frames.has_animation(animation):
 		queue_free()

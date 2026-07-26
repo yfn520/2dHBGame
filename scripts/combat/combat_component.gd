@@ -638,8 +638,15 @@ func _spawn_fullscreen_effect(effect: Node, node: Dictionary) -> void:
 	# CanvasLayer 子节点坐标系：左上角为原点，position = viewport 中心
 	# ScreenLayer 默认 follow_viewport_enabled=false，不受相机影响，特效始终居中
 	effect_node.position = viewport_size * 0.5
-	var cover_scale := maxf(viewport_size.x / frame_size.x, viewport_size.y / frame_size.y)
-	effect_node.scale = Vector2(cover_scale, cover_scale)
+	# Keep the complete authored frame inside the game viewport. A native
+	# 16:9 frame still fills the screen, while legacy square frames no longer
+	# become oversized and get cropped above/below the visible boundary.
+	var fit_scale := minf(viewport_size.x / frame_size.x, viewport_size.y / frame_size.y)
+	effect_node.scale = Vector2(fit_scale, fit_scale)
+	# Exported Skill FX scenes use effect_visual.gd, which already owns
+	# animation_finished / loop-timer cleanup from its _ready().
+	if effect_node.has_method("manages_own_lifetime") and bool(effect_node.call("manages_own_lifetime")):
+		return
 	# 自动销毁：循环特效按 duration，单次按 animation_finished
 	var is_loop := false
 	if effect_node is AnimatedSprite2D:
@@ -653,7 +660,10 @@ func _spawn_fullscreen_effect(effect: Node, node: Dictionary) -> void:
 		timer.timeout.connect(effect_node.queue_free)
 	else:
 		if effect_node is AnimatedSprite2D:
-			(effect_node as AnimatedSprite2D).animation_finished.connect(effect_node.queue_free)
+			var sprite := effect_node as AnimatedSprite2D
+			var cleanup := Callable(effect_node, "queue_free")
+			if not sprite.animation_finished.is_connected(cleanup):
+				sprite.animation_finished.connect(cleanup, CONNECT_ONE_SHOT)
 		else:
 			# 非 AnimatedSprite2D 无法监听完成，回落到 2 秒销毁
 			var timer2 := get_tree().create_timer(2.0)

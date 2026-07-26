@@ -386,7 +386,9 @@
 		"normal_skill": 50191.0,
 		"patrol_range": 120.0,
 		"skill_weights": [],
-		"skills": []
+		"skills": [
+			50192.0
+		]
 	},
 	"8021": {
 		"asset": "res://assets/enemies/jing'yingjia'chong",

@@ -17,11 +17,13 @@ var root_position := Vector2.ZERO
 
 # 特效预览层：承载 play_effect 节点配置的特效场景实例
 var _effect_layer: Node2D
+var _effect_clip: Control
 var _effect_scene: PackedScene
 var _effect_offset := Vector2.ZERO
 var _effect_active := false
 var _effect_visual_scale := 1.0
 var _effect_is_local := false
+var _effect_is_fullscreen := false
 # 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
 var _effect_mirror := false
 var _effect_rotation_degrees := 0.0
@@ -43,11 +45,22 @@ var _range_size := Vector2(160.0, 80.0)
 
 
 func _ready() -> void:
+	# Cover-scaled fullscreen VFX may extend beyond this editor viewport.
+	clip_contents = true
+	_effect_clip = Control.new()
+	_effect_clip.name = "EffectClip"
+	_effect_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_effect_clip.clip_contents = true
+	_effect_clip.z_index = 100
+	add_child(_effect_clip)
 	# 创建特效层，z_index 高于精灵但仍在预览框内
 	if _effect_layer == null:
 		_effect_layer = Node2D.new()
 		_effect_layer.name = "EffectLayer"
-		add_child(_effect_layer)
+		# Imported scenes may use a negative z_index. Keep their preview above
+		# this Control's dark background while retaining internal draw order.
+		_effect_layer.z_index = 0
+		_effect_clip.add_child(_effect_layer)
 
 
 func set_preview(texture: Texture2D, scale_value: float, frame: int, hit_window: Dictionary, right: bool, visual: Dictionary = {}) -> void:
@@ -70,12 +83,13 @@ func set_preview(texture: Texture2D, scale_value: float, frame: int, hit_window:
 ## - active: 是否显示
 ## - visual_scale: 角色视觉缩放（character_local 模式下特效整体 scale 也乘以此值）
 ## - is_local: true=character_local（挂角色根，跟随移动）；false=world（落 origin + offset）
-func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale: float, is_local: bool) -> void:
+func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale: float, is_local: bool, is_fullscreen: bool = false) -> void:
 	_effect_scene = scene
 	_effect_offset = offset
 	_effect_active = active and scene != null
 	_effect_visual_scale = maxf(0.01, visual_scale)
 	_effect_is_local = is_local
+	_effect_is_fullscreen = is_fullscreen
 	_effect_mirror = false
 	_effect_rotation_degrees = 0.0
 	_rebuild_effect_instance()
@@ -110,6 +124,10 @@ func set_range_indicator(active: bool, center_offset: Vector2, radius: float, sh
 # 由技能编辑器按节点类型回写；preview_position 模式下播放特效和弹道都可直接拖动定位。
 func _gui_input(event: InputEvent) -> void:
 	if not _effect_active or _effect_layer == null:
+		return
+	# Fullscreen effects are always centred and cover the preview viewport.
+	# Their authored node offset is intentionally not editable by dragging.
+	if _effect_is_fullscreen:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -161,7 +179,8 @@ func _rebuild_effect_instance() -> void:
 		# world 模式（弹道）运行时不缩放，但预览中按用户期望也应用，使弹道视觉与角色缩放一致
 		if instance is Node2D:
 			var node2d := instance as Node2D
-			node2d.scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
+			if not _effect_is_fullscreen:
+				node2d.scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
 			# Inspector preview stays on frame 0: export rebuilds the atlas so this
 			# is the first frame in the user-selected playback sequence.
 			if node2d is AnimatedSprite2D:
@@ -171,6 +190,46 @@ func _rebuild_effect_instance() -> void:
 			node2d.rotation = deg_to_rad(_effect_rotation_degrees)
 			if _effect_mirror:
 				node2d.scale.x *= -1.0
+
+
+func _find_effect_frame_size(node: Node) -> Vector2:
+	if node is AnimatedSprite2D:
+		var sprite := node as AnimatedSprite2D
+		if sprite.sprite_frames != null and sprite.sprite_frames.has_animation(sprite.animation):
+			var frame_count := sprite.sprite_frames.get_frame_count(sprite.animation)
+			if frame_count > 0:
+				var texture := sprite.sprite_frames.get_frame_texture(sprite.animation, clampi(sprite.frame, 0, frame_count - 1))
+				if texture != null:
+					return texture.get_size()
+	elif node is Sprite2D:
+		var sprite := node as Sprite2D
+		if sprite.texture != null:
+			return sprite.texture.get_size()
+	for child in node.get_children():
+		var child_size := _find_effect_frame_size(child)
+		if child_size.x > 0.0 and child_size.y > 0.0:
+			return child_size
+	return Vector2.ZERO
+
+
+func _effect_frame_size() -> Vector2:
+	if _effect_layer == null:
+		return Vector2.ZERO
+	for child in _effect_layer.get_children():
+		var frame_size := _find_effect_frame_size(child)
+		if frame_size.x > 0.0 and frame_size.y > 0.0:
+			return frame_size
+	return Vector2.ZERO
+
+
+func _fullscreen_preview_rect() -> Rect2:
+	var target_ratio := 16.0 / 9.0
+	var viewport_size := size
+	if viewport_size.x / maxf(1.0, viewport_size.y) > target_ratio:
+		viewport_size.x = viewport_size.y * target_ratio
+	else:
+		viewport_size.y = viewport_size.x / target_ratio
+	return Rect2((size - viewport_size) * 0.5, viewport_size)
 
 
 func _draw() -> void:
@@ -199,12 +258,28 @@ func _draw() -> void:
 	# 因此 effect_origin = origin（角色根）+ effect_offset * zoom，
 	# 不包含 root_position（那是 CharacterActionSet 的视觉偏移，特效不挂在其下）。
 	if _effect_active and _effect_layer != null:
-		var effect_origin := origin + _effect_offset * zoom
-		_effect_layer.position = effect_origin
-		_effect_layer.scale = Vector2(zoom, zoom)
+		if _effect_is_fullscreen:
+			var viewport_rect := _fullscreen_preview_rect()
+			var effect_size := _effect_frame_size()
+			var fit_scale := 1.0
+			if effect_size.x > 0.0 and effect_size.y > 0.0:
+				fit_scale = minf(viewport_rect.size.x / effect_size.x, viewport_rect.size.y / effect_size.y)
+			_effect_clip.position = viewport_rect.position
+			_effect_clip.size = viewport_rect.size
+			_effect_layer.position = viewport_rect.size * 0.5
+			_effect_layer.scale = Vector2(fit_scale, fit_scale)
+		else:
+			_effect_clip.position = Vector2.ZERO
+			_effect_clip.size = size
+			var effect_origin := origin + _effect_offset * zoom
+			_effect_layer.position = effect_origin
+			_effect_layer.scale = Vector2(zoom, zoom)
+		_effect_clip.visible = true
 		_effect_layer.visible = true
 		# 特效场景内部若含 GPUParticles2D / AnimationPlayer 会自动播放
 	else:
+		if _effect_clip != null:
+			_effect_clip.visible = false
 		if _effect_layer != null:
 			_effect_layer.visible = false
 	draw_line(origin + Vector2(-8, 0), origin + Vector2(8, 0), Color("64b5f6"), 1.0)

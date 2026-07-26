@@ -1,0 +1,27 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 34.25,
+    "height": 17.75
+  },
+  "collisionOffset": {
+    "x": 1.9948186528497445,
+    "y": 1.0012953367875639
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.58,
+  "effectMirror": true,
+  "instanceTransformBaked": false,
+  "visualOffset": {
+    "x": -104.0,
+    "y": -92.0
+  },
+  "scenePath": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/rock_projectile/effect.tscn",
+  "fps": 2.0,
+  "frameCount": 2
+}

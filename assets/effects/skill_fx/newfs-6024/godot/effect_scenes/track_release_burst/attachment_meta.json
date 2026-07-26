@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -92.0,
+    "y": -130.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.01,
+  "effectMirror": false,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 119,
+    "height": 118
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_release_burst/effect.tscn",
+  "fps": 6.666666666666667,
+  "frameCount": 4
+}
