@@ -24,3 +24,4 @@ material = SubResource("CanvasItemMaterial_visual")
 sprite_frames = SubResource("SpriteFrames_visual")
 animation = &"visual"
 autoplay = "visual"
+flip_h = true

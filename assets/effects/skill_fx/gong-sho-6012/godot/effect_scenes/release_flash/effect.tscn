@@ -37,8 +37,9 @@ animations = [{
 [node name="SkillFx" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_fx")
 animation = &"effect"
-autoplay = "effect"
+autoplay = &"effect"
 centered = true
 material = SubResource("CanvasItemMaterial_fx")
+flip_h = true
 script = ExtResource("2_script")
 z_index = 2

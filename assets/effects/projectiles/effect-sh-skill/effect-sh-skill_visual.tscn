@@ -43,3 +43,4 @@ animation = &"visual"
 autoplay = &"visual"
 centered = true
 material = SubResource("CanvasItemMaterial_visual")
+flip_h = true

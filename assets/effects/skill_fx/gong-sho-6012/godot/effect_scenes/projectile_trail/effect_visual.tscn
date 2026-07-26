@@ -19,8 +19,9 @@ animations = [{
 
 [node name="Visual" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_visual")
-animation = &"visual"
+animation = "visual"
 autoplay = "visual"
 centered = true
 material = SubResource("CanvasItemMaterial_visual")
+flip_h = true
 rotation = -2.792526803190927

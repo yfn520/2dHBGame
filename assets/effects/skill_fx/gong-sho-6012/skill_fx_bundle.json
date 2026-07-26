@@ -130,7 +130,7 @@
 		"manual_override": true,
 		"faces_by_default": "right",
 		"rotation": -160.0,
-		"flip_h": false
+		"flip_h": true
 	  },
 	  "asset": {
 		"track_id": "projectile_trail",
