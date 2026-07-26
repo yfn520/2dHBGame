@@ -1351,7 +1351,7 @@
 					"kind": "melee",
 					"max_edge_distance": 60.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "hit_window"
 				}
 			],
@@ -1489,7 +1489,7 @@
 				}
 			],
 			"policy": "any_damage_node",
-			"source_hash": "f822c907cd1f3e54"
+			"source_hash": "bcf52ba4bae695c5"
 		},
 		"cast_range": 60.0,
 		"cooldown": 1.0,
@@ -1512,6 +1512,9 @@
 				"damage_tag": "pierce",
 				"emission": "single",
 				"lifetime": 5.0,
+				"mirror": false,
+				"offset_x": -33.8028182983398,
+				"offset_y": -13.7323989868164,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 2.0,
@@ -1530,9 +1533,18 @@
 	},
 	"6012": {
 		"ai_range_cache": {
-			"entries": [],
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=300",
+					"kind": "projectile",
+					"max_edge_distance": 300.0,
+					"min_edge_distance": 0.0,
+					"node_index": 3.0,
+					"source": "projectile"
+				}
+			],
 			"policy": "any_damage_node",
-			"source_hash": "29fcb17f3e7a7e48"
+			"source_hash": "90be678715a50494"
 		},
 		"cooldown": 1.0,
 		"name": "弓手技能1",
@@ -1546,19 +1558,56 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"anchor": "body_center",
+				"attachment_blend_mode": "add",
+				"attachment_box_height": 256.0,
+				"attachment_box_width": 256.0,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 0.0,
+				"effect_scale": 0.55,
+				"follow_target": true,
+				"lifetime_ms": 0.0,
+				"mirror": true,
+				"mirror_with_facing": true,
+				"offset_x": -45.0,
+				"offset_y": -29.0,
+				"opacity": 1.0,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/release_flash/effect.tscn",
+				"source_bundle_id": "gong-sho-6012",
+				"source_track_id": "release_flash",
+				"target": "origin",
+				"tint": "#ffffff",
+				"type": "play_effect"
+			},
+			{
+				"ai_max_range": 300.0,
 				"aim_mode": "facing_elevation",
 				"buff_ids": [],
 				"damage_channel": "physical",
 				"damage_ratio": 0.9,
 				"damage_tag": "pierce",
 				"emission": "sequence",
+				"flip_to_velocity": false,
 				"interval": 0.1,
 				"lifetime": 5.0,
 				"max_pierce": 10.0,
-				"origin": "hit_window",
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_follows_visual_scale": true,
+				"offset_mirror_with_facing": true,
+				"offset_x": -61.0,
+				"offset_y": -99.0,
+				"origin": "actor_root",
 				"result_key": "projectile_hit",
-				"scale": 2.0,
-				"scene": "res://assets/effects/projectiles/effect-D_game_GameTool_effect_spine_base_fly_arrow.tscn",
+				"rotate_to_velocity": false,
+				"rotation_degrees": 0.0,
+				"scale": 1.2,
+				"scene": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect.tscn",
+				"source_bundle_id": "gong-sho-6012",
+				"source_track_id": "projectile_trail",
 				"speed": 300.0,
 				"trajectory": "straight",
 				"type": "spawn_projectile"

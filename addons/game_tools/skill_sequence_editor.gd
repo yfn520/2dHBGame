@@ -5,7 +5,7 @@ const SKILLS_PATH := "res://data/skills.json"
 const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
 const BUFFS_PATH := "res://data/buffs.json"
-const SKILL_FX_ROOT := "res://assets/skill_fx"
+const SKILL_FX_ROOT := "res://assets/effects/skill_fx"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
 const CombatActionPreview = preload("res://addons/game_tools/combat_action_preview.gd")
 
@@ -921,6 +921,9 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_scene_picker(form, "弹道场景", "scene", node)
 	_add_node_spin(form, "缩放", "scale", node, 1.0, 0.01, 20.0, 0.05)
 	_add_origin_fields(form, node)
+	# 保存偏移 SpinBox 引用，供预览窗口拖拽特效时 set_value_no_signal 同步显示
+	_effect_offset_x_spin = _add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
+	_effect_offset_y_spin = _add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
 	_add_node_option(form, "轨迹", "trajectory", node, [{"value": "straight", "label": "直线"}, {"value": "ballistic", "label": "抛物线"}], true)
 	_add_node_option(form, "瞄准/落点", "aim_mode", node, [{"value": "facing_elevation", "label": "朝向 + 仰角"}, {"value": "nearest_enemy", "label": "指向最近敌人"}, {"value": "enemy_area", "label": "敌人附近区域"}, {"value": "forward_area", "label": "施法者前方区域"}], true)
 	_add_node_option(form, "发射方式", "emission", node, [{"value": "single", "label": "单发"}, {"value": "sequence", "label": "连续"}, {"value": "fan", "label": "扇形齐射"}, {"value": "area_rain", "label": "区域落雨"}], true)
@@ -971,6 +974,12 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	mirror_check.toggled.connect(func(v: bool) -> void: _update_node("mirror", v, false))
 	form.add_child(mirror_check)
 	_add_node_spin(form, "旋转角度", "rotation_degrees", node, 0.0, -360.0, 360.0, 1.0)
+	var mirror_facing_check := CheckBox.new()
+	mirror_facing_check.text = "跟随角色朝向镜像"
+	mirror_facing_check.button_pressed = bool(node.get("mirror_with_facing", true))
+	mirror_facing_check.toggled.connect(func(value: bool) -> void: _update_node("mirror_with_facing", value, false))
+	form.add_child(Label.new())
+	form.add_child(mirror_facing_check)
 
 
 func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
@@ -1023,7 +1032,9 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		form.add_child(source_label)
 		var source_value := Label.new()
 		source_value.text = "%s / %s" % [String(node.get("source_bundle_id", "")), String(node.get("source_track_id", ""))]
-		source_value.selectable = true
+		# Keep this as a plain read-only Label. Godot's Label has no text-selection
+		# property in the editor runtime, and assigning one fails when switching nodes.
+		source_value.tooltip_text = source_value.text
 		form.add_child(source_value)
 	_add_effect_event_helper(form, node)
 
@@ -1939,24 +1950,28 @@ func _load_visual_transform(asset_path: String) -> Dictionary:
 		"visual_scale": 1.0,
 		"body_center_y": -50.0,
 	}
+	# Runtime multiplies both the character visual and collision anchors by the
+	# actor_scale stored in characters.json / enemies.json. Read the same source
+	# here so this editor is a runtime preview rather than a raw-asset preview.
+	var actor_scale := _get_registry_actor_scale_for_asset(asset_path)
 	var character_config_path := asset_path.path_join("character_config.json")
 	if FileAccess.file_exists(character_config_path):
 		var json := JSON.new()
 		if json.parse(FileAccess.get_file_as_string(character_config_path)) == OK and json.data is Dictionary:
 			var cfg: Dictionary = json.data
 			var offset: Dictionary = cfg.get("display_offset", {})
-			result["root_position"] = Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0)))
+			result["root_position"] = Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0))) * actor_scale
 			# display_scale 是角色视觉缩放，运行时 visual_scale = absf(CharacterActionSet.scale.x)
 			# 预览直接读 character_config 的 display_scale，避免依赖角色主场景文件
-			result["visual_scale"] = absf(float(cfg.get("display_scale", 1.0)))
+			result["visual_scale"] = absf(float(cfg.get("display_scale", 1.0))) * actor_scale
 			# body_position.y 对应运行时 CollisionShape2D.position.y，用于模拟 buff 特效抬到身体中心
 			var body_pos: Dictionary = cfg.get("body_position", {})
 			if body_pos.has("y"):
-				result["body_center_y"] = float(body_pos.get("y", -50.0))
+				result["body_center_y"] = float(body_pos.get("y", -50.0)) * actor_scale
 			else:
 				var body_box: Dictionary = cfg.get("body_box", {})
 				if body_box.has("yOffset"):
-					result["body_center_y"] = float(body_box.get("yOffset", -50.0))
+					result["body_center_y"] = float(body_box.get("yOffset", -50.0)) * actor_scale
 	var scene_path := asset_path.path_join("godot/character_actions.tscn")
 	var packed := load(scene_path) as PackedScene
 	if packed == null:
@@ -1965,20 +1980,28 @@ func _load_visual_transform(asset_path: String) -> Dictionary:
 	# character_actions.tscn 的根节点就是 CharacterActionSet
 	var action_set := instance as Node2D
 	if action_set != null and action_set.name == "CharacterActionSet":
-		result["visual_scale"] = absf(action_set.scale.x)
+		result["visual_scale"] = float(result.get("visual_scale", 1.0)) * absf(action_set.scale.x)
 	var sprite := instance.get_node_or_null("AnimatedSprite2D") as AnimatedSprite2D
 	if sprite != null:
 		result["position"] = sprite.position
 		result["offset"] = sprite.offset
-		result["scale"] = sprite.scale
+		result["scale"] = sprite.scale * float(result.get("visual_scale", 1.0))
 		result["centered"] = sprite.centered
 	# 若根节点不是 CharacterActionSet，尝试作为子节点查找
 	if action_set == null or action_set.name != "CharacterActionSet":
 		var found := instance.get_node_or_null("CharacterActionSet") as Node2D
 		if found != null:
-			result["visual_scale"] = absf(found.scale.x)
+			result["visual_scale"] = float(result.get("visual_scale", 1.0)) * absf(found.scale.x)
 	instance.free()
 	return result
+
+
+func _get_registry_actor_scale_for_asset(asset_path: String) -> float:
+	for table in [_characters_config, _enemies_config]:
+		for value in (table as Dictionary).values():
+			if value is Dictionary and String((value as Dictionary).get("asset", "")) == asset_path:
+				return maxf(0.01, float((value as Dictionary).get("actor_scale", 1.0)))
+	return 1.0
 
 
 func _refresh_preview() -> void:
@@ -2054,8 +2077,16 @@ func _refresh_effect_preview() -> void:
 		var coord_space := String(node.get("coordinate_space", "world"))
 		# character_local: 挂角色根，position = offset * mirror_x * visual_scale
 		# world: 挂场景根，global_position = origin(角色根) + offset
-		var effect_offset := Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale) if coord_space == "character_local" else offset
-		_preview.set_effect(packed, effect_offset, true, visual_scale, coord_space == "character_local")
+		# Imported offsets are relative to the selected GameTool anchor. Match
+		# CombatComponent by applying that root-local anchor before scale/facing.
+		var anchor_offset := _resolve_preview_effect_anchor_offset(node)
+		var effect_offset := anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale) if coord_space == "character_local" else offset
+		# Runtime first applies node.effect_scale, then the character visual scale.
+		# Omitting effect_scale here made imported VFX appear too large and shifted
+		# their apparent centre relative to the GameTool preview.
+		var effect_scale := float(node.get("effect_scale", 1.0))
+		_preview.set_effect(packed, effect_offset, true, visual_scale * effect_scale, coord_space == "character_local")
+		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
 	elif type_name == "apply_self_buff":
 		# apply_self_buff: 挂角色根，运行时 _spawn_effect 先抬到身体中心（body_center_y）再叠加 effect_offset
 		# 预览对齐运行时：offset.y 先叠加 body_center_y，再乘 visual_scale
@@ -2071,7 +2102,11 @@ func _refresh_effect_preview() -> void:
 		# 预览中统一用 hit_window 偏移（若有）否则用角色根（origin）
 		# origin 偏移乘 visual_scale：角色缩放时 hit_window/forward 位置也等比缩放
 		# 弹道缩放 = 角色视觉缩放 × 节点 scale 字段（与运行时 skill_executor._instantiate_projectile 一致）
-		var origin_offset := _resolve_preview_origin(node) * visual_scale
+		var origin_offset := _resolve_preview_origin(node)
+		# offset_x/offset_y 是节点自身的发射点偏移，所有 spawn_projectile 节点都生效，
+		# 不受 source_bundle_id 限制（用户手填的偏移也需要在预览中显示）。
+		origin_offset += Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+		origin_offset *= visual_scale
 		var node_scale := float(node.get("scale", 1.0))
 		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
 		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
@@ -2080,6 +2115,18 @@ func _refresh_effect_preview() -> void:
 ## 根据当前选中节点刷新命中范围指示器（apply_target_buff 的 area / area_damage）。
 ## 圆心 = 角色根 + origin 偏移（caster→0, hit_window→forward/y），半径/尺寸来自节点字段。
 ## 半径/尺寸在运行时角色坐标系下生效；预览中乘 visual_scale 后再由 preview 乘 zoom 绘制。
+## Keep play_effect preview anchors in sync with CombatComponent._resolve_effect_anchor_offset().
+func _resolve_preview_effect_anchor_offset(node: Dictionary) -> Vector2:
+	var anchor := String(node.get("anchor", "origin"))
+	if anchor == "origin" or anchor == "foot":
+		return Vector2.ZERO
+	if anchor == "body_center":
+		return Vector2(0.0, float(_visual_transform.get("body_center_y", -50.0)))
+	# Socket anchors retain the existing root fallback until this preview exposes
+	# socket-frame data; this avoids guessing a different coordinate system.
+	return Vector2.ZERO
+
+
 func _refresh_range_indicator() -> void:
 	if _preview == null:
 		return
@@ -2105,12 +2152,15 @@ func _refresh_range_indicator() -> void:
 		_preview.set_range_indicator(false, Vector2.ZERO, 0.0)
 
 
-## 预览窗口拖拽特效时的回调：从绘制空间绝对偏移反推节点 effect_offset_x/y 并写回。
+## 预览窗口拖拽特效时的回调：从绘制空间绝对偏移反推节点偏移字段并回写。
 ## 不调用 _refresh_preview() —— preview 内部已自行更新位置，避免重建实例打断拖拽。
 ## SpinBox 用 set_value_no_signal 同步显示，避免触发 value_changed -> _update_node -> refresh 链路。
-## 坐标换算（对齐 _refresh_effect_preview 的 apply_self_buff 分支）：
-##   effect_offset.x = offset.x * mirror_x * visual_scale   →   offset.x = effect_offset.x / (mirror_x * visual_scale)
-##   effect_offset.y = (offset.y + body_center_y) * visual_scale   →   offset.y = effect_offset.y / visual_scale - body_center_y
+## 坐标换算对齐 _refresh_effect_preview 中各节点类型的正向计算：
+##   apply_self_buff: effect_offset = (offset.x * mirror_x, offset.y + body_center_y) * visual_scale
+##     → offset.x = effect_offset.x / visual_scale (预览固定朝左 mirror_x=+1)
+##       offset.y = effect_offset.y / visual_scale - body_center_y
+##   spawn_projectile: effect_offset = (origin_base + node.offset) * visual_scale
+##     → node.offset = effect_offset / visual_scale - origin_base
 func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 	var index := _selected_node_index()
 	if index < 0:
@@ -2120,17 +2170,35 @@ func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 	if index >= nodes.size() or not nodes[index] is Dictionary:
 		return
 	var node: Dictionary = nodes[index]
-	if String(node.get("type", "")) != "apply_self_buff":
-		return
+	var type_name := String(node.get("type", ""))
 	var visual_scale: float = float(_visual_transform.get("visual_scale", 1.0))
 	if visual_scale <= 0.01:
 		visual_scale = 1.0
-	var body_center_y := float(_visual_transform.get("body_center_y", -50.0))
-	# 预览固定朝左，mirror_x = +1
-	var new_x := effect_offset.x / visual_scale
-	var new_y := effect_offset.y / visual_scale - body_center_y
-	node["effect_offset_x"] = new_x
-	node["effect_offset_y"] = new_y
+	var new_x := 0.0
+	var new_y := 0.0
+	var field_x := "offset_x"
+	var field_y := "offset_y"
+	match type_name:
+		"apply_self_buff":
+			field_x = "effect_offset_x"
+			field_y = "effect_offset_y"
+			var body_center_y := float(_visual_transform.get("body_center_y", -50.0))
+			# 预览固定朝左，mirror_x = +1
+			new_x = effect_offset.x / visual_scale
+			new_y = effect_offset.y / visual_scale - body_center_y
+		"spawn_projectile":
+			# 正向：effect_offset = (origin_base + node.offset) * visual_scale
+			# 反推：node.offset = effect_offset / visual_scale - origin_base
+			# origin_base 来自 _resolve_preview_origin（不含节点 offset），与预览正向计算对齐
+			var origin_base := _resolve_preview_origin(node)
+			var node_offset := effect_offset / visual_scale - origin_base
+			new_x = node_offset.x
+			new_y = node_offset.y
+		_:
+			# 其他节点类型暂不支持预览拖拽回写
+			return
+	node[field_x] = new_x
+	node[field_y] = new_y
 	nodes[index] = node
 	skill["nodes"] = nodes
 	_skills[_current_skill_id] = skill
@@ -2645,7 +2713,7 @@ func _validate_skill_fx_manifest(manifest: Dictionary) -> String:
 		return "combat_actions.json 已变化，请回网页重新连接项目并导出"
 	var has_existing_bundle_nodes := false
 	for value in _current_skill().get("nodes", []):
-		if value is Dictionary and String(value.get("source_bundle_id", "")) == bundle_id:
+		if _is_imported_skill_fx_node(value, bundle_id):
 			has_existing_bundle_nodes = true
 			break
 	var expected_skill_hash := String(manifest.get("skill_hash", ""))
@@ -2673,7 +2741,7 @@ func _validate_skill_fx_manifest(manifest: Dictionary) -> String:
 		var scene_path := String(asset.get("scene_path", ""))
 		if not scene_path.begins_with("res://"):
 			scene_path = "res://" + scene_path
-		if not scene_path.begins_with("res://assets/skill_fx/%s/" % bundle_id):
+		if not scene_path.begins_with("res://assets/effects/skill_fx/%s/" % bundle_id):
 			return "轨道资源越出自身特效包：%s" % track_id
 		if not ResourceLoader.exists(scene_path):
 			return "特效场景不存在或尚未导入：%s" % scene_path
@@ -2699,10 +2767,16 @@ func _build_skill_fx_nodes(manifest: Dictionary) -> Dictionary:
 	var bundle_id := String(manifest.get("bundle_id", ""))
 	var skill := _current_skill()
 	var nodes: Array = []
+	var previous_projectiles: Array[Dictionary] = []
 	# A skill has one active imported package. Strip previous imported VFX nodes,
-	# while retaining every gameplay/control node byte-for-byte.
+	# while retaining every gameplay/control node byte-for-byte. Generated
+	# projectiles are special: their existing node can contain player-authored
+	# damage/emission values, so retain that data and replace visual fields only.
 	for value in skill.get("nodes", []):
-		if value is Dictionary and String(value.get("source_bundle_id", "")).is_empty():
+		if _is_imported_skill_fx_node(value, bundle_id):
+			if value is Dictionary and String(value.get("type", "")) == "spawn_projectile":
+				previous_projectiles.append((value as Dictionary).duplicate(true))
+		else:
 			nodes.append(value.duplicate(true))
 	var play_animation_index := -1
 	for index in range(nodes.size()):
@@ -2739,12 +2813,48 @@ func _build_skill_fx_nodes(manifest: Dictionary) -> Dictionary:
 			base_index = int(trigger.get("node_index", 0))
 			anchor_node = nodes[base_index]
 		var effect_node := _skill_fx_track_to_node(track, bundle_id, anchor_node, max(0, delay_ms))
+		if String(effect_node.get("type", "")) == "spawn_projectile":
+			var previous := _find_previous_imported_projectile(previous_projectiles, String(track.get("id", "")))
+			if not previous.is_empty():
+				effect_node = _merge_imported_projectile_visual(previous, effect_node)
 		descriptors.append({"base_index": base_index, "node": effect_node})
 	# Descending insertion keeps all original gameplay node indexes stable.
 	descriptors.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.get("base_index", 0)) > int(b.get("base_index", 0)))
 	for descriptor in descriptors:
 		nodes.insert(int(descriptor.get("base_index", 0)) + 1, descriptor.get("node", {}))
 	return {"nodes": nodes, "track_count": descriptors.size(), "error": ""}
+
+
+## Old versions of the importer wrote the generated scene path but did not
+## persist source_bundle_id/source_track_id.  Treat those nodes as imported as
+## well, otherwise a re-import leaves their stale anchor/scale alongside the
+## current package and the editor previews the wrong node settings.
+func _is_imported_skill_fx_node(value: Variant, bundle_id: String) -> bool:
+	if not value is Dictionary:
+		return false
+	var node: Dictionary = value
+	if not String(node.get("source_bundle_id", "")).is_empty():
+		return true
+	var scene_path := String(node.get("scene", ""))
+	return scene_path.begins_with("res://assets/effects/skill_fx/%s/" % bundle_id)
+
+
+func _find_previous_imported_projectile(nodes: Array[Dictionary], track_id: String) -> Dictionary:
+	for node in nodes:
+		if String(node.get("source_track_id", "")) == track_id:
+			return node
+		var scene_path := String(node.get("scene", ""))
+		if scene_path.contains("/effect_scenes/%s/" % track_id):
+			return node
+	return {}
+
+
+func _merge_imported_projectile_visual(existing: Dictionary, generated: Dictionary) -> Dictionary:
+	var merged := existing.duplicate(true)
+	for key in ["scene", "origin", "socket", "scale", "mirror", "mirror_with_facing", "flip_to_velocity", "rotation_degrees", "offset_x", "offset_y", "offset_mirror_with_facing", "rotate_to_velocity", "offset_follows_visual_scale", "source_bundle_id", "source_track_id"]:
+		if generated.has(key):
+			merged[key] = generated[key]
+	return merged
 
 
 func _find_wait_node(nodes: Array, type_name: String, field: String, expected: Variant) -> int:
@@ -2780,6 +2890,62 @@ func _skill_fx_track_to_node(track: Dictionary, bundle_id: String, anchor_node: 
 		scene_path = "res://" + scene_path
 	var coordinate_space := String(track.get("space", "world"))
 	var anchor := String(track.get("anchor", "origin"))
+	var is_projectile := bool(track.get("is_projectile", false))
+	# 弹道轨道：生成 spawn_projectile 节点（碰撞信息已在导出的 tscn 中烘焙）
+	if is_projectile:
+		# GameTool projectile transforms are authored against the selected anchor.
+		# For the common origin/foot anchor this is the actor root, not the combat
+		# hit window. Starting at hit_window and then adding the same transform
+		# offset applies the authored placement twice in the editor/runtime.
+		var projectile_origin := "actor_root" if anchor == "origin" or anchor == "foot" else ("caster" if anchor == "body_center" else "socket")
+		# The exported projectile scene already contains the visual-normalisation
+		# scale (Visual.scale) and its authored rotation.  The GameTool transform
+		# is the final on-screen transform, so compensate the scene's internal
+		# scale here and do not apply its rotation a second time at the root node.
+		# Example: authored 0.30 + scene Visual.scale 0.25 => root 1.20, final 0.30.
+		var projectile_config: Dictionary = track.get("projectile_config", {})
+		var visual_scale_config: Dictionary = projectile_config.get("visual_scale", {})
+		var baked_visual_scale := absf(float(visual_scale_config.get("x", 1.0)))
+		if baked_visual_scale <= 0.001:
+			baked_visual_scale = 1.0
+		var root_scale := float(transform.get("scale", 1.0)) / baked_visual_scale
+		var has_baked_visual_transform := not projectile_config.is_empty()
+		var proj_node := {
+			"type": "spawn_projectile",
+			"scene": scene_path,
+			"result_key": "projectile_hit",
+			"origin": projectile_origin,
+			"trajectory": "straight",
+			"aim_mode": "facing_elevation",
+			"emission": "single",
+			"speed": 300.0,
+			"lifetime": 5.0,
+			"damage_ratio": 1.0,
+			"scale": root_scale,
+			"mirror": String(track.get("direction", "facing")) == "facing",
+			# Bundled visuals are authored from the default left-facing pose. Runtime
+			# mirrors both the picture and its launch point when the actor faces right.
+			"mirror_with_facing": true,
+			"flip_to_velocity": not has_baked_visual_transform,
+			"rotation_degrees": 0.0 if has_baked_visual_transform else float(transform.get("rotation_degrees", 0.0)),
+			# A fixed-direction track is authored in its final visual orientation;
+			# do not rotate it once more from runtime projectile velocity.
+			"rotate_to_velocity": String(track.get("direction", "facing")) == "facing" and not has_baked_visual_transform,
+			# GameTool offsets are actor-authored pixels. Runtime applies the same
+			# character visual scale before adding them to the selected origin.
+			"offset_follows_visual_scale": true,
+			"offset_mirror_with_facing": true,
+			"delay_ms": delay_ms,
+			"offset_x": float(offset.get("x", 0.0)),
+			"offset_y": float(offset.get("y", 0.0)),
+			"ai_min_range": 0.0,
+			"ai_max_range": 280.0,
+			"source_bundle_id": bundle_id,
+			"source_track_id": String(track.get("id", "")),
+		}
+		if projectile_origin == "socket":
+			proj_node["socket"] = anchor
+		return proj_node
 	var target := "origin"
 	var result_key := ""
 	if String(track.get("phase", "")) == "impact" and anchor_node.has("result_key"):
@@ -2796,7 +2962,12 @@ func _skill_fx_track_to_node(track: Dictionary, bundle_id: String, anchor_node: 
 		"delay_ms": delay_ms,
 		"anchor": anchor,
 		"follow_target": coordinate_space == "character_local",
-		"mirror_with_facing": String(track.get("direction", "facing")) == "facing",
+		# Local release/attachment effects share the character's pose, so their
+		# authored X offset and visual must follow the actor's facing as well.
+		"mirror_with_facing": coordinate_space == "character_local",
+		# Explicit mirror is authored by the GameTool preview and is independent
+		# from mirror_with_facing (which follows runtime actor direction).
+		"mirror": bool(track.get("mirror", false)),
 		"lifetime_ms": int(track.get("duration_ms", 500)),
 		"effect_scale": float(transform.get("scale", 1.0)),
 		"rotation_degrees": float(transform.get("rotation_degrees", 0.0)),
@@ -2852,7 +3023,13 @@ func _show_skill_fx_confirmation(manifest: Dictionary, build_result: Dictionary)
 		var transform: Dictionary = first.get("transform", {})
 		var offset: Dictionary = transform.get("offset", {})
 		if packed != null:
-			_preview.set_effect(packed, Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0))), true, float(transform.get("scale", 1.0)), String(first.get("space", "world")) == "character_local")
+			var coord_space := String(first.get("space", "world"))
+			var preview_offset := Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0)))
+			if coord_space == "character_local":
+				preview_offset += _resolve_preview_effect_anchor_offset(first)
+				preview_offset *= float(_visual_transform.get("visual_scale", 1.0))
+			var preview_scale := float(transform.get("scale", 1.0)) * float(_visual_transform.get("visual_scale", 1.0))
+			_preview.set_effect(packed, preview_offset, true, preview_scale, coord_space == "character_local")
 	_skill_fx_dialog.popup_centered(Vector2i(680, 430))
 
 

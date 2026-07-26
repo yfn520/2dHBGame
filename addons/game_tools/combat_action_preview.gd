@@ -162,6 +162,11 @@ func _rebuild_effect_instance() -> void:
 		if instance is Node2D:
 			var node2d := instance as Node2D
 			node2d.scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
+			# Inspector preview stays on frame 0: export rebuilds the atlas so this
+			# is the first frame in the user-selected playback sequence.
+			if node2d is AnimatedSprite2D:
+				(node2d as AnimatedSprite2D).stop()
+				(node2d as AnimatedSprite2D).frame = 0
 			# 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
 			node2d.rotation = deg_to_rad(_effect_rotation_degrees)
 			if _effect_mirror:

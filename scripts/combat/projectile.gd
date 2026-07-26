@@ -25,9 +25,16 @@ var _has_new_link := false
 # 节点配置的视觉镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees 字段）
 var visual_mirror := false
 var visual_rotation_degrees := 0.0
+# Imported GameTool bundles are authored from the actor's default (left-facing)
+# pose. Their offset/rotation are baked into the scene, so mirror them from the
+# actor facing instead of guessing from velocity every frame.
+var mirror_with_source_facing := false
+var _locked_source_flip := false
 
 var _hit_targets: Dictionary = {}
 var _visual_sprite: AnimatedSprite2D
+var _visual_root: Node2D
+var _visual_root_base_scale := Vector2.ONE
 
 
 func _ready() -> void:
@@ -38,6 +45,9 @@ func _ready() -> void:
 	area_entered.connect(_on_area_entered)
 	# 缓存 Visual 子节点的 AnimatedSprite2D 用于镜像翻转
 	_visual_sprite = _find_visual_sprite()
+	_visual_root = get_node_or_null("Visual") as Node2D
+	if _visual_root != null:
+		_visual_root_base_scale = _visual_root.scale
 
 
 func _physics_process(delta: float) -> void:
@@ -47,13 +57,25 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle() + deg_to_rad(visual_rotation_degrees)
 	elif not rotate_to_velocity:
 		rotation = deg_to_rad(visual_rotation_degrees)
-	# 镜像 flip_h：不旋转模式下按飞行方向自动翻转，再 XOR 节点配置的 mirror 修正。
-	# 旋转模式下 auto_flip 始终为 false，仅用 mirror 手动翻转。
+	# Imported fixed-orientation visuals use the caster facing as their mirror
+	# source. Legacy projectiles keep the previous velocity-based behaviour.
 	if _visual_sprite != null:
-		var auto_flip := false
-		if not rotate_to_velocity and flip_to_velocity and velocity.length_squared() > 0.001:
-			auto_flip = velocity.x < 0.0
-		_visual_sprite.flip_h = auto_flip != visual_mirror
+		if mirror_with_source_facing:
+			# A projectile must preserve the facing it had when it was emitted.
+			# Turning the actor mid-flight must not rotate/flip an existing arrow.
+			# The generated scene already rotates its child sprite. Mirroring that
+			# child happens before rotation and turns an up-right arrow into a
+			# down-right one. Mirror the Visual parent instead, after the baked
+			# rotation, while leaving collision geometry untouched.
+			var should_mirror := _locked_source_flip != visual_mirror
+			if _visual_root != null:
+				_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * (-1.0 if should_mirror else 1.0), _visual_root_base_scale.y)
+				_visual_sprite.flip_h = false
+			else:
+				_visual_sprite.flip_h = should_mirror
+		else:
+			var auto_flip := not rotate_to_velocity and flip_to_velocity and velocity.length_squared() > 0.001 and velocity.x < 0.0
+			_visual_sprite.flip_h = auto_flip != visual_mirror
 
 
 func _find_visual_sprite() -> AnimatedSprite2D:
@@ -107,6 +129,12 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	buff_chance = float(node.get("buff_chance", 0.0))
 	visual_mirror = bool(node.get("mirror", false))
 	visual_rotation_degrees = float(node.get("rotation_degrees", 0.0))
+	mirror_with_source_facing = bool(node.get("mirror_with_facing", false))
+	flip_to_velocity = bool(node.get("flip_to_velocity", true))
+	_locked_source_flip = false
+	if source_entity != null:
+		var source_sprite := source_entity.get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
+		_locked_source_flip = source_sprite != null and source_sprite.flip_h
 
 
 func _read_buff_ids_compat(node: Dictionary) -> Array:

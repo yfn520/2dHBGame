@@ -1,0 +1,29 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -45.0,
+    "y": -29.0
+  },
+  "displayScale": {
+    "x": 1.16,
+    "y": 1.16
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": false,
+  "boxSize": {
+    "width": 256,
+    "height": 256
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/release_flash/effect.tscn",
+  "fps": 35.71428571428571,
+  "frameCount": 5
+}

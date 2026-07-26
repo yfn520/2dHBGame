@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 ## Node-only skill runner. Control nodes advance the cast; action nodes do work.
 
 signal hp_changed(current: int, max_hp: int)
@@ -295,7 +295,7 @@ func _execute_node(node: Dictionary) -> bool:
 		"fullscreen_damage":
 			_skill_executor.execute_fullscreen_damage(node, _cast_context)
 		"spawn_projectile":
-			_skill_executor.spawn_projectiles(node, _resolve_origin(node), _cast_context)
+			_skill_executor.spawn_projectiles(node, _resolve_projectile_origin(node), _cast_context)
 		"play_effect":
 			_execute_effect_node(node)
 		"apply_target_buff":
@@ -517,16 +517,23 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# Keep them parented to the actor so they follow movement, and mirror exactly when
 		# the attach root sprite is flipped.
 		var effect_node := effect as Node2D
-		offset += _resolve_effect_anchor_offset(node, attach_root)
+		# Anchor offsets are already in the actor's runtime coordinate space (the
+		# collision/body centre was scaled when the actor was spawned).  Only the
+		# GameTool-authored offset still needs the visual scale; scaling their sum
+		# applied actor_scale twice to body_center and shifted release effects.
+		var anchor_offset := _resolve_effect_anchor_offset(node, attach_root)
 		var mirror_enabled := bool(node.get("mirror_with_facing", true))
 		var mirror_x := -1.0 if mirror_enabled and attach_sprite != null and attach_sprite.flip_h else 1.0
 		attach_root.add_child(effect_node)
-		effect_node.position = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
+		effect_node.position = anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
+		var explicit_mirror := bool(node.get("mirror", false))
 		if effect_node is AnimatedSprite2D and mirror_enabled and attach_sprite != null:
 			# 效果场景可烘焙水平镜像（flip_h），与挂载根朝向取异或，使特效内部镜像独立于挂载根朝向。
 			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != attach_sprite.flip_h
-		elif mirror_x < 0.0:
+		if effect_node is AnimatedSprite2D and explicit_mirror:
+			(effect_node as AnimatedSprite2D).flip_h = not (effect_node as AnimatedSprite2D).flip_h
+		elif explicit_mirror or mirror_x < 0.0:
 			effect_node.scale.x *= -1.0
 		# The character visuals are a sibling at z=100 in imported actor scenes.
 		# Resolve front/behind relative to that node rather than relative to the world root.
@@ -664,6 +671,8 @@ func _execute_move_node(node: Dictionary) -> void:
 
 func _resolve_origin(node: Dictionary) -> Vector2:
 	var origin_type := String(node.get("origin", "hit_window"))
+	if origin_type == "actor_root" and _owner is Node2D:
+		return (_owner as Node2D).global_position
 	if origin_type == "socket":
 		var socket_position: Variant = _get_socket_position(_current_action, String(node.get("socket", "")), _sprite.frame if _sprite != null else 0)
 		if socket_position is Vector2:
@@ -681,6 +690,28 @@ func _resolve_origin(node: Dictionary) -> Vector2:
 	if _cast_context != null:
 		return _cast_context.current_anchor
 	return (_owner as Node2D).global_position if _owner is Node2D else Vector2.ZERO
+
+
+## 计算弹道发射点位置（全局坐标）。
+## 流程：origin 基点 + offset_x/offset_y（可选朝向镜像、可选视觉缩放）。
+## 所有 spawn_projectile 节点统一走该函数，offset 字段存在即生效，
+## 不再以 source_bundle_id 作为开关，避免编辑器 UI 修改的偏移运行时不生效。
+func _resolve_projectile_origin(node: Dictionary) -> Vector2:
+	var origin := _resolve_origin(node)
+	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+	if is_zero_approx(offset.x) and is_zero_approx(offset.y):
+		return origin
+	# offset_mirror_with_facing：朝右时水平翻转偏移，与素材默认朝左的坐标系一致。
+	if bool(node.get("offset_mirror_with_facing", false)) and _owner is Node2D:
+		var source_sprite := (_owner as Node2D).get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
+		if source_sprite != null and source_sprite.flip_h:
+			offset.x *= -1.0
+	var visual_scale := 1.0
+	if bool(node.get("offset_follows_visual_scale", false)) and _owner is Node2D:
+		var visual_root := (_owner as Node2D).get_node_or_null("CharacterActionSet") as Node2D
+		if visual_root != null and not is_zero_approx(visual_root.scale.x):
+			visual_scale = absf(visual_root.scale.x)
+	return origin + offset * visual_scale
 
 
 func _finish_cast() -> void:
