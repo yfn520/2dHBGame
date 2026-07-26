@@ -107,7 +107,7 @@ func set_range_indicator(active: bool, center_offset: Vector2, radius: float, sh
 
 
 # 鼠标在特效附近按下并拖动时，实时调整 _effect_offset 并发射 delta 信号给编辑器回写。
-# 仅 apply_self_buff（character_local + 含 body_center_y）使用，其他类型不影响节点字段。
+# 由技能编辑器按节点类型回写；preview_position 模式下播放特效和弹道都可直接拖动定位。
 func _gui_input(event: InputEvent) -> void:
 	if not _effect_active or _effect_layer == null:
 		return

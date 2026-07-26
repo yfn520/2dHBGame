@@ -711,7 +711,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "projectile"
 				}
 			],
@@ -1488,7 +1488,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2.0,
+					"node_index": 2,
 					"source": "projectile"
 				}
 			],
@@ -1517,9 +1517,9 @@
 				"emission": "single",
 				"lifetime": 5.0,
 				"mirror": false,
-				"offset_x": -33.8028182983398,
-				"offset_y": -13.7323989868164,
-				"origin": "hit_window",
+				"offset_x": -74.8028182983398,
+				"offset_y": -101.732398986816,
+				"origin": "preview_position",
 				"result_key": "projectile_hit",
 				"scale": 2.0,
 				"scene": "res://assets/effects/projectiles/effect-arrow.tscn",
@@ -1543,7 +1543,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 300.0,
 					"min_edge_distance": 0.0,
-					"node_index": 3.0,
+					"node_index": 3,
 					"source": "projectile"
 				}
 			],
@@ -1575,9 +1575,9 @@
 				"mirror": true,
 				"mirror_with_facing": true,
 				"offset_x": -45.0,
-				"offset_y": -29.0,
+				"offset_y": -97.5,
 				"opacity": 1.0,
-				"origin": "caster",
+				"origin": "preview_position",
 				"rotation_degrees": 0.0,
 				"scene": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/release_flash/effect.tscn",
 				"source_bundle_id": "gong-sho-6012",
@@ -1604,7 +1604,7 @@
 				"offset_mirror_with_facing": true,
 				"offset_x": -61.0,
 				"offset_y": -99.0,
-				"origin": "actor_root",
+				"origin": "preview_position",
 				"result_key": "projectile_hit",
 				"rotate_to_velocity": false,
 				"rotation_degrees": -160.0,

@@ -552,7 +552,10 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# tscn 中烘焙的 position（来自 GameTool 的 spawnOffset）作为附加偏移，
 		# 与技能节点的 offset_x/offset_y 叠加，使设计期偏移在运行时生效。
 		var baked_offset := (effect as Node2D).position
-		(effect as Node2D).global_position = position_value + (offset + baked_offset) * visual_scale
+		var world_offset := offset
+		if String(node.get("origin", "")) == "preview_position" and bool(node.get("mirror_with_facing", true)) and attach_sprite != null and attach_sprite.flip_h:
+			world_offset.x *= -1.0
+		(effect as Node2D).global_position = position_value + (world_offset + baked_offset) * visual_scale
 		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
 		_schedule_imported_effect_lifetime(effect as Node2D, node)
 
@@ -570,6 +573,11 @@ func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
 
 
 func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vector2:
+	# preview_position is authored by dragging directly in the skill preview.
+	# Its offset is already relative to the actor foot/root, so no body/socket
+	# anchor may be added a second time.
+	if String(node.get("origin", "")) == "preview_position":
+		return Vector2.ZERO
 	var anchor := String(node.get("anchor", "origin"))
 	if anchor == "origin" or anchor == "foot":
 		return Vector2.ZERO
@@ -671,6 +679,9 @@ func _execute_move_node(node: Dictionary) -> void:
 
 func _resolve_origin(node: Dictionary) -> Vector2:
 	var origin_type := String(node.get("origin", "hit_window"))
+	if origin_type == "preview_position" and _owner is Node2D:
+		# The preview coordinate origin is the actor foot/root.
+		return (_owner as Node2D).global_position
 	if origin_type == "actor_root" and _owner is Node2D:
 		return (_owner as Node2D).global_position
 	if origin_type == "socket":
@@ -702,12 +713,13 @@ func _resolve_projectile_origin(node: Dictionary) -> Vector2:
 	if is_zero_approx(offset.x) and is_zero_approx(offset.y):
 		return origin
 	# offset_mirror_with_facing：朝右时水平翻转偏移，与素材默认朝左的坐标系一致。
-	if bool(node.get("offset_mirror_with_facing", false)) and _owner is Node2D:
+	var uses_preview_position := String(node.get("origin", "")) == "preview_position"
+	if (uses_preview_position or bool(node.get("offset_mirror_with_facing", false))) and _owner is Node2D:
 		var source_sprite := (_owner as Node2D).get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
 		if source_sprite != null and source_sprite.flip_h:
 			offset.x *= -1.0
 	var visual_scale := 1.0
-	if bool(node.get("offset_follows_visual_scale", false)) and _owner is Node2D:
+	if (uses_preview_position or bool(node.get("offset_follows_visual_scale", false))) and _owner is Node2D:
 		var visual_root := (_owner as Node2D).get_node_or_null("CharacterActionSet") as Node2D
 		if visual_root != null and not is_zero_approx(visual_root.scale.x):
 			visual_scale = absf(visual_root.scale.x)

@@ -35,6 +35,10 @@ const ORIGIN_OPTIONS := [
 	{"value": "socket", "label": "指定 Socket"},
 	{"value": "nearest_enemy", "label": "最近敌人"},
 ]
+const PREVIEW_POSITION_ORIGIN_OPTION := {
+	"value": "preview_position",
+	"label": "技能预览框编辑位置（拖动定位）",
+}
 const TARGET_OPTIONS := [
 	{"value": "origin", "label": "节点出生位置"},
 	{"value": "result", "label": "命名结果集"},
@@ -921,7 +925,7 @@ func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_node_scene_picker(form, "弹道场景", "scene", node)
 	_add_projectile_metadata_helper(form, node)
 	_add_node_spin(form, "缩放", "scale", node, 1.0, 0.01, 20.0, 0.05)
-	_add_origin_fields(form, node)
+	_add_origin_fields(form, node, true)
 	# 保存偏移 SpinBox 引用，供预览窗口拖拽特效时 set_value_no_signal 同步显示
 	_effect_offset_x_spin = _add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
 	_effect_offset_y_spin = _add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
@@ -1006,9 +1010,9 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		_add_node_line(form, "结果集", "result_key", node)
 		_add_node_option(form, "触发频率", "delivery", node, [{"value": "each_hit", "label": "每次命中"}, {"value": "each_target", "label": "每个目标一次"}], false)
 	else:
-		_add_origin_fields(form, node)
-	_add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
-	_add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
+		_add_origin_fields(form, node, true)
+	_effect_offset_x_spin = _add_node_spin(form, "偏移 X", "offset_x", node, 0.0, -9999.0, 9999.0, 1.0)
+	_effect_offset_y_spin = _add_node_spin(form, "偏移 Y", "offset_y", node, 0.0, -9999.0, 9999.0, 1.0)
 	_add_node_spin(form, "非阻塞延迟 ms", "delay_ms", node, 0.0, 0.0, 10000.0, 10.0)
 	_add_node_spin(form, "特效缩放", "effect_scale", node, 1.0, 0.05, 12.0, 0.05)
 	_add_node_spin(form, "旋转角度", "rotation_degrees", node, 0.0, -720.0, 720.0, 1.0)
@@ -1303,10 +1307,20 @@ func _add_result_key(form: GridContainer, node: Dictionary) -> void:
 	_add_node_line(form, "结果集名称", "result_key", node)
 
 
-func _add_origin_fields(form: GridContainer, node: Dictionary) -> void:
-	_add_node_option(form, "出生/中心", "origin", node, ORIGIN_OPTIONS, true)
+func _add_origin_fields(form: GridContainer, node: Dictionary, allow_preview_position := false) -> void:
+	var options := ORIGIN_OPTIONS.duplicate(true)
+	if allow_preview_position:
+		options.append(PREVIEW_POSITION_ORIGIN_OPTION.duplicate(true))
+	_add_node_option(form, "出生/中心", "origin", node, options, true)
 	if String(node.get("origin", "hit_window")) == "socket":
 		_add_node_line(form, "Socket 名称", "socket", node)
+	elif String(node.get("origin", "hit_window")) == "preview_position":
+		var hint := Label.new()
+		hint.text = "直接拖动技能预览框中的特效定位；偏移 X/Y 保存为相对角色脚底根点的位置。"
+		hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		hint.add_theme_color_override("font_color", Color("8fd3ff"))
+		form.add_child(Label.new())
+		form.add_child(hint)
 
 
 func _add_node_line(form: GridContainer, label_text: String, field: String, node: Dictionary) -> void:
@@ -1748,6 +1762,13 @@ func _update_node(field: String, value: Variant, rebuild := false) -> void:
 	if index >= nodes.size() or not nodes[index] is Dictionary:
 		return
 	var node: Dictionary = nodes[index]
+	if field == "origin" \
+			and String(value) == "preview_position" \
+			and String(node.get("origin", "hit_window")) != "preview_position":
+		# Switching coordinate origins must not move the visible effect. Convert
+		# the currently displayed preview position into the direct root-relative
+		# offset used by preview_position before changing the origin field.
+		_convert_to_preview_position_offset(node)
 	if value is String and String(value).is_empty():
 		node.erase(field)
 	else:
@@ -1762,6 +1783,30 @@ func _update_node(field: String, value: Variant, rebuild := false) -> void:
 	_rebuild_node_list_keep(index)
 	_refresh_timeline()
 	_refresh_preview()
+
+
+func _convert_to_preview_position_offset(node: Dictionary) -> void:
+	var visual_scale := float(_visual_transform.get("visual_scale", 1.0))
+	if visual_scale <= 0.01:
+		visual_scale = 1.0
+	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
+	var direct_offset := offset
+	match String(node.get("type", "")):
+		"spawn_projectile":
+			# Current preview: (origin_base + offset) * visual_scale.
+			# preview_position: direct_offset * visual_scale.
+			direct_offset = _resolve_preview_origin(node) + offset
+		"play_effect":
+			var coord_space := String(node.get("coordinate_space", "world"))
+			var current_preview_offset := offset
+			if coord_space == "character_local":
+				current_preview_offset = _resolve_preview_effect_anchor_offset(node) + offset * visual_scale
+			# preview_position always stores an unscaled root-relative position.
+			direct_offset = current_preview_offset / visual_scale
+		_:
+			return
+	node["offset_x"] = direct_offset.x
+	node["offset_y"] = direct_offset.y
 
 
 func _reload_action_preview(action_name: String) -> void:
@@ -2185,7 +2230,12 @@ func _refresh_effect_preview() -> void:
 		# Imported offsets are relative to the selected GameTool anchor. Match
 		# CombatComponent by applying that root-local anchor before scale/facing.
 		var anchor_offset := _resolve_preview_effect_anchor_offset(node)
-		var effect_offset := anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale) if coord_space == "character_local" else offset
+		var uses_preview_position := String(node.get("origin", "")) == "preview_position"
+		var effect_offset := offset
+		if uses_preview_position:
+			effect_offset = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
+		elif coord_space == "character_local":
+			effect_offset = anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		# Runtime first applies node.effect_scale, then the character visual scale.
 		# Omitting effect_scale here made imported VFX appear too large and shifted
 		# their apparent centre relative to the GameTool preview.
@@ -2222,6 +2272,8 @@ func _refresh_effect_preview() -> void:
 ## 半径/尺寸在运行时角色坐标系下生效；预览中乘 visual_scale 后再由 preview 乘 zoom 绘制。
 ## Keep play_effect preview anchors in sync with CombatComponent._resolve_effect_anchor_offset().
 func _resolve_preview_effect_anchor_offset(node: Dictionary) -> Vector2:
+	if String(node.get("origin", "")) == "preview_position":
+		return Vector2.ZERO
 	var anchor := String(node.get("anchor", "origin"))
 	if anchor == "origin" or anchor == "foot":
 		return Vector2.ZERO
@@ -2284,6 +2336,13 @@ func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 	var field_x := "offset_x"
 	var field_y := "offset_y"
 	match type_name:
+		"play_effect":
+			if String(node.get("origin", "")) != "preview_position":
+				return
+			# preview_position stores the dragged location directly relative to
+			# the actor foot/root, before runtime visual scaling.
+			new_x = effect_offset.x / visual_scale
+			new_y = effect_offset.y / visual_scale
 		"apply_self_buff":
 			field_x = "effect_offset_x"
 			field_y = "effect_offset_y"
@@ -2318,6 +2377,8 @@ func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 ## caster/socket/nearest_enemy: 用角色根（零偏移）
 func _resolve_preview_origin(node: Dictionary) -> Vector2:
 	var origin_type := String(node.get("origin", "hit_window"))
+	if origin_type == "preview_position":
+		return Vector2.ZERO
 	if origin_type == "hit_window":
 		var windows: Array = _action_data.get("hit_windows", [])
 		if not windows.is_empty() and windows[0] is Dictionary:
