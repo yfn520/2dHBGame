@@ -585,14 +585,12 @@ func _instantiate_projectile(node: Dictionary) -> Node2D:
 	var packed := load(scene_path) as PackedScene
 	var projectile := packed.instantiate() as Node2D if packed != null else null
 	if projectile != null:
-		# 应用角色视觉缩放，使弹道大小与角色缩放一致
+		# 应用角色视觉缩放，使弹道大小与角色缩放一致（影响 collision + visual）
 		var vscale := _get_visual_scale()
 		if not is_zero_approx(vscale) and not is_equal_approx(vscale, 1.0):
 			projectile.scale *= Vector2(vscale, vscale)
-		# 应用技能节点配置的弹道缩放（视觉与碰撞盒同步缩放）
-		var node_scale := float(node.get("scale", 1.0))
-		if not is_zero_approx(node_scale) and not is_equal_approx(node_scale, 1.0):
-			projectile.scale *= Vector2(node_scale, node_scale)
+		# 节点配置的 scale（实例层倍率）由 projectile.gd 应用到 Visual.scale，
+		# 不再在这里应用到 Area2D.scale（避免 collision 被视觉倍率影响，且避免双重缩放）。
 	return projectile
 
 

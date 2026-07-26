@@ -919,6 +919,7 @@ func _build_damage_tag_fields(form: GridContainer, node: Dictionary) -> void:
 func _build_projectile_fields(form: GridContainer, node: Dictionary) -> void:
 	_add_result_key(form, node)
 	_add_node_scene_picker(form, "弹道场景", "scene", node)
+	_add_projectile_metadata_helper(form, node)
 	_add_node_spin(form, "缩放", "scale", node, 1.0, 0.01, 20.0, 0.05)
 	_add_origin_fields(form, node)
 	# 保存偏移 SpinBox 引用，供预览窗口拖拽特效时 set_value_no_signal 同步显示
@@ -1037,6 +1038,86 @@ func _build_effect_fields(form: GridContainer, node: Dictionary) -> void:
 		source_value.tooltip_text = source_value.text
 		form.add_child(source_value)
 	_add_effect_event_helper(form, node)
+
+
+func _add_projectile_metadata_helper(form: GridContainer, node: Dictionary) -> void:
+	var label := Label.new()
+	label.text = "弹道元数据"
+	form.add_child(label)
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	form.add_child(row)
+	var status_label := Label.new()
+	status_label.text = "未检测"
+	status_label.add_theme_color_override("font_color", Color("888888"))
+	row.add_child(status_label)
+	var detect_btn := Button.new()
+	detect_btn.text = "检测并应用"
+	detect_btn.tooltip_text = "读取场景同目录的 projectile_meta.json，自动填入偏移、缩放、旋转和镜像"
+	detect_btn.pressed.connect(_on_detect_projectile_meta.bind(status_label))
+	row.add_child(detect_btn)
+	_check_projectile_meta(node, status_label)
+
+
+func _on_detect_projectile_meta(status_label: Label) -> void:
+	var index := _selected_node_index()
+	if index < 0:
+		return
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	if index >= nodes.size():
+		return
+	var node: Dictionary = nodes[index]
+	_apply_projectile_meta(node, status_label)
+
+
+func _check_projectile_meta(node: Dictionary, status_label: Label) -> void:
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty():
+		status_label.text = "未选择场景"
+		return
+	var meta_path := scene_path.get_base_dir().path_join("projectile_meta.json")
+	if not FileAccess.file_exists(meta_path):
+		status_label.text = "无弹道元数据"
+		return
+	status_label.text = "已检测到元数据（点击应用）"
+	status_label.add_theme_color_override("font_color", Color("88ff88"))
+
+
+func _apply_projectile_meta(node: Dictionary, status_label: Label) -> void:
+	var scene_path := String(node.get("scene", ""))
+	if scene_path.is_empty():
+		status_label.text = "未选择场景"
+		return
+	var meta_path := scene_path.get_base_dir().path_join("projectile_meta.json")
+	if not FileAccess.file_exists(meta_path):
+		status_label.text = "无弹道元数据"
+		return
+	var meta := _read_json(meta_path)
+	if meta.is_empty():
+		status_label.text = "元数据读取失败"
+		return
+	# 应用实例层字段到 spawn_projectile 节点（与 attachment meta 流程对齐）
+	var visual_offset: Dictionary = meta.get("visualOffset", {})
+	node["offset_x"] = float(visual_offset.get("x", 0.0))
+	node["offset_y"] = float(visual_offset.get("y", 0.0))
+	node["scale"] = float(meta.get("effectScale", 1.0))
+	node["rotation_degrees"] = float(meta.get("effectRotation", 0.0))
+	node["mirror"] = bool(meta.get("effectMirror", false))
+	status_label.text = "已应用：偏移(%.0f, %.0f)，缩放(%.2f)，旋转(%.0f°)，%s" % [node["offset_x"], node["offset_y"], node["scale"], node["rotation_degrees"], "镜像" if node["mirror"] else "无镜像"]
+	status_label.add_theme_color_override("font_color", Color("88ff88"))
+	# Persist and rebuild
+	var index := _selected_node_index()
+	if index >= 0:
+		var skill := _current_skill()
+		var nodes: Array = skill.get("nodes", [])
+		if index < nodes.size():
+			nodes[index] = node
+			skill["nodes"] = nodes
+			_skills[_current_skill_id] = skill
+			_show_node_details(index)
+			_rebuild_node_list_keep(index)
+			_refresh_timeline()
 
 
 func _add_effect_metadata_helper(form: GridContainer, node: Dictionary) -> void:

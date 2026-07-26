@@ -711,7 +711,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2.0,
+					"node_index": 2,
 					"source": "projectile"
 				}
 			],
@@ -738,7 +738,7 @@
 				"damage_ratio": 3.0,
 				"emission": "single",
 				"lifetime": 5.0,
-				"mirror": false,
+				"mirror": true,
 				"origin": "hit_window",
 				"result_key": "projectile_hit",
 				"scale": 6.01,
@@ -1484,7 +1484,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 280.0,
 					"min_edge_distance": 0.0,
-					"node_index": 2,
+					"node_index": 2.0,
 					"source": "projectile"
 				}
 			],
@@ -1539,7 +1539,7 @@
 					"kind": "projectile",
 					"max_edge_distance": 300.0,
 					"min_edge_distance": 0.0,
-					"node_index": 3.0,
+					"node_index": 3,
 					"source": "projectile"
 				}
 			],
@@ -1594,7 +1594,7 @@
 				"interval": 0.1,
 				"lifetime": 5.0,
 				"max_pierce": 10.0,
-				"mirror": false,
+				"mirror": true,
 				"mirror_with_facing": true,
 				"offset_follows_visual_scale": true,
 				"offset_mirror_with_facing": true,

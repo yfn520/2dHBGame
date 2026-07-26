@@ -25,6 +25,9 @@ var _has_new_link := false
 # 节点配置的视觉镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees 字段）
 var visual_mirror := false
 var visual_rotation_degrees := 0.0
+# 节点配置的实例层缩放倍率（spawn_projectile 的 scale 字段）。
+# 运行时应用：Visual.scale = baked_displayScale × visual_scale_multiplier
+var visual_scale_multiplier := 1.0
 # Imported GameTool bundles are authored from the actor's default (left-facing)
 # pose. Their offset/rotation are baked into the scene, so mirror them from the
 # actor facing instead of guessing from velocity every frame.
@@ -57,25 +60,22 @@ func _physics_process(delta: float) -> void:
 		rotation = velocity.angle() + deg_to_rad(visual_rotation_degrees)
 	elif not rotate_to_velocity:
 		rotation = deg_to_rad(visual_rotation_degrees)
-	# Imported fixed-orientation visuals use the caster facing as their mirror
-	# source. Legacy projectiles keep the previous velocity-based behaviour.
-	if _visual_sprite != null:
+	# 镜像 + 缩放合并到父节点 Visual.scale：
+	# - 子节点 baked flip_h（素材规范层，朝右素材 baked 成朝左）保留不动
+	# - 实例层 mirror 通过父节点 Visual.scale.x = -|base.x| × multiplier 翻转
+	#   叠加子节点 baked flip_h 自然得到正确朝向（素材规范 + 实例镜像 = 实例朝向）
+	# - 实例层 scale 倍率乘到 Visual.scale（base × multiplier）
+	if _visual_root != null:
+		var should_mirror := false
 		if mirror_with_source_facing:
-			# A projectile must preserve the facing it had when it was emitted.
-			# Turning the actor mid-flight must not rotate/flip an existing arrow.
-			# The generated scene already rotates its child sprite. Mirroring that
-			# child happens before rotation and turns an up-right arrow into a
-			# down-right one. Mirror the Visual parent instead, after the baked
-			# rotation, while leaving collision geometry untouched.
-			var should_mirror := _locked_source_flip != visual_mirror
-			if _visual_root != null:
-				_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * (-1.0 if should_mirror else 1.0), _visual_root_base_scale.y)
-				_visual_sprite.flip_h = false
-			else:
-				_visual_sprite.flip_h = should_mirror
+			# 跟随角色朝向镜像：发射时锁定 source flip，飞行中不随角色转向改变
+			should_mirror = _locked_source_flip != visual_mirror
 		else:
+			# Legacy：按速度方向自动镜像（仅当 rotate_to_velocity=false 且 flip_to_velocity=true）
 			var auto_flip := not rotate_to_velocity and flip_to_velocity and velocity.length_squared() > 0.001 and velocity.x < 0.0
-			_visual_sprite.flip_h = auto_flip != visual_mirror
+			should_mirror = auto_flip != visual_mirror
+		var sign_x := -1.0 if should_mirror else 1.0
+		_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * visual_scale_multiplier * sign_x, absf(_visual_root_base_scale.y) * visual_scale_multiplier)
 
 
 func _find_visual_sprite() -> AnimatedSprite2D:
@@ -129,6 +129,7 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	buff_chance = float(node.get("buff_chance", 0.0))
 	visual_mirror = bool(node.get("mirror", false))
 	visual_rotation_degrees = float(node.get("rotation_degrees", 0.0))
+	visual_scale_multiplier = float(node.get("scale", 1.0))
 	mirror_with_source_facing = bool(node.get("mirror_with_facing", false))
 	flip_to_velocity = bool(node.get("flip_to_velocity", true))
 	_locked_source_flip = false
