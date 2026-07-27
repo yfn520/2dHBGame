@@ -52,12 +52,12 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 		if not node_value is Dictionary:
 			continue
 		var node: Dictionary = node_value
-		var node_type := String(node.get("type", ""))
+		var node_type := str(node.get("type", ""))
 		source_hash_input += "%d:%s|" % [index, node_type]
 
 		match node_type:
 			"play_animation":
-				current_action = String(node.get("action", ""))
+				current_action = str(node.get("action", ""))
 				source_hash_input += "action=%s|" % current_action
 			"wait_hit_window":
 				# 记录当前等待的有效区间索引，供后续 melee_damage/area_damage 取用
@@ -125,7 +125,7 @@ static func is_cache_stale(skill_id: int, owner_asset_path: String, cached: Dict
 	if cached.is_empty():
 		return true
 	var fresh := compile(skill_id, owner_asset_path)
-	return String(fresh.get("source_hash", "")) != String(cached.get("source_hash", ""))
+	return str(fresh.get("source_hash", "")) != str(cached.get("source_hash", ""))
 
 
 ## 从 ai_range_cache 中找出当前目标边缘距离下可用的节点索引。
@@ -199,7 +199,7 @@ static func _compile_melee(node: Dictionary, current_action: String, actions: Di
 
 
 static func _compile_area(node: Dictionary, current_action: String, actions: Dictionary, body_half_width: float, actor_scale: float, node_index: int) -> Dictionary:
-	var origin := String(node.get("origin", "hit_window"))
+	var origin := str(node.get("origin", "hit_window"))
 	var radius := maxf(0.0, float(node.get("radius", 80.0)))
 	var width := maxf(1.0, float(node.get("width", radius * 2.0)))
 	var height := maxf(1.0, float(node.get("height", radius * 2.0)))
@@ -212,7 +212,7 @@ static func _compile_area(node: Dictionary, current_action: String, actions: Dic
 			push_warning("[AIRangeCompiler] area_damage origin=hit_window 但找不到攻击框 (action=%s, node=%d)" % [current_action, node_index])
 			return {}
 		origin_offset = (absf(float(window.get("forward", 0.0))) + maxf(1.0, float(window.get("width", 1.0))) * 0.5) * actor_scale
-	var shape := String(node.get("shape", "circle"))
+	var shape := str(node.get("shape", "circle"))
 	var reach := radius if shape == "circle" else maxf(width, height) * 0.5
 	var max_edge := maxf(0.0, origin_offset + reach * actor_scale - body_half_width - SAFETY_MARGIN)
 	return {
@@ -229,8 +229,8 @@ static func _compile_projectile(node: Dictionary, current_action: String, action
 	# 弹道节点 AI 距离：
 	# - ballistic + facing_elevation：自动按抛物线物理公式算射程（无需手填 ai_max_range）
 	# - 其他（直线/追踪/nearest_enemy）：使用设计参数 ai_min_range / ai_max_range
-	var trajectory := String(node.get("trajectory", "straight"))
-	var aim_mode := String(node.get("aim_mode", "facing_elevation"))
+	var trajectory := str(node.get("trajectory", "straight"))
+	var aim_mode := str(node.get("aim_mode", "facing_elevation"))
 	var min_d := maxf(0.0, float(node.get("ai_min_range", node.get("min_range", 0.0))))
 	var max_d := float(node.get("ai_max_range", 0.0))
 
@@ -313,7 +313,7 @@ static func _lookup_actor_scale(skill_id: int, owner_asset_path: String, charact
 			if not row_value is Dictionary:
 				continue
 			var row: Dictionary = row_value
-			var asset := String(row.get("asset", ""))
+			var asset := str(row.get("asset", ""))
 			if asset == owner_asset_path:
 				if row.has("actor_scale"):
 					return float(row.get("actor_scale", 1.0))
@@ -377,4 +377,4 @@ static func _body_hash(character_config: Dictionary) -> String:
 
 
 static func _entry_hash(entry: Dictionary) -> String:
-	return "%s:%s:%.1f-%.1f|" % [String(entry.get("kind", "")), String(entry.get("source", "")), float(entry.get("min_edge_distance", 0.0)), float(entry.get("max_edge_distance", 0.0))]
+	return "%s:%s:%.1f-%.1f|" % [str(entry.get("kind", "")), str(entry.get("source", "")), float(entry.get("min_edge_distance", 0.0)), float(entry.get("max_edge_distance", 0.0))]

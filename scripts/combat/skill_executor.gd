@@ -14,10 +14,10 @@ func _init(owner: Node, stats = null) -> void:
 
 
 func execute_damage_area(node: Dictionary, origin: Vector2, context: SkillCastContext) -> Array[Area2D]:
-	var result_key := String(node.get("result_key", "area_hit"))
+	var result_key := str(node.get("result_key", "area_hit"))
 	context.ensure_stream(result_key)
 	var result: Array[Area2D] = []
-	var shape := String(node.get("shape", "circle"))
+	var shape := str(node.get("shape", "circle"))
 	var radius := maxf(0.0, float(node.get("radius", 80.0)))
 	var width := maxf(1.0, float(node.get("width", radius * 2.0)))
 	var height := maxf(1.0, float(node.get("height", radius * 2.0)))
@@ -33,7 +33,7 @@ func execute_damage_area(node: Dictionary, origin: Vector2, context: SkillCastCo
 
 
 func execute_fullscreen_damage(node: Dictionary, context: SkillCastContext) -> Array[Area2D]:
-	var result_key := String(node.get("result_key", "fullscreen_hit"))
+	var result_key := str(node.get("result_key", "fullscreen_hit"))
 	context.ensure_stream(result_key)
 	var result: Array[Area2D] = []
 	for hurt_box in find_enemy_hurt_boxes():
@@ -52,13 +52,13 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 		return
 	var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	# 元素反应（设计案 9.2）：同次最多一种，按 REACTIONS 顺序匹配。反应附加伤害不再触发反应。
-	var damage_tag := String(node.get("damage_tag", "slash"))
+	var damage_tag := str(node.get("damage_tag", "slash"))
 	var reaction := {"triggered": false}
 	if not skip_buildup:
 		reaction = ElementReaction.try_reaction(target, damage_tag)
 	var reaction_triggered := bool(reaction.get("triggered", false))
 	var reaction_effect: Dictionary = reaction.get("effect", {}) if reaction_triggered else {}
-	var reaction_type := String(reaction_effect.get("type", ""))
+	var reaction_type := str(reaction_effect.get("type", ""))
 	# 解析反应修正
 	var reaction_vuln := 0.0           # damage_boost 注入到 tag_vulnerability
 	var reaction_armor_pen := 0.0      # armor_pen_bonus 注入到 tag_armor_pen
@@ -119,7 +119,7 @@ func _calculate_damage_with_reaction(node: Dictionary, target: Node, reaction_vu
 ## 读取前置 buff 的当前层数（consume_stacks 用，在 consume_pre_buff 移除前调用）。
 ## 找不到 buff 时返回 1（保底结算 1 层）。
 func _get_pre_buff_stacks(target: Node, reaction: Dictionary) -> int:
-	var pre := String(reaction.get("pre_status", ""))
+	var pre := str(reaction.get("pre_status", ""))
 	if pre.is_empty() or pre == "shield":
 		return 1
 	var pre_buff_id: int = ElementReaction.PRE_STATUS_BUFF_ID.get(pre, 0)
@@ -187,7 +187,7 @@ func _apply_lifesteal(result: Dictionary, node: Dictionary) -> void:
 	var damage := int(result.get("damage", 0))
 	if damage <= 0:
 		return
-	var node_type := String(node.get("type", ""))
+	var node_type := str(node.get("type", ""))
 	var efficiency := _get_lifesteal_efficiency(node_type)
 	var heal_amount := int(roundi(float(damage) * lifesteal * efficiency))
 	if heal_amount <= 0:
@@ -301,9 +301,9 @@ func _read_buff_ids(node: Dictionary) -> Array:
 func spawn_projectiles(node: Dictionary, origin: Vector2, context: SkillCastContext) -> void:
 	if context.cancelled or _owner == null or not is_instance_valid(_owner):
 		return
-	var result_key := String(node.get("result_key", "projectile_hit"))
+	var result_key := str(node.get("result_key", "projectile_hit"))
 	context.ensure_stream(result_key)
-	var emission := String(node.get("emission", "single"))
+	var emission := str(node.get("emission", "single"))
 	match emission:
 		"sequence":
 			_spawn_sequence(node, origin, context, result_key)
@@ -316,10 +316,10 @@ func spawn_projectiles(node: Dictionary, origin: Vector2, context: SkillCastCont
 
 
 func resolve_targets(node: Dictionary, origin: Vector2, context: SkillCastContext) -> Array[Area2D]:
-	var target_mode := String(node.get("target", "origin"))
+	var target_mode := str(node.get("target", "origin"))
 	match target_mode:
 		"result", "last_result":
-			return context.get_targets(String(node.get("result_key", "last_result")), String(node.get("delivery", "each_target")))
+			return context.get_targets(str(node.get("result_key", "last_result")), str(node.get("delivery", "each_target")))
 		"nearest_enemy":
 			var nearest := find_nearest_enemy(float(node.get("target_search_range", 99999.0)))
 			return [nearest] if nearest != null else []
@@ -404,8 +404,8 @@ func _build_damage_context(node: Dictionary, _target: Node) -> DamageCalculator.
 	ctx.crit_damage = clampf(crit_damage, 1.0, 2.5)
 	ctx.can_crit = bool(node.get("can_crit", true))
 	# 伤害通道与标签（缺省兼容旧技能：物理/斩击）
-	ctx.damage_channel = String(node.get("damage_channel", "physical"))
-	ctx.damage_tag = String(node.get("damage_tag", "slash"))
+	ctx.damage_channel = str(node.get("damage_channel", "physical"))
+	ctx.damage_tag = str(node.get("damage_tag", "slash"))
 	# 攻击侧增伤（暂无独立字段，预留 buff 注入）
 	ctx.attacker_damage_bonus = 0.0
 	# 穿透（buff 修饰）
@@ -478,9 +478,9 @@ func _build_defense_context(target: Node) -> DamageCalculator.DefenseContext:
 			for effect in buff.effects:
 				if not (effect is Dictionary):
 					continue
-				var etype := String(effect.get("type", ""))
+				var etype := str(effect.get("type", ""))
 				if etype == "tag_modifier":
-					var etag := String(effect.get("tag", ""))
+					var etag := str(effect.get("tag", ""))
 					if etag.is_empty():
 						continue
 					var vb := float(effect.get("vuln_bonus", 0.0))
@@ -553,7 +553,7 @@ func _spawn_area_rain_arrow(node: Dictionary, origin: Vector2, center: Vector2, 
 
 func _spawn_straight(node: Dictionary, origin: Vector2, direction: Vector2, context: SkillCastContext, result_key: String) -> void:
 	var speed := maxf(1.0, float(node.get("speed", 300.0)))
-	if String(node.get("trajectory", "straight")) == "ballistic":
+	if str(node.get("trajectory", "straight")) == "ballistic":
 		_spawn_ballistic(node, origin, direction * speed, maxf(0.0, float(node.get("gravity", 900.0))), context, result_key)
 		return
 	var projectile := _instantiate_projectile(node)
@@ -578,7 +578,7 @@ func _spawn_ballistic(node: Dictionary, origin: Vector2, velocity: Vector2, grav
 
 
 func _instantiate_projectile(node: Dictionary) -> Node2D:
-	var scene_path := String(node.get("scene", ""))
+	var scene_path := str(node.get("scene", ""))
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		push_error("弹道节点缺少可加载的 scene: %s" % scene_path)
 		return null
@@ -639,7 +639,7 @@ func _add_projectile_to_scene(projectile: Node2D) -> void:
 
 
 func _straight_direction(node: Dictionary, offset_degrees := 0.0) -> Vector2:
-	var aim_mode := String(node.get("aim_mode", "facing_elevation"))
+	var aim_mode := str(node.get("aim_mode", "facing_elevation"))
 	if aim_mode == "nearest_enemy":
 		var target := find_nearest_enemy(float(node.get("target_search_range", 99999.0)))
 		if target != null and _owner is Node2D:
@@ -651,7 +651,7 @@ func _straight_direction(node: Dictionary, offset_degrees := 0.0) -> Vector2:
 
 func _find_area_rain_center(node: Dictionary) -> Vector2:
 	var search_range := maxf(1.0, float(node.get("target_search_range", 500.0)))
-	if String(node.get("aim_mode", "enemy_area")) == "enemy_area":
+	if str(node.get("aim_mode", "enemy_area")) == "enemy_area":
 		var target := find_nearest_enemy(search_range)
 		if target != null:
 			return target.global_position

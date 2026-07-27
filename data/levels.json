@@ -2,6 +2,8 @@
 	"1": {
 		"bgm": "",
 		"description": "初始关卡",
+		"chapter_id": "chapter_1",
+		"dungeon_room_tag": "normal",
 		"enemies": [
 			{
 				"enemy_id": 8020,
@@ -20,6 +22,8 @@
 	"2": {
 		"bgm": "",
 		"description": "第二关卡",
+		"chapter_id": "chapter_1",
+		"dungeon_room_tag": "boss",
 		"enemies": [
 			{
 				"count": 3,
@@ -39,7 +43,9 @@
 	},
 	"3": {
 		"bgm": "",
-		"description": "",
+		"description": "余晖城主城",
+		"chapter_id": "hub",
+		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city",
 		"npcs": [],
@@ -49,7 +55,9 @@
 	},
 	"4": {
 		"bgm": "",
-		"description": "",
+		"description": "余晖城东街",
+		"chapter_id": "hub",
+		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city2",
 		"npcs": [],
@@ -59,7 +67,9 @@
 	},
 	"5": {
 		"bgm": "",
-		"description": "",
+		"description": "余晖城港口",
+		"chapter_id": "hub",
+		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city3",
 		"npcs": [],

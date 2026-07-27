@@ -41,15 +41,15 @@ func get_errors() -> Array[String]:
 func _validate_npc(id: int, raw: Dictionary, dialogue_config) -> Dictionary:
 	var allowed_fields := ["name", "asset", "dialogue_id", "interaction_radius", "default_facing"]
 	for field in raw:
-		if String(field) not in allowed_fields:
+		if str(field) not in allowed_fields:
 			_errors.append("NPC %d definition contains unsupported field: %s" % [id, field])
 			return {}
 	if not raw.get("name") is String or not raw.get("asset") is String or not raw.get("dialogue_id") is String:
 		_errors.append("NPC %d name, asset and dialogue_id must be strings" % id)
 		return {}
-	var display_name := String(raw.get("name", "")).strip_edges()
-	var asset_path := String(raw.get("asset", "")).trim_suffix("/")
-	var dialogue_id := String(raw.get("dialogue_id", "")).strip_edges()
+	var display_name := str(raw.get("name", "")).strip_edges()
+	var asset_path := str(raw.get("asset", "")).trim_suffix("/")
+	var dialogue_id := str(raw.get("dialogue_id", "")).strip_edges()
 	if display_name.is_empty() or asset_path.is_empty() or dialogue_id.is_empty():
 		_errors.append("NPC %d is missing name, asset or dialogue_id" % id)
 		return {}
@@ -60,7 +60,7 @@ func _validate_npc(id: int, raw: Dictionary, dialogue_config) -> Dictionary:
 	if not _is_number(raw.get("interaction_radius")) or float(raw.get("interaction_radius")) < 16.0:
 		_errors.append("NPC %d interaction_radius must be a number of at least 16" % id)
 		return {}
-	if not raw.get("default_facing") is String or String(raw.get("default_facing")) not in ["left", "right"]:
+	if not raw.get("default_facing") is String or str(raw.get("default_facing")) not in ["left", "right"]:
 		_errors.append("NPC %d default_facing must be left or right" % id)
 		return {}
 	if dialogue_config != null and dialogue_config.get_dialogue(dialogue_id).is_empty():
@@ -77,9 +77,9 @@ func _validate_npc(id: int, raw: Dictionary, dialogue_config) -> Dictionary:
 		"asset": asset_path,
 		"dialogue_id": dialogue_id,
 		"interaction_radius": float(raw.get("interaction_radius")),
-		"default_facing": String(raw.get("default_facing")),
+		"default_facing": str(raw.get("default_facing")),
 		"asset_data": asset,
-		"portrait": String(asset.get("portrait")),
+		"portrait": str(asset.get("portrait")),
 	}
 
 
@@ -88,28 +88,28 @@ func _validate_asset(npc_id: int, asset_path: String, asset: Dictionary) -> bool
 		_errors.append("NPC %d npc_asset.json version must be 1" % npc_id)
 		return false
 	for field in ["id", "display_name", "default_animation", "spriteframes", "visual_scene", "portrait"]:
-		if not asset.get(field) is String or String(asset.get(field)).strip_edges().is_empty():
+		if not asset.get(field) is String or str(asset.get(field)).strip_edges().is_empty():
 			_errors.append("NPC %d npc_asset.json field %s must be a non-empty string" % [npc_id, field])
 			return false
-	if String(asset.get("id")) != asset_path.get_file():
+	if str(asset.get("id")) != asset_path.get_file():
 		_errors.append("NPC %d npc_asset.json id must match its package directory" % npc_id)
 		return false
 	for field in ["spriteframes", "visual_scene", "portrait"]:
-		var resource_path := String(asset.get(field))
+		var resource_path := str(asset.get(field))
 		if not _is_owned_resource_path(asset_path, resource_path):
 			_errors.append("NPC %d %s must stay inside its NPC package: %s" % [npc_id, field, resource_path])
 			return false
 		if not ResourceLoader.exists(resource_path):
 			_errors.append("NPC %d %s does not exist: %s" % [npc_id, field, resource_path])
 			return false
-	var sprite_frames := load(String(asset.get("spriteframes"))) as SpriteFrames
-	if sprite_frames == null or not sprite_frames.has_animation(String(asset.get("default_animation"))):
+	var sprite_frames := load(str(asset.get("spriteframes"))) as SpriteFrames
+	if sprite_frames == null or not sprite_frames.has_animation(str(asset.get("default_animation"))):
 		_errors.append("NPC %d spriteframes is invalid or missing its default animation" % npc_id)
 		return false
-	if not load(String(asset.get("visual_scene"))) is PackedScene:
+	if not load(str(asset.get("visual_scene"))) is PackedScene:
 		_errors.append("NPC %d visual_scene must be a PackedScene" % npc_id)
 		return false
-	if not load(String(asset.get("portrait"))) is Texture2D:
+	if not load(str(asset.get("portrait"))) is Texture2D:
 		_errors.append("NPC %d portrait must be a Texture2D" % npc_id)
 		return false
 	if not asset.get("frame_size") is Dictionary or not asset.get("foot_center") is Dictionary:

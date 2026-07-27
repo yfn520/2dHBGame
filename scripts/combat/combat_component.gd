@@ -101,7 +101,7 @@ func _preload_skill_effect_scenes() -> void:
 			if not (node_value is Dictionary):
 				continue
 			var node: Dictionary = node_value
-			var scene_path := String(node.get("scene", ""))
+			var scene_path := str(node.get("scene", ""))
 			if scene_path.is_empty() or _preloaded_scenes.has(scene_path):
 				continue
 			if not ResourceLoader.exists(scene_path):
@@ -154,7 +154,7 @@ func _process(delta: float) -> void:
 	# animation_finished listener before this component observes that signal.
 	# Poll the transition as a final guard so a wait_animation_end node can never
 	# leave the cast and the AI permanently locked in SKILL.
-	if String(_waiting.get("type", "")) == "wait_animation_end" and _sprite != null and not _current_action.is_empty() and String(_sprite.animation) != _current_action:
+	if str(_waiting.get("type", "")) == "wait_animation_end" and _sprite != null and not _current_action.is_empty() and str(_sprite.animation) != _current_action:
 		_animation_finished = true
 	_refresh_active_melee_window()
 	_advance_cast()
@@ -268,10 +268,10 @@ func _advance_cast_internal() -> void:
 
 
 func _execute_node(node: Dictionary) -> bool:
-	var node_type := String(node.get("type", ""))
+	var node_type := str(node.get("type", ""))
 	match node_type:
 		"play_animation":
-			_current_action = String(node.get("action", ""))
+			_current_action = str(node.get("action", ""))
 			if _current_action.is_empty():
 				push_error("播放动画节点缺少 action")
 				return false
@@ -315,10 +315,10 @@ func _execute_node(node: Dictionary) -> bool:
 
 
 func _is_wait_ready() -> bool:
-	var wait_type := String(_waiting.get("type", ""))
+	var wait_type := str(_waiting.get("type", ""))
 	match wait_type:
 		"wait_action_event":
-			var event_name := String(_waiting.get("event", "release"))
+			var event_name := str(_waiting.get("event", "release"))
 			if not _is_action_event_now(_current_action, event_name):
 				return false
 			_consume_action_event(_current_action, event_name)
@@ -362,7 +362,7 @@ func _begin_melee_damage(node: Dictionary) -> void:
 	if _cast_context.active_window.is_empty() or _hit_box == null:
 		push_error("近战伤害节点必须放在等待攻击有效区间之后")
 		return
-	_cast_context.ensure_stream(String(node.get("result_key", "melee_hit")))
+	_cast_context.ensure_stream(str(node.get("result_key", "melee_hit")))
 	_active_melee_node = node.duplicate(true)
 	_active_melee_window_index = _cast_context.active_window_index
 	_hit_box.configure(_cast_context.active_window, _get_facing_sign())
@@ -419,9 +419,9 @@ func _refresh_active_melee_window() -> void:
 
 
 func _execute_effect_node(node: Dictionary) -> void:
-	var target_mode := String(node.get("target", "origin"))
+	var target_mode := str(node.get("target", "origin"))
 	if target_mode == "result" or target_mode == "last_result":
-		_cast_context.subscribe(String(node.get("result_key", "last_result")), Callable(self, "_spawn_effect_on_target").bind(node.duplicate(true)), String(node.get("delivery", "each_hit")))
+		_cast_context.subscribe(str(node.get("result_key", "last_result")), Callable(self, "_spawn_effect_on_target").bind(node.duplicate(true)), str(node.get("delivery", "each_hit")))
 		return
 	var delay_ms := maxi(0, int(node.get("delay_ms", 0)))
 	if delay_ms > 0:
@@ -444,9 +444,9 @@ func _execute_delayed_effect_node(node: Dictionary) -> void:
 
 
 func _execute_target_buff_node(node: Dictionary) -> void:
-	var target_mode := String(node.get("target", "result"))
+	var target_mode := str(node.get("target", "result"))
 	if target_mode == "result" or target_mode == "last_result":
-		_cast_context.subscribe(String(node.get("result_key", "last_result")), Callable(self, "_apply_buff_to_target").bind(node.duplicate(true)), String(node.get("delivery", "each_hit")))
+		_cast_context.subscribe(str(node.get("result_key", "last_result")), Callable(self, "_apply_buff_to_target").bind(node.duplicate(true)), str(node.get("delivery", "each_hit")))
 		return
 	var origin := _resolve_origin(node)
 	var targets := _skill_executor.resolve_targets(node, origin, _cast_context)
@@ -473,7 +473,7 @@ func _spawn_effect_on_target(target: Area2D, node: Dictionary) -> void:
 ## 优先把 attachment 挂到 target_owner（被击者），否则回落到 _owner（施法者）。
 ## 这保证了"弹道命中后挂受击特效"可以挂到被击者身上，跟随被击者移动并按其朝向镜像。
 func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: Node = null) -> void:
-	var scene_path := String(node.get("scene", ""))
+	var scene_path := str(node.get("scene", ""))
 	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
 		return
 	var packed := load(scene_path) as PackedScene
@@ -481,7 +481,7 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		return
 	var effect := packed.instantiate()
 	var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
-	var coord_space := String(node.get("coordinate_space", "world"))
+	var coord_space := str(node.get("coordinate_space", "world"))
 	if coord_space == "character_local" and not bool(node.get("follow_target", true)):
 		coord_space = "world"
 	_apply_imported_effect_transform(effect, node)
@@ -538,7 +538,7 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# The character visuals are a sibling at z=100 in imported actor scenes.
 		# Resolve front/behind relative to that node rather than relative to the world root.
 		var visual_z := visual_root.z_index if visual_root != null else (attach_sprite.z_index if attach_sprite != null else 0)
-		var attachment_layer := String(node.get("attachment_layer", "front"))
+		var attachment_layer := str(node.get("attachment_layer", "front"))
 		effect_node.z_as_relative = true
 		effect_node.z_index = visual_z + (-1 if attachment_layer == "behind" else 1)
 		_schedule_imported_effect_lifetime(effect_node, node)
@@ -553,7 +553,7 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# 与技能节点的 offset_x/offset_y 叠加，使设计期偏移在运行时生效。
 		var baked_offset := (effect as Node2D).position
 		var world_offset := offset
-		if String(node.get("origin", "")) == "preview_position" and bool(node.get("mirror_with_facing", true)) and attach_sprite != null and attach_sprite.flip_h:
+		if str(node.get("origin", "")) == "preview_position" and bool(node.get("mirror_with_facing", true)) and attach_sprite != null and attach_sprite.flip_h:
 			world_offset.x *= -1.0
 		(effect as Node2D).global_position = position_value + (world_offset + baked_offset) * visual_scale
 		(effect as Node2D).scale *= Vector2(visual_scale, visual_scale)
@@ -567,7 +567,7 @@ func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
 	var authored_scale := clampf(float(node.get("effect_scale", 1.0)), 0.05, 12.0)
 	effect_node.scale *= Vector2(authored_scale, authored_scale)
 	effect_node.rotation += deg_to_rad(float(node.get("rotation_degrees", 0.0)))
-	var tint := Color.from_string(String(node.get("tint", "#ffffff")), Color.WHITE)
+	var tint := Color.from_string(str(node.get("tint", "#ffffff")), Color.WHITE)
 	tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
 	effect_node.modulate *= tint
 
@@ -576,16 +576,16 @@ func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vec
 	# preview_position is authored by dragging directly in the skill preview.
 	# Its offset is already relative to the actor foot/root, so no body/socket
 	# anchor may be added a second time.
-	if String(node.get("origin", "")) == "preview_position":
+	if str(node.get("origin", "")) == "preview_position":
 		return Vector2.ZERO
-	var anchor := String(node.get("anchor", "origin"))
+	var anchor := str(node.get("anchor", "origin"))
 	if anchor == "origin" or anchor == "foot":
 		return Vector2.ZERO
 	if anchor == "body_center" and attach_root.has_method("get_body_center_y"):
 		return Vector2(0.0, float(attach_root.get_body_center_y()))
 	if attach_root != _owner:
 		return Vector2.ZERO
-	var socket_name := String(node.get("socket", anchor))
+	var socket_name := str(node.get("socket", anchor))
 	var socket_position: Variant = _get_socket_position(_current_action, socket_name, _sprite.frame if _sprite != null else 0)
 	if socket_position is Vector2:
 		return (socket_position as Vector2) - attach_root.global_position
@@ -688,14 +688,14 @@ func _execute_move_node(node: Dictionary) -> void:
 
 
 func _resolve_origin(node: Dictionary) -> Vector2:
-	var origin_type := String(node.get("origin", "hit_window"))
+	var origin_type := str(node.get("origin", "hit_window"))
 	if origin_type == "preview_position" and _owner is Node2D:
 		# The preview coordinate origin is the actor foot/root.
 		return (_owner as Node2D).global_position
 	if origin_type == "actor_root" and _owner is Node2D:
 		return (_owner as Node2D).global_position
 	if origin_type == "socket":
-		var socket_position: Variant = _get_socket_position(_current_action, String(node.get("socket", "")), _sprite.frame if _sprite != null else 0)
+		var socket_position: Variant = _get_socket_position(_current_action, str(node.get("socket", "")), _sprite.frame if _sprite != null else 0)
 		if socket_position is Vector2:
 			return socket_position
 	if origin_type == "caster" and _owner is Node2D:
@@ -723,7 +723,7 @@ func _resolve_projectile_origin(node: Dictionary) -> Vector2:
 	if is_zero_approx(offset.x) and is_zero_approx(offset.y):
 		return origin
 	# offset_mirror_with_facing：朝右时水平翻转偏移，与素材默认朝左的坐标系一致。
-	var uses_preview_position := String(node.get("origin", "")) == "preview_position"
+	var uses_preview_position := str(node.get("origin", "")) == "preview_position"
 	if (uses_preview_position or bool(node.get("offset_mirror_with_facing", false))) and _owner is Node2D:
 		var source_sprite := (_owner as Node2D).get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
 		if source_sprite != null and source_sprite.flip_h:
@@ -959,10 +959,10 @@ func apply_buff_from_config(config: Dictionary, source: int = 0) -> void:
 	# 控制效果打断施法
 	var effects: Array = config.get("effects", [])
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "control":
+		if effect is Dictionary and str(effect.get("type", "")) == "control":
 			var affects: Array = effect.get("affects", [])
 			if "act" in affects or "skill" in affects:
-				cancel_cast(String(effect.get("control_type", "control")))
+				cancel_cast(str(effect.get("control_type", "control")))
 				break
 
 
@@ -998,7 +998,7 @@ func get_cooldowns_dict() -> Dictionary:
 
 
 func get_debug_state() -> String:
-	var wait_type := String(_waiting.get("type", "-"))
+	var wait_type := str(_waiting.get("type", "-"))
 	var action := _current_action if not _current_action.is_empty() else "-"
 	var frame := _sprite.frame if _sprite != null else -1
 	return "%s wait:%s action:%s frame:%d node:%d/%d try:%s" % [
@@ -1022,11 +1022,11 @@ func _die() -> void:
 func _on_sprite_frame_changed() -> void:
 	if _pending_skill.is_empty() or _sprite == null:
 		return
-	if not _current_action.is_empty() and String(_sprite.animation) != _current_action:
+	if not _current_action.is_empty() and str(_sprite.animation) != _current_action:
 		# The actor may restore idle in its own animation_finished callback before
 		# this component receives the same signal. Treat that transition as the
 		# pending action ending instead of leaving the cast in SKILL forever.
-		var wait_type := String(_waiting.get("type", ""))
+		var wait_type := str(_waiting.get("type", ""))
 		# play_combat_animation 内部调用 sprite.stop() 会在动画切换前触发 frame_changed，
 		# 此时 _waiting 为空（play_animation 节点仍在执行中），不应取消施放。
 		if wait_type.is_empty():
@@ -1068,7 +1068,7 @@ func _on_hit_detected(hurt_box: Area2D) -> void:
 	if _active_melee_node.is_empty() or _cast_context == null:
 		return
 	_skill_executor.apply_damage_node(_active_melee_node, hurt_box)
-	_cast_context.publish(String(_active_melee_node.get("result_key", "melee_hit")), hurt_box)
+	_cast_context.publish(str(_active_melee_node.get("result_key", "melee_hit")), hurt_box)
 
 
 func _get_hit_window_info(action_name: String, frame: int, requested_index: int = -1) -> Dictionary:
@@ -1116,7 +1116,7 @@ func _is_action_event_now(action_name: String, event_name: String) -> bool:
 		return false
 	var action := _get_action_data(action_name)
 	for value in action.get("events", []):
-		if value is Dictionary and String(value.get("name", "")) == event_name and int(value.get("frame", -1)) == _sprite.frame:
+		if value is Dictionary and str(value.get("name", "")) == event_name and int(value.get("frame", -1)) == _sprite.frame:
 			return true
 	return false
 

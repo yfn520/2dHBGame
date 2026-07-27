@@ -24,12 +24,12 @@ func spawn_npcs_for_level(level_id: int) -> void:
 		var npc_id := int(placement.get("npc_id", 0))
 		var config: Dictionary = GameRegistry.npc_config.get_npc(npc_id)
 		if config.is_empty():
-			_record_spawn_error("Placement %s references invalid NPC %d" % [String(placement.get("instance_id", "")), npc_id])
+			_record_spawn_error("Placement %s references invalid NPC %d" % [str(placement.get("instance_id", "")), npc_id])
 			continue
 		var npc := NpcActor.new()
 		_spawn_container.add_child(npc)
 		if not npc.setup(config, placement):
-			_record_spawn_error("NPC instance failed to spawn: %s" % String(placement.get("instance_id", "")))
+			_record_spawn_error("NPC instance failed to spawn: %s" % str(placement.get("instance_id", "")))
 			npc.queue_free()
 			continue
 		_active_npcs.append(npc)

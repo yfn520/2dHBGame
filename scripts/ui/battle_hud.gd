@@ -626,20 +626,20 @@ func _refresh_skills() -> void:
 	for i in range(_skill_buttons.size()):
 		var btn := _skill_buttons[i]
 		var slot_info: Dictionary = SKILL_SLOTS[i]
-		var skill_id := _get_skill_id(character_id, String(slot_info["slot"]), level)
-		var name := String(slot_info["fallback"])
+		var skill_id := _get_skill_id(character_id, str(slot_info["slot"]), level)
+		var name := str(slot_info["fallback"])
 		if skill_id > 0 and GameRegistry.skill_config != null:
 			var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
 			if not skill.is_empty():
-				name = String(skill.get("name", name))
+				name = str(skill.get("name", name))
 		var cd := float(cooldowns.get(skill_id, 0.0))
 		btn.disabled = skill_id <= 0
 		if skill_id <= 0:
-			btn.text = "%s\n未配置" % String(slot_info["key"])
+			btn.text = "%s\n未配置" % str(slot_info["key"])
 		elif cd > 0.05:
-			btn.text = "%s\n%s\n%.1fs" % [String(slot_info["key"]), _short_name(name, 4), cd]
+			btn.text = "%s\n%s\n%.1fs" % [str(slot_info["key"]), _short_name(name, 4), cd]
 		else:
-			btn.text = "%s\n%s" % [String(slot_info["key"]), _short_name(name, 5)]
+			btn.text = "%s\n%s" % [str(slot_info["key"]), _short_name(name, 5)]
 
 
 func _refresh_enemy_panel() -> void:
@@ -759,7 +759,7 @@ func _select_current_enemy() -> Node:
 		elif target != null and is_instance_valid(target):
 			score -= 5000.0
 		if enemy.has_method("get_ai_state_name"):
-			var ai_name := String(enemy.get_ai_state_name())
+			var ai_name := str(enemy.get_ai_state_name())
 			if ai_name == "ATTACK":
 				score -= 1000.0
 			elif ai_name == "CHASE":
@@ -798,7 +798,7 @@ func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBod
 		var names := sprite.sprite_frames.get_animation_names()
 		if names.is_empty():
 			return
-		anim = String(names[0])
+		anim = str(names[0])
 	sprite.animation = anim
 	sprite.frame = 0
 	sprite.play()

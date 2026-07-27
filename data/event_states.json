@@ -1,0 +1,29 @@
+{
+	"event_node_ch1_story_last_letter": {
+		"event_id": "event_node_ch1_story_last_letter",
+		"chapter_id": "chapter_1",
+		"node_id": "node_ch1_story_last_letter",
+		"current_state": "initial",
+		"replacement_node_id": "node_echo_ch1_last_letter",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第1章'最后一袋信'事件三态: 初见→补全→回城→余波。完成后从随机池移除原始告别节点，替换为回响节点。"
+	},
+	"event_node_ch2_truth_eclipse": {
+		"event_id": "event_node_ch2_truth_eclipse",
+		"chapter_id": "chapter_2",
+		"node_id": "node_ch2_truth_eclipse",
+		"current_state": "initial",
+		"replacement_node_id": "",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第2章'月影真相'事件三态。"
+	},
+	"event_node_ch3_truth_pact_legacy": {
+		"event_id": "event_node_ch3_truth_pact_legacy",
+		"chapter_id": "chapter_3",
+		"node_id": "node_ch3_truth_pact_legacy",
+		"current_state": "initial",
+		"replacement_node_id": "",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第3章'主契共鸣'事件三态。"
+	}
+}

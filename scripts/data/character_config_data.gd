@@ -31,11 +31,11 @@ func has_character(character_id: int) -> bool:
 
 
 func get_scene_path(character_id: int) -> String:
-	return String(get_character(character_id).get("scene", ""))
+	return str(get_character(character_id).get("scene", ""))
 
 
 func get_name(character_id: int) -> String:
-	return String(get_character(character_id).get("name", str(character_id)))
+	return str(get_character(character_id).get("name", str(character_id)))
 
 
 func get_actor_scale(character_id: int) -> float:

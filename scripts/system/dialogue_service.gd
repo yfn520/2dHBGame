@@ -32,7 +32,7 @@ func start_dialogue(npc_id: int) -> bool:
 	if npc.is_empty():
 		push_warning("NPC 不存在: %d" % npc_id)
 		return false
-	var dialogue_id := String(npc.get("dialogue_id", ""))
+	var dialogue_id := str(npc.get("dialogue_id", ""))
 	var graph := dialogue_config.get_dialogue(dialogue_id)
 	if dialogue_id.is_empty() or graph.is_empty():
 		push_warning("NPC %d 没有可用对话: %s" % [npc_id, dialogue_id])
@@ -42,7 +42,7 @@ func start_dialogue(npc_id: int) -> bool:
 	_graph = graph
 	_active = true
 	dialogue_started.emit(npc_id)
-	return _enter_node(String(graph.get("entry_node", graph.get("entry", ""))))
+	return _enter_node(str(graph.get("entry_node", graph.get("entry", ""))))
 
 
 func advance() -> void:
@@ -52,7 +52,7 @@ func advance() -> void:
 	var choices: Array = node.get("choices", [])
 	if not choices.is_empty():
 		return
-	var next_id := String(node.get("next_id", node.get("next", "")))
+	var next_id := str(node.get("next_id", node.get("next", "")))
 	if next_id.is_empty():
 		finish(true)
 	else:
@@ -65,11 +65,11 @@ func choose(index: int) -> void:
 	if index < 0 or index >= visible.size():
 		return
 	var choice: Dictionary = visible[index]
-	var intent_key := String(choice.get("intent_key", "")).strip_edges()
+	var intent_key := str(choice.get("intent_key", "")).strip_edges()
 	if not intent_key.is_empty():
-		intent_selected.emit(current_npc_id, current_dialogue_id, String(choice.get("id", "")), intent_key)
+		intent_selected.emit(current_npc_id, current_dialogue_id, str(choice.get("id", "")), intent_key)
 	_execute_actions(choice.get("actions", []))
-	var next_id := String(choice.get("next_id", choice.get("next", "")))
+	var next_id := str(choice.get("next_id", choice.get("next", "")))
 	if next_id.is_empty():
 		finish(true)
 	else:
@@ -120,7 +120,7 @@ func _enter_node(node_id: String) -> bool:
 			return false
 		current_node_id = next_id
 		_execute_actions(node.get("actions", []))
-		match String(node.get("type", "line")):
+		match str(node.get("type", "line")):
 			"branch":
 				# A branch with player choices must be presented to the UI. Only
 				# route-only branches are resolved automatically.
@@ -145,8 +145,8 @@ func _enter_node(node_id: String) -> bool:
 func _resolve_branch(node: Dictionary) -> String:
 	for value in node.get("routes", []):
 		if value is Dictionary and _conditions_pass(value.get("conditions", [])):
-			return String(value.get("next_id", value.get("next", "")))
-	return String(node.get("default_next", ""))
+			return str(value.get("next_id", value.get("next", "")))
+	return str(node.get("default_next", ""))
 
 
 func _conditions_pass(raw: Variant) -> bool:
@@ -164,9 +164,9 @@ func _execute_actions(raw: Variant) -> void:
 	for value in raw:
 		if not value is Dictionary:
 			continue
-		match String(value.get("type", "")):
+		match str(value.get("type", "")):
 			"set_flag":
-				quest_service.state.set_flag(String(value.get("flag", "")), value.get("value", true))
+				quest_service.state.set_flag(str(value.get("flag", "")), value.get("value", true))
 			"start_quest":
 				quest_service.start_quest(int(value.get("quest_id", 0)))
 			"give_item":

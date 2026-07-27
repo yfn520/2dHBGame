@@ -3,6 +3,7 @@ class_name CharacterRosterData
 signal roster_changed()
 signal active_character_changed(character_id: int)
 signal character_progress_changed(character_id: int)
+signal protagonist_changed(protagonist_hero_id: int)
 
 const DEFAULT_CHARACTER_ID := 7001
 
@@ -10,6 +11,10 @@ var characters: Dictionary = {}
 var lineup_ids: Array[int] = []
 var active_character_id: int = DEFAULT_CHARACTER_ID
 var active_index: int = 0
+
+# 剧情系统字段（阶段2 新增）
+var protagonist_hero_id: int = 0  # 存档级主角标记，0=未选择主角
+var recruited_hero_ids: Array[int] = []  # 已招募英雄ID列表
 
 
 func setup_defaults(config_data: CharacterConfigData) -> void:
@@ -223,6 +228,8 @@ func to_dict() -> Dictionary:
 		"lineup_ids": lineup_ids.duplicate(),
 		"active_character_id": active_character_id,
 		"active_index": active_index,
+		"protagonist_hero_id": protagonist_hero_id,
+		"recruited_hero_ids": recruited_hero_ids.duplicate(),
 	}
 
 
@@ -243,8 +250,43 @@ func from_dict(data: Dictionary, config_data: CharacterConfigData = null) -> voi
 		lineup_ids.append(int(id_value))
 	active_character_id = int(data.get("active_character_id", DEFAULT_CHARACTER_ID))
 	active_index = int(data.get("active_index", 0))
+	protagonist_hero_id = int(data.get("protagonist_hero_id", 0))
+	recruited_hero_ids.clear()
+	for id_value in data.get("recruited_hero_ids", []):
+		recruited_hero_ids.append(int(id_value))
 	if config_data != null:
 		setup_defaults(config_data)
+
+
+## 选择主角（序章调用）。设置存档级主角标记并加入阵容。
+func set_protagonist(hero_id: int) -> void:
+	if protagonist_hero_id == hero_id:
+		return
+	protagonist_hero_id = hero_id
+	if not lineup_ids.has(hero_id):
+		lineup_ids.insert(0, hero_id)
+		ensure_character(hero_id)
+	if not recruited_hero_ids.has(hero_id):
+		recruited_hero_ids.append(hero_id)
+	protagonist_changed.emit(hero_id)
+	roster_changed.emit()
+
+
+## 招募英雄（章节推进时调用）。
+func recruit_hero(hero_id: int) -> void:
+	if recruited_hero_ids.has(hero_id):
+		return
+	recruited_hero_ids.append(hero_id)
+	ensure_character(hero_id)
+	roster_changed.emit()
+
+
+func is_hero_recruited(hero_id: int) -> bool:
+	return recruited_hero_ids.has(hero_id)
+
+
+func get_protagonist_hero_id() -> int:
+	return protagonist_hero_id
 
 
 func from_legacy_stats(data: Dictionary, config_data: CharacterConfigData) -> void:

@@ -160,7 +160,7 @@ const TRAIT_DATA := {
 ## 获取特征的中文标签
 static func get_trait_label(trait_id: String) -> String:
 	var data: Dictionary = TRAIT_DATA.get(trait_id, {})
-	return String(data.get("label", trait_id))
+	return str(data.get("label", trait_id))
 
 
 ## 聚合多个特征的标签倍率表（主特征 + 次要特征）。
@@ -168,7 +168,7 @@ static func get_trait_label(trait_id: String) -> String:
 static func get_combined_tag_multipliers(traits: Array) -> Dictionary:
 	var result: Dictionary = {}
 	for trait_id in traits:
-		var data: Dictionary = TRAIT_DATA.get(String(trait_id), {})
+		var data: Dictionary = TRAIT_DATA.get(str(trait_id), {})
 		var mults: Dictionary = data.get("tag_multipliers", {})
 		for tag in mults:
 			var mult := float(mults[tag])
@@ -183,7 +183,7 @@ static func get_combined_tag_multipliers(traits: Array) -> Dictionary:
 static func get_combined_armor_modifier(traits: Array) -> float:
 	var total := 0.0
 	for trait_id in traits:
-		var data: Dictionary = TRAIT_DATA.get(String(trait_id), {})
+		var data: Dictionary = TRAIT_DATA.get(str(trait_id), {})
 		total += float(data.get("armor_modifier", 0.0))
 	return total
 
@@ -192,7 +192,7 @@ static func get_combined_armor_modifier(traits: Array) -> float:
 static func get_combined_magic_resist_modifier(traits: Array) -> float:
 	var total := 0.0
 	for trait_id in traits:
-		var data: Dictionary = TRAIT_DATA.get(String(trait_id), {})
+		var data: Dictionary = TRAIT_DATA.get(str(trait_id), {})
 		total += float(data.get("magic_resist_modifier", 0.0))
 	return total
 
@@ -201,7 +201,7 @@ static func get_combined_magic_resist_modifier(traits: Array) -> float:
 static func get_combined_status_immunities(traits: Array) -> Array:
 	var result: Array = []
 	for trait_id in traits:
-		var data: Dictionary = TRAIT_DATA.get(String(trait_id), {})
+		var data: Dictionary = TRAIT_DATA.get(str(trait_id), {})
 		var immunities: Array = data.get("status_immunities", [])
 		for status in immunities:
 			if not result.has(status):
@@ -214,6 +214,6 @@ static func get_combined_status_immunities(traits: Array) -> Array:
 static func get_combined_status_threshold_modifier(traits: Array) -> float:
 	var mult := 1.0
 	for trait_id in traits:
-		var data: Dictionary = TRAIT_DATA.get(String(trait_id), {})
+		var data: Dictionary = TRAIT_DATA.get(str(trait_id), {})
 		mult *= float(data.get("status_threshold_modifier", 1.0))
 	return mult

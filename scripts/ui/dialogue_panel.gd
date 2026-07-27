@@ -23,10 +23,10 @@ func _ready() -> void:
 
 func show_node(node: Dictionary, npc: Dictionary) -> void:
 	visible = true
-	var speaker := String(node.get("speaker", "")).strip_edges()
-	_speaker.text = speaker if not speaker.is_empty() else String(npc.get("name", "NPC"))
-	_body.text = String(node.get("text", ""))
-	_load_portrait(String(node.get("portrait", npc.get("portrait", ""))))
+	var speaker := str(node.get("speaker", "")).strip_edges()
+	_speaker.text = speaker if not speaker.is_empty() else str(npc.get("name", "NPC"))
+	_body.text = str(node.get("text", ""))
+	_load_portrait(str(node.get("portrait", npc.get("portrait", ""))))
 	for child in _choices.get_children():
 		child.queue_free()
 	var visible_choices: Array = GameRegistry.dialogue_service.get_visible_choices(node)
@@ -35,7 +35,7 @@ func show_node(node: Dictionary, npc: Dictionary) -> void:
 	for index in range(visible_choices.size()):
 		var choice: Dictionary = visible_choices[index]
 		var button := Button.new()
-		button.text = "%d.  %s" % [index + 1, String(choice.get("text", "选项 %d" % (index + 1)))]
+		button.text = "%d.  %s" % [index + 1, str(choice.get("text", "选项 %d" % (index + 1)))]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.custom_minimum_size.y = 56

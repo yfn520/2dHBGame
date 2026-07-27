@@ -12,11 +12,23 @@ var dialogue_config
 var quest_config
 var interaction_binding_config
 
+# 剧情系统配置（阶段1 新增）
+var chapter_config
+var story_node_config
+var event_state_config
+var town_change_config
+var pact_legacy_config
+var lead_content_package_config
+var hero_recruit_config
+
 var inventory_data
 var equipment_data
 var roster_data
 var character_stats
 var quest_state
+
+# 剧情运行时数据（阶段2 新增）
+var chapter_state
 
 var inventory_provider
 var equipment_provider
@@ -24,6 +36,7 @@ var player_data_provider
 var quest_service
 var dialogue_service
 var npc_interaction_dispatcher
+var chapter_service
 
 var level_manager: Node
 var _quest_save_scheduled := false
@@ -53,11 +66,28 @@ func _ready() -> void:
 	quest_config = load("res://scripts/data/quest_config.gd").new()
 	quest_config.load_config()
 
+	# 剧情系统配置加载（阶段1 新增）
+	chapter_config = load("res://scripts/data/chapter_config.gd").new()
+	chapter_config.load_config()
+	story_node_config = load("res://scripts/data/story_node_config.gd").new()
+	story_node_config.load_config()
+	event_state_config = load("res://scripts/data/event_state_config.gd").new()
+	event_state_config.load_config()
+	town_change_config = load("res://scripts/data/town_change_config.gd").new()
+	town_change_config.load_config()
+	pact_legacy_config = load("res://scripts/data/pact_legacy_config.gd").new()
+	pact_legacy_config.load_config()
+	lead_content_package_config = load("res://scripts/data/lead_content_package_config.gd").new()
+	lead_content_package_config.load_config()
+	hero_recruit_config = load("res://scripts/data/hero_recruit_config.gd").new()
+	hero_recruit_config.load_config()
+
 	inventory_data = load("res://scripts/data/inventory_data.gd").new()
 	equipment_data = load("res://scripts/data/equipment_data.gd").new()
 	roster_data = load("res://scripts/data/character_roster_data.gd").new()
 	character_stats = load("res://scripts/data/character_stats.gd").new()
 	quest_state = load("res://scripts/data/quest_state_data.gd").new()
+	chapter_state = load("res://scripts/data/chapter_state_data.gd").new()
 
 	inventory_provider = load("res://scripts/provider/inventory_provider.gd").new(inventory_data, item_config)
 	equipment_provider = load("res://scripts/provider/equipment_provider.gd").new(equipment_data, inventory_data, character_stats, item_config)
@@ -74,6 +104,13 @@ func _ready() -> void:
 	add_child(npc_interaction_dispatcher)
 	npc_interaction_dispatcher.setup(dialogue_service, interaction_binding_config, quest_service)
 	quest_service.quest_updated.connect(_on_quest_updated)
+
+	# 章节推进服务（阶段2 新增）
+	chapter_service = load("res://scripts/system/chapter_service.gd").new()
+	add_child(chapter_service)
+	chapter_service.setup(chapter_config)
+	chapter_state.chapter_service = chapter_service
+
 	character_stats.setup(roster_data, character_config)
 	equipment_provider.refresh_current_stats()
 

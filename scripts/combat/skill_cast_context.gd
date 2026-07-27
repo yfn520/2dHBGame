@@ -45,7 +45,7 @@ class ResultStream:
 		var callback: Callable = subscriber.get("callback", Callable())
 		if not callback.is_valid():
 			return
-		if String(subscriber.get("delivery", "each_hit")) == "each_target":
+		if str(subscriber.get("delivery", "each_hit")) == "each_target":
 			var seen: Dictionary = subscriber.get("seen", {})
 			var target_id := target.get_instance_id()
 			if seen.has(target_id):

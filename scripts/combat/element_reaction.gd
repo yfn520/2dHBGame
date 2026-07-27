@@ -85,8 +85,8 @@ static func try_reaction(target: Node, attack_tag: String) -> Dictionary:
 			has_shield = true
 	# 按 REACTIONS 顺序匹配第一个可触发的
 	for reaction in REACTIONS:
-		var pre := String(reaction["pre_status"])
-		var atk := String(reaction["attack_tag"])
+		var pre := str(reaction["pre_status"])
+		var atk := str(reaction["attack_tag"])
 		if atk != attack_tag:
 			continue
 		# 检查前置状态
@@ -113,10 +113,10 @@ static func consume_pre_buff(target: Node, reaction_result: Dictionary) -> void:
 	if not bool(reaction_result.get("triggered", false)):
 		return
 	var effect: Dictionary = reaction_result.get("effect", {})
-	var etype := String(effect.get("type", ""))
+	var etype := str(effect.get("type", ""))
 	if etype != "consume_both" and etype != "consume_stacks":
 		return
-	var pre := String(reaction_result.get("pre_status", ""))
+	var pre := str(reaction_result.get("pre_status", ""))
 	if pre == "shield":
 		return  # shield 不消耗（仅触发反应）
 	var pre_buff_id: int = PRE_STATUS_BUFF_ID.get(pre, 0)

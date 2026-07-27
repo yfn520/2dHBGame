@@ -245,7 +245,7 @@ func _build_bottom_nav() -> Control:
 	for tab_data in tabs:
 		var tab_name: StringName = tab_data[0]
 		var btn := Button.new()
-		btn.text = String(tab_data[1])
+		btn.text = str(tab_data[1])
 		btn.theme_type_variation = &"TabButton"
 		btn.toggle_mode = true
 		btn.focus_mode = Control.FOCUS_NONE
@@ -683,7 +683,7 @@ func _build_skills_page() -> Control:
 		row_panel.add_child(row)
 
 		var key_label := Label.new()
-		key_label.text = String(skill_info["key"])
+		key_label.text = str(skill_info["key"])
 		key_label.theme_type_variation = &"HUDTitle"
 		key_label.add_theme_font_size_override("font_size", 20)
 		key_label.custom_minimum_size = Vector2(36, 0)
@@ -929,9 +929,9 @@ func _refresh_equipment_page() -> void:
 			btn.add_theme_color_override("font_color", Color(0.72, 0.60, 0.40))
 		else:
 			var config: Dictionary = GameRegistry.item_config.get_item(item_id)
-			btn.text = "%s\n%s" % [SLOT_LABELS.get(slot, slot), _short_name(String(config.get("name", str(item_id))), 7)]
+			btn.text = "%s\n%s" % [SLOT_LABELS.get(slot, slot), _short_name(str(config.get("name", str(item_id))), 7)]
 			btn.icon = _load_item_icon(config)
-			btn.tooltip_text = "%s\n%s" % [String(config.get("description", "")), _format_stats(config.get("stats", {}))]
+			btn.tooltip_text = "%s\n%s" % [str(config.get("description", "")), _format_stats(config.get("stats", {}))]
 			btn.add_theme_color_override("font_color", Color(1.0, 0.84, 0.42))
 
 
@@ -963,13 +963,13 @@ func _refresh_skills_page() -> void:
 			desc_label.text = "该槽位尚未解锁或配置技能。"
 		else:
 			var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
-			var sname := String(skill.get("name", row_data["fallback"]))
+			var sname := str(skill.get("name", row_data["fallback"]))
 			var cd := float(cooldowns.get(skill_id, 0.0))
 			if cd > 0.05:
 				name_label.text = "%s · %s (%.1fs)" % [key_label, sname, cd]
 			else:
 				name_label.text = "%s · %s" % [key_label, sname]
-			var desc := String(skill.get("description", ""))
+			var desc := str(skill.get("description", ""))
 			var cd_max := float(skill.get("cooldown", 0.0))
 			desc_label.text = "%s  冷却:%.1fs" % [desc, cd_max] if not desc.is_empty() else "冷却:%.1fs" % cd_max
 
@@ -980,7 +980,7 @@ func _refresh_inventory_page() -> void:
 	# 更新分类高亮
 	for type_name in _inv_category_buttons:
 		var btn: Button = _inv_category_buttons[type_name]
-		btn.button_pressed = String(type_name) == _inventory_filter
+		btn.button_pressed = str(type_name) == _inventory_filter
 
 	var items := _get_filtered_items()
 	var total_count := 0
@@ -993,15 +993,15 @@ func _refresh_inventory_page() -> void:
 		if i < items.size():
 			var item: ItemInstance = items[i]
 			var config: Dictionary = GameRegistry.item_config.get_item(item.item_id)
-			var item_type: String = String(config.get("type", "empty"))
-			var item_name: String = String(config.get("name", str(item.item_id)))
+			var item_type: String = str(config.get("type", "empty"))
+			var item_name: String = str(config.get("name", str(item.item_id)))
 			var count_text := ""
 			if item.count > 1:
 				count_text = "\nx%d" % item.count
 			btn.disabled = false
 			btn.text = "%s%s" % [_short_name(item_name, 6), count_text]
 			btn.icon = _load_item_icon(config)
-			btn.tooltip_text = String(config.get("description", ""))
+			btn.tooltip_text = str(config.get("description", ""))
 			btn.add_theme_color_override("font_color", TYPE_COLORS.get(item_type, Color(0.80, 0.70, 0.50)))
 		else:
 			btn.disabled = true
@@ -1024,7 +1024,7 @@ func _refresh_selected_item_text(items: Array[ItemInstance]) -> void:
 	var item: ItemInstance = items[_selected_inventory_index]
 	var config: Dictionary = GameRegistry.item_config.get_item(item.item_id)
 	_inv_detail_label.text = "%s  %s" % [
-		String(config.get("name", str(item.item_id))),
+		str(config.get("name", str(item.item_id))),
 		_format_stats(config.get("stats", {})),
 	]
 
@@ -1129,12 +1129,12 @@ func _rebuild_popup_list(slot: String) -> void:
 	var items: Array[ItemInstance] = GameRegistry.inventory_provider.get_items()
 	for item in items:
 		var config: Dictionary = GameRegistry.item_config.get_item(item.item_id)
-		if String(config.get("type", "")) != slot:
+		if str(config.get("type", "")) != slot:
 			continue
 		found = true
 		var btn := Button.new()
 		btn.theme_type_variation = &"HUDButton"
-		btn.text = "%s  %s" % [String(config.get("name", str(item.item_id))), _format_stats(config.get("stats", {}))]
+		btn.text = "%s  %s" % [str(config.get("name", str(item.item_id))), _format_stats(config.get("stats", {}))]
 		btn.focus_mode = Control.FOCUS_NONE
 		btn.pressed.connect(_on_popup_item_selected.bind(item.uid))
 		_popup_list.add_child(btn)
@@ -1164,7 +1164,7 @@ func _show_equipment_tip(slot: String) -> void:
 		_set_tip(tip, "%s槽" % SLOT_LABELS.get(slot, slot), "空装备槽", "当前没有穿戴装备。", "", "点击后从背包选择对应装备。")
 	else:
 		var config: Dictionary = GameRegistry.item_config.get_item(item_id)
-		_set_tip(tip, String(config.get("name", "?")), TYPE_LABELS.get(String(config.get("type", "")), ""), String(config.get("description", "")), _format_stats(config.get("stats", {})), "点击卸下。")
+		_set_tip(tip, str(config.get("name", "?")), TYPE_LABELS.get(str(config.get("type", "")), ""), str(config.get("description", "")), _format_stats(config.get("stats", {})), "点击卸下。")
 	if ui_root != null:
 		ui_root.show_tooltip(tip)
 
@@ -1181,10 +1181,10 @@ func _show_inventory_tip(index: int) -> void:
 	if GameRegistry.item_config.get_equip_slot(item.item_id) != "":
 		hint = "点击穿戴到当前角色。"
 	var tip := _build_tip()
-	var type_text: String = TYPE_LABELS.get(String(config.get("type", "")), "")
+	var type_text: String = TYPE_LABELS.get(str(config.get("type", "")), "")
 	if item.count > 1:
 		type_text += "  x%d" % item.count
-	_set_tip(tip, String(config.get("name", "?")), type_text, String(config.get("description", "")), _format_stats(config.get("stats", {})), hint)
+	_set_tip(tip, str(config.get("name", "?")), type_text, str(config.get("description", "")), _format_stats(config.get("stats", {})), hint)
 	if ui_root != null:
 		ui_root.show_tooltip(tip)
 
@@ -1339,7 +1339,7 @@ func _set_preview(sprite: AnimatedSprite2D, fallback: Label, character_id: int) 
 		if not sprite.sprite_frames.has_animation(anim):
 			var names := sprite.sprite_frames.get_animation_names()
 			if not names.is_empty():
-				anim = String(names[0])
+				anim = str(names[0])
 		sprite.animation = anim
 		sprite.frame = 0
 		sprite.play()
@@ -1361,7 +1361,7 @@ func _get_filtered_items() -> Array[ItemInstance]:
 	var items: Array[ItemInstance] = GameRegistry.inventory_provider.get_items()
 	for item in items:
 		var config: Dictionary = GameRegistry.item_config.get_item(item.item_id)
-		var item_type: String = String(config.get("type", ""))
+		var item_type: String = str(config.get("type", ""))
 		if _inventory_filter == "all" or item_type == _inventory_filter:
 			result.append(item)
 	return result
@@ -1392,7 +1392,7 @@ func _format_stats(stats_value) -> String:
 
 
 func _load_item_icon(config: Dictionary) -> Texture2D:
-	var icon_path := String(config.get("icon", ""))
+	var icon_path := str(config.get("icon", ""))
 	if icon_path.is_empty() or not ResourceLoader.exists(icon_path):
 		return null
 	return load(icon_path) as Texture2D

@@ -75,7 +75,7 @@ func spawn_enemies_for_level(spawns: Array) -> void:
 			float(entry.get("x", 0)),
 			float(entry.get("y", 0))
 		)
-		var mode := String(entry.get("mode", ""))
+		var mode := str(entry.get("mode", ""))
 		var count := int(entry.get("count", 1))
 		if mode.is_empty():
 			mode = "group" if count > 1 else "point"

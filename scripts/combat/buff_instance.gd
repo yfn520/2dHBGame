@@ -23,15 +23,15 @@ var shield_bonus: float = 0.0
 
 func _init(config: Dictionary, source: int = 0) -> void:
 	buff_id = int(config.get("id", 0))
-	name = String(config.get("name", ""))
-	description = String(config.get("description", ""))
-	category = String(config.get("category", "debuff"))
+	name = str(config.get("name", ""))
+	description = str(config.get("description", ""))
+	category = str(config.get("category", "debuff"))
 	duration = float(config.get("duration", 0.0))
 	remaining = duration
 	max_stacks = int(config.get("max_stacks", 1))
-	stack_behavior = String(config.get("stack_behavior", "refresh"))
-	icon = String(config.get("icon", ""))
-	effect_scene = String(config.get("effect_scene", ""))
+	stack_behavior = str(config.get("stack_behavior", "refresh"))
+	icon = str(config.get("icon", ""))
+	effect_scene = str(config.get("effect_scene", ""))
 	# 技能节点 apply_self_buff 可注入 effect_offset_x/y 微调特效位置
 	effect_offset = Vector2(float(config.get("effect_offset_x", 0.0)), float(config.get("effect_offset_y", 0.0)))
 	# 技能节点 apply_self_buff 可注入 effect_scale 缩放特效（默认 1.0）
@@ -51,7 +51,7 @@ func is_expired() -> bool:
 
 func is_dot() -> bool:
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "dot":
+		if effect is Dictionary and str(effect.get("type", "")) == "dot":
 			return true
 	return false
 
@@ -59,7 +59,7 @@ func is_dot() -> bool:
 func get_dot_effects() -> Array:
 	var result: Array = []
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "dot":
+		if effect is Dictionary and str(effect.get("type", "")) == "dot":
 			result.append(effect)
 	return result
 
@@ -67,7 +67,7 @@ func get_dot_effects() -> Array:
 func get_hot_effects() -> Array:
 	var result: Array = []
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "hot":
+		if effect is Dictionary and str(effect.get("type", "")) == "hot":
 			result.append(effect)
 	return result
 
@@ -75,7 +75,7 @@ func get_hot_effects() -> Array:
 func get_shield_effects() -> Array:
 	var result: Array = []
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+		if effect is Dictionary and str(effect.get("type", "")) == "shield":
 			result.append(effect)
 	return result
 
@@ -83,17 +83,17 @@ func get_shield_effects() -> Array:
 func get_shield_remaining() -> int:
 	var total := 0
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+		if effect is Dictionary and str(effect.get("type", "")) == "shield":
 			total += int(effect.get("remaining", 0))
 	return total
 
 
 func has_control_affect(affect: String) -> bool:
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "control":
+		if effect is Dictionary and str(effect.get("type", "")) == "control":
 			var affects: Array = effect.get("affects", [])
 			for a in affects:
-				if String(a) == affect:
+				if str(a) == affect:
 					return true
 	return false
 
@@ -118,6 +118,6 @@ func add_stack() -> bool:
 func _reset_shield_remaining() -> void:
 	# 应用施盾者护盾强度（设计案 7.2）：amount × (1 + shield_bonus)
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+		if effect is Dictionary and str(effect.get("type", "")) == "shield":
 			var base_amount := int(effect.get("amount", 0))
 			effect["remaining"] = int(roundi(float(base_amount) * (1.0 + shield_bonus)))

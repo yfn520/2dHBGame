@@ -1,0 +1,56 @@
+{
+	"town_bread_stall": {
+		"town_change_id": "town_bread_stall",
+		"chapter_id": "chapter_1",
+		"trigger_node_id": "node_ch1_truth_guluom",
+		"target_level_id": 3,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第1章通关后余晖城面包摊启用。新增 NPC'面包摊主'与少量对话。"
+	},
+	"town_mailbox": {
+		"town_change_id": "town_mailbox",
+		"chapter_id": "chapter_1",
+		"trigger_node_id": "node_ch1_truth_guluom",
+		"target_level_id": 3,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第1章通关后邮筒信件更新。可在余晖城邮筒读到第1章史莱姆事件相关信件。"
+	},
+	"town_wood_mill": {
+		"town_change_id": "town_wood_mill",
+		"chapter_id": "chapter_2",
+		"trigger_node_id": "node_ch2_truth_eclipse",
+		"target_level_id": 3,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第2章通关后余晖城木风车启用。"
+	},
+	"town_night_school": {
+		"town_change_id": "town_night_school",
+		"chapter_id": "chapter_3",
+		"trigger_node_id": "node_ch3_main_relic_eclipse",
+		"target_level_id": 3,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第3章通关后烛塔学院夜校开启。"
+	},
+	"town_dock": {
+		"town_change_id": "town_dock",
+		"chapter_id": "chapter_4",
+		"trigger_node_id": "node_ch4_truth_relic_source",
+		"target_level_id": 5,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第4章通关后余晖城码头开放。"
+	},
+	"town_merit_wall": {
+		"town_change_id": "town_merit_wall",
+		"chapter_id": "chapter_5",
+		"trigger_node_id": "node_ch5_reforge_pact",
+		"target_level_id": 3,
+		"scene_patch": "",
+		"npc_placement_patch": [],
+		"description": "第5章通关后纪功墙落成。可查看已完成章节的功勋记录。"
+	}
+}

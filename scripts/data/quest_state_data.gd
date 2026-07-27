@@ -5,7 +5,7 @@ var flags: Dictionary = {}
 
 
 func get_status(quest_id: int) -> String:
-	return String((quests.get(str(quest_id), {}) as Dictionary).get("status", "inactive"))
+	return str((quests.get(str(quest_id), {}) as Dictionary).get("status", "inactive"))
 
 
 func get_entry(quest_id: int) -> Dictionary:

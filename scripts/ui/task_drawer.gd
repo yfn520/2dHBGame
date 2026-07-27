@@ -172,13 +172,13 @@ func _refresh_tasks() -> void:
 		box.add_theme_constant_override("separation", 4)
 		card.add_child(box)
 		var title := Label.new()
-		var status := String(quest.get("status", "active"))
-		var status_label := String({"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status))
-		title.text = "%s  [%s]" % [String(quest.get("title", "任务")), status_label]
+		var status := str(quest.get("status", "active"))
+		var status_label := str({"active": "进行中", "ready": "可交付", "completed": "已完成"}.get(status, status))
+		title.text = "%s  [%s]" % [str(quest.get("title", "任务")), status_label]
 		title.add_theme_font_size_override("font_size", 16)
 		box.add_child(title)
 		var description := Label.new()
-		description.text = String(quest.get("description", ""))
+		description.text = str(quest.get("description", ""))
 		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		description.modulate = Color(0.82, 0.78, 0.70)
 		box.add_child(description)
@@ -206,7 +206,7 @@ func _build_empty_state_in(parent: Container) -> void:
 
 
 func _objective_text(objective: Dictionary) -> String:
-	match String(objective.get("type", "")):
+	match str(objective.get("type", "")):
 		"talk": return "与 NPC %d 对话" % int(objective.get("npc_id", 0))
 		"kill": return "击败怪物 %d" % int(objective.get("enemy_id", 0))
 		"collect": return "收集物品 %d" % int(objective.get("item_id", 0))

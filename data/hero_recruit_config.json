@@ -1,0 +1,62 @@
+{
+	"recruit_elai": {
+		"hero_id": 7004,
+		"hero_name": "伊莱",
+		"class_id": "cleric",
+		"recruit_chapter_id": "prologue",
+		"recruit_node_id": "node_prologue_recruit_elai",
+		"is_fixed_party_member": true,
+		"force_recruit_on_chapter_enter": true,
+		"description": "序章固定入队的牧师英雄。开局三人队成员之一，主角路线不影响其入队时机。"
+	},
+	"recruit_oz": {
+		"hero_id": 7005,
+		"hero_name": "奥兹",
+		"class_id": "summoner",
+		"recruit_chapter_id": "chapter_2",
+		"recruit_node_id": "node_ch2_recruit_oz",
+		"is_fixed_party_member": false,
+		"force_recruit_on_chapter_enter": false,
+		"description": "第2章月影遗迹招募的召唤师英雄。需完成章节主线'守门钟楼'后入队。"
+	},
+	"recruit_kai": {
+		"hero_id": 7006,
+		"hero_name": "凯",
+		"class_id": "assassin",
+		"recruit_chapter_id": "chapter_4",
+		"recruit_node_id": "node_ch4_recruit_kai",
+		"is_fixed_party_member": false,
+		"force_recruit_on_chapter_enter": false,
+		"description": "第4章苍蓝港湾招募的刺客英雄。需完成章节主线'码头契约'后入队。"
+	},
+	"recruit_lead_knight": {
+		"hero_id": 7001,
+		"hero_name": "莱昂",
+		"class_id": "knight",
+		"recruit_chapter_id": "prologue",
+		"recruit_node_id": "node_prologue_lead_select",
+		"is_fixed_party_member": false,
+		"force_recruit_on_chapter_enter": false,
+		"description": "莱昂作为非主角时的入队配置: 第3章后入队，无主契遗装。"
+	},
+	"recruit_lead_archer": {
+		"hero_id": 7002,
+		"hero_name": "露娜",
+		"class_id": "archer",
+		"recruit_chapter_id": "prologue",
+		"recruit_node_id": "node_prologue_lead_select",
+		"is_fixed_party_member": false,
+		"force_recruit_on_chapter_enter": false,
+		"description": "露娜作为非主角时的入队配置: 第3章后入队，无主契遗装。"
+	},
+	"recruit_lead_mage": {
+		"hero_id": 7003,
+		"hero_name": "米娅",
+		"class_id": "mage",
+		"recruit_chapter_id": "prologue",
+		"recruit_node_id": "node_prologue_lead_select",
+		"is_fixed_party_member": false,
+		"force_recruit_on_chapter_enter": false,
+		"description": "米娅作为非主角时的入队配置: 第3章后入队，无主契遗装。"
+	}
+}

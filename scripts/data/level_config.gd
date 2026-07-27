@@ -30,6 +30,8 @@ func load_config() -> void:
 			"spawn_y": int(raw.get("spawn_y", 0)),
 			"bgm": raw.get("bgm", ""),
 			"description": raw.get("description", ""),
+			"chapter_id": str(raw.get("chapter_id", "")),
+			"dungeon_room_tag": str(raw.get("dungeon_room_tag", "")),
 			"enemies": _normalize_enemies(raw.get("enemies", [])),
 		}
 	_loaded = true
@@ -47,9 +49,9 @@ func _normalize_enemies(raw_enemies: Variant) -> Array:
 			continue
 		var entry: Dictionary = entry_value
 		var count := int(entry.get("count", 1))
-		var mode := String(entry.get("mode", "group" if count > 1 else "point"))
+		var mode := str(entry.get("mode", "group" if count > 1 else "point"))
 		var normalized: Dictionary = {
-			"spawn_id": String(entry.get("spawn_id", "spawn_%d" % index)),
+			"spawn_id": str(entry.get("spawn_id", "spawn_%d" % index)),
 			"mode": mode,
 			"enemy_id": int(entry.get("enemy_id", 0)),
 			"x": float(entry.get("x", 0.0)),
@@ -102,6 +104,8 @@ func save_all(levels: Dictionary) -> void:
 			"spawn_y": int(raw.get("spawn_y", 0)),
 			"bgm": raw.get("bgm", ""),
 			"description": raw.get("description", ""),
+			"chapter_id": str(raw.get("chapter_id", "")),
+			"dungeon_room_tag": str(raw.get("dungeon_room_tag", "")),
 			"enemies": raw.get("enemies", []),
 		}
 		data[str(key)] = out

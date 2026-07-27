@@ -36,7 +36,7 @@ func load_config() -> void:
 			var allowed_fields := ["instance_id", "npc_id", "x", "y", "facing", "scale", "interaction_radius"]
 			var unsupported := false
 			for field in entry:
-				if String(field) not in allowed_fields:
+				if str(field) not in allowed_fields:
 					_errors.append("Level %s NPC placement contains unsupported field: %s" % [level_id, field])
 					unsupported = true
 					break
@@ -45,9 +45,9 @@ func load_config() -> void:
 			if not entry.get("instance_id") is String or not _is_number(entry.get("npc_id")) or not _is_number(entry.get("x")) or not _is_number(entry.get("y")) or not entry.get("facing") is String or not _is_number(entry.get("scale")) or not _is_number(entry.get("interaction_radius")):
 				_errors.append("Level %s NPC placement has invalid field types" % level_id)
 				continue
-			var instance_id := String(entry.get("instance_id", "")).strip_edges()
+			var instance_id := str(entry.get("instance_id", "")).strip_edges()
 			var npc_id := int(entry.get("npc_id", 0))
-			var facing := String(entry.get("facing", ""))
+			var facing := str(entry.get("facing", ""))
 			var scale_value := float(entry.get("scale", 0.0))
 			var radius := float(entry.get("interaction_radius", 0.0))
 			if not _is_slug(instance_id) or seen.has(instance_id) or npc_id <= 0 or facing not in ["left", "right"] or scale_value <= 0.0 or radius < 16.0:

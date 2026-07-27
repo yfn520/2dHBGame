@@ -92,7 +92,7 @@ func _update_content() -> void:
 		var member_id: int = member.get_party_character_id() if member.has_method("get_party_character_id") else 0
 		var member_name: String = GameRegistry.character_config.get_name(member_id) if GameRegistry.character_config != null else str(member_id)
 		var runtime: Variant = member_combat.get_debug_state() if member_combat != null and member_combat.has_method("get_debug_state") else "?"
-		var anim := String(member.get_node("CharacterActionSet/AnimatedSprite2D").animation)
+		var anim := str(member.get_node("CharacterActionSet/AnimatedSprite2D").animation)
 		var ally_runtime: Variant = member.get_ally_debug_state() if member.has_method("get_ally_debug_state") else ""
 		lines.append("%s anim:%s %s %s" % [member_name, anim, runtime, ally_runtime])
 

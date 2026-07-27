@@ -30,14 +30,14 @@ func load_config() -> void:
 				effects.append(BuffEffectRegistry.parse_effect(effect as Dictionary))
 		_buffs[buff_id] = {
 			"id": buff_id,
-			"name": String(raw.get("name", "")),
-			"description": String(raw.get("description", "")),
-			"category": String(raw.get("category", "debuff")),
+			"name": str(raw.get("name", "")),
+			"description": str(raw.get("description", "")),
+			"category": str(raw.get("category", "debuff")),
 			"duration": float(raw.get("duration", 0.0)),
 			"max_stacks": int(raw.get("max_stacks", 1)),
-			"stack_behavior": String(raw.get("stack_behavior", "refresh")),
-			"icon": String(raw.get("icon", "")),
-			"effect_scene": String(raw.get("effect_scene", "")),
+			"stack_behavior": str(raw.get("stack_behavior", "refresh")),
+			"icon": str(raw.get("icon", "")),
+			"effect_scene": str(raw.get("effect_scene", "")),
 			"effects": effects,
 		}
 	_loaded = true
@@ -65,6 +65,6 @@ func get_buffs_by_category(category: String) -> Array:
 		load_config()
 	for buff_id in _buffs:
 		var buff: Dictionary = _buffs[buff_id]
-		if String(buff.get("category", "")) == category:
+		if str(buff.get("category", "")) == category:
 			result.append(buff)
 	return result

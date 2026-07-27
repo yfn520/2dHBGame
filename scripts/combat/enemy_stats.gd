@@ -22,7 +22,7 @@ func _init(cfg: Dictionary) -> void:
 	var raw_traits = cfg.get("traits", [])
 	if raw_traits is Array:
 		for t in raw_traits:
-			traits.append(String(t))
+			traits.append(str(t))
 	recalculate(false)
 	# 应用特征的护甲/魔抗修正（设计案 10.1）
 	var armor_mod := EnemyTraits.get_combined_armor_modifier(traits)

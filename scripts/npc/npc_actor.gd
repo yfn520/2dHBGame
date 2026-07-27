@@ -16,7 +16,7 @@ var _quest_label: Label
 
 func setup(config: Dictionary, placement: Dictionary) -> bool:
 	npc_id = int(config.get("id", 0))
-	instance_id = String(placement.get("instance_id", ""))
+	instance_id = str(placement.get("instance_id", ""))
 	if npc_id <= 0 or instance_id.is_empty():
 		push_error("NPC 实例缺少 npc_id 或 instance_id")
 		return false
@@ -29,7 +29,7 @@ func setup(config: Dictionary, placement: Dictionary) -> bool:
 		return false
 	_visual.scale = Vector2.ONE * display_scale
 	_build_interaction_area()
-	var facing := String(placement.get("facing", config.get("default_facing", "right")))
+	var facing := str(placement.get("facing", config.get("default_facing", "right")))
 	_sprite.flip_h = facing == "left"
 	_update_name_label(config)
 	refresh_quest_indicator()
@@ -56,7 +56,7 @@ func refresh_quest_indicator() -> void:
 ## 实例化 npc_visual.tscn；所有视觉布局已在生成时写好，这里只取节点引用。
 func _load_visual(config: Dictionary) -> bool:
 	var asset := config.get("asset_data", {}) as Dictionary
-	var visual_path := String(asset.get("visual_scene", ""))
+	var visual_path := str(asset.get("visual_scene", ""))
 	if visual_path.is_empty() or not ResourceLoader.exists(visual_path):
 		push_error("NPC %d visual_scene 无效: %s" % [npc_id, visual_path])
 		return false
@@ -76,7 +76,7 @@ func _load_visual(config: Dictionary) -> bool:
 		push_error("NPC %d visual_scene 缺少 AnimatedSprite2D" % npc_id)
 		_visual.queue_free()
 		return false
-	var default_animation := String(asset.get("default_animation", ""))
+	var default_animation := str(asset.get("default_animation", ""))
 	if _sprite.sprite_frames == null or not _sprite.sprite_frames.has_animation(default_animation):
 		push_error("NPC %d 缺少默认动画: %s" % [npc_id, default_animation])
 		_visual.queue_free()
@@ -108,4 +108,4 @@ func _build_interaction_area() -> void:
 func _update_name_label(config: Dictionary) -> void:
 	if _name_label == null:
 		return
-	_name_label.text = String(config.get("name", "NPC"))
+	_name_label.text = str(config.get("name", "NPC"))

@@ -26,7 +26,7 @@ func dispatch(dialogue_id: String, intent_key: String) -> bool:
 	var binding := binding_config.get_binding(dialogue_id, intent_key)
 	if binding.is_empty():
 		return false
-	var binding_type := String(binding.get("type", ""))
+	var binding_type := str(binding.get("type", ""))
 	var success := false
 	match binding_type:
 		"start_quest":

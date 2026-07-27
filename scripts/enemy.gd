@@ -520,14 +520,14 @@ func get_ai_debug_text() -> String:
 			continue
 		var on_cd := float(cooldowns.get(sid, 0.0)) > 0.0
 		var skill: Dictionary = GameRegistry.skill_config.get_skill(sid)
-		var sname := String(skill.get("name", str(sid)))
+		var sname := str(skill.get("name", str(sid)))
 		for entry_value in cache.get("entries", []):
 			if not entry_value is Dictionary:
 				continue
 			var entry: Dictionary = entry_value
 			var min_d := float(entry.get("min_edge_distance", 0.0))
 			var max_d := float(entry.get("max_edge_distance", 0.0))
-			var kind := String(entry.get("kind", ""))
+			var kind := str(entry.get("kind", ""))
 			var status := "冷却中" if on_cd else ("可释放" if dist >= min_d and dist <= max_d else ("太远" if dist > max_d else "太近"))
 			text += "\n  · %s/%s: %.0f~%.0f %s" % [sname, kind, min_d, max_d, status]
 	return text

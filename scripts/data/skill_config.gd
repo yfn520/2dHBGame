@@ -31,8 +31,8 @@ func load_config() -> void:
 		var ai_cache: Dictionary = cache_value if cache_value is Dictionary else {}
 		_skills[int(id_string)] = {
 			"id": int(id_string),
-			"name": String(raw.get("name", "")),
-			"description": String(raw.get("description", "")),
+			"name": str(raw.get("name", "")),
+			"description": str(raw.get("description", "")),
 			"cooldown": float(raw.get("cooldown", 0.0)),
 			"cast_range": float(raw.get("cast_range", 0.0)),
 			"nodes": (nodes_value as Array).duplicate(true),

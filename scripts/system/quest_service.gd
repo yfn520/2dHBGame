@@ -34,7 +34,7 @@ func start_quest(quest_id: int) -> bool:
 	quest_started.emit(quest_id)
 	quest_updated.emit(quest_id)
 	var quest := config.get_quest(quest_id)
-	notification_requested.emit("已接取任务：%s" % String(quest.get("title", quest_id)))
+	notification_requested.emit("已接取任务：%s" % str(quest.get("title", quest_id)))
 	return true
 
 
@@ -66,14 +66,14 @@ func turn_in_quest(quest_id: int) -> bool:
 		if not objective_value is Dictionary:
 			continue
 		var objective: Dictionary = objective_value
-		if String(objective.get("type", "")) == "collect" and bool(objective.get("consume_on_turn_in", false)):
+		if str(objective.get("type", "")) == "collect" and bool(objective.get("consume_on_turn_in", false)):
 			var item_id := int(objective.get("item_id", 0))
 			var count := maxi(1, int(objective.get("count", 1)))
 			if inventory == null or not inventory.has_item(item_id, count):
 				_refresh_ready_state(quest_id)
 				return false
 	for objective_value in quest.get("objectives", []):
-		if objective_value is Dictionary and String(objective_value.get("type", "")) == "collect" and bool(objective_value.get("consume_on_turn_in", false)):
+		if objective_value is Dictionary and str(objective_value.get("type", "")) == "collect" and bool(objective_value.get("consume_on_turn_in", false)):
 			inventory.remove_item_by_id(int(objective_value.get("item_id", 0)), maxi(1, int(objective_value.get("count", 1))))
 	var entry := state.get_entry(quest_id)
 	entry["status"] = "completed"
@@ -81,7 +81,7 @@ func turn_in_quest(quest_id: int) -> bool:
 	_apply_rewards(quest)
 	quest_completed.emit(quest_id)
 	quest_updated.emit(quest_id)
-	notification_requested.emit("任务完成：%s" % String(quest.get("title", quest_id)))
+	notification_requested.emit("任务完成：%s" % str(quest.get("title", quest_id)))
 	return true
 
 
@@ -92,7 +92,7 @@ func get_status(quest_id: int) -> String:
 func get_objective_progress(quest_id: int, objective: Dictionary, index: int) -> Dictionary:
 	var required := maxi(1, int(objective.get("count", 1)))
 	var current := 0
-	if String(objective.get("type", "")) == "collect":
+	if str(objective.get("type", "")) == "collect":
 		current = inventory.get_count_by_id(int(objective.get("item_id", 0))) if inventory != null else 0
 	else:
 		var counters: Dictionary = state.get_entry(quest_id).get("counters", {})
@@ -138,11 +138,11 @@ func has_ready_quest(npc_id: int) -> bool:
 
 
 func evaluate_condition(condition: Dictionary) -> bool:
-	match String(condition.get("type", "")):
+	match str(condition.get("type", "")):
 		"quest_state":
-			return state.get_status(int(condition.get("quest_id", 0))) == String(condition.get("state", "inactive"))
+			return state.get_status(int(condition.get("quest_id", 0))) == str(condition.get("state", "inactive"))
 		"flag_equals":
-			return state.get_flag(String(condition.get("flag", ""))) == condition.get("value", true)
+			return state.get_flag(str(condition.get("flag", ""))) == condition.get("value", true)
 		"item_count":
 			return inventory != null and inventory.get_count_by_id(int(condition.get("item_id", 0))) >= int(condition.get("count", 1))
 		"":
@@ -166,7 +166,7 @@ func _record_event(objective_type: String, id_field: String, target_id: int) -> 
 			if not objectives[index] is Dictionary:
 				continue
 			var objective: Dictionary = objectives[index]
-			if String(objective.get("type", "")) != objective_type or int(objective.get(id_field, 0)) != target_id:
+			if str(objective.get("type", "")) != objective_type or int(objective.get(id_field, 0)) != target_id:
 				continue
 			var key := _objective_key(objective, index)
 			var required := maxi(1, int(objective.get("count", 1)))
@@ -213,8 +213,8 @@ func _all_objectives_complete(quest_id: int) -> bool:
 
 
 func _objective_key(objective: Dictionary, index: int) -> String:
-	var explicit := String(objective.get("id", ""))
-	return explicit if not explicit.is_empty() else "%s_%d" % [String(objective.get("type", "objective")), index]
+	var explicit := str(objective.get("id", ""))
+	return explicit if not explicit.is_empty() else "%s_%d" % [str(objective.get("type", "objective")), index]
 
 
 func _apply_rewards(quest: Dictionary) -> void:
@@ -224,7 +224,7 @@ func _apply_rewards(quest: Dictionary) -> void:
 			inventory.add_item(int(item_value.get("item_id", 0)), maxi(1, int(item_value.get("count", 1))))
 	for flag_value in rewards.get("flags", []):
 		if flag_value is Dictionary:
-			state.set_flag(String(flag_value.get("flag", "")), flag_value.get("value", true))
+			state.set_flag(str(flag_value.get("flag", "")), flag_value.get("value", true))
 
 
 func _on_inventory_changed(_value: Variant) -> void:

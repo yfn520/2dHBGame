@@ -1,4 +1,4 @@
-﻿extends CombatActorBase
+extends CombatActorBase
 ## 玩家角色：输入控制 + 队友 AI。共用逻辑由 CombatActorBase 提供。
 
 const JUMP_VELOCITY := -420.0
@@ -465,7 +465,7 @@ func _get_ally_ai_cache(skill_id: int) -> Dictionary:
 	if GameRegistry.character_config == null:
 		return cache
 	var char_data: Dictionary = GameRegistry.character_config.get_character(character_id)
-	var asset_path: String = String(char_data.get("asset", ""))
+	var asset_path: String = str(char_data.get("asset", ""))
 	if asset_path.is_empty():
 		return cache
 	return AIRangeCompiler.compile(skill_id, asset_path)

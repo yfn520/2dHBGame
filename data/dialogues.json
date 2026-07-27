@@ -1,10 +1,17 @@
 {
 	"npc_9001": {
 		"entry_node": "quest_state_router",
+		"story_node_id": "node_ch1_story_last_letter",
+		"chapter_id": "chapter_1",
 		"nodes": {
 			"idle_greeting": {
 				"type": "line",
 				"speaker": "霍雷克",
+				"story_layer": "EVENT_node_ch1_story_last_letter",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "initial",
+				"chapter_id": "chapter_1",
 				"text_template": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随着抬眼的动作微微扯动，语气冷硬得像淬了冰的铁）铁锋佣兵团霍雷克。这里只有走佣兵公会正规流程的击杀委托，不接私活，不讲情面，没有半分通融余地。有意接取就明确表态，否则不要挡着其他办事的人。",
 				"next_id": "inactive_choice",
 				"default_next": "",

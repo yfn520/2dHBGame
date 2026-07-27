@@ -141,26 +141,26 @@ static func get_option_label(field_name: String, value: String) -> String:
 
 ## 把原始 JSON 字典解析为运行时字典（含 tick_timer/remaining 运行时字段）
 static func parse_effect(raw: Dictionary) -> Dictionary:
-	var type_str := String(raw.get("type", ""))
+	var type_str := str(raw.get("type", ""))
 	var parsed := {"type": type_str}
 	var info := get_type_info(type_str)
 	for field in info.get("fields", []):
-		var fname := String(field.get("name", ""))
-		var kind := String(field.get("kind", ""))
+		var fname := str(field.get("name", ""))
+		var kind := str(field.get("kind", ""))
 		match kind:
 			"option":
-				parsed[fname] = String(raw.get(fname, ""))
+				parsed[fname] = str(raw.get(fname, ""))
 			"float":
 				parsed[fname] = float(raw.get(fname, 0.0))
 			"int":
 				parsed[fname] = int(raw.get(fname, 0))
 			"string":
-				parsed[fname] = String(raw.get(fname, ""))
+				parsed[fname] = str(raw.get(fname, ""))
 			"checkbox_group":
 				var arr: Array = raw.get(fname, [])
 				var arr_str: Array[String] = []
 				for v in arr:
-					arr_str.append(String(v))
+					arr_str.append(str(v))
 				parsed[fname] = arr_str
 	# 运行时字段（不在 schema 内，由 effect type 决定）
 	match type_str:
@@ -176,22 +176,22 @@ static func make_default_effect(type_str: String) -> Dictionary:
 	var new_effect := {"type": type_str}
 	var info := get_type_info(type_str)
 	for field in info.get("fields", []):
-		var fname := String(field.get("name", ""))
-		var kind := String(field.get("kind", ""))
+		var fname := str(field.get("name", ""))
+		var kind := str(field.get("kind", ""))
 		match kind:
 			"checkbox_group":
 				# 数组类型必须深拷贝，避免所有实例共享同一引用
 				var default_arr: Array = field.get("default", [])
 				var copy: Array = []
 				for v in default_arr:
-					copy.append(String(v))
+					copy.append(str(v))
 				new_effect[fname] = copy
 			"option":
-				new_effect[fname] = String(field.get("default", ""))
+				new_effect[fname] = str(field.get("default", ""))
 			"float":
 				new_effect[fname] = float(field.get("default", 0.0))
 			"int":
 				new_effect[fname] = int(field.get("default", 0))
 			"string":
-				new_effect[fname] = String(field.get("default", ""))
+				new_effect[fname] = str(field.get("default", ""))
 	return new_effect

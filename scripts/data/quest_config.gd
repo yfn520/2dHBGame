@@ -13,8 +13,8 @@ func load_config() -> void:
 		var raw: Dictionary = data[id_value]
 		raw = raw.duplicate(true)
 		raw["id"] = id
-		raw["title"] = String(raw.get("title", "任务 %d" % id))
-		raw["description"] = String(raw.get("description", ""))
+		raw["title"] = str(raw.get("title", "任务 %d" % id))
+		raw["description"] = str(raw.get("description", ""))
 		raw["giver_npc_id"] = int(raw.get("giver_npc_id", 0))
 		raw["turn_in_npc_id"] = int(raw.get("turn_in_npc_id", raw["giver_npc_id"]))
 		raw["objectives"] = raw.get("objectives", []) if raw.get("objectives", []) is Array else []

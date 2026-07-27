@@ -1,0 +1,32 @@
+{
+	"lead_knight": {
+		"owner_lead_hero_id": 7001,
+		"prologue_variant_id": "prologue_knight",
+		"profession_quest_id": "profession_knight",
+		"pact_legacy_id": "pact_legacy_knight",
+		"chapter_reaction_set_id": "reaction_knight",
+		"chapter5_truth_node_id": "node_ch5_truth_knight",
+		"final_execution_node_id": "node_ch6_final_knight",
+		"description": "莱昂(骑士)主角内容包: 序章'没有命令的骑士'，主契遗装'归城残盾'，第5章揭示守门人往事，终章'骑士终局执行'。"
+	},
+	"lead_archer": {
+		"owner_lead_hero_id": 7002,
+		"prologue_variant_id": "prologue_archer",
+		"profession_quest_id": "profession_archer",
+		"pact_legacy_id": "pact_legacy_archer",
+		"chapter_reaction_set_id": "reaction_archer",
+		"chapter5_truth_node_id": "node_ch5_truth_archer",
+		"final_execution_node_id": "node_ch6_final_archer",
+		"description": "露娜(弓箭手)主角内容包: 序章'无路之弦'，主契遗装'无路之弦'，第5章揭示游侠出身真相，终章'弓手终局执行'。"
+	},
+	"lead_mage": {
+		"owner_lead_hero_id": 7003,
+		"prologue_variant_id": "prologue_mage",
+		"profession_quest_id": "profession_mage",
+		"pact_legacy_id": "pact_legacy_mage",
+		"chapter_reaction_set_id": "reaction_mage",
+		"chapter5_truth_node_id": "node_ch5_truth_mage",
+		"final_execution_node_id": "node_ch6_final_mage",
+		"description": "米娅(魔法师)主角内容包: 序章'缺页星典'，主契遗装'缺页星典'，第5章揭示学院禁书真相，终章'法师终局执行'。"
+	}
+}

@@ -96,7 +96,7 @@ func _import_character(options: Dictionary) -> int:
 	var external_combat := _load_external_combat_data(source_dir)
 	var is_production := not external_combat.is_empty()
 	var foot_center := _get_foot_center(external_combat, manifest_data)
-	var apply_player_path := String(options["apply_player"])
+	var apply_player_path := str(options["apply_player"])
 	var body_bottom := _get_scene_body_bottom(apply_player_path, COLLISION_BODY_BOTTOM)
 	var frame_size: Dictionary = manifest_data.get("frameSize", {})
 	var image_center := Vector2(float(frame_size.get("width", frame_cell_height)), float(frame_size.get("height", frame_cell_height))) * 0.5
@@ -118,7 +118,7 @@ func _import_character(options: Dictionary) -> int:
 			"x": display_offset.x,
 			"y": display_offset.y
 		},
-		"faces_right_by_default": String(options["default_facing"]) == "right",
+		"faces_right_by_default": str(options["default_facing"]) == "right",
 		"centered": true,
 		"target_display_height": float(options["target_height"]),
 		"available_actions": manifest_data.get("exportOrder", []),
@@ -258,7 +258,7 @@ func _collect_skill_ids_for_asset(asset_path: String) -> Array:
 			if not row_value is Dictionary:
 				continue
 			var row: Dictionary = row_value
-			if String(row.get("asset", "")) != asset_path:
+			if str(row.get("asset", "")) != asset_path:
 				continue
 			var normal := int(row.get("normal_skill", 0))
 			if normal > 0 and not ids.has(normal):
@@ -345,7 +345,7 @@ func _write_external_combat_actions(source_dir: String, source: Dictionary, disp
 		if not action_value is Dictionary:
 			continue
 		var action: Dictionary = action_value
-		var action_name := String(action.get("actionName", ""))
+		var action_name := str(action.get("actionName", ""))
 		if action_name.is_empty():
 			continue
 		actions_data[action_name] = _convert_external_combat_action(action, display_scale, body_bottom, frame_index_base)
@@ -375,7 +375,7 @@ func _convert_external_combat_action(action: Dictionary, display_scale: float, b
 			var region_scale := float(region.get("scale", 1.0))
 			var authored_x := float(region.get("forwardDistance", 0.0)) * display_scale
 			windows.append({
-				"id": "%s:%s" % [String(attack.get("id", "")), String(region.get("id", ""))],
+				"id": "%s:%s" % [str(attack.get("id", "")), str(region.get("id", ""))],
 				"start_frame": start_frame,
 				"end_frame": end_frame,
 				"forward": absf(authored_x),
@@ -383,8 +383,8 @@ func _convert_external_combat_action(action: Dictionary, display_scale: float, b
 				"y": body_bottom + float(region.get("yOffset", 0.0)) * display_scale,
 				"width": maxf(1.0, float(region.get("width", 1.0)) * display_scale * region_scale),
 				"height": maxf(1.0, float(region.get("height", 1.0)) * display_scale * region_scale),
-				"source_attack_id": String(attack.get("id", "")),
-				"source_region_id": String(region.get("id", "")),
+				"source_attack_id": str(attack.get("id", "")),
+				"source_region_id": str(region.get("id", "")),
 			})
 	windows.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
 		return int(left.get("start_frame", 0)) < int(right.get("start_frame", 0))
@@ -420,8 +420,8 @@ func _convert_external_events(raw_events: Variant, frame_index_base: int) -> Arr
 			continue
 		var event: Dictionary = value
 		events.append({
-			"id": String(event.get("id", "")),
-			"name": String(event.get("name", "")),
+			"id": str(event.get("id", "")),
+			"name": str(event.get("name", "")),
 			"frame": _external_frame_to_godot(int(event.get("frame", 1)), frame_index_base),
 		})
 	return events
@@ -437,7 +437,7 @@ func _convert_external_windows(raw_windows: Variant, frame_index_base: int) -> A
 		var window: Dictionary = value
 		var start_frame := _external_frame_to_godot(int(window.get("startFrame", 1)), frame_index_base)
 		var end_frame := maxi(start_frame, _external_frame_to_godot(int(window.get("endFrame", start_frame + frame_index_base)), frame_index_base))
-		windows.append({"id": String(window.get("id", "")), "start_frame": start_frame, "end_frame": end_frame})
+		windows.append({"id": str(window.get("id", "")), "start_frame": start_frame, "end_frame": end_frame})
 	return windows
 
 
@@ -470,7 +470,7 @@ func _convert_external_sockets(raw_sockets: Variant, display_scale: float, body_
 				"x": float(socket.get("x", 0.0)) * display_scale,
 				"y": body_bottom + float(socket.get("y", 0.0)) * display_scale,
 			})
-		sockets[String(socket_name)] = frames
+		sockets[str(socket_name)] = frames
 	return sockets
 
 
@@ -481,7 +481,7 @@ func _ensure_combat_actions_config(source_dir: String, manifest_data: Dictionary
 	var hit_frame := 0
 	var has_attack := false
 	for action in manifest_data.get("actions", []):
-		if action is Dictionary and String(action.get("actionName", "")) == "attack":
+		if action is Dictionary and str(action.get("actionName", "")) == "attack":
 			has_attack = true
 			hit_frame = maxi(0, int(action.get("frameCount", 1)) / 2)
 			break
@@ -589,7 +589,7 @@ func _ensure_spriteframes_animation_loops(text: String) -> String:
 	var output := ""
 	var cursor := 0
 	for result in regex.search_all(text):
-		var animation_name := String(result.get_string(2))
+		var animation_name := str(result.get_string(2))
 		var loop_value := "1" if _should_animation_loop(animation_name) else "0"
 		output += text.substr(cursor, result.get_start(1) - cursor)
 		output += loop_value

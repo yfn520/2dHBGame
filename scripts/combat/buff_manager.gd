@@ -134,7 +134,7 @@ func get_status_threshold() -> int:
 ## - 非异常 buff：纯概率判定，失败不累积
 func apply_buff_with_pity(config: Dictionary, base_chance: float, source: int = 0, buildup_boost: float = 0.0, pity_increment: float = -1.0) -> bool:
 	var buff_id := int(config.get("id", 0))
-	var status_type := String(config.get("status_type", ""))
+	var status_type := str(config.get("status_type", ""))
 	var is_status_buff := not status_type.is_empty()
 	var actual_chance := clampf(base_chance, 0.0, 1.0)
 	# 未传 pity_increment（<=0）时回落到默认常量
@@ -164,7 +164,7 @@ func get_pity_chance(buff_id: int) -> float:
 
 func apply_buff(config: Dictionary, source: int = 0) -> void:
 	var buff_id := int(config.get("id", 0))
-	var behavior := String(config.get("stack_behavior", "refresh"))
+	var behavior := str(config.get("stack_behavior", "refresh"))
 	# 计算施盾者护盾强度（设计案 7.2），用于 shield effect 吸收量加成
 	var shield_bonus := _resolve_shield_bonus(source)
 	# 护盾总量上限检查（设计案 7.2：不超过 max_hp × 60%）
@@ -224,7 +224,7 @@ func _inject_dot_snapshot(buff: BuffInstance, snap: Dictionary) -> void:
 	for effect in buff.effects:
 		if not (effect is Dictionary):
 			continue
-		if String(effect.get("type", "")) != "dot":
+		if str(effect.get("type", "")) != "dot":
 			continue
 		var ratio := float(effect.get("attack_ratio", 0.0))
 		if ratio <= 0.0:
@@ -263,7 +263,7 @@ func _has_shield_effect(config: Dictionary) -> bool:
 	if not (effects is Array):
 		return false
 	for effect in effects:
-		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+		if effect is Dictionary and str(effect.get("type", "")) == "shield":
 			return true
 	return false
 
@@ -283,7 +283,7 @@ func _can_apply_shield(shield_bonus: float, config: Dictionary) -> bool:
 	# 估算新护盾实际吸收量
 	var new_amount := 0
 	for effect in config.get("effects", []):
-		if effect is Dictionary and String(effect.get("type", "")) == "shield":
+		if effect is Dictionary and str(effect.get("type", "")) == "shield":
 			new_amount += int(roundi(float(int(effect.get("amount", 0))) * (1.0 + shield_bonus)))
 	return current + new_amount <= cap
 
@@ -308,8 +308,8 @@ func remove_buff_by_type(buff_type: String) -> void:
 	var to_remove: Array[BuffInstance] = []
 	for buff in _buffs:
 		for effect in buff.effects:
-			if effect is Dictionary and String(effect.get("type", "")) == "control" \
-			   and String(effect.get("control_type", "")) == buff_type:
+			if effect is Dictionary and str(effect.get("type", "")) == "control" \
+			   and str(effect.get("control_type", "")) == buff_type:
 				to_remove.append(buff)
 				break
 	for buff in to_remove:
@@ -330,8 +330,8 @@ func dispel(category: String, count: int = -1) -> void:
 func has_buff_type(buff_type: String) -> bool:
 	for buff in _buffs:
 		for effect in buff.effects:
-			if effect is Dictionary and String(effect.get("type", "")) == "control" \
-			   and String(effect.get("control_type", "")) == buff_type:
+			if effect is Dictionary and str(effect.get("type", "")) == "control" \
+			   and str(effect.get("control_type", "")) == buff_type:
 				return true
 	return false
 
@@ -384,23 +384,23 @@ func get_modified_stat(stat_name: String, base_value: float) -> float:
 	# 先应用 add（加法）
 	for buff in _buffs:
 		for effect in buff.effects:
-			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
-			   and String(effect.get("stat", "")) == stat_name \
-			   and String(effect.get("mode", "")) == "add":
+			if effect is Dictionary and str(effect.get("type", "")) == "stat_modifier" \
+			   and str(effect.get("stat", "")) == stat_name \
+			   and str(effect.get("mode", "")) == "add":
 				value += float(effect.get("value", 0.0)) * buff.stacks
 	# 再应用 mul（乘法）
 	for buff in _buffs:
 		for effect in buff.effects:
-			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
-			   and String(effect.get("stat", "")) == stat_name \
-			   and String(effect.get("mode", "")) == "mul":
+			if effect is Dictionary and str(effect.get("type", "")) == "stat_modifier" \
+			   and str(effect.get("stat", "")) == stat_name \
+			   and str(effect.get("mode", "")) == "mul":
 				value *= float(effect.get("value", 1.0))
 	# 最后应用 set（覆盖）
 	for buff in _buffs:
 		for effect in buff.effects:
-			if effect is Dictionary and String(effect.get("type", "")) == "stat_modifier" \
-			   and String(effect.get("stat", "")) == stat_name \
-			   and String(effect.get("mode", "")) == "set":
+			if effect is Dictionary and str(effect.get("type", "")) == "stat_modifier" \
+			   and str(effect.get("stat", "")) == stat_name \
+			   and str(effect.get("mode", "")) == "set":
 				value = float(effect.get("value", value))
 	return value
 
@@ -535,8 +535,8 @@ func _calculate_dot_damage(effect: Dictionary, buff: BuffInstance) -> Dictionary
 	else:
 		base_damage = int(effect.get("damage", 0))
 	# 无标签：直接返回（兼容旧 dot，take_damage 旧链路做 defense 减法）
-	var damage_tag := String(effect.get("damage_tag", ""))
-	var damage_channel := String(effect.get("damage_channel", ""))
+	var damage_tag := str(effect.get("damage_tag", ""))
+	var damage_channel := str(effect.get("damage_channel", ""))
 	if damage_tag.is_empty() and damage_channel.is_empty():
 		return {"damage": base_damage * buff.stacks, "dodged": false, "blocked": false, "crit": false}
 	# 有标签：走 DamageCalculator 完整链路
@@ -590,9 +590,9 @@ func _build_dot_defense_context() -> DamageCalculator.DefenseContext:
 				for eff in buff.effects:
 					if not (eff is Dictionary):
 						continue
-					var etype := String(eff.get("type", ""))
+					var etype := str(eff.get("type", ""))
 					if etype == "tag_modifier":
-						var etag := String(eff.get("tag", ""))
+						var etag := str(eff.get("tag", ""))
 						if etag.is_empty():
 							continue
 						tag_vuln[etag] = float(tag_vuln.get(etag, 0.0)) + float(eff.get("vuln_bonus", 0.0))

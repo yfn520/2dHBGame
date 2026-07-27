@@ -105,7 +105,7 @@ func _normalize_equipped(raw_value) -> Dictionary:
 		return result
 	for slot in raw_value:
 		var entry: Dictionary = raw_value[slot]
-		result[normalize_slot(String(slot))] = {
+		result[normalize_slot(str(slot))] = {
 			"uid": int(entry.get("uid", 0)),
 			"item_id": int(entry.get("item_id", 0)),
 		}

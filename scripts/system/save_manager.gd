@@ -1,10 +1,10 @@
 class_name SaveManager
 
 const SAVE_PATH := "user://savegame.json"
-const CURRENT_VERSION := 3
+const CURRENT_VERSION := 4
 
 
-static func save(inventory: InventoryData, equipment: EquipmentData, roster: CharacterRosterData, quest_state: QuestStateData = null) -> void:
+static func save(inventory: InventoryData, equipment: EquipmentData, roster: CharacterRosterData, quest_state: QuestStateData = null, chapter_state: ChapterStateData = null) -> void:
 	var data := {
 		"version": CURRENT_VERSION,
 		"inventory": inventory.to_dict(),
@@ -13,6 +13,7 @@ static func save(inventory: InventoryData, equipment: EquipmentData, roster: Cha
 		"active_character_id": roster.active_character_id,
 		"lineup_ids": roster.lineup_ids,
 		"world_state": quest_state.to_dict() if quest_state != null else {},
+		"chapter_state": chapter_state.to_dict() if chapter_state != null else {},
 	}
 	var file := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if file == null:
@@ -22,7 +23,7 @@ static func save(inventory: InventoryData, equipment: EquipmentData, roster: Cha
 	print("存档已保存")
 
 
-static func load_save(inventory: InventoryData, equipment: EquipmentData, roster: CharacterRosterData, character_config: CharacterConfigData, quest_state: QuestStateData = null) -> bool:
+static func load_save(inventory: InventoryData, equipment: EquipmentData, roster: CharacterRosterData, character_config: CharacterConfigData, quest_state: QuestStateData = null, chapter_state: ChapterStateData = null) -> bool:
 	if not FileAccess.file_exists(SAVE_PATH):
 		roster.setup_defaults(character_config)
 		return false
@@ -54,6 +55,8 @@ static func load_save(inventory: InventoryData, equipment: EquipmentData, roster
 		roster.from_legacy_stats(data.get("stats", {}), character_config)
 	if quest_state != null:
 		quest_state.from_dict(data.get("world_state", {}) if version >= 3 else {})
+	if chapter_state != null and version >= 4:
+		chapter_state.from_dict(data.get("chapter_state", {}))
 	print("存档已加载")
 	return true
 

@@ -3,6 +3,10 @@
 		"title": "铁锋佣兵团正规击杀契约",
 		"description_template": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 {{target_count}} 只 {{target_name}}，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
 		"description": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 1 只 xiao'huei'heu'i，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
+		"quest_kind": "side",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
 		"giver_npc_id": 9001,
 		"turn_in_npc_id": 9001,
 		"objectives": [

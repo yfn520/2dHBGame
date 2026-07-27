@@ -26,12 +26,19 @@ func load_config() -> void:
 			"id": item_id,
 			"name": raw.get("name", ""),
 			"type": raw.get("type", ""),
+			"gear_category": str(raw.get("gear_category", "normal")),
+			"chapter_id": str(raw.get("chapter_id", "")),
+			"is_tradable": raw.get("is_tradable", true),
+			"is_droppable": raw.get("is_droppable", true),
 			"description": raw.get("description", ""),
 			"stackable": raw.get("stackable", false),
 			"max_count": raw.get("max_count", 1),
 			"stats": raw.get("stats", {}),
 			"heal_amount": raw.get("heal_amount", 0),
 			"icon": raw.get("icon", ""),
+			"pact_legacy_id": str(raw.get("pact_legacy_id", "")),
+			"owner_lead_hero_id": int(raw.get("owner_lead_hero_id", 0)),
+			"upgrade_stage": int(raw.get("upgrade_stage", 0)),
 		}
 	_loaded = true
 

@@ -252,4 +252,4 @@ func _get_scene_path_from_json(character_id: int) -> String:
 		return ""
 	var data: Dictionary = json.data
 	var config: Dictionary = data.get(str(character_id), {})
-	return String(config.get("scene", ""))
+	return str(config.get("scene", ""))
