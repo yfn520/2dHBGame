@@ -15,6 +15,11 @@ var sprite_node_scale := Vector2.ONE
 var sprite_centered := true
 var root_position := Vector2.ZERO
 
+## Keep the actor foot/root below the vertical centre so tall sprites retain
+## headroom. Every root-relative overlay uses this same display origin, so the
+## authored offsets for effects, projectiles, hit boxes and ranges stay intact.
+const PREVIEW_FOOT_Y_RATIO := 0.62
+
 # 特效预览层：承载 play_effect 节点配置的特效场景实例
 var _effect_layer: Node2D
 var _effect_clip: Control
@@ -132,7 +137,7 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			var zoom := _compute_zoom()
-			var origin := Vector2(size.x * 0.5, size.y * 0.5 + 12.0)
+			var origin := _preview_origin()
 			var effect_pos := origin + _effect_offset * zoom
 			# 鼠标距特效中心 80px 内开始拖拽（给手柄式交互留足容差）
 			if event.position.distance_to(effect_pos) <= 80.0:
@@ -148,7 +153,7 @@ func _gui_input(event: InputEvent) -> void:
 		var zoom := _compute_zoom()
 		var delta: Vector2 = (event.position - _drag_start_mouse) / zoom
 		_effect_offset = _drag_start_offset + delta
-		var origin := Vector2(size.x * 0.5, size.y * 0.5 + 12.0)
+		var origin := _preview_origin()
 		_effect_layer.position = origin + _effect_offset * zoom
 		queue_redraw()
 		effect_offset_changed.emit(_effect_offset)
@@ -163,6 +168,10 @@ func _compute_zoom() -> float:
 	var available := size - Vector2(32, 52)
 	var zoom := minf(available.x / world_size.x, available.y / world_size.y)
 	return maxf(0.01, zoom)
+
+
+func _preview_origin() -> Vector2:
+	return Vector2(size.x * 0.5, size.y * PREVIEW_FOOT_Y_RATIO)
 
 
 func _rebuild_effect_instance() -> void:
@@ -242,7 +251,7 @@ func _draw() -> void:
 	var available := size - Vector2(32, 52)
 	var zoom := minf(available.x / world_size.x, available.y / world_size.y)
 	zoom = maxf(0.01, zoom)
-	var origin := Vector2(size.x * 0.5, size.y * 0.5 + 12.0)
+	var origin := _preview_origin()
 	var visual_origin := origin + root_position * zoom + sprite_position * sprite_scale * zoom
 	var draw_scale := zoom * sprite_scale
 	var horizontal_scale := (-draw_scale if facing_right else draw_scale) * sprite_node_scale.x

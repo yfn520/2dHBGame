@@ -1,0 +1,17 @@
+{
+	"shop_grocer": {
+		"npc_id": 9010,
+		"name": "余晖城杂货铺",
+		"goods": ["good_basic_herb", "good_basic_torch", "good_basic_bandage"]
+	},
+	"shop_potion_merchant": {
+		"npc_id": 9011,
+		"name": "余晖城药水铺",
+		"goods": ["good_health_potion_small", "good_mana_potion_small"]
+	},
+	"shop_arms_merchant": {
+		"npc_id": 9012,
+		"name": "余晖城武器店",
+		"goods": ["good_iron_sword", "good_wooden_bow", "good_apprentice_staff"]
+	}
+}

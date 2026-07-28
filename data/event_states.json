@@ -25,5 +25,32 @@
 		"replacement_node_id": "",
 		"states": ["initial", "supplement", "return_town", "aftermath"],
 		"description": "第3章'主契共鸣'事件三态。"
+	},
+	"event_node_ch4_truth_relic_source": {
+		"event_id": "event_node_ch4_truth_relic_source",
+		"chapter_id": "chapter_4",
+		"node_id": "node_ch4_truth_relic_source",
+		"current_state": "initial",
+		"replacement_node_id": "",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第4章'苍蓝港湾真相遗物来源'事件三态: 初见→补全→回城→余波。在胡闹、悬疑、理解的氛围中，借旧远征船日志揭开六地在同一时刻被主动封锁的真相。"
+	},
+	"event_node_ch5_truth_lead": {
+		"event_id": "event_node_ch5_truth_lead",
+		"chapter_id": "chapter_5",
+		"node_id": "node_ch5_truth_lead",
+		"current_state": "initial",
+		"replacement_node_id": "",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第5章'灰烬王城真相线索'事件三态: 初见→补全→回城→余波。在黑色幽默、愤怒、怀疑的氛围中，揭露开局主角亲自参与断脉并同意抹去自己身份的真相。"
+	},
+	"event_node_ch6_final_execution": {
+		"event_id": "event_node_ch6_final_execution",
+		"chapter_id": "chapter_6",
+		"node_id": "node_ch6_final_execution",
+		"current_state": "initial",
+		"replacement_node_id": "",
+		"states": ["initial", "supplement", "return_town", "aftermath"],
+		"description": "第6章'星核深渊终局执行'事件三态: 初见→补全→回城→余波。在熟悉、诱惑、失去、回家的氛围中，执行主角将封印带出星核、诺瓦留下守门的终局选择。"
 	}
 }

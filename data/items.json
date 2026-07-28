@@ -359,5 +359,331 @@
 			"crit_rate": 0.05,
 			"attack": 3
 		}
+	},
+	"100024": {
+		"name": "月影守门之盾",
+		"type": "armor",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_2",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第2章月影遗迹章节具名装备。守门所遗留的盾，铭记阿尔戈断路之责，在荒诞与责任中守住最后一道门。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 6,
+			"max_hp": 35,
+			"block_rate": 0.12
+		}
+	},
+	"100025": {
+		"name": "遗响护符",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_2",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第2章月影遗迹章节具名装备。凝结守门兵遗响记忆的护符，回响未完成的命令后半段。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"max_hp": 20,
+			"defense": 2,
+			"magic_pen_percent": 0.05
+		}
+	},
+	"100026": {
+		"name": "召唤者印记",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_2",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第2章月影遗迹章节具名装备。奥兹拾得的召唤印记，能与旧魔偶共鸣，安静释然地接纳非人伙伴。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 4,
+			"skill_haste": 10
+		}
+	},
+	"100027": {
+		"name": "学院徽章",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_3",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第3章烛塔学院章节具名装备。学员徽章刻着被消耗者的编号，热闹礼堂下藏着不舍。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"max_hp": 25,
+			"magic_pen_percent": 0.08
+		}
+	},
+	"100028": {
+		"name": "毕业证书残页",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_3",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第3章烛塔学院章节具名装备。停办毕业礼残留的证书残页，最后一题答案写着「回家」。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 5,
+			"crit_rate": 0.06
+		}
+	},
+	"100029": {
+		"name": "烛塔法袍",
+		"type": "armor",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_3",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第3章烛塔学院章节具名装备。法师旧袍沾着烛塔火光，滑稽仪式中维持着学院的循环。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 5,
+			"skill_haste": 12,
+			"max_hp": 20
+		}
+	},
+	"100030": {
+		"name": "港湾罗盘",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_4",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第4章苍蓝港湾章节具名装备。旧码头遗落的罗盘，指针停在起航时刻，悬疑中追寻父亲的选择。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"move_speed": 12,
+			"crit_rate": 0.05
+		}
+	},
+	"100031": {
+		"name": "赛壬之歌",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_4",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第4章苍蓝港湾章节具名装备。凝结赛壬歌声的护符，回荡遇难者的声音与未寄出的信。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"magic_pen_percent": 0.1,
+			"skill_haste": 10
+		}
+	},
+	"100032": {
+		"name": "铁壳甲片",
+		"type": "armor",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_4",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第4章苍蓝港湾章节具名装备。铁壳蟹蜕下的甲片，坚硬且沾着海草味，胡闹中藏着理解。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 7,
+			"block_rate": 0.1,
+			"max_hp": 25
+		}
+	},
+	"100033": {
+		"name": "王城号角",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_5",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第5章灰烬王城章节具名装备。被写成逃兵的号手留下的号角，曾独自敲响撤离警报。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 6,
+			"max_hp": 30
+		}
+	},
+	"100034": {
+		"name": "逃兵档案",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_5",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第5章灰烬王城章节具名装备。焚毁档案馆残存的档案，记录着被删改的真相与愤怒。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"defense": 3,
+			"crit_rate": 0.07
+		}
+	},
+	"100035": {
+		"name": "重铸印记",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_5",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第5章灰烬王城章节具名装备。重铸主契遗装的印记，刻着玩家本存档的新名字，怀疑中重塑身份。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 4,
+			"defense": 4
+		}
+	},
+	"100036": {
+		"name": "星核碎片",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_6",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第6章星核深渊章节具名装备。星核崩裂散落的碎片，温热如旧远征队的篝火，熟悉又诱惑。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 7,
+			"magic_pen_percent": 0.1,
+			"max_hp": 30
+		}
+	},
+	"100037": {
+		"name": "旧远征日志",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_6",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第6章星核深渊章节具名装备。旧远征队日志残页，记录着诺瓦留下守门的约定。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"max_hp": 35,
+			"skill_haste": 12
+		}
+	},
+	"100038": {
+		"name": "终局信物",
+		"type": "accessory",
+		"gear_category": "chapter_named",
+		"chapter_id": "chapter_6",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "第6章星核深渊章节具名装备。终局执行后的信物，证明主角带封印离开星核，失去后回家。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 6,
+			"crit_rate": 0.08,
+			"defense": 3
+		}
+	},
+	"100039": {
+		"name": "遗忘之刃",
+		"type": "weapon",
+		"gear_category": "rogue_relic",
+		"chapter_id": "",
+		"is_tradable": false,
+		"is_droppable": true,
+		"description": "肉鸽模式遗物。斩断记忆的刃，每层遗忘换得新的锋芒。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 12,
+			"crit_rate": 0.1
+		}
+	},
+	"100040": {
+		"name": "记忆碎片",
+		"type": "accessory",
+		"gear_category": "rogue_relic",
+		"chapter_id": "",
+		"is_tradable": false,
+		"is_droppable": true,
+		"description": "肉鸽模式遗物。凝结未归属的记忆碎片，回响着未曾发生的可能性。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"max_hp": 40,
+			"skill_haste": 15
+		}
+	},
+	"100041": {
+		"name": "星脉残片",
+		"type": "accessory",
+		"gear_category": "rogue_relic",
+		"chapter_id": "",
+		"is_tradable": false,
+		"is_droppable": true,
+		"description": "肉鸽模式遗物。星脉断裂时的残余，脉动中残留旧日的能量。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"magic_pen_percent": 0.12,
+			"attack": 6
+		}
+	},
+	"100042": {
+		"name": "渊蚀核心",
+		"type": "accessory",
+		"gear_category": "rogue_relic",
+		"chapter_id": "",
+		"is_tradable": false,
+		"is_droppable": true,
+		"description": "肉鸽模式遗物。被驯化的渊蚀之力，吞噬与守护仅一线之隔。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"attack": 8,
+			"defense": 5
+		}
+	},
+	"100043": {
+		"name": "时间沙漏",
+		"type": "accessory",
+		"gear_category": "rogue_relic",
+		"chapter_id": "",
+		"is_tradable": false,
+		"is_droppable": true,
+		"description": "肉鸽模式遗物。控制时间流速的沙漏，沙粒倒流时窥见另一种结局。",
+		"stackable": false,
+		"max_count": 1,
+		"heal_amount": 0,
+		"stats": {
+			"move_speed": 15,
+			"skill_haste": 18
+		}
 	}
 }

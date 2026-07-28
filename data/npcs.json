@@ -4,6 +4,159 @@
 		"asset": "res://assets/npcs/hlk",
 		"dialogue_id": "npc_9001",
 		"default_facing": "right",
-		"interaction_radius": 96
+		"interaction_radius": 96,
+		"chapter_id": "chapter_1",
+		"npc_kind": "functional",
+		"hero_id": 0
+	},
+	"9002": {
+		"name": "柏婶",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9002",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "prologue",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9003": {
+		"name": "老邮差洛伯",
+		"asset": "res://assets/npcs/npc_9003",
+		"dialogue_id": "npc_9003",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_1",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9004": {
+		"name": "守门兵遗响",
+		"asset": "res://assets/npcs/npc_9004",
+		"dialogue_id": "npc_9004",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_2",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9005": {
+		"name": "十七号",
+		"asset": "res://assets/npcs/npc_9005",
+		"dialogue_id": "npc_9005",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_3",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9006": {
+		"name": "父亲",
+		"asset": "res://assets/npcs/npc_9006",
+		"dialogue_id": "npc_9006",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_4",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9007": {
+		"name": "铁壳蟹",
+		"asset": "res://assets/npcs/npc_9007",
+		"dialogue_id": "npc_9007",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_4",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9008": {
+		"name": "号手",
+		"asset": "res://assets/npcs/npc_9008",
+		"dialogue_id": "npc_9008",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_5",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9009": {
+		"name": "诺瓦",
+		"asset": "res://assets/npcs/npc_9009",
+		"dialogue_id": "npc_9009",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_6",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9010": {
+		"name": "余晖城杂货商人",
+		"asset": "res://assets/npcs/npc_9010",
+		"dialogue_id": "npc_9010",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "hub",
+		"npc_kind": "functional",
+		"hero_id": 0
+	},
+	"9011": {
+		"name": "余晖城药水商人",
+		"asset": "res://assets/npcs/npc_9011",
+		"dialogue_id": "npc_9011",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "hub",
+		"npc_kind": "functional",
+		"hero_id": 0
+	},
+	"9012": {
+		"name": "余晖城武器商人",
+		"asset": "res://assets/npcs/npc_9012",
+		"dialogue_id": "npc_9012",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "hub",
+		"npc_kind": "functional",
+		"hero_id": 0
+	},
+	"9013": {
+		"name": "奥兹",
+		"asset": "res://assets/npcs/npc_9013",
+		"dialogue_id": "npc_9013",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_2",
+		"npc_kind": "hero_recruit",
+		"hero_id": 7005
+	},
+	"9014": {
+		"name": "米娅",
+		"asset": "res://assets/npcs/npc_9014",
+		"dialogue_id": "npc_9014",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_3",
+		"npc_kind": "hero_recruit",
+		"hero_id": 7003
+	},
+	"9015": {
+		"name": "凯",
+		"asset": "res://assets/npcs/npc_9015",
+		"dialogue_id": "npc_9015",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_4",
+		"npc_kind": "hero_recruit",
+		"hero_id": 7006
+	},
+	"9016": {
+		"name": "伊莱",
+		"asset": "res://assets/npcs/npc_9016",
+		"dialogue_id": "npc_9016",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "prologue",
+		"npc_kind": "hero_recruit",
+		"hero_id": 7004
 	}
 }

@@ -8,6 +8,22 @@
 		"npc_9001.turn_in_kill_contract": {
 			"type": "turn_in_quest",
 			"quest_id": 1001
+		},
+		"npc_9003.accept_quest": {
+			"type": "start_quest",
+			"quest_id": 1003
+		},
+		"npc_9003.turn_in_quest": {
+			"type": "turn_in_quest",
+			"quest_id": 1003
+		},
+		"npc_9005.accept_quest": {
+			"type": "start_quest",
+			"quest_id": 1005
+		},
+		"npc_9005.turn_in_quest": {
+			"type": "turn_in_quest",
+			"quest_id": 1005
 		}
 	}
 }

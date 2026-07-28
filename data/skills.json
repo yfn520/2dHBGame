@@ -1308,26 +1308,13 @@
 		]
 	},
 	"50122": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"detail": "forward=106.0 width=41.0 scale=1.00 body_half=45.5",
-					"kind": "melee",
-					"max_edge_distance": 79.0,
-					"min_edge_distance": 0.0,
-					"node_index": 2.0,
-					"source": "hit_window"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "30e4cc14bea4ea59"
-		},
-		"cooldown": 1.0,
-		"description": "",
-		"name": "8013_skill",
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "wang'huen 的技能1，播放 skill 动作并使用其第一个命中窗口。",
+		"name": "wang'huen 技能1",
 		"nodes": [
 			{
-				"action": "attack",
+				"action": "skill",
 				"type": "play_animation"
 			},
 			{
@@ -1335,8 +1322,8 @@
 				"type": "wait_hit_window"
 			},
 			{
-				"damage_ratio": 1.0,
-				"result_key": "new_hit",
+				"damage_ratio": 1.5,
+				"result_key": "hit_50122",
 				"type": "melee_damage"
 			},
 			{
@@ -1347,28 +1334,91 @@
 			}
 		]
 	},
+	"50131": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "shu'ju'shi'lai'mu 的默认近战攻击。",
+		"name": "shu'ju'shi'lai'mu 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50131", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
 	"50141": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "shuei'mu 的默认普通攻击。",
+		"name": "shuei'mu 默认攻击",
 		"nodes": [
 			{
-				"action": "skill",
+				"action": "attack",
 				"type": "play_animation"
-			}
+			},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50141", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50151": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "huei'jingju'xiang 的默认近战攻击。",
+		"name": "huei'jingju'xiang 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50151", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
 		]
 	},
 	"50161": {
+		"cast_range": 110.0,
+		"cooldown": 1.0,
+		"description": "焰灵的默认普通攻击。",
+		"name": "焰灵普通攻击",
 		"nodes": [
 			{
-				"action": "skill",
+				"action": "attack",
 				"type": "play_animation"
-			}
+			},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "damage_tag": "fire", "result_key": "hit_50161", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
 		]
 	},
 	"50171": {
+		"cast_range": 90.0,
+		"cooldown": 1.0,
+		"description": "xong'da 的默认普通攻击。",
+		"name": "xong'da 普通攻击",
 		"nodes": [
 			{
-				"action": "skill",
+				"action": "attack",
 				"type": "play_animation"
-			}
+			},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50171", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50181": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "jia'chong 的默认近战攻击。",
+		"name": "jia'chong 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50181", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
 		]
 	},
 	"50191": {
@@ -1386,7 +1436,10 @@
 			"policy": "any_damage_node",
 			"source_hash": "1f0ff7f37ee0b79a"
 		},
+		"cast_range": 80.0,
 		"cooldown": 1.0,
+		"description": "shi'to'ren 的默认近战攻击。",
+		"name": "shi'to'ren 重拳",
 		"nodes": [
 			{
 				"action": "attack",
@@ -1485,6 +1538,396 @@
 			{
 				"type": "end_skill"
 			}
+		]
+	},
+	"50201": {
+		"cast_range": 90.0,
+		"cooldown": 1.0,
+		"description": "jing'yingjia'chong 的默认近战攻击。",
+		"name": "jing'yingjia'chong 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50201", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50211": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "花精的默认近战攻击。",
+		"name": "花精默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "result_key": "hit_50211", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50221": {
+		"cast_range": 100.0,
+		"cooldown": 1.0,
+		"description": "xu'kong'guai 的默认近战攻击。",
+		"name": "xu'kong'guai 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "result_key": "hit_50221", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50231": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "m'fengy 的默认近战攻击。",
+		"name": "m'fengy 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50231", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50241": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "mo'o1 的默认近战攻击。",
+		"name": "mo'o1 默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50241", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50251": {
+		"cast_range": 100.0,
+		"cooldown": 1.0,
+		"description": "鱼人的默认近战攻击。",
+		"name": "鱼人突刺",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50251", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50261": {
+		"cast_range": 90.0,
+		"cooldown": 1.0,
+		"description": "咕噜姆的可调整默认近战攻击。",
+		"name": "咕噜姆默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50261", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50271": {
+		"cast_range": 90.0,
+		"cooldown": 1.0,
+		"description": "阿尔戈的可调整默认近战攻击。",
+		"name": "阿尔戈默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50271", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50281": {
+		"cast_range": 100.0,
+		"cooldown": 1.0,
+		"description": "露米娜的可调整默认近战攻击。",
+		"name": "露米娜默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "result_key": "hit_50281", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50291": {
+		"cast_range": 120.0,
+		"cooldown": 1.0,
+		"description": "赛壬的可调整默认近战攻击。",
+		"name": "赛壬默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "result_key": "hit_50291", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50301": {
+		"cast_range": 100.0,
+		"cooldown": 1.0,
+		"description": "雷欧哈特的可调整默认近战攻击。",
+		"name": "雷欧哈特默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50301", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50311": {
+		"cast_range": 120.0,
+		"cooldown": 1.0,
+		"description": "诺瓦的可调整默认近战攻击。",
+		"name": "诺瓦默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_50311", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50132": {
+		"cast_range": 80.0,
+		"cooldown": 3.0,
+		"description": "shu'ju'shi'lai'mu 的技能1，播放 skill 动作。",
+		"name": "shu'ju'shi'lai'mu 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50132", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50142": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "shuei'mu 的技能1，播放 skill 动作。",
+		"name": "shuei'mu 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50142", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50152": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "huei'jingju'xiang 的技能1，播放 skill 动作。",
+		"name": "huei'jingju'xiang 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50152", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50162": {
+		"cast_range": 120.0,
+		"cooldown": 3.0,
+		"description": "焰灵的技能1，播放 skill 动作。",
+		"name": "焰灵技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.5, "damage_tag": "fire", "result_key": "hit_50162", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50172": {
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "xong'da 的技能1，播放 skill 动作。",
+		"name": "xong'da 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50172", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50182": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "jia'chong 的技能1，播放 skill 动作。",
+		"name": "jia'chong 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50182", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50202": {
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "jing'yingjia'chong 的技能1，播放 skill 动作。",
+		"name": "jing'yingjia'chong 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50202", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50212": {
+		"cast_range": 80.0,
+		"cooldown": 3.0,
+		"description": "花精的技能1，播放 skill 动作。",
+		"name": "花精技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.5, "result_key": "hit_50212", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50222": {
+		"cast_range": 110.0,
+		"cooldown": 3.0,
+		"description": "xu'kong'guai 的技能1，播放 skill 动作。",
+		"name": "xu'kong'guai 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.5, "result_key": "hit_50222", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50232": {
+		"cast_range": 80.0,
+		"cooldown": 3.0,
+		"description": "m'fengy 的技能1，播放 skill 动作。",
+		"name": "m'fengy 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50232", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50242": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "mo'o1 的技能1，播放 skill 动作。",
+		"name": "mo'o1 技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50242", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50252": {
+		"cast_range": 110.0,
+		"cooldown": 3.0,
+		"description": "鱼人的技能1，播放 skill 动作。",
+		"name": "鱼人技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50252", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50262": {
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "咕噜姆的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "咕噜姆技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50262", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50272": {
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "阿尔戈的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "阿尔戈技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50272", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50282": {
+		"cast_range": 120.0,
+		"cooldown": 3.0,
+		"description": "露米娜的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "露米娜技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.5, "result_key": "hit_50282", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50292": {
+		"cast_range": 140.0,
+		"cooldown": 3.0,
+		"description": "赛壬的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "赛壬技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.5, "result_key": "hit_50292", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50302": {
+		"cast_range": 120.0,
+		"cooldown": 3.0,
+		"description": "雷欧哈特的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "雷欧哈特技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50302", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"50312": {
+		"cast_range": 140.0,
+		"cooldown": 3.0,
+		"description": "诺瓦的技能1占位配置，素材导入后播放 skill 动作。",
+		"name": "诺瓦技能1",
+		"nodes": [
+			{"action": "skill", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.5, "result_key": "hit_50312", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
 		]
 	},
 	"6001": {
@@ -2121,6 +2564,45 @@
 			{
 				"type": "end_skill"
 			}
+		]
+	},
+	"6031": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "伊莱的可调整默认攻击。",
+		"name": "伊莱默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_6031", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"6032": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "奥兹的可调整默认攻击。",
+		"name": "奥兹默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_channel": "magic", "damage_ratio": 1.0, "result_key": "hit_6032", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
+		]
+	},
+	"6033": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "凯的可调整默认攻击。",
+		"name": "凯默认攻击",
+		"nodes": [
+			{"action": "attack", "type": "play_animation"},
+			{"hit_window_index": 0.0, "type": "wait_hit_window"},
+			{"damage_ratio": 1.0, "result_key": "hit_6033", "type": "melee_damage"},
+			{"type": "wait_animation_end"},
+			{"type": "end_skill"}
 		]
 	}
 }

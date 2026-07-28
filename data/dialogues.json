@@ -382,5 +382,1926 @@
 				}
 			}
 		}
+	},
+	"npc_9002": {
+		"entry_node": "greeting",
+		"chapter_id": "prologue",
+		"story_node_id": "node_prologue_lead_select",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "柏婶",
+				"text": "柏婶：你好，旅团的人。先坐，碗我多拿了一只。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "柏婶",
+				"text": "我不认得你，可碗多拿了一只，总有你的。锅上还温着，自己盛。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "柏婶",
+				"text": "开了这么多年旅店，来来去去的人多了。我这儿算他们半个家，记不住名字，记得住口味。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "柏婶",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9003": {
+		"entry_node": "quest_state_router",
+		"chapter_id": "chapter_1",
+		"story_node_id": "node_ch1_story_last_letter",
+		"nodes": {
+			"quest_state_router": {
+				"type": "branch",
+				"speaker": "",
+				"text": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "greeting",
+				"choices": [],
+				"routes": [
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1003,
+								"state": "inactive"
+							}
+						],
+						"next_id": "greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1003,
+								"state": "active"
+							}
+						],
+						"next_id": "active_checkin"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1003,
+								"state": "ready"
+							}
+						],
+						"next_id": "ready_greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1003,
+								"state": "completed"
+							}
+						],
+						"next_id": "end"
+					}
+				],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"greeting": {
+				"type": "line",
+				"speaker": "老邮差洛伯",
+				"text": "老邮差洛伯：……你好，旅团的人。",
+				"text_template": "",
+				"next_id": "quest_brief",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"quest_brief": {
+				"type": "line",
+				"speaker": "老邮差洛伯",
+				"text": "关于最后一袋信——找回被抹掉的收件地址的简短说明。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_accept_quest",
+						"intent_key": "accept_quest",
+						"text": "我接受这个委托。",
+						"next_id": "end",
+						"conditions": [],
+						"actions": [
+							{
+								"type": "start_quest",
+								"quest_id": 1003
+							}
+						]
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"active_checkin": {
+				"type": "line",
+				"speaker": "老邮差洛伯",
+				"text": "还在处理最后一袋信——找回被抹掉的收件地址吗？",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 200,
+					"y": 100
+				},
+				"quest_binding": {}
+			},
+			"ready_greeting": {
+				"type": "line",
+				"speaker": "老邮差洛伯",
+				"text": "最后一袋信——找回被抹掉的收件地址完成了，回来交差。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_turn_in_quest",
+						"intent_key": "turn_in_quest",
+						"text": "交付任务。",
+						"next_id": "end",
+						"conditions": [],
+						"actions": [
+							{
+								"type": "turn_in_quest",
+								"quest_id": 1003
+							}
+						]
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 200,
+					"y": 200
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_1",
+				"editor": {
+					"x": 400,
+					"y": 100
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9004": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_2",
+		"story_node_id": "node_ch2_truth_eclipse",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "守门兵遗响",
+				"text": "守门兵遗响：……关闭城门……你好，旅团的人。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "守门兵遗响",
+				"text": "关闭城门……等最后一个孩子过去……再关门。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "守门兵遗响",
+				"text": "我死于执行封门命令。遗响困在最后一道未完成的命令里，史册只留了'关门'，删了'等孩子过去'。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "守门兵遗响",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9005": {
+		"entry_node": "quest_state_router",
+		"chapter_id": "chapter_3",
+		"story_node_id": "node_ch3_truth_pact_legacy",
+		"nodes": {
+			"quest_state_router": {
+				"type": "branch",
+				"speaker": "",
+				"text": "",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "greeting",
+				"choices": [],
+				"routes": [
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1005,
+								"state": "inactive"
+							}
+						],
+						"next_id": "greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1005,
+								"state": "active"
+							}
+						],
+						"next_id": "active_checkin"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1005,
+								"state": "ready"
+							}
+						],
+						"next_id": "ready_greeting"
+					},
+					{
+						"conditions": [
+							{
+								"type": "quest_state",
+								"quest_id": 1005,
+								"state": "completed"
+							}
+						],
+						"next_id": "end"
+					}
+				],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"greeting": {
+				"type": "line",
+				"speaker": "十七号",
+				"text": "十七号：……你好。你是……考官吗？",
+				"text_template": "",
+				"next_id": "quest_brief",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"quest_brief": {
+				"type": "line",
+				"speaker": "十七号",
+				"text": "关于十七号毕业——帮它完成最后一次考试并找到'回家'的简短说明。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_accept_quest",
+						"intent_key": "accept_quest",
+						"text": "我接受这个委托。",
+						"next_id": "end",
+						"conditions": [],
+						"actions": [
+							{
+								"type": "start_quest",
+								"quest_id": 1005
+							}
+						]
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"active_checkin": {
+				"type": "line",
+				"speaker": "十七号",
+				"text": "还在处理十七号毕业——帮它完成最后一次考试并找到'回家'吗？",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 200,
+					"y": 100
+				},
+				"quest_binding": {}
+			},
+			"ready_greeting": {
+				"type": "line",
+				"speaker": "十七号",
+				"text": "十七号毕业——帮它完成最后一次考试并找到'回家'完成了，回来交差。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_turn_in_quest",
+						"intent_key": "turn_in_quest",
+						"text": "交付任务。",
+						"next_id": "end",
+						"conditions": [],
+						"actions": [
+							{
+								"type": "turn_in_quest",
+								"quest_id": 1005
+							}
+						]
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 200,
+					"y": 200
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 400,
+					"y": 100
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9006": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_4",
+		"story_node_id": "node_ch4_truth_relic_source",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "父亲",
+				"text": "父亲：……你好，旅团的人。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "父亲",
+				"text": "我转了舵。船……不能再靠港，渊蚀会跟着上岸。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "父亲",
+				"text": "第一封信答应回家。第二封航海记录里，我把受蚀船带离了港口。港湾把我记作失踪船长。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "父亲",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9007": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_4",
+		"story_node_id": "node_ch4_truth_relic_source",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "铁壳蟹",
+				"text": "铁壳蟹：（它横移两步，钳子举了举，似乎算打招呼。）",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_browse",
+						"intent_key": "ask_for_work",
+						"text": "你这儿有什么？",
+						"next_id": "service",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"service": {
+				"type": "line",
+				"speaker": "铁壳蟹",
+				"text": "（它摊开钳子，地上摆着几样被它偷来的小物件。）",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_leave",
+						"intent_key": "leave",
+						"text": "算了，告辞。",
+						"next_id": "leave",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"leave": {
+				"type": "line",
+				"speaker": "铁壳蟹",
+				"text": "（它横移着退开了。）",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9008": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_5",
+		"story_node_id": "node_ch5_truth_lead",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "号手",
+				"text": "号手：你好，旅团的人。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_5",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "号手",
+				"text": "钟楼我爬上去了。警报我敲了。平民走了。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_5",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "号手",
+				"text": "贵族撤离后，我一个人爬钟楼敲警报让平民离城。史册写我是逃兵。撤离名单……停顿……还在。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_5",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "号手",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_5",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_5",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9009": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_6",
+		"story_node_id": "node_ch6_final_execution",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "诺瓦",
+				"text": "诺瓦：你回来太晚了，旅团的人。……你好。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_6",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "诺瓦",
+				"text": "旧远征队的营地你认得。我守着星核，成了旧制度最后的守门人。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_6",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "诺瓦",
+				"text": "记得主角却先抱怨回来太晚。关系靠摆放习惯、旧装备缺口、营地路线慢慢确认，不靠一次口述讲完。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_6",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "诺瓦",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_6",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_6",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9010": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "余晖城杂货商人",
+				"text": "余晖城杂货商人：你好，旅团的人！来得正好，今天新到了一批好货。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_browse",
+						"intent_key": "browse_goods",
+						"text": "我看看货。",
+						"next_id": "service",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"service": {
+				"type": "line",
+				"speaker": "余晖城杂货商人",
+				"text": "看看有什么需要的。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_leave",
+						"intent_key": "leave",
+						"text": "算了，告辞。",
+						"next_id": "leave",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"leave": {
+				"type": "line",
+				"speaker": "余晖城杂货商人",
+				"text": "走好，下次再来啊。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9011": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "余晖城药水商人",
+				"text": "余晖城药水商人：你好，旅团的人。这瓶加了星露草，喝完精神好。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_browse",
+						"intent_key": "browse_goods",
+						"text": "我看看货。",
+						"next_id": "service",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"service": {
+				"type": "line",
+				"speaker": "余晖城药水商人",
+				"text": "看看有什么需要的。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_leave",
+						"intent_key": "leave",
+						"text": "算了，告辞。",
+						"next_id": "leave",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"leave": {
+				"type": "line",
+				"speaker": "余晖城药水商人",
+				"text": "走好，注意别乱喝。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9012": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "余晖城武器商人",
+				"text": "余晖城武器商人：你好，旅团的人。来，看看这把，刚磨好的。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_browse",
+						"intent_key": "browse_goods",
+						"text": "我看看货。",
+						"next_id": "service",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"service": {
+				"type": "line",
+				"speaker": "余晖城武器商人",
+				"text": "看看有什么需要的。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "choice_leave",
+						"intent_key": "leave",
+						"text": "算了，告辞。",
+						"next_id": "leave",
+						"conditions": [],
+						"actions": []
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"leave": {
+				"type": "line",
+				"speaker": "余晖城武器商人",
+				"text": "走好。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9013": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_2",
+		"story_node_id": "node_ch2_recruit_oz",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "奥兹",
+				"text": "奥兹：……你好。小七，别躲，这是旅团的人。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "奥兹",
+				"text": "它叫小七，不是在攻击，它在打招呼。你挡到它了。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "奥兹",
+				"text": "月影遗迹的遗响一直叫我'哥哥'，可我不记得有弟弟。魔偶的编号刻在背面，不是正面。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "奥兹",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_2",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9014": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_3",
+		"story_node_id": "node_ch3_main_relic_eclipse",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "米娅",
+				"text": "米娅：你好。等等，这叫星楔回路，不叫魔法——抱歉，你们继续。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "米娅",
+				"text": "我修改了断脉术式，把封印转移到主角的星印上。这是星楔回路的副产品。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "米娅",
+				"text": "烛塔学院删掉了断脉术式的记录。等一下，这个符号不对……抱歉，你们继续。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "米娅",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_3",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9015": {
+		"entry_node": "greeting",
+		"chapter_id": "chapter_4",
+		"story_node_id": "node_ch4_recruit_kai",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "凯",
+				"text": "凯：出口在那边。你好。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "凯",
+				"text": "我受雇夺星楔，旧契约还在生效。价格回去再说。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "凯",
+				"text": "苍蓝港湾，我以客援身份进来。他没说实话，但也不是在骗你——剩下的你之后问。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "凯",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "chapter_4",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9016": {
+		"entry_node": "greeting",
+		"chapter_id": "prologue",
+		"story_node_id": "node_prologue_recruit_elai",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "伊莱",
+				"text": "伊莱：名字报一下。伤在哪儿。……你好，旅团的人。",
+				"text_template": "",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "伊莱",
+				"text": "我删过不愿交给家属的死亡记录。这不是仁慈，是……算了。",
+				"text_template": "",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "伊莱",
+				"text": "序章起我就跟着旅团。沉默比祷告有用。你……先止血。",
+				"text_template": "",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "伊莱",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "保重。",
+				"text_template": "",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
 	}
 }

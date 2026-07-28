@@ -5,7 +5,7 @@
 		"class_id": "cleric",
 		"recruit_chapter_id": "prologue",
 		"recruit_node_id": "node_prologue_recruit_elai",
-		"is_fixed_party_member": true,
+		"is_fixed_party_member": false,
 		"force_recruit_on_chapter_enter": true,
 		"description": "序章固定入队的牧师英雄。开局三人队成员之一，主角路线不影响其入队时机。"
 	},
@@ -35,8 +35,8 @@
 		"class_id": "knight",
 		"recruit_chapter_id": "prologue",
 		"recruit_node_id": "node_prologue_lead_select",
-		"is_fixed_party_member": false,
-		"force_recruit_on_chapter_enter": false,
+		"is_fixed_party_member": true,
+		"force_recruit_on_chapter_enter": true,
 		"description": "莱昂作为非主角时的入队配置: 第3章后入队，无主契遗装。"
 	},
 	"recruit_lead_archer": {
@@ -45,8 +45,8 @@
 		"class_id": "archer",
 		"recruit_chapter_id": "prologue",
 		"recruit_node_id": "node_prologue_lead_select",
-		"is_fixed_party_member": false,
-		"force_recruit_on_chapter_enter": false,
+		"is_fixed_party_member": true,
+		"force_recruit_on_chapter_enter": true,
 		"description": "露娜作为非主角时的入队配置: 第3章后入队，无主契遗装。"
 	},
 	"recruit_lead_mage": {
@@ -55,8 +55,8 @@
 		"class_id": "mage",
 		"recruit_chapter_id": "prologue",
 		"recruit_node_id": "node_prologue_lead_select",
-		"is_fixed_party_member": false,
-		"force_recruit_on_chapter_enter": false,
+		"is_fixed_party_member": true,
+		"force_recruit_on_chapter_enter": true,
 		"description": "米娅作为非主角时的入队配置: 第3章后入队，无主契遗装。"
 	}
 }

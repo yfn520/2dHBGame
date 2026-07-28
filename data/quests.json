@@ -3,7 +3,7 @@
 		"title": "铁锋佣兵团正规击杀契约",
 		"description_template": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 {{target_count}} 只 {{target_name}}，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
 		"description": "与铁锋佣兵团队长霍雷克签订西境佣兵公会认可的正式契约，严格遵照规章击杀 1 只 xiao'huei'heu'i，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算。",
-		"quest_kind": "side",
+		"quest_kind": "public",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
@@ -35,6 +35,666 @@
 			"hooks": {
 				"start_intent_key": "accept_kill_contract",
 				"turn_in_intent_key": "turn_in_kill_contract"
+			}
+		}
+	},
+	"1002": {
+		"title": "序章·三人立契",
+		"description_template": "余晖城城门与旅店之间，柏婶为陌生的来客多摆一只碗。在被抹除感与陌生善意中，尚未成形的三人需在星契立约前先安顿下来。",
+		"description": "余晖城城门与旅店之间，柏婶为陌生的来客多摆一只碗。在被抹除感与陌生善意中，尚未成形的三人需在星契立约前先安顿下来。",
+		"quest_kind": "public",
+		"chapter_id": "prologue",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1002_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9002",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "柏婶在余晖城旅店擦拭桌子，话不多但顺手多拿了一只碗，星契立约前的安顿尚未开始。",
+				"active": "你正与柏婶交谈，安顿星契立约前的琐碎事宜，她不追问只记好事。",
+				"ready": "你已与柏婶谈妥安顿事宜，返回柏婶处完成星契立约前的交接。",
+				"completed": "柏婶把碗摆好，三人立契前的安顿已完成，星隙抹去的名字暂时有了落脚处。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1003": {
+		"title": "第1章·最后一袋信",
+		"description_template": "草原驿道尽头的旧邮站，老邮差洛伯守着17封无法投递的信。在荒唐与轻微遗憾中，找回被星隙抹掉的最后一袋信的收件地址。",
+		"description": "草原驿道尽头的旧邮站，老邮差洛伯守着17封无法投递的信。在荒唐与轻微遗憾中，找回被星隙抹掉的最后一袋信的收件地址。",
+		"quest_kind": "public",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100024,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1003_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9003",
+			"objective_type": "collect",
+			"state_text_templates": {
+				"inactive": "老邮差洛伯在旧邮站守着褪色信件，最后一袋信的收件地址已被星隙抹掉，他还在等收件人。",
+				"active": "你正沿草原驿道寻找被抹掉的收件地址线索，洛伯不解释为什么坚持。",
+				"ready": "你已找回最后一袋信的相关凭证，返回旧邮站交给洛伯核验。",
+				"completed": "洛伯接过信件，最后一袋信的收件地址被重新补全，旧邮站的灯又亮了一夜。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1004": {
+		"title": "第2章·木风车与守门兵",
+		"description_template": "月影遗迹的宵禁门前，守门兵遗响日复一日重复'关闭城门'。在荒诞与安静释然中，拼回被官方记录删掉的命令后半段，让木风车重新转动。",
+		"description": "月影遗迹的宵禁门前，守门兵遗响日复一日重复'关闭城门'。在荒诞与安静释然中，拼回被官方记录删掉的命令后半段，让木风车重新转动。",
+		"quest_kind": "public",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9004,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1004_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9004",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "守门兵遗响在宵禁门机械地重复'关闭城门'，被删掉的命令后半段仍未补全。",
+				"active": "你正与守门兵遗响交谈，拼凑被删掉的命令片段，木风车仍未挂回城门。",
+				"ready": "你已拼回完整的封门命令，返回守门兵遗响处交付最后一段。",
+				"completed": "守门兵遗响拼回'等最后一个孩子过去，再关门'，木风车挂上城门，遗响终于安息。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1005": {
+		"title": "第3章·十七号毕业",
+		"description_template": "烛塔学院的清扫魔偶十七号每天参加停办的毕业考试，答案总离题。在热闹与不舍中，帮它完成最后一次考试，找到那道写着'回家'的答案。",
+		"description": "烛塔学院的清扫魔偶十七号每天参加停办的毕业考试，答案总离题。在热闹与不舍中，帮它完成最后一次考试，找到那道写着'回家'的答案。",
+		"quest_kind": "public",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100027,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1005_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9005",
+			"objective_type": "collect",
+			"state_text_templates": {
+				"inactive": "十七号背着扫把在毕业礼堂前等待，停办的考试答案仍未找到。",
+				"active": "你正帮十七号寻找最后一次考试的答案，它答非所问但答案指向关键。",
+				"ready": "你已找到十七号最后一次考试的凭证，返回毕业礼堂交给它。",
+				"completed": "十七号写下'回家'，毕业礼堂的烛火重新点亮，它终于放下扫把。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1006": {
+		"title": "第4章·父亲留下的两封信",
+		"description_template": "苍蓝港湾的漂流瓶滩上，父亲留下的两封信被冲回旧码头。在胡闹与悬疑中，读懂航海记录背后主动转舵的沉默选择。",
+		"description": "苍蓝港湾的漂流瓶滩上，父亲留下的两封信被冲回旧码头。在胡闹与悬疑中，读懂航海记录背后主动转舵的沉默选择。",
+		"quest_kind": "public",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9006,
+		"turn_in_npc_id": 9006,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9006,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1006_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9006",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "父亲在旧码头攥着湿透的信件，回避'回家'话题，两封信的选择仍未读懂。",
+				"active": "你正与父亲交谈，逐字解读航海记录，他多用术语回避真正的原因。",
+				"ready": "你已读懂父亲留下的两封信，返回旧码头完成最后的交接。",
+				"completed": "父亲转舵把受蚀船带离港口的选择被读懂，两封信终于可以交回家属手中。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1007": {
+		"title": "第5章·被写成逃兵的号手",
+		"description_template": "灰烬王城的撤离钟楼下，号手被史书写成临阵逃跑的逃兵。在黑色幽默与愤怒中，修复钟楼、调出撤离名单，把被篡改的名册纠正过来。",
+		"description": "灰烬王城的撤离钟楼下，号手被史书写成临阵逃跑的逃兵。在黑色幽默与愤怒中，修复钟楼、调出撤离名单，把被篡改的名册纠正过来。",
+		"quest_kind": "public",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9008,
+		"turn_in_npc_id": 9008,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1007_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9008",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "号手在撤离钟楼下抱着生锈的号角，被写成逃兵的名册尚未纠正。",
+				"active": "你正与号手交谈，修复钟楼并寻找撤离名单的佐证，他提到名单时停顿。",
+				"ready": "你已找到纠正名册的凭证，返回号手处完成最后的交接。",
+				"completed": "号手敲响修好的钟，纪功墙上补回无名号手的名字，逃兵的污名终于洗清。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1008": {
+		"title": "莱昂·封门命令的回响",
+		"description_template": "月影遗迹的守门兵遗响困在未完成的封门命令里。莱昂曾主动执行最后一道封门命令，此刻需直面命令是否值得服从，击杀渊蚀构造体并拼回命令后半段。",
+		"description": "月影遗迹的守门兵遗响困在未完成的封门命令里。莱昂曾主动执行最后一道封门命令，此刻需直面命令是否值得服从，击杀渊蚀构造体并拼回命令后半段。",
+		"quest_kind": "profession",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 7001,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1008_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9004",
+			"objective_type": "kill",
+			"state_text_templates": {
+				"inactive": "守门兵遗响在月影遗迹重复封门命令，莱昂尚未直面自己执行过的那道命令。",
+				"active": "莱昂正与守门兵遗响共同面对渊蚀构造体，命令的后半段仍未拼回。",
+				"ready": "莱昂已击杀目标，返回守门兵遗响处核验封门命令的回响。",
+				"completed": "莱昂直面封门命令的回响，守门兵遗响拼回完整命令，命令是否值得服从有了答案。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1009": {
+		"title": "露娜·消失的撤离路",
+		"description_template": "月影遗迹的撤离路在地图上消失。露娜曾找到撤离路后亲手毁掉沿途标记，此刻需在荒诞与责任中击杀渊蚀构造体，重新看清被自己抹掉的路。",
+		"description": "月影遗迹的撤离路在地图上消失。露娜曾找到撤离路后亲手毁掉沿途标记，此刻需在荒诞与责任中击杀渊蚀构造体，重新看清被自己抹掉的路。",
+		"quest_kind": "profession",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 7002,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1009_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9004",
+			"objective_type": "kill",
+			"state_text_templates": {
+				"inactive": "守门兵遗响困在封门命令里，露娜尚未面对自己毁掉的撤离标记。",
+				"active": "露娜正沿月影遗迹追击渊蚀构造体，被她毁掉的沿途标记仍未补回。",
+				"ready": "露娜已击杀目标，返回守门兵遗响处核验消失的撤离路。",
+				"completed": "露娜看清了道路从地图消失的原因，亲手毁掉的标记被重新理解，撤离路有了答案。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1010": {
+		"title": "米娅·删除断脉术式",
+		"description_template": "烛塔学院的封存档案里藏着被删除的断脉术式。米娅曾修改术式把封印转移到主角星印，此刻需在热闹与不舍中收集凭证，找到被删除的研究。",
+		"description": "烛塔学院的封存档案里藏着被删除的断脉术式。米娅曾修改术式把封印转移到主角星印，此刻需在热闹与不舍中收集凭证，找到被删除的研究。",
+		"quest_kind": "profession",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 7003,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100027,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1010_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9005",
+			"objective_type": "collect",
+			"state_text_templates": {
+				"inactive": "十七号在毕业礼堂前等待，米娅尚未找到被删除的断脉术式凭证。",
+				"active": "米娅正与十七号一起寻找封存档案位置，被删除的研究仍未浮出。",
+				"ready": "米娅已收集到凭证，返回十七号处核验被删除的断脉术式。",
+				"completed": "米娅读懂了被删除的研究，断脉术式转移封印的真相被记录，十七号的答案指向回家。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1011": {
+		"title": "伊莱·被删除的死亡记录",
+		"description_template": "余晖城旅店里，伊莱删掉过不愿交给家属的死亡记录。在被抹除感与陌生善意中，回应他序章加入旅团的请求，直面那份沉默承担的道德重量。",
+		"description": "余晖城旅店里，伊莱删掉过不愿交给家属的死亡记录。在被抹除感与陌生善意中，回应他序章加入旅团的请求，直面那份沉默承担的道德重量。",
+		"quest_kind": "personal",
+		"chapter_id": "prologue",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7004,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1011_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9016",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "伊莱在余晖城旅店等待，他删掉过的死亡记录仍未交出。",
+				"active": "你正与伊莱交谈，他先确认姓名伤势再说话，话说到一半会停。",
+				"ready": "你已回应伊莱的加入请求，返回他处完成序章招募的最后交接。",
+				"completed": "伊莱加入旅团，被删除的死亡记录被默默承担，星契立约前多了一位沉默的牧师。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1012": {
+		"title": "奥兹·魔偶的旧称呼",
+		"description_template": "月影遗迹的魔偶把奥兹当作亲人，一直叫他'哥哥'。在荒诞与安静释然中，击杀渊蚀构造体，回应魔偶的旧称呼并接纳奥兹。",
+		"description": "月影遗迹的魔偶把奥兹当作亲人，一直叫他'哥哥'。在荒诞与安静释然中，击杀渊蚀构造体，回应魔偶的旧称呼并接纳奥兹。",
+		"quest_kind": "personal",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7005,
+		"giver_npc_id": 9013,
+		"turn_in_npc_id": 9013,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1012_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9013",
+			"objective_type": "kill",
+			"state_text_templates": {
+				"inactive": "奥兹在月影遗迹与魔偶对话，被他当成哥哥的旧称呼仍未回应。",
+				"active": "奥兹正与魔偶一起面对渊蚀构造体，旧称呼背后的旧称呼仍未说出口。",
+				"ready": "奥兹已击杀目标，返回他处回应魔偶的旧称呼。",
+				"completed": "奥兹回应了魔偶的旧称呼，加入旅团但不交过去，月影遗迹的魔偶有了名字。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1013": {
+		"title": "凯·星楔守护者的旧契约",
+		"description_template": "苍蓝港湾出现的刺客凯，受雇夺取星楔，旧契约仍然有效。在胡闹与悬疑中，击杀目标，面对这份旧契约并接纳他。",
+		"description": "苍蓝港湾出现的刺客凯，受雇夺取星楔，旧契约仍然有效。在胡闹与悬疑中，击杀目标，面对这份旧契约并接纳他。",
+		"quest_kind": "personal",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7006,
+		"giver_npc_id": 9015,
+		"turn_in_npc_id": 9015,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8030,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1013_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9015",
+			"objective_type": "kill",
+			"state_text_templates": {
+				"inactive": "凯在苍蓝港口等待，针对星楔守护者的旧契约仍然生效。",
+				"active": "凯正与你共同面对目标，旧契约的雇主姓名仍未交出。",
+				"ready": "凯已击杀目标，返回他处面对旧契约的最后交接。",
+				"completed": "凯面对旧契约加入旅团，雇主姓名仍留一截，出口在那边。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1014": {
+		"title": "莱昂·号手与封门命令",
+		"description_template": "灰烬王城的号手被写成逃兵，莱昂曾执行最后一道封门命令。在黑色幽默与怀疑中，与号手交谈，面对命令是否值得服从的回响。",
+		"description": "灰烬王城的号手被写成逃兵，莱昂曾执行最后一道封门命令。在黑色幽默与怀疑中，与号手交谈，面对命令是否值得服从的回响。",
+		"quest_kind": "personal",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7001,
+		"giver_npc_id": 9008,
+		"turn_in_npc_id": 9008,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1014_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9008",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "号手在撤离钟楼下等待，莱昂尚未面对自己封门命令与号手逃兵名册的回响。",
+				"active": "莱昂正与号手交谈，修复钟楼并寻找命令是否值得服从的佐证。",
+				"ready": "莱昂已找到凭证，返回号手处完成最后的交接。",
+				"completed": "莱昂面对了封门命令的回响，号手的名册被纠正，命令是否值得服从有了答案。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1015": {
+		"title": "露娜·撤离路与消失的标记",
+		"description_template": "灰烬王城的号手被写成逃兵，露娜曾毁掉撤离路的沿途标记。在黑色幽默与怀疑中，与号手交谈，看清道路从地图消失的真正原因。",
+		"description": "灰烬王城的号手被写成逃兵，露娜曾毁掉撤离路的沿途标记。在黑色幽默与怀疑中，与号手交谈，看清道路从地图消失的真正原因。",
+		"quest_kind": "personal",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7002,
+		"giver_npc_id": 9008,
+		"turn_in_npc_id": 9008,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1015_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9008",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "号手在撤离钟楼下等待，露娜尚未面对自己毁掉的撤离路与号手名册的回响。",
+				"active": "露娜正与号手交谈，寻找道路从地图消失的佐证。",
+				"ready": "露娜已找到凭证，返回号手处完成最后的交接。",
+				"completed": "露娜看清了道路消失的原因，号手的名册被纠正，毁掉的标记被重新理解。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		}
+	},
+	"1016": {
+		"title": "米娅·转移封印的术式",
+		"description_template": "灰烬王城的号手被写成逃兵，米娅曾修改断脉术式转移封印。在黑色幽默与怀疑中，与号手交谈，找到被删除研究与名册之间的关联。",
+		"description": "灰烬王城的号手被写成逃兵，米娅曾修改断脉术式转移封印。在黑色幽默与怀疑中，与号手交谈，找到被删除研究与名册之间的关联。",
+		"quest_kind": "personal",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 7003,
+		"giver_npc_id": 9008,
+		"turn_in_npc_id": 9008,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [
+				{
+					"item_id": 100001,
+					"count": 3
+				}
+			],
+			"flags": [
+				"quest_1016_completed"
+			]
+		},
+		"authoring": {
+			"dialogue_id": "npc_9008",
+			"objective_type": "talk",
+			"state_text_templates": {
+				"inactive": "号手在撤离钟楼下等待，米娅尚未找到被删除研究与号手名册的关联。",
+				"active": "米娅正与号手交谈，寻找被删除断脉术式的佐证。",
+				"ready": "米娅已找到凭证，返回号手处完成最后的交接。",
+				"completed": "米娅找到了被删除研究与名册的关联，转移封印的术式被记录，号手的名册被纠正。"
+			},
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
 			}
 		}
 	}

@@ -1,0 +1,44 @@
+{
+	"drop_8027_guluom": {
+		"enemy_id": 8027,
+		"drops": [
+			{"item_id": 100021, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	},
+	"drop_8028_argo": {
+		"enemy_id": 8028,
+		"drops": [
+			{"item_id": 100024, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	},
+	"drop_8029_lumina": {
+		"enemy_id": 8029,
+		"drops": [
+			{"item_id": 100027, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	},
+	"drop_8030_siren": {
+		"enemy_id": 8030,
+		"drops": [
+			{"item_id": 100030, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	},
+	"drop_8031_leohart": {
+		"enemy_id": 8031,
+		"drops": [
+			{"item_id": 100033, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	},
+	"drop_8032_nova": {
+		"enemy_id": 8032,
+		"drops": [
+			{"item_id": 100036, "chance": 1.0, "count": 1},
+			{"item_id": 100001, "chance": 0.5, "count": 3}
+		]
+	}
+}
