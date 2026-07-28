@@ -1,6 +1,8 @@
 ﻿extends Node2D
 ## 游戏根节点：只持有 UIRoot 作为唯一 UI 入口，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
 
+const TEST_SETTINGS_PATH := "res://data/test_settings.json"
+
 @onready var level_container: Node2D = $LevelContainer
 @onready var party_manager: PartyManager = $Player
 @onready var ui_root: UIRoot = $UIRoot
@@ -68,12 +70,36 @@ func _on_active_character_changed(character: CharacterBody2D) -> void:
 
 
 func _load_start_level() -> void:
+	var debug_level_id := _get_debug_start_level_id()
+	if debug_level_id > 0:
+		var debug_level: Dictionary = GameRegistry.level_config.get_level(debug_level_id)
+		if not debug_level.is_empty():
+			print("[GameRoot] 使用测试出生关卡: %s (%s)" % [
+				debug_level.get("name", ""),
+				debug_level_id,
+			])
+			_level_manager.load_level(debug_level_id)
+			return
+		push_warning("[GameRoot] 测试出生关卡不存在，改用默认首关: %d" % debug_level_id)
 	var first: Dictionary = GameRegistry.level_config.get_first_level()
 	if not first.is_empty():
 		_level_manager.load_level(int(first.get("id", 1)))
 	else:
 		# 配置表为空时使用场景中已有的关卡
 		_place_player_at_spawn()
+
+
+func _get_debug_start_level_id() -> int:
+	if not OS.is_debug_build() or not FileAccess.file_exists(TEST_SETTINGS_PATH):
+		return 0
+	var file := FileAccess.open(TEST_SETTINGS_PATH, FileAccess.READ)
+	if file == null:
+		return 0
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
+		push_warning("[GameRoot] 测试出生关卡配置解析失败，改用默认首关")
+		return 0
+	return int((json.data as Dictionary).get("start_level_id", 0))
 
 
 func _on_level_loaded(level_id: int, level_name: String) -> void:

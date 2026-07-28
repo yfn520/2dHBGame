@@ -16,6 +16,7 @@ extends Window
 
 const LEVELS_PATH := "res://data/levels.json"
 const ENEMIES_PATH := "res://data/enemies.json"
+const TEST_SETTINGS_PATH := "res://data/test_settings.json"
 const SCENE_DIR_HINT := "res://scenes"
 
 var _levels: Dictionary = {}          # id_str → level dict
@@ -24,9 +25,13 @@ var _current_level_id: String = ""
 var _selected_spawn_id: String = ""
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
 var _loading := false
+var _test_start_level_id := 0
+var _updating_test_start_check := false
 
 # ---- UI: 关卡选择（顶部下拉）----
 var _level_picker: OptionButton
+var _test_start_check: CheckBox
+var _test_start_label: Label
 
 # ---- UI: 关卡属性 ----
 var _name_edit: LineEdit
@@ -120,6 +125,10 @@ func open_editor() -> void:
 func _load_data() -> void:
 	_levels = _read_json(LEVELS_PATH).duplicate(true)
 	_enemies_cfg = _read_json(ENEMIES_PATH).duplicate(true)
+	var test_settings := _read_json(TEST_SETTINGS_PATH)
+	_test_start_level_id = int(test_settings.get("start_level_id", 0))
+	if _test_start_level_id > 0 and not _levels.has(str(_test_start_level_id)):
+		_test_start_level_id = 0
 	_normalize_all_levels()
 	_preview_textures.clear()
 	_refresh_enemy_palette()
@@ -240,6 +249,15 @@ func _build_ui() -> void:
 	_add_btn(level_bar, "新建关卡", _on_new_level)
 	_add_btn(level_bar, "复制关卡", _on_duplicate_level)
 	_add_btn(level_bar, "删除关卡", _on_delete_level)
+	level_bar.add_child(VSeparator.new())
+	_test_start_check = CheckBox.new()
+	_test_start_check.text = "设为测试出生关卡"
+	_test_start_check.tooltip_text = "调试运行时从当前关卡出生；正式导出仍从默认首关开始。"
+	_test_start_check.toggled.connect(_on_test_start_toggled)
+	level_bar.add_child(_test_start_check)
+	_test_start_label = Label.new()
+	_test_start_label.tooltip_text = _test_start_check.tooltip_text
+	level_bar.add_child(_test_start_label)
 
 	# 顶部第二行：地图工具栏
 	var toolbar := HBoxContainer.new()
@@ -545,10 +563,57 @@ func _on_level_selected(index: int) -> void:
 		return
 	_current_level_id = String(_level_picker.get_item_metadata(index))
 	_selected_spawn_id = ""
+	_refresh_test_start_ui()
 	_load_level_fields()
 	_refresh_spawn_list()
 	_load_map_for_current_level()
 	_refresh_markers()
+
+
+func _refresh_test_start_ui() -> void:
+	if _test_start_check == null or _test_start_label == null:
+		return
+	_updating_test_start_check = true
+	_test_start_check.disabled = _current_level_id.is_empty()
+	_test_start_check.button_pressed = (
+		not _current_level_id.is_empty()
+		and int(_current_level_id) == _test_start_level_id
+	)
+	_updating_test_start_check = false
+	if _test_start_level_id <= 0:
+		_test_start_label.text = "当前：默认首关"
+		return
+	var level: Dictionary = _levels.get(str(_test_start_level_id), {})
+	var level_name := String(level.get("name", ""))
+	_test_start_label.text = "当前：#%d %s" % [_test_start_level_id, level_name]
+
+
+func _on_test_start_toggled(enabled: bool) -> void:
+	if _updating_test_start_check or _current_level_id.is_empty():
+		return
+	var previous_level_id := _test_start_level_id
+	_test_start_level_id = int(_current_level_id) if enabled else 0
+	if not _write_test_settings():
+		_test_start_level_id = previous_level_id
+		_refresh_test_start_ui()
+		_status.text = "无法写入测试出生关卡配置。"
+		return
+	_refresh_test_start_ui()
+	if enabled:
+		_status.text = "调试运行将从关卡 %s 出生；正式导出不受影响。" % _current_level_id
+	else:
+		_status.text = "已恢复从默认首关出生。"
+	_show_toast("测试出生关卡已更新")
+
+
+func _write_test_settings() -> bool:
+	var file := FileAccess.open(TEST_SETTINGS_PATH, FileAccess.WRITE)
+	if file == null:
+		return false
+	file.store_string(JSON.stringify({"start_level_id": _test_start_level_id}, "\t") + "\n")
+	if Engine.is_editor_hint():
+		EditorInterface.get_resource_filesystem().scan()
+	return true
 
 
 func _load_level_fields() -> void:
@@ -674,9 +739,13 @@ func _on_duplicate_level() -> void:
 func _on_delete_level() -> void:
 	if _current_level_id.is_empty():
 		return
+	var deleted_level_id := int(_current_level_id)
 	_levels.erase(_current_level_id)
 	_current_level_id = ""
 	_selected_spawn_id = ""
+	if deleted_level_id == _test_start_level_id:
+		_test_start_level_id = 0
+		_write_test_settings()
 	_refresh_level_picker()
 	_status.text = "已删除关卡（点击保存后生效）。"
 

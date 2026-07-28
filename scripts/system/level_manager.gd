@@ -9,11 +9,16 @@ signal level_unloaded(level_id: int)
 var _current_level_id: int = -1
 var _level_container: Node2D
 var _player: CharacterBody2D
+var _current_level_bounds := Rect2()
+var _has_current_level_bounds := false
 
 
 func setup(level_container: Node2D, player: CharacterBody2D) -> void:
 	_level_container = level_container
 	_player = player
+	# 切换主控英雄后，新英雄的 Camera2D 也必须继承当前关卡边界。
+	if _has_current_level_bounds:
+		_apply_camera_bounds(_current_level_bounds)
 
 
 func get_current_level_id() -> int:
@@ -91,48 +96,55 @@ func teleport_to(level_id: int, pos: Vector2) -> void:
 
 
 ## 扫描关卡场景里所有 Sprite2D 的世界 AABB，算出整体边界并设置玩家相机 limit。
-## 覆盖 player.gd 里硬编码的 1376×768，支持任意尺寸的拼接地图。
+## 使用 Sprite2D 的实际局部矩形和 global_transform，兼容缩放、翻转及父节点变换。
 func _apply_camera_limits(level_instance: Node) -> void:
+	var min_x := INF
+	var min_y := INF
+	var max_x := -INF
+	var max_y := -INF
+	for child in level_instance.find_children("*", "Sprite2D", true, false):
+		var sprite := child as Sprite2D
+		if sprite == null or sprite.texture == null:
+			continue
+		var local_rect := sprite.get_rect()
+		var transform := sprite.global_transform
+		var corners := [
+			transform * local_rect.position,
+			transform * Vector2(local_rect.end.x, local_rect.position.y),
+			transform * local_rect.end,
+			transform * Vector2(local_rect.position.x, local_rect.end.y),
+		]
+		for corner: Vector2 in corners:
+			min_x = minf(min_x, corner.x)
+			min_y = minf(min_y, corner.y)
+			max_x = maxf(max_x, corner.x)
+			max_y = maxf(max_y, corner.y)
+	if is_inf(min_x):
+		_has_current_level_bounds = false
+		return
+	_current_level_bounds = Rect2(
+		Vector2(min_x, min_y),
+		Vector2(max_x - min_x, max_y - min_y)
+	)
+	_has_current_level_bounds = true
+	_apply_camera_bounds(_current_level_bounds)
+
+
+func _apply_camera_bounds(bounds: Rect2) -> void:
 	if _player == null:
 		return
 	var camera: Camera2D = _player.get_node_or_null("Camera2D")
 	if camera == null:
 		return
-	var min_x := INF
-	var min_y := INF
-	var max_x := -INF
-	var max_y := -INF
-	for sprite in level_instance.find_children("*", "Sprite2D", true, false):
-		var tex: Texture2D = sprite.texture
-		if tex == null:
-			continue
-		var half_w := tex.get_width() / 2.0
-		var half_h := tex.get_height() / 2.0
-		var pos: Vector2 = sprite.global_position
-		var left: float
-		var right: float
-		var top: float
-		var bottom: float
-		if sprite.centered:
-			left = pos.x - half_w
-			right = pos.x + half_w
-			top = pos.y - half_h
-			bottom = pos.y + half_h
-		else:
-			left = pos.x
-			right = pos.x + tex.get_width()
-			top = pos.y
-			bottom = pos.y + tex.get_height()
-		min_x = minf(min_x, left)
-		min_y = minf(min_y, top)
-		max_x = maxf(max_x, right)
-		max_y = maxf(max_y, bottom)
-	if is_inf(min_x):
-		return
-	camera.limit_left = int(min_x)
-	camera.limit_top = int(min_y)
-	camera.limit_right = int(max_x)
-	camera.limit_bottom = int(max_y)
+	camera.limit_left = floori(bounds.position.x)
+	camera.limit_top = floori(bounds.position.y)
+	camera.limit_right = ceili(bounds.end.x)
+	camera.limit_bottom = ceili(bounds.end.y)
+	camera.limit_smoothed = true
+	if _player.has_method("configure_level_camera"):
+		_player.configure_level_camera(bounds)
+	else:
+		camera.reset_smoothing()
 	print("[LevelManager] camera limits: L=%d T=%d R=%d B=%d (player y=%f, camera offset=%s)" % [camera.limit_left, camera.limit_top, camera.limit_right, camera.limit_bottom, _player.global_position.y, str(camera.position)])
 
 
@@ -150,3 +162,4 @@ func _unload_current() -> void:
 		old_level.queue_free()
 		level_unloaded.emit(old_id)
 	_current_level_id = -1
+	_has_current_level_bounds = false

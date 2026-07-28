@@ -97,8 +97,17 @@
 		"enemies": [],
 		"name": "senlin",
 		"scene_path": "res://scenes/senlin.tscn",
-		"spawn_x": 886,
-		"spawn_y": 706
+		"spawn_x": 886.0,
+		"spawn_y": 706.0
+	},
+	"17": {
+		"bgm": "",
+		"description": "",
+		"enemies": [],
+		"name": "xingheneihuan",
+		"scene_path": "res://scenes/xingheneihuan.tscn",
+		"spawn_x": 497,
+		"spawn_y": 397
 	},
 	"2": {
 		"bgm": "",
