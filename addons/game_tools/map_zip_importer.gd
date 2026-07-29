@@ -16,6 +16,7 @@ const SCENES_DIR := "res://scenes"
 const LEVELS_PATH := "res://data/levels.json"
 const MAP_SCENE_FILE := "map_stitch_godot.tscn"
 const MAP_JSON_FILE := "map_stitch_godot.json"
+const MAP_RUNTIME_FILE := "map_stitch_runtime.gd"
 
 
 static func import_zip(zip_path: String) -> Dictionary:
@@ -36,6 +37,8 @@ static func import_zip(zip_path: String) -> Dictionary:
 	# 校验 + 收集要写入的文件
 	var has_scene := false
 	var has_json := false
+	var manifest_entry := ""
+	var normalized_files: Array[String] = []
 	for entry in source_files:
 		var p := String(entry).replace("\\", "/").trim_prefix("/")
 		if p.ends_with("/"):
@@ -47,10 +50,22 @@ static func import_zip(zip_path: String) -> Dictionary:
 			has_scene = true
 		if p == MAP_JSON_FILE:
 			has_json = true
+			manifest_entry = String(entry)
+		normalized_files.append(p)
 
-	if not has_scene or not has_json:
+	if not has_scene or not has_json or not normalized_files.has(MAP_RUNTIME_FILE):
 		reader.close()
-		return _failure("不是有效的 GameTool 地图包：需要 %s 和 %s" % [MAP_SCENE_FILE, MAP_JSON_FILE])
+		return _failure("不是有效的 GameTool v2 地图包：缺少场景、清单或线性 mipmap 运行脚本")
+
+	var manifest_json := JSON.new()
+	var manifest_parse_error := manifest_json.parse(reader.read_file(manifest_entry).get_string_from_utf8())
+	if manifest_parse_error != OK or typeof(manifest_json.data) != TYPE_DICTIONARY:
+		reader.close()
+		return _failure("无法解析 %s" % MAP_JSON_FILE)
+	var manifest_validation := _validate_v2_manifest(manifest_json.data, normalized_files)
+	if not bool(manifest_validation.get("ok", false)):
+		reader.close()
+		return manifest_validation
 
 	# 解压到 res://scenes/<map_name>/
 	var target_dir_res := "%s/%s" % [SCENES_DIR, map_name]
@@ -91,10 +106,8 @@ static func import_zip(zip_path: String) -> Dictionary:
 	var parse_err := json.parse(json_text)
 	if parse_err != OK:
 		return _failure("解析 %s 失败" % MAP_JSON_FILE)
-	var canvas: Dictionary = {}
-	if typeof(json.data) == TYPE_DICTIONARY:
-		canvas = json.data.get("canvas", {})
-	var spawn := _get_default_spawn(canvas)
+	var manifest: Dictionary = json.data
+	var spawn := _get_default_spawn(manifest)
 
 	# 生成关卡场景 res://scenes/<map_name>.tscn
 	var root_name := _to_pascal_case(map_name)
@@ -103,7 +116,10 @@ static func import_zip(zip_path: String) -> Dictionary:
 	var tscn := "[gd_scene load_steps=2 format=3]\n\n"
 	tscn += "[ext_resource type=\"PackedScene\" path=\"%s\" id=\"1_map\"]\n\n" % map_scene_res
 	tscn += "[node name=\"%s\" type=\"Node2D\"]\n\n" % root_name
+	tscn += "metadata/profile = \"side_scroller_battle\"\n"
+	tscn += "metadata/ground_line_y = %d\n\n" % int(manifest.get("composition", {}).get("ground_line_y", 605))
 	tscn += "[node name=\"Map\" type=\"Node2D\" parent=\".\" instance=ExtResource(\"1_map\")]\n\n"
+	tscn += "scale = Vector2(1, 1)\n\n"
 	tscn += "[node name=\"PlayerSpawn\" type=\"Marker2D\" parent=\".\"]\n"
 	tscn += "position = Vector2(%d, %d)\n" % [int(spawn.x), int(spawn.y)]
 
@@ -158,13 +174,93 @@ static func _is_safe_archive_path(path: String) -> bool:
 
 ## 默认 spawn 算法（与 import_stitched_world.gd 一致）：
 ## x = clamp(width * 0.12, 96, width - 96)
-## y = clamp(height * 0.46, 96, height - 96)
-static func _get_default_spawn(canvas: Dictionary) -> Vector2:
-	var width := float(canvas.get("width", 1376))
-	var height := float(canvas.get("height", 768))
+## y = v2 composition.ground_line_y（默认 605）
+static func _get_default_spawn(manifest: Dictionary) -> Vector2:
+	var canvas: Dictionary = manifest.get("canvas", {})
+	var composition: Dictionary = manifest.get("composition", {})
+	var width := float(canvas.get("width", 1536))
+	var height := float(canvas.get("height", 864))
 	var spawn_x := clampf(width * 0.12, 96.0, maxf(96.0, width - 96.0))
-	var spawn_y := clampf(height * 0.46, 96.0, maxf(96.0, height - 96.0))
+	var spawn_y := clampf(float(composition.get("ground_line_y", 605)), 96.0, maxf(96.0, height - 96.0))
 	return Vector2(spawn_x, spawn_y)
+
+
+static func _validate_v2_manifest(data: Dictionary, archive_files: Array[String]) -> Dictionary:
+	if int(data.get("version", 0)) != 2:
+		return _failure("地图清单必须为 v2，请回到新版网页拼接工具重新导出")
+	if str(data.get("profile", "")) != "side_scroller_battle":
+		return _failure("地图清单缺少 profile=side_scroller_battle")
+
+	var runtime: Dictionary = data.get("runtime", {})
+	if (
+		int(runtime.get("reference_width", 0)) != 1536
+		or int(runtime.get("reference_height", 0)) != 864
+		or not is_equal_approx(float(runtime.get("pixels_per_world_unit", 0.0)), 1.0)
+		or not is_equal_approx(float(runtime.get("world_scale", 0.0)), 1.0)
+		or not is_equal_approx(float(runtime.get("camera_zoom", 0.0)), 1.0)
+		or str(runtime.get("texture_filter", "")) != "linear_mipmap"
+	):
+		return _failure("runtime 必须使用 1536×864、1px=1单位、scale/zoom=1、linear_mipmap")
+
+	var composition: Dictionary = data.get("composition", {})
+	var ground_line_y := int(composition.get("ground_line_y", -1))
+	var ground_ratio := float(composition.get("ground_ratio", -1.0))
+	if ground_line_y < 570 or ground_line_y > 639:
+		return _failure("地面线越界：必须位于 570–639px")
+	if absf(ground_ratio - float(ground_line_y) / 864.0) > 0.01:
+		return _failure("ground_ratio 与 ground_line_y 不一致")
+
+	var layout: Dictionary = data.get("layout", {})
+	var tile_count := int(layout.get("tile_count", 0))
+	var direction := str(layout.get("direction", ""))
+	if tile_count < 1 or tile_count > 3:
+		return _failure("战斗地图仅支持 1/2/3 块")
+	if (
+		(tile_count == 1 and direction != "center")
+		or (tile_count == 2 and direction != "left" and direction != "right")
+		or (tile_count == 3 and direction != "both")
+	):
+		return _failure("布局方向与块数不匹配")
+
+	var source: Dictionary = data.get("source", {})
+	if int(source.get("width", 0)) != 1536 or int(source.get("height", 0)) != 864:
+		return _failure("源图片必须为 1536×864，旧图不得自动拉伸")
+	var canvas: Dictionary = data.get("canvas", {})
+	if int(canvas.get("height", 0)) != 864:
+		return _failure("禁止纵向拼接：画布高度必须为 864")
+
+	var overlap: Dictionary = data.get("overlap", {})
+	var horizontal_overlap := float(overlap.get("horizontal_percent", 15.0))
+	if tile_count > 1 and (horizontal_overlap < 12.0 or horizontal_overlap > 18.0):
+		return _failure("横向重叠必须位于 12%–18%")
+	if not is_zero_approx(float(overlap.get("vertical_percent", 0.0))):
+		return _failure("禁止战斗地图纵向拼接")
+	var expected_canvas_width := roundi(1536.0 * (tile_count - float(tile_count - 1) * horizontal_overlap / 100.0))
+	if absi(int(canvas.get("width", 0)) - expected_canvas_width) > 2:
+		return _failure("画布宽度与块数/重叠比例不一致")
+
+	var tiles: Array = data.get("tiles", [])
+	if tiles.size() != tile_count:
+		return _failure("图片未完成：tiles 数量与布局块数不一致")
+	for tile_value in tiles:
+		if typeof(tile_value) != TYPE_DICTIONARY:
+			return _failure("tiles 数据格式错误")
+		var tile: Dictionary = tile_value
+		var pixel: Dictionary = tile.get("pixel", {})
+		if int(pixel.get("width", 0)) != 1536 or int(pixel.get("height", 0)) != 864:
+			return _failure("每个拼接块都必须为 1536×864")
+		var image_path := str(tile.get("image", ""))
+		if image_path.is_empty() or not archive_files.has(image_path):
+			return _failure("图片未完成或 ZIP 缺少文件：%s" % image_path)
+
+	var collisions: Dictionary = data.get("collisions", {})
+	if str(collisions.get("mode", "none")) == "none":
+		return _failure("地图缺少碰撞，禁止导入")
+	if tile_count == 1:
+		var wide_fill: Dictionary = layout.get("wide_fill", {})
+		if not bool(wide_fill.get("enabled", false)) or int(wide_fill.get("side_width", 0)) < 240:
+			return _failure("单块地图缺少左右 240px 宽屏装饰补边")
+	return {"ok": true}
 
 
 ## PascalCase 转换（与 import_stitched_world.gd 一致）。

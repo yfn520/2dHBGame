@@ -792,12 +792,19 @@ func _do_import_single_world(base_dir: String, folder_name: String) -> bool:
 	if json.parse(json_text) != OK:
 		push_error("解析 JSON 失败: %s" % raw_json_path)
 		return false
+	var validation_error := _validate_world_manifest_v2(json.data)
+	if not validation_error.is_empty():
+		push_error("跳过 %s: %s" % [folder_name, validation_error])
+		return false
 
 	var root := Node2D.new()
 	root.name = _to_pascal(folder_name)
+	root.set_meta("profile", "side_scroller_battle")
+	root.set_meta("ground_line_y", int(json.data.get("composition", {}).get("ground_line_y", 605)))
 
 	var map_instance := raw_scene.instantiate()
 	map_instance.name = "Map"
+	map_instance.scale = Vector2.ONE
 	root.add_child(map_instance)
 	map_instance.owner = root
 
@@ -831,11 +838,33 @@ func _calc_default_spawn(data: Variant) -> Vector2:
 	if typeof(data) != TYPE_DICTIONARY:
 		return Vector2(160, 350)
 	var canvas: Dictionary = data.get("canvas", {})
-	var width: float = float(canvas.get("width", 1376))
-	var height: float = float(canvas.get("height", 768))
+	var composition: Dictionary = data.get("composition", {})
+	var width: float = float(canvas.get("width", 1536))
+	var height: float = float(canvas.get("height", 864))
 	var spawn_x := clampf(width * 0.12, 96.0, maxf(96.0, width - 96.0))
-	var spawn_y := clampf(height * 0.46, 96.0, maxf(96.0, height - 96.0))
+	var spawn_y := clampf(float(composition.get("ground_line_y", 605)), 96.0, maxf(96.0, height - 96.0))
 	return Vector2(spawn_x, spawn_y)
+
+
+func _validate_world_manifest_v2(data: Variant) -> String:
+	if typeof(data) != TYPE_DICTIONARY:
+		return "清单不是字典"
+	if int(data.get("version", 0)) != 2 or str(data.get("profile", "")) != "side_scroller_battle":
+		return "只接受 v2 side_scroller_battle；旧图请回网页工具重新构图或补画"
+	var source: Dictionary = data.get("source", {})
+	if int(source.get("width", 0)) != 1536 or int(source.get("height", 0)) != 864:
+		return "源图必须为 1536×864，禁止自动拉伸"
+	var canvas: Dictionary = data.get("canvas", {})
+	if int(canvas.get("height", 0)) != 864:
+		return "禁止纵向拼接"
+	var composition: Dictionary = data.get("composition", {})
+	var ground_line_y := int(composition.get("ground_line_y", -1))
+	if ground_line_y < 570 or ground_line_y > 639:
+		return "地面线必须位于 570–639px"
+	var collisions: Dictionary = data.get("collisions", {})
+	if str(collisions.get("mode", "none")) == "none":
+		return "缺少碰撞"
+	return ""
 
 
 # ---- 角色导入 ----

@@ -4,7 +4,7 @@ extends CombatActorBase
 const JUMP_VELOCITY := -420.0
 const LADDER_SPEED := 140.0
 const LADDER_SNAP_SPEED := 1400.0
-const LEVEL_SIZE := Vector2i(1376, 768)
+const LEVEL_SIZE := Vector2i(1536, 864)
 const ALLY_ENGAGE_RANGE := 260.0
 const ALLY_DISENGAGE_RANGE := 360.0
 const ALLY_FOLLOW_LEASH := 260.0
@@ -16,9 +16,12 @@ const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
 const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
 const CAMERA_LONG_MAP_WIDTH_RATIO := 1.35
-const CAMERA_LOOK_AHEAD_VIEWPORT_RATIO := 0.14
-const CAMERA_LOOK_AHEAD_MAX := 180.0
+const CAMERA_LOOK_AHEAD_VIEWPORT_RATIO := 0.125
+const CAMERA_LOOK_AHEAD_MAX := 192.0
 const CAMERA_LOOK_AHEAD_SPEED := 480.0
+const CAMERA_VERTICAL_OFFSET := -173.0
+const ACTOR_BODY_HEIGHT_MIN := 110.0
+const ACTOR_BODY_HEIGHT_MAX := 160.0
 
 var was_jump_pressed := false
 var is_climbing_ladder := false
@@ -43,6 +46,7 @@ var _camera_look_ahead_enabled := false
 var _camera_look_direction := 1.0
 var _camera_look_ahead_x := 0.0
 var _camera_look_ahead_distance := 0.0
+var _camera_vertical_offset := CAMERA_VERTICAL_OFFSET
 
 
 func _setup_actor_specifics() -> void:
@@ -63,7 +67,9 @@ func _setup_actor_specifics() -> void:
 	camera.limit_top = 0
 	camera.limit_right = LEVEL_SIZE.x
 	camera.limit_bottom = LEVEL_SIZE.y
-	_camera_base_position = camera.position
+	camera.zoom = Vector2.ONE
+	_camera_base_position = Vector2(0.0, _camera_vertical_offset)
+	camera.position = _camera_base_position
 	camera.limit_smoothed = true
 	sprite.play("idle")
 
@@ -89,20 +95,23 @@ func set_player_controlled(value: bool) -> void:
 		current_ladder = null
 
 
-## 长横版地图让角色保持在画面的后 1/3 附近，给前进方向保留更多可见空间。
+## 长横版地图使用约 192px 前视，让角色位于画面约 38% 处。
 ## 短地图继续使用原来的居中视角。
-func configure_level_camera(level_bounds: Rect2) -> void:
+func configure_level_camera(level_bounds: Rect2, ground_line_y: float = 605.0) -> void:
 	if camera == null:
 		return
-	var visible_size := get_viewport().get_visible_rect().size
-	var world_view_width := visible_size.x / maxf(0.01, camera.zoom.x)
+	camera.zoom = Vector2.ONE
+	_camera_vertical_offset = LEVEL_SIZE.y * 0.5 - clampf(ground_line_y, 570.0, 639.0)
+	_camera_base_position.y = _camera_vertical_offset
+	# 用逻辑视口判定长图，避免 21:9 物理窗口把双块地图误判为“短地图”。
+	var world_view_width := float(LEVEL_SIZE.x)
 	_camera_look_ahead_enabled = (
 		world_view_width > 0.0
 		and level_bounds.size.x > world_view_width * CAMERA_LONG_MAP_WIDTH_RATIO
 	)
 	_camera_look_ahead_distance = minf(
-		world_view_width * CAMERA_LOOK_AHEAD_VIEWPORT_RATIO,
-		CAMERA_LOOK_AHEAD_MAX
+		minf(world_view_width * CAMERA_LOOK_AHEAD_VIEWPORT_RATIO, CAMERA_LOOK_AHEAD_MAX),
+		maxf(0.0, (level_bounds.size.x - world_view_width) * 0.5)
 	)
 	if absf(velocity.x) > 1.0:
 		_camera_look_direction = signf(velocity.x)
@@ -115,7 +124,7 @@ func configure_level_camera(level_bounds: Rect2) -> void:
 		else 0.0
 	)
 	_camera_look_ahead_x = target_x
-	camera.position.x = _camera_base_position.x + _camera_look_ahead_x
+	camera.position = Vector2(_camera_base_position.x + _camera_look_ahead_x, _camera_vertical_offset)
 	camera.limit_smoothed = true
 	camera.reset_smoothing()
 
@@ -135,7 +144,7 @@ func _update_camera_look_ahead(delta: float) -> void:
 		target_x,
 		CAMERA_LOOK_AHEAD_SPEED * delta
 	)
-	camera.position.x = _camera_base_position.x + _camera_look_ahead_x
+	camera.position = Vector2(_camera_base_position.x + _camera_look_ahead_x, _camera_vertical_offset)
 
 
 func is_player_controlled() -> bool:
@@ -224,6 +233,14 @@ func _apply_character_display_config() -> void:
 
 	var cfg: Dictionary = json.data
 	_load_combat_actions(config_path.get_base_dir(), cfg)
+	var body_box: Dictionary = cfg.get("body_box", {})
+	var authored_body_height := float(body_box.get("height", cfg.get("body_size", {}).get("y", 0.0)))
+	if authored_body_height > 0.0:
+		_actor_scale = clampf(
+			_actor_scale,
+			ACTOR_BODY_HEIGHT_MIN / authored_body_height,
+			ACTOR_BODY_HEIGHT_MAX / authored_body_height
+		)
 	var base_display_scale := float(cfg.get("display_scale", visual_root.scale.x))
 	var display_offset := _get_vector2_from_dict(cfg.get("display_offset", {}), visual_root.position)
 	visual_root.position = display_offset * _actor_scale

@@ -87,12 +87,22 @@ func _import_world(options: Dictionary) -> int:
 	if parse_error != OK:
 		push_error("Failed to parse json: %s" % raw_json_path)
 		return parse_error
+	if (
+		typeof(json.data) != TYPE_DICTIONARY
+		or int(json.data.get("version", 0)) != 2
+		or str(json.data.get("profile", "")) != "side_scroller_battle"
+	):
+		push_error("Only map_stitch_godot.json v2 side_scroller_battle packages are accepted")
+		return ERR_INVALID_DATA
 
 	var root := Node2D.new()
 	root.name = root_name
+	root.set_meta("profile", "side_scroller_battle")
+	root.set_meta("ground_line_y", int(json.data.get("composition", {}).get("ground_line_y", 605)))
 
 	var map_instance := raw_scene.instantiate()
 	map_instance.name = "Map"
+	map_instance.scale = Vector2.ONE
 	root.add_child(map_instance)
 	map_instance.owner = root
 
@@ -132,10 +142,11 @@ func _get_default_spawn(data: Variant) -> Vector2:
 		return Vector2(160, 350)
 
 	var canvas: Dictionary = data.get("canvas", {})
-	var width := float(canvas.get("width", 1376))
-	var height := float(canvas.get("height", 768))
+	var composition: Dictionary = data.get("composition", {})
+	var width := float(canvas.get("width", 1536))
+	var height := float(canvas.get("height", 864))
 	var spawn_x := clampf(width * 0.12, 96.0, maxf(96.0, width - 96.0))
-	var spawn_y := clampf(height * 0.46, 96.0, maxf(96.0, height - 96.0))
+	var spawn_y := clampf(float(composition.get("ground_line_y", 605)), 96.0, maxf(96.0, height - 96.0))
 	return Vector2(spawn_x, spawn_y)
 
 

@@ -11,6 +11,7 @@ var _level_container: Node2D
 var _player: CharacterBody2D
 var _current_level_bounds := Rect2()
 var _has_current_level_bounds := false
+var _current_ground_line_y := 605.0
 
 
 func setup(level_container: Node2D, player: CharacterBody2D) -> void:
@@ -18,7 +19,7 @@ func setup(level_container: Node2D, player: CharacterBody2D) -> void:
 	_player = player
 	# 切换主控英雄后，新英雄的 Camera2D 也必须继承当前关卡边界。
 	if _has_current_level_bounds:
-		_apply_camera_bounds(_current_level_bounds)
+		_apply_camera_bounds(_current_level_bounds, _current_ground_line_y)
 
 
 func get_current_level_id() -> int:
@@ -84,7 +85,7 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 			_player.global_position = spawn_pos
 
 	# 根据关卡场景的 Sprite2D 整体边界动态设置玩家相机边界
-	# （覆盖 player.gd 里硬编码的 1376×768，支持任意尺寸的拼接地图）
+	# （覆盖 player.gd 里的 1536×864 默认边界，支持任意宽度的横向拼接地图）
 	_apply_camera_limits(level_instance)
 
 	level_loaded.emit(level_id, config.get("name", ""))
@@ -104,7 +105,11 @@ func _apply_camera_limits(level_instance: Node) -> void:
 	var max_y := -INF
 	for child in level_instance.find_children("*", "Sprite2D", true, false):
 		var sprite := child as Sprite2D
-		if sprite == null or sprite.texture == null:
+		if (
+			sprite == null
+			or sprite.texture == null
+			or bool(sprite.get_meta("camera_bounds_excluded", false))
+		):
 			continue
 		var local_rect := sprite.get_rect()
 		var transform := sprite.global_transform
@@ -126,11 +131,16 @@ func _apply_camera_limits(level_instance: Node) -> void:
 		Vector2(min_x, min_y),
 		Vector2(max_x - min_x, max_y - min_y)
 	)
+	_current_ground_line_y = clampf(
+		float(level_instance.get_meta("ground_line_y", 605.0)),
+		570.0,
+		639.0
+	)
 	_has_current_level_bounds = true
-	_apply_camera_bounds(_current_level_bounds)
+	_apply_camera_bounds(_current_level_bounds, _current_ground_line_y)
 
 
-func _apply_camera_bounds(bounds: Rect2) -> void:
+func _apply_camera_bounds(bounds: Rect2, ground_line_y: float = 605.0) -> void:
 	if _player == null:
 		return
 	var camera: Camera2D = _player.get_node_or_null("Camera2D")
@@ -140,9 +150,10 @@ func _apply_camera_bounds(bounds: Rect2) -> void:
 	camera.limit_top = floori(bounds.position.y)
 	camera.limit_right = ceili(bounds.end.x)
 	camera.limit_bottom = ceili(bounds.end.y)
+	camera.zoom = Vector2.ONE
 	camera.limit_smoothed = true
 	if _player.has_method("configure_level_camera"):
-		_player.configure_level_camera(bounds)
+		_player.configure_level_camera(bounds, ground_line_y)
 	else:
 		camera.reset_smoothing()
 	print("[LevelManager] camera limits: L=%d T=%d R=%d B=%d (player y=%f, camera offset=%s)" % [camera.limit_left, camera.limit_top, camera.limit_right, camera.limit_bottom, _player.global_position.y, str(camera.position)])
@@ -163,3 +174,4 @@ func _unload_current() -> void:
 		level_unloaded.emit(old_id)
 	_current_level_id = -1
 	_has_current_level_bounds = false
+	_current_ground_line_y = 605.0
