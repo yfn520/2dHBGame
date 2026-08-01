@@ -3083,7 +3083,11 @@ func _skill_fx_track_to_node(track: Dictionary, bundle_id: String, anchor_node: 
 		if baked_visual_scale <= 0.001:
 			baked_visual_scale = 1.0
 		var root_scale := float(transform.get("scale", 1.0)) / baked_visual_scale
-		var has_baked_visual_transform := not projectile_config.is_empty()
+		# Collision/scale metadata alone does not bake a facing direction. Only
+		# orientation metadata should disable runtime alignment to projectile velocity.
+		var has_baked_visual_transform := projectile_config.has("rotation") \
+			or projectile_config.has("flip_h") \
+			or projectile_config.has("faces_by_default")
 		var proj_node := {
 			"type": "spawn_projectile",
 			"scene": scene_path,
