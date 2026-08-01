@@ -25,11 +25,11 @@ GameRegistry="*res://scripts/game_registry.gd"
 
 [display]
 
+window/size/viewport_width=1536
+window/size/viewport_height=864
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation="landscape"
-window/size/viewport_width=1536
-window/size/viewport_height=864
 window/size/width=1536
 window/size/height=864
 

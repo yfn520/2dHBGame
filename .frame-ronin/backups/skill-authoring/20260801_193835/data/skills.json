@@ -1560,18 +1560,9 @@
   },
   "50071": {
     "ai_range_cache": {
+      "entries": [],
       "policy": "any_damage_node",
-      "source_hash": "d5719a9d389a8c2b",
-      "entries": [
-        {
-          "node_index": 2,
-          "source": "projectile",
-          "kind": "projectile",
-          "min_edge_distance": 0,
-          "max_edge_distance": 183.35019685029528,
-          "detail": "ballistic v=500 g=1200 h=93 launch_x=29 range=197 scale=1.00 body_half=40.5"
-        }
-      ]
+      "source_hash": ""
     },
     "cast_range": 10,
     "cooldown": 1,
@@ -1601,22 +1592,10 @@
         "origin": "hit_window",
         "result_key": "projectile_hit",
         "scale": 0.81,
-        "scene": "res://assets/effects/skill_fx/50071/legacy/c99f8a18/projectiles/effect-zhongzi.tscn",
+        "scene": "res://assets/effects/projectiles/effect-zhongzi.tscn",
         "speed": 500,
         "trajectory": "ballistic",
-        "type": "spawn_projectile",
-        "source_bundle_id": "50071",
-        "source_track_id": "legacy_spawn_projectile_3",
-        "mirror": false,
-        "mirror_with_facing": true,
-        "flip_to_velocity": true,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": true,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0,
-        "offset_x": 0,
-        "offset_y": 0
+        "type": "spawn_projectile"
       },
       {
         "type": "wait_animation_end"
@@ -1624,23 +1603,22 @@
       {
         "type": "end_skill"
       }
-    ],
-    "description": ""
+    ]
   },
   "50072": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "cbfe0e5de2d86906",
       "entries": [
         {
-          "node_index": -1,
-          "source": "support",
+          "detail": "纯辅助技能，任意距离可起手",
           "kind": "support",
-          "min_edge_distance": 0,
           "max_edge_distance": 99999,
-          "detail": "纯辅助技能，任意距离可起手"
+          "min_edge_distance": 0,
+          "node_index": -1,
+          "source": "support"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "21d6851ad5c95623"
     },
     "cast_range": 0,
     "cooldown": 3,
@@ -1656,58 +1634,12 @@
         "type": "wait_hit_window"
       },
       {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/50072/godot/effect_scenes/track_spore_burst/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": -162,
-        "offset_y": -95,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": false,
-        "lifetime_ms": 400,
-        "effect_scale": 2.17,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "normal",
-        "source_bundle_id": "50072",
-        "source_track_id": "track_spore_burst"
-      },
-      {
         "buff_ids": [
           20016
         ],
         "effect_offset_x": 26.1224479675293,
         "effect_offset_y": -39.1836700439453,
         "type": "apply_self_buff"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/50072/godot/effect_scenes/track_buff_aura/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": -15,
-        "offset_y": -136,
-        "delay_ms": 0,
-        "anchor": "foot",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": false,
-        "lifetime_ms": 1000,
-        "effect_scale": 0.49,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_layer": "behind",
-        "attachment_blend_mode": "normal",
-        "source_bundle_id": "50072",
-        "source_track_id": "track_buff_aura"
       },
       {
         "type": "wait_animation_end"
@@ -2334,54 +2266,8 @@
         "type": "play_animation"
       },
       {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/50162/godot/effect_scenes/track_slash_arc/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": -92,
-        "offset_y": -149,
-        "delay_ms": 286,
-        "anchor": "origin",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": true,
-        "lifetime_ms": 300,
-        "effect_scale": 1,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "50162",
-        "source_track_id": "track_slash_arc"
-      },
-      {
         "hit_window_index": 0,
         "type": "wait_hit_window"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/50162/godot/effect_scenes/track_impact_burst/effect.tscn",
-        "coordinate_space": "world",
-        "target": "origin",
-        "origin": "hit_window",
-        "offset_x": -155,
-        "offset_y": -97,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": false,
-        "mirror_with_facing": false,
-        "mirror": false,
-        "lifetime_ms": 400,
-        "effect_scale": 1.47,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "50162",
-        "source_track_id": "track_impact_burst"
       },
       {
         "damage_channel": "magic",
@@ -2396,21 +2282,7 @@
       {
         "type": "end_skill"
       }
-    ],
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "88c48893ad791b7c",
-      "entries": [
-        {
-          "node_index": 4,
-          "source": "hit_window",
-          "kind": "melee",
-          "min_edge_distance": 0,
-          "max_edge_distance": 94,
-          "detail": "forward=112.0 width=64.0 scale=1.00 body_half=48.0"
-        }
-      ]
-    }
+    ]
   },
   "50171": {
     "cast_range": 90,

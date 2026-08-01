@@ -1,0 +1,111 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "50072",
+  "skill_id": "50072",
+  "proposal": {
+    "id": "50072-unified",
+    "title": "花妖孢子喷射与狂暴强化",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "track_spore_burst",
+      "phase": "release",
+      "title": "毒素孢子喷射",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 400,
+      "blend_mode": "normal",
+      "layer": 2,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -162,
+          "y": -95
+        },
+        "scale": 2.17,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_spore_burst",
+        "atlas_path": "assets/effects/skill_fx/50072/visual/track_spore_burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50072/godot/effect_scenes/track_spore_burst/effect.tscn",
+        "frame_size": {
+          "width": 175,
+          "height": 210
+        },
+        "frame_count": 7,
+        "fps": 17.5,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "毒素孢子喷射"
+        }
+      }
+    },
+    {
+      "id": "track_buff_aura",
+      "phase": "buff",
+      "title": "狂暴魔力环绕",
+      "trigger": {
+        "type": "after_skill_node",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 2,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "foot",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 1000,
+      "blend_mode": "normal",
+      "layer": -1,
+      "loop": true,
+      "transform": {
+        "offset": {
+          "x": -15,
+          "y": -136
+        },
+        "scale": 0.49,
+        "rotation_degrees": 0,
+        "opacity": 0.8,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_buff_aura",
+        "atlas_path": "assets/effects/skill_fx/50072/visual/track_buff_aura/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50072/godot/effect_scenes/track_buff_aura/effect.tscn",
+        "frame_size": {
+          "width": 154,
+          "height": 150
+        },
+        "frame_count": 4,
+        "fps": 4,
+        "baked_scale": 1,
+        "loop": true,
+        "source": {
+          "kind": "generated",
+          "description": "狂暴魔力环绕"
+        }
+      }
+    }
+  ]
+}

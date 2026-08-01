@@ -1702,7 +1702,7 @@
         "lifetime_ms": 1000,
         "effect_scale": 0.49,
         "rotation_degrees": 0,
-        "opacity": 1,
+        "opacity": 0.8,
         "tint": "#ffffff",
         "attachment_layer": "behind",
         "attachment_blend_mode": "normal",
