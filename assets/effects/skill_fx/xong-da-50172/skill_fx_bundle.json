@@ -1,0 +1,62 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "xong-da-50172",
+  "skill_id": "50172",
+  "proposal": {
+    "id": "xong-da-50172-unified",
+    "title": "xong'da利爪挥击技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "impact-hit-burst",
+      "phase": "impact",
+      "title": "命中打击爆散效果",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "none",
+      "mirror": false,
+      "duration_ms": 222,
+      "blend_mode": "normal",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -141,
+          "y": -84
+        },
+        "scale": 1.64,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "impact-hit-burst",
+        "atlas_path": "assets/effects/skill_fx/xong-da-50172/visual/impact-hit-burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/xong-da-50172/godot/effect_scenes/impact-hit-burst/effect.tscn",
+        "frame_size": {
+          "width": 114,
+          "height": 112
+        },
+        "frame_count": 4,
+        "fps": 18.01801801801802,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "命中打击爆散效果"
+        }
+      }
+    }
+  ]
+}
