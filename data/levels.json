@@ -1,12 +1,10 @@
 {
 	"1": {
 		"bgm": "",
-		"chapter_id": "chapter_1",
 		"description": "初始关卡",
-		"dungeon_room_tag": "normal",
 		"enemies": [
 			{
-				"enemy_id": 8020.0,
+				"enemy_id": 8020,
 				"mode": "point",
 				"spawn_id": "spawn_1",
 				"x": 404.273834228516,
@@ -16,108 +14,104 @@
 		"name": "星地",
 		"npcs": [],
 		"scene_path": "res://scenes/shulin.tscn",
-		"spawn_x": 160.0,
-		"spawn_y": 350.0
+		"spawn_x": 160,
+		"spawn_y": 350
 	},
 	"10": {
 		"bgm": "",
-		"chapter_id": "chapter_4",
 		"description": "苍蓝港湾普通关卡：经漂流瓶滩与旧码头、锚链区，前往暴雨灯塔。",
-		"dungeon_room_tag": "normal",
 		"enemies": [],
 		"name": "苍蓝港湾",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_10.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"11": {
 		"bgm": "",
-		"chapter_id": "chapter_4",
 		"description": "苍蓝港湾 Boss 战：在暴雨灯塔遭遇保存遇难者声音的赛壬。",
-		"dungeon_room_tag": "boss",
 		"enemies": [],
 		"name": "暴雨灯塔",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_11.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/city.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"12": {
 		"bgm": "",
-		"chapter_id": "chapter_5",
 		"description": "灰烬王城普通关卡：穿过难民街与撤离钟楼、焚毁档案馆，直逼王城大门。",
-		"dungeon_room_tag": "normal",
 		"enemies": [],
 		"name": "灰烬王城",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_12.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/city.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"13": {
 		"bgm": "",
-		"chapter_id": "chapter_5",
 		"description": "灰烬王城 Boss 战：在王城大门遭遇封闭王城守住断脉档案的雷欧哈特。",
-		"dungeon_room_tag": "boss",
 		"enemies": [],
 		"name": "王城大门",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_13.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/city2.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"14": {
 		"bgm": "",
-		"chapter_id": "chapter_6",
 		"description": "星核深渊普通关卡：经失落营地与记忆回廊、第七封印，深入星核内环。",
-		"dungeon_room_tag": "normal",
 		"enemies": [],
 		"name": "星核深渊",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_14.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/xingheneihuan.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"15": {
 		"bgm": "",
-		"chapter_id": "chapter_6",
 		"description": "星核深渊 Boss 战：在第七封印前遭遇旧远征队伙伴、最后守门人诺瓦。",
-		"dungeon_room_tag": "boss",
 		"enemies": [],
 		"name": "星核内环",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_15.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/xing.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"16": {
 		"bgm": "",
 		"description": "",
-		"enemies": [],
+		"enemies": [
+			{
+				"enemy_id": 8008,
+				"mode": "point",
+				"spawn_id": "spawn_0",
+				"x": 1221.875,
+				"y": 696.875
+			}
+		],
 		"name": "senlin",
+		"npcs": [],
 		"scene_path": "res://scenes/senlin.tscn",
-		"spawn_x": 886.0,
-		"spawn_y": 706.0
+		"spawn_x": 886,
+		"spawn_y": 706
 	},
 	"17": {
 		"bgm": "",
 		"description": "",
 		"enemies": [],
 		"name": "xingheneihuan",
+		"npcs": [],
 		"scene_path": "res://scenes/xingheneihuan.tscn",
 		"spawn_x": 497,
 		"spawn_y": 397
 	},
 	"2": {
 		"bgm": "",
-		"chapter_id": "chapter_1",
 		"description": "第二关卡",
-		"dungeon_room_tag": "boss",
 		"enemies": [
 			{
-				"count": 3.0,
-				"enemy_id": 8001.0,
+				"count": 3,
+				"enemy_id": 8001,
 				"mode": "group",
 				"scatter_x": 20.0,
 				"spawn_id": "spawn_0",
@@ -128,91 +122,77 @@
 		"name": "丛林",
 		"npcs": [],
 		"scene_path": "res://scenes/jungle_01.tscn",
-		"spawn_x": 160.0,
-		"spawn_y": 350.0
+		"spawn_x": 160,
+		"spawn_y": 350
 	},
 	"3": {
 		"bgm": "",
-		"chapter_id": "hub",
 		"description": "余晖城主城",
-		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city",
 		"npcs": [],
 		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 497.0,
-		"spawn_y": 397.0
+		"spawn_x": 497,
+		"spawn_y": 397
 	},
 	"4": {
 		"bgm": "",
-		"chapter_id": "hub",
 		"description": "余晖城东街",
-		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city2",
 		"npcs": [],
 		"scene_path": "res://scenes/city2.tscn",
-		"spawn_x": 184.0,
-		"spawn_y": 397.0
+		"spawn_x": 184,
+		"spawn_y": 397
 	},
 	"5": {
 		"bgm": "",
-		"chapter_id": "hub",
 		"description": "余晖城港口",
-		"dungeon_room_tag": "town",
 		"enemies": [],
 		"name": "city3",
 		"npcs": [],
 		"scene_path": "res://scenes/city3.tscn",
-		"spawn_x": 184.0,
-		"spawn_y": 397.0
+		"spawn_x": 184,
+		"spawn_y": 397
 	},
 	"6": {
 		"bgm": "",
-		"chapter_id": "chapter_2",
 		"description": "月影遗迹普通关卡：穿越宵禁门与断桥，前往守门所与月影钟楼。",
-		"dungeon_room_tag": "normal",
 		"enemies": [],
 		"name": "月影遗迹",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_6.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/senlin.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"7": {
 		"bgm": "",
-		"chapter_id": "chapter_2",
 		"description": "月影遗迹 Boss 战：在月影钟楼遭遇持续敲宵禁钟的阿尔戈。",
-		"dungeon_room_tag": "boss",
 		"enemies": [],
 		"name": "月影钟楼",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_7.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/xingheneihuan.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"8": {
 		"bgm": "",
-		"chapter_id": "chapter_3",
 		"description": "烛塔学院普通关卡：穿过重复教室与书灵长廊，前往毕业礼堂与四座烛塔。",
-		"dungeon_room_tag": "normal",
 		"enemies": [],
 		"name": "烛塔学院",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_8.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/xing.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	},
 	"9": {
 		"bgm": "",
-		"chapter_id": "chapter_3",
 		"description": "烛塔学院 Boss 战：在毕业礼堂遭遇把学院锁在毕业前一天的露米娜。",
-		"dungeon_room_tag": "boss",
 		"enemies": [],
 		"name": "毕业礼堂",
 		"npcs": [],
-		"scene_path": "res://scenes/levels/level_9.tscn",
-		"spawn_x": 500.0,
-		"spawn_y": 400.0
+		"scene_path": "res://scenes/level_01.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
 	}
 }

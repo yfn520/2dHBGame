@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -155.0,
+    "y": -97.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.47,
+  "effectMirror": false,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 168,
+    "height": 187
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/50162/godot/effect_scenes/track_impact_burst/effect.tscn",
+  "fps": 12.5,
+  "frameCount": 5
+}

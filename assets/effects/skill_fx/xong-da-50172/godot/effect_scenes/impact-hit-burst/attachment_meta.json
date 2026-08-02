@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -141.0,
+    "y": -84.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.64,
+  "effectMirror": false,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 114,
+    "height": 112
+  },
+  "layer": "front",
+  "blendMode": "normal",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/xong-da-50172/godot/effect_scenes/impact-hit-burst/effect.tscn",
+  "fps": 18.01801801801802,
+  "frameCount": 4
+}

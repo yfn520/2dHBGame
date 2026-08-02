@@ -1,0 +1,87 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "gong-sho-6011",
+  "skill_id": "6011",
+  "proposal": {
+    "id": "gong-sho-6011-unified",
+    "title": "弓手普攻 · 当前特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "legacy_spawn_projectile_3",
+      "phase": "projectile",
+      "title": "旧弹道 #3",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "preview_position",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 83.33333333333333,
+      "blend_mode": "normal",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -74.8028182983398,
+          "y": -101.732398986816
+        },
+        "scale": 0.5,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 29.75,
+          "height": 4.5
+        },
+        "collision_offset": {
+          "x": 0.375,
+          "y": 0
+        },
+        "baked_sprite_flip_h": true,
+        "migrated_from_scene": "res://assets/effects/projectiles/effect-arrow.tscn"
+      },
+      "asset": {
+        "track_id": "legacy_spawn_projectile_3",
+        "atlas_path": "assets/effects/skill_fx/gong-sho-6011/legacy/a51620ef/projectiles/effect-arrow/effect-arrow_atlas.png",
+        "preview_atlas_path": "assets/effects/projectiles/effect-arrow/effect-arrow_atlas.png",
+        "scene_path": "assets/effects/skill_fx/gong-sho-6011/legacy/3ba0d8c4/projectiles/effect-arrow.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 1,
+        "fps": 12,
+        "baked_scale": 0.25,
+        "loop": false,
+        "source": {
+          "kind": "legacy_scene",
+          "scenePath": "res://assets/effects/projectiles/effect-arrow.tscn",
+          "migratedFrom": [
+            "res://assets/effects/projectiles/effect-arrow.tscn",
+            "res://assets/effects/projectiles/effect-arrow/effect-arrow_visual.tscn",
+            "res://assets/effects/projectiles/effect-arrow/effect-arrow_atlas.png"
+          ]
+        }
+      },
+      "migrated_from": [
+        "res://assets/effects/projectiles/effect-arrow.tscn",
+        "res://assets/effects/projectiles/effect-arrow/effect-arrow_visual.tscn",
+        "res://assets/effects/projectiles/effect-arrow/effect-arrow_atlas.png"
+      ]
+    }
+  ]
+}

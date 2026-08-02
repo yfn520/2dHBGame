@@ -1,0 +1,111 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "50162",
+  "skill_id": "50162",
+  "proposal": {
+    "id": "50162-unified",
+    "title": "焰灵重剑烈焰斩击",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "track_slash_arc",
+      "phase": "release",
+      "title": "烈焰重斩刀光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 300,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -92,
+          "y": -149
+        },
+        "scale": 1,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_slash_arc",
+        "atlas_path": "assets/effects/skill_fx/50162/visual/track_slash_arc/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50162/godot/effect_scenes/track_slash_arc/effect.tscn",
+        "frame_size": {
+          "width": 227,
+          "height": 207
+        },
+        "frame_count": 4,
+        "fps": 13.333333333333334,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "烈焰重斩刀光"
+        }
+      }
+    },
+    {
+      "id": "track_impact_burst",
+      "phase": "impact",
+      "title": "爆炎受击",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 400,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -155,
+          "y": -97
+        },
+        "scale": 1.47,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_impact_burst",
+        "atlas_path": "assets/effects/skill_fx/50162/visual/track_impact_burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50162/godot/effect_scenes/track_impact_burst/effect.tscn",
+        "frame_size": {
+          "width": 168,
+          "height": 187
+        },
+        "frame_count": 5,
+        "fps": 12.5,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "爆炎受击"
+        }
+      }
+    }
+  ]
+}
