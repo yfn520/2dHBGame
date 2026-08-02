@@ -6,15 +6,15 @@
   "fallbackFrame": 0,
   "triggerFrame": 0,
   "characterOffset": {
-    "x": -162.0,
-    "y": -95.0
+    "x": -150.97,
+    "y": -117.07
   },
   "displayScale": {
     "x": 1.0,
     "y": 1.0
   },
   "effectRotation": 0.0,
-  "effectScale": 2.17,
+  "effectScale": 1.35,
   "effectMirror": false,
   "mirrorWithFacing": true,
   "instanceTransformBaked": false,
@@ -26,6 +26,6 @@
   "blendMode": "add",
   "coordinateSpace": "character_local",
   "scenePath": "res://assets/effects/skill_fx/50072/godot/effect_scenes/track_spore_burst/effect.tscn",
-  "fps": 17.5,
-  "frameCount": 7
+  "fps": 12.5,
+  "frameCount": 5
 }

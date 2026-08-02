@@ -1,0 +1,27 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 8.0,
+    "height": 8.0
+  },
+  "collisionOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.0,
+  "effectMirror": true,
+  "instanceTransformBaked": false,
+  "visualOffset": {
+    "x": -144.0,
+    "y": -91.0
+  },
+  "scenePath": "res://assets/effects/skill_fx/shuei-mu-50142/godot/effect_scenes/manual-projectile-1/effect.tscn",
+  "fps": 6.666666666666667,
+  "frameCount": 4
+}

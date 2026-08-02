@@ -1,0 +1,63 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "huei-jing-qi-shi2-50062",
+  "skill_id": "50062",
+  "proposal": {
+    "id": "huei-jing-qi-shi2-50062-unified",
+    "title": "hjqs-skill · 手动编排",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "manual-release-1",
+      "phase": "release",
+      "title": "释放特效",
+      "trigger": {
+        "type": "action_event",
+        "event": "effect",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 500,
+      "blend_mode": "normal",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -85,
+          "y": -36
+        },
+        "scale": 0.56,
+        "rotation_degrees": -70,
+        "opacity": 1,
+        "tint": "#9f2d2d"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "manual-release-1",
+        "atlas_path": "assets/effects/skill_fx/huei-jing-qi-shi2-50062/visual/manual-release-1/atlas.png",
+        "scene_path": "assets/effects/skill_fx/huei-jing-qi-shi2-50062/godot/effect_scenes/manual-release-1/effect.tscn",
+        "frame_size": {
+          "width": 243,
+          "height": 275
+        },
+        "frame_count": 4,
+        "fps": 8,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "释放特效"
+        }
+      }
+    }
+  ]
+}

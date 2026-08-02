@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/effects/skill_fx/50072/visual/track_spore_burst/atlas.png" id="1_atlas"]
 [ext_resource type="Script" path="res://scripts/effects/effect_visual.gd" id="2_script"]
@@ -26,20 +26,12 @@ region = Rect2(525, 0, 175, 210)
 atlas = ExtResource("1_atlas")
 region = Rect2(700, 0, 175, 210)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6"]
-atlas = ExtResource("1_atlas")
-region = Rect2(875, 0, 175, 210)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7"]
-atlas = ExtResource("1_atlas")
-region = Rect2(1050, 0, 175, 210)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
 animations = [{
-"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_4")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_5")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_6")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_7")}],
+"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_4")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_5")}],
 "loop": false,
 "name": &"effect",
-"speed": 17.5
+"speed": 12.5
 }]
 
 [node name="SkillFx" type="AnimatedSprite2D"]

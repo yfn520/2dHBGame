@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -100.0,
+    "y": -75.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 70.0,
+  "effectScale": 0.37,
+  "effectMirror": true,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 193,
+    "height": 152
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/d-j-s2-50082/godot/effect_scenes/charge_glow/effect.tscn",
+  "fps": 14.285714285714285,
+  "frameCount": 4
+}

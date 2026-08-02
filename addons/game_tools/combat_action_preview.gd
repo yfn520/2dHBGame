@@ -27,11 +27,16 @@ var _effect_scene: PackedScene
 var _effect_offset := Vector2.ZERO
 var _effect_active := false
 var _effect_visual_scale := 1.0
+## Projectile node.scale is a visual-only multiplier at runtime. Keep it
+## separate from the scene-root scale so CollisionShape2D is not enlarged.
+var _effect_visual_only_scale := 1.0
 var _effect_is_local := false
 var _effect_is_fullscreen := false
 # 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
 var _effect_mirror := false
 var _effect_rotation_degrees := 0.0
+var _effect_tint := Color.WHITE
+var _effect_blend_mode := "normal"
 
 # 拖拽调整 buff 特效偏移
 var _dragging := false
@@ -47,6 +52,7 @@ var _range_center_offset := Vector2.ZERO
 var _range_radius := 80.0
 var _range_shape := "circle"
 var _range_size := Vector2(160.0, 80.0)
+var _range_rotation_degrees := 0.0
 
 
 func _ready() -> void:
@@ -88,13 +94,16 @@ func set_preview(texture: Texture2D, scale_value: float, frame: int, hit_window:
 ## - active: 是否显示
 ## - visual_scale: 角色视觉缩放（character_local 模式下特效整体 scale 也乘以此值）
 ## - is_local: true=character_local（挂角色根，跟随移动）；false=world（落 origin + offset）
-func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale: float, is_local: bool, is_fullscreen: bool = false) -> void:
+func set_effect(scene: PackedScene, offset: Vector2, active: bool, visual_scale: float, is_local: bool, is_fullscreen: bool = false, visual_only_scale: float = 1.0, tint: Color = Color.WHITE, blend_mode: String = "normal") -> void:
 	_effect_scene = scene
 	_effect_offset = offset
 	_effect_active = active and scene != null
 	_effect_visual_scale = maxf(0.01, visual_scale)
+	_effect_visual_only_scale = maxf(0.01, visual_only_scale)
 	_effect_is_local = is_local
 	_effect_is_fullscreen = is_fullscreen
+	_effect_tint = tint
+	_effect_blend_mode = blend_mode
 	_effect_mirror = false
 	_effect_rotation_degrees = 0.0
 	_rebuild_effect_instance()
@@ -116,12 +125,13 @@ func set_effect_orientation(mirror: bool, rotation_degrees: float) -> void:
 ## - shape: "circle" 或 "rect"
 ## - size: rect 模式下的宽高（角色根坐标系）
 ## radius/size 不在此方法内乘 visual_scale，绘制时统一乘 zoom + visual_scale
-func set_range_indicator(active: bool, center_offset: Vector2, radius: float, shape: String = "circle", size: Vector2 = Vector2(160.0, 80.0)) -> void:
+func set_range_indicator(active: bool, center_offset: Vector2, radius: float, shape: String = "circle", size: Vector2 = Vector2(160.0, 80.0), rotation_degrees: float = 0.0) -> void:
 	_range_active = active
 	_range_center_offset = center_offset
 	_range_radius = maxf(0.0, radius)
 	_range_shape = shape
 	_range_size = size
+	_range_rotation_degrees = rotation_degrees
 	queue_redraw()
 
 
@@ -188,8 +198,16 @@ func _rebuild_effect_instance() -> void:
 		# world 模式（弹道）运行时不缩放，但预览中按用户期望也应用，使弹道视觉与角色缩放一致
 		if instance is Node2D:
 			var node2d := instance as Node2D
+			node2d.modulate *= _effect_tint
+			_apply_preview_blend(node2d, _effect_blend_mode)
 			if not _effect_is_fullscreen:
 				node2d.scale *= Vector2(_effect_visual_scale, _effect_visual_scale)
+			# spawn_projectile.scale belongs to the Visual child only. Scaling the
+			# Area2D root here also scaled CollisionShape2D and made the editor box
+			# disagree with both the web preview and skill_executor runtime.
+			var projectile_visual := node2d.get_node_or_null("Visual") as Node2D
+			if projectile_visual != null and not is_equal_approx(_effect_visual_only_scale, 1.0):
+				projectile_visual.scale *= Vector2(_effect_visual_only_scale, _effect_visual_only_scale)
 			# Inspector preview stays on frame 0: export rebuilds the atlas so this
 			# is the first frame in the user-selected playback sequence.
 			if node2d is AnimatedSprite2D:
@@ -198,7 +216,20 @@ func _rebuild_effect_instance() -> void:
 			# 弹道镜像/旋转修正（spawn_projectile 的 mirror / rotation_degrees）
 			node2d.rotation = deg_to_rad(_effect_rotation_degrees)
 			if _effect_mirror:
-				node2d.scale.x *= -1.0
+				if projectile_visual != null:
+					projectile_visual.scale.x *= -1.0
+				else:
+					node2d.scale.x *= -1.0
+
+
+func _apply_preview_blend(node: Node, requested: String) -> void:
+	if node is CanvasItem:
+		var canvas_item := node as CanvasItem
+		var material := CanvasItemMaterial.new()
+		material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD if requested == "add" else CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA if requested == "screen" else CanvasItemMaterial.BLEND_MODE_MIX
+		canvas_item.material = material
+	for child in node.get_children():
+		_apply_preview_blend(child, requested)
 
 
 func _find_effect_frame_size(node: Node) -> Vector2:
@@ -320,8 +351,10 @@ func _draw() -> void:
 		var fill_color := Color(0.30, 0.69, 0.31, 0.15)
 		if _range_shape == "rect":
 			var rect_size := _range_size * visual_scale_for_range * zoom
-			draw_rect(Rect2(range_center - rect_size * 0.5, rect_size), fill_color, true)
-			draw_rect(Rect2(range_center - rect_size * 0.5, rect_size), ring_color, false, 1.5)
+			draw_set_transform(range_center, deg_to_rad(_range_rotation_degrees), Vector2.ONE)
+			draw_rect(Rect2(-rect_size * 0.5, rect_size), fill_color, true)
+			draw_rect(Rect2(-rect_size * 0.5, rect_size), ring_color, false, 1.5)
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 		else:
 			var r := _range_radius * visual_scale_for_range * zoom
 			draw_circle(range_center, r, fill_color)

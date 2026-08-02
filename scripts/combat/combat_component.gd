@@ -570,6 +570,32 @@ func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
 	var tint := Color.from_string(str(node.get("tint", "#ffffff")), Color.WHITE)
 	tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
 	effect_node.modulate *= tint
+	_apply_imported_effect_blend_mode(effect, node)
+
+
+func _apply_imported_effect_blend_mode(effect: Node, node: Dictionary) -> void:
+	if not node.has("attachment_blend_mode"):
+		return
+	var requested := str(node.get("attachment_blend_mode", "normal"))
+	var blend_mode := CanvasItemMaterial.BLEND_MODE_MIX
+	if requested == "add":
+		blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	elif requested == "screen":
+		blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+	var canvas_items: Array[CanvasItem] = []
+	if effect is CanvasItem:
+		canvas_items.append(effect as CanvasItem)
+	for child in effect.find_children("*", "CanvasItem", true, false):
+		if child is CanvasItem:
+			canvas_items.append(child as CanvasItem)
+	for canvas_item in canvas_items:
+		var material := canvas_item.material as CanvasItemMaterial
+		if material != null:
+			material = material.duplicate() as CanvasItemMaterial
+		else:
+			material = CanvasItemMaterial.new()
+		material.blend_mode = blend_mode
+		canvas_item.material = material
 
 
 func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vector2:
