@@ -1106,18 +1106,18 @@
   },
   "50022": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "928bdb94e411f104",
       "entries": [
         {
-          "node_index": 3,
-          "source": "hit_window",
+          "detail": "forward=96.0 width=46.0 scale=1.00 body_half=83.0",
           "kind": "melee",
-          "min_edge_distance": 0,
           "max_edge_distance": 34,
-          "detail": "forward=96.0 width=46.0 scale=1.00 body_half=83.0"
+          "min_edge_distance": 0,
+          "node_index": 2,
+          "source": "hit_window"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "2c1937b5beb2a202"
     },
     "cast_range": 60,
     "cooldown": 3,
@@ -1131,29 +1131,6 @@
       {
         "hit_window_index": 0,
         "type": "wait_hit_window"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/xiao-huei-heu-i-50022/godot/effect_scenes/release_bite_slash/effect.tscn",
-        "coordinate_space": "world",
-        "target": "origin",
-        "origin": "hit_window",
-        "offset_x": -157,
-        "offset_y": -63,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": false,
-        "mirror_with_facing": false,
-        "mirror": true,
-        "lifetime_ms": 286,
-        "effect_scale": 0.74,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ff0000",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "xiao-huei-heu-i-50022",
-        "source_track_id": "release_bite_slash"
       },
       {
         "buff_chance": 0.8,

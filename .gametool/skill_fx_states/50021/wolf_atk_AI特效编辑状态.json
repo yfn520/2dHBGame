@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/wolf",
+  "actorName": "xiao'huei'heu'i",
+  "skillId": "50021",
+  "skillName": "wolf_atk",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [],
+  "proposalId": "",
+  "actionHash": "",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/wolf:50021:attack": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {},
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {},
+  "candidatePageOffsets": {},
+  "selectedAssets": []
+}

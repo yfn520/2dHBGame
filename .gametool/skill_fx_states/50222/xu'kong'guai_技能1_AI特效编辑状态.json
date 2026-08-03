@@ -1,0 +1,157 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/xu'kong'guai",
+  "actorName": "xu'kong'guai",
+  "skillId": "50222",
+  "skillName": "xu'kong'guai 技能1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "manual-plan-50222",
+      "title": "xu'kong'guai 技能1 · 手动编排",
+      "summary": "用户跳过 AI 阶段识别后手动创建的特效方案",
+      "style": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+      "palette": [
+        "#ffffff"
+      ],
+      "tracks": [
+        {
+          "id": "manual-attachment-1",
+          "phase": "attachment",
+          "title": "附着特效",
+          "description": "斩击",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "body_center",
+          "direction": "none",
+          "duration_ms": 1000,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": -66,
+              "y": 12
+            },
+            "scale": 4.25,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "weapon enchant flame attachment",
+          "generation_prompt": "isolated narrow flowing enchantment flame shaped along an empty weapon silhouette, attachment loop, transparent background, no character, no scenery, no text"
+        },
+        {
+          "id": "manual-release-1",
+          "phase": "release",
+          "title": "释放特效",
+          "description": "技能释放瞬间的主体视觉反馈",
+          "trigger": {
+            "type": "action_event",
+            "event": "effect",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "duration_ms": 500,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "fantasy skill release burst",
+          "generation_prompt": "isolated fantasy skill release burst game VFX, transparent background, no character, no text, no UI, no scenery"
+        }
+      ]
+    }
+  ],
+  "proposalId": "manual-plan-50222",
+  "actionHash": "4e7757619701fd974cc0a7762865fd41f58f36207e8c11606f390510de80e133",
+  "drawPrompts": {
+    "manual-plan-50222:manual-release-1": "isolated fantasy skill release burst game VFX, transparent background, no character, no text, no UI, no scenery\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/xu'kong'guai:50222:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [
+    "manual-release-1"
+  ],
+  "trackSelectedFrames": {
+    "manual-attachment-1": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "trackFrameRotations": {
+    "manual-attachment-1": {
+      "1": -180,
+      "2": -145,
+      "3": -110,
+      "4": -105
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "manual-attachment-1": 2
+  },
+  "candidatePageOffsets": {
+    "manual-attachment-1": 6,
+    "manual-release-1": 0
+  },
+  "selectedAssets": [
+    {
+      "trackId": "manual-attachment-1",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 46,
+        "height": 35
+      },
+      "frameCount": 5,
+      "fps": 15,
+      "loop": true,
+      "source": {
+        "type": "sequence",
+        "id": "dee1b83e1f311fb4",
+        "name": "up-slash.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_chargecrash/up-slash.img",
+        "score": 0.6295
+      },
+      "atlasRef": ".gametool/skill_fx_states/50222/assets/manual-attachment-1.png"
+    }
+  ]
+}

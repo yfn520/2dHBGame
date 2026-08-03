@@ -1,0 +1,225 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/wolf",
+  "actorName": "xiao'huei'heu'i",
+  "skillId": "50022",
+  "skillName": "wolf_skill",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: xiao'huei'heu'i (enemy)\nSkill id/name: 50022 / wolf_skill\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (130, 184)\nAllowed action events: [{\"name\":\"effect\",\"frame\":2},{\"name\":\"release\",\"frame\":2}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":2,\"end_frame\":2,\"forward\":96,\"y\":-61,\"width\":46,\"height\":51}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"area_damage\",\n    \"result_key\": \"area_hit\",\n    \"origin\": \"hit_window\",\n    \"shape\": \"circle\",\n    \"radius\": 61.5,\n    \"damage_ratio\": 1,\n    \"flat_damage\": 2,\n    \"buff_ids\": [\n      10007\n    ]\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "wolf_crystal_bite_50022-mscrtfdu",
+      "title": "紫晶狼撕咬攻击技能特效",
+      "summary": "适配紫晶狼4帧撕咬攻击动画，蓄力阶段背部紫晶发光预警，命中帧在前方判定区释放紫能爪痕与暗紫气浪，战斗节奏清晰，剪影干净符合2D横版奇幻风格要求。",
+      "style": "2D横版卡通奇幻风格，清晰硬边描边，高对比度色彩，战斗反馈明确，无冗余装饰元素",
+      "palette": [
+        "#2b2b47",
+        "#553d91",
+        "#a35cff",
+        "#ffd42a",
+        "#7a4fbf"
+      ],
+      "tracks": [
+        {
+          "id": "charge_crystal_aura",
+          "phase": "charge",
+          "title": "背部紫晶蓄力微光",
+          "description": "撕咬",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": true,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -12,
+              "y": -78
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "purple crystal pulsing charge glow, small soft aura, 2d cartoon game vfx",
+          "generation_prompt": "Isolated single 2D VFX layer of soft pulsing purple crystal charge glow, no characters, no text, no UI, no scenery, clean hard edges, transparent background, gradient from dark indigo to bright violet, sized to attach to creature back crystals, suitable for add blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_bite_slash",
+          "phase": "release",
+          "title": "紫能撕咬爪痕冲击",
+          "description": "撕咬出手帧在狼口前方命中判定区释放尖锐紫水晶能量爪痕，明确命中反馈",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -157,
+              "y": -63
+            },
+            "scale": 0.74,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ff0000"
+          },
+          "library_query": "purple energy wolf bite slash, sharp jagged claw burst, melee hit vfx, 2d cartoon",
+          "generation_prompt": "Isolated single 2D VFX layer of sharp jagged purple energy wolf bite slash burst, no characters, no text, no UI, no scenery, clean bold silhouette, transparent background, angular crystal-like shapes in violet and dark purple, short 2-frame burst for melee attack hit, suitable for add blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "area_bite_shockpuff",
+          "phase": "area",
+          "title": "暗紫撕咬气浪尘雾",
+          "description": "命中位置释放小型暗紫色尘雾气浪，强化攻击打击重量感，不遮挡核心命中特效",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 429,
+          "blend_mode": "normal",
+          "layer": 0,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 96,
+              "y": -22
+            },
+            "scale": 0.9,
+            "rotation_degrees": 0,
+            "opacity": 0.75,
+            "tint": "#ffffff"
+          },
+          "library_query": "dark purple dust puff, small melee impact shockwave, dissipating smoke, 2d cartoon vfx",
+          "generation_prompt": "Isolated single 2D VFX layer of small dissipating dark purple dust puff shockwave, no characters, no text, no UI, no scenery, soft rounded edges, transparent background, opaque dark tones, short 3-frame dissipation for melee attack weight, suitable for normal blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "wolf_crystal_bite_50022-mscrtfdu",
+  "actionHash": "7bc4e1117b1ec922fdd7f60cf3dd60a4a9ef7b923329990ff48e06437977806a",
+  "drawPrompts": {
+    "wolf_crystal_bite_50022-mscrtfdu:charge_crystal_aura": "Isolated single 2D VFX layer of soft pulsing purple crystal charge glow, no characters, no text, no UI, no scenery, clean hard edges, transparent background, gradient from dark indigo to bright violet, sized to attach to creature back crystals, suitable for add blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "wolf_crystal_bite_50022-mscrtfdu:release_bite_slash": "Isolated single 2D VFX layer of sharp jagged purple energy wolf bite slash burst, no characters, no text, no UI, no scenery, clean bold silhouette, transparent background, angular crystal-like shapes in violet and dark purple, short 2-frame burst for melee attack hit, suitable for add blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "wolf_crystal_bite_50022-mscrtfdu:area_bite_shockpuff": "Isolated single 2D VFX layer of small dissipating dark purple dust puff shockwave, no characters, no text, no UI, no scenery, soft rounded edges, transparent background, opaque dark tones, short 3-frame dissipation for melee attack weight, suitable for normal blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the area phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/wolf:50022:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "wolf_crystal_bite_50022-mscrtfdu": {
+      "createdAt": "2026-08-03T05:10:32.227Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "area_bite_shockpuff",
+    "charge_crystal_aura"
+  ],
+  "trackSelectedFrames": {
+    "release_bite_slash": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "trackFrameRotations": {
+    "release_bite_slash": {
+      "0": -20,
+      "1": -20,
+      "2": -25,
+      "3": -25
+    }
+  },
+  "previewMirror": {
+    "release_bite_slash": true
+  },
+  "previewFrame": {
+    "release_bite_slash": 0
+  },
+  "candidatePageOffsets": {
+    "charge_crystal_aura": 18,
+    "release_bite_slash": 24,
+    "area_bite_shockpuff": 0
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_bite_slash",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 186,
+        "height": 142
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "26f25ad4815c1e23",
+        "name": "finish.img",
+        "path": "DNF特效全集库3338套/sprite_character_priest_effect_giantswing/finish.img",
+        "score": 0.6516
+      },
+      "atlasRef": ".gametool/skill_fx_states/50022/assets/release_bite_slash.png"
+    }
+  ]
+}
