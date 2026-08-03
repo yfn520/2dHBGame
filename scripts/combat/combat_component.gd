@@ -46,6 +46,8 @@ var _action_duration := 0.0
 var _last_skill_attempt := "none"
 # 已异步预热的特效 scene 路径集合，避免重复 ResourceLoader.load_threaded_request
 var _preloaded_scenes: Dictionary = {}
+# play_sound 节点中 stop_on_skill_end=true 的通道列表，施放结束/取消时停止
+var _active_audio_channels: Array = []
 
 
 func _ready() -> void:
@@ -298,6 +300,8 @@ func _execute_node(node: Dictionary) -> bool:
 			_skill_executor.spawn_projectiles(node, _resolve_projectile_origin(node), _cast_context)
 		"play_effect":
 			_execute_effect_node(node)
+		"play_sound":
+			_execute_sound_node(node)
 		"apply_target_buff":
 			_execute_target_buff_node(node)
 		"apply_self_buff":
@@ -441,6 +445,50 @@ func _execute_delayed_effect_node(node: Dictionary) -> void:
 	if _owner == null or not is_instance_valid(_owner) or combat_state == CombatState.DEAD:
 		return
 	_execute_effect_node(node)
+
+
+## play_sound 节点：非阻塞音效播放。支持 delay_ms 延迟、spatial_mode 空间化、stop_on_skill_end。
+func _execute_sound_node(node: Dictionary) -> void:
+	var delay_ms := maxi(0, int(node.get("delay_ms", 0)))
+	if delay_ms > 0:
+		var scheduled := node.duplicate(true)
+		scheduled["delay_ms"] = 0
+		get_tree().create_timer(float(delay_ms) / 1000.0).timeout.connect(_execute_delayed_sound_node.bind(scheduled), CONNECT_ONE_SHOT)
+		return
+	_execute_delayed_sound_node(node)
+
+
+func _execute_delayed_sound_node(node: Dictionary) -> void:
+	if _owner == null or not is_instance_valid(_owner) or combat_state == CombatState.DEAD:
+		return
+	var audio_path := str(node.get("audio_path", ""))
+	if audio_path.is_empty():
+		return
+	var spatial_mode := str(node.get("spatial_mode", "caster"))
+	var gain_db := float(node.get("gain_db", 0.0))
+	var pitch_variation := float(node.get("pitch_variation", 0.0))
+	var loop := bool(node.get("loop", false))
+	var stop_on_end := bool(node.get("stop_on_skill_end", false))
+	var bus := str(node.get("bus", "SFX"))
+	var channel_id := -1
+	match spatial_mode:
+		"fullscreen":
+			channel_id = AudioManager.play_sfx_by_path(audio_path, gain_db, pitch_variation, loop, bus)
+		"caster":
+			channel_id = AudioManager.play_sfx_2d_by_path(audio_path, _owner as Node2D, gain_db, pitch_variation, loop, bus)
+		"world":
+			var origin := _resolve_origin(node)
+			channel_id = AudioManager.play_sfx_at(_load_audio_stream(audio_path), origin, gain_db, pitch_variation, loop, bus) if _load_audio_stream(audio_path) != null else -1
+		_:
+			channel_id = AudioManager.play_sfx_2d_by_path(audio_path, _owner as Node2D, gain_db, pitch_variation, loop, bus)
+	if channel_id > 0 and stop_on_end:
+		_active_audio_channels.append(channel_id)
+
+
+func _load_audio_stream(audio_path: String) -> AudioStream:
+	if audio_path.is_empty() or not ResourceLoader.exists(audio_path):
+		return null
+	return load(audio_path) as AudioStream
 
 
 func _execute_target_buff_node(node: Dictionary) -> void:
@@ -801,6 +849,10 @@ func _clear_cast(_cancelled: bool) -> void:
 	_action_duration = 0.0
 	if _hit_box != null:
 		_hit_box.deactivate()
+	# 停止 stop_on_skill_end=true 的音效通道
+	for channel_id in _active_audio_channels:
+		AudioManager.stop(int(channel_id))
+	_active_audio_channels.clear()
 	_cast_context = null
 
 

@@ -19,9 +19,14 @@ config/icon="res://icon.svg"
 "#PCè°è¯è§¦å±æ§ä»¶æ¶æ¹ä¸ºtrueï¼Androidä¸èªå¨æDisplayServer.is_touchscreen_available()å¯ç¨run/force_touch_controls"=false
 run/force_touch_controls=false
 
+[audio]
+
+bus/default_bus_layout="res://default_bus_layout.tres"
+
 [autoload]
 
 GameRegistry="*res://scripts/game_registry.gd"
+AudioManager="*res://scripts/system/audio_manager.gd"
 
 [display]
 

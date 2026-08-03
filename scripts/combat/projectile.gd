@@ -15,6 +15,19 @@ var buff_chance := 0.0
 var lifetime := 5.0
 var source_entity: Node
 var rotate_to_velocity := true
+# 弹道三类音效（spawn_audio/flight_audio/hit_audio）。
+# 通过 setup_with_node 从 spawn_projectile 节点读取。
+var spawn_audio_path := ""
+var flight_audio_path := ""
+var hit_audio_path := ""
+var spawn_audio_gain_db := 0.0
+var spawn_audio_pitch_variation := 0.0
+var flight_audio_gain_db := 0.0
+var flight_audio_pitch_variation := 0.0
+var hit_audio_gain_db := 0.0
+var hit_audio_pitch_variation := 0.0
+# flight_audio 循环播放的通道 id，弹道销毁/命中时停止。
+var _flight_audio_channel := -1
 # 非对称素材（如箭矢）需要按飞行方向镜像 flip_h。
 # 导出已将素材统一规范为「朝右」，向左飞时 flip_h = true。
 var flip_to_velocity := true
@@ -58,6 +71,35 @@ func _ready() -> void:
 	# _ready() so no render frame can expose the raw TSCN orientation.
 	_apply_visual_transform()
 	_apply_visual_style()
+	# 弹道音效：spawn 在 _ready 播放（此时位置已对齐发射点）；flight 启动循环
+	_play_spawn_audio()
+	_start_flight_audio()
+
+
+## 播放弹道发射音效（spawn_audio），跟随弹道自身位置。
+func _play_spawn_audio() -> void:
+	if spawn_audio_path.is_empty():
+		return
+	AudioManager.play_sfx_2d_by_path(spawn_audio_path, self, spawn_audio_gain_db, spawn_audio_pitch_variation)
+
+
+## 启动弹道飞行循环音效（flight_audio），保存通道 id 供销毁时停止。
+func _start_flight_audio() -> void:
+	if flight_audio_path.is_empty():
+		return
+	_flight_audio_channel = AudioManager.play_sfx_2d_by_path(flight_audio_path, self, flight_audio_gain_db, flight_audio_pitch_variation, true)
+
+
+## 停止飞行循环音效（命中/销毁时调用）。
+func _stop_flight_audio() -> void:
+	if _flight_audio_channel > 0:
+		AudioManager.stop(_flight_audio_channel)
+		_flight_audio_channel = -1
+
+
+## 弹道销毁前清理：停止飞行循环音效。
+func _exit_tree() -> void:
+	_stop_flight_audio()
 
 
 func _physics_process(delta: float) -> void:
@@ -193,6 +235,19 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	max_pierce = int(node.get("max_pierce", 0))
 	buff_ids = _read_buff_ids_compat(node)
 	buff_chance = float(node.get("buff_chance", 0.0))
+	# 读取弹道三类音效配置（spawn_audio/flight_audio/hit_audio 子字典）
+	var spawn_audio_cfg: Dictionary = node.get("spawn_audio", {})
+	spawn_audio_path = str(spawn_audio_cfg.get("audio_path", ""))
+	spawn_audio_gain_db = float(spawn_audio_cfg.get("gain_db", 0.0))
+	spawn_audio_pitch_variation = float(spawn_audio_cfg.get("pitch_variation", 0.0))
+	var flight_audio_cfg: Dictionary = node.get("flight_audio", {})
+	flight_audio_path = str(flight_audio_cfg.get("audio_path", ""))
+	flight_audio_gain_db = float(flight_audio_cfg.get("gain_db", 0.0))
+	flight_audio_pitch_variation = float(flight_audio_cfg.get("pitch_variation", 0.0))
+	var hit_audio_cfg: Dictionary = node.get("hit_audio", {})
+	hit_audio_path = str(hit_audio_cfg.get("audio_path", ""))
+	hit_audio_gain_db = float(hit_audio_cfg.get("gain_db", 0.0))
+	hit_audio_pitch_variation = float(hit_audio_cfg.get("pitch_variation", 0.0))
 	visual_mirror = bool(node.get("mirror", false))
 	visual_rotation_degrees = float(node.get("rotation_degrees", 0.0))
 	visual_scale_multiplier = float(node.get("scale", 1.0))
@@ -241,6 +296,8 @@ func _on_area_entered(area: Area2D) -> void:
 			area.take_hit(damage, source_entity)
 		if not buff_ids.is_empty() and randf() <= buff_chance:
 			_apply_buff(area)
+	# 命中音效：跟随弹道自身位置（命中瞬间弹道与目标几乎重合）
+	_play_hit_audio()
 	hit_target.emit(area)
 	if max_pierce == 0:
 		queue_free()
@@ -248,6 +305,13 @@ func _on_area_entered(area: Area2D) -> void:
 		pierce_count += 1
 		if pierce_count >= max_pierce:
 			queue_free()
+
+
+## 播放弹道命中音效（hit_audio），跟随弹道自身位置。
+func _play_hit_audio() -> void:
+	if hit_audio_path.is_empty():
+		return
+	AudioManager.play_sfx_2d_by_path(hit_audio_path, self, hit_audio_gain_db, hit_audio_pitch_variation)
 
 
 func _apply_buff(hurt_box: Area2D) -> void:

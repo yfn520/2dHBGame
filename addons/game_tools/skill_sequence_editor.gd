@@ -6,6 +6,7 @@ const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
 const BUFFS_PATH := "res://data/buffs.json"
 const SKILL_FX_ROOT := "res://assets/effects/skill_fx"
+const SKILL_AUDIO_ROOT := "res://assets/skill_audio"
 const SkillTimeline = preload("res://addons/game_tools/skill_timeline.gd")
 const CombatActionPreview = preload("res://addons/game_tools/combat_action_preview.gd")
 
@@ -111,6 +112,8 @@ var _skill_fx_dialog: ConfirmationDialog
 var _skill_fx_dialog_text: RichTextLabel
 var _skill_fx_file_dialog: FileDialog
 var _pending_skill_fx_import: Dictionary = {}
+var _skill_audio_file_dialog: FileDialog
+var _pending_skill_audio_import: Dictionary = {}
 
 
 func _init() -> void:
@@ -229,6 +232,11 @@ func _build_ui() -> void:
 	import_fx.tooltip_text = "查找当前技能的独立特效包，校验后自动生成或更新 play_effect 节点"
 	import_fx.pressed.connect(_open_skill_fx_bundle)
 	skill_row.add_child(import_fx)
+	var import_audio := Button.new()
+	import_audio.text = "导入 AI 音效包"
+	import_audio.tooltip_text = "查找当前技能的音效 manifest，校验后幂等写入 play_sound 节点 / 弹道音效字段 / 命中音效字段"
+	import_audio.pressed.connect(_open_skill_audio_bundle)
+	skill_row.add_child(import_audio)
 
 	# 基础信息（技能名称已在上方 skill_row，此处放描述和冷却）
 	var base_grid := GridContainer.new()
@@ -3274,3 +3282,309 @@ func _load_json(path: String) -> Dictionary:
 	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
 		return {}
 	return json.data
+
+
+# ===================== AI 音效包导入 =====================
+# 读取 assets/skill_audio/<bundle_id>/manifest.json，幂等写入：
+# - play_sound 节点（按 source_track_id 匹配，有则更新，无则追加）
+# - spawn_projectile 节点的 spawn_audio/flight_audio/hit_audio 字段
+# - melee_damage/area_damage/fullscreen_damage 节点的 on_hit_audio 字段
+
+func _open_skill_audio_bundle() -> void:
+	if _current_skill_id.is_empty():
+		_status.text = "请先选择技能，再导入 AI 音效包。"
+		return
+	# 在 SKILL_AUDIO_ROOT 下查找匹配当前 skill_id 的 manifest
+	var matches: Array[String] = []
+	if DirAccess.dir_exists_absolute(SKILL_AUDIO_ROOT):
+		for folder_name in DirAccess.get_directories_at(SKILL_AUDIO_ROOT):
+			var manifest_path := SKILL_AUDIO_ROOT.path_join(String(folder_name)).path_join("manifest.json")
+			var manifest := _read_json(manifest_path)
+			if String(manifest.get("format", "")) == "frame-ronin-skill-audio-v1" and String(manifest.get("skill_id", "")) == _current_skill_id:
+				matches.append(manifest_path)
+	if matches.size() == 1:
+		_prepare_skill_audio_import(matches[0])
+		return
+	if matches.size() > 1:
+		matches.sort_custom(func(a: String, b: String) -> bool: return FileAccess.get_modified_time(a) > FileAccess.get_modified_time(b))
+		_prepare_skill_audio_import(matches[0])
+		_status.text = "检测到多个音效包，已选择最近修改的一份：%s" % matches[0]
+		return
+	_open_skill_audio_file_dialog()
+
+
+func _open_skill_audio_file_dialog() -> void:
+	if _skill_audio_file_dialog == null:
+		_skill_audio_file_dialog = FileDialog.new()
+		_skill_audio_file_dialog.title = "选择音效 manifest.json"
+		_skill_audio_file_dialog.access = FileDialog.ACCESS_RESOURCES
+		_skill_audio_file_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+		_skill_audio_file_dialog.filters = PackedStringArray(["*.json ; Skill Audio Manifest"])
+		_skill_audio_file_dialog.file_selected.connect(_prepare_skill_audio_import)
+		add_child(_skill_audio_file_dialog)
+	_skill_audio_file_dialog.current_dir = SKILL_AUDIO_ROOT
+	_skill_audio_file_dialog.popup_centered_ratio(0.72)
+
+
+func _prepare_skill_audio_import(manifest_path: String) -> void:
+	var manifest := _read_json(manifest_path)
+	var validation_error := _validate_skill_audio_manifest(manifest, manifest_path)
+	if not validation_error.is_empty():
+		_status.text = "音效包校验失败：%s" % validation_error
+		return
+	var plan := _build_audio_import_plan(manifest, manifest_path)
+	var build_error := String(plan.get("error", ""))
+	if not build_error.is_empty():
+		_status.text = "音效包无法导入：%s" % build_error
+		return
+	_pending_skill_audio_import = {
+		"manifest": manifest,
+		"manifest_path": manifest_path,
+		"plan": plan,
+	}
+	_show_skill_audio_confirmation(manifest, plan)
+
+
+func _validate_skill_audio_manifest(manifest: Dictionary, manifest_path: String) -> String:
+	if manifest.is_empty() or String(manifest.get("format", "")) != "frame-ronin-skill-audio-v1":
+		return "不是 frame-ronin-skill-audio-v1 文件"
+	if int(manifest.get("version", 0)) != 1:
+		return "仅支持版本 1"
+	if String(manifest.get("skill_id", "")) != _current_skill_id:
+		return "包内 skill_id 与当前技能不一致"
+	var tracks: Array = manifest.get("tracks", [])
+	if tracks.is_empty():
+		return "音效包没有轨道"
+	var bundle_dir := manifest_path.get_base_dir()
+	var ids: Dictionary = {}
+	for value in tracks:
+		if not value is Dictionary:
+			return "轨道必须是对象"
+		var track: Dictionary = value
+		var track_id := String(track.get("id", ""))
+		if track_id.is_empty() or ids.has(track_id):
+			return "轨道 ID 为空或重复：%s" % track_id
+		ids[track_id] = true
+		# 仅校验选中候选的音频文件存在
+		var selected_idx := int(track.get("selected_candidate_index", -1))
+		if selected_idx < 0:
+			continue
+		var candidates: Array = track.get("candidates", [])
+		if selected_idx >= candidates.size():
+			return "轨道 %s 的 selected_candidate_index 越界" % track_id
+		var candidate: Dictionary = candidates[selected_idx]
+		var file_name := String(candidate.get("file", ""))
+		if file_name.is_empty():
+			return "轨道 %s 的候选音频文件名为空" % track_id
+		var audio_path := bundle_dir.path_join(file_name)
+		if not ResourceLoader.exists(audio_path):
+			return "音频文件不存在或尚未导入：%s" % audio_path
+	return ""
+
+
+## 构建导入计划：哪些 play_sound 节点要新增/更新，哪些节点要写入音效字段。
+func _build_audio_import_plan(manifest: Dictionary, manifest_path: String) -> Dictionary:
+	var bundle_dir := manifest_path.get_base_dir()
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	var tracks: Array = manifest.get("tracks", [])
+	var new_play_sound_count := 0
+	var update_play_sound_count := 0
+	var projectile_audio_count := 0
+	var hit_audio_count := 0
+	var operations: Array = []
+	for value in tracks:
+		if not value is Dictionary:
+			continue
+		var track: Dictionary = value
+		var track_id := String(track.get("id", ""))
+		var role := String(track.get("role", ""))
+		var bound_node_type := String(track.get("bound_node_type", ""))
+		var bound_node_index := int(track.get("bound_node_index", -1))
+		var selected_idx := int(track.get("selected_candidate_index", -1))
+		if selected_idx < 0:
+			continue # 未选中候选，跳过
+		var candidates: Array = track.get("candidates", [])
+		if selected_idx >= candidates.size():
+			return {"error": "轨道 %s 的 selected_candidate_index 越界" % track_id}
+		var candidate: Dictionary = candidates[selected_idx]
+		var audio_path := bundle_dir.path_join(String(candidate.get("file", "")))
+		var gain_db := float(track.get("gain_db", 0.0))
+		var pitch_variation := float(track.get("pitch_variation", 0.0))
+		var spatial_mode := String(track.get("spatial_mode", "caster"))
+		var loop := bool(track.get("loop", false))
+		var op: Dictionary = {
+			"track_id": track_id,
+			"role": role,
+			"bound_node_type": bound_node_type,
+			"bound_node_index": bound_node_index,
+			"audio_path": audio_path,
+			"gain_db": gain_db,
+			"pitch_variation": pitch_variation,
+			"spatial_mode": spatial_mode,
+			"loop": loop,
+		}
+		match bound_node_type:
+			"play_sound":
+				# 查找现有 play_sound 节点（按 source_track_id 匹配）
+				var found_index := -1
+				for i in range(nodes.size()):
+					var n: Dictionary = nodes[i]
+					if String(n.get("type", "")) == "play_sound" and String(n.get("source_track_id", "")) == track_id:
+						found_index = i
+						break
+				op["action"] = "upsert_play_sound"
+				op["target_node_index"] = found_index
+				if found_index < 0:
+					new_play_sound_count += 1
+				else:
+					update_play_sound_count += 1
+			"spawn_projectile":
+				# 校验 bound_node_index 指向 spawn_projectile 节点
+				if bound_node_index < 0 or bound_node_index >= nodes.size():
+					return {"error": "轨道 %s 的 bound_node_index=%d 越界" % [track_id, bound_node_index]}
+				var target_node: Dictionary = nodes[bound_node_index]
+				if String(target_node.get("type", "")) != "spawn_projectile":
+					return {"error": "轨道 %s 期望 spawn_projectile 节点，实际为 %s" % [track_id, String(target_node.get("type", ""))]}
+				op["action"] = "write_projectile_audio"
+				projectile_audio_count += 1
+			"melee_damage", "area_damage", "fullscreen_damage":
+				if bound_node_index < 0 or bound_node_index >= nodes.size():
+					return {"error": "轨道 %s 的 bound_node_index=%d 越界" % [track_id, bound_node_index]}
+				var target_node2: Dictionary = nodes[bound_node_index]
+				if String(target_node2.get("type", "")) != bound_node_type:
+					return {"error": "轨道 %s 期望 %s 节点，实际为 %s" % [track_id, bound_node_type, String(target_node2.get("type", ""))]}
+				op["action"] = "write_on_hit_audio"
+				hit_audio_count += 1
+			_:
+				return {"error": "轨道 %s 的 bound_node_type 未知：%s" % [track_id, bound_node_type]}
+		operations.append(op)
+	return {
+		"operations": operations,
+		"new_play_sound_count": new_play_sound_count,
+		"update_play_sound_count": update_play_sound_count,
+		"projectile_audio_count": projectile_audio_count,
+		"hit_audio_count": hit_audio_count,
+	}
+
+
+func _show_skill_audio_confirmation(manifest: Dictionary, plan: Dictionary) -> void:
+	var new_ps := int(plan.get("new_play_sound_count", 0))
+	var update_ps := int(plan.get("update_play_sound_count", 0))
+	var proj := int(plan.get("projectile_audio_count", 0))
+	var hit := int(plan.get("hit_audio_count", 0))
+	var summary := "将执行以下操作：\n"
+	if new_ps > 0:
+		summary += "• 新增 %d 个 play_sound 节点\n" % new_ps
+	if update_ps > 0:
+		summary += "• 更新 %d 个已有 play_sound 节点\n" % update_ps
+	if proj > 0:
+		summary += "• 写入 %d 个弹道音效字段（spawn/flight/hit_audio）\n" % proj
+	if hit > 0:
+		summary += "• 写入 %d 个命中音效字段（on_hit_audio）\n" % hit
+	summary += "\n导入前会自动备份 skills.json。重新导入同一音效包幂等更新，不会重复。"
+	# 复用 _skill_fx_dialog（如果存在）或弹简易确认框
+	if _skill_fx_dialog != null:
+		_skill_fx_dialog.title = "导入 AI 音效包"
+		_skill_fx_dialog.dialog_text = summary
+		# 断开旧连接避免重复触发特效导入
+		if _skill_fx_dialog.confirmed.is_connected(_apply_pending_skill_fx_import):
+			_skill_fx_dialog.confirmed.disconnect(_apply_pending_skill_fx_import)
+		if not _skill_fx_dialog.confirmed.is_connected(_apply_pending_audio_import):
+			_skill_fx_dialog.confirmed.connect(_apply_pending_audio_import)
+		_skill_fx_dialog.popup_centered_ratio(0.6)
+	else:
+		# 退化路径：直接应用（无确认对话框）
+		_apply_pending_audio_import()
+
+
+func _apply_pending_audio_import() -> void:
+	if _pending_skill_audio_import.is_empty():
+		return
+	var backup_path := _backup_skills_for_skill_fx()
+	if backup_path.is_empty():
+		_status.text = "无法备份 skills.json，已取消音效导入。"
+		return
+	var plan: Dictionary = _pending_skill_audio_import.get("plan", {})
+	var operations: Array = plan.get("operations", [])
+	var skill := _current_skill()
+	var nodes: Array = skill.get("nodes", [])
+	for value in operations:
+		if not value is Dictionary:
+			continue
+		var op: Dictionary = value
+		var action := String(op.get("action", ""))
+		var audio_path := String(op.get("audio_path", ""))
+		var gain_db := float(op.get("gain_db", 0.0))
+		var pitch_variation := float(op.get("pitch_variation", 0.0))
+		var spatial_mode := String(op.get("spatial_mode", "caster"))
+		var loop := bool(op.get("loop", false))
+		var track_id := String(op.get("track_id", ""))
+		var role := String(op.get("role", ""))
+		match action:
+			"upsert_play_sound":
+				var target_index := int(op.get("target_node_index", -1))
+				if target_index < 0:
+					# 新增 play_sound 节点
+					var new_node: Dictionary = {
+						"type": "play_sound",
+						"audio_path": audio_path,
+						"spatial_mode": spatial_mode,
+						"gain_db": gain_db,
+						"pitch_variation": pitch_variation,
+						"loop": loop,
+						"delay_ms": 0,
+						"stop_on_skill_end": loop,
+						"bus": "SFX",
+						"source_track_id": track_id,
+					}
+					nodes.append(new_node)
+				else:
+					# 更新现有 play_sound 节点
+					var node: Dictionary = nodes[target_index]
+					node["audio_path"] = audio_path
+					node["spatial_mode"] = spatial_mode
+					node["gain_db"] = gain_db
+					node["pitch_variation"] = pitch_variation
+					node["loop"] = loop
+					node["stop_on_skill_end"] = loop
+					node["source_track_id"] = track_id
+					nodes[target_index] = node
+			"write_projectile_audio":
+				var idx := int(op.get("bound_node_index", -1))
+				if idx < 0 or idx >= nodes.size():
+					continue
+				var proj_node: Dictionary = nodes[idx]
+				var audio_cfg: Dictionary = {
+					"audio_path": audio_path,
+					"gain_db": gain_db,
+					"pitch_variation": pitch_variation,
+				}
+				match role:
+					"projectile_spawn":
+						proj_node["spawn_audio"] = audio_cfg
+					"projectile_flight":
+						audio_cfg["loop"] = true
+						proj_node["flight_audio"] = audio_cfg
+					"projectile_hit":
+						proj_node["hit_audio"] = audio_cfg
+				nodes[idx] = proj_node
+			"write_on_hit_audio":
+				var idx2 := int(op.get("bound_node_index", -1))
+				if idx2 < 0 or idx2 >= nodes.size():
+					continue
+				var dmg_node: Dictionary = nodes[idx2]
+				dmg_node["on_hit_audio"] = {
+					"audio_path": audio_path,
+					"gain_db": gain_db,
+					"pitch_variation": pitch_variation,
+					"spatial_mode": spatial_mode if spatial_mode != "caster" else "target",
+				}
+				nodes[idx2] = dmg_node
+	skill["nodes"] = nodes
+	_skills[_current_skill_id] = skill
+	_save_skills()
+	var total := operations.size()
+	_status.text = "已导入 %d 条音效配置。备份：%s" % [total, backup_path]
+	_pending_skill_audio_import.clear()
+	_rebuild_node_list()

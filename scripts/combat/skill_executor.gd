@@ -98,6 +98,8 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 	_apply_optional_buff(node, hurt_box, skip_buildup, buildup_boost)
 	# 吸血（设计案 7.3）：按伤害来源效率结算回血
 	_apply_lifesteal(result, node)
+	# 命中音效：伤害 > 0 时播放（排除闪避/格挡到 0）
+	_play_on_hit_audio(node, hurt_box, result)
 
 
 ## 计算伤害并注入元素反应的临时修正（设计案 9.2）。
@@ -195,6 +197,38 @@ func _apply_lifesteal(result: Dictionary, node: Dictionary) -> void:
 	if heal_amount <= 0:
 		return
 	_owner.heal(heal_amount, _stats)
+
+
+## 命中音效：伤害 > 0 且节点配置了 on_hit_audio 时播放。
+## spatial_mode=target 时跟随受击目标，caster 时跟随施法者，fullscreen 时非空间化。
+func _play_on_hit_audio(node: Dictionary, hurt_box: Area2D, result: Dictionary) -> void:
+	var damage := int(result.get("damage", 0))
+	if damage <= 0:
+		return
+	if not node.has("on_hit_audio"):
+		return
+	var audio_cfg: Dictionary = node.get("on_hit_audio", {})
+	if audio_cfg.is_empty():
+		return
+	var audio_path := str(audio_cfg.get("audio_path", ""))
+	if audio_path.is_empty():
+		return
+	var gain_db := float(audio_cfg.get("gain_db", 0.0))
+	var pitch_variation := float(audio_cfg.get("pitch_variation", 0.0))
+	var spatial_mode := str(audio_cfg.get("spatial_mode", "target"))
+	match spatial_mode:
+		"fullscreen":
+			AudioManager.play_sfx_by_path(audio_path, gain_db, pitch_variation)
+		"caster":
+			if _owner is Node2D:
+				AudioManager.play_sfx_2d_by_path(audio_path, _owner as Node2D, gain_db, pitch_variation)
+		_:
+			# target：跟随受击目标
+			var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
+			if target is Node2D:
+				AudioManager.play_sfx_2d_by_path(audio_path, target as Node2D, gain_db, pitch_variation)
+			elif _owner is Node2D:
+				AudioManager.play_sfx_2d_by_path(audio_path, _owner as Node2D, gain_db, pitch_variation)
 
 
 ## 读取攻击者吸血率（buff 修饰 + 钳制 0~0.2）
