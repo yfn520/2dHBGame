@@ -1,0 +1,87 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "newfs-6021",
+  "skill_id": "6021",
+  "proposal": {
+    "id": "newfs-6021-unified",
+    "title": "attack · 当前特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "legacy_spawn_projectile_3",
+      "phase": "projectile",
+      "title": "旧弹道 #3",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "hit_window",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 666.6666666666666,
+      "blend_mode": "normal",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "scale": 1.6275,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 9.25,
+          "height": 4.5
+        },
+        "collision_offset": {
+          "x": -2,
+          "y": -0.375
+        },
+        "baked_sprite_flip_h": false,
+        "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn"
+      },
+      "asset": {
+        "track_id": "legacy_spawn_projectile_3",
+        "atlas_path": "assets/effects/skill_fx/newfs-6021/legacy/0f2008cf/projectiles/effect-huoqiu/effect-huoqiu_atlas.png",
+        "preview_atlas_path": "assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6021/legacy/0203bdf2/projectiles/effect-huoqiu.tscn",
+        "frame_size": {
+          "width": 64,
+          "height": 64
+        },
+        "frame_count": 8,
+        "fps": 12,
+        "baked_scale": 0.25,
+        "loop": false,
+        "source": {
+          "kind": "legacy_scene",
+          "scenePath": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+          "migratedFrom": [
+            "res://assets/effects/projectiles/effect-huoqiu.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+          ]
+        }
+      },
+      "migrated_from": [
+        "res://assets/effects/projectiles/effect-huoqiu.tscn",
+        "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+        "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "effect",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -85.0,
+    "y": -36.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": -70.0,
+  "effectScale": 0.56,
+  "effectMirror": true,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 243,
+    "height": 275
+  },
+  "layer": "front",
+  "blendMode": "normal",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/huei-jing-qi-shi2-50062/godot/effect_scenes/manual-release-1/effect.tscn",
+  "fps": 8.0,
+  "frameCount": 4
+}

@@ -1,0 +1,159 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "shi-to-ren-50192",
+  "skill_id": "50192",
+  "skill_hash": "db2012e5dfaeb0e7fd6d16f11f2413dfcc9787409f724fd3b79e3c23053e041d",
+  "action_hash": "c005ac7627240b3d0c2481d15992fb83577e2e136ec396c90fa15dce21103f36",
+  "proposal": {
+    "id": "shi_to_ren_rock_fist-ms1ycfum",
+    "title": "石人重拳能量弹",
+    "summary": "石人蓄力汇聚绿色符文能量，挥拳时释放强力碎石冲击波，并射出一枚由绿色能量包裹的飞驰石拳。",
+    "style": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+    "palette": [
+      "#1abc9c",
+      "#2ecc71",
+      "#2d3748",
+      "#1a202c"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "fist_blast",
+      "phase": "release",
+      "title": "重拳出击爆破",
+      "description": "右拳挥出瞬间，在拳头位置爆发出绿色的碎石与环形冲击波。",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 400,
+      "blend_mode": "add",
+      "layer": 2,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -94.0,
+          "y": -90.0
+        },
+        "scale": 0.3,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#ffffff"
+      },
+      "library_query": "green rock shatter explosion shockwave",
+      "generation_prompt": "2D game VFX, green energy explosion with rock debris and circular shockwave, stylized cartoon, isolated, black background, no characters, no UI",
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "fist_blast",
+        "atlas_path": "assets/effects/skill_fx/shi-to-ren-50192/visual/fist_blast/atlas.png",
+        "scene_path": "assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/fist_blast/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 3,
+        "fps": 7.5,
+        "loop": false,
+        "source": {
+          "type": "ai",
+          "prompt": "2D game VFX, green energy explosion with rock debris and circular shockwave, stylized cartoon, isolated, black background, no characters, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+          "reference_mode": "full_action_storyboard_single_draw",
+          "anchors": 3,
+          "selected_source_frames": [
+            0,
+            1,
+            2
+          ]
+        },
+        "projectile_config": null
+      }
+    },
+    {
+      "id": "rock_projectile",
+      "phase": "projectile",
+      "title": "飞驰石拳",
+      "description": "由能量包裹的巨大石拳向前飞出，后方拖着绿色火焰与碎石尘土尾迹。",
+      "trigger": {
+        "type": "after_skill_node",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 2,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 1000,
+      "blend_mode": "add",
+      "layer": 2,
+      "loop": true,
+      "transform": {
+        "offset": {
+          "x": -104.0,
+          "y": -92.0
+        },
+        "scale": 0.58,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#ffffff"
+      },
+      "library_query": "flying stone fist projectile green trail",
+      "generation_prompt": "2D game VFX projectile, flying rock fist enveloped in green plasma, trailing green smoke and sparks, side view, isolated, black background, no characters, no UI",
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 137,
+          "height": 71
+        },
+        "collision_offset": {
+          "x": 7.979274611398978,
+          "y": 4.0051813471502555
+        },
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": true,
+        "faces_by_default": "right",
+        "rotation": 0.0,
+        "flip_h": true
+      },
+      "asset": {
+        "track_id": "rock_projectile",
+        "atlas_path": "assets/effects/skill_fx/shi-to-ren-50192/visual/rock_projectile/atlas.png",
+        "scene_path": "assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/rock_projectile/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 2,
+        "fps": 2.0,
+        "loop": true,
+        "source": {
+          "type": "ai",
+          "prompt": "2D game VFX projectile, flying rock fist enveloped in green plasma, trailing green smoke and sparks, side view, isolated, black background, no characters, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+          "reference_mode": "full_action_storyboard_single_draw",
+          "anchors": 3,
+          "selected_source_frames": [
+            0,
+            1
+          ]
+        },
+        "projectile_config": null
+      }
+    }
+  ]
+}

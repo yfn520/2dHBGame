@@ -885,6 +885,7 @@ func _build_area_fields(form: GridContainer, node: Dictionary) -> void:
 	if String(node.get("shape", "circle")) == "rect":
 		_add_node_spin(form, "宽度", "width", node, 160.0, 1.0, 9999.0, 1.0)
 		_add_node_spin(form, "高度", "height", node, 80.0, 1.0, 9999.0, 1.0)
+		_add_node_spin(form, "旋转角度", "rotation_degrees", node, 0.0, -360.0, 360.0, 1.0)
 	_build_damage_fields_without_result(form, node)
 
 
@@ -1860,7 +1861,7 @@ func _default_node(type_name: String) -> Dictionary:
 		"wait_action_frame": return {"type": type_name, "frame": 0}
 		"wait_hit_window": return {"type": type_name, "hit_window_index": 0}
 		"melee_damage": return {"type": type_name, "result_key": "melee_hit", "damage_ratio": 1.0}
-		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "damage_ratio": 1.0}
+		"area_damage": return {"type": type_name, "result_key": "area_hit", "origin": "hit_window", "shape": "circle", "radius": 80.0, "rotation_degrees": 0.0, "damage_ratio": 1.0}
 		"fullscreen_damage": return {"type": type_name, "result_key": "fullscreen_hit", "damage_ratio": 1.0}
 		"spawn_projectile": return {"type": type_name, "result_key": "projectile_hit", "scene": "", "origin": "hit_window", "trajectory": "straight", "aim_mode": "facing_elevation", "emission": "single", "ai_min_range": 0.0, "ai_max_range": 280.0, "speed": 300.0, "lifetime": 5.0, "damage_ratio": 1.0, "scale": 1.0, "mirror": false, "rotation_degrees": 0.0}
 		"play_effect": return {"type": type_name, "scene": "", "target": "origin", "delay_ms": 0, "anchor": "origin", "follow_target": true, "mirror_with_facing": true, "lifetime_ms": 0, "effect_scale": 1.0, "rotation_degrees": 0.0, "opacity": 1.0, "tint": "#ffffff"}
@@ -2220,6 +2221,8 @@ func _refresh_effect_preview() -> void:
 		_preview.set_effect(null, Vector2.ZERO, false, 1.0, false)
 		return
 	var visual_scale: float = float(_visual_transform.get("visual_scale", 1.0))
+	var preview_tint := Color.from_string(String(node.get("tint", "#ffffff")), Color.WHITE)
+	preview_tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
 	# 预览固定朝左（facing_right=false，与素材默认朝向一致）；运行时 flip_h=false 朝左，mirror_x=+1
 	var mirror_x := 1.0
 	if type_name == "play_effect":
@@ -2247,7 +2250,10 @@ func _refresh_effect_preview() -> void:
 			true,
 			1.0 if is_fullscreen else visual_scale * effect_scale,
 			coord_space == "character_local",
-			is_fullscreen
+			is_fullscreen,
+			1.0,
+			preview_tint,
+			String(node.get("attachment_blend_mode", "normal"))
 		)
 		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
 	elif type_name == "apply_self_buff":
@@ -2271,7 +2277,10 @@ func _refresh_effect_preview() -> void:
 		origin_offset += Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 		origin_offset *= visual_scale
 		var node_scale := float(node.get("scale", 1.0))
-		_preview.set_effect(packed, origin_offset, true, visual_scale * node_scale, false)
+		# Runtime skill_executor scales the Area2D root by the actor visual scale,
+		# while projectile.gd applies node.scale to Visual only. Passing the two
+		# factors separately keeps CollisionShape2D at its authored gameplay size.
+		_preview.set_effect(packed, origin_offset, true, visual_scale, false, false, node_scale, preview_tint, String(node.get("attachment_blend_mode", "normal")))
 		_preview.set_effect_orientation(bool(node.get("mirror", false)), float(node.get("rotation_degrees", 0.0)))
 
 
@@ -2312,7 +2321,7 @@ func _refresh_range_indicator() -> void:
 		var shape := String(node.get("shape", "circle"))
 		var radius := float(node.get("radius", 80.0))
 		var size := Vector2(float(node.get("width", 160.0)), float(node.get("height", 80.0)))
-		_preview.set_range_indicator(true, center_offset, radius, shape, size)
+		_preview.set_range_indicator(true, center_offset, radius, shape, size, float(node.get("rotation_degrees", 0.0)))
 	else:
 		_preview.set_range_indicator(false, Vector2.ZERO, 0.0)
 

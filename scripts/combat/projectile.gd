@@ -28,6 +28,8 @@ var visual_rotation_degrees := 0.0
 # 节点配置的实例层缩放倍率（spawn_projectile 的 scale 字段）。
 # 运行时应用：Visual.scale = baked_displayScale × visual_scale_multiplier
 var visual_scale_multiplier := 1.0
+var visual_tint := Color.WHITE
+var visual_blend_mode := "normal"
 # Imported GameTool bundles are authored from the actor's default (left-facing)
 # pose. Their offset/rotation are baked into the scene, so mirror them from the
 # actor facing instead of guessing from velocity every frame.
@@ -55,6 +57,7 @@ func _ready() -> void:
 	# setup_with_node() normally runs before add_child(). Apply again in
 	# _ready() so no render frame can expose the raw TSCN orientation.
 	_apply_visual_transform()
+	_apply_visual_style()
 
 
 func _physics_process(delta: float) -> void:
@@ -63,6 +66,30 @@ func _physics_process(delta: float) -> void:
 
 func _apply_visual_transform() -> void:
 	_update_projectile_transform(0.0, false)
+
+
+func _apply_visual_style() -> void:
+	_cache_visual_nodes()
+	if _visual_root == null:
+		return
+	_visual_root.modulate = visual_tint
+	var blend_mode := CanvasItemMaterial.BLEND_MODE_MIX
+	if visual_blend_mode == "add":
+		blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	elif visual_blend_mode == "screen":
+		blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+	var canvas_items: Array[CanvasItem] = [_visual_root]
+	for child in _visual_root.find_children("*", "CanvasItem", true, false):
+		if child is CanvasItem:
+			canvas_items.append(child as CanvasItem)
+	for canvas_item in canvas_items:
+		var material := canvas_item.material as CanvasItemMaterial
+		if material != null:
+			material = material.duplicate() as CanvasItemMaterial
+		else:
+			material = CanvasItemMaterial.new()
+		material.blend_mode = blend_mode
+		canvas_item.material = material
 
 
 func _update_projectile_transform(delta: float, advance_motion: bool) -> void:
@@ -169,6 +196,9 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	visual_mirror = bool(node.get("mirror", false))
 	visual_rotation_degrees = float(node.get("rotation_degrees", 0.0))
 	visual_scale_multiplier = float(node.get("scale", 1.0))
+	visual_tint = Color.from_string(str(node.get("tint", "#ffffff")), Color.WHITE)
+	visual_tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
+	visual_blend_mode = str(node.get("attachment_blend_mode", "normal"))
 	mirror_with_source_facing = bool(node.get("mirror_with_facing", false))
 	flip_to_velocity = bool(node.get("flip_to_velocity", true))
 	_locked_source_flip = false
@@ -178,6 +208,7 @@ func setup_with_node(direction: Vector2, speed: float, node: Dictionary, source:
 	# The projectile is configured before it enters the scene tree. Applying the
 	# final launch transform here prevents one raw-TSCN frame from being drawn.
 	_apply_visual_transform()
+	_apply_visual_style()
 
 
 func _read_buff_ids_compat(node: Dictionary) -> Array:

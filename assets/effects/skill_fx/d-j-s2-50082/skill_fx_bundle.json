@@ -1,0 +1,63 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "d-j-s2-50082",
+  "skill_id": "50082",
+  "proposal": {
+    "id": "d-j-s2-50082-unified",
+    "title": "地岩犀角突刺",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "charge_glow",
+      "phase": "charge",
+      "title": "犀角蓄力晶光",
+      "trigger": {
+        "type": "skill_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 280,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -100,
+          "y": -75
+        },
+        "scale": 0.37,
+        "rotation_degrees": 70,
+        "opacity": 1,
+        "tint": "#b7dcc2"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "charge_glow",
+        "atlas_path": "assets/effects/skill_fx/d-j-s2-50082/visual/charge_glow/atlas.png",
+        "scene_path": "assets/effects/skill_fx/d-j-s2-50082/godot/effect_scenes/charge_glow/effect.tscn",
+        "frame_size": {
+          "width": 193,
+          "height": 152
+        },
+        "frame_count": 4,
+        "fps": 14.285714285714285,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "犀角蓄力晶光"
+        }
+      }
+    }
+  ]
+}

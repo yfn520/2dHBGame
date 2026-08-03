@@ -21,9 +21,11 @@ func execute_damage_area(node: Dictionary, origin: Vector2, context: SkillCastCo
 	var radius := maxf(0.0, float(node.get("radius", 80.0)))
 	var width := maxf(1.0, float(node.get("width", radius * 2.0)))
 	var height := maxf(1.0, float(node.get("height", radius * 2.0)))
+	var rotation := deg_to_rad(float(node.get("rotation_degrees", 0.0)))
 	for hurt_box in find_enemy_hurt_boxes():
 		var delta := _hurt_box_center(hurt_box) - origin
-		var inside := delta.length() <= radius if shape == "circle" else absf(delta.x) <= width * 0.5 and absf(delta.y) <= height * 0.5
+		var local_delta := delta.rotated(-rotation) if shape == "rect" else delta
+		var inside := local_delta.length() <= radius if shape == "circle" else absf(local_delta.x) <= width * 0.5 and absf(local_delta.y) <= height * 0.5
 		if not inside:
 			continue
 		apply_damage_node(node, hurt_box)

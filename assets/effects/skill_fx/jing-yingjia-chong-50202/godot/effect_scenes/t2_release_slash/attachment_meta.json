@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -123.0,
+    "y": -80.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.5,
+  "effectMirror": true,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 147,
+    "height": 246
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/jing-yingjia-chong-50202/godot/effect_scenes/t2_release_slash/effect.tscn",
+  "fps": 10.714285714285714,
+  "frameCount": 3
+}
