@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -50.0,
+    "y": -85.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": -15.0,
+  "effectScale": 0.65,
+  "effectMirror": true,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 287,
+    "height": 231
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/50252/godot/effect_scenes/water_slash_release/effect.tscn",
+  "fps": 20.97902097902098,
+  "frameCount": 3
+}

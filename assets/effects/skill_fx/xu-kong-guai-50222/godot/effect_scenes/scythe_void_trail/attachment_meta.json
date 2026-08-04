@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "effect",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -96.0,
+    "y": -76.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": -30.0,
+  "effectScale": 0.8,
+  "effectMirror": true,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 323,
+    "height": 249
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/scythe_void_trail/effect.tscn",
+  "fps": 9.324009324009324,
+  "frameCount": 4
+}

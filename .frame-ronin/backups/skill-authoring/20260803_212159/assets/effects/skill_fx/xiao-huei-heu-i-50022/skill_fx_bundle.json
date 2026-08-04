@@ -1,0 +1,63 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "xiao-huei-heu-i-50022",
+  "skill_id": "50022",
+  "proposal": {
+    "id": "xiao-huei-heu-i-50022-unified",
+    "title": "紫晶狼撕咬攻击技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "release_bite_slash",
+      "phase": "release",
+      "title": "紫能撕咬爪痕冲击",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 286,
+      "blend_mode": "add",
+      "layer": 3,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -157,
+          "y": -63
+        },
+        "scale": 0.74,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ff0000"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_bite_slash",
+        "atlas_path": "assets/effects/skill_fx/xiao-huei-heu-i-50022/visual/release_bite_slash/atlas.png",
+        "scene_path": "assets/effects/skill_fx/xiao-huei-heu-i-50022/godot/effect_scenes/release_bite_slash/effect.tscn",
+        "frame_size": {
+          "width": 186,
+          "height": 142
+        },
+        "frame_count": 4,
+        "fps": 13.986013986013987,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "紫能撕咬爪痕冲击"
+        }
+      }
+    }
+  ]
+}

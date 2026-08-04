@@ -1,0 +1,74 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "50212",
+  "skill_id": "50212",
+  "proposal": {
+    "id": "50212-unified",
+    "title": "花精技能1·紫莲毒斩特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "release_slash_arc",
+      "phase": "release",
+      "title": "毒刃挥斩弧光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 111,
+      "blend_mode": "add",
+      "layer": 3,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -2,
+          "y": -59
+        },
+        "scale": 0.55,
+        "rotation_degrees": -15,
+        "opacity": 0.9,
+        "tint": "#6600ff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_slash_arc",
+        "atlas_path": "assets/effects/skill_fx/50212/visual/release_slash_arc/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50212/godot/effect_scenes/release_slash_arc/effect.tscn",
+        "frame_size": {
+          "width": 313,
+          "height": 235
+        },
+        "frame_count": 3,
+        "fps": 27.027027027027028,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "毒刃挥斩弧光",
+          "selected_source_frames": [
+            0,
+            1,
+            2
+          ],
+          "selected_frame_rotations": {
+            "0": 140,
+            "1": 140,
+            "2": 140
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "xu-kong-guai-50222",
+  "skill_id": "50222",
+  "proposal": {
+    "id": "xu-kong-guai-50222-unified",
+    "title": "虚空怪 深渊镰击（技能1）",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "charge_core_glow",
+      "phase": "charge",
+      "title": "蓄力胸口核心辉光",
+      "trigger": {
+        "type": "action_event",
+        "event": "effect",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "body_center",
+      "direction": "none",
+      "mirror": false,
+      "duration_ms": 143,
+      "blend_mode": "add",
+      "layer": 2,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -2,
+          "y": -86
+        },
+        "scale": 0.4,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#8503e2"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "charge_core_glow",
+        "atlas_path": "assets/effects/skill_fx/xu-kong-guai-50222/visual/charge_core_glow/atlas.png",
+        "scene_path": "assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/charge_core_glow/effect.tscn",
+        "frame_size": {
+          "width": 210,
+          "height": 211
+        },
+        "frame_count": 3,
+        "fps": 20.97902097902098,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "蓄力胸口核心辉光",
+          "selected_source_frames": [
+            2,
+            1,
+            0
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "scythe_void_trail",
+      "phase": "attachment",
+      "title": "镰刃深渊能量拖尾",
+      "trigger": {
+        "type": "action_event",
+        "event": "effect",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 429,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -96,
+          "y": -76
+        },
+        "scale": 0.8,
+        "rotation_degrees": -30,
+        "opacity": 0.9,
+        "tint": "#5900ff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "scythe_void_trail",
+        "atlas_path": "assets/effects/skill_fx/xu-kong-guai-50222/visual/scythe_void_trail/atlas.png",
+        "scene_path": "assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/scythe_void_trail/effect.tscn",
+        "frame_size": {
+          "width": 323,
+          "height": 249
+        },
+        "frame_count": 4,
+        "fps": 9.324009324009324,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "镰刃深渊能量拖尾",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "selected_frame_rotations": {
+            "0": -15,
+            "1": -20,
+            "2": -20,
+            "3": -20
+          },
+          "selected_frame_rotation_mirror_compensated": true
+        }
+      }
+    }
+  ]
+}

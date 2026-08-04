@@ -1,0 +1,69 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "shang-hu-guai-50111",
+  "skill_id": "50111",
+  "proposal": {
+    "id": "shang-hu-guai-50111-unified",
+    "title": "sh_atk · 当前特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "legacy_play_effect_3",
+      "phase": "release",
+      "title": "旧特效 #3",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "caster",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 666.6666666666666,
+      "blend_mode": "normal",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -90.2422360248447,
+          "y": -51.6211180124224
+        },
+        "scale": 1,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "legacy_play_effect_3",
+        "atlas_path": "assets/effects/skill_fx/shang-hu-guai-50111/legacy/80880899/attachments/effect-shang'hu'guai-attack/effect_atlas.png",
+        "preview_atlas_path": "assets/effects/attachments/effect-shang'hu'guai-attack/effect_atlas.png",
+        "scene_path": "assets/effects/skill_fx/shang-hu-guai-50111/legacy/7feda9aa/attachments/effect-shang'hu'guai-attack/effect.tscn",
+        "frame_size": {
+          "width": 64,
+          "height": 64
+        },
+        "frame_count": 8,
+        "fps": 12,
+        "baked_scale": 1.875,
+        "loop": false,
+        "source": {
+          "kind": "legacy_scene",
+          "scenePath": "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect.tscn",
+          "migratedFrom": [
+            "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect.tscn",
+            "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect_atlas.png"
+          ]
+        }
+      },
+      "migrated_from": [
+        "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect.tscn",
+        "res://assets/effects/attachments/effect-shang'hu'guai-attack/effect_atlas.png"
+      ]
+    }
+  ]
+}

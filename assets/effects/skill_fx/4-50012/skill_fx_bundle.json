@@ -1,0 +1,139 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "4-50012",
+  "skill_id": "50012",
+  "proposal": {
+    "id": "4-50012-unified",
+    "title": "傀儡4 重砸地击技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "charge_chest_energy_glow",
+      "phase": "charge",
+      "title": "胸口核心蓄力光",
+      "trigger": {
+        "type": "skill_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "body_center",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 286,
+      "blend_mode": "add",
+      "layer": 2,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -8,
+          "y": -34
+        },
+        "scale": 0.3,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "charge_chest_energy_glow",
+        "atlas_path": "assets/effects/skill_fx/4-50012/visual/charge_chest_energy_glow/atlas.png",
+        "scene_path": "assets/effects/skill_fx/4-50012/godot/effect_scenes/charge_chest_energy_glow/effect.tscn",
+        "frame_size": {
+          "width": 237,
+          "height": 237
+        },
+        "frame_count": 3,
+        "fps": 10.48951048951049,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "胸口核心蓄力光",
+          "selected_source_frames": [
+            0,
+            1,
+            2
+          ],
+          "selected_frame_rotations": {
+            "0": -25,
+            "1": -25,
+            "2": -25
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "area_energy_shockwave",
+      "phase": "area",
+      "title": "蓝色能量冲击波",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "foot",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 286,
+      "blend_mode": "screen",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -32,
+          "y": -2
+        },
+        "scale": 1.25,
+        "rotation_degrees": 0,
+        "opacity": 0.8,
+        "tint": "#00aaff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "area_energy_shockwave",
+        "atlas_path": "assets/effects/skill_fx/4-50012/visual/area_energy_shockwave/atlas.png",
+        "scene_path": "assets/effects/skill_fx/4-50012/godot/effect_scenes/area_energy_shockwave/effect.tscn",
+        "frame_size": {
+          "width": 113,
+          "height": 31
+        },
+        "frame_count": 5,
+        "fps": 17.482517482517483,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "蓝色能量冲击波",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

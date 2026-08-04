@@ -1,0 +1,249 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/kulou",
+  "actorName": "kulou",
+  "skillId": "50033",
+  "skillName": "8004_skill",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: kulou (enemy)\nSkill id/name: 50033 / 8004_skill\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 9 fps\nFrame size: 240x240\nFoot center: (126, 213)\nAllowed action events: [{\"name\":\"effect\",\"frame\":3},{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":60,\"y\":-67,\"width\":80,\"height\":19}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"action\": \"skill\",\n    \"type\": \"play_animation\"\n  },\n  {\n    \"hit_window_index\": 0,\n    \"type\": \"wait_hit_window\"\n  },\n  {\n    \"damage_ratio\": 3,\n    \"result_key\": \"new_hit\",\n    \"type\": \"melee_damage\",\n    \"flat_damage\": 3\n  },\n  {\n    \"type\": \"apply_target_buff\",\n    \"target\": \"result\",\n    \"result_key\": \"last_result\",\n    \"buff_ids\": [\n      10004\n    ],\n    \"chance\": 1\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #3 is apply_target_buff: the proposal MUST contain a buff track with target_buff_node_index=3 and target_buff_id=10004. This is the AI Buff stage and represents the Buff's persistent/self visual, not an enemy impact.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "kulou-8004-skill-shadow-stab-mse6ybz3",
+      "title": "骷髅刺客暗影突刺技能特效",
+      "summary": "匹配4帧9fps的骷髅突刺动作节奏，蓄力阶段为匕首附着暗影附魔光效，第3帧释放时生成亮紫色能量突刺刃覆盖命中区域，命中后为目标施加持续脉动的暗影诅咒减益标记，整体剪影清晰、战斗可读性强，符合2D横版奇幻游戏风格。",
+      "style": "2D横版手绘卡通奇幻风格，硬边清晰剪影，高对比度暗紫能量配色，战斗反馈明确，无冗余装饰元素，适配横版动作游戏战斗管线。",
+      "palette": [
+        "#240b3f",
+        "#822ed6",
+        "#e2c6ff",
+        "#141414",
+        "#f0e6ff"
+      ],
+      "tracks": [
+        {
+          "id": "kulou-charge-dagger-enchant",
+          "phase": "charge",
+          "title": "匕首暗影蓄能光效",
+          "description": "技能启动后附着在骷髅手持匕首上的暗紫色微光，随蓄力推进亮度逐渐提升，至释放帧达到亮度峰值，表现武器被暗影能量附魔的过程。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 333,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -24,
+              "y": -75
+            },
+            "scale": 1,
+            "rotation_degrees": -15,
+            "opacity": 0.9,
+            "tint": "#6a08fd"
+          },
+          "library_query": "2d side scroller dark purple shadow energy dagger enchant glow, soft pulsing small weapon glow",
+          "generation_prompt": "Isolated 2D VFX layer, soft pulsing dark purple shadow energy glow coating a short curved dagger, color gradient from deep violet edge to pale lavender core, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, clean soft silhouette",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "kulou-release-stab-blade",
+          "phase": "release",
+          "title": "暗影突刺能量刃",
+          "description": "释放帧从匕首位置向前生成的亮紫色锋利能量刃，完全覆盖近战命中判定区域，单帧快速闪现后消散，强化突刺攻击的打击感。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 111,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -8,
+              "y": -67
+            },
+            "scale": 0.65,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#7a09ec"
+          },
+          "library_query": "2d fantasy sharp purple shadow energy stab blade, short melee slash effect, bright glow",
+          "generation_prompt": "Isolated 2D VFX layer, sharp elongated bright purple shadow energy blade for forward dagger thrust, hard clean silhouette, bright pale purple glowing core, deep violet outer glow, thin rectangular shape matching 80x19 hit window dimensions, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "kulou-buff-shadow-curse",
+          "phase": "buff",
+          "title": "暗影诅咒减益标记",
+          "description": "命中目标后附着在受击者躯干位置的持续暗影诅咒光效，对应10004号减益buff的常驻视觉表现，持续期间缓慢明暗脉动。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 3,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "body_center",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 3000,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": -40
+            },
+            "scale": 0.5,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#7a2fcc"
+          },
+          "library_query": "2d dark purple shadow curse debuff aura, small pulsing wispy glow, status effect marker",
+          "generation_prompt": "Isolated 2D VFX layer, small pulsing dark purple shadow curse debuff marker, faint wispy dark energy tendrils, soft slow pulsing glow, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, compact size suitable for attaching to character body center",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": 10004,
+          "target_buff_node_index": 3
+        }
+      ]
+    }
+  ],
+  "proposalId": "kulou-8004-skill-shadow-stab-mse6ybz3",
+  "actionHash": "4350646ad2ef7097513c46ae9bb5a2322317384c018c39b604de6aba7fb510ad",
+  "drawPrompts": {
+    "kulou-8004-skill-shadow-stab-mse6ybz3:kulou-charge-dagger-enchant": "Isolated 2D VFX layer, soft pulsing dark purple shadow energy glow coating a short curved dagger, color gradient from deep violet edge to pale lavender core, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, clean soft silhouette\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "kulou-8004-skill-shadow-stab-mse6ybz3:kulou-release-stab-blade": "Isolated 2D VFX layer, sharp elongated bright purple shadow energy blade for forward dagger thrust, hard clean silhouette, bright pale purple glowing core, deep violet outer glow, thin rectangular shape matching 80x19 hit window dimensions, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "kulou-8004-skill-shadow-stab-mse6ybz3:kulou-buff-shadow-curse": "Isolated 2D VFX layer, small pulsing dark purple shadow curse debuff marker, faint wispy dark energy tendrils, soft slow pulsing glow, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, compact size suitable for attaching to character body center\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the buff phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/kulou:50033:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "kulou-8004-skill-shadow-stab-mse6ybz3": {
+      "createdAt": "2026-08-04T05:02:01.503Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "kulou-buff-shadow-curse"
+  ],
+  "trackSelectedFrames": {
+    "kulou-charge-dagger-enchant": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "kulou-release-stab-blade": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "trackFrameRotations": {
+    "kulou-release-stab-blade": {
+      "0": -135,
+      "1": -135,
+      "2": -135,
+      "3": -135
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "kulou-charge-dagger-enchant": 5,
+    "kulou-release-stab-blade": 0
+  },
+  "candidatePageOffsets": {
+    "kulou-charge-dagger-enchant": 6,
+    "kulou-release-stab-blade": 6
+  },
+  "selectedAssets": [
+    {
+      "trackId": "kulou-charge-dagger-enchant",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 64,
+        "height": 67
+      },
+      "frameCount": 9,
+      "fps": 14,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "45c23f2361bafab7",
+        "name": "karl_weapon_light_d.img",
+        "path": "DNF特效全集库3338套/sprite_character_demonicswordsman_effect_kalla.NPK/karl_weapon_light_d.img",
+        "score": 0.6497
+      },
+      "atlasRef": ".gametool/skill_fx_states/50033/assets/kulou-charge-dagger-enchant.png"
+    },
+    {
+      "trackId": "kulou-release-stab-blade",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 245,
+        "height": 258
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "8a07dce1f567e437",
+        "name": "1normal_finish.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_bladephantom/1normal_finish.img",
+        "score": 0.6261
+      },
+      "atlasRef": ".gametool/skill_fx_states/50033/assets/kulou-release-stab-blade.png"
+    }
+  ]
+}

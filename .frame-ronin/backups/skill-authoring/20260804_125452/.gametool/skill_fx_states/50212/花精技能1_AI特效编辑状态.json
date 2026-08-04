@@ -1,0 +1,220 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/花精",
+  "actorName": "花精",
+  "skillId": "50212",
+  "skillName": "花精技能1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: 花精 (enemy)\nSkill id/name: 50212 / 花精技能1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 9 fps\nFrame size: 240x240\nFoot center: (121, 204)\nAllowed action events: [{\"name\":\"release\",\"frame\":2}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":2,\"end_frame\":2,\"forward\":56,\"y\":-35,\"width\":56,\"height\":52}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"action\": \"skill\",\n    \"type\": \"play_animation\"\n  },\n  {\n    \"hit_window_index\": 0,\n    \"type\": \"wait_hit_window\"\n  },\n  {\n    \"damage_channel\": \"magic\",\n    \"damage_ratio\": 1.5,\n    \"result_key\": \"hit_50212\",\n    \"type\": \"melee_damage\",\n    \"flat_damage\": 2\n  },\n  {\n    \"type\": \"apply_target_buff\",\n    \"target\": \"result\",\n    \"result_key\": \"last_result\",\n    \"buff_ids\": [\n      10001\n    ],\n    \"chance\": 1\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #3 is apply_target_buff: the proposal MUST contain a buff track with target_buff_node_index=3 and target_buff_id=10001. This is the AI Buff stage and represents the Buff's persistent/self visual, not an enemy impact.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "huajing_skill1_poison_slash-msdcc3t1",
+      "title": "花精技能1·紫莲毒斩特效",
+      "summary": "本方案为花精近战爪击技能设计生产级2D特效：蓄力阶段臂刃缠绕暗紫能量微光，释放帧挥出紫绿相间的锐利斩弧覆盖命中判定区，命中后为目标附加持续花毒孢子视觉效果，时序严格匹配4帧9fps动画，轮廓清晰战斗可读性强，适配横版奇幻项目风格。",
+      "style": "2D横版手绘奇幻风格，轮廓干净锐利，色彩对比明快，特效层次分明，严格适配240x240帧尺寸，无冗余装饰元素，战斗反馈清晰直观。",
+      "palette": [
+        "#522e86",
+        "#7a4db3",
+        "#36f042",
+        "#2b5468",
+        "#ffd347",
+        "#190e2a"
+      ],
+      "tracks": [
+        {
+          "id": "charge_blade_glow",
+          "phase": "charge",
+          "title": "臂刃蓄力紫光",
+          "description": "技能启动后在花精前臂刃部生成暗紫色柔光，伴随零星紫莲花瓣缓慢飘散，表现蓄力状态，持续至释放帧。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 222,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 36,
+              "y": -24
+            },
+            "scale": 0.9,
+            "rotation_degrees": 0,
+            "opacity": 0.75,
+            "tint": "#8c58c9"
+          },
+          "library_query": "dark purple energy glow, small floating purple lotus petals, melee weapon charge effect",
+          "generation_prompt": "Isolated 2D VFX layer, soft dark purple energy glow wrapping around a bladed forearm, 3-5 small purple lotus petals drifting slowly outward, subtle pulsing brightness, clean silhouette, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_slash_arc",
+          "phase": "release",
+          "title": "毒刃挥斩弧光",
+          "description": "release事件触发时，在命中判定区域生成紫绿镶边的锐利弧形斩击光效，仅持续1帧表现快速挥砍的打击感，完全覆盖命中窗口范围。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 111,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -2,
+              "y": -59
+            },
+            "scale": 0.55,
+            "rotation_degrees": -15,
+            "opacity": 0.9,
+            "tint": "#6600ff"
+          },
+          "library_query": "curved purple green slash arc, fast melee blade swing effect, toxic edge",
+          "generation_prompt": "Isolated 2D VFX layer, sharp crescent slash arc, main color dark purple with bright toxic green thin edge, subtle motion blur along swing direction, hard clean silhouette, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "buff_toxic_spores",
+          "phase": "buff",
+          "title": "花毒持续孢子效果",
+          "description": "buff施加成功后，在受击目标身上生成持续脉动的紫绿色毒孢子光环，对应10001号花毒减益的持续视觉表现。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 3,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "body_center",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 3000,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1.1,
+            "rotation_degrees": 0,
+            "opacity": 0.6,
+            "tint": "#49d952"
+          },
+          "library_query": "toxic purple green spore aura, pulsing poison debuff effect, floating small particles",
+          "generation_prompt": "Isolated 2D VFX layer, wispy pulsing aura mixed dark purple and bright toxic green, small glowing green spore particles drifting upward slowly, soft edge, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": 10001,
+          "target_buff_node_index": 3
+        }
+      ]
+    }
+  ],
+  "proposalId": "huajing_skill1_poison_slash-msdcc3t1",
+  "actionHash": "5e22b1f8420c225686fc009b535ea50de24ab7e1073a6067ba4b32a2cfbf47b5",
+  "drawPrompts": {
+    "huajing_skill1_poison_slash-msdcc3t1:charge_blade_glow": "Isolated 2D VFX layer, soft dark purple energy glow wrapping around a bladed forearm, 3-5 small purple lotus petals drifting slowly outward, subtle pulsing brightness, clean silhouette, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "huajing_skill1_poison_slash-msdcc3t1:release_slash_arc": "Isolated 2D VFX layer, sharp crescent slash arc, main color dark purple with bright toxic green thin edge, subtle motion blur along swing direction, hard clean silhouette, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "huajing_skill1_poison_slash-msdcc3t1:buff_toxic_spores": "Isolated 2D VFX layer, wispy pulsing aura mixed dark purple and bright toxic green, small glowing green spore particles drifting upward slowly, soft edge, no characters, no text, no UI, no scenery, hand-painted fantasy style, transparent background\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the buff phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/花精:50212:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "huajing_skill1_poison_slash-msdcc3t1": {
+      "createdAt": "2026-08-03T14:44:56.006Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge_blade_glow",
+    "buff_toxic_spores"
+  ],
+  "trackSelectedFrames": {
+    "release_slash_arc": [
+      0,
+      1,
+      2
+    ]
+  },
+  "trackFrameRotations": {
+    "release_slash_arc": {
+      "0": 140,
+      "1": 140,
+      "2": 140
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "release_slash_arc": 0
+  },
+  "candidatePageOffsets": {
+    "release_slash_arc": 6
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_slash_arc",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 313,
+        "height": 235
+      },
+      "frameCount": 3,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "d63d8b44fb31e640",
+        "name": "2",
+        "path": "500个序列png特效下载/1套/1-10/2",
+        "score": 0.653
+      },
+      "atlasRef": ".gametool/skill_fx_states/50212/assets/release_slash_arc.png"
+    }
+  ]
+}

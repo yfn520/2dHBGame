@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "effect",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -2.0,
+    "y": -86.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.4,
+  "effectMirror": false,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 210,
+    "height": 211
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/charge_core_glow/effect.tscn",
+  "fps": 20.97902097902098,
+  "frameCount": 3
+}

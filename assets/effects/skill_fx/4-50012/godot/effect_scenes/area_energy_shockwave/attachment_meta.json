@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -32.0,
+    "y": -2.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.25,
+  "effectMirror": false,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 113,
+    "height": 31
+  },
+  "layer": "front",
+  "blendMode": "screen",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/4-50012/godot/effect_scenes/area_energy_shockwave/effect.tscn",
+  "fps": 17.482517482517483,
+  "frameCount": 5
+}

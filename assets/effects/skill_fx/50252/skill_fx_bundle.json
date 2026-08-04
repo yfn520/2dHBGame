@@ -1,0 +1,63 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "50252",
+  "skill_id": "50252",
+  "proposal": {
+    "id": "50252-unified",
+    "title": "鱼人挥斧水刃斩击技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "water_slash_release",
+      "phase": "release",
+      "title": "挥斧水刃斩击弧光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 143,
+      "blend_mode": "add",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -50,
+          "y": -85
+        },
+        "scale": 0.65,
+        "rotation_degrees": -15,
+        "opacity": 0.9,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "water_slash_release",
+        "atlas_path": "assets/effects/skill_fx/50252/visual/water_slash_release/atlas.png",
+        "scene_path": "assets/effects/skill_fx/50252/godot/effect_scenes/water_slash_release/effect.tscn",
+        "frame_size": {
+          "width": 287,
+          "height": 231
+        },
+        "frame_count": 3,
+        "fps": 20.97902097902098,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "挥斧水刃斩击弧光"
+        }
+      }
+    }
+  ]
+}

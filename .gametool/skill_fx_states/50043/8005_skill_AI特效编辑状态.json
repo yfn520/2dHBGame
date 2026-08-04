@@ -1,0 +1,281 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/gebulin",
+  "actorName": "ge'bu'ling",
+  "skillId": "50043",
+  "skillName": "8005_skill",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: ge'bu'ling (enemy)\nSkill id/name: 50043 / 8005_skill\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (130, 192)\nAllowed action events: [{\"name\":\"effect\",\"frame\":1},{\"name\":\"release\",\"frame\":2},{\"name\":\"release_2\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":94,\"y\":-59,\"width\":68,\"height\":49}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"melee_damage\",\n    \"result_key\": \"melee_hit\",\n    \"damage_ratio\": 1,\n    \"flat_damage\": 3\n  },\n  {\n    \"type\": \"apply_self_buff\",\n    \"buff_ids\": [\n      20013\n    ],\n    \"effect_offset_x\": 0,\n    \"effect_offset_y\": 0,\n    \"effect_scale\": 1\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #3 is apply_self_buff: the proposal MUST contain a buff track with target_buff_node_index=3 and target_buff_id=20013. This is the AI Buff stage and represents the Buff's persistent/self visual, not an enemy impact.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "goblin-club-bash-50043-mseobbpi",
+      "title": "哥布林木棒重击技能特效",
+      "summary": "本方案适配哥布林举棒下砸的近战攻击动作，包含蓄力怒气微光、挥棒运动拖影、落点尘屑反馈与自身狂暴buff常驻视觉，时序严格匹配4帧7fps的动作节奏，轮廓清晰、战斗反馈明确，符合2D横版奇幻游戏的美术风格。",
+      "style": "2D横版卡通奇幻游戏风格，轮廓干净锐利，色块平涂带少量软边光效，战斗反馈可读性强，适配低帧角色动画。",
+      "palette": [
+        "#8b5a2b",
+        "#d2b48c",
+        "#ff3c3c",
+        "#50c878",
+        "#2d2118"
+      ],
+      "tracks": [
+        {
+          "id": "charge-red-glow",
+          "phase": "charge",
+          "title": "蓄力怒气微光",
+          "description": "哥布林举棒蓄力阶段眼部溢出的淡红色怒气光效，提示攻击前摇，强化敌人凶狠的攻击状态。",
+          "trigger": {
+            "type": "action_event",
+            "event": "effect",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 280,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 52,
+              "y": -134
+            },
+            "scale": 0.3,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#ff3c3c"
+          },
+          "library_query": "cartoon soft red eye glow aura, 2d game vfx, faint angry energy",
+          "generation_prompt": "Isolated single 2D VFX layer, soft faint pulsing red glow aura positioned at character eye level, smooth blurred edges, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, optimized for additive blending, short 280ms fade in fade out lifecycle.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "club-swing-trail",
+          "phase": "release",
+          "title": "木棒挥击拖影",
+          "description": "木棒从高举位置向前下挥出时的半透明运动拖影，强化挥棒的重量感与速度感，匹配动作弧线。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 280,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -11,
+              "y": -66
+            },
+            "scale": 0.95,
+            "rotation_degrees": -35,
+            "opacity": 0.55,
+            "tint": "#ff0000"
+          },
+          "library_query": "cartoon wooden club swing motion trail, semi-transparent, curved arc, 2d melee vfx",
+          "generation_prompt": "Isolated single 2D VFX layer, curved semi-transparent dark brown motion trail matching the arc of a heavy wooden club swing, thick blunt shape, hard outer edge with soft fade, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, normal blend mode, fades out over 280ms.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "swing-dust-burst",
+          "phase": "area",
+          "title": "挥击落点尘屑",
+          "description": "木棒挥至命中判定位置时扬起的浅褐色尘屑爆点，明确提示攻击判定生效的位置与时机。",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 200,
+          "blend_mode": "normal",
+          "layer": -1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 94,
+              "y": -59
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 0.8,
+            "tint": "#d2b48c"
+          },
+          "library_query": "small dirt dust puff burst, cartoon 2d melee impact vfx, short lived",
+          "generation_prompt": "Isolated single 2D VFX layer, small short-lived burst of light brown dust and dirt particles puffing outward horizontally, opaque chunky particles, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, normal blend mode, fades out completely over 200ms.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "self-rage-buff-aura",
+          "phase": "buff",
+          "title": "狂暴buff周身绿光",
+          "description": "哥布林获得狂暴增益时周身萦绕的淡绿色脉动微光，持续提示自身buff状态，匹配增益节点触发时机。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 3,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "body_center",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 3000,
+          "blend_mode": "add",
+          "layer": 0,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": -30
+            },
+            "scale": 1.2,
+            "rotation_degrees": 0,
+            "opacity": 0.5,
+            "tint": "#50c878"
+          },
+          "library_query": "faint pulsing green body aura, cartoon self buff vfx, 2d game, wispy energy",
+          "generation_prompt": "Isolated single 2D VFX layer, faint wispy pulsing green aura wrapping around character body, soft blurred edges, slow steady pulse, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, optimized for additive blending, loops seamlessly for persistent buff display.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": 20013,
+          "target_buff_node_index": 3
+        }
+      ]
+    }
+  ],
+  "proposalId": "goblin-club-bash-50043-mseobbpi",
+  "actionHash": "d3b7ed497ca5bfa8f74c3fd1c5e040dac065e85c39dc2b2600da90a9d4e61d81",
+  "drawPrompts": {
+    "goblin-club-bash-50043-mseobbpi:charge-red-glow": "Isolated single 2D VFX layer, soft faint pulsing red glow aura positioned at character eye level, smooth blurred edges, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, optimized for additive blending, short 280ms fade in fade out lifecycle.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "goblin-club-bash-50043-mseobbpi:club-swing-trail": "Isolated single 2D VFX layer, curved semi-transparent dark brown motion trail matching the arc of a heavy wooden club swing, thick blunt shape, hard outer edge with soft fade, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, normal blend mode, fades out over 280ms.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable.",
+    "goblin-club-bash-50043-mseobbpi:swing-dust-burst": "Isolated single 2D VFX layer, small short-lived burst of light brown dust and dirt particles puffing outward horizontally, opaque chunky particles, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, normal blend mode, fades out completely over 200ms.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the area phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable.",
+    "goblin-club-bash-50043-mseobbpi:self-rage-buff-aura": "Isolated single 2D VFX layer, faint wispy pulsing green aura wrapping around character body, soft blurred edges, slow steady pulse, no characters, no text, no UI elements, no scenery, clean readable silhouette, cartoon fantasy art style, optimized for additive blending, loops seamlessly for persistent buff display.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the buff phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/gebulin:50043:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "goblin-club-bash-50043-mseobbpi": {
+      "createdAt": "2026-08-04T13:08:01.158Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "swing-dust-burst",
+    "self-rage-buff-aura"
+  ],
+  "trackSelectedFrames": {
+    "charge-red-glow": [],
+    "club-swing-trail": [
+      0,
+      1,
+      2
+    ]
+  },
+  "trackFrameRotations": {
+    "charge-red-glow": {
+      "4": 5
+    },
+    "club-swing-trail": {
+      "0": 140,
+      "1": 125,
+      "2": 95
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "club-swing-trail": 2
+  },
+  "candidatePageOffsets": {
+    "charge-red-glow": 6,
+    "club-swing-trail": 6
+  },
+  "selectedAssets": [
+    {
+      "trackId": "charge-red-glow",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 307,
+        "height": 249
+      },
+      "frameCount": 5,
+      "fps": 14,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "3314ad442a078e3b",
+        "name": "exp2.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_hundredsword/exp2.img",
+        "score": 0.6314
+      },
+      "atlasRef": ".gametool/skill_fx_states/50043/assets/charge-red-glow.png"
+    },
+    {
+      "trackId": "club-swing-trail",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 240,
+        "height": 191
+      },
+      "frameCount": 3,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "1a1382cc7b068141",
+        "name": "smash2_dodge.img",
+        "path": "DNF特效全集库3338套/sprite_character_priest_effect_oxcrash/smash2_dodge.img",
+        "score": 0.6851
+      },
+      "atlasRef": ".gametool/skill_fx_states/50043/assets/club-swing-trail.png"
+    }
+  ]
+}

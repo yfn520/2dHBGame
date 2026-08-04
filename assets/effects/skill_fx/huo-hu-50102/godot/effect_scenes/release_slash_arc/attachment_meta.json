@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -63.0,
+    "y": -70.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.85,
+  "effectMirror": true,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 179,
+    "height": 150
+  },
+  "layer": "front",
+  "blendMode": "add",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/release_slash_arc/effect.tscn",
+  "fps": 20.97902097902098,
+  "frameCount": 3
+}

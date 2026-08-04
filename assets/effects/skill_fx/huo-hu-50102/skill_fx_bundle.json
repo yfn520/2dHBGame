@@ -1,0 +1,135 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "huo-hu-50102",
+  "skill_id": "50102",
+  "proposal": {
+    "id": "huo-hu-50102-unified",
+    "title": "火狐双刃魔焰斩特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "charge_weapon_glow",
+      "phase": "charge",
+      "title": "武器蓄力魔能辉光",
+      "trigger": {
+        "type": "skill_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 286,
+      "blend_mode": "add",
+      "layer": 3,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 39,
+          "y": -141
+        },
+        "scale": 0.6,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ff4d00"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "charge_weapon_glow",
+        "atlas_path": "assets/effects/skill_fx/huo-hu-50102/visual/charge_weapon_glow/atlas.png",
+        "scene_path": "assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/charge_weapon_glow/effect.tscn",
+        "frame_size": {
+          "width": 281,
+          "height": 177
+        },
+        "frame_count": 3,
+        "fps": 10.48951048951049,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "武器蓄力魔能辉光",
+          "selected_source_frames": [
+            3,
+            2,
+            1
+          ],
+          "selected_frame_rotations": {
+            "1": 70,
+            "2": 70,
+            "3": 70
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "release_slash_arc",
+      "phase": "release",
+      "title": "释放帧橙焰斩击弧光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": true,
+      "duration_ms": 143,
+      "blend_mode": "add",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -63,
+          "y": -70
+        },
+        "scale": 0.85,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#f82a2a"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_slash_arc",
+        "atlas_path": "assets/effects/skill_fx/huo-hu-50102/visual/release_slash_arc/atlas.png",
+        "scene_path": "assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/release_slash_arc/effect.tscn",
+        "frame_size": {
+          "width": 179,
+          "height": 150
+        },
+        "frame_count": 3,
+        "fps": 20.97902097902098,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "释放帧橙焰斩击弧光",
+          "selected_source_frames": [
+            0,
+            1,
+            2
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0
+          },
+          "selected_frame_rotation_mirror_compensated": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "kulou-50033",
+  "skill_id": "50033",
+  "proposal": {
+    "id": "kulou-50033-unified",
+    "title": "骷髅刺客暗影突刺技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "kulou-charge-dagger-enchant",
+      "phase": "charge",
+      "title": "匕首暗影蓄能光效",
+      "trigger": {
+        "type": "skill_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 333,
+      "blend_mode": "add",
+      "layer": 3,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -24,
+          "y": -75
+        },
+        "scale": 1,
+        "rotation_degrees": -15,
+        "opacity": 0.9,
+        "tint": "#6a08fd"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "kulou-charge-dagger-enchant",
+        "atlas_path": "assets/effects/skill_fx/kulou-50033/visual/kulou-charge-dagger-enchant/atlas.png",
+        "scene_path": "assets/effects/skill_fx/kulou-50033/godot/effect_scenes/kulou-charge-dagger-enchant/effect.tscn",
+        "frame_size": {
+          "width": 64,
+          "height": 67
+        },
+        "frame_count": 6,
+        "fps": 18.01801801801802,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "匕首暗影蓄能光效",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "kulou-release-stab-blade",
+      "phase": "release",
+      "title": "暗影突刺能量刃",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 111,
+      "blend_mode": "add",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -8,
+          "y": -67
+        },
+        "scale": 0.65,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#7a09ec"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "kulou-release-stab-blade",
+        "atlas_path": "assets/effects/skill_fx/kulou-50033/visual/kulou-release-stab-blade/atlas.png",
+        "scene_path": "assets/effects/skill_fx/kulou-50033/godot/effect_scenes/kulou-release-stab-blade/effect.tscn",
+        "frame_size": {
+          "width": 245,
+          "height": 258
+        },
+        "frame_count": 4,
+        "fps": 36.03603603603604,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "暗影突刺能量刃",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "selected_frame_rotations": {
+            "0": -135,
+            "1": -135,
+            "2": -135,
+            "3": -135
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

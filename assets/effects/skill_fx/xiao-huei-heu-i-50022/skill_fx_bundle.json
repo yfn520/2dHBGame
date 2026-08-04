@@ -20,13 +20,13 @@
         "node_index": 0,
         "offset_ms": 0
       },
-      "space": "world",
+      "space": "character_local",
       "anchor": "origin",
       "direction": "facing",
       "mirror": true,
       "duration_ms": 286,
       "blend_mode": "add",
-      "layer": 3,
+      "layer": 1,
       "loop": false,
       "transform": {
         "offset": {
@@ -55,7 +55,20 @@
         "loop": false,
         "source": {
           "kind": "generated",
-          "description": "紫能撕咬爪痕冲击"
+          "description": "紫能撕咬爪痕冲击",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "selected_frame_rotations": {
+            "0": 20,
+            "1": 20,
+            "2": 25,
+            "3": 25
+          },
+          "selected_frame_rotation_mirror_compensated": true
         }
       }
     }
