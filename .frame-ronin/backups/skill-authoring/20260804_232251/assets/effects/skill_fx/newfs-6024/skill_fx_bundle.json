@@ -1,0 +1,113 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "newfs-6024",
+  "skill_id": "6024",
+  "proposal": {
+    "id": "newfs-6024-unified",
+    "title": "fs_skill3 · 当前特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "track_fullscreen_fire",
+      "phase": "screen",
+      "title": "全屏烈焰风暴",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "fullscreen",
+      "anchor": "origin",
+      "direction": "none",
+      "mirror": false,
+      "duration_ms": 1200,
+      "blend_mode": "add",
+      "layer": -1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        },
+        "scale": 0.85,
+        "rotation_degrees": 0,
+        "opacity": 0.9,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_fullscreen_fire",
+        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/track_fullscreen_fire/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_fullscreen_fire/effect.tscn",
+        "frame_size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "frame_count": 3,
+        "fps": 2.5,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "bundle",
+          "bundleId": "newfs-6024",
+          "trackId": "track_fullscreen_fire"
+        }
+      }
+    },
+    {
+      "id": "track_release_burst",
+      "phase": "release",
+      "title": "星芒魔力爆发",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "caster",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 600,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -92,
+          "y": -130
+        },
+        "scale": 1.01,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "track_release_burst",
+        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/track_release_burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_release_burst/effect.tscn",
+        "frame_size": {
+          "width": 119,
+          "height": 118
+        },
+        "frame_count": 4,
+        "fps": 6.666666666666667,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "bundle",
+          "bundleId": "newfs-6024",
+          "trackId": "track_release_burst"
+        }
+      }
+    }
+  ]
+}

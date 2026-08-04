@@ -5,64 +5,73 @@
   "skill_id": "6024",
   "proposal": {
     "id": "newfs-6024-unified",
-    "title": "fs_skill3 · 当前特效",
+    "title": "fs_skill3 · 手动编排",
     "summary": "网页统一技能工作台特效轨道"
   },
   "tracks": [
     {
-      "id": "track_fullscreen_fire",
-      "phase": "screen",
-      "title": "全屏烈焰风暴",
+      "id": "manual-area-1",
+      "phase": "area",
+      "title": "范围特效",
       "trigger": {
-        "type": "action_event",
-        "event": "release",
+        "type": "hit_window_start",
+        "event": "",
         "hit_window_index": 0,
         "node_index": 0,
         "offset_ms": 0
       },
-      "space": "fullscreen",
+      "space": "world",
       "anchor": "origin",
-      "direction": "none",
+      "direction": "facing",
       "mirror": false,
-      "duration_ms": 1200,
+      "duration_ms": 900,
       "blend_mode": "add",
-      "layer": -1,
+      "layer": 1,
       "loop": false,
       "transform": {
         "offset": {
-          "x": 0,
-          "y": 0
+          "x": -37,
+          "y": -888
         },
-        "scale": 0.85,
+        "scale": 11.45,
         "rotation_degrees": 0,
-        "opacity": 0.9,
-        "tint": "#ffffff"
+        "opacity": 1,
+        "tint": "#ff2600"
       },
       "is_projectile": false,
       "projectile_config": null,
+      "target_buff_node_index": 0,
       "asset": {
-        "track_id": "track_fullscreen_fire",
-        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/track_fullscreen_fire/atlas.png",
-        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_fullscreen_fire/effect.tscn",
+        "track_id": "manual-area-1",
+        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/manual-area-1/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-area-1/effect.tscn",
         "frame_size": {
-          "width": 1920,
-          "height": 1080
+          "width": 206,
+          "height": 299
         },
-        "frame_count": 3,
-        "fps": 2.5,
+        "frame_count": 2,
+        "fps": 2.2222222222222223,
         "baked_scale": 1,
         "loop": false,
         "source": {
-          "kind": "bundle",
-          "bundleId": "newfs-6024",
-          "trackId": "track_fullscreen_fire"
+          "kind": "generated",
+          "description": "范围特效",
+          "selected_source_frames": [
+            0,
+            1
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
         }
       }
     },
     {
       "id": "track_release_burst",
       "phase": "release",
-      "title": "星芒魔力爆发",
+      "title": "释放特效",
       "trigger": {
         "type": "action_event",
         "event": "release",
@@ -83,29 +92,48 @@
           "x": -92,
           "y": -130
         },
-        "scale": 1.01,
+        "scale": 1.53,
         "rotation_degrees": 0,
         "opacity": 1,
         "tint": "#ffffff"
       },
       "is_projectile": false,
       "projectile_config": null,
+      "target_buff_node_index": 0,
       "asset": {
         "track_id": "track_release_burst",
-        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/track_release_burst/atlas.png",
-        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_release_burst/effect.tscn",
+        "atlas_path": "assets/effects/skill_fx/newfs-6024/visual/manual-release-1/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-release-1/effect.tscn",
         "frame_size": {
-          "width": 119,
-          "height": 118
+          "width": 455,
+          "height": 250
         },
-        "frame_count": 4,
-        "fps": 6.666666666666667,
+        "frame_count": 7,
+        "fps": 14,
         "baked_scale": 1,
         "loop": false,
         "source": {
-          "kind": "bundle",
-          "bundleId": "newfs-6024",
-          "trackId": "track_release_burst"
+          "kind": "generated",
+          "description": "释放特效",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "selected_frame_rotations": {
+            "0": -90,
+            "1": -90,
+            "2": -90,
+            "3": -90,
+            "4": -90,
+            "5": -90,
+            "6": -90
+          },
+          "selected_frame_rotation_mirror_compensated": false
         }
       }
     }
