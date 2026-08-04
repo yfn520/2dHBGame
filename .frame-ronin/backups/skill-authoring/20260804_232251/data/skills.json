@@ -616,7 +616,7 @@
   "6024": {
     "ai_range_cache": {
       "policy": "any_damage_node",
-      "source_hash": "d63d4ba4ef7e03a2",
+      "source_hash": "f21fc8533c043c14",
       "entries": [
         {
           "node_index": 4,
@@ -635,28 +635,24 @@
         "type": "play_animation"
       },
       {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
         "attachment_blend_mode": "add",
         "attachment_box_height": 118,
         "attachment_box_width": 119,
         "attachment_layer": "front",
         "coordinate_space": "character_local",
-        "effect_scale": 1.53,
+        "effect_scale": 1.01,
         "mirror": false,
         "mirror_with_facing": true,
         "offset_x": -92,
         "offset_y": -130,
         "origin": "caster",
         "rotation_degrees": 0,
-        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-release-1/effect.tscn",
+        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_release_burst/effect.tscn",
         "target": "origin",
         "type": "play_effect",
         "source_bundle_id": "newfs-6024",
         "source_track_id": "track_release_burst",
-        "delay_ms": 0,
+        "delay_ms": 333,
         "anchor": "caster",
         "follow_target": true,
         "lifetime_ms": 600,
@@ -664,27 +660,31 @@
         "tint": "#ffffff"
       },
       {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-area-1/effect.tscn",
-        "coordinate_space": "world",
+        "coordinate_space": "fullscreen",
+        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/track_fullscreen_fire/effect.tscn",
         "target": "origin",
-        "origin": "hit_window",
-        "offset_x": -37,
-        "offset_y": -888,
-        "delay_ms": 0,
+        "type": "play_effect",
+        "source_bundle_id": "newfs-6024",
+        "source_track_id": "track_fullscreen_fire",
+        "offset_x": 0,
+        "offset_y": 0,
+        "delay_ms": 333,
         "anchor": "origin",
         "follow_target": false,
-        "mirror_with_facing": false,
         "mirror": false,
-        "lifetime_ms": 900,
-        "effect_scale": 11.45,
+        "mirror_with_facing": false,
+        "lifetime_ms": 1200,
+        "duration": 1.2,
+        "effect_scale": 0.85,
         "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ff2600",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "newfs-6024",
-        "source_track_id": "manual-area-1"
+        "opacity": 0.9,
+        "tint": "#ffffff",
+        "attachment_layer": "behind",
+        "attachment_blend_mode": "add"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
       },
       {
         "buff_chance": 1,
