@@ -5,6 +5,7 @@
 [node name="Senlin" type="Node2D"]
 
 [node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+scale = Vector2(0.5625, 0.5625)
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
 position = Vector2(886, 706)

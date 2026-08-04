@@ -15,10 +15,6 @@ const ALLY_ATTACK_HOLD_TIME := 0.35
 const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
 const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
-const CAMERA_LONG_MAP_WIDTH_RATIO := 1.35
-const CAMERA_LOOK_AHEAD_VIEWPORT_RATIO := 0.125
-const CAMERA_LOOK_AHEAD_MAX := 192.0
-const CAMERA_LOOK_AHEAD_SPEED := 480.0
 const CAMERA_VERTICAL_OFFSET := -173.0
 const ACTOR_BODY_HEIGHT_MIN := 110.0
 const ACTOR_BODY_HEIGHT_MAX := 160.0
@@ -42,10 +38,6 @@ var _party_slot_index := 0
 var character_id: int = 0
 var _combat_stats = preload("res://scripts/combat/party_member_stats.gd").new()
 var _camera_base_position := Vector2.ZERO
-var _camera_look_ahead_enabled := false
-var _camera_look_direction := 1.0
-var _camera_look_ahead_x := 0.0
-var _camera_look_ahead_distance := 0.0
 var _camera_vertical_offset := CAMERA_VERTICAL_OFFSET
 
 
@@ -95,56 +87,16 @@ func set_player_controlled(value: bool) -> void:
 		current_ladder = null
 
 
-## 长横版地图使用约 192px 前视，让角色位于画面约 38% 处。
-## 短地图继续使用原来的居中视角。
-func configure_level_camera(level_bounds: Rect2, ground_line_y: float = 605.0) -> void:
+## 相机始终居中跟随玩家（无水平前视偏移），仅按地面线设置垂直偏移。
+func configure_level_camera(_level_bounds: Rect2, ground_line_y: float = 605.0) -> void:
 	if camera == null:
 		return
 	camera.zoom = Vector2.ONE
 	_camera_vertical_offset = LEVEL_SIZE.y * 0.5 - clampf(ground_line_y, 570.0, 639.0)
 	_camera_base_position.y = _camera_vertical_offset
-	# 用逻辑视口判定长图，避免 21:9 物理窗口把双块地图误判为“短地图”。
-	var world_view_width := float(LEVEL_SIZE.x)
-	_camera_look_ahead_enabled = (
-		world_view_width > 0.0
-		and level_bounds.size.x > world_view_width * CAMERA_LONG_MAP_WIDTH_RATIO
-	)
-	_camera_look_ahead_distance = minf(
-		minf(world_view_width * CAMERA_LOOK_AHEAD_VIEWPORT_RATIO, CAMERA_LOOK_AHEAD_MAX),
-		maxf(0.0, (level_bounds.size.x - world_view_width) * 0.5)
-	)
-	if absf(velocity.x) > 1.0:
-		_camera_look_direction = signf(velocity.x)
-	else:
-		# 初次进入长图时默认望向地图剩余空间更多的一侧。
-		_camera_look_direction = 1.0 if global_position.x <= level_bounds.get_center().x else -1.0
-	var target_x := (
-		_camera_look_direction * _camera_look_ahead_distance
-		if _camera_look_ahead_enabled
-		else 0.0
-	)
-	_camera_look_ahead_x = target_x
-	camera.position = Vector2(_camera_base_position.x + _camera_look_ahead_x, _camera_vertical_offset)
+	camera.position = Vector2(_camera_base_position.x, _camera_vertical_offset)
 	camera.limit_smoothed = true
 	camera.reset_smoothing()
-
-
-func _update_camera_look_ahead(delta: float) -> void:
-	if camera == null or not _player_controlled:
-		return
-	if _camera_look_ahead_enabled and absf(velocity.x) > 1.0:
-		_camera_look_direction = signf(velocity.x)
-	var target_x := (
-		_camera_look_direction * _camera_look_ahead_distance
-		if _camera_look_ahead_enabled
-		else 0.0
-	)
-	_camera_look_ahead_x = move_toward(
-		_camera_look_ahead_x,
-		target_x,
-		CAMERA_LOOK_AHEAD_SPEED * delta
-	)
-	camera.position = Vector2(_camera_base_position.x + _camera_look_ahead_x, _camera_vertical_offset)
 
 
 func is_player_controlled() -> bool:
@@ -278,7 +230,6 @@ func _load_combat_actions(asset_path: String, character_config: Dictionary) -> v
 
 
 func _update_actor(delta: float) -> void:
-	_update_camera_look_ahead(delta)
 	if not _player_controlled:
 		_update_ally_ai(delta)
 		return
