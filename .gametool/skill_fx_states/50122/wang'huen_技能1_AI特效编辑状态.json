@@ -1,0 +1,219 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/wang'huen",
+  "actorName": "wang'huen",
+  "skillId": "50122",
+  "skillName": "wang'huen 技能1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: wang'huen (enemy)\nSkill id/name: 50122 / wang'huen 技能1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (127, 200)\nAllowed action events: [{\"name\":\"effect\",\"frame\":1},{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":99,\"y\":-88,\"width\":49,\"height\":48}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"action\": \"skill\",\n    \"type\": \"play_animation\"\n  },\n  {\n    \"hit_window_index\": 0,\n    \"type\": \"wait_hit_window\"\n  },\n  {\n    \"damage_ratio\": 1.5,\n    \"result_key\": \"hit_50122\",\n    \"type\": \"melee_damage\"\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "wanghuen_skill1_50122-msflluqh",
+      "title": "亡魂卫兵突刺攻击特效",
+      "summary": "本方案适配亡魂卫兵（wang'huen）短剑突刺技能1的4帧7fps攻击动画，蓄力阶段在角色本体附着持续的幽蓝亡灵鬼气，收剑蓄力帧触发剑刃冷光微闪，出剑命中帧在剑尖前方生成狭长突刺光轨，整体风格统一为冷暗奇幻亡灵色调，剪影清晰不遮挡角色动作，战斗时序完全匹配动画帧与命中窗口，生产落地性强。",
+      "style": "2D横版奇幻手绘风格，轮廓清晰硬边，低饱和冷亡灵色调，特效简洁克制，优先保证战斗动作可读性，不遮挡角色与武器剪影。",
+      "palette": [
+        "#2d3748",
+        "#718096",
+        "#90cdf4",
+        "#4a5568",
+        "#1a202c"
+      ],
+      "tracks": [
+        {
+          "id": "charge_body_wisps",
+          "phase": "attachment",
+          "title": "盔甲缠绕亡灵鬼气",
+          "description": "技能全程缠绕在亡魂卫兵盔甲缝隙的幽蓝鬼气，随攻击动作轻微飘动，强化亡灵单位的虚无质感，不遮挡角色核心剪影。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "body_center",
+          "direction": "none",
+          "mirror": true,
+          "duration_ms": 571,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1.1,
+            "rotation_degrees": 0,
+            "opacity": 0.6,
+            "tint": "#8ab4f8"
+          },
+          "library_query": "undead ghost wisp aura, blue ethereal smoke, 2d sprite vfx",
+          "generation_prompt": "Isolated 2D VFX layer of wispy cold pale blue ethereal ghost smoke curling around armored undead body, soft blurred glow edges, flowing tattered wisp shapes, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style, clean outer silhouette.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "windup_sword_glint",
+          "phase": "charge",
+          "title": "蓄力剑刃冷光微闪",
+          "description": "收剑蓄力帧在短剑剑刃上触发的细小冷色反光，提示攻击即将释放，时长仅1帧快速消失。",
+          "trigger": {
+            "type": "action_event",
+            "event": "effect",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 143,
+          "blend_mode": "screen",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 25,
+              "y": -70
+            },
+            "scale": 0.4,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#c6e6ff"
+          },
+          "library_query": "small sword blade glint, cold blue metal shine, melee vfx",
+          "generation_prompt": "Isolated 2D VFX layer of tiny sharp cold bright blue glint on short metal sword blade, subtle specular shine, small size, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_stab_trail",
+          "phase": "release",
+          "title": "突刺剑刃能量光轨",
+          "description": "出剑突刺帧沿短剑前刺方向生成的狭长冷色光轨，覆盖命中判定区域，强化突刺的速度感与攻击判定可读性，时长1帧。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 143,
+          "blend_mode": "screen",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -63,
+              "y": -67
+            },
+            "scale": 0.45,
+            "rotation_degrees": 0,
+            "opacity": 0.8,
+            "tint": "#93c5fd"
+          },
+          "library_query": "short sword stab energy trail, narrow blue slash arc, 2d melee vfx",
+          "generation_prompt": "Isolated 2D VFX layer of narrow sharp cold pale blue energy motion trail for forward short sword stab, elongated sharp arc shape pointing horizontally forward, bright glowing edge, fast motion blur feel, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style, clean hard silhouette.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "wanghuen_skill1_50122-msflluqh",
+  "actionHash": "273259c018bd1aa087e605727b85e63e76e5a7daff2c9930badc74027afea3a9",
+  "drawPrompts": {
+    "wanghuen_skill1_50122-msflluqh:charge_body_wisps": "Isolated 2D VFX layer of wispy cold pale blue ethereal ghost smoke curling around armored undead body, soft blurred glow edges, flowing tattered wisp shapes, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style, clean outer silhouette.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the attachment phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "wanghuen_skill1_50122-msflluqh:windup_sword_glint": "Isolated 2D VFX layer of tiny sharp cold bright blue glint on short metal sword blade, subtle specular shine, small size, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "wanghuen_skill1_50122-msflluqh:release_stab_trail": "Isolated 2D VFX layer of narrow sharp cold pale blue energy motion trail for forward short sword stab, elongated sharp arc shape pointing horizontally forward, bright glowing edge, fast motion blur feel, no characters, no text, no UI, no scenery, transparent background, hand-painted dark fantasy style, clean hard silhouette.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/wang'huen:50122:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "wanghuen_skill1_50122-msflluqh": {
+      "createdAt": "2026-08-05T04:39:59.705Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge_body_wisps",
+    "windup_sword_glint"
+  ],
+  "trackSelectedFrames": {
+    "release_stab_trail": [
+      0,
+      1,
+      2
+    ]
+  },
+  "trackFrameRotations": {
+    "release_stab_trail": {
+      "0": 160,
+      "1": 160,
+      "2": 160
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "release_stab_trail": 0
+  },
+  "candidatePageOffsets": {
+    "release_stab_trail": 6
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_stab_trail",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 287,
+        "height": 231
+      },
+      "frameCount": 3,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "f6e9012756742489",
+        "name": "3",
+        "path": "500个序列png特效下载/1套/1-10/3",
+        "score": 0.6895
+      },
+      "atlasRef": ".gametool/skill_fx_states/50122/assets/release_stab_trail.png"
+    }
+  ]
+}

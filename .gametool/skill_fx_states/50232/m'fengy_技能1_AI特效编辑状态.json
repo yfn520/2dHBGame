@@ -1,0 +1,218 @@
+{
+  "version": 2,
+  "actorId": "assets/enemies/m'fengy",
+  "actorName": "m'fengy",
+  "skillId": "50232",
+  "skillName": "m'fengy 技能1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m'fengy (enemy)\nSkill id/name: 50232 / m'fengy 技能1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 8 fps\nFrame size: 240x240\nFoot center: (123, 223)\nAllowed action events: [{\"name\":\"release\",\"frame\":2}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":2,\"end_frame\":2,\"forward\":52,\"y\":-100,\"width\":24,\"height\":20}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"action\": \"skill\",\n    \"type\": \"play_animation\"\n  },\n  {\n    \"hit_window_index\": 0,\n    \"type\": \"wait_hit_window\"\n  },\n  {\n    \"damage_ratio\": 1.5,\n    \"result_key\": \"hit_50232\",\n    \"type\": \"melee_damage\",\n    \"flat_damage\": 2,\n    \"damage_tag\": \"pierce\",\n    \"can_dodge\": true\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "mfengy-skill1-50232-msflzd1k",
+      "title": "m'fengy 技能1：毒刺突刺",
+      "summary": "本方案为敌方马蜂单位m'fengy的近战突刺技能设计特效，包含蓄力微光、尖锋命中闪光、运动拖影3个图层，总时长匹配4帧@8fps动画时序，在release帧（第2帧）同步触发攻击判定视觉反馈，轮廓清晰、战斗可读性强，适配2D横版幻想游戏风格。",
+      "style": "2D横版手绘幻想风格，特效轮廓干净锐利，色彩明快不抢角色主体，攻击帧焦点明确，符合侧滚轴游戏战斗视觉节奏",
+      "palette": [
+        "#551a8b",
+        "#9932cc",
+        "#32cd32",
+        "#ffd700",
+        "#ffffff"
+      ],
+      "tracks": [
+        {
+          "id": "charge-stinger-glow",
+          "phase": "charge",
+          "title": "毒刺蓄力微光",
+          "description": "技能启动后在毒刺根部生成淡紫色带毒绿边的柔和微光，随蓄力推进亮度缓慢提升，提示攻击即将释放，突刺触发时快速消失",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 250,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 40,
+              "y": -15
+            },
+            "scale": 0.7,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#ffffff"
+          },
+          "library_query": "small soft purple poison glow stinger charge 2d sprite vfx",
+          "generation_prompt": "Isolated single 2D VFX layer, small soft radial dark purple glow with faint toxic green rim for stinger charge, smooth gradient, transparent background, strictly no characters, no text, no UI elements, no scenery, clean soft silhouette, suitable for 2D side-scroller game",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-stinger-flash",
+          "phase": "release",
+          "title": "毒刺尖锋闪光",
+          "description": "release事件触发时，在毒刺命中判定位置生成锐利的紫色尖锋闪光，强化攻击帧的视觉焦点，仅持续1帧时长",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 125,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 52,
+              "y": -100
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "sharp purple pierce stab flash tip 2d melee vfx sprite",
+          "generation_prompt": "Isolated single 2D VFX layer, sharp angular dark purple stab flash with thin bright toxic green outline at stinger tip, short pointed shape matching pierce attack, transparent background, strictly no characters, no text, no UI elements, no scenery, clean sharp silhouette, 1-frame duration flash",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-stinger-smear",
+          "phase": "release",
+          "title": "突刺运动拖影",
+          "description": "突刺释放时沿攻击方向生成半透明深紫色拖影，表现毒刺高速前刺的速度感，快速淡出消失",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 125,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -71,
+              "y": -102
+            },
+            "scale": 0.25,
+            "rotation_degrees": 0,
+            "opacity": 0.6,
+            "tint": "#9d00ff"
+          },
+          "library_query": "dark purple motion smear trail fast stab 2d vfx sprite",
+          "generation_prompt": "Isolated single 2D VFX layer, elongated semi-transparent dark purple motion smear trail along horizontal facing direction for fast stinger stab, soft faded edge, transparent background, strictly no characters, no text, no UI elements, no scenery, clean silhouette",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "mfengy-skill1-50232-msflzd1k",
+  "actionHash": "c0b191dc7f27cdf9fa4ce47b0779dd0c91bca40ce3e9399c065eafe836401ac8",
+  "drawPrompts": {
+    "mfengy-skill1-50232-msflzd1k:charge-stinger-glow": "Isolated single 2D VFX layer, small soft radial dark purple glow with faint toxic green rim for stinger charge, smooth gradient, transparent background, strictly no characters, no text, no UI elements, no scenery, clean soft silhouette, suitable for 2D side-scroller game\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "mfengy-skill1-50232-msflzd1k:release-stinger-flash": "Isolated single 2D VFX layer, sharp angular dark purple stab flash with thin bright toxic green outline at stinger tip, short pointed shape matching pierce attack, transparent background, strictly no characters, no text, no UI elements, no scenery, clean sharp silhouette, 1-frame duration flash\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "mfengy-skill1-50232-msflzd1k:release-stinger-smear": "Isolated single 2D VFX layer, elongated semi-transparent dark purple motion smear trail along horizontal facing direction for fast stinger stab, soft faded edge, transparent background, strictly no characters, no text, no UI elements, no scenery, clean silhouette\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/enemies/m'fengy:50232:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "mfengy-skill1-50232-msflzd1k": {
+      "createdAt": "2026-08-05T04:50:29.960Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge-stinger-glow",
+    "release-stinger-flash"
+  ],
+  "trackSelectedFrames": {
+    "release-stinger-smear": [
+      0
+    ]
+  },
+  "trackFrameRotations": {
+    "release-stinger-smear": {
+      "0": -145,
+      "1": -145,
+      "2": -145,
+      "3": -140
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "release-stinger-smear": 0
+  },
+  "candidatePageOffsets": {
+    "release-stinger-smear": 0
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release-stinger-smear",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 245,
+        "height": 258
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "8a07dce1f567e437",
+        "name": "1normal_finish.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_bladephantom/1normal_finish.img",
+        "score": 0.689
+      },
+      "atlasRef": ".gametool/skill_fx_states/50232/assets/release-stinger-smear.png"
+    }
+  ]
+}

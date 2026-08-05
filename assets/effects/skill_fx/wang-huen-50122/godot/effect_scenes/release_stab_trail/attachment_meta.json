@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -63.0,
+    "y": -67.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.45,
+  "effectMirror": false,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 287,
+    "height": 231
+  },
+  "layer": "front",
+  "blendMode": "screen",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/wang-huen-50122/godot/effect_scenes/release_stab_trail/effect.tscn",
+  "fps": 20.97902097902098,
+  "frameCount": 3
+}

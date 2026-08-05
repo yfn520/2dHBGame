@@ -2451,6 +2451,29 @@
         "type": "wait_hit_window"
       },
       {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/wang-huen-50122/godot/effect_scenes/release_stab_trail/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -63,
+        "offset_y": -67,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": false,
+        "lifetime_ms": 143,
+        "effect_scale": 0.45,
+        "rotation_degrees": 0,
+        "opacity": 0.8,
+        "tint": "#93c5fd",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "screen",
+        "source_bundle_id": "wang-huen-50122",
+        "source_track_id": "release_stab_trail"
+      },
+      {
         "damage_ratio": 1.5,
         "result_key": "hit_50122",
         "type": "melee_damage"
@@ -2461,7 +2484,21 @@
       {
         "type": "end_skill"
       }
-    ]
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "f1ec25af23c5a7d5",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 76,
+          "detail": "forward=99.0 width=49.0 scale=1.00 body_half=45.5"
+        }
+      ]
+    }
   },
   "50131": {
     "cast_range": 80,

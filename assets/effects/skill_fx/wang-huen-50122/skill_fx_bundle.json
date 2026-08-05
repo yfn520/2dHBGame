@@ -1,0 +1,74 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "wang-huen-50122",
+  "skill_id": "50122",
+  "proposal": {
+    "id": "wang-huen-50122-unified",
+    "title": "亡魂卫兵突刺攻击特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "release_stab_trail",
+      "phase": "release",
+      "title": "突刺剑刃能量光轨",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 143,
+      "blend_mode": "screen",
+      "layer": 5,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -63,
+          "y": -67
+        },
+        "scale": 0.45,
+        "rotation_degrees": 0,
+        "opacity": 0.8,
+        "tint": "#93c5fd"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_stab_trail",
+        "atlas_path": "assets/effects/skill_fx/wang-huen-50122/visual/release_stab_trail/atlas.png",
+        "scene_path": "assets/effects/skill_fx/wang-huen-50122/godot/effect_scenes/release_stab_trail/effect.tscn",
+        "frame_size": {
+          "width": 287,
+          "height": 231
+        },
+        "frame_count": 3,
+        "fps": 20.97902097902098,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "突刺剑刃能量光轨",
+          "selected_source_frames": [
+            0,
+            1,
+            2
+          ],
+          "selected_frame_rotations": {
+            "0": 160,
+            "1": 160,
+            "2": 160
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}
