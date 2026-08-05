@@ -451,12 +451,12 @@ func _spawn_effect(buff: BuffInstance) -> void:
 		var node2d := fx as Node2D
 		# 角色原点在脚底，把 buff 特效抬到身体中心，避免出现在脚底
 		node2d.position.y = _get_body_center_y()
-		# 叠加技能节点 apply_self_buff 配置的微调偏移：
+		# 叠加 buff 元数据（buffs.json）配置的微调偏移，apply_self_buff 节点可注入覆盖：
 		# x 按朝向镜像（对齐预览 mirror_x），y 不翻转（垂直方向不受朝向影响）
 		var facing := _get_owner_facing_sign()
 		node2d.position.x += buff.effect_offset.x * facing
 		node2d.position.y += buff.effect_offset.y
-		# 应用技能节点配置的特效缩放（默认 1.0）
+		# 应用特效缩放（元数据或节点覆盖，默认 1.0）
 		node2d.scale *= Vector2(buff.effect_scale, buff.effect_scale)
 		# 渲染在角色身前，避免被角色遮挡（与 combat_component 的 attachment_layer=front 一致）
 		var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D

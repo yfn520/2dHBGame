@@ -302,7 +302,7 @@ func apply_self_buff(node: Dictionary) -> void:
 		return
 	var buff_ids := _read_buff_ids(node)
 	var source_id := _owner.get_instance_id() if _owner != null else 0
-	# 节点可配置 effect_offset_x/y 微调 buff 特效位置、effect_scale 缩放特效，注入到 config 副本传递给 buff_manager
+	# 节点可配置 effect_offset_x/y、effect_scale 作为节点级覆盖（元数据在 buffs.json，由 Buff 页特效轨道管理），注入到 config 副本传递给 buff_manager
 	var has_offset := node.has("effect_offset_x") or node.has("effect_offset_y")
 	var has_scale := node.has("effect_scale")
 	for buff_id in buff_ids:

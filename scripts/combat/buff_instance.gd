@@ -32,9 +32,10 @@ func _init(config: Dictionary, source: int = 0) -> void:
 	stack_behavior = str(config.get("stack_behavior", "refresh"))
 	icon = str(config.get("icon", ""))
 	effect_scene = str(config.get("effect_scene", ""))
-	# 技能节点 apply_self_buff 可注入 effect_offset_x/y 微调特效位置
+	# effect_offset_x/y 作为 buff 元数据存于 buffs.json（由网页 Buff 页独立特效轨道管理）；
+	# 技能节点 apply_self_buff 可注入同名字段作为节点级覆盖
 	effect_offset = Vector2(float(config.get("effect_offset_x", 0.0)), float(config.get("effect_offset_y", 0.0)))
-	# 技能节点 apply_self_buff 可注入 effect_scale 缩放特效（默认 1.0）
+	# effect_scale 同上：元数据在 buffs.json，节点可覆盖（默认 1.0）
 	effect_scale = maxf(0.01, float(config.get("effect_scale", 1.0)))
 	# 深拷贝 effects（含运行时字段如 tick_timer / remaining）
 	var raw_effects = config.get("effects", [])
