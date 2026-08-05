@@ -1,0 +1,246 @@
+{
+  "50313": {
+    "name": "skill1",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill1"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/c-k-50313/godot/effect_scenes/release_stab_trail/effect.tscn",
+        "coordinate_space": "world",
+        "target": "origin",
+        "origin": "hit_window",
+        "effect_scale": 1.3,
+        "opacity": 1,
+        "lifetime_ms": 286,
+        "attachment_layer": "front",
+        "follow_target": false,
+        "anchor": "origin",
+        "mirror_with_facing": false,
+        "mirror": false,
+        "offset_x": 16,
+        "offset_y": -94,
+        "rotation_degrees": 0,
+        "tint": "#ff0000",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "c-k-50313",
+        "source_track_id": "release_stab_trail"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "melee_damage",
+        "result_key": "melee_hit",
+        "damage_ratio": 1,
+        "flat_damage": 2
+      },
+      {
+        "type": "apply_target_buff",
+        "target": "result",
+        "result_key": "melee_hit",
+        "buff_ids": [
+          10007
+        ],
+        "chance": 1
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "087753b7ff29b8b6",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 111.5,
+          "detail": "forward=14.0 width=264.0 scale=1.00 body_half=32.5"
+        }
+      ]
+    }
+  },
+  "50314": {
+    "name": "skill2",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill2"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/c-k-50314/godot/effect_scenes/charge-dagger-glow/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "effect_scale": 1.5,
+        "opacity": 0.7,
+        "lifetime_ms": 420,
+        "attachment_layer": "front",
+        "follow_target": true,
+        "anchor": "origin",
+        "mirror_with_facing": true,
+        "mirror": false,
+        "offset_x": -4,
+        "offset_y": -99,
+        "rotation_degrees": 0,
+        "tint": "#c92f48",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "c-k-50314",
+        "source_track_id": "charge-dagger-glow"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "apply_self_buff",
+        "buff_ids": [
+          20008,
+          20005
+        ]
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "d566d89b09150e35",
+      "entries": [
+        {
+          "node_index": -1,
+          "source": "support",
+          "kind": "support",
+          "min_edge_distance": 0,
+          "max_edge_distance": 99999,
+          "detail": "纯辅助技能，任意距离可起手"
+        }
+      ]
+    }
+  },
+  "50315": {
+    "name": "skill3",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill3"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/c-k-50315/godot/effect_scenes/charge-dark-aura/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "effect_scale": 0.4,
+        "opacity": 0.7,
+        "lifetime_ms": 285,
+        "attachment_layer": "front",
+        "follow_target": true,
+        "anchor": "body_center",
+        "mirror_with_facing": true,
+        "mirror": false,
+        "offset_x": 51,
+        "offset_y": -193,
+        "rotation_degrees": 0,
+        "tint": "#ff0000",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "c-k-50315",
+        "source_track_id": "charge-dark-aura"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/c-k-50315/godot/effect_scenes/release-cross-slash/effect.tscn",
+        "coordinate_space": "world",
+        "target": "origin",
+        "origin": "hit_window",
+        "effect_scale": 1.4,
+        "opacity": 0.9,
+        "lifetime_ms": 280,
+        "attachment_layer": "front",
+        "follow_target": false,
+        "anchor": "origin",
+        "mirror_with_facing": false,
+        "mirror": true,
+        "offset_x": -75,
+        "offset_y": -101,
+        "rotation_degrees": 0,
+        "tint": "#ff0000",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "c-k-50315",
+        "source_track_id": "release-cross-slash"
+      },
+      {
+        "type": "area_damage",
+        "result_key": "area_hit",
+        "origin": "hit_window",
+        "shape": "circle",
+        "radius": 103.5,
+        "damage_ratio": 1,
+        "flat_damage": 2
+      },
+      {
+        "type": "apply_target_buff",
+        "target": "result",
+        "result_key": "area_hit",
+        "buff_ids": [
+          10020
+        ],
+        "chance": 1
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "",
+        "spatial_mode": "caster",
+        "gain_db": 0,
+        "pitch_variation": 0,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "6c62b620e3f9fd4a",
+      "entries": [
+        {
+          "node_index": 4,
+          "source": "area",
+          "kind": "area",
+          "min_edge_distance": 0,
+          "max_edge_distance": 187.5,
+          "detail": "origin=hit_window radius=103.5 scale=1.00"
+        }
+      ]
+    }
+  }
+}

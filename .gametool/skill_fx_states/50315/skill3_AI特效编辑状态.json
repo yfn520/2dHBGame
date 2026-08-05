@@ -1,0 +1,281 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/c'k",
+  "actorName": "c'k",
+  "skillId": "50315",
+  "skillName": "skill3",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: c'k (character)\nSkill id/name: 50315 / skill3\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill3, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (118, 227)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":81,\"y\":-103,\"width\":75,\"height\":183}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill3\"\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "ck-skill3-50315-msg6utc7",
+      "title": "暗精灵盗贼双匕首交叉斩特效",
+      "summary": "适配c'k暗精灵盗贼角色skill3双匕首交叉斩动作，包含蓄力斗气、释放斩击弧光、动作残影与命中闪屏四个特效层，轮廓清晰节奏明确，符合2D横版奇幻游戏战斗可读性要求，总时长匹配4帧7fps的动作时序",
+      "style": "2D横版Q版奇幻战斗特效，轮廓干净锐利，色彩对比明确，暗红暗影配色适配刺客盗贼职业定位，战斗反馈清晰不遮挡角色动作",
+      "palette": [
+        "#1a0a12",
+        "#3d1220",
+        "#8c1f30",
+        "#d43a4f",
+        "#ff6374"
+      ],
+      "tracks": [
+        {
+          "id": "charge-dark-aura",
+          "phase": "charge",
+          "title": "蓄力暗红斗气",
+          "description": "角色举双匕首蓄力阶段，身体中心浮现微弱脉动的暗红斗气，随举刀动作逐渐提亮，强化蓄力感知",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "body_center",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 285,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 51,
+              "y": -193
+            },
+            "scale": 0.4,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#ff0000"
+          },
+          "library_query": "faint dark red pulsing charging aura, assassin rogue, wispy smoky energy",
+          "generation_prompt": "Isolated 2D VFX layer, faint wispy pulsing dark red charging aura for assassin character, soft glow, wispy smoke edges, no characters, no text, no UI, no scenery, clean silhouette on transparent background, 2D fantasy side-scroller combat style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-cross-slash",
+          "phase": "release",
+          "title": "双匕首交叉斩击弧光",
+          "description": "释放斩击瞬间打出两道交叉的锋利暗红弧光，覆盖前方命中判定区域，快速向外扩散后消散",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 280,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -75,
+              "y": -101
+            },
+            "scale": 1.4,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#ff0000"
+          },
+          "library_query": "sharp glowing dark red cross slash arc, dual dagger strike, clean crisp edge, assassin skill",
+          "generation_prompt": "Isolated 2D VFX layer, sharp glowing dark red cross-shaped slash arc from dual daggers, bright pale red inner glow, deep dark red outer edge, crisp clean silhouette, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller combat effect",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-motion-trail",
+          "phase": "release",
+          "title": "高速斩击残影",
+          "description": "斩击释放时角色身体与披风留下快速消散的半透明暗红残影，强化动作速度感，不遮挡核心斩击特效",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 420,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -20,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.5,
+            "tint": "#4a1622"
+          },
+          "library_query": "fast movement afterimage, dark red tattered cloth trail, rogue slash motion blur",
+          "generation_prompt": "Isolated 2D VFX layer, faint semi-transparent dark red afterimage of slashing assassin pose, small tattered red cloth shred particles trailing, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "screen-hit-flash",
+          "phase": "screen",
+          "title": "斩击暗红反馈闪屏",
+          "description": "命中判定生效瞬间屏幕边缘叠加极淡暗红暗角闪光，强化打击反馈，低透明度不遮挡战斗画面",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "fullscreen",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 100,
+          "blend_mode": "screen",
+          "layer": 20,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.2,
+            "tint": "#992233"
+          },
+          "library_query": "subtle dark red vignette screen flash, low opacity combat hit feedback",
+          "generation_prompt": "Isolated 2D fullscreen VFX layer, very faint dark red vignette edge flash for combat hit feedback, soft blurred edges, extremely low opacity, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "ck-skill3-50315-msg6utc7",
+  "actionHash": "258be015bcd14d8595ef1acd4779275832023dc5ef7dcec682d79d9f04c0590f",
+  "drawPrompts": {
+    "ck-skill3-50315-msg6utc7:charge-dark-aura": "Isolated 2D VFX layer, faint wispy pulsing dark red charging aura for assassin character, soft glow, wispy smoke edges, no characters, no text, no UI, no scenery, clean silhouette on transparent background, 2D fantasy side-scroller combat style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck-skill3-50315-msg6utc7:release-cross-slash": "Isolated 2D VFX layer, sharp glowing dark red cross-shaped slash arc from dual daggers, bright pale red inner glow, deep dark red outer edge, crisp clean silhouette, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller combat effect\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck-skill3-50315-msg6utc7:release-motion-trail": "Isolated 2D VFX layer, faint semi-transparent dark red afterimage of slashing assassin pose, small tattered red cloth shred particles trailing, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable.",
+    "ck-skill3-50315-msg6utc7:screen-hit-flash": "Isolated 2D fullscreen VFX layer, very faint dark red vignette edge flash for combat hit feedback, soft blurred edges, extremely low opacity, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the screen phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nFULLSCREEN_TARGET_RESOLUTION: 1536x864.\nFULLSCREEN_CONTACT_SHEET_RESOLUTION: 3072x1728.\nEach quadrant is one complete 16:9 full-screen frame.\nThe VFX composition must cover the full frame and remain visually active across at least 90% of both width and height; do not return a small centered icon with large empty borders.\nKeep important energy, flames, particles and edge lighting inside the frame while allowing soft atmospheric falloff at all four edges.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/c'k:50315:skill3": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "ck-skill3-50315-msg6utc7": {
+      "createdAt": "2026-08-05T14:34:49.735Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "release-motion-trail",
+    "screen-hit-flash"
+  ],
+  "trackSelectedFrames": {
+    "charge-dark-aura": [
+      0,
+      1,
+      2
+    ],
+    "release-cross-slash": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {
+    "release-cross-slash": true
+  },
+  "previewFrame": {
+    "charge-dark-aura": 2,
+    "release-cross-slash": 0
+  },
+  "candidatePageOffsets": {
+    "charge-dark-aura": 0,
+    "release-cross-slash": 36
+  },
+  "selectedAssets": [
+    {
+      "trackId": "charge-dark-aura",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 247,
+        "height": 272
+      },
+      "frameCount": 5,
+      "fps": 14,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "37efe742160ea956",
+        "name": "cast.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_atdarkstrike/cast.img",
+        "score": 0.6616
+      },
+      "atlasRef": ".gametool/skill_fx_states/50315/assets/charge-dark-aura.png"
+    },
+    {
+      "trackId": "release-cross-slash",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 228,
+        "height": 180
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "e0a6adf51d3208be",
+        "name": "8",
+        "path": "500个序列png特效下载/4套/4-10/8",
+        "score": 0.6424
+      },
+      "atlasRef": ".gametool/skill_fx_states/50315/assets/release-cross-slash.png"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+	"actions_scene": "res://assets/characters/m's/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/m's/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 201.0,
+			"width": 54.0,
+			"x": 88.0,
+			"y": 25.0
+		},
+		"forwardDistance": 2.0,
+		"height": 201.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 54.0,
+		"yOffset": -102.0
+	},
+	"body_position": {
+		"x": 2.0,
+		"y": -102.0
+	},
+	"body_size": {
+		"x": 54.0,
+		"y": 201.0
+	},
+	"centered": true,
+	"character_name": "m's",
+	"collision_bottom": -1.5,
+	"combat_actions": "res://assets/characters/m's/combat_actions.json",
+	"combat_source": "res://assets/characters/m's/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": 7.0,
+		"y": -108.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 113.0,
+		"y": 228.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "m's",
+	"spriteframes": "res://assets/characters/m's/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

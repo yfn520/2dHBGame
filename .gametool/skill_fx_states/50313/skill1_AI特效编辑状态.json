@@ -1,0 +1,220 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/c'k",
+  "actorName": "c'k",
+  "skillId": "50313",
+  "skillName": "skill1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: c'k (character)\nSkill id/name: 50313 / skill1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill1, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (118, 227)\nAllowed action events: [{\"name\":\"release\",\"frame\":2}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":2,\"end_frame\":2,\"forward\":14,\"y\":-83,\"width\":264,\"height\":99}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill1\"\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "ck_skill1_50313-msg637c0",
+      "title": "暗刃突刺战斗特效",
+      "summary": "为精灵刺客角色c'k的50313号突刺技能制作的2D横版战斗特效，匹配4帧7fps的动作节奏，突出匕首快速刺击的锐利速度感，保持干净剪影与清晰战斗判定可读性，适配奇幻暗黑刺客风格。",
+      "style": "2D横版奇幻卡通战斗特效，轮廓清晰干净，战斗timing明确，采用暗紫黑+暗红的刺客主题配色，特效轻量化不遮挡角色动作与判定区域。",
+      "palette": [
+        "#210f1f",
+        "#9c1c30",
+        "#e2e2e2",
+        "#ff3355"
+      ],
+      "tracks": [
+        {
+          "id": "charge_dagger_glow",
+          "phase": "charge",
+          "title": "匕首蓄力暗红微光",
+          "description": "蓄力阶段在角色握持的匕首刃部附着微弱暗红能量微光，随蓄力动作缓慢收束亮度，为后续突刺释放做视觉铺垫。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 42,
+              "y": -72
+            },
+            "scale": 0.7,
+            "rotation_degrees": -15,
+            "opacity": 0.6,
+            "tint": "#9c1c30"
+          },
+          "library_query": "subtle dark red blade glow, faint energy wisp, small melee weapon charge effect",
+          "generation_prompt": "Isolated 2D VFX layer, faint dark red energy glow clinging to sharp dagger blade, thin tiny trailing wisp, soft edge, low brightness, no characters, no text, no UI, no scenery, transparent background, clean silhouette, fantasy 2D game art style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_stab_trail",
+          "phase": "release",
+          "title": "突刺锐利刃风轨迹",
+          "description": "释放瞬间沿匕首突刺朝向生成快速拉伸的锐利刃风轨迹，混合暗红能量与银白刃光，强化突刺的高速感，在命中帧达到峰值亮度后快速消散。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 16,
+              "y": -94
+            },
+            "scale": 1.3,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ff0000"
+          },
+          "library_query": "sharp horizontal dagger stab streak, dark red silver motion trail, fast melee slash vfx",
+          "generation_prompt": "Isolated 2D VFX layer, fast horizontal sharp stab motion trail, mix of dark red energy and silver blade glint, stretched along facing direction, sharp clean edges, quick fade out, no characters, no text, no UI, no scenery, transparent background, 2D side-scroller fantasy combat style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_tip_burst",
+          "phase": "release",
+          "title": "刃尖突刺气爆",
+          "description": "匕首突刺至最大距离时，刃尖位置生成小型暗红气爆粒子，强化突刺的命中冲击力，尺寸小巧不遮挡判定区域。",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 143,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 152,
+              "y": -83
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#ff3355"
+          },
+          "library_query": "small dark red air burst, tiny energy particles, dagger stab tip impact puff",
+          "generation_prompt": "Isolated 2D VFX layer, small short-lived dark red air burst at blade tip, tiny scattered energy particles, very fast fade out, compact size, no characters, no text, no UI, no scenery, transparent background, clean silhouette, 2D fantasy game style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "ck_skill1_50313-msg637c0",
+  "actionHash": "258be015bcd14d8595ef1acd4779275832023dc5ef7dcec682d79d9f04c0590f",
+  "drawPrompts": {
+    "ck_skill1_50313-msg637c0:charge_dagger_glow": "Isolated 2D VFX layer, faint dark red energy glow clinging to sharp dagger blade, thin tiny trailing wisp, soft edge, low brightness, no characters, no text, no UI, no scenery, transparent background, clean silhouette, fantasy 2D game art style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck_skill1_50313-msg637c0:release_stab_trail": "Isolated 2D VFX layer, fast horizontal sharp stab motion trail, mix of dark red energy and silver blade glint, stretched along facing direction, sharp clean edges, quick fade out, no characters, no text, no UI, no scenery, transparent background, 2D side-scroller fantasy combat style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck_skill1_50313-msg637c0:release_tip_burst": "Isolated 2D VFX layer, small short-lived dark red air burst at blade tip, tiny scattered energy particles, very fast fade out, compact size, no characters, no text, no UI, no scenery, transparent background, clean silhouette, 2D fantasy game style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/c'k:50313:skill1": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "ck_skill1_50313-msg637c0": {
+      "createdAt": "2026-08-05T14:13:21.504Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge_dagger_glow",
+    "release_tip_burst"
+  ],
+  "trackSelectedFrames": {
+    "release_stab_trail": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "trackFrameRotations": {
+    "release_stab_trail": {
+      "0": 60,
+      "1": 115,
+      "2": 140,
+      "3": 145
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "release_stab_trail": 0
+  },
+  "candidatePageOffsets": {
+    "release_stab_trail": 6
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_stab_trail",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 198,
+        "height": 200
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "95208ae37bd67891",
+        "name": "05.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_tripleslash/05.img",
+        "score": 0.6838
+      },
+      "atlasRef": ".gametool/skill_fx_states/50313/assets/release_stab_trail.png"
+    }
+  ]
+}

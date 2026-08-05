@@ -1,0 +1,62 @@
+{
+	"actions_scene": "res://assets/characters/c'k/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/c'k/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill1",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 215.0,
+			"width": 65.0,
+			"x": 85.0,
+			"y": 13.0
+		},
+		"forwardDistance": -1.0,
+		"height": 215.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 65.0,
+		"yOffset": -106.0
+	},
+	"body_position": {
+		"x": -1.0,
+		"y": -107.5
+	},
+	"body_size": {
+		"x": 65.0,
+		"y": 215.0
+	},
+	"centered": true,
+	"character_name": "c'k",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/characters/c'k/combat_actions.json",
+	"combat_source": "res://assets/characters/c'k/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": 2.0,
+		"y": -108.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 118.0,
+		"y": 227.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "c'k",
+	"spriteframes": "res://assets/characters/c'k/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/effects/skill_fx/c-k-50315/visual/charge-dark-aura/atlas.png" id="1_atlas"]
+[ext_resource type="Script" path="res://scripts/effects/effect_visual.gd" id="2_script"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fx"]
+blend_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 247, 272)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(247, 0, 247, 272)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(494, 0, 247, 272)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_3")}],
+"loop": false,
+"name": &"effect",
+"speed": 10.526315789473685
+}]
+
+[node name="SkillFx" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_fx")
+animation = &"effect"
+autoplay = "effect"
+centered = true
+material = SubResource("CanvasItemMaterial_fx")
+script = ExtResource("2_script")
+z_index = 2

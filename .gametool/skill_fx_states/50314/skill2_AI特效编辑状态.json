@@ -1,0 +1,215 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/c'k",
+  "actorName": "c'k",
+  "skillId": "50314",
+  "skillName": "skill2",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: c'k (character)\nSkill id/name: 50314 / skill2\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill2, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (118, 227)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":6,\"y\":-129,\"width\":4,\"height\":16}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill2\"\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "ck-skill2-dual-slash-msg6i6r4",
+      "title": "暗精灵盗贼双匕突袭斩击特效",
+      "summary": "适配角色c'k的skill2双持匕首近战突袭技能，严格匹配4帧7fps的战斗节奏，蓄力阶段匕首微光提示出招，释放帧打出清晰斩击弧光与突进拖尾，轮廓干净不遮挡角色，攻击判定可读性强，符合2D横版奇幻游戏美术风格。",
+      "style": "2D横版奇幻像素风，战斗特效轮廓清晰锐利，暗色调配暗红高光，时序严格匹配出招帧，不遮挡角色主体剪影，打击感明快",
+      "palette": [
+        "#1a0f1a",
+        "#7a182c",
+        "#c92f48",
+        "#4a1020",
+        "#e84a5f"
+      ],
+      "tracks": [
+        {
+          "id": "charge-dagger-glow",
+          "phase": "charge",
+          "title": "匕首蓄力暗红微光",
+          "description": "蓄力阶段双匕首表面浮现脉动的暗红能量微光，亮度随蓄力进度缓慢提升，仅附着于武器区域，不遮挡角色与武器轮廓",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 420,
+          "blend_mode": "add",
+          "layer": 2,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -4,
+              "y": -99
+            },
+            "scale": 1.5,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#c92f48"
+          },
+          "library_query": "subtle dark red dagger energy glow, pixel art charge effect, faint pulsing",
+          "generation_prompt": "Isolated 2D pixel art subtle pulsing dark red energy glow coating dual daggers, soft faint glow, low opacity, no characters, no text, no UI, no scenery, transparent background, clean edges, dark fantasy 2D side scroller style, no extra elements",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-dual-slash-arc",
+          "phase": "release",
+          "title": "双匕交叉斩击弧光",
+          "description": "释放瞬间双匕首挥出两道交叉的锐利暗红斩击弧光，快速向面朝方向延展后迅速消散，形状清晰匹配攻击判定范围，强化斩击锋利感",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 180,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 35,
+              "y": -125
+            },
+            "scale": 1.1,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#e84a5f"
+          },
+          "library_query": "dual dagger cross slash arc, sharp dark red energy slash, pixel art melee effect",
+          "generation_prompt": "Isolated 2D pixel art sharp dark red cross slash arc from dual daggers, thin crisp silhouette, bright glowing edge, quick expand and fade, no characters, no text, no UI, no scenery, transparent background, clean readable combat shape for 2D side scrolling fantasy game",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release-dash-shadow-trail",
+          "phase": "release",
+          "title": "突进暗红暗影拖尾",
+          "description": "释放突袭时角色身后生成短距离半透明暗红暗影拖尾，强化突进速度感，快速淡出不残留，位于角色图层下方不遮挡主体",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "foot",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 140,
+          "blend_mode": "normal",
+          "layer": -1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -45,
+              "y": -115
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.6,
+            "tint": "#4a1020"
+          },
+          "library_query": "dark red wispy shadow dash trail, rogue motion afterimage, pixel art smoke trail",
+          "generation_prompt": "Isolated 2D pixel art short wispy dark red shadow motion trail for dashing rogue, semi-transparent, soft edges, quick fade out, no characters, no text, no UI, no scenery, transparent background, dark fantasy style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "ck-skill2-dual-slash-msg6i6r4",
+  "actionHash": "258be015bcd14d8595ef1acd4779275832023dc5ef7dcec682d79d9f04c0590f",
+  "drawPrompts": {
+    "ck-skill2-dual-slash-msg6i6r4:charge-dagger-glow": "Isolated 2D pixel art subtle pulsing dark red energy glow coating dual daggers, soft faint glow, low opacity, no characters, no text, no UI, no scenery, transparent background, clean edges, dark fantasy 2D side scroller style, no extra elements\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck-skill2-dual-slash-msg6i6r4:release-dual-slash-arc": "Isolated 2D pixel art sharp dark red cross slash arc from dual daggers, thin crisp silhouette, bright glowing edge, quick expand and fade, no characters, no text, no UI, no scenery, transparent background, clean readable combat shape for 2D side scrolling fantasy game\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck-skill2-dual-slash-msg6i6r4:release-dash-shadow-trail": "Isolated 2D pixel art short wispy dark red shadow motion trail for dashing rogue, semi-transparent, soft edges, quick fade out, no characters, no text, no UI, no scenery, transparent background, dark fantasy style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/c'k:50314:skill2": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "ck-skill2-dual-slash-msg6i6r4": {
+      "createdAt": "2026-08-05T14:25:00.592Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "release-dash-shadow-trail",
+    "release-dual-slash-arc"
+  ],
+  "trackSelectedFrames": {
+    "charge-dagger-glow": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "charge-dagger-glow": 4
+  },
+  "candidatePageOffsets": {
+    "charge-dagger-glow": 54
+  },
+  "selectedAssets": [
+    {
+      "trackId": "charge-dagger-glow",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 180,
+        "height": 300
+      },
+      "frameCount": 11,
+      "fps": 10,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "f2a381741fe22306",
+        "name": "升级减帧",
+        "path": "UI 界面技能特效序列帧素材（命名）/03  115套/升级减帧",
+        "score": 0.6287
+      },
+      "atlasRef": ".gametool/skill_fx_states/50314/assets/charge-dagger-glow.png"
+    }
+  ]
+}
