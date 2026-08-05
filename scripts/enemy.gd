@@ -655,4 +655,11 @@ func _on_enemy_died() -> void:
 	if GameRegistry.roster_data != null:
 		GameRegistry.roster_data.add_exp_to_lineup(int(_config.get("exp", 0)))
 	# 死亡动画后延迟移除
-	get_tree().create_timer(1.0).timeout.connect(queue_free)
+	get_tree().create_timer(1.0).timeout.connect(_on_death_cleanup)
+
+
+## 离场清理：释放该怪物的技能缓存（索引保留，再次刷怪会按需重新加载）
+func _on_death_cleanup() -> void:
+	if GameRegistry.skill_config != null:
+		GameRegistry.skill_config.release_actor(_enemy_id)
+	queue_free()

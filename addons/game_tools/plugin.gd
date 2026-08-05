@@ -12,6 +12,7 @@ const UiSceneZipImporter = preload("res://addons/game_tools/ui_scene_zip_importe
 const CharacterEditor = preload("res://addons/game_tools/character_editor.gd")
 const ItemEditor = preload("res://addons/game_tools/item_editor.gd")
 const MapZipImporter = preload("res://addons/game_tools/map_zip_importer.gd")
+const SkillDataPacker = preload("res://addons/game_tools/skill_data_packer.gd")
 
 var _submenu: PopupMenu
 var _top_menu_bar: MenuBar
@@ -28,6 +29,7 @@ var _character_editor: Window
 var _item_editor: Window
 var _map_zip_file_dialog: EditorFileDialog
 var _map_zip_result_dialog: AcceptDialog
+var _skill_pack_result_dialog: AcceptDialog
 
 
 func _enter_tree() -> void:
@@ -68,6 +70,7 @@ func _enter_tree() -> void:
 	convert_menu.name = "ConvertMenu"
 	convert_menu.add_item("转换 Excel → JSON", 2)
 	convert_menu.add_item("生成 JSON → Excel (配置用)", 4)
+	convert_menu.add_item("打包技能数据（Byte）", 18)
 	convert_menu.id_pressed.connect(_on_menu_pressed)
 	_submenu.add_child(convert_menu)
 	_submenu.add_submenu_item("数据转换", "ConvertMenu")
@@ -123,6 +126,8 @@ func _exit_tree() -> void:
 		_map_zip_file_dialog.queue_free()
 	if is_instance_valid(_map_zip_result_dialog):
 		_map_zip_result_dialog.queue_free()
+	if is_instance_valid(_skill_pack_result_dialog):
+		_skill_pack_result_dialog.queue_free()
 	if is_instance_valid(_character_editor):
 		_character_editor.queue_free()
 	if is_instance_valid(_item_editor):
@@ -174,6 +179,8 @@ func _on_menu_pressed(id: int) -> void:
 			_toggle_force_touch_controls()
 		17:
 			_open_map_zip_importer()
+		18:
+			_pack_skill_data()
 
 
 func _open_combat_action_editor() -> void:
@@ -353,6 +360,32 @@ func _show_map_zip_result(title_text: String, message: String) -> void:
 	_map_zip_result_dialog.close_requested.connect(_map_zip_result_dialog.queue_free)
 	EditorInterface.get_base_control().add_child(_map_zip_result_dialog)
 	_map_zip_result_dialog.popup_centered(Vector2i(560, 260))
+
+
+# ---- 技能数据打包（Byte） ----
+
+func _pack_skill_data() -> void:
+	var result: Dictionary = SkillDataPacker.pack_all()
+	var message := String(result.get("message", "未知错误"))
+	if not bool(result.get("ok", false)):
+		push_error("[GameTools] 技能数据打包失败：%s" % message.replace("\n", " "))
+		_show_skill_pack_result("技能数据打包失败", message)
+		return
+	print("[GameTools] 技能数据打包完成：%s" % message.replace("\n", " "))
+	_show_skill_pack_result("技能数据打包完成", message)
+
+
+func _show_skill_pack_result(title_text: String, message: String) -> void:
+	if is_instance_valid(_skill_pack_result_dialog):
+		_skill_pack_result_dialog.queue_free()
+	_skill_pack_result_dialog = AcceptDialog.new()
+	_skill_pack_result_dialog.title = title_text
+	_skill_pack_result_dialog.dialog_text = message
+	_skill_pack_result_dialog.min_size = Vector2i(560, 220)
+	_skill_pack_result_dialog.confirmed.connect(_skill_pack_result_dialog.queue_free)
+	_skill_pack_result_dialog.close_requested.connect(_skill_pack_result_dialog.queue_free)
+	EditorInterface.get_base_control().add_child(_skill_pack_result_dialog)
+	_skill_pack_result_dialog.popup_centered(Vector2i(560, 260))
 
 
 # ---- Zip 导入（角色 / 怪物） ----
@@ -1250,19 +1283,23 @@ func _get_manifest_action_names(manifest: Dictionary) -> Dictionary:
 func _get_enemy_skills_for_actions(manifest: Dictionary) -> Array[int]:
 	var result: Array[int] = []
 	var action_names := _get_manifest_action_names(manifest)
-	var skills_path := "res://data/skills.json"
-	if not FileAccess.file_exists(skills_path):
+	# 技能配置按角色拆分：合并 data/skills/actors/*.json 后按动作名筛选怪物技能。
+	var dir := DirAccess.open(SkillSequenceEditor.SKILLS_ACTORS_DIR)
+	if dir == null:
 		return result
-	var json := JSON.new()
-	if json.parse(FileAccess.get_file_as_string(skills_path)) != OK or not json.data is Dictionary:
-		return result
-	for id_value in json.data:
-		var skill_id := int(id_value)
-		if skill_id < 5000:
+	for file_name in dir.get_files():
+		if not file_name.ends_with(".json"):
 			continue
-		var skill: Dictionary = json.data[id_value]
-		if action_names.has(String(skill.get("animation", ""))):
-			result.append(skill_id)
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(SkillSequenceEditor.SKILLS_ACTORS_DIR.path_join(file_name))) != OK or not json.data is Dictionary:
+			continue
+		for id_value in json.data:
+			var skill_id := int(id_value)
+			if skill_id < 5000 or result.has(skill_id):
+				continue
+			var skill: Dictionary = json.data[id_value]
+			if action_names.has(String(skill.get("animation", ""))):
+				result.append(skill_id)
 	result.sort()
 	return result
 

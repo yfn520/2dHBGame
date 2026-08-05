@@ -1,0 +1,94 @@
+{
+  "50061": {
+    "cast_range": 60,
+    "cooldown": 1,
+    "name": "hjqs_atkl",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "melee_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50062": {
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "1b4bce324bace27e",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "area",
+          "kind": "area",
+          "min_edge_distance": 0,
+          "max_edge_distance": 167,
+          "detail": "origin=hit_window radius=80.0 scale=1.00"
+        }
+      ]
+    },
+    "cooldown": 3,
+    "description": "",
+    "name": "hjqs-skill",
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/huei-jing-qi-shi2-50062/godot/effect_scenes/manual-release-1/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -85,
+        "offset_y": -36,
+        "delay_ms": 143,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": true,
+        "lifetime_ms": 500,
+        "effect_scale": 0.56,
+        "rotation_degrees": -70,
+        "opacity": 1,
+        "tint": "#9f2d2d",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "normal",
+        "source_bundle_id": "huei-jing-qi-shi2-50062",
+        "source_track_id": "manual-release-1"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "area_damage",
+        "result_key": "area_hit",
+        "origin": "hit_window",
+        "shape": "circle",
+        "radius": 80,
+        "damage_ratio": 1
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

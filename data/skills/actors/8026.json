@@ -1,0 +1,103 @@
+{
+  "50251": {
+    "cast_range": 100,
+    "cooldown": 1,
+    "description": "鱼人的默认近战攻击。",
+    "name": "鱼人突刺",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "hit_50251",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50252": {
+    "cast_range": 110,
+    "cooldown": 3,
+    "description": "鱼人的技能1，播放 skill 动作。",
+    "name": "鱼人技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/50252/godot/effect_scenes/water_slash_release/effect.tscn",
+        "coordinate_space": "world",
+        "target": "origin",
+        "origin": "hit_window",
+        "offset_x": -50,
+        "offset_y": -85,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": false,
+        "mirror_with_facing": false,
+        "mirror": true,
+        "lifetime_ms": 143,
+        "effect_scale": 0.65,
+        "rotation_degrees": -15,
+        "opacity": 0.9,
+        "tint": "#ffffff",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "50252",
+        "source_track_id": "water_slash_release"
+      },
+      {
+        "type": "apply_self_buff",
+        "buff_ids": [
+          20008
+        ],
+        "effect_offset_x": 0,
+        "effect_offset_y": 0,
+        "effect_scale": 1
+      },
+      {
+        "damage_ratio": 1.5,
+        "result_key": "hit_50252",
+        "type": "melee_damage",
+        "flat_damage": 3
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "b3055bd268beaafb",
+      "entries": [
+        {
+          "node_index": 4,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 90,
+          "detail": "forward=99.0 width=51.0 scale=1.00 body_half=32.5"
+        }
+      ]
+    }
+  }
+}

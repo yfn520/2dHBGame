@@ -1,0 +1,92 @@
+{
+  "50241": {
+    "cast_range": 80,
+    "cooldown": 1,
+    "description": "mo'o1 的默认近战攻击。",
+    "name": "mo'o1 默认攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "hit_50241",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50242": {
+    "cast_range": 90,
+    "cooldown": 3,
+    "description": "mo'o1 的技能1，播放 skill 动作。",
+    "name": "mo'o1 技能1",
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "spawn_projectile",
+        "scene": "res://assets/effects/skill_fx/mo-o1-50242/godot/effect_scenes/manual-projectile-1/effect.tscn",
+        "result_key": "projectile_hit",
+        "origin": "actor_root",
+        "trajectory": "straight",
+        "aim_mode": "facing_elevation",
+        "emission": "single",
+        "speed": 300,
+        "lifetime": 5,
+        "damage_ratio": 1,
+        "scale": 1.76,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "flip_to_velocity": false,
+        "rotation_degrees": 0,
+        "rotate_to_velocity": false,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
+        "delay_ms": 167,
+        "offset_x": -115,
+        "offset_y": -78,
+        "ai_min_range": 0,
+        "ai_max_range": 280,
+        "source_bundle_id": "mo-o1-50242",
+        "source_track_id": "manual-projectile-1"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "d3fc7ac387c71472",
+      "entries": [
+        {
+          "node_index": 2,
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 280,
+          "detail": "ai_min=0 ai_max=280"
+        }
+      ]
+    }
+  }
+}

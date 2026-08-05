@@ -1,0 +1,93 @@
+{
+  "50171": {
+    "cast_range": 90,
+    "cooldown": 1,
+    "description": "xong'da 的默认普通攻击。",
+    "name": "xong'da 普通攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "hit_50171",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50172": {
+    "cast_range": 100,
+    "cooldown": 3,
+    "description": "xong'da 的技能1，播放 skill 动作。",
+    "name": "xong'da 技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/xong-da-50172/godot/effect_scenes/impact-hit-burst/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -141,
+        "offset_y": -84,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": false,
+        "lifetime_ms": 222,
+        "effect_scale": 1.64,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "normal",
+        "source_bundle_id": "xong-da-50172",
+        "source_track_id": "impact-hit-burst"
+      },
+      {
+        "damage_ratio": 1.5,
+        "result_key": "hit_50172",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "51b26c280c2815be",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 62,
+          "detail": "forward=89.0 width=69.0 scale=1.00 body_half=59.5"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "6033": {
+    "cast_range": 80,
+    "cooldown": 1,
+    "description": "凯的可调整默认攻击。",
+    "name": "凯默认攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "hit_6033",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

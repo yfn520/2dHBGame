@@ -1,0 +1,69 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "gong-sho-6013",
+  "skill_id": "6013",
+  "proposal": {
+    "id": "gong-sho-6013-unified",
+    "title": "弓手技能2 · 当前特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "legacy_play_effect_2",
+      "phase": "release",
+      "title": "旧特效 #2",
+      "trigger": {
+        "type": "after_skill_node",
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "caster",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 666.6666666666666,
+      "blend_mode": "normal",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -6.72670807453414,
+          "y": -157.552795031056
+        },
+        "scale": 1,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "asset": {
+        "track_id": "legacy_play_effect_2",
+        "atlas_path": "assets/effects/skill_fx/gong-sho-6013/legacy/32b9e529/attachments/effect-gong'sho-skill1/effect_atlas.png",
+        "preview_atlas_path": "assets/effects/attachments/effect-gong'sho-skill1/effect_atlas.png",
+        "scene_path": "assets/effects/skill_fx/gong-sho-6013/legacy/f567045a/attachments/effect-gong'sho-skill1/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 8,
+        "fps": 12,
+        "baked_scale": 0.46875,
+        "loop": false,
+        "source": {
+          "kind": "legacy_scene",
+          "scenePath": "res://assets/effects/attachments/effect-gong'sho-skill1/effect.tscn",
+          "migratedFrom": [
+            "res://assets/effects/attachments/effect-gong'sho-skill1/effect.tscn",
+            "res://assets/effects/attachments/effect-gong'sho-skill1/effect_atlas.png"
+          ]
+        }
+      },
+      "migrated_from": [
+        "res://assets/effects/attachments/effect-gong'sho-skill1/effect.tscn",
+        "res://assets/effects/attachments/effect-gong'sho-skill1/effect_atlas.png"
+      ]
+    }
+  ]
+}

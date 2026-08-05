@@ -1,0 +1,138 @@
+{
+  "50071": {
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "d5719a9d389a8c2b",
+      "entries": [
+        {
+          "node_index": 2,
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 183.35019685029528,
+          "detail": "ballistic v=500 g=1200 h=93 launch_x=29 range=197 scale=1.00 body_half=40.5"
+        }
+      ]
+    },
+    "cast_range": 10,
+    "cooldown": 1,
+    "name": "hy_atk",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "ai_max_range": 280,
+        "aim_mode": "facing_elevation",
+        "buff_chance": 0.2,
+        "buff_ids": [
+          10022
+        ],
+        "damage_channel": "physical",
+        "damage_ratio": 1,
+        "damage_tag": "blunt",
+        "emission": "single",
+        "gravity": 1200,
+        "lifetime": 5,
+        "origin": "hit_window",
+        "result_key": "projectile_hit",
+        "scale": 0.81,
+        "scene": "res://assets/effects/skill_fx/50071/legacy/c99f8a18/projectiles/effect-zhongzi.tscn",
+        "speed": 500,
+        "trajectory": "ballistic",
+        "type": "spawn_projectile",
+        "source_bundle_id": "50071",
+        "source_track_id": "legacy_spawn_projectile_3",
+        "mirror": false,
+        "mirror_with_facing": true,
+        "flip_to_velocity": true,
+        "rotation_degrees": 0,
+        "rotate_to_velocity": true,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
+        "delay_ms": 0,
+        "offset_x": 0,
+        "offset_y": 0
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "description": ""
+  },
+  "50072": {
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "ecdd5aab8c464a10",
+      "entries": [
+        {
+          "node_index": -1,
+          "source": "support",
+          "kind": "support",
+          "min_edge_distance": 0,
+          "max_edge_distance": 99999,
+          "detail": "纯辅助技能，任意距离可起手"
+        }
+      ]
+    },
+    "cast_range": 0,
+    "cooldown": 3,
+    "description": "",
+    "name": "hy_skll",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/50072/godot/effect_scenes/track_spore_burst/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -150.97,
+        "offset_y": -117.07,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": false,
+        "lifetime_ms": 400,
+        "effect_scale": 1.35,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "normal",
+        "source_bundle_id": "50072",
+        "source_track_id": "track_spore_burst"
+      },
+      {
+        "buff_ids": [
+          20016
+        ],
+        "effect_offset_x": 26.1224479675293,
+        "effect_offset_y": -39.1836700439453,
+        "type": "apply_self_buff"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

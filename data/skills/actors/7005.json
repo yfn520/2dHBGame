@@ -1,0 +1,30 @@
+{
+  "6032": {
+    "cast_range": 80,
+    "cooldown": 1,
+    "description": "奥兹的可调整默认攻击。",
+    "name": "奥兹默认攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_channel": "magic",
+        "damage_ratio": 1,
+        "result_key": "hit_6032",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

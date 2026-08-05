@@ -1,0 +1,58 @@
+{
+  "50291": {
+    "cast_range": 120,
+    "cooldown": 1,
+    "description": "赛壬的可调整默认近战攻击。",
+    "name": "赛壬默认攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_channel": "magic",
+        "damage_ratio": 1,
+        "result_key": "hit_50291",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50292": {
+    "cast_range": 140,
+    "cooldown": 3,
+    "description": "赛壬的技能1占位配置，素材导入后播放 skill 动作。",
+    "name": "赛壬技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_channel": "magic",
+        "damage_ratio": 1.5,
+        "result_key": "hit_50292",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

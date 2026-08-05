@@ -1,0 +1,127 @@
+{
+  "50011": {
+    "cast_range": 90,
+    "cooldown": 1.2,
+    "description": "傀儡普通攻击。",
+    "name": "傀儡重拳",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "buff_ids": [],
+        "damage_channel": "physical",
+        "damage_ratio": 1,
+        "damage_tag": "blunt",
+        "result_key": "puppet_attack_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50012": {
+    "cast_range": 110,
+    "cooldown": 4,
+    "description": "傀儡近战技能。",
+    "name": "傀儡技能",
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/4-50012/godot/effect_scenes/charge_chest_energy_glow/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -8,
+        "offset_y": -34,
+        "delay_ms": 0,
+        "anchor": "body_center",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": false,
+        "lifetime_ms": 286,
+        "effect_scale": 0.3,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "4-50012",
+        "source_track_id": "charge_chest_energy_glow"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/4-50012/godot/effect_scenes/area_energy_shockwave/effect.tscn",
+        "coordinate_space": "world",
+        "target": "origin",
+        "origin": "hit_window",
+        "offset_x": -32,
+        "offset_y": -2,
+        "delay_ms": 0,
+        "anchor": "foot",
+        "follow_target": false,
+        "mirror_with_facing": false,
+        "mirror": false,
+        "lifetime_ms": 286,
+        "effect_scale": 1.25,
+        "rotation_degrees": 0,
+        "opacity": 0.8,
+        "tint": "#00aaff",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "screen",
+        "source_bundle_id": "4-50012",
+        "source_track_id": "area_energy_shockwave"
+      },
+      {
+        "type": "area_damage",
+        "result_key": "area_hit",
+        "origin": "hit_window",
+        "shape": "circle",
+        "radius": 56,
+        "damage_ratio": 1,
+        "flat_damage": 2,
+        "damage_tag": "blunt",
+        "buff_ids": [
+          10005
+        ]
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "e66a719cb9152904",
+      "entries": [
+        {
+          "node_index": 4,
+          "source": "area",
+          "kind": "area",
+          "min_edge_distance": 0,
+          "max_edge_distance": 130.75,
+          "detail": "origin=hit_window radius=56.0 scale=1.50"
+        }
+      ]
+    }
+  }
+}

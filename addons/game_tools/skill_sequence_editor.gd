@@ -1,7 +1,7 @@
 @tool
 extends Window
 
-const SKILLS_PATH := "res://data/skills.json"
+const SKILLS_ACTORS_DIR := "res://data/skills/actors"
 const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
 const BUFFS_PATH := "res://data/buffs.json"
@@ -62,6 +62,7 @@ const COORD_SPACE_OPTIONS := [
 signal request_open_buff(buff_id: int)
 
 var _skills: Dictionary = {}
+var _skills_actor_map: Dictionary = {}  # 技能 ID -> 所属 actor_id（全部技能视图保存时按归属分文件写回）
 var _characters_config: Dictionary = {}
 var _enemies_config: Dictionary = {}
 var _current_skill_id := ""
@@ -225,7 +226,8 @@ func _build_ui() -> void:
 	del_skill_btn.pressed.connect(_delete_current_skill)
 	skill_row.add_child(del_skill_btn)
 	var save := Button.new()
-	save.text = "保存 skills.json"
+	save.text = "保存技能数据"
+	save.tooltip_text = "选中角色时写入该角色的 data/skills/actors/{id}.json；未选角色（全部技能视图）时按归属写回各角色文件"
 	save.pressed.connect(_save_skills)
 	skill_row.add_child(save)
 	var import_fx := Button.new()
@@ -396,17 +398,71 @@ func _add_spin(parent: GridContainer, label_text: String, field: String, default
 	return spin
 
 
+## 按角色/怪物 ID 解析技能数据文件路径（技能配置按角色拆分，每角色一个文件）。
+static func _skills_path_for(actor_id: int) -> String:
+	return "%s/%d.json" % [SKILLS_ACTORS_DIR, actor_id]
+
+
+## 当前选中实体的 actor_id（_current_hero_key 形如 "char:7001" / "enemy:8001"）。
+func _current_actor_id() -> int:
+	if _current_hero_key.is_empty():
+		return -1
+	var parts := _current_hero_key.split(":")
+	if parts.size() < 2:
+		return -1
+	return int(parts[1])
+
+
+## 当前正在编辑的技能数据文件路径。
+## 选中角色时就是该角色的 actor 文件；全部技能视图下按当前技能反查所属角色。
+func _current_skills_file_path() -> String:
+	var actor_id := _current_actor_id()
+	if actor_id <= 0 and not _current_skill_id.is_empty():
+		var info := _find_skill_owner_row(int(_current_skill_id))
+		if not info.is_empty():
+			actor_id = int(info["key"])
+	if actor_id <= 0:
+		return ""
+	return _skills_path_for(actor_id)
+
+
+## 加载技能数据：选中角色时只读该角色的 actor 文件；
+## 未选中角色（全部技能视图）时合并所有 actor 文件，并记录技能 ID -> actor 的归属。
 func _load_skills() -> void:
-	var file := FileAccess.open(SKILLS_PATH, FileAccess.READ)
-	if file == null:
-		_skills = {}
+	_skills = {}
+	_skills_actor_map = {}
+	var actor_id := _current_actor_id()
+	if actor_id > 0:
+		var path := _skills_path_for(actor_id)
+		if not FileAccess.file_exists(path):
+			return
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(path)) != OK or not json.data is Dictionary:
+			_status.text = "无法解析 %s" % path
+			return
+		_skills = (json.data as Dictionary).duplicate(true)
+		for skill_id in _skills.keys():
+			_skills_actor_map[skill_id] = actor_id
 		return
-	var json := JSON.new()
-	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
-		_status.text = "无法解析 skills.json"
-		_skills = {}
+	# 全部技能视图：合并 actors 目录下所有文件
+	var dir := DirAccess.open(SKILLS_ACTORS_DIR)
+	if dir == null:
 		return
-	_skills = (json.data as Dictionary).duplicate(true)
+	for file_name in dir.get_files():
+		if not file_name.ends_with(".json"):
+			continue
+		var file_actor_id := int(file_name.get_basename())
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(SKILLS_ACTORS_DIR.path_join(file_name))) != OK or not json.data is Dictionary:
+			push_warning("[技能编辑器] 无法解析 %s，已跳过" % file_name)
+			continue
+		var data: Dictionary = json.data
+		for skill_id in data.keys():
+			if _skills.has(skill_id):
+				push_warning("[技能编辑器] 技能 %s 同时存在于多个 actor 文件，保留先读到的" % skill_id)
+				continue
+			_skills[skill_id] = data[skill_id]
+			_skills_actor_map[skill_id] = file_actor_id
 
 
 func _load_character_configs() -> void:
@@ -498,12 +554,17 @@ func _on_entity_tab_changed(tab: int) -> void:
 	_refresh_entity_list()
 
 
-## 列表选中：设置 _current_hero_key 并刷新技能下拉。
+## 列表选中：切换当前角色。先把当前改动按归属写回 actor 文件，再加载新角色的文件。
 func _on_entity_selected(idx: int) -> void:
 	if idx < 0 or idx >= _entity_list.item_count:
 		return
-	_current_hero_key = String(_entity_list.get_item_metadata(idx))
+	var new_key := String(_entity_list.get_item_metadata(idx))
+	if new_key == _current_hero_key:
+		return
+	_save_skills_silent()
+	_current_hero_key = new_key
 	_current_skill_id = ""
+	_load_skills()
 	_rebuild_skill_select()
 
 
@@ -1495,7 +1556,7 @@ func _add_ai_range_readonly(form: GridContainer, label_text: String) -> void:
 	form.add_child(label)
 	var value_label := Label.new()
 	value_label.text = _compute_ai_range_preview()
-	value_label.tooltip_text = "保存技能后写回 skills.json 的 ai_range_cache"
+	value_label.tooltip_text = "保存技能后写回当前角色技能文件的 ai_range_cache"
 	form.add_child(value_label)
 
 
@@ -2555,17 +2616,19 @@ func _read_json(path: String) -> Dictionary:
 
 
 func _add_new_skill() -> void:
+	if _current_hero_key.is_empty():
+		_status.text = "请先在左侧选择角色/怪物，再新增技能（技能按角色分文件存储）。"
+		return
 	var new_id := _compute_new_skill_id()
 	if new_id <= 0:
 		_status.text = "无法分配新技能 ID。"
 		return
 	var id_str := str(new_id)
-	# 默认命名：当前选中实体 ID + _skill（如 8001_skill）；未选实体时回退「新技能」
+	# 默认命名：当前选中实体 ID + _skill（如 8001_skill）
 	var default_name := "新技能"
-	if not _current_hero_key.is_empty():
-		var parts := _current_hero_key.split(":")
-		if parts.size() >= 2:
-			default_name = "%s_skill" % parts[1]
+	var parts := _current_hero_key.split(":")
+	if parts.size() >= 2:
+		default_name = "%s_skill" % parts[1]
 	var new_skill := {
 		"name": default_name,
 		"description": "",
@@ -2579,8 +2642,8 @@ func _add_new_skill() -> void:
 		]
 	}
 	_skills[id_str] = new_skill
-	if not _current_hero_key.is_empty():
-		_link_skill_to_hero(_current_hero_key, new_id)
+	_skills_actor_map[id_str] = _current_actor_id()
+	_link_skill_to_hero(_current_hero_key, new_id)
 	_save_skills_silent()
 	_current_skill_id = id_str
 	_rebuild_skill_select()
@@ -2588,10 +2651,7 @@ func _add_new_skill() -> void:
 	_load_action_data()
 	_refresh_all()
 	_refresh_entity_list()
-	if not _current_hero_key.is_empty():
-		_status.text = "已创建技能 %s 并关联到当前英雄，已保存 skills.json 和角色配置。" % id_str
-	else:
-		_status.text = "已创建技能 %s，已保存 skills.json。请在基础页填写名称和参数。" % id_str
+	_status.text = "已创建技能 %s 并关联到当前角色，已保存 %s 和角色配置。" % [id_str, _skills_path_for(_current_actor_id())]
 
 
 func _delete_current_skill() -> void:
@@ -2621,7 +2681,7 @@ func _do_delete_current_skill(skill_id: int) -> void:
 	_current_skill_id = ""
 	_rebuild_skill_select()
 	_refresh_entity_list()
-	_status.text = "已删除技能 %s，已保存 skills.json 和角色配置。" % id_str
+	_status.text = "已删除技能 %s，已按归属保存技能文件和角色配置。" % id_str
 
 
 func _find_heroes_using_skill(skill_id: int) -> Array:
@@ -2751,11 +2811,53 @@ func _save_config_file(path: String, data: Dictionary) -> void:
 	file.store_string(JSON.stringify(data, "\t") + "\n")
 
 
-func _save_skills_silent() -> void:
-	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
+## 把技能字典写入指定 actor 的文件（自动创建目录）。
+func _write_actor_skills(actor_id: int, skills: Dictionary) -> bool:
+	if actor_id <= 0:
+		return false
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SKILLS_ACTORS_DIR))
+	var path := _skills_path_for(actor_id)
+	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
-		return
-	file.store_string(JSON.stringify(_skills, "\t") + "\n")
+		_status.text = "无法写入 %s" % path
+		return false
+	file.store_string(JSON.stringify(skills, "\t") + "\n")
+	return true
+
+
+## 全部技能视图保存：按技能归属分组写回各 actor 文件，返回写入的文件数。
+## actors 目录里已有但内存中已无任何技能的文件会被写成空表（用于跨角色删除）。
+func _write_all_actor_skills() -> int:
+	var groups: Dictionary = {}  # actor_id -> Dictionary
+	var dir := DirAccess.open(SKILLS_ACTORS_DIR)
+	if dir != null:
+		for file_name in dir.get_files():
+			if file_name.ends_with(".json"):
+				groups[int(file_name.get_basename())] = {}
+	for skill_id in _skills_actor_map.keys():
+		var owner_id := int(_skills_actor_map[skill_id])
+		if not groups.has(owner_id):
+			groups[owner_id] = {}
+	for skill_id in _skills.keys():
+		if not _skills_actor_map.has(skill_id):
+			push_warning("[技能编辑器] 技能 %s 无归属角色，未写入任何文件" % skill_id)
+			continue
+		var owner_id := int(_skills_actor_map[skill_id])
+		(groups[owner_id] as Dictionary)[skill_id] = _skills[skill_id]
+	var written := 0
+	for owner_id in groups.keys():
+		if _write_actor_skills(int(owner_id), groups[owner_id]):
+			written += 1
+	return written
+
+
+## 静默保存：选中角色时只写该角色的 actor 文件；全部技能视图按归属写回各文件。
+func _save_skills_silent() -> void:
+	var actor_id := _current_actor_id()
+	if actor_id > 0:
+		_write_actor_skills(actor_id, _skills)
+	else:
+		_write_all_actor_skills()
 
 
 func _save_skills() -> void:
@@ -2771,12 +2873,14 @@ func _save_skills() -> void:
 			compiled_summary = _format_cache_summary(cache)
 		else:
 			compiled_summary = "（未找到所属角色/怪物，未生成 ai_range_cache）"
-	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
-	if file == null:
-		_status.text = "无法写入 skills.json"
-		return
-	file.store_string(JSON.stringify(_skills, "\t") + "\n")
-	_status.text = "已保存 skills.json。%s" % compiled_summary
+	var actor_id := _current_actor_id()
+	if actor_id > 0:
+		if not _write_actor_skills(actor_id, _skills):
+			return
+		_status.text = "已保存 %s。%s" % [_skills_path_for(actor_id), compiled_summary]
+	else:
+		var written := _write_all_actor_skills()
+		_status.text = "已按归属保存 %d 个角色技能文件。%s" % [written, compiled_summary]
 	_refresh_entity_list()
 
 
@@ -2828,7 +2932,7 @@ func _find_skill_owner_asset(skill_id: int) -> String:
 
 ## Finds the independent AI VFX package for the selected skill and previews the
 ## exact play_effect nodes that will be imported. The web tool never writes
-## skills.json directly; this editor remains the only authoritative writer.
+## the actor skill files directly; this editor remains the only authoritative writer.
 func _open_skill_fx_bundle() -> void:
 	if _current_skill_id.is_empty():
 		_status.text = "请先选择技能，再导入 AI 特效包。"
@@ -2909,8 +3013,9 @@ func _validate_skill_fx_manifest(manifest: Dictionary) -> String:
 			has_existing_bundle_nodes = true
 			break
 	var expected_skill_hash := String(manifest.get("skill_hash", ""))
-	if not has_existing_bundle_nodes and (expected_skill_hash.is_empty() or FileAccess.get_sha256(SKILLS_PATH) != expected_skill_hash):
-		return "skills.json 已变化，请回网页重新连接项目并导出"
+	var skills_path := _current_skills_file_path()
+	if not has_existing_bundle_nodes and (expected_skill_hash.is_empty() or skills_path.is_empty() or FileAccess.get_sha256(skills_path) != expected_skill_hash):
+		return "技能数据文件已变化，请回网页重新连接项目并导出"
 	var tracks: Array = manifest.get("tracks", [])
 	if tracks.is_empty():
 		return "特效包没有轨道"
@@ -3242,7 +3347,7 @@ func _apply_pending_skill_fx_import() -> void:
 		return
 	var backup_path := _backup_skills_for_skill_fx()
 	if backup_path.is_empty():
-		_status.text = "无法备份 skills.json，已取消导入。"
+		_status.text = "无法备份技能数据文件，已取消导入。"
 		return
 	var skill := _current_skill()
 	skill["nodes"] = (_pending_skill_fx_import.get("nodes", []) as Array).duplicate(true)
@@ -3257,15 +3362,16 @@ func _apply_pending_skill_fx_import() -> void:
 
 
 func _backup_skills_for_skill_fx() -> String:
-	if not FileAccess.file_exists(SKILLS_PATH):
+	var skills_path := _current_skills_file_path()
+	if skills_path.is_empty() or not FileAccess.file_exists(skills_path):
 		return ""
 	var timestamp := Time.get_datetime_string_from_system().replace("-", "").replace(":", "").replace("T", "_")
 	var backup_dir := "res://.frame-ronin/backups/skill-fx/%s" % timestamp
 	var absolute_dir := ProjectSettings.globalize_path(backup_dir)
 	if DirAccess.make_dir_recursive_absolute(absolute_dir) != OK:
 		return ""
-	var source := FileAccess.open(SKILLS_PATH, FileAccess.READ)
-	var target_path := backup_dir.path_join("skills.json")
+	var source := FileAccess.open(skills_path, FileAccess.READ)
+	var target_path := backup_dir.path_join(skills_path.get_file())
 	var target := FileAccess.open(target_path, FileAccess.WRITE)
 	if source == null or target == null:
 		return ""
@@ -3417,10 +3523,11 @@ func _validate_skill_audio_hashes(manifest: Dictionary) -> String:
 	var expected_skill_hash := String(manifest.get("skill_hash", ""))
 	if expected_skill_hash.is_empty():
 		return "缺少技能哈希"
-	# 首次导入必须严格匹配 skills.json；已有 source_track_id 标记时允许幂等更新。
+	# 首次导入必须严格匹配当前角色的技能文件；已有 source_track_id 标记时允许幂等更新。
 	if expected_skill_hash.length() == FILE_SHA256_LENGTH and not _skill_has_imported_audio_markers():
-		if FileAccess.get_sha256(SKILLS_PATH) != expected_skill_hash:
-			return "skills.json 已变化，请回网页保存并重新导出音效包"
+		var skills_path := _current_skills_file_path()
+		if skills_path.is_empty() or FileAccess.get_sha256(skills_path) != expected_skill_hash:
+			return "技能数据文件已变化，请回网页保存并重新导出音效包"
 	return ""
 
 
@@ -3610,7 +3717,7 @@ func _show_skill_audio_confirmation(manifest: Dictionary, plan: Dictionary) -> v
 		summary += "\n警告：\n"
 		for warning_value in warnings:
 			summary += "• %s\n" % String(warning_value)
-	summary += "\n导入前会自动备份 skills.json。重新导入同一音效包幂等更新，不会重复。"
+	summary += "\n导入前会自动备份当前角色的技能文件。重新导入同一音效包幂等更新，不会重复。"
 	# 复用 _skill_fx_dialog（如果存在）或弹简易确认框
 	if _skill_fx_dialog != null:
 		_skill_fx_dialog.title = "导入 AI 音效包"
@@ -3631,7 +3738,7 @@ func _apply_pending_audio_import() -> void:
 		return
 	var backup_path := _backup_skills_for_skill_fx()
 	if backup_path.is_empty():
-		_status.text = "无法备份 skills.json，已取消音效导入。"
+		_status.text = "无法备份技能数据文件，已取消音效导入。"
 		return
 	var plan: Dictionary = _pending_skill_audio_import.get("plan", {})
 	var operations: Array = plan.get("operations", [])

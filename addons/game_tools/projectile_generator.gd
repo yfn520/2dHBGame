@@ -3,7 +3,7 @@ extends Window
 
 const DEFAULT_OUTPUT_DIR := "res://assets/effects/projectiles"
 const PROJECTILE_SCRIPT := "res://scripts/combat/projectile.gd"
-const SKILLS_PATH := "res://data/skills.json"
+const SKILLS_ACTORS_DIR := "res://data/skills/actors"
 
 var _key_edit: LineEdit
 var _output_edit: LineEdit
@@ -18,6 +18,7 @@ var _lifetime: SpinBox
 var _max_pierce: SpinBox
 var _write_skill: CheckBox
 var _skill_id: SpinBox
+var _actor_id: SpinBox
 var _damage_ratio: SpinBox
 var _cooldown: SpinBox
 var _animation: LineEdit
@@ -97,10 +98,11 @@ func _build_ui() -> void:
 	_max_pierce = _add_spin(form, "max_pierce", 0.0, -1.0, 99.0, 1.0)
 
 	_write_skill = CheckBox.new()
-	_write_skill.text = "write/update skills.json"
+	_write_skill.text = "write/update 技能文件（data/skills/actors/）"
 	form.add_child(_write_skill)
 
 	_skill_id = _add_spin(form, "skill_id", 1002.0, 1.0, 999999.0, 1.0)
+	_actor_id = _add_spin(form, "归属角色/怪物 actor_id", 7001.0, 1.0, 999999.0, 1.0)
 	_damage_ratio = _add_spin(form, "节点伤害倍率", 1.5, -99.0, 99.0, 0.1)
 	_cooldown = _add_spin(form, "cooldown", 3.0, 0.0, 999.0, 0.1)
 	_animation = _add_line_edit(form, "播放动画 action", "skill1")
@@ -270,7 +272,9 @@ func _validate() -> String:
 		if _scene_edit.text.is_empty() or not ResourceLoader.exists(_scene_edit.text):
 			return "PackedScene mode requires a valid visual_scene_path."
 	if _write_skill.button_pressed and int(_skill_id.value) <= 0:
-		return "skill_id must be greater than 0 when writing skills.json."
+		return "skill_id must be greater than 0 when writing the skill file."
+	if _write_skill.button_pressed and int(_actor_id.value) <= 0:
+		return "actor_id must be greater than 0 when writing the skill file."
 	return ""
 
 
@@ -338,16 +342,22 @@ func _generate_now() -> void:
 	_status_label.text = "Generated: %s" % output_path
 
 
+## 技能配置已按角色拆分（data/skills/actors/{actor_id}.json，每角色/怪物一个文件）：
+## 已存在的技能更新其当前所属文件；新技能写入「归属 actor_id」指定的角色文件。
 func _write_skill_config(projectile_scene: String) -> String:
+	var id := str(int(_skill_id.value))
+	var skills_path := _find_skill_owner_file(id)
+	if skills_path.is_empty():
+		skills_path = "%s/%d.json" % [SKILLS_ACTORS_DIR, int(_actor_id.value)]
+
 	var data: Dictionary = {}
-	if FileAccess.file_exists(SKILLS_PATH):
+	if FileAccess.file_exists(skills_path):
 		var json := JSON.new()
-		var err := json.parse(FileAccess.get_file_as_string(SKILLS_PATH))
+		var err := json.parse(FileAccess.get_file_as_string(skills_path))
 		if err != OK or not json.data is Dictionary:
-			return "Failed to parse skills.json."
+			return "Failed to parse %s." % skills_path
 		data = json.data
 
-	var id := str(int(_skill_id.value))
 	data[id] = {
 		"name": _key_edit.text,
 		"description": "Generated projectile skill.",
@@ -377,10 +387,28 @@ func _write_skill_config(projectile_scene: String) -> String:
 		],
 	}
 
-	var file := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SKILLS_ACTORS_DIR))
+	var file := FileAccess.open(skills_path, FileAccess.WRITE)
 	if file == null:
-		return "Failed to write skills.json."
+		return "Failed to write %s." % skills_path
 	file.store_string(JSON.stringify(data, "\t") + "\n")
+	return ""
+
+
+## 在 data/skills/actors/*.json 中反查技能当前所属的角色文件；未找到返回空串。
+func _find_skill_owner_file(skill_id: String) -> String:
+	var dir := DirAccess.open(SKILLS_ACTORS_DIR)
+	if dir == null:
+		return ""
+	for file_name in dir.get_files():
+		if not file_name.ends_with(".json"):
+			continue
+		var path := SKILLS_ACTORS_DIR.path_join(file_name)
+		var json := JSON.new()
+		if json.parse(FileAccess.get_file_as_string(path)) != OK or not json.data is Dictionary:
+			continue
+		if (json.data as Dictionary).has(skill_id):
+			return path
 	return ""
 
 

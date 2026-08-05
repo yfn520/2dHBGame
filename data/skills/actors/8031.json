@@ -1,0 +1,56 @@
+{
+  "50301": {
+    "cast_range": 100,
+    "cooldown": 1,
+    "description": "雷欧哈特的可调整默认近战攻击。",
+    "name": "雷欧哈特默认攻击",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "hit_50301",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50302": {
+    "cast_range": 120,
+    "cooldown": 3,
+    "description": "雷欧哈特的技能1占位配置，素材导入后播放 skill 动作。",
+    "name": "雷欧哈特技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1.5,
+        "result_key": "hit_50302",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

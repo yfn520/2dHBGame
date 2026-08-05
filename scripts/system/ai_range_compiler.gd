@@ -4,7 +4,7 @@ class_name AIRangeCompiler
 ## 由技能编辑器与角色/怪物导入工具共用。
 ##
 ## 输入：技能 ID + 所属角色/怪物资源
-## 输出：ai_range_cache，写入 skills.json 只读字段
+## 输出：ai_range_cache，经 SkillConfig.save_ai_range_cache 写回 per-actor 技能文件（只读字段）
 ##
 ## 节点 AI 距离来源：
 ##   melee_damage      → 前置 wait_hit_window 对应攻击框 + 身体框 + actor_scale（不可手填）
@@ -322,21 +322,29 @@ static func _lookup_actor_scale(skill_id: int, owner_asset_path: String, charact
 
 
 static func _load_skill(skill_id: int) -> Dictionary:
-	var config_path := "res://data/skills.json"
-	var file := FileAccess.open(config_path, FileAccess.READ)
-	if file == null:
+	# 游戏内：经 GameRegistry.skill_config 按需加载 per-actor 技能配置
+	var tree := Engine.get_main_loop() as SceneTree
+	if tree != null and tree.root != null and tree.root.has_node("GameRegistry"):
+		var skill: Dictionary = GameRegistry.skill_config.get_skill(skill_id)
+		if skill.is_empty():
+			return {}
+		return {
+			"id": skill_id,
+			"nodes": skill.get("nodes", []),
+		}
+	# 编辑器命令行工具（--script 运行，无 autoload）：临时 SkillConfig 实例兜底
+	var config := SkillConfig.new()
+	config.load_config()
+	config.build_index(
+		_load_json("res://data/characters.json"),
+		_load_json("res://data/enemies.json")
+	)
+	var fallback_skill: Dictionary = config.get_skill(skill_id)
+	if fallback_skill.is_empty():
 		return {}
-	var json := JSON.new()
-	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
-		return {}
-	var data: Dictionary = json.data
-	var key := str(skill_id)
-	if not data.has(key):
-		return {}
-	var raw: Dictionary = data[key]
 	return {
 		"id": skill_id,
-		"nodes": raw.get("nodes", []),
+		"nodes": fallback_skill.get("nodes", []),
 	}
 
 

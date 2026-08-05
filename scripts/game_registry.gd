@@ -45,8 +45,6 @@ var _quest_save_scheduled := false
 func _ready() -> void:
 	item_config = load("res://scripts/data/item_config.gd").new()
 	item_config.load_config()
-	skill_config = load("res://scripts/data/skill_config.gd").new()
-	skill_config.load_config()
 	buff_config = load("res://scripts/data/buff_config.gd").new()
 	buff_config.load_config()
 	level_config = load("res://scripts/data/level_config.gd").new()
@@ -55,6 +53,10 @@ func _ready() -> void:
 	enemy_config.load_config()
 	character_config = load("res://scripts/data/character_config_data.gd").new()
 	character_config.load_config()
+	# 技能配置按 actor 分文件按需加载：先建空索引，再在角色/怪物配置就绪后建立 技能ID→actorID 索引
+	skill_config = load("res://scripts/data/skill_config.gd").new()
+	skill_config.load_config()
+	skill_config.build_index(character_config.get_all(), enemy_config.get_all_enemies())
 	dialogue_config = load("res://scripts/data/dialogue_config.gd").new()
 	dialogue_config.load_config()
 	interaction_binding_config = load("res://scripts/data/interaction_binding_config.gd").new()

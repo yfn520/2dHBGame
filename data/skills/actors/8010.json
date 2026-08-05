@@ -1,0 +1,83 @@
+{
+  "50091": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "forward=101.0 width=55.0 scale=1.00 body_half=52.0",
+          "kind": "melee",
+          "max_edge_distance": 74.5,
+          "min_edge_distance": 0,
+          "node_index": 2,
+          "source": "hit_window"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "4c7a79b91611f71c"
+    },
+    "cast_range": 50,
+    "cooldown": 1,
+    "description": "shu'ren 普通攻击。",
+    "name": "shu'ren 普攻",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "shuren_attack_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50092": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "forward=105.0 width=48.0 scale=1.00 body_half=52.0",
+          "kind": "melee",
+          "max_edge_distance": 75,
+          "min_edge_distance": 0,
+          "node_index": 2,
+          "source": "hit_window"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "9892003f3e8f13a0"
+    },
+    "cooldown": 3,
+    "description": "shu'ren 技能1。",
+    "name": "shu'ren 技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "shuren_skill1_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

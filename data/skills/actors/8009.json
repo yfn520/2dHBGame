@@ -1,0 +1,113 @@
+{
+  "50081": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "forward=86.0 width=56.0 scale=1.00 body_half=98.5",
+          "kind": "melee",
+          "max_edge_distance": 13.5,
+          "min_edge_distance": 0,
+          "node_index": 2,
+          "source": "hit_window"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "2c92eb4137ec0c8d"
+    },
+    "cooldown": 1,
+    "name": "attack",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "melee_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50082": {
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "3ea09b1e803d4497",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "area",
+          "kind": "area",
+          "min_edge_distance": 0,
+          "max_edge_distance": 65.5,
+          "detail": "origin=hit_window radius=55.5 scale=1.00"
+        }
+      ]
+    },
+    "cooldown": 3,
+    "description": "",
+    "name": "djs_skill",
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/d-j-s2-50082/godot/effect_scenes/charge_glow/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -100,
+        "offset_y": -75,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": true,
+        "lifetime_ms": 280,
+        "effect_scale": 0.37,
+        "rotation_degrees": 70,
+        "opacity": 1,
+        "tint": "#b7dcc2",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "d-j-s2-50082",
+        "source_track_id": "charge_glow"
+      },
+      {
+        "type": "area_damage",
+        "result_key": "area_hit",
+        "origin": "hit_window",
+        "shape": "rect",
+        "radius": 80,
+        "damage_ratio": 1,
+        "flat_damage": 1,
+        "buff_ids": [
+          20017
+        ],
+        "width": 96,
+        "height": 111
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

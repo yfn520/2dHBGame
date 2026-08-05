@@ -1,0 +1,138 @@
+{
+  "50031": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "forward=58.0 width=64.0 scale=1.00 body_half=27.0",
+          "kind": "melee",
+          "max_edge_distance": 61,
+          "min_edge_distance": 0,
+          "node_index": 2,
+          "source": "hit_window"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "7b5fcab327b55248"
+    },
+    "cast_range": 60,
+    "cooldown": 1,
+    "name": "kl_atk",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1,
+        "result_key": "melee_hit",
+        "type": "melee_damage"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "50033": {
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "4d172bc11bee329e",
+      "entries": [
+        {
+          "node_index": 4,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 71,
+          "detail": "forward=60.0 width=80.0 scale=1.00 body_half=27.0"
+        }
+      ]
+    },
+    "cooldown": 3,
+    "description": "",
+    "name": "8004_skill",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/kulou-50033/godot/effect_scenes/kulou-charge-dagger-enchant/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "offset_x": -24,
+        "offset_y": -75,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": true,
+        "mirror_with_facing": true,
+        "mirror": false,
+        "lifetime_ms": 333,
+        "effect_scale": 1,
+        "rotation_degrees": -15,
+        "opacity": 0.9,
+        "tint": "#6a08fd",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "kulou-50033",
+        "source_track_id": "kulou-charge-dagger-enchant"
+      },
+      {
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/kulou-50033/godot/effect_scenes/kulou-release-stab-blade/effect.tscn",
+        "coordinate_space": "world",
+        "target": "origin",
+        "origin": "hit_window",
+        "offset_x": -8,
+        "offset_y": -67,
+        "delay_ms": 0,
+        "anchor": "origin",
+        "follow_target": false,
+        "mirror_with_facing": false,
+        "mirror": false,
+        "lifetime_ms": 111,
+        "effect_scale": 0.65,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#7a09ec",
+        "attachment_layer": "front",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "kulou-50033",
+        "source_track_id": "kulou-release-stab-blade"
+      },
+      {
+        "damage_ratio": 3,
+        "result_key": "new_hit",
+        "type": "melee_damage",
+        "flat_damage": 3
+      },
+      {
+        "type": "apply_target_buff",
+        "target": "result",
+        "result_key": "new_hit",
+        "buff_ids": [
+          10004
+        ],
+        "chance": 1
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
+}

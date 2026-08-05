@@ -8,7 +8,7 @@ const CONFIG_FILE := "character_config.json"
 const DEFAULT_TARGET_HEIGHT := 52.0
 const COLLISION_BODY_BOTTOM := 19.0  # CollisionShape2D.size.y / 2 = 38/2
 const AIRangeCompiler = preload("res://scripts/system/ai_range_compiler.gd")
-const SKILLS_PATH := "res://data/skills.json"
+const SkillConfig = preload("res://scripts/data/skill_config.gd")
 const CHARACTERS_PATH := "res://data/characters.json"
 const ENEMIES_PATH := "res://data/enemies.json"
 
@@ -203,6 +203,7 @@ func _import_character(options: Dictionary) -> int:
 
 ## 导入完成后，为使用该资源的所有技能重编译 ai_range_cache。
 ## 不覆盖技能节点、伤害、Buff、冷却和人工填写的弹道 AI 起手距离。
+## 经 SkillConfig 读写 per-actor 技能文件，不再直接开 skills.json。
 func _recompile_ai_range_caches(source_dir: String) -> void:
 	var asset_path := ProjectSettings.localize_path(source_dir)
 	if asset_path.is_empty():
@@ -212,39 +213,26 @@ func _recompile_ai_range_caches(source_dir: String) -> void:
 		print("  ai_range_cache: 该资源未关联任何技能，跳过")
 		return
 
-	# 读取 skills.json
-	var file := FileAccess.open(SKILLS_PATH, FileAccess.READ)
-	if file == null:
-		push_warning("ai_range_cache 重编译：无法读取 skills.json")
-		return
-	var json := JSON.new()
-	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary:
-		push_warning("ai_range_cache 重编译：skills.json 解析失败")
-		return
-	var data: Dictionary = json.data
+	# --script 运行时无 GameRegistry autoload，用本地 SkillConfig 实例
+	var skill_config := SkillConfig.new()
+	skill_config.load_config()
+	skill_config.build_index(_load_json(CHARACTERS_PATH), _load_json(ENEMIES_PATH))
 
 	var recompiled := 0
 	for skill_id in skill_ids:
-		var key := str(skill_id)
-		if not data.has(key):
+		var sid := int(skill_id)
+		if skill_config.get_skill(sid).is_empty():
 			continue
-		var cache := AIRangeCompiler.compile(int(skill_id), asset_path)
+		var cache := AIRangeCompiler.compile(sid, asset_path)
 		if cache.is_empty() or cache.get("entries", []).is_empty():
 			continue
-		var raw: Dictionary = data[key]
-		raw["ai_range_cache"] = cache
-		data[key] = raw
+		skill_config.save_ai_range_cache(sid, cache)
 		recompiled += 1
 
 	if recompiled == 0:
 		print("  ai_range_cache: 没有可重编译的技能")
 		return
 
-	var out := FileAccess.open(SKILLS_PATH, FileAccess.WRITE)
-	if out == null:
-		push_warning("ai_range_cache 重编译：无法写入 skills.json")
-		return
-	out.store_string(JSON.stringify(data, "\t") + "\n")
 	print("  ai_range_cache: 已重编译 %d 个技能" % recompiled)
 
 
