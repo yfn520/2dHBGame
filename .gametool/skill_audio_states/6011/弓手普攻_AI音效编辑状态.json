@@ -1,0 +1,43 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6011",
+  "skill_hash": "d9ba3bc5776718015e841853d7efb7e268540c2d3e1bfe68380f3a15635eda55",
+  "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
+  "tracks": [
+    {
+      "id": "track_6011_action",
+      "role": "action",
+      "trigger": {
+        "type": "skill_start",
+        "value": null,
+        "hit_window_index": null,
+        "node_index": null,
+        "offset_ms": 0
+      },
+      "summary_zh": "精灵弓手普通攻击整段动作音效，包含拉弓时弓身的轻微摩擦声、弓弦绷紧释放的清脆弹响、箭矢离弦的短促破空声，听感连贯自然，不含命中音效",
+      "prompt_en": "Fantasy elven archer normal bow attack sound effect, subtle wood friction when drawing the bow, crisp twang of released taut bowstring, short soft whoosh of arrow launching, medieval fantasy style, no music, no voice, no hit impact sound, isolated sound effect",
+      "duration_ms": 600,
+      "spatial_mode": "caster",
+      "gain_db": -2,
+      "pitch_variation": 0.1,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "track_6011_action_v2.wav",
+          "seed": 1356749559,
+          "model": "stabilityai/stable-audio-3-small-sfx",
+          "prompt_en": "Fantasy elven archer normal bow attack sound effect, subtle wood friction when drawing the bow, crisp twang of released taut bowstring, short soft whoosh of arrow launching, medieval fantasy style, no music, no voice, no hit impact sound, isolated sound effect",
+          "duration_ms": 144,
+          "created_at": "2026-08-05T13:15:51.883Z"
+        }
+      ],
+      "selected_candidate_index": 0,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1
+    }
+  ]
+}

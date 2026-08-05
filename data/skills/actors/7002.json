@@ -2,10 +2,10 @@
   "6011": {
     "ai_range_cache": {
       "policy": "any_damage_node",
-      "source_hash": "bcf52ba4bae695c5",
+      "source_hash": "4df19cf1803c61d9",
       "entries": [
         {
-          "node_index": 2,
+          "node_index": 3,
           "source": "projectile",
           "kind": "projectile",
           "min_edge_distance": 0,
@@ -21,6 +21,18 @@
       {
         "action": "attack",
         "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6011/track_6011_action_v2.wav",
+        "spatial_mode": "caster",
+        "gain_db": -2,
+        "pitch_variation": 0.1,
+        "loop": false,
+        "delay_ms": 250,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "track_6011_action"
       },
       {
         "hit_window_index": 0,
@@ -66,18 +78,18 @@
   },
   "6012": {
     "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "74c1514cb18c82f2",
       "entries": [
         {
-          "detail": "ai_min=0 ai_max=300",
+          "node_index": 4,
+          "source": "projectile",
           "kind": "projectile",
-          "max_edge_distance": 300,
           "min_edge_distance": 0,
-          "node_index": 3,
-          "source": "projectile"
+          "max_edge_distance": 300,
+          "detail": "ai_min=0 ai_max=300"
         }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "90be678715a50494"
+      ]
     },
     "cooldown": 1,
     "name": "弓手技能1",
@@ -85,6 +97,18 @@
       {
         "action": "skill",
         "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6012/projectile_spawn_v2.wav",
+        "spatial_mode": "caster",
+        "gain_db": -3,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 250,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "projectile_spawn"
       },
       {
         "hit_window_index": 0,
@@ -151,12 +175,13 @@
       {
         "type": "end_skill"
       }
-    ]
+    ],
+    "description": ""
   },
   "6013": {
     "ai_range_cache": {
       "policy": "any_damage_node",
-      "source_hash": "f75315cda8df0e3e",
+      "source_hash": "4bccd360d2e4c90d",
       "entries": [
         {
           "node_index": -1,
@@ -174,6 +199,18 @@
       {
         "action": "skill1",
         "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6013/buff_v1.wav",
+        "spatial_mode": "caster",
+        "gain_db": -4,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 200,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "buff"
       },
       {
         "attachment_blend_mode": "normal",
@@ -217,10 +254,10 @@
   "6014": {
     "ai_range_cache": {
       "policy": "any_damage_node",
-      "source_hash": "bcf52ba4bae695c5",
+      "source_hash": "4df19cf1803c61d9",
       "entries": [
         {
-          "node_index": 2,
+          "node_index": 3,
           "source": "projectile",
           "kind": "projectile",
           "min_edge_distance": 0,
@@ -235,6 +272,18 @@
       {
         "action": "attack",
         "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6014/projectilespawn_01_v1.wav",
+        "spatial_mode": "caster",
+        "gain_db": -3,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "projectilespawn_01"
       },
       {
         "hit_window_index": 0,

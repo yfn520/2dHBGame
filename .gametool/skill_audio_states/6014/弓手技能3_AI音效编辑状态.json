@@ -1,0 +1,40 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6014",
+  "skill_hash": "d9ba3bc5776718015e841853d7efb7e268540c2d3e1bfe68380f3a15635eda55",
+  "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
+  "tracks": [
+    {
+      "trigger": {
+        "type": "skill_start",
+        "offset_ms": 0
+      },
+      "summary_zh": "projectile_spawn",
+      "prompt_en": "mass overlapping shoot arrow rain",
+      "duration_ms": 500,
+      "spatial_mode": "caster",
+      "gain_db": -3,
+      "pitch_variation": 0.11,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "projectilespawn_01_v1.wav",
+          "seed": null,
+          "model": "manual",
+          "prompt_en": "projectile launch whoosh, arrow release with magical trail, fantasy bow shot, isolated sound effect, no music, no voice",
+          "duration_ms": 1017,
+          "created_at": "2026-08-05T15:47:24.869Z"
+        }
+      ],
+      "selected_candidate_index": 0,
+      "bound_node_type": "spawn_projectile",
+      "bound_node_index": -1,
+      "id": "projectilespawn_01",
+      "role": "projectile_spawn"
+    }
+  ]
+}

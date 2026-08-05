@@ -1,0 +1,67 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6012",
+  "skill_hash": "d9ba3bc5776718015e841853d7efb7e268540c2d3e1bfe68380f3a15635eda55",
+  "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
+  "tracks": [
+    {
+      "id": "projectile_spawn",
+      "role": "projectile_spawn",
+      "trigger": {
+        "type": "skill_start",
+        "value": null,
+        "hit_window_index": null,
+        "node_index": null,
+        "offset_ms": 0
+      },
+      "summary_zh": "弹道发射的呼啸声",
+      "prompt_en": "single arrow release whoosh, magical bow shot,three times, no music, no voice, isolated sound effect",
+      "duration_ms": 500,
+      "spatial_mode": "caster",
+      "gain_db": -3,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "projectile_spawn_v1.wav",
+          "seed": 1550276075,
+          "model": "stabilityai/stable-audio-3-small-sfx",
+          "prompt_en": "single arrow release whoosh, magical bow shot, no music, no voice, isolated sound effect",
+          "duration_ms": 749,
+          "created_at": "2026-08-05T14:58:24.276Z"
+        }
+      ],
+      "selected_candidate_index": 0,
+      "bound_node_type": "spawn_projectile",
+      "bound_node_index": 3
+    },
+    {
+      "id": "projectile_hit",
+      "role": "projectile_hit",
+      "trigger": {
+        "type": "skill_start",
+        "value": null,
+        "hit_window_index": null,
+        "node_index": null,
+        "offset_ms": 600
+      },
+      "summary_zh": "弹道命中的撞击声",
+      "prompt_en": "arrow impact hit, sharp puncture thud, no music, no voice, isolated sound effect",
+      "duration_ms": 200,
+      "spatial_mode": "target",
+      "gain_db": -3,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "candidates": [],
+      "selected_candidate_index": -1,
+      "bound_node_type": "spawn_projectile",
+      "bound_node_index": 3
+    }
+  ]
+}

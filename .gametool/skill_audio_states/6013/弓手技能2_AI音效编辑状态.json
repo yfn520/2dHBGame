@@ -1,0 +1,43 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6013",
+  "skill_hash": "d9ba3bc5776718015e841853d7efb7e268540c2d3e1bfe68380f3a15635eda55",
+  "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
+  "tracks": [
+    {
+      "id": "buff",
+      "role": "buff",
+      "trigger": {
+        "type": "after_skill_node",
+        "value": null,
+        "hit_window_index": null,
+        "node_index": 3,
+        "offset_ms": 0
+      },
+      "summary_zh": "增益效果的魔法音效",
+      "prompt_en": "magic aura hum, glowing spell effect, no music, no voice, isolated sound effect",
+      "duration_ms": 800,
+      "spatial_mode": "caster",
+      "gain_db": -4,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "buff_v1.wav",
+          "seed": 2133744363,
+          "model": "stabilityai/stable-audio-3-small-sfx",
+          "prompt_en": "magic aura hum, glowing spell effect, no music, no voice, isolated sound effect",
+          "duration_ms": 800,
+          "created_at": "2026-08-05T15:40:59.858Z"
+        }
+      ],
+      "selected_candidate_index": 0,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1
+    }
+  ]
+}
