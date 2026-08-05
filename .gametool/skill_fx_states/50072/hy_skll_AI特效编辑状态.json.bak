@@ -91,6 +91,41 @@
           "generation_prompt": "2D side-scroller purple spore burst, toxic pollen explosion, cartoon VFX, isolated on black background, no character, no UI",
           "is_projectile": false,
           "projectile_config": null
+        },
+        {
+          "id": "track_buff_aura",
+          "phase": "buff",
+          "title": "狂暴魔力环绕",
+          "description": "花妖获得强化Buff后，周身环绕紫色魔力叶片与上升的狂暴气流。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 2,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "foot",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 1000,
+          "blend_mode": "add",
+          "layer": -1,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": -15,
+              "y": -136
+            },
+            "scale": 0.49,
+            "rotation_degrees": 0,
+            "opacity": 0.8,
+            "tint": "#ffffff"
+          },
+          "library_query": "purple magic aura swirling leaves loop",
+          "generation_prompt": "2D cartoon purple magical aura, swirling leaves and energy, looping, isolated on black background, no character, no UI",
+          "is_projectile": false,
+          "projectile_config": null
         }
       ]
     }
@@ -99,7 +134,8 @@
   "actionHash": "8da1d74d46ed5491c18bc74f8bcbfc63bd8ddb22329e6acdb575c3c918318e00",
   "drawPrompts": {
     "prop_50072_hy_skll-msae23si:track_charge_glow": "2D cartoon style orange magical energy gathering, glowing pollen particles, isolated on black background, no character, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
-    "prop_50072_hy_skll-msae23si:track_spore_burst": "2D side-scroller purple spore burst, toxic pollen explosion, cartoon VFX, isolated on black background, no character, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+    "prop_50072_hy_skll-msae23si:track_spore_burst": "2D side-scroller purple spore burst, toxic pollen explosion, cartoon VFX, isolated on black background, no character, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "prop_50072_hy_skll-msae23si:track_buff_aura": "2D cartoon purple magical aura, swirling leaves and energy, looping, isolated on black background, no character, no UI\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the buff phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
   },
   "drawHistory": {},
   "fullscreenResolution": {
@@ -127,7 +163,8 @@
     }
   },
   "disabledTrackIds": [
-    "track_charge_glow"
+    "track_charge_glow",
+    "track_buff_aura"
   ],
   "trackSelectedFrames": {
     "track_spore_burst": [
@@ -136,12 +173,19 @@
       3,
       1,
       0
+    ],
+    "track_buff_aura": [
+      0,
+      2,
+      3,
+      5
     ]
   },
   "trackFrameRotations": {},
   "previewMirror": {},
   "previewFrame": {
-    "track_spore_burst": 0
+    "track_spore_burst": 0,
+    "track_buff_aura": 1
   },
   "candidatePageOffsets": {},
   "selectedAssets": [
@@ -163,6 +207,25 @@
         "score": 0.4868
       },
       "atlasRef": ".gametool/skill_fx_states/50072/assets/track_spore_burst.png"
+    },
+    {
+      "trackId": "track_buff_aura",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 154,
+        "height": 150
+      },
+      "frameCount": 6,
+      "fps": 12,
+      "loop": true,
+      "source": {
+        "type": "sequence",
+        "id": "b4c9e6cc285b0854",
+        "name": "mass_dodge_loop.img",
+        "path": "DNF特效全集库3338套/sprite_monster_power_station_no3_station_effect/mass_dodge_loop.img",
+        "score": 0.497
+      },
+      "atlasRef": ".gametool/skill_fx_states/50072/assets/track_buff_aura.png"
     }
   ]
 }

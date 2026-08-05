@@ -25,7 +25,7 @@
       "direction": "facing",
       "mirror": false,
       "duration_ms": 400,
-      "blend_mode": "normal",
+      "blend_mode": "add",
       "layer": 1,
       "loop": false,
       "transform": {
@@ -55,7 +55,22 @@
         "loop": false,
         "source": {
           "kind": "generated",
-          "description": "毒素孢子喷射"
+          "description": "毒素孢子喷射",
+          "selected_source_frames": [
+            6,
+            4,
+            3,
+            1,
+            0
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "3": 0,
+            "4": 0,
+            "6": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
         }
       }
     }

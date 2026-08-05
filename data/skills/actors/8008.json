@@ -115,7 +115,7 @@
         "opacity": 1,
         "tint": "#ffffff",
         "attachment_layer": "front",
-        "attachment_blend_mode": "normal",
+        "attachment_blend_mode": "add",
         "source_bundle_id": "50072",
         "source_track_id": "track_spore_burst"
       },
