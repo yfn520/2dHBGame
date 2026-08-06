@@ -73,7 +73,7 @@
 	},
 	"chapter_6": {
 		"order": 6,
-		"name": "星核深渊与结局",
+		"name": "王脉深庭与结局",
 		"mood": "终局、回响、抉择",
 		"required_previous_chapter_id": "chapter_5",
 		"dungeon_level_ids": [14, 15],

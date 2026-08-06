@@ -12,11 +12,11 @@
 				"required_hero_id": 0,
 				"required_event_state": "initial",
 				"chapter_id": "chapter_1",
-				"text_template": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随着抬眼的动作微微扯动，语气冷硬得像淬了冰的铁）铁锋佣兵团霍雷克。这里只有走佣兵公会正规流程的击杀委托，不接私活，不讲情面，没有半分通融余地。有意接取就明确表态，否则不要挡着其他办事的人。",
+				"text_template": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随抬眼微微扯动，语气干硬）铁锋佣兵团，霍雷克。这里只走佣兵公会正规流程的击杀委托。要凭证有凭证，要见证有见证，没有口头默契那一套。接就明确表态，不接别挡着别人办事。",
 				"next_id": "inactive_choice",
 				"default_next": "",
 				"choices": [],
-				"text": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随着抬眼的动作微微扯动，语气冷硬得像淬了冰的铁）铁锋佣兵团霍雷克。这里只有走佣兵公会正规流程的击杀委托，不接私活，不讲情面，没有半分通融余地。有意接取就明确表态，否则不要挡着其他办事的人。",
+				"text": "（他指尖叩了叩腰间磨得发亮的重斧斧柄，左侧眉骨的浅疤随抬眼微微扯动，语气干硬）铁锋佣兵团，霍雷克。这里只走佣兵公会正规流程的击杀委托。要凭证有凭证，要见证有见证，没有口头默契那一套。接就明确表态，不接别挡着别人办事。",
 				"quest_roles": [
 					"inactive"
 				],
@@ -68,11 +68,11 @@
 			"quest_brief": {
 				"type": "line",
 				"speaker": "霍雷克",
-				"text_template": "（他推过一张印着铁锋团徽和公会防伪纹的契约纸，逐条说明内容时语速平稳没有任何多余情绪）契约条款写得很清楚：击杀 {{target_count}} 只 {{target_name}}。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动必须符合佣兵规章。我会逐份核验任务凭证，伪造结果的人会被永久列入铁锋的合作黑名单。确认完成后按公会标准结算酬劳，没有额外物品赏赐。契约即刻生效。",
+				"text_template": "（他从抽屉里推出一张印着铁锋团徽和公会防伪纹的契约纸，逐条核验时语速平稳没有起伏）契约写明：击杀 {{target_count}} 只 {{target_name}}。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动符合佣兵规章。凭证我逐份核验，伪造结果的人会被永久列入铁锋合作黑名单。我签的是你做过的事，没签你是什么人。完成按公会标准结算，无额外赏赐。契约即刻生效。",
 				"next_id": "end_accept_quest",
 				"default_next": "",
 				"choices": [],
-				"text": "（他推过一张印着铁锋团徽和公会防伪纹的契约纸，逐条说明内容时语速平稳没有任何多余情绪）契约条款写得很清楚：击杀 1 只 xiao'huei'heu'i。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动必须符合佣兵规章。我会逐份核验任务凭证，伪造结果的人会被永久列入铁锋的合作黑名单。确认完成后按公会标准结算酬劳，没有额外物品赏赐。契约即刻生效。",
+				"text": "（他从抽屉里推出一张印着铁锋团徽和公会防伪纹的契约纸，逐条核验时语速平稳没有起伏）契约写明：击杀 1 只 xiao'huei'heu'i。任务期间不得殃及平民，不得损毁公会登记在册的私人财产，所有行动符合佣兵规章。凭证我逐份核验，伪造结果的人会被永久列入铁锋合作黑名单。我签的是你做过的事，没签你是什么人。完成按公会标准结算，无额外赏赐。契约即刻生效。",
 				"quest_roles": [
 					"inactive"
 				],
@@ -128,11 +128,11 @@
 			"active_checkin": {
 				"type": "line",
 				"speaker": "霍雷克",
-				"text_template": "（他甚至没有抬眼，手指摩挲着斧柄上的磨痕，语气平淡没有波澜）契约尚未履行完毕。你需要击杀 {{target_count}} 只 {{target_name}}，带齐有效凭证再来核验。不要尝试耍任何花招，铁锋的核验流程七年没出过差错，没人能蒙混过关。",
+				"text_template": "（他没抬眼，拇指摩挲着铜领章缺了一角的那处，语气平淡）契约还没结，谁都别替它收尾。{{target_count}} 只 {{target_name}}，凭证带齐再来核验。铁锋的核验流程七年没出过差错，没人能蒙混。",
 				"next_id": "end_active_talk",
 				"default_next": "",
 				"choices": [],
-				"text": "（他甚至没有抬眼，手指摩挲着斧柄上的磨痕，语气平淡没有波澜）契约尚未履行完毕。你需要击杀 1 只 xiao'huei'heu'i，带齐有效凭证再来核验。不要尝试耍任何花招，铁锋的核验流程七年没出过差错，没人能蒙混过关。",
+				"text": "（他没抬眼，拇指摩挲着铜领章缺了一角的那处，语气平淡）契约还没结，谁都别替它收尾。1 只 xiao'huei'heu'i，凭证带齐再来核验。铁锋的核验流程七年没出过差错，没人能蒙混。",
 				"quest_roles": [
 					"active"
 				],
@@ -169,11 +169,11 @@
 			"ready_greeting": {
 				"type": "line",
 				"speaker": "霍雷克",
-				"text_template": "（他接过你递来的任务凭证，指尖扫过上面的击杀印记，快速核验完毕后抬眼看你，语气依旧没有起伏）凭证核验通过，{{target_count}} 只 {{target_name}} 的清除结果符合契约要求，可以走结算流程。按规定没有额外物品奖励，酬劳按公会统一标准核算。",
+				"text_template": "（他接过凭证，指尖扫过上面的击杀印记，核验完毕抬眼看你）凭证通过。{{target_count}} 只 {{target_name}}，结果符合契约要求，走结算。无额外物品奖励，酬劳按公会统一标准核算。",
 				"next_id": "ready_choice",
 				"default_next": "",
 				"choices": [],
-				"text": "（他接过你递来的任务凭证，指尖扫过上面的击杀印记，快速核验完毕后抬眼看你，语气依旧没有起伏）凭证核验通过，1 只 xiao'huei'heu'i 的清除结果符合契约要求，可以走结算流程。按规定没有额外物品奖励，酬劳按公会统一标准核算。",
+				"text": "（他接过凭证，指尖扫过上面的击杀印记，核验完毕抬眼看你）凭证通过。1 只 xiao'huei'heu'i，结果符合契约要求，走结算。无额外物品奖励，酬劳按公会统一标准核算。",
 				"quest_roles": [
 					"ready"
 				],
@@ -225,11 +225,11 @@
 			"turnin_confirm_line": {
 				"type": "line",
 				"speaker": "霍雷克",
-				"text_template": "（他将核算好的酬劳递到你手中，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。后续如果有符合你资质的合规委托，可以走公会流程申请。不要想着找我走后门，我这里没有这种规矩。",
+				"text_template": "（他将核算好的酬劳推到你面前，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。凭证回来了。下一项。后续若有适配你评级的合规委托，走公会流程申请。我这里没有后门。",
 				"next_id": "end_turnin_finish",
 				"default_next": "",
 				"choices": [],
-				"text": "（他将核算好的酬劳递到你手中，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。后续如果有符合你资质的合规委托，可以走公会流程申请。不要想着找我走后门，我这里没有这种规矩。",
+				"text": "（他将核算好的酬劳推到你面前，指节上的旧薄茧蹭过硬币边缘，脸上看不出半分多余表情）契约履行完毕，铁锋七年零违约的记录继续有效。凭证回来了。下一项。后续若有适配你评级的合规委托，走公会流程申请。我这里没有后门。",
 				"quest_roles": [
 					"ready"
 				],
@@ -285,11 +285,11 @@
 			"completed_greeting": {
 				"type": "line",
 				"speaker": "霍雷克",
-				"text_template": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）你之前的契约已经结清。目前我这里没有适配你评级的新委托，等公会更新委托名录后按正规流程申请即可，不必专程过来搭话。",
+				"text_template": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）契约已结清。当前没有适配你评级的新委托。等公会更新委托名录后按正规流程申请即可，不必专程搭话。",
 				"next_id": "end_completed_talk",
 				"default_next": "",
 				"choices": [],
-				"text": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）你之前的契约已经结清。目前我这里没有适配你评级的新委托，等公会更新委托名录后按正规流程申请即可，不必专程过来搭话。",
+				"text": "（他靠在墙边擦着斧刃，见你过来只淡淡瞥了一眼）契约已结清。当前没有适配你评级的新委托。等公会更新委托名录后按正规流程申请即可，不必专程搭话。",
 				"quest_roles": [
 					"completed"
 				],
@@ -391,8 +391,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "柏婶：你好，旅团的人。先坐，碗我多拿了一只。",
-				"text_template": "",
+				"text": "（她把一只还冒着热气的碗推过来，顺手多摆了一双筷子）碗端起来再说。锅上还温着，自己盛。",
+				"text_template": "（她把一只还冒着热气的碗推过来，顺手多摆了一双筷子）碗端起来再说。锅上还温着，自己盛。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -413,8 +413,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "我不认得你，可碗多拿了一只，总有你的。锅上还温着，自己盛。",
-				"text_template": "",
+				"text": "（她瞥了一眼柜台下那只没拿出来的杯子，又收回目光）我不认得你。可碗多拿了一只，总有你的。凉了我再热，别把勺也弄丢。",
+				"text_template": "（她瞥了一眼柜台下那只没拿出来的杯子，又收回目光）我不认得你。可碗多拿了一只，总有你的。凉了我再热，别把勺也弄丢。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -435,8 +435,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "开了这么多年旅店，来来去去的人多了。我这儿算他们半个家，记不住名字，记得住口味。",
-				"text_template": "",
+				"text": "（她抹了抹灶台，声音没起伏）开了这么多年旅店，来来去去的人多。我这儿算他们半个家。记不住名字，记得住口味。",
+				"text_template": "（她抹了抹灶台，声音没起伏）开了这么多年旅店，来来去去的人多。我这儿算他们半个家。记不住名字，记得住口味。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -457,8 +457,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（她把第四只杯子留在柜台下没动）墙上那处空着。你想挂就自己钉。",
+				"text_template": "（她把第四只杯子留在柜台下没动）墙上那处空着。你想挂就自己钉。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -571,8 +571,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "老邮差洛伯",
-				"text": "老邮差洛伯：……你好，旅团的人。",
-				"text_template": "",
+				"text": "（他把邮袋口上那十七根细绳一根根数过，没抬眼）……你好。地址没了的，我这边收。",
+				"text_template": "（他把邮袋口上那十七根细绳一根根数过，没抬眼）……你好。地址没了的，我这边收。",
 				"next_id": "quest_brief",
 				"default_next": "",
 				"choices": [],
@@ -593,8 +593,8 @@
 			"quest_brief": {
 				"type": "line",
 				"speaker": "老邮差洛伯",
-				"text": "关于最后一袋信——找回被抹掉的收件地址的简短说明。",
-				"text_template": "",
+				"text": "（他从袋里抽出一摞封蜡泛白的信）最后一袋，十七封退件。收件地址都被抹掉了，封蜡还在。能送就送，不能送就退。别替人拆。你若愿意接，就帮我把这十七个地址找回——找不到的，归档，不烧。",
+				"text_template": "（他从袋里抽出一摞封蜡泛白的信）最后一袋，十七封退件。收件地址都被抹掉了，封蜡还在。能送就送，不能送就退。别替人拆。你若愿意接，就帮我把这十七个地址找回——找不到的，归档，不烧。",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -629,8 +629,8 @@
 			"active_checkin": {
 				"type": "line",
 				"speaker": "老邮差洛伯",
-				"text": "还在处理最后一袋信——找回被抹掉的收件地址吗？",
-				"text_template": "",
+				"text": "（他正用红蜡封一封没写收件人的信，右手食指沾着封蜡红）地址没了，寄信人的规矩还在。还在找？",
+				"text_template": "（他正用红蜡封一封没写收件人的信，右手食指沾着封蜡红）地址没了，寄信人的规矩还在。还在找？",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -651,8 +651,8 @@
 			"ready_greeting": {
 				"type": "line",
 				"speaker": "老邮差洛伯",
-				"text": "最后一袋信——找回被抹掉的收件地址完成了，回来交差。",
-				"text_template": "",
+				"text": "（他接过你补齐的地址，一封封对照封蜡和草籽。最底下那封他没拆，只摸了摸信封角）退件齐了。地址对得上寄信人的，归档；对不上的，留着。我不替人写死讯。",
+				"text_template": "（他接过你补齐的地址，一封封对照封蜡和草籽。最底下那封他没拆，只摸了摸信封角）退件齐了。地址对得上寄信人的，归档；对不上的，留着。我不替人写死讯。",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -716,8 +716,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "守门兵遗响",
-				"text": "守门兵遗响：……关闭城门……你好，旅团的人。",
-				"text_template": "",
+				"text": "（遗响抬头时脸部缺了一小块画面，胸牌位置只剩两颗空铆钉，腰间门号牌晃了一下）……三号门。宵禁亥时。一、二、三……",
+				"text_template": "（遗响抬头时脸部缺了一小块画面，胸牌位置只剩两颗空铆钉，腰间门号牌晃了一下）……三号门。宵禁亥时。一、二、三……",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -738,8 +738,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "守门兵遗响",
-				"text": "关闭城门……等最后一个孩子过去……再关门。",
-				"text_template": "",
+				"text": "（他低头数人头，每数一个就在门框上敲一下，手套掌心磨穿）……十四、十五、十六。一、二、三……",
+				"text_template": "（他低头数人头，每数一个就在门框上敲一下，手套掌心磨穿）……十四、十五、十六。一、二、三……",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -760,8 +760,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "守门兵遗响",
-				"text": "我死于执行封门命令。遗响困在最后一道未完成的命令里，史册只留了'关门'，删了'等孩子过去'。",
-				"text_template": "",
+				"text": "（他又抬头，脸部又缺了一小块画面）命令：关门。等最后一个……（他顿住，喉咙里没有后半段，重新数）一、二、三……",
+				"text_template": "（他又抬头，脸部又缺了一小块画面）命令：关门。等最后一个……（他顿住，喉咙里没有后半段，重新数）一、二、三……",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -782,8 +782,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "守门兵遗响",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（底座上的木风车转了半圈又停下。他数到十六，又从头数起）……完整命令未恢复。门未关。",
+				"text_template": "（底座上的木风车转了半圈又停下。他数到十六，又从头数起）……完整命令未恢复。门未关。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -896,8 +896,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "十七号",
-				"text": "十七号：……你好。你是……考官吗？",
-				"text_template": "",
+				"text": "（黄铜桶形躯干上那块方形玻璃屏亮了一下，显示一个被反复擦拭、边缘最亮的'17'）……你好。问题：考试。答案：储物柜四十七。",
+				"text_template": "（黄铜桶形躯干上那块方形玻璃屏亮了一下，显示一个被反复擦拭、边缘最亮的'17'）……你好。问题：考试。答案：储物柜四十七。",
 				"next_id": "quest_brief",
 				"default_next": "",
 				"choices": [],
@@ -918,8 +918,8 @@
 			"quest_brief": {
 				"type": "line",
 				"speaker": "十七号",
-				"text": "关于十七号毕业——帮它完成最后一次考试并找到'回家'的简短说明。",
-				"text_template": "",
+				"text": "（它把左臂的短扫帚换成粉笔夹，在墙上慢慢写字）任务：毕业考试。题目：找到'回家'。提示：储物柜编号。备注：创造者未进入正式名册。",
+				"text_template": "（它把左臂的短扫帚换成粉笔夹，在墙上慢慢写字）任务：毕业考试。题目：找到'回家'。提示：储物柜编号。备注：创造者未进入正式名册。",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -954,8 +954,8 @@
 			"active_checkin": {
 				"type": "line",
 				"speaker": "十七号",
-				"text": "还在处理十七号毕业——帮它完成最后一次考试并找到'回家'吗？",
-				"text_template": "",
+				"text": "（玻璃屏闪了两下）状态：进行中。灯未关。还不能回家。",
+				"text_template": "（玻璃屏闪了两下）状态：进行中。灯未关。还不能回家。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -976,8 +976,8 @@
 			"ready_greeting": {
 				"type": "line",
 				"speaker": "十七号",
-				"text": "十七号毕业——帮它完成最后一次考试并找到'回家'完成了，回来交差。",
-				"text_template": "",
+				"text": "（它在最后一题下慢慢写下两个字，玻璃屏亮起来，毕业后多系的那条蓝布带晃了晃）答案：回家。灯已关。可以回家。",
+				"text_template": "（它在最后一题下慢慢写下两个字，玻璃屏亮起来，毕业后多系的那条蓝布带晃了晃）答案：回家。灯已关。可以回家。",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -1040,9 +1040,9 @@
 		"nodes": {
 			"greeting": {
 				"type": "line",
-				"speaker": "父亲",
-				"text": "父亲：……你好，旅团的人。",
-				"text_template": "",
+				"speaker": "埃蒙",
+				"text": "（录音里先是海风，再是一个沙哑的男声，像在念坐标）……北纬转舵。右转七度。港口在下风，船往外带。",
+				"text_template": "（录音里先是海风，再是一个沙哑的男声，像在念坐标）……北纬转舵。右转七度。港口在下风，船往外带。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -1062,9 +1062,9 @@
 			},
 			"small_talk": {
 				"type": "line",
-				"speaker": "父亲",
-				"text": "我转了舵。船……不能再靠港，渊蚀会跟着上岸。",
-				"text_template": "",
+				"speaker": "埃蒙",
+				"text": "（录音继续，他在报人数）船员十一人。货舱封存物受蚀，已改航向，带离居民区。家书……（停顿）答应过按时回家。",
+				"text_template": "（录音继续，他在报人数）船员十一人。货舱封存物受蚀，已改航向，带离居民区。家书……（停顿）答应过按时回家。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -1084,9 +1084,9 @@
 			},
 			"lore_reveal": {
 				"type": "line",
-				"speaker": "父亲",
-				"text": "第一封信答应回家。第二封航海记录里，我把受蚀船带离了港口。港湾把我记作失踪船长。",
-				"text_template": "",
+				"speaker": "埃蒙",
+				"text": "（录音里的海风变大了，他像是把日志本合上）航海日志记了改航决定，家书写的是回家。两份记录放在一起，才是同一件事。若日志能回去，把偏航写清。",
+				"text_template": "（录音里的海风变大了，他像是把日志本合上）航海日志记了改航决定，家书写的是回家。两份记录放在一起，才是同一件事。若日志能回去，把偏航写清。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -1106,9 +1106,9 @@
 			},
 			"farewell": {
 				"type": "line",
-				"speaker": "父亲",
-				"text": "保重。",
-				"text_template": "",
+				"speaker": "埃蒙",
+				"text": "（录音里只剩下海风和舵轮的转动声，第三颗纽扣的位置空着）……保重。",
+				"text_template": "（录音里只剩下海风和舵轮的转动声，第三颗纽扣的位置空着）……保重。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -1158,8 +1158,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "铁壳蟹",
-				"text": "铁壳蟹：（它横移两步，钳子举了举，似乎算打招呼。）",
-				"text_template": "",
+				"text": "（它从排水沟里横移出来，左钳比右钳大一圈，背上卡着半截钥匙环。钳子举了举，似乎算打招呼。）",
+				"text_template": "（它从排水沟里横移出来，左钳比右钳大一圈，背上卡着半截钥匙环。钳子举了举，似乎算打招呼。）",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -1189,8 +1189,8 @@
 			"service": {
 				"type": "line",
 				"speaker": "铁壳蟹",
-				"text": "（它摊开钳子，地上摆着几样被它偷来的小物件。）",
-				"text_template": "",
+				"text": "（它摊开钳子，地上摆着几样被它拖回窝的东西：鞋带、鱼钩、一把弯勺，还有一枚瓶塞。）",
+				"text_template": "（它摊开钳子，地上摆着几样被它拖回窝的东西：鞋带、鱼钩、一把弯勺，还有一枚瓶塞。）",
 				"next_id": "",
 				"default_next": "",
 				"choices": [
@@ -1220,8 +1220,8 @@
 			"leave": {
 				"type": "line",
 				"speaker": "铁壳蟹",
-				"text": "（它横移着退开了。）",
-				"text_template": "",
+				"text": "（它横移着退回排水沟，临走钳子夹走了那枚瓶塞。）",
+				"text_template": "（它横移着退回排水沟，临走钳子夹走了那枚瓶塞。）",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -1270,9 +1270,9 @@
 		"nodes": {
 			"greeting": {
 				"type": "line",
-				"speaker": "号手",
-				"text": "号手：你好，旅团的人。",
-				"text_template": "",
+				"speaker": "多恩",
+				"text": "（钟楼底层的灰尘被脚步踩起，一下，又一下。号角柄上缠的红绳在暗处晃了晃。）",
+				"text_template": "（钟楼底层的灰尘被脚步踩起，一下，又一下。号角柄上缠的红绳在暗处晃了晃。）",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -1292,9 +1292,9 @@
 			},
 			"small_talk": {
 				"type": "line",
-				"speaker": "号手",
-				"text": "钟楼我爬上去了。警报我敲了。平民走了。",
-				"text_template": "",
+				"speaker": "多恩",
+				"text": "（喘息。第一次试吹，号嘴没出声，只漏出一团潮气。第二次试吹，铜音断在半截。）",
+				"text_template": "（喘息。第一次试吹，号嘴没出声，只漏出一团潮气。第二次试吹，铜音断在半截。）",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -1314,9 +1314,9 @@
 			},
 			"lore_reveal": {
 				"type": "line",
-				"speaker": "号手",
-				"text": "贵族撤离后，我一个人爬钟楼敲警报让平民离城。史册写我是逃兵。撤离名单……停顿……还在。",
-				"text_template": "",
+				"speaker": "多恩",
+				"text": "（脚步向上。钟锤被抬起，又落下。一声钝响从钟楼顶传下来，盖住了城下的喧嚣。）",
+				"text_template": "（脚步向上。钟锤被抬起，又落下。一声钝响从钟楼顶传下来，盖住了城下的喧嚣。）",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -1336,9 +1336,9 @@
 			},
 			"farewell": {
 				"type": "line",
-				"speaker": "号手",
-				"text": "保重。",
-				"text_template": "",
+				"speaker": "多恩",
+				"text": "（钟响的余韵散尽。备用门的维修签收簿摊开在底座旁，那一栏写着'多恩'。）",
+				"text_template": "（钟响的余韵散尽。备用门的维修签收簿摊开在底座旁，那一栏写着'多恩'。）",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -1386,111 +1386,15 @@
 		"story_node_id": "node_ch6_final_execution",
 		"nodes": {
 			"greeting": {
-				"type": "line",
-				"speaker": "诺瓦",
-				"text": "诺瓦：你回来太晚了，旅团的人。……你好。",
-				"text_template": "",
-				"next_id": "small_talk",
-				"default_next": "",
-				"choices": [],
-				"routes": [],
-				"conditions": [],
-				"actions": [],
-				"story_layer": "COMMON",
-				"required_lead_hero_id": 0,
-				"required_hero_id": 0,
-				"required_event_state": "",
-				"chapter_id": "chapter_6",
-				"editor": {
-					"x": 0,
-					"y": 0
-				},
-				"quest_binding": {}
-			},
-			"small_talk": {
-				"type": "line",
-				"speaker": "诺瓦",
-				"text": "旧远征队的营地你认得。我守着星核，成了旧制度最后的守门人。",
-				"text_template": "",
-				"next_id": "lore_reveal",
-				"default_next": "",
-				"choices": [],
-				"routes": [],
-				"conditions": [],
-				"actions": [],
-				"story_layer": "COMMON",
-				"required_lead_hero_id": 0,
-				"required_hero_id": 0,
-				"required_event_state": "",
-				"chapter_id": "chapter_6",
-				"editor": {
-					"x": 200,
-					"y": 0
-				},
-				"quest_binding": {}
-			},
-			"lore_reveal": {
-				"type": "line",
-				"speaker": "诺瓦",
-				"text": "记得主角却先抱怨回来太晚。关系靠摆放习惯、旧装备缺口、营地路线慢慢确认，不靠一次口述讲完。",
-				"text_template": "",
-				"next_id": "farewell",
-				"default_next": "",
-				"choices": [],
-				"routes": [],
-				"conditions": [],
-				"actions": [],
-				"story_layer": "COMMON",
-				"required_lead_hero_id": 0,
-				"required_hero_id": 0,
-				"required_event_state": "",
-				"chapter_id": "chapter_6",
-				"editor": {
-					"x": 400,
-					"y": 0
-				},
-				"quest_binding": {}
-			},
-			"farewell": {
-				"type": "line",
-				"speaker": "诺瓦",
-				"text": "保重。",
-				"text_template": "",
-				"next_id": "end",
-				"default_next": "",
-				"choices": [],
-				"routes": [],
-				"conditions": [],
-				"actions": [],
-				"story_layer": "COMMON",
-				"required_lead_hero_id": 0,
-				"required_hero_id": 0,
-				"required_event_state": "",
-				"chapter_id": "chapter_6",
-				"editor": {
-					"x": 600,
-					"y": 0
-				},
-				"quest_binding": {}
-			},
-			"end": {
 				"type": "end",
 				"speaker": "",
-				"text": "保重。",
+				"text": "",
 				"text_template": "",
 				"next_id": "",
-				"default_next": "",
-				"choices": [],
-				"routes": [],
-				"conditions": [],
-				"actions": [],
-				"story_layer": "COMMON",
-				"required_lead_hero_id": 0,
-				"required_hero_id": 0,
-				"required_event_state": "",
 				"chapter_id": "chapter_6",
+				"story_layer": "COMMON",
 				"editor": {
-					"x": 800,
+					"x": 0,
 					"y": 0
 				},
 				"quest_binding": {}
@@ -1844,8 +1748,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "奥兹",
-				"text": "奥兹：……你好。小七，别躲，这是旅团的人。",
-				"text_template": "",
+				"text": "（他肩上的铆钉甲虫先转过头，他才抬眼，铜护目镜推在卷发顶上）……你好。小七，别躲，这是旅团的人。它叫小七。",
+				"text_template": "（他肩上的铆钉甲虫先转过头，他才抬眼，铜护目镜推在卷发顶上）……你好。小七，别躲，这是旅团的人。它叫小七。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -1866,8 +1770,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "奥兹",
-				"text": "它叫小七，不是在攻击，它在打招呼。你挡到它了。",
-				"text_template": "",
+				"text": "（他蹲下，用加厚手套的指节敲了敲那台畸变守门魔偶的外壳）它叫了三次。你们一次都没回答。它不是在攻击，是在确认你是不是同源零件。",
+				"text_template": "（他蹲下，用加厚手套的指节敲了敲那台畸变守门魔偶的外壳）它叫了三次。你们一次都没回答。它不是在攻击，是在确认你是不是同源零件。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -1888,8 +1792,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "奥兹",
-				"text": "月影遗迹的遗响一直叫我'哥哥'，可我不记得有弟弟。魔偶的编号刻在背面，不是正面。",
-				"text_template": "",
+				"text": "（他从工具腰带里翻出工坊编号册，比对外壳上的刻字）月影遗迹那台守门魔偶，编号是我的旧工坊号。它反复叫我哥哥。会咬人和坏掉，是两回事。我接下这个。",
+				"text_template": "（他从工具腰带里翻出工坊编号册，比对外壳上的刻字）月影遗迹那台守门魔偶，编号是我的旧工坊号。它反复叫我哥哥。会咬人和坏掉，是两回事。我接下这个。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -1910,8 +1814,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "奥兹",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（他把铆钉甲虫拨回肩上，站起来）保重。",
+				"text_template": "（他把铆钉甲虫拨回肩上，站起来）保重。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -1961,8 +1865,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "米娅",
-				"text": "米娅：你好。等等，这叫星楔回路，不叫魔法——抱歉，你们继续。",
-				"text_template": "",
+				"text": "（她正用双头校正笔在两份术式副本上同时打勾，蓝黑短发别在耳后）你好。等等——这叫星楔回路，不叫魔法。抱歉，你们继续。",
+				"text_template": "（她正用双头校正笔在两份术式副本上同时打勾，蓝黑短发别在耳后）你好。等等——这叫星楔回路，不叫魔法。抱歉，你们继续。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -1983,8 +1887,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "米娅",
-				"text": "我修改了断脉术式，把封印转移到主角的星印上。这是星楔回路的副产品。",
-				"text_template": "",
+				"text": "（她语速突然加快，便签翻得哗啦响）我比对了断脉术式和封存档案。先别叫它故障，现有证据只够写异常。这两份记录冲突，我都留。",
+				"text_template": "（她语速突然加快，便签翻得哗啦响）我比对了断脉术式和封存档案。先别叫它故障，现有证据只够写异常。这两份记录冲突，我都留。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -2005,8 +1909,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "米娅",
-				"text": "烛塔学院删掉了断脉术式的记录。等一下，这个符号不对……抱歉，你们继续。",
-				"text_template": "",
+				"text": "（她指尖沾着白垩粉停在某个符号上，眉头越皱越紧）烛塔学院的副本删掉了这一段。我能告诉你会坏什么，决定权不在我。这个符号……等一下，再让我看一遍。",
+				"text_template": "（她指尖沾着白垩粉停在某个符号上，眉头越皱越紧）烛塔学院的副本删掉了这一段。我能告诉你会坏什么，决定权不在我。这个符号……等一下，再让我看一遍。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -2027,8 +1931,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "米娅",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（她把便签夹回腰带，没抬头）保重。",
+				"text_template": "（她把便签夹回腰带，没抬头）保重。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -2078,8 +1982,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "凯",
-				"text": "凯：出口在那边。你好。",
-				"text_template": "",
+				"text": "（他先扫了一眼你身后的出口，才开口）出口在那边。你好。",
+				"text_template": "（他先扫了一眼你身后的出口，才开口）出口在那边。你好。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -2100,8 +2004,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "凯",
-				"text": "我受雇夺星楔，旧契约还在生效。价格回去再说。",
-				"text_template": "",
+				"text": "（他从腰带上摸出那枚从不使用的银色付款牌，转了半圈又塞回去）我受雇夺一枚古代航道锚具。价钱是真的，货主是假的。旧契约还在生效，价格回去再说。",
+				"text_template": "（他从腰带上摸出那枚从不使用的银色付款牌，转了半圈又塞回去）我受雇夺一枚古代航道锚具。价钱是真的，货主是假的。旧契约还在生效，价格回去再说。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -2122,8 +2026,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "凯",
-				"text": "苍蓝港湾，我以客援身份进来。他没说实话，但也不是在骗你——剩下的你之后问。",
-				"text_template": "",
+				"text": "（他停了半拍，看着你的眼睛）苍蓝港湾，我以客援身份进来。他没说实话，但也不是在骗你。我没站你们这边。我只是不替死人收货。剩下的……你之后问。",
+				"text_template": "（他停了半拍，看着你的眼睛）苍蓝港湾，我以客援身份进来。他没说实话，但也不是在骗你。我没站你们这边。我只是不替死人收货。剩下的……你之后问。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -2144,8 +2048,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "凯",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（他往出口方向退了半步）保重。",
+				"text_template": "（他往出口方向退了半步）保重。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],
@@ -2195,8 +2099,8 @@
 			"greeting": {
 				"type": "line",
 				"speaker": "伊莱",
-				"text": "伊莱：名字报一下。伤在哪儿。……你好，旅团的人。",
-				"text_template": "",
+				"text": "（他把药箱放在脚边，先递过来一截干净绷带）报名字。醒着就自己说。伤在哪儿。……你好，旅团的人。",
+				"text_template": "（他把药箱放在脚边，先递过来一截干净绷带）报名字。醒着就自己说。伤在哪儿。……你好，旅团的人。",
 				"next_id": "small_talk",
 				"default_next": "",
 				"choices": [],
@@ -2217,8 +2121,8 @@
 			"small_talk": {
 				"type": "line",
 				"speaker": "伊莱",
-				"text": "我删过不愿交给家属的死亡记录。这不是仁慈，是……算了。",
-				"text_template": "",
+				"text": "（他没等你答完就开始在便签上记，左手按住你不动的地方）阈值我来报，到数就退。这些年见过的无名伤员太多，我习惯先记名字，再记伤。不能让人只剩一个数字。",
+				"text_template": "（他没等你答完就开始在便签上记，左手按住你不动的地方）阈值我来报，到数就退。这些年见过的无名伤员太多，我习惯先记名字，再记伤。不能让人只剩一个数字。",
 				"next_id": "lore_reveal",
 				"default_next": "",
 				"choices": [],
@@ -2239,8 +2143,8 @@
 			"lore_reveal": {
 				"type": "line",
 				"speaker": "伊莱",
-				"text": "序章起我就跟着旅团。沉默比祷告有用。你……先止血。",
-				"text_template": "",
+				"text": "（他剪开袖口检查旧伤，动作比话快）序章起我就跟着旅团。你可以晚点解释，先把手伸出来。沉默比祷告有用。",
+				"text_template": "（他剪开袖口检查旧伤，动作比话快）序章起我就跟着旅团。你可以晚点解释，先把手伸出来。沉默比祷告有用。",
 				"next_id": "farewell",
 				"default_next": "",
 				"choices": [],
@@ -2261,8 +2165,8 @@
 			"farewell": {
 				"type": "line",
 				"speaker": "伊莱",
-				"text": "保重。",
-				"text_template": "",
+				"text": "（他把绷带盒扣回腰间，没抬头）保重。",
+				"text_template": "（他把绷带盒扣回腰间，没抬头）保重。",
 				"next_id": "end",
 				"default_next": "",
 				"choices": [],

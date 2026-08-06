@@ -5,7 +5,7 @@
 		"dialogue_id": "npc_9001",
 		"default_facing": "right",
 		"interaction_radius": 96,
-		"chapter_id": "chapter_1",
+		"chapter_id": "hub",
 		"npc_kind": "functional",
 		"hero_id": 0
 	},
@@ -15,7 +15,7 @@
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
-		"chapter_id": "prologue",
+		"chapter_id": "hub",
 		"npc_kind": "story",
 		"hero_id": 0
 	},
@@ -50,7 +50,7 @@
 		"hero_id": 0
 	},
 	"9006": {
-		"name": "父亲",
+		"name": "埃蒙",
 		"asset": "res://assets/npcs/npc_9006",
 		"dialogue_id": "npc_9006",
 		"default_facing": "right",
@@ -70,7 +70,7 @@
 		"hero_id": 0
 	},
 	"9008": {
-		"name": "号手",
+		"name": "多恩",
 		"asset": "res://assets/npcs/npc_9008",
 		"dialogue_id": "npc_9008",
 		"default_facing": "right",

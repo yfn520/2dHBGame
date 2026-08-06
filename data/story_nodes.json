@@ -588,7 +588,7 @@
 		"editor": {"x": 675, "y": 1590}
 	},
 	"node_ch4_story_two_letters": {
-		"title": "父亲留下的两封信",
+		"title": "船长留下的家书与日志",
 		"subtitle": "胡闹 → 悬疑 → 理解",
 		"node_type": "story",
 		"chapter_id": "chapter_4",
@@ -605,7 +605,7 @@
 		"town_change_ids": [],
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
-		"summary": "第一封承诺回家，第二封记录主动转舵。港口最终知道他没有抛下家人。",
+		"summary": "家书答应按时回家，航海日志记录改航决定。两份记录放在一起，才看见一个失约的父亲也完成了船长职责。",
 		"editor": {"x": 1010, "y": 1590}
 	},
 	"node_ch4_recruit_kai": {
@@ -736,7 +736,7 @@
 	},
 	"node_ch5_truth_archer": {
 		"title": "露娜的过去",
-		"subtitle": "找到路后毁掉路标",
+		"subtitle": "双刻兔牙标的另一道",
 		"node_type": "lead",
 		"chapter_id": "chapter_5",
 		"story_layer": "LEAD_ARC",
@@ -752,12 +752,12 @@
 		"town_change_ids": [],
 		"next_node_ids": ["node_ch5_reforge"],
 		"repeat_replacement_node_id": "",
-		"summary": "露娜亲手抹去返程标记，防止渊蚀沿原路追到地表。",
+		"summary": "露娜在民间救援路线上先刻一道保留判断，诺瓦只补第二道表示看见风险。遗忘效应后第二道刻痕仍在旧箭与地图上，却失去作者与含义。",
 		"editor": {"x": 350, "y": 2020}
 	},
 	"node_ch5_truth_mage": {
 		"title": "米娅的过去",
-		"subtitle": "把封印转入星印",
+		"subtitle": "双头校验笔的另一端",
 		"node_type": "lead",
 		"chapter_id": "chapter_5",
 		"story_layer": "LEAD_MAG",
@@ -773,7 +773,7 @@
 		"town_change_ids": [],
 		"next_node_ids": ["node_ch5_reforge"],
 		"repeat_replacement_node_id": "",
-		"summary": "米娅修改断脉术式，把第七道封印转移到自己身上。",
+		"summary": "米娅一端记录术式能否运行，诺瓦另一端记录还有谁留在危险区；三拍节奏是哥哥阻止她过度施法的提醒。",
 		"editor": {"x": 630, "y": 2020}
 	},
 	"node_ch5_truth_lead": {
@@ -819,8 +819,8 @@
 		"editor": {"x": 1010, "y": 2020}
 	},
 	"node_ch6_main": {
-		"title": "第6章 · 星核深渊",
-		"subtitle": "诺瓦与旧远征营地",
+		"title": "第6章 · 王脉深庭",
+		"subtitle": "诺瓦与旧镇脉军营地",
 		"node_type": "ending",
 		"chapter_id": "chapter_6",
 		"story_layer": "COMMON",
@@ -836,7 +836,7 @@
 		"town_change_ids": [],
 		"next_node_ids": ["node_ch6_breakfast", "node_ch6_final_knight", "node_ch6_final_archer", "node_ch6_final_mage"],
 		"repeat_replacement_node_id": "",
-		"summary": "星核拼回烧黑的锅、丢失的帐篷钉和旧营地。诺瓦仍记得主角。",
+		"summary": "在王脉深庭拼回烧黑的锅、丢失的帐篷钉和旧营地。诺瓦仍记得主角。",
 		"editor": {"x": 675, "y": 2260}
 	},
 	"node_ch6_breakfast": {
@@ -920,7 +920,7 @@
 		"town_change_ids": [],
 		"next_node_ids": ["node_ch6_new_pact"],
 		"repeat_replacement_node_id": "",
-		"summary": "米娅用主契能力切断星核的集中索取，让六地各自维护节点。",
+		"summary": "米娅用主契能力切断核心的集中索取，让六地各自维护节点。",
 		"editor": {"x": 630, "y": 2390}
 	},
 	"node_ch6_final_execution": {

@@ -66,9 +66,9 @@
 	},
 	"14": {
 		"bgm": "",
-		"description": "星核深渊普通关卡：经失落营地与记忆回廊、第七封印，深入星核内环。",
+		"description": "王脉深庭普通关卡：经失落营地与记忆回廊、第七封印，深入核心内环。",
 		"enemies": [],
-		"name": "星核深渊",
+		"name": "王脉深庭",
 		"npcs": [],
 		"scene_path": "res://scenes/xingheneihuan.tscn",
 		"spawn_x": 500,
@@ -76,9 +76,9 @@
 	},
 	"15": {
 		"bgm": "",
-		"description": "星核深渊 Boss 战：在第七封印前遭遇旧远征队伙伴、最后守门人诺瓦。",
+		"description": "王脉深庭 Boss 战：在第七封印前遭遇旧镇脉军伙伴、最后守门人诺瓦。",
 		"enemies": [],
-		"name": "星核内环",
+		"name": "核心内环",
 		"npcs": [],
 		"scene_path": "res://scenes/xing.tscn",
 		"spawn_x": 500,
