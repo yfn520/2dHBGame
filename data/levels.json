@@ -26,9 +26,9 @@
 	},
 	"10": {
 		"bgm": "",
-		"description": "苍蓝港湾普通关卡：经漂流瓶滩与旧码头、锚链区，前往暴雨灯塔。",
+		"description": "星露草原",
 		"enemies": [],
-		"name": "苍蓝港湾",
+		"name": "星露草原",
 		"npcs": [],
 		"scene_path": "res://scenes/city3.tscn",
 		"spawn_x": 500,
@@ -36,9 +36,9 @@
 	},
 	"11": {
 		"bgm": "",
-		"description": "苍蓝港湾 Boss 战：在暴雨灯塔遭遇保存遇难者声音的赛壬。",
+		"description": "月影遗迹",
 		"enemies": [],
-		"name": "暴雨灯塔",
+		"name": "月影遗迹",
 		"npcs": [],
 		"scene_path": "res://scenes/city.tscn",
 		"spawn_x": 500,
@@ -46,9 +46,9 @@
 	},
 	"12": {
 		"bgm": "",
-		"description": "灰烬王城普通关卡：穿过难民街与撤离钟楼、焚毁档案馆，直逼王城大门。",
+		"description": " 烛塔学院",
 		"enemies": [],
-		"name": "灰烬王城",
+		"name": " 烛塔学院",
 		"npcs": [],
 		"scene_path": "res://scenes/city.tscn",
 		"spawn_x": 500,
@@ -56,9 +56,9 @@
 	},
 	"13": {
 		"bgm": "",
-		"description": "灰烬王城 Boss 战：在王城大门遭遇封闭王城守住断脉档案的雷欧哈特。",
+		"description": "苍蓝港湾",
 		"enemies": [],
-		"name": "王城大门",
+		"name": "苍蓝港湾",
 		"npcs": [],
 		"scene_path": "res://scenes/city2.tscn",
 		"spawn_x": 500,
@@ -66,9 +66,9 @@
 	},
 	"14": {
 		"bgm": "",
-		"description": "王脉深庭普通关卡：经失落营地与记忆回廊、第七封印，深入核心内环。",
+		"description": "灰烬王城",
 		"enemies": [],
-		"name": "王脉深庭",
+		"name": "灰烬王城",
 		"npcs": [],
 		"scene_path": "res://scenes/xingheneihuan.tscn",
 		"spawn_x": 500,
@@ -76,9 +76,9 @@
 	},
 	"15": {
 		"bgm": "",
-		"description": "王脉深庭 Boss 战：在第七封印前遭遇旧镇脉军伙伴、最后守门人诺瓦。",
+		"description": "王脉深庭",
 		"enemies": [],
-		"name": "核心内环",
+		"name": "王脉深庭",
 		"npcs": [],
 		"scene_path": "res://scenes/xing.tscn",
 		"spawn_x": 500,
@@ -175,16 +175,6 @@
 		"scene_path": "res://scenes/city3.tscn",
 		"spawn_x": 184,
 		"spawn_y": 397
-	},
-	"6": {
-		"bgm": "",
-		"description": "月影遗迹普通关卡：穿越宵禁门与断桥，前往守门所与月影钟楼。",
-		"enemies": [],
-		"name": "月影遗迹",
-		"npcs": [],
-		"scene_path": "res://scenes/senlin.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
 	},
 	"7": {
 		"bgm": "",

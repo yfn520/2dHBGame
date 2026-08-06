@@ -1,27 +1,8 @@
 {
 	"version": 1,
 	"levels": {
-		"5": [
-			{
-				"instance_id": "hlk_1",
-				"npc_id": 9001,
-				"x": 1037,
-				"y": 722,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 180
-			}
-		],
+		"5": [],
 		"3": [
-			{
-				"instance_id": "npc_9002_3",
-				"npc_id": 9002,
-				"x": 400,
-				"y": 350,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 96
-			},
 			{
 				"instance_id": "npc_9010_3",
 				"npc_id": 9010,
@@ -48,15 +29,6 @@
 				"facing": "right",
 				"scale": 0.25,
 				"interaction_radius": 96
-			},
-			{
-				"instance_id": "npc_9016_3",
-				"npc_id": 9016,
-				"x": 400,
-				"y": 400,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 96
 			}
 		],
 		"1": [
@@ -68,11 +40,40 @@
 				"facing": "right",
 				"scale": 0.25,
 				"interaction_radius": 96
+			},
+			{
+				"instance_id": "npc_9002_1",
+				"npc_id": 9002,
+				"x": 400,
+				"y": 400,
+				"facing": "right",
+				"scale": 0.25,
+				"interaction_radius": 96
+			},
+			{
+				"instance_id": "npc_9016_1",
+				"npc_id": 9016,
+				"x": 800,
+				"y": 400,
+				"facing": "right",
+				"scale": 0.25,
+				"interaction_radius": 96
 			}
 		],
-		"6": [
+		"2": [
 			{
-				"instance_id": "npc_9004_6",
+				"instance_id": "npc_9001_2",
+				"npc_id": 9001,
+				"x": 500,
+				"y": 400,
+				"facing": "right",
+				"scale": 0.25,
+				"interaction_radius": 96
+			}
+		],
+		"7": [
+			{
+				"instance_id": "npc_9004_7",
 				"npc_id": 9004,
 				"x": 500,
 				"y": 350,
@@ -81,7 +82,7 @@
 				"interaction_radius": 96
 			},
 			{
-				"instance_id": "npc_9013_6",
+				"instance_id": "npc_9013_7",
 				"npc_id": 9013,
 				"x": 800,
 				"y": 350,
