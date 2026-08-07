@@ -31,6 +31,7 @@ var _main_blue_text: Label
 var _main_avatar_holder: Control
 var _main_avatar_sprite: AnimatedSprite2D
 var _main_avatar_fallback: Label
+var _main_avatar_portrait: TextureRect
 var _main_buff_bar: HBoxContainer
 var _ally_list: VBoxContainer
 var _skill_buttons: Array[Button] = []
@@ -230,12 +231,21 @@ func _setup_avatar_holder(holder: Control, is_main: bool) -> void:
 	fallback.add_theme_font_size_override("font_size", 18 if is_main else 12)
 	layer_node.add_child(fallback)
 
+	var portrait_tex := TextureRect.new()
+	portrait_tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+	portrait_tex.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	portrait_tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	portrait_tex.visible = false
+	layer_node.add_child(portrait_tex)
+
 	if is_main:
 		_main_avatar_sprite = sprite
 		_main_avatar_fallback = fallback
+		_main_avatar_portrait = portrait_tex
 	else:
 		holder.set_meta("avatar_sprite", sprite)
 		holder.set_meta("avatar_fallback", fallback)
+		holder.set_meta("avatar_portrait", portrait_tex)
 
 
 func _build_right_buttons() -> Control:
@@ -504,7 +514,7 @@ func _refresh_main_card() -> void:
 	_main_blue_bar.max_value = BLUE_PLACEHOLDER_MAX
 	_main_blue_bar.value = BLUE_PLACEHOLDER_CURRENT
 	_main_blue_text.text = "%d/%d" % [BLUE_PLACEHOLDER_CURRENT, BLUE_PLACEHOLDER_MAX]
-	_set_avatar(_main_avatar_sprite, _main_avatar_fallback, _active_character, character_name, false)
+	_set_avatar(_main_avatar_sprite, _main_avatar_fallback, _active_character, character_name, false, _main_avatar_portrait)
 
 
 func _refresh_main_buffs() -> void:
@@ -611,7 +621,8 @@ func _refresh_ally_card(card: PanelContainer) -> void:
 	if avatar != null:
 		var sprite := avatar.get_meta("avatar_sprite") as AnimatedSprite2D
 		var fallback := avatar.get_meta("avatar_fallback") as Label
-		_set_avatar(sprite, fallback, member, character_name, stats != null and int(stats.hp) <= 0)
+		var portrait_tex := avatar.get_meta("avatar_portrait") as TextureRect
+		_set_avatar(sprite, fallback, member, character_name, stats != null and int(stats.hp) <= 0, portrait_tex)
 	card.modulate = Color(0.55, 0.55, 0.55, 0.76) if stats != null and int(stats.hp) <= 0 else Color.WHITE
 
 
@@ -781,14 +792,28 @@ func _translate_ai_state(ai_name: String) -> String:
 		_: return ai_name
 
 
-func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBody2D, character_name: String, dimmed: bool) -> void:
+func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBody2D, character_name: String, dimmed: bool, portrait_tex: TextureRect = null) -> void:
 	if sprite == null or fallback == null:
 		return
 	sprite.visible = false
 	fallback.visible = true
+	if portrait_tex != null:
+		portrait_tex.visible = false
 	fallback.text = character_name.substr(0, 1) if not character_name.is_empty() else "?"
 	if member == null or not is_instance_valid(member):
 		return
+	# 优先使用静态 portrait
+	var character_id := _get_member_character_id(member)
+	var portrait_path := _get_portrait_path(character_id)
+	if not portrait_path.is_empty() and ResourceLoader.exists(portrait_path):
+		var tex := load(portrait_path) as Texture2D
+		if tex != null and portrait_tex != null:
+			portrait_tex.texture = tex
+			portrait_tex.modulate = Color(0.45, 0.45, 0.45, 0.75) if dimmed else Color.WHITE
+			portrait_tex.visible = true
+			fallback.visible = false
+			return
+	# 回退到 AnimatedSprite2D
 	var source := member.get_node_or_null("CharacterActionSet/AnimatedSprite2D") as AnimatedSprite2D
 	if source == null or source.sprite_frames == null:
 		return
@@ -805,6 +830,26 @@ func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBod
 	sprite.modulate = Color(0.45, 0.45, 0.45, 0.75) if dimmed else Color.WHITE
 	sprite.visible = true
 	fallback.visible = false
+
+
+func _get_portrait_path(character_id: int) -> String:
+	# 角色ID (7001-7999)：从 characters.json 拿 character_config 路径再读 portrait
+	if character_id >= 7001 and character_id <= 7999 and GameRegistry.character_config != null:
+		var config := GameRegistry.character_config.get_character(character_id)
+		var cc_path := str(config.get("character_config", ""))
+		if not cc_path.is_empty() and FileAccess.file_exists(cc_path):
+			var json := JSON.new()
+			if json.parse(FileAccess.get_file_as_string(cc_path)) == OK and json.data is Dictionary:
+				return str(json.data.get("portrait", ""))
+	# 怪物ID (8001-8999)：从 enemies.json 拿 character_config 路径再读 portrait
+	if character_id >= 8001 and GameRegistry.enemy_config != null:
+		var enemy := GameRegistry.enemy_config.get_enemy(character_id)
+		var cc_path := str(enemy.get("character_config", ""))
+		if not cc_path.is_empty() and FileAccess.file_exists(cc_path):
+			var json := JSON.new()
+			if json.parse(FileAccess.get_file_as_string(cc_path)) == OK and json.data is Dictionary:
+				return str(json.data.get("portrait", ""))
+	return ""
 
 
 # ---- 辅助 ----

@@ -48,6 +48,7 @@ func _enter_tree() -> void:
 	import_menu.add_item("导入 Spine 特效...", 7)
 	import_menu.add_item("生成 Buff 图标...", 11)
 	import_menu.add_item("生成弹道...", 6)
+	import_menu.add_item("导入头像...", 19)
 	import_menu.id_pressed.connect(_on_menu_pressed)
 	_submenu.add_child(import_menu)
 	_submenu.add_submenu_item("资源生成", "ImportMenu")
@@ -132,6 +133,10 @@ func _exit_tree() -> void:
 		_character_editor.queue_free()
 	if is_instance_valid(_item_editor):
 		_item_editor.queue_free()
+	if is_instance_valid(_portrait_file_dialog):
+		_portrait_file_dialog.queue_free()
+	if is_instance_valid(_portrait_target_dialog):
+		_portrait_target_dialog.queue_free()
 	if _top_menu_bar != null and is_instance_valid(_submenu):
 		_submenu.queue_free()
 		_top_menu_bar = null
@@ -181,6 +186,8 @@ func _on_menu_pressed(id: int) -> void:
 			_open_map_zip_importer()
 		18:
 			_pack_skill_data()
+		19:
+			_open_portrait_importer()
 
 
 func _open_combat_action_editor() -> void:
@@ -393,6 +400,140 @@ func _show_skill_pack_result(title_text: String, message: String) -> void:
 var _zip_file_dialog: EditorFileDialog
 var _zip_group_dialog: Window
 var _zip_pending_path: String = ""
+
+var _portrait_file_dialog: EditorFileDialog
+var _portrait_target_dialog: Window
+var _portrait_pending_path: String = ""
+
+
+# ---- 头像导入 ----
+
+## 弹出文件选择器选 PNG；选中后弹出目标角色/怪物选择窗口。
+func _open_portrait_importer() -> void:
+	if not is_instance_valid(_portrait_file_dialog):
+		_portrait_file_dialog = EditorFileDialog.new()
+		_portrait_file_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+		_portrait_file_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
+		_portrait_file_dialog.add_filter("*.png", "头像 PNG")
+		_portrait_file_dialog.title = "选择头像 PNG"
+		_portrait_file_dialog.file_selected.connect(_on_portrait_png_selected)
+		EditorInterface.get_base_control().add_child(_portrait_file_dialog)
+	_portrait_file_dialog.popup_centered_ratio(0.6)
+
+
+func _on_portrait_png_selected(png_path: String) -> void:
+	_portrait_pending_path = png_path
+	# 收集所有角色 + 怪物列表
+	var entries: Array = []  # [{id, name, group, asset}]
+	_collect_portrait_targets("res://data/characters.json", "characters", entries)
+	_collect_portrait_targets("res://data/enemies.json", "enemies", entries)
+	entries.sort_custom(func(a, b): return int(a["id"]) < int(b["id"]))
+	if entries.is_empty():
+		_show_portrait_result("导入头像失败", "未找到任何角色或怪物配置")
+		return
+	# 弹出选择窗口
+	if is_instance_valid(_portrait_target_dialog):
+		_portrait_target_dialog.queue_free()
+	_portrait_target_dialog = Window.new()
+	_portrait_target_dialog.title = "选择目标角色/怪物"
+	var content := VBoxContainer.new()
+	content.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 16
+	content.offset_top = 12
+	content.offset_right = -16
+	content.offset_bottom = -12
+	content.add_theme_constant_override("separation", 8)
+	_portrait_target_dialog.add_child(content)
+	var desc := Label.new()
+	desc.text = "将 %s 导入到：" % png_path.get_file()
+	desc.add_theme_font_size_override("font_size", 14)
+	content.add_child(desc)
+	var list := ItemList.new()
+	list.custom_minimum_size = Vector2(480, 320)
+	list.item_selected.connect(_on_portrait_target_selected.bind(list, entries))
+	content.add_child(list)
+	for entry in entries:
+		list.add_item("%s  %s  [%s]" % [str(entry["id"]).pad_zeros(4), entry["name"], entry["group"]])
+	var cancel_btn := Button.new()
+	cancel_btn.text = "取消"
+	cancel_btn.custom_minimum_size = Vector2(80, 36)
+	cancel_btn.pressed.connect(func():
+		_portrait_target_dialog.queue_free()
+		_portrait_pending_path = ""
+	)
+	content.add_child(cancel_btn)
+	_portrait_target_dialog.close_requested.connect(func():
+		_portrait_target_dialog.queue_free()
+		_portrait_pending_path = ""
+	)
+	_portrait_target_dialog.min_size = Vector2i(560, 440)
+	EditorInterface.get_base_control().add_child(_portrait_target_dialog)
+	_portrait_target_dialog.popup_centered(Vector2i(560, 440))
+
+
+func _collect_portrait_targets(config_path: String, group: String, out: Array) -> void:
+	if not FileAccess.file_exists(config_path):
+		return
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(config_path)) != OK or not json.data is Dictionary:
+		return
+	for id_str in json.data:
+		var entry: Dictionary = json.data[id_str]
+		var asset := String(entry.get("asset", ""))
+		var name := String(entry.get("name", entry.get("hero_name", id_str)))
+		if not asset.is_empty():
+			out.append({"id": int(id_str), "name": name, "group": group, "asset": asset})
+
+
+func _on_portrait_target_selected(index: int, list: ItemList, entries: Array) -> void:
+	if index < 0 or index >= entries.size():
+		return
+	var entry: Dictionary = entries[index]
+	var png_path := _portrait_pending_path
+	_portrait_pending_path = ""
+	if is_instance_valid(_portrait_target_dialog):
+		_portrait_target_dialog.queue_free()
+	var asset: String = entry["asset"]
+	var portrait_res := asset.path_join("godot/portrait.png")
+	var portrait_abs := ProjectSettings.globalize_path(portrait_res)
+	# 确保 godot 子目录存在
+	var godot_dir_abs := portrait_abs.get_base_dir()
+	DirAccess.make_dir_recursive_absolute(godot_dir_abs)
+	# 复制 PNG
+	var err := DirAccess.copy_absolute(png_path, portrait_abs)
+	if err != OK:
+		push_error("[GameTools] 头像复制失败: %s → %s (err=%d)" % [png_path, portrait_abs, err])
+		_show_portrait_result("导入头像失败", "复制文件失败 (err=%d)" % err)
+		return
+	# 更新 character_config.json
+	var config_path := asset.path_join("character_config.json")
+	if not FileAccess.file_exists(config_path):
+		_show_portrait_result("导入头像失败", "找不到 character_config.json: %s" % config_path)
+		return
+	var cfg_json := JSON.new()
+	var cfg_text := FileAccess.get_file_as_string(config_path)
+	if cfg_json.parse(cfg_text) != OK or not cfg_json.data is Dictionary:
+		_show_portrait_result("导入头像失败", "解析 character_config.json 失败")
+		return
+	var cfg: Dictionary = cfg_json.data
+	cfg["portrait"] = portrait_res
+	_write_file(config_path, JSON.stringify(cfg, "\t") + "\n")
+	EditorInterface.get_resource_filesystem().scan()
+	var msg := "头像已导入：%s\n→ %s\n已写入 character_config.json 的 portrait 字段" % [entry["name"], portrait_res]
+	print("[GameTools] %s" % msg.replace("\n", " "))
+	_show_portrait_result("导入头像成功", msg)
+
+
+func _show_portrait_result(title_text: String, msg: String) -> void:
+	var dialog := AcceptDialog.new()
+	dialog.title = title_text
+	dialog.dialog_text = msg
+	dialog.min_size = Vector2i(480, 160)
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.close_requested.connect(dialog.queue_free)
+	EditorInterface.get_base_control().add_child(dialog)
+	dialog.popup_centered(Vector2i(480, 180))
+
 
 ## 弹出文件选择器选 zip；选中后弹 group 选择窗口（角色 / 怪物），再解压。
 func _open_zip_importer() -> void:
