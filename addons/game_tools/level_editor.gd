@@ -16,17 +16,23 @@ extends Window
 
 const LEVELS_PATH := "res://data/levels.json"
 const ENEMIES_PATH := "res://data/enemies.json"
+const NPCS_PATH := "res://data/npcs.json"
+const NPC_PLACEMENTS_PATH := "res://data/npc_placements.json"
 const TEST_SETTINGS_PATH := "res://data/test_settings.json"
 const SCENE_DIR_HINT := "res://scenes"
 
 var _levels: Dictionary = {}          # id_str → level dict
 var _enemies_cfg: Dictionary = {}     # id_str → enemy dict
+var _npcs_cfg: Dictionary = {}        # npc_id_str → npc dict（名称/asset 等）
+var _npc_placements: Dictionary = {}   # level_id_str → Array[placement dict]（来自 npc_placements.json）
 var _current_level_id: String = ""
 var _selected_spawn_id: String = ""
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
+var _npc_preview_textures: Dictionary = {}  # npc_id(int) → Texture2D（资源缺失时为 null）
 var _loading := false
 var _test_start_level_id := 0
 var _updating_test_start_check := false
+var _show_npcs := true              # 是否绘制 NPC 摆放标记（只读可视化）
 
 # ---- UI: 关卡选择（顶部下拉）----
 var _level_picker: OptionButton
@@ -53,6 +59,7 @@ var _zoom_slider: HSlider
 var _marker_size_slider: HSlider
 var _map_opacity_slider: HSlider
 var _grid_check: CheckBox
+var _show_npcs_check: CheckBox
 var _fit_btn: Button
 var _add_point_btn: Button
 var _add_group_btn: Button
@@ -125,13 +132,37 @@ func open_editor() -> void:
 func _load_data() -> void:
 	_levels = _read_json(LEVELS_PATH).duplicate(true)
 	_enemies_cfg = _read_json(ENEMIES_PATH).duplicate(true)
+	# NPC 摆放与 NPC 定义独立于 levels.json，单独加载（来源是 web NPC 工作台写入的文件）
+	_npcs_cfg = _read_json(NPCS_PATH).duplicate(true)
+	_npc_placements = _read_npc_placements()
 	var test_settings := _read_json(TEST_SETTINGS_PATH)
 	_test_start_level_id = int(test_settings.get("start_level_id", 0))
 	if _test_start_level_id > 0 and not _levels.has(str(_test_start_level_id)):
 		_test_start_level_id = 0
 	_normalize_all_levels()
 	_preview_textures.clear()
+	_npc_preview_textures.clear()
 	_refresh_enemy_palette()
+
+
+## 读取 npc_placements.json，返回 level_id_str → Array[placement dict]。
+## 运行时由 npc_placement_config.gd 校验；这里只做轻量解析用于编辑器可视化。
+func _read_npc_placements() -> Dictionary:
+	var raw := _read_json(NPC_PLACEMENTS_PATH)
+	var result: Dictionary = {}
+	if not raw.has("levels") or not raw["levels"] is Dictionary:
+		return result
+	var levels: Dictionary = raw["levels"]
+	for level_id in levels:
+		var raw_entries: Variant = levels[level_id]
+		if not raw_entries is Array:
+			continue
+		var entries: Array = []
+		for value in raw_entries:
+			if value is Dictionary:
+				entries.append((value as Dictionary).duplicate(true))
+		result[str(level_id)] = entries
+	return result
 
 
 ## 刷新怪物库列表（按 ID 排序）。选中怪物库的项会同步到刷怪属性里的怪物下拉。
@@ -270,6 +301,12 @@ func _build_ui() -> void:
 	_grid_check.button_pressed = true
 	_grid_check.toggled.connect(_on_grid_toggled)
 	toolbar.add_child(_grid_check)
+	_show_npcs_check = CheckBox.new()
+	_show_npcs_check.text = "显示NPC"
+	_show_npcs_check.tooltip_text = "叠加显示 npc_placements.json 中的 NPC 摆放（只读，编辑请用 web NPC 工作台）"
+	_show_npcs_check.button_pressed = _show_npcs
+	_show_npcs_check.toggled.connect(_on_show_npcs_toggled)
+	toolbar.add_child(_show_npcs_check)
 	toolbar.add_child(VSeparator.new())
 	var zoom_label := Label.new()
 	zoom_label.text = "缩放"
@@ -1119,6 +1156,11 @@ func _on_grid_toggled(button_pressed: bool) -> void:
 	_refresh_markers()
 
 
+func _on_show_npcs_toggled(button_pressed: bool) -> void:
+	_show_npcs = button_pressed
+	_refresh_markers()
+
+
 func _on_marker_size_changed(value: float) -> void:
 	_marker_radius = clampf(value, 4.0, 60.0)
 	_refresh_markers()
@@ -1175,12 +1217,17 @@ func _compute_map_rect() -> Rect2:
 	_collect_node_rect(_map_instance, rect, first)
 	if not first and rect.size != Vector2.ZERO:
 		return rect
-	# 回退：用关卡配置里的刷怪点 + 出生点
+	# 回退：用关卡配置里的刷怪点 + 出生点 + NPC 摆放点
 	var level: Dictionary = _levels.get(_current_level_id, {})
 	var points: Array = [Vector2(float(level.get("spawn_x", 0)), float(level.get("spawn_y", 0)))]
 	for entry_value in level.get("enemies", []):
 		if entry_value is Dictionary:
 			points.append(Vector2(float((entry_value as Dictionary).get("x", 0)), float((entry_value as Dictionary).get("y", 0))))
+	# NPC 摆放点也纳入包围盒，避免"适应窗口"时 NPC 在视野外
+	if _npc_placements.has(_current_level_id):
+		for entry_value in _npc_placements[_current_level_id]:
+			if entry_value is Dictionary:
+				points.append(Vector2(float((entry_value as Dictionary).get("x", 0)), float((entry_value as Dictionary).get("y", 0))))
 	if points.size() == 1:
 		return Rect2(points[0], Vector2(400, 300))
 	rect = Rect2(points[0], Vector2.ZERO)
@@ -1473,6 +1520,67 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 			canvas_item.draw_string(font, p + label_offset + offset / _zoom + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, 0.8))
 		canvas_item.draw_string(font, p + label_offset, label_line1, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1, 1, 1, 0.95))
 		canvas_item.draw_string(font, p + label_offset + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1, 1, 1, 0.95))
+	# NPC 摆放（只读叠加，来自 npc_placements.json；编辑请用 web NPC 工作台）
+	if _show_npcs:
+		_draw_npc_markers(canvas_item)
+
+
+## 绘制 NPC 摆放标记：方形 + 交互范围环 + 名称，区别于圆形刷怪点与菱形出生点。
+## 只读可视化：NPC 不参与选区/拖拽/删除（其数据由 web 工作台维护）。
+func _draw_npc_markers(canvas_item: CanvasItem) -> void:
+	if _current_level_id.is_empty():
+		return
+	var entries: Array = _npc_placements.get(_current_level_id, [])
+	if entries.is_empty():
+		return
+	var ring_radius := _marker_radius / _zoom
+	var color := Color("3ad6c2")          # NPC 专属青色
+	var ring_color := Color(color.r, color.g, color.b, 0.35)
+	var font := ThemeDB.fallback_font
+	var font_size := maxi(8, int(12.0 / _zoom))
+	for entry_value in entries:
+		if not entry_value is Dictionary:
+			continue
+		var entry: Dictionary = entry_value
+		var p := Vector2(float(entry.get("x", 0)), float(entry.get("y", 0)))
+		var npc_id := int(entry.get("npc_id", 0))
+		var nname := _npc_display_name(npc_id)
+		# 交互范围环（虚线效果：多个小弧段近似）
+		var radius := float(entry.get("interaction_radius", 0.0))
+		if radius > 0.0:
+			var seg := 48
+			for i in range(seg):
+				if i % 2 == 0:
+					var a0 := TAU * i / seg
+					var a1 := TAU * (i + 1) / seg
+					canvas_item.draw_line(p + Vector2(cos(a0), sin(a0)) * radius, p + Vector2(cos(a1), sin(a1)) * radius, ring_color, 1.5 / _zoom)
+		# 方形标记（旋转 0°）
+		var half := ring_radius
+		var rect := Rect2(p - Vector2(half, half), Vector2(half * 2, half * 2))
+		canvas_item.draw_rect(rect, color, true)
+		canvas_item.draw_rect(rect, Color(1, 1, 1, 0.9), false, 2.0 / _zoom)
+		# NPC 缩略图（资源缺失时跳过）
+		var tex := _get_npc_preview_texture(npc_id)
+		if tex != null:
+			var tex_size := tex.get_size()
+			var max_dim := (_marker_radius * 1.6) / _zoom
+			var s := minf(max_dim / tex_size.x, max_dim / tex_size.y)
+			var draw_size := tex_size * s
+			canvas_item.draw_texture_rect(tex, Rect2(p - draw_size * 0.5, draw_size), false)
+		# 朝向指示（左朝向时画一个箭头）
+		if String(entry.get("facing", "right")) == "left":
+			var arr := ring_radius + 4.0 / _zoom
+			canvas_item.draw_line(p + Vector2(-arr, 0), p + Vector2(-arr - 6.0 / _zoom, -4.0 / _zoom), color, 2.0 / _zoom)
+			canvas_item.draw_line(p + Vector2(-arr, 0), p + Vector2(-arr - 6.0 / _zoom, 4.0 / _zoom), color, 2.0 / _zoom)
+		# 标签：第一行名称，第二行 [npc_id]
+		var label_offset := Vector2(ring_radius + 4.0 / _zoom, -ring_radius - 4.0 / _zoom)
+		var label_line1 := nname
+		var label_line2 := "NPC %d" % npc_id
+		for offset in [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]:
+			canvas_item.draw_string(font, p + label_offset + offset / _zoom, label_line1, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, 0.8))
+			canvas_item.draw_string(font, p + label_offset + offset / _zoom + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(0, 0, 0, 0.8))
+		canvas_item.draw_string(font, p + label_offset, label_line1, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
+		canvas_item.draw_string(font, p + label_offset + Vector2(0, font_size), label_line2, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(1, 1, 1, 0.85))
 
 
 ## 绘制玩家出生点标记：菱形 + 十字 + 标签，区别于圆形刷怪点。
@@ -1539,6 +1647,43 @@ func _enemy_display_name(enemy_id: int) -> String:
 	return "未知#%d" % enemy_id
 
 
+## NPC 名称（来自 npcs.json）；找不到时回退到 id。
+func _npc_display_name(npc_id: int) -> String:
+	var id_str := str(npc_id)
+	if _npcs_cfg.has(id_str):
+		return String(_npcs_cfg[id_str].get("name", id_str))
+	return "NPC#%d" % npc_id
+
+
+## 获取 NPC 默认动画第一帧作为缩略图（带缓存）。
+## NPC 资源尚未生成时返回 null（标记只画方形+名称，不画缩略图）。
+func _get_npc_preview_texture(npc_id: int) -> Texture2D:
+	if _npc_preview_textures.has(npc_id):
+		return _npc_preview_textures[npc_id]
+	_npc_preview_textures[npc_id] = null  # 先占位，避免重复尝试加载
+	var id_str := str(npc_id)
+	if not _npcs_cfg.has(id_str):
+		return null
+	var npc: Dictionary = _npcs_cfg[id_str]
+	var asset_path := String(npc.get("asset", "")).trim_suffix("/")
+	if asset_path.is_empty():
+		return null
+	# NPC 资源清单：asset_path/npc_asset.json，含 spriteframes 与 default_animation
+	var manifest := _read_json(asset_path.path_join("npc_asset.json"))
+	if manifest.is_empty():
+		return null
+	var sf_path := String(manifest.get("spriteframes", ""))
+	var default_anim := String(manifest.get("default_animation", ""))
+	if sf_path.is_empty() or not ResourceLoader.exists(sf_path):
+		return null
+	var sf := load(sf_path) as SpriteFrames
+	if sf == null or not sf.has_animation(default_anim) or sf.get_frame_count(default_anim) == 0:
+		return null
+	var tex := sf.get_frame_texture(default_anim, 0)
+	_npc_preview_textures[npc_id] = tex
+	return tex
+
+
 # ============================================================
 # 保存与放弃
 # ============================================================
@@ -1593,7 +1738,10 @@ func _on_save() -> void:
 func _on_discard() -> void:
 	_levels.clear()
 	_enemies_cfg.clear()
+	_npcs_cfg.clear()
+	_npc_placements.clear()
 	_preview_textures.clear()
+	_npc_preview_textures.clear()
 	_current_level_id = ""
 	_selected_spawn_id = ""
 	_load_data()
