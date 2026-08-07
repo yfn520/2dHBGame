@@ -114,24 +114,40 @@ func _apply_visual_style() -> void:
 	_cache_visual_nodes()
 	if _visual_root == null:
 		return
-	_visual_root.modulate = visual_tint
-	var blend_mode := CanvasItemMaterial.BLEND_MODE_MIX
-	if visual_blend_mode == "add":
-		blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-	elif visual_blend_mode == "screen":
-		blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
 	var canvas_items: Array[CanvasItem] = [_visual_root]
 	for child in _visual_root.find_children("*", "CanvasItem", true, false):
 		if child is CanvasItem:
 			canvas_items.append(child as CanvasItem)
-	for canvas_item in canvas_items:
-		var material := canvas_item.material as CanvasItemMaterial
-		if material != null:
-			material = material.duplicate() as CanvasItemMaterial
-		else:
-			material = CanvasItemMaterial.new()
-		material.blend_mode = blend_mode
-		canvas_item.material = material
+	if visual_tint.r >= 0.999 and visual_tint.g >= 0.999 and visual_tint.b >= 0.999:
+		# 白色 tint：只需 modulate 处理 opacity
+		_visual_root.modulate = visual_tint
+		var blend_mode := CanvasItemMaterial.BLEND_MODE_MIX
+		if visual_blend_mode == "add":
+			blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		elif visual_blend_mode == "screen":
+			blend_mode = CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA
+		for canvas_item in canvas_items:
+			var material := canvas_item.material as CanvasItemMaterial
+			if material != null:
+				material = material.duplicate() as CanvasItemMaterial
+			else:
+				material = CanvasItemMaterial.new()
+			material.blend_mode = blend_mode
+			canvas_item.material = material
+	else:
+		# 非白色 tint：用 shader 做颜色替换（对齐网页侧 source-atop 行为）
+		var render_mode := "blend_mix"
+		if visual_blend_mode == "add":
+			render_mode = "blend_add"
+		elif visual_blend_mode == "screen":
+			render_mode = "blend_premul_alpha"
+		var shader := Shader.new()
+		shader.code = "shader_type canvas_item;\nrender_mode %s;\nuniform vec4 tint : source_color = vec4(1.0);\nvoid fragment() {\n    vec4 c = texture(TEXTURE, UV);\n    COLOR = vec4(tint.rgb, c.a * tint.a);\n}" % render_mode
+		var mat := ShaderMaterial.new()
+		mat.shader = shader
+		mat.set_shader_parameter("tint", visual_tint)
+		for canvas_item in canvas_items:
+			canvas_item.material = mat
 
 
 func _update_projectile_transform(delta: float, advance_motion: bool) -> void:

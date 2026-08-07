@@ -7,12 +7,12 @@
 					"kind": "melee",
 					"max_edge_distance": 111.5,
 					"min_edge_distance": 0.0,
-					"node_index": 3.0,
+					"node_index": 4.0,
 					"source": "hit_window"
 				}
 			],
 			"policy": "any_damage_node",
-			"source_hash": "087753b7ff29b8b6"
+			"source_hash": "476583056569d62a"
 		},
 		"cooldown": 1.0,
 		"description": "",
@@ -21,6 +21,13 @@
 			{
 				"action": "skill1",
 				"type": "play_animation"
+			},
+			{
+				"afterimage_count": 3.0,
+				"afterimage_duration": 0.6,
+				"landing_gap": 60.0,
+				"target_search_range": 99999.0,
+				"type": "teleport_to_enemy"
 			},
 			{
 				"anchor": "origin",

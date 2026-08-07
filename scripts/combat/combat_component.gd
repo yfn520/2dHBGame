@@ -621,8 +621,36 @@ func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
 	effect_node.rotation += deg_to_rad(float(node.get("rotation_degrees", 0.0)))
 	var tint := Color.from_string(str(node.get("tint", "#ffffff")), Color.WHITE)
 	tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
-	effect_node.modulate *= tint
-	_apply_imported_effect_blend_mode(effect, node)
+	if tint.r >= 0.999 and tint.g >= 0.999 and tint.b >= 0.999:
+		# 白色 tint：只需 modulate 处理 opacity
+		effect_node.modulate *= tint
+		_apply_imported_effect_blend_mode(effect, node)
+	else:
+		# 非白色 tint：用 shader 做颜色替换（对齐网页侧 source-atop 行为，
+		# 将所有像素 RGB 替换为 tint 色并保留原始 alpha）
+		_apply_tint_replacement_material(effect, tint, node)
+
+
+func _apply_tint_replacement_material(effect: Node, tint: Color, node: Dictionary) -> void:
+	var blend_mode_str := str(node.get("attachment_blend_mode", "normal"))
+	var render_mode := "blend_mix"
+	if blend_mode_str == "add":
+		render_mode = "blend_add"
+	elif blend_mode_str == "screen":
+		render_mode = "blend_premul_alpha"
+	var shader := Shader.new()
+	shader.code = "shader_type canvas_item;\nrender_mode %s;\nuniform vec4 tint : source_color = vec4(1.0);\nvoid fragment() {\n    vec4 c = texture(TEXTURE, UV);\n    COLOR = vec4(tint.rgb, c.a * tint.a);\n}" % render_mode
+	var mat := ShaderMaterial.new()
+	mat.shader = shader
+	mat.set_shader_parameter("tint", tint)
+	var canvas_items: Array[CanvasItem] = []
+	if effect is CanvasItem:
+		canvas_items.append(effect as CanvasItem)
+	for child in effect.find_children("*", "CanvasItem", true, false):
+		if child is CanvasItem:
+			canvas_items.append(child as CanvasItem)
+	for canvas_item in canvas_items:
+		canvas_item.material = mat
 
 
 func _apply_imported_effect_blend_mode(effect: Node, node: Dictionary) -> void:
