@@ -1,56 +1,56 @@
 {
-  "50151": {
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "huei'jingju'xiang 的默认近战攻击。",
-    "name": "huei'jingju'xiang 默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_50151",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50152": {
-    "cast_range": 90,
-    "cooldown": 3,
-    "description": "huei'jingju'xiang 的技能1，播放 skill 动作。",
-    "name": "huei'jingju'xiang 技能1",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1.5,
-        "result_key": "hit_50152",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50151": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "huei'jingju'xiang 的默认近战攻击。",
+		"name": "huei'jingju'xiang 默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "hit_50151",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50152": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "huei'jingju'xiang 的技能1，播放 skill 动作。",
+		"name": "huei'jingju'xiang 技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.5,
+				"result_key": "hit_50152",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

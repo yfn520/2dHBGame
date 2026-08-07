@@ -254,8 +254,26 @@
     "personal_quest_id": 1011,
     "recruit_chapter_id": "prologue",
     "scene": "res://assets/characters/shushi/godot/shushi.tscn",
-    "skill_unlocks": {},
-    "skills": []
+    "skill_unlocks": {
+      "skill1": {
+        "skill_id": 6034,
+        "unlock_level": 1
+      },
+      "skill2": {
+        "skill_id": 6035,
+        "unlock_level": 1
+      },
+      "skill3": {
+        "skill_id": 6036,
+        "unlock_level": 1
+      }
+    },
+    "skills": [
+      6031,
+      6034,
+      6035,
+      6036
+    ]
   },
   "7005": {
     "actor_scale": 1,
@@ -302,8 +320,26 @@
     "personal_quest_id": 1012,
     "recruit_chapter_id": "chapter_2",
     "scene": "res://assets/characters/c'k/godot/c'k.tscn",
-    "skill_unlocks": {},
-    "skills": []
+    "skill_unlocks": {
+      "skill1": {
+        "skill_id": 50313,
+        "unlock_level": 1
+      },
+      "skill2": {
+        "skill_id": 50314,
+        "unlock_level": 1
+      },
+      "skill3": {
+        "skill_id": 50315,
+        "unlock_level": 1
+      }
+    },
+    "skills": [
+      6032,
+      50313,
+      50314,
+      50315
+    ]
   },
   "7006": {
     "actor_scale": 1,
@@ -350,7 +386,25 @@
     "personal_quest_id": 1013,
     "recruit_chapter_id": "chapter_4",
     "scene": "res://assets/characters/m's/godot/m's.tscn",
-    "skill_unlocks": {},
-    "skills": []
+    "skill_unlocks": {
+      "skill1": {
+        "skill_id": 6037,
+        "unlock_level": 1
+      },
+      "skill2": {
+        "skill_id": 6038,
+        "unlock_level": 1
+      },
+      "skill3": {
+        "skill_id": 6039,
+        "unlock_level": 1
+      }
+    },
+    "skills": [
+      6033,
+      6037,
+      6038,
+      6039
+    ]
   }
 }

@@ -87,7 +87,17 @@ static func compile(skill_id: int, owner_asset_path: String) -> Dictionary:
 					"max_edge_distance": 99999.0,
 				})
 				source_hash_input += "fullscreen|"
-			"apply_target_buff", "apply_self_buff", "heal", "play_effect", "move_x":
+			"teleport_to_enemy":
+				# 瞬移贴近：任意距离可起手（远处也能先瞬移近身再打）
+				entries.append({
+					"node_index": index,
+					"source": "teleport",
+					"kind": "teleport",
+					"min_edge_distance": 0.0,
+					"max_edge_distance": 99999.0,
+				})
+				source_hash_input += "teleport_to_enemy|"
+			"apply_target_buff", "apply_self_buff", "heal", "play_effect", "move_x", "move_to_screen_center":
 				# 不计入攻击距离，但标记技能有辅助节点
 				has_support_node = true
 				pass

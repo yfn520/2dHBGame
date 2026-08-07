@@ -1,29 +1,135 @@
 {
-  "6033": {
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "凯的可调整默认攻击。",
-    "name": "凯默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_6033",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"6033": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "凯的可调整默认攻击。",
+		"name": "凯默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "hit_6033",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6037": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "凯的裂伤突刺，附带流血效果。",
+		"name": "裂伤突刺",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.4,
+				"damage_tag": "slash",
+				"result_key": "hit_6037",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10007.0
+				],
+				"chance": 1.0,
+				"result_key": "hit_6037",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6038": {
+		"cast_range": 0.0,
+		"cooldown": 6.0,
+		"description": "凯的迅捷姿态，提升攻速与移速。",
+		"name": "迅捷姿态",
+		"nodes": [
+			{
+				"action": "skill2",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_ids": [
+					20008.0,
+					20005.0
+				],
+				"type": "apply_self_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6039": {
+		"cast_range": 0.0,
+		"cooldown": 7.0,
+		"description": "凯的暗影横扫，对周围敌人造成范围伤害并附加重伤。",
+		"name": "暗影横扫",
+		"nodes": [
+			{
+				"action": "skill3",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.8,
+				"damage_tag": "slash",
+				"origin": "hit_window",
+				"radius": 90.0,
+				"result_key": "area_6039",
+				"shape": "circle",
+				"type": "area_damage"
+			},
+			{
+				"buff_ids": [
+					10020.0
+				],
+				"chance": 1.0,
+				"result_key": "area_6039",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

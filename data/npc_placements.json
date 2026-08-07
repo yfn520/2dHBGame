@@ -1,36 +1,6 @@
 {
 	"version": 1,
 	"levels": {
-		"5": [],
-		"3": [
-			{
-				"instance_id": "npc_9010_3",
-				"npc_id": 9010,
-				"x": 300,
-				"y": 300,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 96
-			},
-			{
-				"instance_id": "npc_9011_3",
-				"npc_id": 9011,
-				"x": 500,
-				"y": 300,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 96
-			},
-			{
-				"instance_id": "npc_9012_3",
-				"npc_id": 9012,
-				"x": 700,
-				"y": 300,
-				"facing": "right",
-				"scale": 0.25,
-				"interaction_radius": 96
-			}
-		],
 		"1": [
 			{
 				"instance_id": "npc_9003_1",
@@ -38,7 +8,7 @@
 				"x": 600,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -47,7 +17,7 @@
 				"x": 400,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -56,7 +26,7 @@
 				"x": 800,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
@@ -67,10 +37,40 @@
 				"x": 500,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
+		"3": [
+			{
+				"instance_id": "npc_9010_3",
+				"npc_id": 9010,
+				"x": 300,
+				"y": 300,
+				"facing": "right",
+				"scale": 1,
+				"interaction_radius": 96
+			},
+			{
+				"instance_id": "npc_9011_3",
+				"npc_id": 9011,
+				"x": 500,
+				"y": 300,
+				"facing": "right",
+				"scale": 1,
+				"interaction_radius": 96
+			},
+			{
+				"instance_id": "npc_9012_3",
+				"npc_id": 9012,
+				"x": 700,
+				"y": 300,
+				"facing": "right",
+				"scale": 1,
+				"interaction_radius": 96
+			}
+		],
+		"5": [],
 		"7": [
 			{
 				"instance_id": "npc_9004_7",
@@ -78,7 +78,7 @@
 				"x": 500,
 				"y": 350,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -87,7 +87,7 @@
 				"x": 800,
 				"y": 350,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
@@ -98,7 +98,7 @@
 				"x": 500,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -107,7 +107,7 @@
 				"x": 600,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
@@ -118,7 +118,7 @@
 				"x": 500,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -127,7 +127,7 @@
 				"x": 700,
 				"y": 500,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			},
 			{
@@ -136,7 +136,7 @@
 				"x": 600,
 				"y": 500,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
@@ -147,7 +147,7 @@
 				"x": 500,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		],
@@ -158,7 +158,7 @@
 				"x": 500,
 				"y": 400,
 				"facing": "right",
-				"scale": 0.25,
+				"scale": 1,
 				"interaction_radius": 96
 			}
 		]

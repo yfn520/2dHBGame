@@ -1,82 +1,82 @@
 {
-  "50041": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
-          "kind": "melee",
-          "max_edge_distance": 81,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "5dbcce1ef2b69dde"
-    },
-    "cast_range": 60,
-    "cooldown": 1,
-    "name": "gbl_atk",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "melee_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50043": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
-          "kind": "melee",
-          "max_edge_distance": 81,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "5dbcce1ef2b69dde"
-    },
-    "cooldown": 3,
-    "description": "",
-    "name": "8005_skill",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 3,
-        "result_key": "new_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50041": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"kind": "melee",
+					"max_edge_distance": 81.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "5dbcce1ef2b69dde"
+		},
+		"cast_range": 60.0,
+		"cooldown": 1.0,
+		"name": "gbl_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50043": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=64.0 scale=1.00 body_half=44.0",
+					"kind": "melee",
+					"max_edge_distance": 81.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "5dbcce1ef2b69dde"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "8005_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 3.0,
+				"result_key": "new_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

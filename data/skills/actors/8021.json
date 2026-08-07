@@ -1,96 +1,96 @@
 {
-  "50201": {
-    "cast_range": 90,
-    "cooldown": 1,
-    "description": "jing'yingjia'chong 的默认近战攻击。",
-    "name": "jing'yingjia'chong 默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_50201",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50202": {
-    "cast_range": 100,
-    "cooldown": 3,
-    "description": "jing'yingjia'chong 的技能1，播放 skill 动作。",
-    "name": "jing'yingjia'chong 技能1",
-    "nodes": [
-      {
-        "type": "play_animation",
-        "action": "skill"
-      },
-      {
-        "type": "wait_hit_window",
-        "hit_window_index": 0
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/jing-yingjia-chong-50202/godot/effect_scenes/t2_release_slash/effect.tscn",
-        "coordinate_space": "world",
-        "target": "origin",
-        "origin": "hit_window",
-        "offset_x": -123,
-        "offset_y": -80,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": false,
-        "mirror_with_facing": false,
-        "mirror": true,
-        "lifetime_ms": 280,
-        "effect_scale": 0.5,
-        "rotation_degrees": 0,
-        "opacity": 0.9,
-        "tint": "#ffffff",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "jing-yingjia-chong-50202",
-        "source_track_id": "t2_release_slash"
-      },
-      {
-        "type": "area_damage",
-        "result_key": "area_hit",
-        "origin": "hit_window",
-        "shape": "circle",
-        "radius": 80,
-        "damage_ratio": 1
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ],
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "788a522b78e1c042",
-      "entries": [
-        {
-          "node_index": 3,
-          "source": "area",
-          "kind": "area",
-          "min_edge_distance": 0,
-          "max_edge_distance": 143.5,
-          "detail": "origin=hit_window radius=80.0 scale=1.00"
-        }
-      ]
-    }
-  }
+	"50201": {
+		"cast_range": 90.0,
+		"cooldown": 1.0,
+		"description": "jing'yingjia'chong 的默认近战攻击。",
+		"name": "jing'yingjia'chong 默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "hit_50201",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50202": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "origin=hit_window radius=80.0 scale=1.00",
+					"kind": "area",
+					"max_edge_distance": 143.5,
+					"min_edge_distance": 0.0,
+					"node_index": 3.0,
+					"source": "area"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "788a522b78e1c042"
+		},
+		"cast_range": 100.0,
+		"cooldown": 3.0,
+		"description": "jing'yingjia'chong 的技能1，播放 skill 动作。",
+		"name": "jing'yingjia'chong 技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "world",
+				"delay_ms": 0.0,
+				"effect_scale": 0.5,
+				"follow_target": false,
+				"lifetime_ms": 280.0,
+				"mirror": true,
+				"mirror_with_facing": false,
+				"offset_x": -123.0,
+				"offset_y": -80.0,
+				"opacity": 0.9,
+				"origin": "hit_window",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/jing-yingjia-chong-50202/godot/effect_scenes/t2_release_slash/effect.tscn",
+				"source_bundle_id": "jing-yingjia-chong-50202",
+				"source_track_id": "t2_release_slash",
+				"target": "origin",
+				"tint": "#ffffff",
+				"type": "play_effect"
+			},
+			{
+				"damage_ratio": 1.0,
+				"origin": "hit_window",
+				"radius": 80.0,
+				"result_key": "area_hit",
+				"shape": "circle",
+				"type": "area_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

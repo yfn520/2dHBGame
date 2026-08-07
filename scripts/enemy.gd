@@ -11,6 +11,8 @@ const TARGET_SWITCH_COOLDOWN := 0.8
 const TARGET_SWITCH_GAIN := 48.0
 const TARGET_LOSE_MULTIPLIER := 1.5
 const FACE_TARGET_DEAD_ZONE := 8.0
+const AGGRO_RANGE := 900.0   # 受击仇恨触发后的追击距离（引怪，覆盖全屏攻击）
+const AGGRO_HOLD_TIME := 3.0 # 每次受击刷新仇恨保持时间
 
 var _enemy_id: int = 0
 var _config: Dictionary = {}       # 来自 enemies.json
@@ -25,6 +27,8 @@ var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
 var _skill_index: int = 0
 var _target_switch_timer: float = 0.0
+var _aggro_source: CharacterBody2D = null
+var _aggro_timer: float = 0.0
 
 # 节点驱动 AI 距离缓存：skill_id (int) → cache (Dictionary)
 var _ai_caches: Dictionary = {}
@@ -39,8 +43,10 @@ func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
 		push_error("怪物配置不存在: %s" % enemy_id)
 		return
 
-	_actor_scale = maxf(0.01, float(_config.get("actor_scale", 1.0)))
+	var configured_actor_scale := maxf(0.01, float(_config.get("actor_scale", 1.0)))
 	_load_character_config()
+	# 接入统一体型 auto-clamp：按 body_box.height 把 actor_scale 收敛到 [140,200] 目标体型
+	_actor_scale = EntityAutoScaler.compute_scale(_read_authored_body_height(), configured_actor_scale)
 	_stats = EnemyStats.new(_config)
 	_load_combat_actions()
 	_spawn_position = global_position
@@ -72,6 +78,16 @@ func _load_character_config() -> void:
 		return
 	if json.data is Dictionary:
 		_character_config = json.data
+
+
+## 读取敌人 authored body height：优先 body_box.height，回落 body_size.y，再回落 0（不 clamp）。
+func _read_authored_body_height() -> float:
+	var body_box: Dictionary = _character_config.get("body_box", {}) if _character_config.has("body_box") else {}
+	var h := float(body_box.get("height", 0.0))
+	if h > 0.0:
+		return h
+	var body_size: Dictionary = _character_config.get("body_size", {}) if _character_config.has("body_size") else {}
+	return float(body_size.get("y", 0.0))
 
 
 func _load_combat_actions() -> void:
@@ -147,6 +163,7 @@ func _update_actor(delta: float) -> void:
 			velocity = Vector2.ZERO
 			return
 	_target_switch_timer = maxf(0.0, _target_switch_timer - delta)
+	_aggro_timer = maxf(0.0, _aggro_timer - delta)
 	match _ai_state:
 		AIState.IDLE:
 			_update_idle(delta)
@@ -169,6 +186,42 @@ func _get_idle_animation() -> String:
 func _connect_signals() -> void:
 	if combat != null and combat.has_signal("died"):
 		combat.died.connect(_on_enemy_died)
+	if combat != null and combat.has_signal("took_damage"):
+		combat.took_damage.connect(_on_took_damage)
+
+
+# === 受击仇恨（Damage Aggro） ===
+
+func _on_took_damage(_amount: int, source: Node) -> void:
+	if combat != null and "combat_state" in combat and combat.combat_state == combat.CombatState.DEAD:
+		return
+	_aggro_timer = AGGRO_HOLD_TIME
+	var attacker := _resolve_aggro_target(source)
+	if attacker != null and _is_valid_party_target(attacker):
+		_target = attacker
+		_target_switch_timer = TARGET_SWITCH_COOLDOWN
+		_aggro_source = attacker
+		if _ai_state == AIState.IDLE or _ai_state == AIState.PATROL:
+			_set_ai_state(AIState.CHASE)
+
+
+## 解析仇恨目标：优先把施法者实体作为目标；非有效队员则回退最近队员。
+func _resolve_aggro_target(source: Node) -> CharacterBody2D:
+	if source != null and source is CharacterBody2D and _is_valid_party_target(source):
+		return source
+	return _find_nearest_party_member()
+
+
+## 受击仇恨是否生效（有仇恨目标且尚未超时）。
+func _is_aggro_active() -> bool:
+	return _aggro_source != null and _aggro_timer > 0.0
+
+
+## 当前生效的丢失目标/脱离追击距离：受击仇恨期间取 AGGRO_RANGE，否则沿用 detect_range 丢失乘数。
+func _get_current_lose_range() -> float:
+	if _is_aggro_active():
+		return maxf(_config.get("detect_range", 200.0), AGGRO_RANGE)
+	return _config.get("detect_range", 200.0) * TARGET_LOSE_MULTIPLIER
 
 
 func _apply_display_config() -> void:
@@ -243,10 +296,9 @@ func _update_chase(_delta: float) -> void:
 		return
 
 	var dist := _distance_x_to_target()
-	var detect_range: float = _config.get("detect_range", 200.0)
 
-	# 玩家超出检测范围
-	if dist > detect_range * 1.5:
+	# 玩家超出脱战距离（受击仇恨期间用更大的引怪距离）
+	if dist > _get_current_lose_range():
 		_set_ai_state(AIState.IDLE)
 		return
 
@@ -277,10 +329,9 @@ func _update_attack(_delta: float) -> void:
 		return
 
 	var dist := _distance_x_to_target()
-	var detect_range: float = _config.get("detect_range", 200.0)
 
-	# 玩家跑远了
-	if dist > detect_range:
+	# 玩家跑远了（受击仇恨期间用更大的引怪距离）
+	if dist > _get_current_lose_range():
 		_set_ai_state(AIState.IDLE)
 		return
 
@@ -553,6 +604,10 @@ func _refresh_target() -> void:
 	var detect_range: float = _config.get("detect_range", 200.0)
 	var nearest := _find_nearest_party_member()
 	if _is_valid_party_target(_target):
+		# 受击仇恨期间：只要攻击者仍在引怪距离内，强制保留其为目标
+		if _is_aggro_active() and _target == _aggro_source \
+				and _edge_distance_x_to(_target) <= _get_current_lose_range():
+			return
 		var current_dist := _edge_distance_x_to(_target)
 		if current_dist <= detect_range * TARGET_LOSE_MULTIPLIER:
 			if nearest == null or nearest == _target:

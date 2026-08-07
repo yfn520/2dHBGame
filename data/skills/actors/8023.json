@@ -1,129 +1,129 @@
 {
-  "50221": {
-    "cast_range": 100,
-    "cooldown": 1,
-    "description": "xu'kong'guai 的默认近战攻击。",
-    "name": "xu'kong'guai 默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_channel": "magic",
-        "damage_ratio": 1,
-        "result_key": "hit_50221",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50222": {
-    "cast_range": 110,
-    "cooldown": 3,
-    "description": "xu'kong'guai 的技能1，播放 skill 动作。",
-    "name": "xu'kong'guai 技能1",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/scythe_void_trail/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": -96,
-        "offset_y": -76,
-        "delay_ms": 143,
-        "anchor": "origin",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": true,
-        "lifetime_ms": 429,
-        "effect_scale": 0.8,
-        "rotation_degrees": -30,
-        "opacity": 0.9,
-        "tint": "#5900ff",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "xu-kong-guai-50222",
-        "source_track_id": "scythe_void_trail"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/charge_core_glow/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": -2,
-        "offset_y": -86,
-        "delay_ms": 143,
-        "anchor": "body_center",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": false,
-        "lifetime_ms": 143,
-        "effect_scale": 0.4,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#8503e2",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "xu-kong-guai-50222",
-        "source_track_id": "charge_core_glow"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_channel": "magic",
-        "damage_ratio": 1.5,
-        "result_key": "hit_50222",
-        "type": "melee_damage",
-        "flat_damage": 3,
-        "damage_tag": "abyss"
-      },
-      {
-        "type": "apply_target_buff",
-        "target": "result",
-        "result_key": "hit_50222",
-        "buff_ids": [
-          10020
-        ],
-        "chance": 1
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ],
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "7bd0b0358a8c9931",
-      "entries": [
-        {
-          "node_index": 4,
-          "source": "hit_window",
-          "kind": "melee",
-          "min_edge_distance": 0,
-          "max_edge_distance": 85,
-          "detail": "forward=101.0 width=62.0 scale=1.00 body_half=45.0"
-        }
-      ]
-    }
-  }
+	"50221": {
+		"cast_range": 100.0,
+		"cooldown": 1.0,
+		"description": "xu'kong'guai 的默认近战攻击。",
+		"name": "xu'kong'guai 默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.0,
+				"result_key": "hit_50221",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50222": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=101.0 width=62.0 scale=1.00 body_half=45.0",
+					"kind": "melee",
+					"max_edge_distance": 85.0,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "7bd0b0358a8c9931"
+		},
+		"cast_range": 110.0,
+		"cooldown": 3.0,
+		"description": "xu'kong'guai 的技能1，播放 skill 动作。",
+		"name": "xu'kong'guai 技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 143.0,
+				"effect_scale": 0.8,
+				"follow_target": true,
+				"lifetime_ms": 429.0,
+				"mirror": true,
+				"mirror_with_facing": true,
+				"offset_x": -96.0,
+				"offset_y": -76.0,
+				"opacity": 0.9,
+				"origin": "caster",
+				"rotation_degrees": -30.0,
+				"scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/scythe_void_trail/effect.tscn",
+				"source_bundle_id": "xu-kong-guai-50222",
+				"source_track_id": "scythe_void_trail",
+				"target": "origin",
+				"tint": "#5900ff",
+				"type": "play_effect"
+			},
+			{
+				"anchor": "body_center",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 143.0,
+				"effect_scale": 0.4,
+				"follow_target": true,
+				"lifetime_ms": 143.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": -2.0,
+				"offset_y": -86.0,
+				"opacity": 1.0,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/charge_core_glow/effect.tscn",
+				"source_bundle_id": "xu-kong-guai-50222",
+				"source_track_id": "charge_core_glow",
+				"target": "origin",
+				"tint": "#8503e2",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.5,
+				"damage_tag": "abyss",
+				"flat_damage": 3.0,
+				"result_key": "hit_50222",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10020.0
+				],
+				"chance": 1.0,
+				"result_key": "hit_50222",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

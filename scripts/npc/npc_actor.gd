@@ -24,9 +24,13 @@ func setup(config: Dictionary, placement: Dictionary) -> bool:
 	interaction_radius = float(placement.get("interaction_radius", 0.0))
 	global_position = Vector2(float(placement.get("x", 0.0)), float(placement.get("y", 0.0)))
 	# 根节点保持世界单位；交互范围不应随 NPC 的纯视觉缩放而改变。
-	var display_scale := maxf(0.01, float(placement.get("scale", 1.0)))
+	var placement_scale := maxf(0.01, float(placement.get("scale", 1.0)))
 	if not _load_visual(config):
 		return false
+	# 统一体型 auto-clamp：按帧纹理高度把视觉缩放收敛到 [140,200] 目标体型。
+	# placement.scale 现作为 auto-clamp 之上的可选微调倍率（默认 1.0）。
+	var authored_height := _read_authored_visual_height()
+	var display_scale := EntityAutoScaler.compute_scale(authored_height, placement_scale) if authored_height > 0.0 else placement_scale
 	_visual.scale = Vector2.ONE * display_scale
 	_build_interaction_area()
 	var facing := str(placement.get("facing", config.get("default_facing", "right")))
@@ -89,6 +93,20 @@ func _load_visual(config: Dictionary) -> bool:
 		_visual.queue_free()
 		return false
 	return true
+
+
+## 读取 NPC authored 视觉高度：取默认动画首帧纹理高度（帧画布尺寸）。
+## 用于 EntityAutoScaler 把视觉缩放收敛到统一目标体型。资源缺失返回 0（不 clamp）。
+func _read_authored_visual_height() -> float:
+	if _sprite == null or _sprite.sprite_frames == null:
+		return 0.0
+	var anim: StringName = _sprite.animation if not _sprite.animation.is_empty() else "idle"
+	if not _sprite.sprite_frames.has_animation(anim) or _sprite.sprite_frames.get_frame_count(anim) == 0:
+		return 0.0
+	var tex := _sprite.sprite_frames.get_frame_texture(anim, 0)
+	if tex == null:
+		return 0.0
+	return float(tex.get_height())
 
 
 ## InteractionArea 的 radius 来自 placement 数据（运行时决定），不放 npc_visual.tscn。

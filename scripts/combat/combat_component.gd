@@ -310,6 +310,10 @@ func _execute_node(node: Dictionary) -> bool:
 			_execute_heal_node(node)
 		"move_x":
 			_execute_move_node(node)
+		"teleport_to_enemy":
+			_execute_teleport_to_enemy(node)
+		"move_to_screen_center":
+			_execute_move_to_screen_center(node)
 		"end_skill":
 			_finish_cast()
 			return true
@@ -759,6 +763,76 @@ func _execute_heal_node(node: Dictionary) -> void:
 func _execute_move_node(node: Dictionary) -> void:
 	if _owner is Node2D:
 		(_owner as Node2D).global_position.x += float(node.get("distance", node.get("delta_x", 0.0))) * _get_facing_sign()
+
+
+## 瞬移至敌人节点：把施法者瞬间移到最近敌人身边（贴边留 landing_gap），并在路径上撒缠影。
+func _execute_teleport_to_enemy(node: Dictionary) -> void:
+	if not _owner is Node2D:
+		return
+	var hurt_box := _skill_executor.find_nearest_enemy(float(node.get("target_search_range", 99999.0)))
+	if hurt_box == null or not is_instance_valid(hurt_box):
+		return
+	var enemy: Node = hurt_box.get("_owner_entity") if "_owner_entity" in hurt_box else null
+	if enemy == null or not enemy is Node2D:
+		return
+	var caster := _owner as Node2D
+	var enemy_node := enemy as Node2D
+	var facing := signf(enemy_node.global_position.x - caster.global_position.x)
+	if is_zero_approx(facing):
+		facing = _get_facing_sign()
+	var target_x: float = enemy_node.global_position.x \
+		- facing * (_actor_half_width(caster) + _actor_half_width(enemy_node) + float(node.get("landing_gap", 60.0)))
+	var start := caster.global_position
+	caster.global_position.x = target_x
+	_spawn_afterimage_trail(start, caster.global_position, int(node.get("afterimage_count", 3)), float(node.get("afterimage_duration", 0.6)))
+
+
+## 读取实体的战斗半宽（经 has_method 安全调用，避免对 Node 类型做静态调用）。
+func _actor_half_width(actor: Node2D) -> float:
+	if actor == null:
+		return 0.0
+	if actor.has_method("_combat_half_width"):
+		return float(actor.call("_combat_half_width", actor))
+	return 0.0
+
+
+## 移至屏幕中心节点：把施法者瞬间移到相机屏幕水平中心（可选 offset_x），并撒缠影。
+func _execute_move_to_screen_center(node: Dictionary) -> void:
+	if not _owner is Node2D or _owner.get_viewport() == null:
+		return
+	var cam := _owner.get_viewport().get_camera_2d()
+	if cam == null:
+		return
+	var caster := _owner as Node2D
+	var target_x: float = cam.get_screen_center_position().x + float(node.get("offset_x", 0.0))
+	var start := caster.global_position
+	caster.global_position.x = target_x
+	_spawn_afterimage_trail(start, caster.global_position, int(node.get("afterimage_count", 3)), float(node.get("afterimage_duration", 0.6)))
+
+
+## 程序化缠影：沿 from→to 撒 count 个施法者当前帧精灵副本，淡出后释放。
+## 纯表现：只挂 Sprite2D 副本，不带 HitBox/HurtBox/碰撞，不参与战斗逻辑。
+func _spawn_afterimage_trail(from: Vector2, to: Vector2, count: int, duration: float) -> void:
+	if _sprite == null or count <= 0:
+		return
+	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
+	if scene == null:
+		return
+	var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+	var base_z := int(visual_root.z_index if visual_root != null else 0) - 1
+	for i in range(count):
+		var t := float(i) / float(maxi(1, count - 1))
+		var pos := from.lerp(to, t)
+		var ghost := _sprite.duplicate() as AnimatedSprite2D
+		scene.add_child(ghost)
+		ghost.global_position = pos
+		ghost.z_as_relative = false
+		ghost.z_index = base_z
+		ghost.stop()
+		ghost.self_modulate = Color(1.0, 1.0, 1.0, 0.35)
+		var tw := ghost.create_tween()
+		tw.tween_property(ghost, "self_modulate:a", 0.0, maxf(0.05, duration))
+		tw.tween_callback(ghost.queue_free)
 
 
 func _resolve_origin(node: Dictionary) -> Vector2:

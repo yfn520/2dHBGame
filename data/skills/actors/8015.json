@@ -1,95 +1,95 @@
 {
-  "50141": {
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "shuei'mu 的默认普通攻击。",
-    "name": "shuei'mu 默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_50141",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50142": {
-    "cast_range": 90,
-    "cooldown": 3,
-    "description": "shuei'mu 的技能1，播放 skill 动作。",
-    "name": "shuei'mu 技能1",
-    "nodes": [
-      {
-        "type": "play_animation",
-        "action": "skill"
-      },
-      {
-        "type": "wait_hit_window",
-        "hit_window_index": 0
-      },
-      {
-        "type": "spawn_projectile",
-        "scene": "res://assets/effects/skill_fx/shuei-mu-50142/godot/effect_scenes/manual-projectile-1/effect.tscn",
-        "result_key": "projectile_hit",
-        "origin": "actor_root",
-        "trajectory": "straight",
-        "aim_mode": "facing_elevation",
-        "emission": "single",
-        "speed": 300,
-        "lifetime": 5,
-        "damage_ratio": 1,
-        "scale": 4,
-        "mirror": true,
-        "mirror_with_facing": true,
-        "flip_to_velocity": false,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": false,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0,
-        "offset_x": -144,
-        "offset_y": -91,
-        "ai_min_range": 0,
-        "ai_max_range": 280,
-        "source_bundle_id": "shuei-mu-50142",
-        "source_track_id": "manual-projectile-1",
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_blend_mode": "add"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ],
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "ad68533342d0627a",
-      "entries": [
-        {
-          "node_index": 2,
-          "source": "projectile",
-          "kind": "projectile",
-          "min_edge_distance": 0,
-          "max_edge_distance": 280,
-          "detail": "ai_min=0 ai_max=280"
-        }
-      ]
-    }
-  }
+	"50141": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "shuei'mu 的默认普通攻击。",
+		"name": "shuei'mu 默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "hit_50141",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50142": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "ad68533342d0627a"
+		},
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "shuei'mu 的技能1，播放 skill 动作。",
+		"name": "shuei'mu 技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"attachment_blend_mode": "add",
+				"damage_ratio": 1.0,
+				"delay_ms": 0.0,
+				"emission": "single",
+				"flip_to_velocity": false,
+				"lifetime": 5.0,
+				"mirror": true,
+				"mirror_with_facing": true,
+				"offset_follows_visual_scale": true,
+				"offset_mirror_with_facing": true,
+				"offset_x": -144.0,
+				"offset_y": -91.0,
+				"opacity": 1.0,
+				"origin": "actor_root",
+				"result_key": "projectile_hit",
+				"rotate_to_velocity": false,
+				"rotation_degrees": 0.0,
+				"scale": 4.0,
+				"scene": "res://assets/effects/skill_fx/shuei-mu-50142/godot/effect_scenes/manual-projectile-1/effect.tscn",
+				"source_bundle_id": "shuei-mu-50142",
+				"source_track_id": "manual-projectile-1",
+				"speed": 300.0,
+				"tint": "#ffffff",
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

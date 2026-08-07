@@ -1,108 +1,108 @@
 {
-  "50051": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=95.0 width=49.0 scale=1.00 body_half=48.5",
-          "kind": "melee",
-          "max_edge_distance": 69,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "ebce25c4e36279dc"
-    },
-    "cast_range": 60,
-    "cooldown": 1,
-    "name": "hjjx_atk",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "melee_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50053": {
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "8853c11fae4cb065",
-      "entries": [
-        {
-          "node_index": 2,
-          "source": "projectile",
-          "kind": "projectile",
-          "min_edge_distance": 0,
-          "max_edge_distance": 280,
-          "detail": "ai_min=0 ai_max=280"
-        }
-      ]
-    },
-    "cooldown": 3,
-    "description": "",
-    "name": "8006_skill",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "ai_max_range": 280,
-        "ai_min_range": 0,
-        "aim_mode": "facing_elevation",
-        "buff_ids": [],
-        "damage_ratio": 3,
-        "emission": "single",
-        "lifetime": 5,
-        "mirror": false,
-        "origin": "hit_window",
-        "result_key": "projectile_hit",
-        "scale": 6.01,
-        "scene": "res://assets/effects/skill_fx/huei-jingju-xiang-50053/legacy/0203bdf2/projectiles/effect-huoqiu.tscn",
-        "speed": 300,
-        "trajectory": "straight",
-        "type": "spawn_projectile",
-        "source_bundle_id": "huei-jingju-xiang-50053",
-        "source_track_id": "legacy_spawn_projectile_3",
-        "mirror_with_facing": true,
-        "flip_to_velocity": true,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": true,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0,
-        "offset_x": 0,
-        "offset_y": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_blend_mode": "normal"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50051": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=95.0 width=49.0 scale=1.00 body_half=48.5",
+					"kind": "melee",
+					"max_edge_distance": 69.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "ebce25c4e36279dc"
+		},
+		"cast_range": 60.0,
+		"cooldown": 1.0,
+		"name": "hjjx_atk",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50053": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "8853c11fae4cb065"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "8006_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"attachment_blend_mode": "normal",
+				"buff_ids": [],
+				"damage_ratio": 3.0,
+				"delay_ms": 0.0,
+				"emission": "single",
+				"flip_to_velocity": true,
+				"lifetime": 5.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_follows_visual_scale": true,
+				"offset_mirror_with_facing": true,
+				"offset_x": 0.0,
+				"offset_y": 0.0,
+				"opacity": 1.0,
+				"origin": "hit_window",
+				"result_key": "projectile_hit",
+				"rotate_to_velocity": true,
+				"rotation_degrees": 0.0,
+				"scale": 6.01,
+				"scene": "res://assets/effects/skill_fx/huei-jingju-xiang-50053/legacy/0203bdf2/projectiles/effect-huoqiu.tscn",
+				"source_bundle_id": "huei-jingju-xiang-50053",
+				"source_track_id": "legacy_spawn_projectile_3",
+				"speed": 300.0,
+				"tint": "#ffffff",
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }
