@@ -2,7 +2,7 @@
 	"50301": {
 		"cast_range": 100.0,
 		"cooldown": 1.0,
-		"description": "雷欧哈特的可调整默认近战攻击。",
+		"description": "雷欧哈特 的默认近战攻击。",
 		"name": "雷欧哈特默认攻击",
 		"nodes": [
 			{
@@ -14,6 +14,7 @@
 				"type": "wait_hit_window"
 			},
 			{
+				"damage_channel": "magic",
 				"damage_ratio": 1.0,
 				"result_key": "hit_50301",
 				"type": "melee_damage"
@@ -27,9 +28,23 @@
 		]
 	},
 	"50302": {
-		"cast_range": 120.0,
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=101.0 width=62.0 scale=1.00 body_half=45.0",
+					"kind": "melee",
+					"max_edge_distance": 85.0,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "7bd0b0358a8c9931"
+		},
+		"cast_range": 110.0,
 		"cooldown": 3.0,
-		"description": "雷欧哈特的技能1占位配置，素材导入后播放 skill 动作。",
+		"description": "雷欧哈特 的技能1，播放 skill 动作。",
 		"name": "雷欧哈特技能1",
 		"nodes": [
 			{
@@ -37,13 +52,71 @@
 				"type": "play_animation"
 			},
 			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 143.0,
+				"effect_scale": 0.8,
+				"follow_target": true,
+				"lifetime_ms": 429.0,
+				"mirror": true,
+				"mirror_with_facing": true,
+				"offset_x": -96.0,
+				"offset_y": -76.0,
+				"opacity": 0.9,
+				"origin": "caster",
+				"rotation_degrees": -30.0,
+				"scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/scythe_void_trail/effect.tscn",
+				"source_bundle_id": "xu-kong-guai-50222",
+				"source_track_id": "scythe_void_trail",
+				"target": "origin",
+				"tint": "#5900ff",
+				"type": "play_effect"
+			},
+			{
+				"anchor": "body_center",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 143.0,
+				"effect_scale": 0.4,
+				"follow_target": true,
+				"lifetime_ms": 143.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": -2.0,
+				"offset_y": -86.0,
+				"opacity": 1.0,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/xu-kong-guai-50222/godot/effect_scenes/charge_core_glow/effect.tscn",
+				"source_bundle_id": "xu-kong-guai-50222",
+				"source_track_id": "charge_core_glow",
+				"target": "origin",
+				"tint": "#8503e2",
+				"type": "play_effect"
+			},
+			{
 				"hit_window_index": 0.0,
 				"type": "wait_hit_window"
 			},
 			{
+				"damage_channel": "magic",
 				"damage_ratio": 1.5,
+				"damage_tag": "abyss",
+				"flat_damage": 3.0,
 				"result_key": "hit_50302",
 				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10020.0
+				],
+				"chance": 1.0,
+				"result_key": "hit_50302",
+				"target": "result",
+				"type": "apply_target_buff"
 			},
 			{
 				"type": "wait_animation_end"
