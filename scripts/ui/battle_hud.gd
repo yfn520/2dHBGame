@@ -835,7 +835,7 @@ func _set_avatar(sprite: AnimatedSprite2D, fallback: Label, member: CharacterBod
 func _get_portrait_path(character_id: int) -> String:
 	# 角色ID (7001-7999)：从 characters.json 拿 character_config 路径再读 portrait
 	if character_id >= 7001 and character_id <= 7999 and GameRegistry.character_config != null:
-		var config := GameRegistry.character_config.get_character(character_id)
+		var config: Dictionary = GameRegistry.character_config.get_character(character_id)
 		var cc_path := str(config.get("character_config", ""))
 		if not cc_path.is_empty() and FileAccess.file_exists(cc_path):
 			var json := JSON.new()
@@ -843,7 +843,7 @@ func _get_portrait_path(character_id: int) -> String:
 				return str(json.data.get("portrait", ""))
 	# 怪物ID (8001-8999)：从 enemies.json 拿 character_config 路径再读 portrait
 	if character_id >= 8001 and GameRegistry.enemy_config != null:
-		var enemy := GameRegistry.enemy_config.get_enemy(character_id)
+		var enemy: Dictionary = GameRegistry.enemy_config.get_enemy(character_id)
 		var cc_path := str(enemy.get("character_config", ""))
 		if not cc_path.is_empty() and FileAccess.file_exists(cc_path):
 			var json := JSON.new()

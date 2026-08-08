@@ -575,17 +575,23 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# applied actor_scale twice to body_center and shifted release effects.
 		var anchor_offset := _resolve_effect_anchor_offset(node, attach_root)
 		var mirror_enabled := bool(node.get("mirror_with_facing", true))
-		var mirror_x := -1.0 if mirror_enabled and attach_sprite != null and attach_sprite.flip_h else 1.0
+		var facing_flip := mirror_enabled and attach_sprite != null and attach_sprite.flip_h
+		var mirror_x := -1.0 if facing_flip else 1.0
 		attach_root.add_child(effect_node)
 		effect_node.position = anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
 		var explicit_mirror := bool(node.get("mirror", false))
-		if effect_node is AnimatedSprite2D and mirror_enabled and attach_sprite != null:
-			# 效果场景可烘焙水平镜像（flip_h），与挂载根朝向取异或，使特效内部镜像独立于挂载根朝向。
-			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != attach_sprite.flip_h
-		if effect_node is AnimatedSprite2D and explicit_mirror:
-			(effect_node as AnimatedSprite2D).flip_h = not (effect_node as AnimatedSprite2D).flip_h
-		elif explicit_mirror or mirror_x < 0.0:
+		# 朝向翻转时特效必须是「朝左成品的整体水平镜像」：偏移取反（上方 mirror_x）
+		# + 旋转取反 + 镜像状态取反（XOR），三者缺一不可。
+		# 数学依据：H·R(θ) = R(-θ)·H —— 只切镜像不取反旋转时，朝右的特效看起来
+		# 和朝左一模一样（旋转方向错误）；用 OR 保留镜像则在 mirror=true 时永不翻转。
+		var should_mirror := explicit_mirror != facing_flip
+		if facing_flip:
+			effect_node.rotation = -effect_node.rotation
+		if effect_node is AnimatedSprite2D:
+			# 与场景烘焙的 flip_h 取异或：若烘焙已翻转且需镜像，则两者抵消
+			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != should_mirror
+		elif should_mirror:
 			effect_node.scale.x *= -1.0
 		# The character visuals are a sibling at z=100 in imported actor scenes.
 		# Resolve front/behind relative to that node rather than relative to the world root.

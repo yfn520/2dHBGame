@@ -1382,9 +1382,17 @@ func _do_import_single_character(source_dir: String, folder_name: String, player
 		"body_size": {"x": body_size.x, "y": body_size.y},
 		"combat_source": source_dir.path_join("combat/attack_frames.json") if is_production else "",
 	}
+	# 写配置 — 合并模式：保留已有自定义字段（如 portrait、用户手动添加的字段）。
+	# 新导出的动画/碰撞字段正常覆盖，但不在新 config 中的已有字段从旧文件保留，
+	# 避免重导入动作包时丢失已编辑内容（如头像）。
+	if FileAccess.file_exists(config_path):
+		var existing_json := JSON.new()
+		if existing_json.parse(FileAccess.get_file_as_string(config_path)) == OK and existing_json.data is Dictionary:
+			var existing: Dictionary = existing_json.data
+			for key in existing:
+				if not config.has(key):
+					config[key] = existing[key]
 	_write_file(config_path, JSON.stringify(config, "\t") + "\n")
-
-	# 兼容旧的命令式调用；编辑器批量导入不再覆盖 player.tscn。
 	if FileAccess.file_exists(player_scene):
 		var pl_text := FileAccess.get_file_as_string(player_scene)
 		pl_text = _replace_path_in_text(pl_text, "PackedScene", "character_actions.tscn", actions_path)
