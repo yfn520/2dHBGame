@@ -47,12 +47,14 @@ func get_display_name() -> String:
 func refresh_quest_indicator() -> void:
 	if _quest_label == null or GameRegistry.quest_service == null:
 		return
-	if GameRegistry.quest_service.has_ready_quest(npc_id):
-		_quest_label.text = "?"
-		_quest_label.modulate = Color("58c7ff")
-	elif GameRegistry.quest_service.has_available_quest(npc_id):
+	if GameRegistry.quest_service.has_active_quest(npc_id):
+		# 有进行中的任务（含待交付）→ 感叹号优先
 		_quest_label.text = "!"
 		_quest_label.modulate = Color("ffd84d")
+	elif GameRegistry.quest_service.has_available_quest(npc_id):
+		# 无可进行任务，但有可接取的新任务 → 问号
+		_quest_label.text = "?"
+		_quest_label.modulate = Color("58c7ff")
 	else:
 		_quest_label.text = ""
 
@@ -86,6 +88,8 @@ func _load_visual(config: Dictionary) -> bool:
 		_visual.queue_free()
 		return false
 	_sprite.play(default_animation)
+	# 切帧速度统一减半，让 idle 动作更舒缓
+	_sprite.speed_scale = 0.5
 	_name_label = _visual.get_node_or_null("NameLabel") as Label
 	_quest_label = _visual.get_node_or_null("QuestLabel") as Label
 	if _name_label == null or _quest_label == null:

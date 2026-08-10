@@ -30,6 +30,9 @@ var _selected_spawn_id: String = ""
 var _selected_npc_id: String = ""   # 选中/拖动的 NPC 摆放 instance_id
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
 var _npc_preview_textures: Dictionary = {}  # npc_id(int) → Texture2D（资源缺失时为 null）
+var _enemy_actor_meta_cache: Dictionary = {}  # enemy_id(int) → {scale:float, foot:Vector2}
+var _npc_frame_meta_cache: Dictionary = {}  # npc_id(int) → {size:Vector2, foot:Vector2}
+var _npc_scale_spin: SpinBox   # 选中 NPC 摆放时的缩放调节
 var _loading := false
 var _test_start_level_id := 0
 var _updating_test_start_check := false
@@ -144,6 +147,8 @@ func _load_data() -> void:
 	_normalize_all_levels()
 	_preview_textures.clear()
 	_npc_preview_textures.clear()
+	_enemy_actor_meta_cache.clear()
+	_npc_frame_meta_cache.clear()
 	_refresh_enemy_palette()
 
 
@@ -483,6 +488,21 @@ func _build_ui() -> void:
 	_desc_edit.text_changed.connect(_on_desc_changed)
 	lvl_props.add_child(_desc_edit)
 
+	# Tab 3: NPC（选中 NPC 摆放时显示属性，含缩放调节）
+	var npc_box := VBoxContainer.new()
+	npc_box.name = "NPC"
+	placement_tabs.add_child(npc_box)
+	npc_box.add_child(_make_label("NPC 摆放属性", 14))
+	var npc_props := GridContainer.new()
+	npc_props.columns = 2
+	npc_props.add_theme_constant_override("h_separation", 6)
+	npc_props.add_theme_constant_override("v_separation", 4)
+	npc_box.add_child(npc_props)
+	_npc_scale_spin = _add_grid_spin(npc_props, "缩放", 0.1, 4.0, 0.05)
+	_npc_scale_spin.value_changed.connect(_on_npc_scale_changed)
+	npc_box.add_child(_make_label("点击地图上的 NPC 可拖动位置；", 12))
+	npc_box.add_child(_make_label("缩放改动实时生效，保存时写回 npc_placements.json。", 12))
+
 	# 底部状态与操作
 	var bottom := HBoxContainer.new()
 	bottom.add_theme_constant_override("separation", 8)
@@ -606,6 +626,7 @@ func _on_level_selected(index: int) -> void:
 	_refresh_test_start_ui()
 	_load_level_fields()
 	_refresh_spawn_list()
+	_refresh_npc_props()
 	_load_map_for_current_level()
 	_refresh_markers()
 
@@ -948,6 +969,51 @@ func _update_selected_spawn(entry: Dictionary) -> void:
 			break
 	level["enemies"] = enemies
 	_levels[_current_level_id] = level
+
+
+## 刷新 NPC 摆放属性面板（仅当有选中的 NPC 摆放时填充缩放值）。
+func _refresh_npc_props() -> void:
+	if _npc_scale_spin == null:
+		return
+	_loading = true
+	var entry := _get_selected_npc()
+	if entry.is_empty():
+		_npc_scale_spin.value = 1.0
+	else:
+		_npc_scale_spin.value = float(entry.get("scale", 1.0))
+	_loading = false
+
+
+## 返回当前关卡选中的 NPC 摆放记录；未选中/无记录时返回空字典。
+func _get_selected_npc() -> Dictionary:
+	if _current_level_id.is_empty() or _selected_npc_id.is_empty():
+		return {}
+	var npc_entries: Array = _npc_placements.get(_current_level_id, [])
+	for entry_value in npc_entries:
+		if not entry_value is Dictionary:
+			continue
+		if String((entry_value as Dictionary).get("instance_id", "")) == _selected_npc_id:
+			return entry_value
+	return {}
+
+
+## 选中的 NPC 缩放变化：实时更新内存记录并刷新标记（保存时落盘）。
+func _on_npc_scale_changed(value: float) -> void:
+	if _loading or _selected_npc_id.is_empty():
+		return
+	var entry := _get_selected_npc()
+	if entry.is_empty():
+		return
+	entry["scale"] = clampf(value, 0.1, 4.0)
+	var npc_entries: Array = _npc_placements.get(_current_level_id, [])
+	for i in range(npc_entries.size()):
+		if not npc_entries[i] is Dictionary:
+			continue
+		if String((npc_entries[i] as Dictionary).get("instance_id", "")) == _selected_npc_id:
+			npc_entries[i] = entry
+			break
+	_npc_placements[_current_level_id] = npc_entries
+	_refresh_markers()
 
 
 func _on_duplicate_spawn() -> void:
@@ -1315,6 +1381,7 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 					_drag_last_screen = mb.position
 					_refresh_spawn_list()
 					_refresh_spawn_props()
+					_refresh_npc_props()
 					_refresh_markers()
 					return
 				var spawn_id := _find_spawn_at(world_pos)
@@ -1340,6 +1407,7 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 					_dragging_player_spawn = false
 					_refresh_spawn_list()
 					_refresh_spawn_props()
+					_refresh_npc_props()
 					_refresh_markers()
 			else:
 				_dragging_spawn = false
@@ -1569,14 +1637,17 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 			canvas_item.draw_circle(p, ring_radius + 4.0 / _zoom, Color("ffffff", 0.5))
 		canvas_item.draw_circle(p, ring_radius, color)
 		canvas_item.draw_circle(p, ring_radius, Color(1, 1, 1, 0.9), false, 2.0 / _zoom)
-		# 怪物缩略图
+		# 怪物缩略图：按配置的真实缩放绘制，并把脚底对齐到放置点（便于对齐摆放）
 		var tex := _get_enemy_preview_texture(enemy_id)
 		if tex != null:
+			var meta := _enemy_actor_meta(enemy_id)
+			var actor_scale := float(meta.get("scale", 1.0))
+			var foot := meta.get("foot", Vector2.ZERO) as Vector2
 			var tex_size := tex.get_size()
-			var max_dim := (_marker_radius * 1.8) / _zoom
-			var s := minf(max_dim / tex_size.x, max_dim / tex_size.y)
-			var draw_size := tex_size * s
-			canvas_item.draw_texture_rect(tex, Rect2(p - draw_size * 0.5, draw_size), false)
+			var draw_size := tex_size * actor_scale
+			# 水平居中，垂直用 foot_center 让脚底落在放置点（foot 缺省时按帧底部）
+			var foot_y := foot.y if foot.y > 0.0 else tex_size.y
+			canvas_item.draw_texture_rect(tex, Rect2(p - Vector2(draw_size.x * 0.5, draw_size.y * (foot_y / tex_size.y)), draw_size), false)
 		# 标签
 		var count_str := ""
 		if mode == "group":
@@ -1637,14 +1708,15 @@ func _draw_npc_markers(canvas_item: CanvasItem) -> void:
 		var rect := Rect2(p - Vector2(half, half), Vector2(half * 2, half * 2))
 		canvas_item.draw_rect(rect, color, true)
 		canvas_item.draw_rect(rect, Color(1, 1, 1, 0.9), false, 2.0 / _zoom)
-		# NPC 缩略图（资源缺失时跳过）
+		# NPC 缩略图（资源缺失时跳过）：按配置的 scale 与真实帧大小绘制，脚底对齐放置点
 		var tex := _get_npc_preview_texture(npc_id)
 		if tex != null:
-			var tex_size := tex.get_size()
-			var max_dim := (_marker_radius * 1.6) / _zoom
-			var s := minf(max_dim / tex_size.x, max_dim / tex_size.y)
-			var draw_size := tex_size * s
-			canvas_item.draw_texture_rect(tex, Rect2(p - draw_size * 0.5, draw_size), false)
+			var place_scale := float(entry.get("scale", 1.0))
+			var meta := _npc_frame_meta(npc_id)
+			var frame_size: Vector2 = meta.get("size", tex.get_size())
+			var foot: Vector2 = meta.get("foot", Vector2(frame_size.x * 0.5, frame_size.y))
+			var draw_size := frame_size * place_scale
+			canvas_item.draw_texture_rect(tex, Rect2(p - Vector2(draw_size.x * 0.5, draw_size.y * (foot.y / frame_size.y)), draw_size), false)
 		# 朝向指示（左朝向时画一个箭头）
 		if String(entry.get("facing", "right")) == "left":
 			var arr := ring_radius + 4.0 / _zoom
@@ -1762,6 +1834,50 @@ func _get_npc_preview_texture(npc_id: int) -> Texture2D:
 	return tex
 
 
+## 获取敌人实际渲染缩放（display_scale × actor_scale）与 foot_center（帧内脚底），带缓存。
+## 用于在编辑器中按配置的真实大小与脚底绘制敌人形象，便于对齐摆放。
+func _enemy_actor_meta(enemy_id: int) -> Dictionary:
+	if _enemy_actor_meta_cache.has(enemy_id):
+		return _enemy_actor_meta_cache[enemy_id]
+	var meta := {"scale": 1.0, "foot": Vector2.ZERO}
+	var id_str := str(enemy_id)
+	if _enemies_cfg.has(id_str):
+		var enemy: Dictionary = _enemies_cfg[id_str]
+		meta["scale"] = float(enemy.get("actor_scale", 1.0))
+		var cc_path := String(enemy.get("character_config", ""))
+		if not cc_path.is_empty() and ResourceLoader.exists(cc_path):
+			var cc := _read_json(cc_path)
+			meta["scale"] = float(enemy.get("actor_scale", 1.0)) * float(cc.get("display_scale", 1.0))
+			var fc := cc.get("foot_center", {})
+			if fc is Dictionary:
+				meta["foot"] = Vector2(float(fc.get("x", 0)), float(fc.get("y", 0)))
+	_enemy_actor_meta_cache[enemy_id] = meta
+	return meta
+
+
+## 获取 NPC 帧尺寸与 foot_center（来源 npc_asset.json），带缓存。
+## 用于在编辑器中按配置的真实帧大小与脚底绘制 NPC 形象，便于对齐摆放。
+func _npc_frame_meta(npc_id: int) -> Dictionary:
+	if _npc_frame_meta_cache.has(npc_id):
+		return _npc_frame_meta_cache[npc_id]
+	var meta := {"size": Vector2(64, 64), "foot": Vector2(32, 64)}
+	var id_str := str(npc_id)
+	if _npcs_cfg.has(id_str):
+		var npc: Dictionary = _npcs_cfg[id_str]
+		var asset_path := String(npc.get("asset", "")).trim_suffix("/")
+		if not asset_path.is_empty():
+			var manifest := _read_json(asset_path.path_join("npc_asset.json"))
+			var fs := manifest.get("frame_size", {})
+			if fs is Dictionary and float(fs.get("width", 0)) > 0.0 and float(fs.get("height", 0)) > 0.0:
+				meta["size"] = Vector2(float(fs.get("width")), float(fs.get("height")))
+			var fc := manifest.get("foot_center", {})
+			if fc is Dictionary:
+				var size: Vector2 = meta["size"]
+				meta["foot"] = Vector2(float(fc.get("x", size.x * 0.5)), float(fc.get("y", size.y)))
+	_npc_frame_meta_cache[npc_id] = meta
+	return meta
+
+
 # ============================================================
 # 保存与放弃
 # ============================================================
@@ -1836,6 +1952,8 @@ func _on_discard() -> void:
 	_npc_placements.clear()
 	_preview_textures.clear()
 	_npc_preview_textures.clear()
+	_enemy_actor_meta_cache.clear()
+	_npc_frame_meta_cache.clear()
 	_current_level_id = ""
 	_selected_spawn_id = ""
 	_selected_npc_id = ""

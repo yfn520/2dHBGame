@@ -58,5 +58,6 @@
 	"scene_name": "gongshou",
 	"spriteframes": "res://assets/characters/gongshou/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {}
+	"unified_box": {},
+	"portrait": "res://assets/characters/gongshou/portrait.png"
 }

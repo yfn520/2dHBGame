@@ -58,5 +58,6 @@
 	"scene_name": "shushi",
 	"spriteframes": "res://assets/characters/shushi/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {}
+	"unified_box": {},
+	"portrait": "res://assets/characters/shushi/portrait.png"
 }

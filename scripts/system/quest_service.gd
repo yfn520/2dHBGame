@@ -128,6 +128,18 @@ func has_available_quest(npc_id: int) -> bool:
 	return false
 
 
+## 该 NPC 是否派发过尚未完成的任务（进行中 active / 待交付 ready）。
+func has_active_quest(npc_id: int) -> bool:
+	if config == null:
+		return false
+	for id_value in config.get_all_quests():
+		var quest_id := int(id_value)
+		var quest := config.get_quest(quest_id)
+		if int(quest.get("giver_npc_id", 0)) == npc_id and state.get_status(quest_id) in ["active", "ready"]:
+			return true
+	return false
+
+
 func has_ready_quest(npc_id: int) -> bool:
 	if config == null:
 		return false

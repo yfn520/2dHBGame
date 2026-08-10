@@ -27,6 +27,7 @@ bus/default_bus_layout="res://default_bus_layout.tres"
 
 GameRegistry="*res://scripts/game_registry.gd"
 AudioManager="*res://scripts/system/audio_manager.gd"
+DebugSink="*res://scripts/debug/debug_sink.gd"
 
 [display]
 

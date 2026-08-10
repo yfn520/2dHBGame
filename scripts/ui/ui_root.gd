@@ -26,6 +26,7 @@ var _main_ui: Control
 var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
 var _interaction_prompt: Label
+var _interaction_npc: NpcActor
 var _notification_label: Label
 var _dialogue_previous_pause := false
 
@@ -59,12 +60,25 @@ func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 
 
 func set_interaction_target(npc: NpcActor) -> void:
+	_interaction_npc = npc
 	var available := is_instance_valid(npc)
 	if _interaction_prompt != null:
 		_interaction_prompt.visible = available
 		_interaction_prompt.text = "E  与 %s 对话" % npc.get_display_name() if available else ""
 	if _touch_controls != null:
 		_touch_controls.set_interact_available(available)
+
+
+## 交互提示跟随目标 NPC 头顶，而非固定在屏幕中央。
+func _process(_delta: float) -> void:
+	if _interaction_prompt == null or not _interaction_prompt.visible or not is_instance_valid(_interaction_npc):
+		return
+	var cam := get_viewport().get_camera_2d()
+	if cam == null:
+		return
+	var screen := cam.get_canvas_transform() * _interaction_npc.global_position
+	_interaction_prompt.position.x = screen.x - _interaction_prompt.size.x * 0.5
+	_interaction_prompt.position.y = screen.y - 40.0
 
 
 # ---- 主菜单 ----
@@ -176,7 +190,10 @@ func close_top() -> void:
 
 
 func is_modal_open() -> bool:
-	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open()) or (_main_ui != null and _main_ui.visible)
+	# 注意：常驻战斗 HUD（_main_ui）默认可见，不是模态层，不能计入阻塞，
+	# 否则会一直阻断 NPC 交互（需按 ESC 关闭 HUD 才能触发对话）。
+	# M 键切换主界面显隐时由 toggle_main_ui 单独用 _main_ui.visible 控制世界输入。
+	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open())
 
 
 func is_main_menu_open() -> bool:
@@ -250,17 +267,14 @@ func _make_layer(name: String, layer_num: int) -> CanvasLayer:
 
 
 func _build_content() -> void:
-	# 交互提示（HUDLayer）
+	# 交互提示（HUDLayer）：锚点置 0，由 _process 按 NPC 头顶世界坐标定位。
 	_interaction_prompt = Label.new()
 	_interaction_prompt.name = "InteractionPrompt"
-	_interaction_prompt.anchor_left = 0.5
-	_interaction_prompt.anchor_top = 0.72
-	_interaction_prompt.anchor_right = 0.5
-	_interaction_prompt.anchor_bottom = 0.72
-	_interaction_prompt.offset_left = -180
-	_interaction_prompt.offset_top = -24
-	_interaction_prompt.offset_right = 180
-	_interaction_prompt.offset_bottom = 24
+	_interaction_prompt.anchor_left = 0.0
+	_interaction_prompt.anchor_top = 0.0
+	_interaction_prompt.anchor_right = 0.0
+	_interaction_prompt.anchor_bottom = 0.0
+	_interaction_prompt.size = Vector2(360, 32)
 	_interaction_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_interaction_prompt.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_interaction_prompt.add_theme_font_size_override("font_size", 18)

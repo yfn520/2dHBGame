@@ -58,5 +58,6 @@
 	"scene_name": "m's",
 	"spriteframes": "res://assets/characters/m's/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {}
+	"unified_box": {},
+	"portrait": "res://assets/characters/m's/portrait.png"
 }

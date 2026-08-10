@@ -90,14 +90,14 @@ func _validate_asset(npc_id: int, asset_path: String, asset: Dictionary) -> bool
 	if not _is_number(asset.get("version")) or int(asset.get("version")) != REQUIRED_ASSET_VERSION:
 		_errors.append("NPC %d npc_asset.json version must be 1" % npc_id)
 		return false
-	for field in ["id", "display_name", "default_animation", "spriteframes", "visual_scene", "portrait"]:
+	for field in ["id", "display_name", "default_animation", "spriteframes", "visual_scene"]:
 		if not asset.get(field) is String or str(asset.get(field)).strip_edges().is_empty():
 			_errors.append("NPC %d npc_asset.json field %s must be a non-empty string" % [npc_id, field])
 			return false
 	if str(asset.get("id")) != asset_path.get_file():
 		_errors.append("NPC %d npc_asset.json id must match its package directory" % npc_id)
 		return false
-	for field in ["spriteframes", "visual_scene", "portrait"]:
+	for field in ["spriteframes", "visual_scene"]:
 		var resource_path := str(asset.get(field))
 		if not _is_owned_resource_path(asset_path, resource_path):
 			_errors.append("NPC %d %s must stay inside its NPC package: %s" % [npc_id, field, resource_path])
@@ -105,15 +105,18 @@ func _validate_asset(npc_id: int, asset_path: String, asset: Dictionary) -> bool
 		if not ResourceLoader.exists(resource_path):
 			_errors.append("NPC %d %s does not exist: %s" % [npc_id, field, resource_path])
 			return false
+	# portrait 可选：仅当配置了路径时要求留在包内，但不强制文件存在。
+	# 缺失/无法加载时 dialogue_panel 会降级隐藏头像框，不影响 NPC 生成与对话。
+	var portrait_path := str(asset.get("portrait", ""))
+	if not portrait_path.is_empty() and not _is_owned_resource_path(asset_path, portrait_path):
+		_errors.append("NPC %d portrait must stay inside its NPC package: %s" % [npc_id, portrait_path])
+		return false
 	var sprite_frames := load(str(asset.get("spriteframes"))) as SpriteFrames
 	if sprite_frames == null or not sprite_frames.has_animation(str(asset.get("default_animation"))):
 		_errors.append("NPC %d spriteframes is invalid or missing its default animation" % npc_id)
 		return false
 	if not load(str(asset.get("visual_scene"))) is PackedScene:
 		_errors.append("NPC %d visual_scene must be a PackedScene" % npc_id)
-		return false
-	if not load(str(asset.get("portrait"))) is Texture2D:
-		_errors.append("NPC %d portrait must be a Texture2D" % npc_id)
 		return false
 	if not asset.get("frame_size") is Dictionary or not asset.get("foot_center") is Dictionary:
 		_errors.append("NPC %d frame_size and foot_center must be objects" % npc_id)

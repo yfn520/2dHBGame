@@ -58,5 +58,6 @@
 	"scene_name": "new_kivin",
 	"spriteframes": "res://assets/characters/new_kivin/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {}
+	"unified_box": {},
+	"portrait": "res://assets/characters/new_kivin/portrait.png"
 }
