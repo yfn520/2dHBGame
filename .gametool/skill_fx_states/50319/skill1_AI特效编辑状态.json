@@ -1,0 +1,356 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/shushi",
+  "actorName": "shushi",
+  "skillId": "50319",
+  "skillName": "skill1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: shushi (character)\nSkill id/name: 50319 / skill1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill1, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (121, 230)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":79,\"y\":-133,\"width\":20,\"height\":15}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill1\"\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "shushi_skill50319_skill1_v1-msh0vkwm",
+      "title": "暗系魔导书释能技能特效",
+      "summary": "适配角色shushi持魔导书施法的4帧动作时序(7fps),表现蓄力阶段魔导书升腾紫焰、释放瞬间爆发闪光、向前发射暗紫魔法弹的战斗效果,特效剪影清晰,战斗时序明确,符合2D横版幻想游戏美术要求。",
+      "style": "2D横版卡通幻想风格,特效轮廓干净锐利,暗紫主色搭配高亮亮紫发光效果,战斗反馈直观,无冗余装饰元素",
+      "palette": [
+        "#190628",
+        "#691ea6",
+        "#c05aff",
+        "#ffffff",
+        "#391156"
+      ],
+      "tracks": [
+        {
+          "id": "charge_book_purple_flame",
+          "phase": "charge",
+          "title": "魔导书蓄力紫焰",
+          "description": "施法蓄力阶段在魔导书书页上方升腾的细碎暗紫火焰与星屑,亮度随蓄力时长逐渐提升,释放瞬间消散",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 429,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -45,
+              "y": -130
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d cartoon purple magic flame, tiny star sparkles, book charge effect, soft glow",
+          "generation_prompt": "Isolated 2D VFX layer of curling dark purple magic flames rising upward with scattered tiny glowing star sparkles, bright purple luminous core, soft edge glow, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette, fantasy magic style",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_burst_flash",
+          "phase": "release",
+          "title": "释能瞬间爆发闪光",
+          "description": "释放瞬间在向前伸出的魔导书位置迸发的短时长紫白色径向闪光,快速淡出强化施法反馈",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 143,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -142,
+              "y": -140
+            },
+            "scale": 1.2,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#c800ff"
+          },
+          "library_query": "2d magic burst flash, purple white radial glow, quick fade, short duration",
+          "generation_prompt": "Isolated 2D VFX layer of bright radial purple-white magic burst flash, soft rounded edges, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "projectile_dark_purple_bolt",
+          "phase": "projectile",
+          "title": "暗紫魔法能量弹",
+          "description": "从魔导书位置向前飞出的浓缩暗紫能量弹,带细碎紫焰拖尾与星屑,碰撞判定匹配技能命中窗口",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 30,
+              "y": -130
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d purple magic projectile, compact energy bolt, wispy purple sparkle trail, dark core bright glow",
+          "generation_prompt": "Isolated 2D VFX layer of compact dark purple magic energy projectile with bright glowing purple outline, wispy trailing purple sparkles and faint dark purple mist, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette, horizontal travel direction",
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 1,
+              "y": 1
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 20,
+              "height": 15
+            },
+            "collision_offset": {
+              "x": 79,
+              "y": -133
+            },
+            "inset_ratio": 0.15,
+            "auto_calc_source": "alpha_bbox_median",
+            "manual_override": false,
+            "faces_by_default": "right",
+            "rotation": 0,
+            "flip_h": false
+          },
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "screen_subtle_flash",
+          "phase": "screen",
+          "title": "释放瞬间全屏淡紫闪",
+          "description": "释放技能瞬间的极淡全屏紫白色柔光闪光,快速淡出增强施法打击感,低透明度不遮挡角色与场景",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "fullscreen",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 100,
+          "blend_mode": "screen",
+          "layer": 15,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.15,
+            "tint": "#c05aff"
+          },
+          "library_query": "subtle fullscreen purple flash overlay, quick fade, low opacity, screen blend",
+          "generation_prompt": "Isolated 2D fullscreen VFX layer of very faint pale purple soft glow flash, uniform screen coverage, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, suitable for screen blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "manual-projectile-1",
+          "phase": "projectile",
+          "title": "弹道特效",
+          "description": "从施法者位置向目标方向飞行的弹道视觉",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "duration_ms": 600,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": -132,
+              "y": -116
+            },
+            "scale": 1.3,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ff00ae"
+          },
+          "library_query": "fantasy magic projectile flight",
+          "generation_prompt": "isolated side-view fantasy magic projectile game VFX facing right, transparent background, no character, no text, no UI, no scenery",
+          "is_projectile": true,
+          "projectile_config": {
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 32,
+              "height": 32
+            },
+            "collisionOffset": {
+              "x": 0,
+              "y": 0
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": false,
+            "facesByDefault": "right",
+            "rotation": 0,
+            "flipH": false
+          }
+        }
+      ]
+    }
+  ],
+  "proposalId": "shushi_skill50319_skill1_v1-msh0vkwm",
+  "actionHash": "68944a45dbeae9d5d0fcd7fcf88ac6d0106a31ac66aac9144eca404551d05c4e",
+  "drawPrompts": {
+    "shushi_skill50319_skill1_v1-msh0vkwm:charge_book_purple_flame": "Isolated 2D VFX layer of curling dark purple magic flames rising upward with scattered tiny glowing star sparkles, bright purple luminous core, soft edge glow, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette, fantasy magic style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill50319_skill1_v1-msh0vkwm:release_burst_flash": "Isolated 2D VFX layer of bright radial purple-white magic burst flash, soft rounded edges, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill50319_skill1_v1-msh0vkwm:projectile_dark_purple_bolt": "Isolated 2D VFX layer of compact dark purple magic energy projectile with bright glowing purple outline, wispy trailing purple sparkles and faint dark purple mist, no characters, no text, no UI, no scenery, transparent background, suitable for add blend mode, clean silhouette, horizontal travel direction\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill50319_skill1_v1-msh0vkwm:screen_subtle_flash": "Isolated 2D fullscreen VFX layer of very faint pale purple soft glow flash, uniform screen coverage, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, suitable for screen blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the screen phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nFULLSCREEN_TARGET_RESOLUTION: 1536x864.\nFULLSCREEN_CONTACT_SHEET_RESOLUTION: 3072x1728.\nEach quadrant is one complete 16:9 full-screen frame.\nThe VFX composition must cover the full frame and remain visually active across at least 90% of both width and height; do not return a small centered icon with large empty borders.\nKeep important energy, flames, particles and edge lighting inside the frame while allowing soft atmospheric falloff at all four edges.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill50319_skill1_v1-msh0vkwm:manual-projectile-1": "isolated side-view fantasy magic projectile game VFX facing right, transparent background, no character, no text, no UI, no scenery\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/shushi:50319:skill1": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "shushi_skill50319_skill1_v1-msh0vkwm": {
+      "createdAt": "2026-08-06T04:35:13.942Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "projectile_dark_purple_bolt",
+    "screen_subtle_flash",
+    "charge_book_purple_flame",
+    "release_burst_flash"
+  ],
+  "trackSelectedFrames": {
+    "release_burst_flash": [
+      0,
+      1
+    ],
+    "manual-projectile-1": [
+      0,
+      1,
+      2
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {
+    "release_burst_flash": true,
+    "manual-projectile-1": true
+  },
+  "previewFrame": {
+    "release_burst_flash": 1,
+    "manual-projectile-1": 0
+  },
+  "candidatePageOffsets": {
+    "release_burst_flash": 0,
+    "manual-projectile-1": 210
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_burst_flash",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 100,
+        "height": 57
+      },
+      "frameCount": 2,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "6c9c184944f34e5d",
+        "name": "1 (87)",
+        "path": "几套游戏特效贴图资源合集/单张序列/1 (87)",
+        "score": 0.671
+      },
+      "atlasRef": ".gametool/skill_fx_states/50319/assets/release_burst_flash.png"
+    },
+    {
+      "trackId": "manual-projectile-1",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 212,
+        "height": 89
+      },
+      "frameCount": 6,
+      "fps": 12,
+      "loop": true,
+      "source": {
+        "type": "sequence",
+        "id": "2a47285c4f69239d",
+        "name": "2",
+        "path": "500个序列png特效下载/5套/7-10/2",
+        "score": 0.1433
+      },
+      "atlasRef": ".gametool/skill_fx_states/50319/assets/manual-projectile-1.png"
+    }
+  ]
+}

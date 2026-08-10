@@ -1,0 +1,27 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 8.0,
+    "height": 8.0
+  },
+  "collisionOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 1.45,
+  "effectMirror": false,
+  "instanceTransformBaked": false,
+  "visualOffset": {
+    "x": -73.0,
+    "y": -143.0
+  },
+  "scenePath": "res://assets/effects/skill_fx/m-s-50316/godot/effect_scenes/holy_light_missile/effect.tscn",
+  "fps": 8.0,
+  "frameCount": 8
+}

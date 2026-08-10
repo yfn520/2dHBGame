@@ -1,0 +1,214 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/shushi",
+  "actorName": "shushi",
+  "skillId": "50320",
+  "skillName": "skill2",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: shushi (character)\nSkill id/name: 50320 / skill2\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill2, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (121, 230)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":25,\"y\":-147,\"width\":9,\"height\":12}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill2\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "shushi_skill2_50320-msgxye8j",
+      "title": "暗紫魔导书施法特效",
+      "summary": "本方案为角色shushi的50320号技能(skill2)制作2D横版幻想风格施法特效,对应4帧7fps的施法动作时序,清晰呈现魔导书从聚能到释放紫焰魔法的过程,战斗判定可读性强,符合项目干净轮廓的美术要求。",
+      "style": "2D横版幻想游戏VFX风格,轮廓干净清晰,战斗时序明确,暗紫魔法色调,光效柔和不刺眼,无冗余装饰元素",
+      "palette": [
+        "#1a0a2e",
+        "#5a1f8f",
+        "#a855f7",
+        "#e9d5ff",
+        "#fdf4ff"
+      ],
+      "tracks": [
+        {
+          "id": "charge_book_glow",
+          "phase": "charge",
+          "title": "魔导书聚能微光",
+          "description": "技能启动后在角色手持魔导书位置生成逐渐增强的暗紫色微光,伴随细碎星点,覆盖施法前摇2帧时长,表现魔法蓄力过程。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -35,
+              "y": -130
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d fantasy magic charge glow, dark purple, soft edge, tiny sparkles",
+          "generation_prompt": "Isolated single VFX layer, soft dark purple magic charge glow around spell book position, tiny faint purple sparkles, soft blurred glow edge, suitable for add blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_magic_flame",
+          "phase": "release",
+          "title": "魔导书紫焰释放",
+          "description": "release事件触发(第3帧)时,从魔导书位置涌出向上翻卷的亮紫色魔法焰,亮度达到峰值,位置匹配命中判定窗口,视觉引导清晰。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 4,
+              "y": -225
+            },
+            "scale": 3.85,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ff00f7"
+          },
+          "library_query": "2d fantasy purple magic flame burst, upward curling, bright core, star particles",
+          "generation_prompt": "Isolated single VFX layer, bright curling violet magic flame bursting upward from spell book, pale purple bright core, scattered tiny star sparkles, soft outer glow, suitable for add blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "sparkle_drift_fade",
+          "phase": "release",
+          "title": "魔法星点飘散余辉",
+          "description": "释放触发后,细碎的淡紫色星点从魔法焰位置缓慢向上飘散自然淡出,强化魔法质感,不干扰战斗判定可读性。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 428,
+          "blend_mode": "screen",
+          "layer": 7,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -25,
+              "y": -135
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d fantasy floating purple magic sparkles, slow upward drift, gradual fade",
+          "generation_prompt": "Isolated single VFX layer, small faint lavender magic sparkles slowly drifting upward, soft glow, gradual linear fade out, suitable for screen blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "shushi_skill2_50320-msgxye8j",
+  "actionHash": "68944a45dbeae9d5d0fcd7fcf88ac6d0106a31ac66aac9144eca404551d05c4e",
+  "drawPrompts": {
+    "shushi_skill2_50320-msgxye8j:charge_book_glow": "Isolated single VFX layer, soft dark purple magic charge glow around spell book position, tiny faint purple sparkles, soft blurred glow edge, suitable for add blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill2_50320-msgxye8j:release_magic_flame": "Isolated single VFX layer, bright curling violet magic flame bursting upward from spell book, pale purple bright core, scattered tiny star sparkles, soft outer glow, suitable for add blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "shushi_skill2_50320-msgxye8j:sparkle_drift_fade": "Isolated single VFX layer, small faint lavender magic sparkles slowly drifting upward, soft glow, gradual linear fade out, suitable for screen blend mode, no characters, no text, no UI elements, no scenery, fully transparent background.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/shushi:50320:skill2": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "shushi_skill2_50320-msgxye8j": {
+      "createdAt": "2026-08-06T03:13:26.419Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge_book_glow",
+    "sparkle_drift_fade"
+  ],
+  "trackSelectedFrames": {
+    "release_magic_flame": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "release_magic_flame": 1
+  },
+  "candidatePageOffsets": {
+    "release_magic_flame": 48
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_magic_flame",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 125,
+        "height": 234
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "4fa7b355d1d1ea5c",
+        "name": "传送点765",
+        "path": "UI 界面技能特效序列帧素材（命名）/05  91套/传送点765",
+        "score": 0.6556
+      },
+      "atlasRef": ".gametool/skill_fx_states/50320/assets/release_magic_flame.png"
+    }
+  ]
+}

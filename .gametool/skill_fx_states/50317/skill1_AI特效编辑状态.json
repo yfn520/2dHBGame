@@ -1,0 +1,259 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/m's",
+  "actorName": "m's",
+  "skillId": "50317",
+  "skillName": "skill1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m's (character)\nSkill id/name: 50317 / skill1\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (113, 228)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":84,\"y\":-138,\"width\":17,\"height\":15}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"spawn_projectile\",\n    \"result_key\": \"arrow_hit\",\n    \"scene\": \"\",\n    \"origin\": \"hit_window\",\n    \"trajectory\": \"straight\",\n    \"aim_mode\": \"facing_elevation\",\n    \"emission\": \"sequence\",\n    \"count\": 3,\n    \"interval\": 0.15,\n    \"ai_min_range\": 0,\n    \"ai_max_range\": 320,\n    \"speed\": 420,\n    \"lifetime\": 2,\n    \"damage_ratio\": 0.8\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #2 is spawn_projectile: the proposal MUST contain a projectile track with is_projectile=true. Bind it to this node or its real release timing; do not add an impact track for the projectile.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "skill_50317_holy_volley-msn7s55l",
+      "title": "50317 圣光连射技能特效",
+      "summary": "适配牧师角色圣杖施法动作,遵循4帧7fps的战斗节奏,蓄力阶段呈现杖端微光聚集,释放帧触发杖端判定闪光,连续发射3发直线飞行的圣光弹,轮廓清晰不遮挡角色,符合2D横版奇幻游戏干净易读的战斗视觉要求。",
+      "style": "2D横版卡通奇幻风格,光效边缘柔和、剪影清晰,色彩与角色白紫金淡紫服饰统一,战斗时序明确,无冗余特效干扰攻击判定。",
+      "palette": [
+        "#ffffff",
+        "#e9d8fd",
+        "#d4af37",
+        "#b794f4",
+        "#faf089"
+      ],
+      "tracks": [
+        {
+          "id": "charge_staff_glow",
+          "phase": "charge",
+          "title": "杖端蓄力微光",
+          "description": "技能启动后在杖端紫水晶位置聚集柔和圣光,亮度随蓄力帧逐步提升,明确提示施法前摇阶段。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 3,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 26,
+              "y": -148
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "small holy charge glow, lavender white gold, soft pulsing orb, 2d sprite",
+          "generation_prompt": "Isolated single 2D VFX layer, small soft pulsing holy glow orb around staff gem, pale lavender core, warm white halo, thin gold shimmer, growing brighter over 2 frames, no characters, no text, no UI, no scenery, transparent background, clean sharp silhouette, optimized for add blend mode.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_cast_flash",
+          "phase": "release",
+          "title": "施法释放闪光",
+          "description": "释放事件触发时,在杖端指向判定位置爆发短亮白金闪光,持续1帧,明确提示攻击判定启动。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 143,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -82,
+              "y": -140
+            },
+            "scale": 0.5,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "bright holy cast burst flash, white gold, radial short duration, 2d sprite",
+          "generation_prompt": "Isolated single 2D VFX layer, short bright radial holy burst flash at spell cast point, warm white core, soft gold outer edge, fades out completely in 1 frame, no characters, no text, no UI, no scenery, transparent background, clean silhouette, optimized for add blend mode.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "holy_bolt_projectile",
+          "phase": "projectile",
+          "title": "圣光弹弹道",
+          "description": "对应技能投射物生成节点,连续发射3发直线飞行的圣光弹,弹体带羽翼装饰与短拖尾,参数完全匹配技能配置的速度、生命周期与伤害判定。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 2,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 2000,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -64,
+              "y": -128
+            },
+            "scale": 2.8,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#f6fecd"
+          },
+          "library_query": "holy light bolt projectile, feather accents, lavender white gold, short glow trail, straight flight, 2d sprite",
+          "generation_prompt": "Isolated single 2D VFX projectile sprite, holy light bolt with tiny white feather details matching character hair accessory, pale lavender glowing core, thin gold outline, short soft white motion trail, elongated horizontal aerodynamic shape, no characters, no text, no UI, no scenery, transparent background, clean silhouette, optimized for add blend mode.",
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 1,
+              "y": 1
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 17,
+              "height": 15
+            },
+            "collision_offset": {
+              "x": 0,
+              "y": 0
+            },
+            "inset_ratio": 0.15,
+            "auto_calc_source": "alpha_bbox_median",
+            "manual_override": false,
+            "faces_by_default": "right",
+            "rotation": 0,
+            "flip_h": false
+          },
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "skill_50317_holy_volley-msn7s55l",
+  "actionHash": "2f9f9dd7770205f62f5848f86ca32698dac185f399a0baa78dde394aa54fcde6",
+  "drawPrompts": {
+    "skill_50317_holy_volley-msn7s55l:charge_staff_glow": "Isolated single 2D VFX layer, small soft pulsing holy glow orb around staff gem, pale lavender core, warm white halo, thin gold shimmer, growing brighter over 2 frames, no characters, no text, no UI, no scenery, transparent background, clean sharp silhouette, optimized for add blend mode.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50317_holy_volley-msn7s55l:release_cast_flash": "Isolated single 2D VFX layer, short bright radial holy burst flash at spell cast point, warm white core, soft gold outer edge, fades out completely in 1 frame, no characters, no text, no UI, no scenery, transparent background, clean silhouette, optimized for add blend mode.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50317_holy_volley-msn7s55l:holy_bolt_projectile": "Isolated single 2D VFX projectile sprite, holy light bolt with tiny white feather details matching character hair accessory, pale lavender glowing core, thin gold outline, short soft white motion trail, elongated horizontal aerodynamic shape, no characters, no text, no UI, no scenery, transparent background, clean silhouette, optimized for add blend mode.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/m's:50317:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "skill_50317_holy_volley-msn7s55l": {
+      "createdAt": "2026-08-10T12:35:07.930Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "charge_staff_glow"
+  ],
+  "trackSelectedFrames": {
+    "release_cast_flash": [
+      4,
+      3,
+      2,
+      1
+    ],
+    "holy_bolt_projectile": [
+      3,
+      2,
+      1
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "release_cast_flash": 1,
+    "holy_bolt_projectile": 2
+  },
+  "candidatePageOffsets": {
+    "release_cast_flash": 6,
+    "holy_bolt_projectile": 204
+  },
+  "selectedAssets": [
+    {
+      "trackId": "holy_bolt_projectile",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 310,
+        "height": 90
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "f6c945c3a0a89377",
+        "name": "dance_newmove.img",
+        "path": "DNF特效全集库3338套/sprite_character_swordman_effect_atgroupdance/dance_newmove.img",
+        "score": 0.2112
+      },
+      "atlasRef": ".gametool/skill_fx_states/50317/assets/holy_bolt_projectile.png"
+    },
+    {
+      "trackId": "release_cast_flash",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 183,
+        "height": 164
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "ef045e23d3108ec2",
+        "name": "flash_dodge.img",
+        "path": "DNF特效全集库3338套/sprite_character_fighter_effect_at108stairsex.NPK/flash_dodge.img",
+        "score": 0.6501
+      },
+      "atlasRef": ".gametool/skill_fx_states/50317/assets/release_cast_flash.png"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "format": "frame-ronin-projectile-meta-v1",
+  "facesByDefault": "right",
+  "displayScale": {
+    "x": 0.25,
+    "y": 0.25
+  },
+  "collisionSize": {
+    "width": 8.0,
+    "height": 8.0
+  },
+  "collisionOffset": {
+    "x": 0.0,
+    "y": 0.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 4.8,
+  "effectMirror": false,
+  "instanceTransformBaked": false,
+  "visualOffset": {
+    "x": -64.0,
+    "y": -128.0
+  },
+  "scenePath": "res://assets/effects/skill_fx/m-s-50317/godot/effect_scenes/holy_bolt_projectile/effect.tscn",
+  "fps": 1.5,
+  "frameCount": 3
+}

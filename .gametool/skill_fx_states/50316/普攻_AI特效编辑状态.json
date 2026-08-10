@@ -1,0 +1,238 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/m's",
+  "actorName": "m's",
+  "skillId": "50316",
+  "skillName": "普攻",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m's (character)\nSkill id/name: 50316 / 普攻\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: attack, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (113, 228)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":80,\"y\":-141,\"width\":16,\"height\":14}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"attack\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"play_effect\",\n    \"scene\": \"\",\n    \"coordinate_space\": \"character_local\",\n    \"target\": \"origin\",\n    \"origin\": \"caster\",\n    \"effect_scale\": 1,\n    \"opacity\": 1,\n    \"lifetime_ms\": 500,\n    \"attachment_layer\": \"front\",\n    \"follow_target\": true\n  },\n  {\n    \"type\": \"spawn_projectile\",\n    \"result_key\": \"projectile_hit\",\n    \"scene\": \"\",\n    \"origin\": \"hit_window\",\n    \"trajectory\": \"straight\",\n    \"aim_mode\": \"facing_elevation\",\n    \"emission\": \"single\",\n    \"ai_min_range\": 0,\n    \"ai_max_range\": 280,\n    \"speed\": 300,\n    \"lifetime\": 5,\n    \"damage_ratio\": 1\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #3 is spawn_projectile: the proposal MUST contain a projectile track with is_projectile=true. Bind it to this node or its real release timing; do not add an impact track for the projectile.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "50316_ms_normal_atk-msn61m8b",
+      "title": "牧师角色普通攻击神圣光弹特效",
+      "summary": "适配Q版牧师角色4帧7fps普攻动作,在第3帧释放节点触发法杖辉光与神圣光弹发射,光弹沿直线飞行造成伤害,特效轮廓清晰、光效柔和,战斗时序可读性强,符合2D横版奇幻项目风格。",
+      "style": "2D横版Q版奇幻风格,干净锐利的特效剪影,柔和神圣辉光,低复杂度高辨识度,无多余装饰元素,适配侧视战斗视角。",
+      "palette": [
+        "#e2c9ff",
+        "#ffffff",
+        "#c397ff",
+        "#b085e0",
+        "#fff1c1"
+      ],
+      "tracks": [
+        {
+          "id": "staff_charge_glow",
+          "phase": "charge",
+          "title": "法杖蓄力微光",
+          "description": "攻击开始后法杖宝石位置产生持续淡紫色微光,随攻击动作逐渐变亮,释放闪光出现后快速淡出。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 500,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 72,
+              "y": -132
+            },
+            "scale": 0.6,
+            "rotation_degrees": 0,
+            "opacity": 0.7,
+            "tint": "#e0c3ff"
+          },
+          "library_query": "small persistent holy glow, purple soft light, staff gem glow, faint pulsing",
+          "generation_prompt": "Isolated single 2D VFX layer, small soft persistent glow around staff gem, pale lavender faint light, slow subtle pulsing brightness, fades out quickly after release flash, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "staff_release_flash",
+          "phase": "release",
+          "title": "法杖顶端释放闪光",
+          "description": "攻击释放瞬间在法杖宝石位置生成短暂的淡紫色闪光,提示攻击出手帧,快速收缩淡出。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 180,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 72,
+              "y": -132
+            },
+            "scale": 0.9,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "small holy burst flash, purple white glow, soft edge, staff tip muzzle flash",
+          "generation_prompt": "Isolated single 2D VFX layer, small soft circular holy light burst, pale lavender core with bright white outer glow, smooth radial fade, short 180ms lifetime, fast shrink and fade out, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "holy_light_missile",
+          "phase": "projectile",
+          "title": "神圣光弹弹道",
+          "description": "从法杖释放点生成的神圣光弹,沿角色朝向直线飞行,带有柔和短尾光效,为普攻伤害判定载体。",
+          "trigger": {
+            "type": "after_skill_node",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 3,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 1000,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -73,
+              "y": -143
+            },
+            "scale": 1.45,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#dff0a3"
+          },
+          "library_query": "holy light orb projectile, purple white glow, soft magic tail, cleric basic attack missile",
+          "generation_prompt": "Isolated single 2D VFX layer, small spherical holy light projectile, faceted pale lavender gem core surrounded by soft white glow, short faint wispy light trail extending backward, subtle constant brightness pulse, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode",
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 1,
+              "y": 1
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 18,
+              "height": 18
+            },
+            "collision_offset": {
+              "x": 0,
+              "y": 0
+            },
+            "inset_ratio": 0.15,
+            "auto_calc_source": "alpha_bbox_median",
+            "manual_override": false,
+            "faces_by_default": "right",
+            "rotation": 0,
+            "flip_h": false
+          },
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "50316_ms_normal_atk-msn61m8b",
+  "actionHash": "2f9f9dd7770205f62f5848f86ca32698dac185f399a0baa78dde394aa54fcde6",
+  "drawPrompts": {
+    "50316_ms_normal_atk-msn61m8b:staff_charge_glow": "Isolated single 2D VFX layer, small soft persistent glow around staff gem, pale lavender faint light, slow subtle pulsing brightness, fades out quickly after release flash, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "50316_ms_normal_atk-msn61m8b:staff_release_flash": "Isolated single 2D VFX layer, small soft circular holy light burst, pale lavender core with bright white outer glow, smooth radial fade, short 180ms lifetime, fast shrink and fade out, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "50316_ms_normal_atk-msn61m8b:holy_light_missile": "Isolated single 2D VFX layer, small spherical holy light projectile, faceted pale lavender gem core surrounded by soft white glow, short faint wispy light trail extending backward, subtle constant brightness pulse, strictly no characters, no text, no UI elements, no scenery, transparent background, clean silhouette, optimized for additive blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/m's:50316:attack": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "50316_ms_normal_atk-msn61m8b": {
+      "createdAt": "2026-08-10T11:46:30.732Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "staff_release_flash",
+    "staff_charge_glow"
+  ],
+  "trackSelectedFrames": {
+    "holy_light_missile": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "holy_light_missile": 0
+  },
+  "candidatePageOffsets": {
+    "holy_light_missile": 120
+  },
+  "selectedAssets": [
+    {
+      "trackId": "holy_light_missile",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 56,
+        "height": 59
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "0745d8515de88cb3",
+        "name": "小圆点 金色",
+        "path": "UI 界面技能特效序列帧素材（命名）/04  117套/小圆点 金色",
+        "score": 0.2467
+      },
+      "atlasRef": ".gametool/skill_fx_states/50316/assets/holy_light_missile.png"
+    }
+  ]
+}

@@ -171,6 +171,60 @@
           "projectile_config": null,
           "target_buff_id": null,
           "target_buff_node_index": null
+        },
+        {
+          "id": "manual-projectile-1",
+          "phase": "projectile",
+          "title": "弹道特效",
+          "description": "释放斩击瞬间打出两道交叉的锋利暗红弧光，覆盖前方命中判定区域，快速向外扩散后消散。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "duration_ms": 600,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": true,
+          "transform": {
+            "offset": {
+              "x": -25,
+              "y": -85
+            },
+            "scale": 2.35,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ff0000"
+          },
+          "library_query": "fantasy magic projectile flight",
+          "generation_prompt": "isolated side-view fantasy magic projectile game VFX facing right, transparent background, no character, no text, no UI, no scenery",
+          "is_projectile": true,
+          "projectile_config": {
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 32,
+              "height": 32
+            },
+            "collisionOffset": {
+              "x": 0,
+              "y": 0
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": false,
+            "facesByDefault": "right",
+            "rotation": 0,
+            "flipH": false
+          }
         }
       ]
     }
@@ -181,7 +235,8 @@
     "ck-skill3-50315-msg6utc7:charge-dark-aura": "Isolated 2D VFX layer, faint wispy pulsing dark red charging aura for assassin character, soft glow, wispy smoke edges, no characters, no text, no UI, no scenery, clean silhouette on transparent background, 2D fantasy side-scroller combat style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
     "ck-skill3-50315-msg6utc7:release-cross-slash": "Isolated 2D VFX layer, sharp glowing dark red cross-shaped slash arc from dual daggers, bright pale red inner glow, deep dark red outer edge, crisp clean silhouette, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller combat effect\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
     "ck-skill3-50315-msg6utc7:release-motion-trail": "Isolated 2D VFX layer, faint semi-transparent dark red afterimage of slashing assassin pose, small tattered red cloth shred particles trailing, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a transparent background, or a single flat removable background color when transparency is unavailable.",
-    "ck-skill3-50315-msg6utc7:screen-hit-flash": "Isolated 2D fullscreen VFX layer, very faint dark red vignette edge flash for combat hit feedback, soft blurred edges, extremely low opacity, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the screen phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nFULLSCREEN_TARGET_RESOLUTION: 1536x864.\nFULLSCREEN_CONTACT_SHEET_RESOLUTION: 3072x1728.\nEach quadrant is one complete 16:9 full-screen frame.\nThe VFX composition must cover the full frame and remain visually active across at least 90% of both width and height; do not return a small centered icon with large empty borders.\nKeep important energy, flames, particles and edge lighting inside the frame while allowing soft atmospheric falloff at all four edges.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+    "ck-skill3-50315-msg6utc7:screen-hit-flash": "Isolated 2D fullscreen VFX layer, very faint dark red vignette edge flash for combat hit feedback, soft blurred edges, extremely low opacity, no characters, no text, no UI, no scenery, transparent background, 2D fantasy side-scroller style\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the screen phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nFULLSCREEN_TARGET_RESOLUTION: 1536x864.\nFULLSCREEN_CONTACT_SHEET_RESOLUTION: 3072x1728.\nEach quadrant is one complete 16:9 full-screen frame.\nThe VFX composition must cover the full frame and remain visually active across at least 90% of both width and height; do not return a small centered icon with large empty borders.\nKeep important energy, flames, particles and edge lighting inside the frame while allowing soft atmospheric falloff at all four edges.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "ck-skill3-50315-msg6utc7:manual-projectile-1": "isolated side-view fantasy magic projectile game VFX facing right, transparent background, no character, no text, no UI, no scenery\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
   },
   "drawHistory": {},
   "fullscreenResolution": {
@@ -224,19 +279,26 @@
       2,
       3,
       4
+    ],
+    "manual-projectile-1": [
+      1,
+      2
     ]
   },
   "trackFrameRotations": {},
   "previewMirror": {
-    "release-cross-slash": true
+    "release-cross-slash": true,
+    "manual-projectile-1": false
   },
   "previewFrame": {
     "charge-dark-aura": 2,
-    "release-cross-slash": 0
+    "release-cross-slash": 0,
+    "manual-projectile-1": 1
   },
   "candidatePageOffsets": {
     "charge-dark-aura": 0,
-    "release-cross-slash": 36
+    "release-cross-slash": 36,
+    "manual-projectile-1": 120
   },
   "selectedAssets": [
     {
@@ -276,6 +338,25 @@
         "score": 0.6424
       },
       "atlasRef": ".gametool/skill_fx_states/50315/assets/release-cross-slash.png"
+    },
+    {
+      "trackId": "manual-projectile-1",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 230,
+        "height": 105
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": true,
+      "source": {
+        "type": "sequence",
+        "id": "0db924707c7e07e4",
+        "name": "speedmarkoverdodge3.img",
+        "path": "DNF特效全集库3338套/sprite_character_fighter_effect_atlightningdance/speedmarkoverdodge3.img",
+        "score": 0.129
+      },
+      "atlasRef": ".gametool/skill_fx_states/50315/assets/manual-projectile-1.png"
     }
   ]
 }

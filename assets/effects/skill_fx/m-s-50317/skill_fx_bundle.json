@@ -1,0 +1,157 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "m-s-50317",
+  "skill_id": "50317",
+  "proposal": {
+    "id": "m-s-50317-unified",
+    "title": "50317 圣光连射技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "release_cast_flash",
+      "phase": "release",
+      "title": "施法释放闪光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 143,
+      "blend_mode": "add",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -82,
+          "y": -140
+        },
+        "scale": 0.5,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_cast_flash",
+        "atlas_path": "assets/effects/skill_fx/m-s-50317/visual/release_cast_flash/atlas.png",
+        "scene_path": "assets/effects/skill_fx/m-s-50317/godot/effect_scenes/release_cast_flash/effect.tscn",
+        "frame_size": {
+          "width": 183,
+          "height": 164
+        },
+        "frame_count": 4,
+        "fps": 27.972027972027973,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "施法释放闪光",
+          "selected_source_frames": [
+            4,
+            3,
+            2,
+            1
+          ],
+          "selected_frame_rotations": {
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "holy_bolt_projectile",
+      "phase": "projectile",
+      "title": "圣光弹弹道",
+      "trigger": {
+        "type": "after_skill_node",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 2,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 2000,
+      "blend_mode": "add",
+      "layer": 5,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -64,
+          "y": -128
+        },
+        "scale": 4.8,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#f6fecd"
+      },
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 32,
+          "height": 32
+        },
+        "collision_offset": {
+          "x": 0,
+          "y": 0
+        },
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": false,
+        "faces_by_default": "right",
+        "rotation": 0,
+        "flip_h": false
+      },
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "holy_bolt_projectile",
+        "atlas_path": "assets/effects/skill_fx/m-s-50317/visual/holy_bolt_projectile/atlas.png",
+        "scene_path": "assets/effects/skill_fx/m-s-50317/godot/effect_scenes/holy_bolt_projectile/effect.tscn",
+        "frame_size": {
+          "width": 310,
+          "height": 90
+        },
+        "frame_count": 3,
+        "fps": 1.5,
+        "baked_scale": 0.25,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "圣光弹弹道",
+          "selected_source_frames": [
+            3,
+            2,
+            1
+          ],
+          "selected_frame_rotations": {
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}
