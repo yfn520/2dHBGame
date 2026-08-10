@@ -90,6 +90,12 @@ func _read_authored_body_height() -> float:
 	return float(body_size.get("y", 0.0))
 
 
+## 头顶世界坐标（位于身体顶部正上方），供 HUD 怪物头顶血条世界投影使用。
+func get_head_world_position() -> Vector2:
+	var head_height := _read_authored_body_height() * _actor_scale
+	return global_position + Vector2(0, -head_height)
+
+
 func _load_combat_actions() -> void:
 	_combat_actions = {}
 	var asset_path: String = _config.get("asset", "")

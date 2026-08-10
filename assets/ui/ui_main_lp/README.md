@@ -1,9 +1,9 @@
 FrameRonin Godot UI Scene Package
 
 Screen: ui_main_lp
-Design size: 1920 x 1080
-Nodes: 15
-Textures: 18
+Design size: 1536 x 864
+Nodes: 66
+Textures: 45
 Masks: 0
 Fonts: 0
 
@@ -24,5 +24,6 @@ Usage:
    %player_name.text = character.display_name
    %player_hp.value = character.hp
    %inventory_button.pressed.connect(_on_inventory_pressed)
+   %inventory_grid_content.add_child(item_slot)
 
 This package contains no GDScript. Connect signals and set values at runtime.
