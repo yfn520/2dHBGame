@@ -9269,6 +9269,357 @@
 			}
 		}
 	},
+	"npc_9017": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "维恩",
+				"text": "（他正把一沓粮道记录摊在桌上对日期，笔尖点了点最末一行）西线再断三天，粮车少十二趟。你们可以查，我也要一个期限。",
+				"text_template": "（他正把一沓粮道记录摊在桌上对日期，笔尖点了点最末一行）西线再断三天，粮车少十二趟。你们可以查，我也要一个期限。",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "维恩",
+				"text": "（他揉着眉心，把没对上的那页单独抽出来）慢办法由谁承担头一个冬天？粮仓空了，再体面的话也填不饱人。",
+				"text_template": "（他揉着眉心，把没对上的那页单独抽出来）慢办法由谁承担头一个冬天？粮仓空了，再体面的话也填不饱人。",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "维恩",
+				"text": "（他提到弟弟时语气松了些）兰恩那小子总说别把事都压在账本上。可账本不记，就什么人都看不见了。",
+				"text_template": "（他提到弟弟时语气松了些）兰恩那小子总说别把事都压在账本上。可账本不记，就什么人都看不见了。",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "维恩",
+				"text": "（他把抽出的那页夹回桌角，没再抬头）期限到了我再说。先忙你们的。",
+				"text_template": "（他把抽出的那页夹回桌角，没再抬头）期限到了我再说。先忙你们的。",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "对话结束。",
+				"text_template": "对话结束。",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9018": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "兰恩",
+				"text": "（他低头描图，腕绳贴着纸面，头也没抬）你别提醒，我自己写。昨天那张尺子没画正，今天不能忘。",
+				"text_template": "（他低头描图，腕绳贴着纸面，头也没抬）你别提醒，我自己写。昨天那张尺子没画正，今天不能忘。",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "兰恩",
+				"text": "（他停下笔，指节蹭了蹭墨迹）我忘的是昨天，尺子没忘。只要它还直着，路就不会画偏。",
+				"text_template": "（他停下笔，指节蹭了蹭墨迹）我忘的是昨天，尺子没忘。只要它还直着，路就不会画偏。",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "兰恩",
+				"text": "（他翻出一张皱巴巴的纸，上面是一串没写完的字）我哥维恩老说字要写正，路才认得回来。可有些字，我明明没写过。",
+				"text_template": "（他翻出一张皱巴巴的纸，上面是一串没写完的字）我哥维恩老说字要写正，路才认得回来。可有些字，我明明没写过。",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "兰恩",
+				"text": "（他继续描图，腕绳轻轻一晃）嗯。我画完这张就去练字。",
+				"text_template": "（他继续描图，腕绳轻轻一晃）嗯。我画完这张就去练字。",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "对话结束。",
+				"text_template": "对话结束。",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
+	"npc_9019": {
+		"entry_node": "greeting",
+		"chapter_id": "hub",
+		"story_node_id": "",
+		"nodes": {
+			"greeting": {
+				"type": "line",
+				"speaker": "余晖城门守卫",
+				"text": "（他按着腰间佩剑，目光从你身上扫到名册再扫回来）报个名字。备用钥匙这两天不对数，进出的人我都要对一眼。",
+				"text_template": "（他按着腰间佩剑，目光从你身上扫到名册再扫回来）报个名字。备用钥匙这两天不对数，进出的人我都要对一眼。",
+				"next_id": "small_talk",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 0,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"small_talk": {
+				"type": "line",
+				"speaker": "余晖城门守卫",
+				"text": "（他食指点了点名册上的一行）落闸要等最后一个人进来。谁要是少了，我记的是数，不是名字。",
+				"text_template": "（他食指点了点名册上的一行）落闸要等最后一个人进来。谁要是少了，我记的是数，不是名字。",
+				"next_id": "lore_reveal",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 200,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"lore_reveal": {
+				"type": "line",
+				"speaker": "余晖城门守卫",
+				"text": "（他压低声音）真到了要封城那天，名册上最后那格，我把自己也填进去。守门的不该比城里人先走。",
+				"text_template": "（他压低声音）真到了要封城那天，名册上最后那格，我把自己也填进去。守门的不该比城里人先走。",
+				"next_id": "farewell",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 400,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"farewell": {
+				"type": "line",
+				"speaker": "余晖城门守卫",
+				"text": "（他合上名册，朝城门方向扬了扬下巴）记住了。去吧，别让我在册子上多写一遍你的名字。",
+				"text_template": "（他合上名册，朝城门方向扬了扬下巴）记住了。去吧，别让我在册子上多写一遍你的名字。",
+				"next_id": "end",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 600,
+					"y": 0
+				},
+				"quest_binding": {}
+			},
+			"end": {
+				"type": "end",
+				"speaker": "",
+				"text": "对话结束。",
+				"text_template": "对话结束。",
+				"next_id": "",
+				"default_next": "",
+				"choices": [],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "hub",
+				"editor": {
+					"x": 800,
+					"y": 0
+				},
+				"quest_binding": {}
+			}
+		}
+	},
 	"quest_1001": {
 		"entry_node": "opening",
 		"story_node_id": "node_ch1_main",
