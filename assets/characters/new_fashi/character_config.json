@@ -54,6 +54,7 @@
 		"y": 224.0
 	},
 	"frame_cell_height": 144.0,
+	"portrait": "res://assets/characters/new_fashi/godot/portrait.png",
 	"production_format": true,
 	"resource_type": "character",
 	"scene_name": "new_fashi",

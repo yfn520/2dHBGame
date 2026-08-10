@@ -18,8 +18,8 @@
   "effectMirror": false,
   "instanceTransformBaked": false,
   "visualOffset": {
-    "x": -115.0,
-    "y": -78.0
+    "x": 137.96,
+    "y": -13.19
   },
   "scenePath": "res://assets/effects/skill_fx/mo-o1-50242/godot/effect_scenes/manual-projectile-1/effect.tscn",
   "fps": 5.0,
