@@ -110,7 +110,7 @@
 		"hero_id": 0
 	},
 	"9012": {
-		"name": "余晖城武器商人",
+		"name": "铁刃格雷",
 		"asset": "res://assets/npcs/npc_9012",
 		"dialogue_id": "npc_9012",
 		"default_facing": "right",

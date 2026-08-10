@@ -151,7 +151,7 @@ func _is_number(value: Variant) -> bool:
 
 
 func _is_slug(value: String) -> bool:
-	var pattern := RegEx.create_from_string("^[a-z][a-z0-9_]*$")
+	var pattern := RegEx.create_from_string("^[a-z0-9][a-z0-9_]*$")
 	return pattern.search(value) != null
 
 
