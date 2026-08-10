@@ -1,0 +1,104 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "m-s-50316",
+  "skill_id": "50316",
+  "proposal": {
+    "id": "m-s-50316-unified",
+    "title": "牧师角色普通攻击神圣光弹特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "holy_light_missile",
+      "phase": "projectile",
+      "title": "神圣光弹弹道",
+      "trigger": {
+        "type": "after_skill_node",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 3,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 1000,
+      "blend_mode": "add",
+      "layer": 4,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -73,
+          "y": -143
+        },
+        "scale": 1.45,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#dff0a3"
+      },
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 32,
+          "height": 32
+        },
+        "collision_offset": {
+          "x": 0,
+          "y": 0
+        },
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": false,
+        "faces_by_default": "right",
+        "rotation": 0,
+        "flip_h": false
+      },
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "holy_light_missile",
+        "atlas_path": "assets/effects/skill_fx/m-s-50316/visual/holy_light_missile/atlas.png",
+        "scene_path": "assets/effects/skill_fx/m-s-50316/godot/effect_scenes/holy_light_missile/effect.tscn",
+        "frame_size": {
+          "width": 56,
+          "height": 59
+        },
+        "frame_count": 8,
+        "fps": 8,
+        "baked_scale": 0.25,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "神圣光弹弹道",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

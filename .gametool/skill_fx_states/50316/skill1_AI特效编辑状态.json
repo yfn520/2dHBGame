@@ -1,0 +1,268 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/m's",
+  "actorName": "m's",
+  "skillId": "50316",
+  "skillName": "skill1",
+  "description": "法杖亮起",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m's (character)\nSkill id/name: 50316 / skill1\nOptional user request: 法杖亮起\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (113, 228)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":84,\"y\":-138,\"width\":17,\"height\":15}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"spawn_projectile\",\n    \"result_key\": \"projectile_hit\",\n    \"scene\": \"\",\n    \"origin\": \"hit_window\",\n    \"trajectory\": \"straight\",\n    \"aim_mode\": \"facing_elevation\",\n    \"emission\": \"single\",\n    \"ai_min_range\": 0,\n    \"ai_max_range\": 280,\n    \"speed\": 300,\n    \"lifetime\": 5,\n    \"damage_ratio\": 1\n  },\n  {\n    \"type\": \"play_effect\",\n    \"scene\": \"\",\n    \"coordinate_space\": \"character_local\",\n    \"target\": \"origin\",\n    \"origin\": \"caster\",\n    \"effect_scale\": 1,\n    \"opacity\": 1,\n    \"lifetime_ms\": 500,\n    \"attachment_layer\": \"front\",\n    \"follow_target\": true\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Node #2 is spawn_projectile: the proposal MUST contain a projectile track with is_projectile=true. Bind it to this node or its real release timing; do not add an impact track for the projectile.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "skill_50316_holy_staff_shot-msgx0e0v",
+      "title": "法杖充能圣光弹技能特效",
+      "summary": "适配Q版牧师角色1技能的2D横版特效,遵循4帧7fps的战斗时序:前2帧法杖顶端宝石逐渐亮起充能,第3帧触发释放闪光并发射直线圣光弹,轮廓清晰、反馈明确,符合奇幻游戏干净可读的视觉要求。",
+      "style": "2D横版手绘奇幻风格,Q版适配比例,光效轮廓清晰,色彩明快,战斗时序辨识度高",
+      "palette": [
+        "#ffffff",
+        "#e9e2ff",
+        "#b9a6ff",
+        "#9980f0",
+        "#fff0c2",
+        "#785fd6"
+      ],
+      "tracks": [
+        {
+          "id": "staff_charge_glow",
+          "phase": "attachment",
+          "title": "法杖充能辉光",
+          "description": "技能启动时附着在法杖顶端宝石位置,光晕逐渐变亮,表现魔力汇聚的充能过程,跟随角色移动。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 285,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -124,
+              "y": -139
+            },
+            "scale": 1.65,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d fantasy holy staff gem charge glow, soft purple aura, magic buildup effect",
+          "generation_prompt": "Isolated single 2D VFX layer, soft pulsing pale purple holy glow wrapping a magic staff top gem, gentle radial light falloff, slow brightness increase, no characters, no text, no UI elements, no scenery, transparent background, optimized for add blend mode, clean soft silhouette, hand-painted fantasy game art style.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_flash",
+          "phase": "release",
+          "title": "释放瞬间闪光",
+          "description": "释放事件触发时在法杖顶端爆发短暂亮闪,作为弹道发射的明确视觉反馈,1帧时长快速淡出。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 140,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -119,
+              "y": -121
+            },
+            "scale": 0.9,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#f7fbc6"
+          },
+          "library_query": "2d holy magic cast flash, bright white gold burst, small spell release spark",
+          "generation_prompt": "Isolated single 2D VFX layer, short bright white-gold holy magic burst flash, thin radial light streaks radiating outward, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, add blend mode, sharp clean silhouette, hand-painted fantasy style.",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "holy_projectile",
+          "phase": "projectile",
+          "title": "圣光弹弹道",
+          "description": "命中窗口开启时从法杖端发射直线飞行的圣光弹,带柔和光拖尾,为技能的伤害判定弹道。",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 5000,
+          "blend_mode": "add",
+          "layer": 4,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 84,
+              "y": -138
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d holy light projectile, purple white magic orb, straight flying spell, soft glow trail",
+          "generation_prompt": "Isolated single 2D VFX layer, glowing spherical holy light projectile, pale lavender core with bright white outer halo, short soft pale gold light trail extending backward, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, clean round silhouette, hand-painted fantasy game art style.",
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 1,
+              "y": 1
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 17,
+              "height": 15
+            },
+            "collision_offset": {
+              "x": 0,
+              "y": 0
+            },
+            "inset_ratio": 0.15,
+            "auto_calc_source": "alpha_bbox_median",
+            "manual_override": false,
+            "faces_by_default": "right",
+            "rotation": 0,
+            "flip_h": false
+          },
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "skill_50316_holy_staff_shot-msgx0e0v",
+  "actionHash": "2f9f9dd7770205f62f5848f86ca32698dac185f399a0baa78dde394aa54fcde6",
+  "drawPrompts": {
+    "skill_50316_holy_staff_shot-msgx0e0v:staff_charge_glow": "Isolated single 2D VFX layer, soft pulsing pale purple holy glow wrapping a magic staff top gem, gentle radial light falloff, slow brightness increase, no characters, no text, no UI elements, no scenery, transparent background, optimized for add blend mode, clean soft silhouette, hand-painted fantasy game art style.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the attachment phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50316_holy_staff_shot-msgx0e0v:release_flash": "Isolated single 2D VFX layer, short bright white-gold holy magic burst flash, thin radial light streaks radiating outward, fast linear fade out, no characters, no text, no UI, no scenery, transparent background, add blend mode, sharp clean silhouette, hand-painted fantasy style.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50316_holy_staff_shot-msgx0e0v:holy_projectile": "Isolated single 2D VFX layer, glowing spherical holy light projectile, pale lavender core with bright white outer halo, short soft pale gold light trail extending backward, no characters, no text, no UI, no scenery, transparent background, optimized for add blend mode, clean round silhouette, hand-painted fantasy game art style.\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the projectile phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/m's:50316:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "skill_50316_holy_staff_shot-msgx0e0v": {
+      "createdAt": "2026-08-06T02:46:59.840Z",
+      "userPrompt": "法杖亮起",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "holy_projectile"
+  ],
+  "trackSelectedFrames": {
+    "release_flash": [
+      5,
+      6
+    ],
+    "staff_charge_glow": [
+      4,
+      2,
+      0
+    ]
+  },
+  "trackFrameRotations": {
+    "staff_charge_glow": {
+      "0": -90,
+      "1": -90,
+      "2": -90,
+      "3": -90,
+      "4": -90
+    }
+  },
+  "previewMirror": {
+    "release_flash": true
+  },
+  "previewFrame": {
+    "release_flash": 0,
+    "staff_charge_glow": 2
+  },
+  "candidatePageOffsets": {
+    "release_flash": 66,
+    "staff_charge_glow": 0
+  },
+  "selectedAssets": [
+    {
+      "trackId": "release_flash",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 138,
+        "height": 127
+      },
+      "frameCount": 11,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "42050552932c4392",
+        "name": "cast.img",
+        "path": "DNF特效全集库3338套/sprite_character_gunner_effect_satelaser/cast.img",
+        "score": 0.6095
+      },
+      "atlasRef": ".gametool/skill_fx_states/50316/assets/release_flash.png"
+    },
+    {
+      "trackId": "staff_charge_glow",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 113,
+        "height": 31
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "003b842ae52f53c3",
+        "name": "2_charge_floor_dodge.img",
+        "path": "DNF特效全集库3338套/sprite_character_fighter_effect_atchargespear/2_charge_floor_dodge.img",
+        "score": 0.6401
+      },
+      "atlasRef": ".gametool/skill_fx_states/50316/assets/staff_charge_glow.png"
+    }
+  ]
+}

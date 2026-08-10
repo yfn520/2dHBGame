@@ -1,0 +1,246 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/m's",
+  "actorName": "m's",
+  "skillId": "50318",
+  "skillName": "skill3",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m's (character)\nSkill id/name: 50318 / skill3\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill3, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (113, 228)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":63,\"y\":-185,\"width\":7,\"height\":10}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill3\"\n  },\n  {\n    \"type\": \"play_effect\",\n    \"scene\": \"\",\n    \"coordinate_space\": \"character_local\",\n    \"target\": \"origin\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "skill_50318_holy_release-msgxmhkd",
+      "title": "圣职者3技能圣光释法特效",
+      "summary": "适配2D横版奇幻游戏战斗风格,为持圣杖的女性圣职者3技能设计轮廓清晰、时序准确的圣光释放特效,严格匹配4帧7fps的动作节奏,在第3帧释放节点触发核心光效,保证战斗可读性,配色呼应角色服饰与法杖宝石的紫金色调。",
+      "style": "2D横版二次元奇幻战斗VFX,干净硬边轮廓,高辨识度光效,无冗余装饰,适配侧视角色战斗表现",
+      "palette": [
+        "#fff1d6",
+        "#f0c060",
+        "#d4b3ff",
+        "#ffffff",
+        "#b794f4"
+      ],
+      "tracks": [
+        {
+          "id": "charge_staff_glow",
+          "phase": "charge",
+          "title": "法杖宝石蓄力辉光",
+          "description": "技能启动后法杖顶端的紫色宝石逐渐亮起金紫交叠的柔和辉光,蓄力阶段亮度缓慢提升,为释放动作做视觉铺垫",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 13,
+              "y": -163
+            },
+            "scale": 4.35,
+            "rotation_degrees": 0,
+            "opacity": 0.8,
+            "tint": "#edf7ca"
+          },
+          "library_query": "small pulsing gem glow, holy aura, gold purple soft light orb",
+          "generation_prompt": "Isolated single 2D VFX layer, small pulsing soft glow orb for staff top gem, warm gold outer glow with pale lavender core, smooth fade-in over 280ms, no sharp edges, no characters, no text, no UI, no scenery, fully transparent background, clean silhouette, optimized for add blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_holy_burst",
+          "phase": "release",
+          "title": "杖尖圣光短爆发",
+          "description": "释放帧触发杖尖向前的短程圣光爆发,光效沿角色朝向延伸覆盖命中判定区域,快速闪现后淡出,匹配单帧命中窗口",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 143,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -65,
+              "y": -180
+            },
+            "scale": 0.85,
+            "rotation_degrees": 0,
+            "opacity": 0.95,
+            "tint": "#fff8e8"
+          },
+          "library_query": "short holy light burst, cleric staff forward blast, gold purple light streak",
+          "generation_prompt": "Isolated single 2D VFX layer, short bright holy light burst extending 60px forward from staff tip, pale gold main body with soft lavender edge highlights, sharp clean silhouette, instant appear then fast fade out, no characters, no text, no UI, no scenery, fully transparent background, optimized for add blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "screen_subtle_flash",
+          "phase": "screen",
+          "title": "全屏柔和圣光闪",
+          "description": "释放瞬间触发极低透明度的暖金色全屏闪光,强化技能释放的打击感,不遮挡角色与战斗元素",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "fullscreen",
+          "anchor": "origin",
+          "direction": "none",
+          "mirror": false,
+          "duration_ms": 100,
+          "blend_mode": "screen",
+          "layer": 10,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 0.15,
+            "tint": "#fff1d6"
+          },
+          "library_query": "subtle full screen holy flash, soft warm gold light overlay",
+          "generation_prompt": "Isolated single 2D VFX layer, very faint soft warm gold full screen light overlay, smooth fast fade in and out, no patterns, no characters, no text, no UI, no scenery, fully transparent edges, optimized for screen blend mode",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "skill_50318_holy_release-msgxmhkd",
+  "actionHash": "2f9f9dd7770205f62f5848f86ca32698dac185f399a0baa78dde394aa54fcde6",
+  "drawPrompts": {
+    "skill_50318_holy_release-msgxmhkd:charge_staff_glow": "Isolated single 2D VFX layer, small pulsing soft glow orb for staff top gem, warm gold outer glow with pale lavender core, smooth fade-in over 280ms, no sharp edges, no characters, no text, no UI, no scenery, fully transparent background, clean silhouette, optimized for add blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50318_holy_release-msgxmhkd:release_holy_burst": "Isolated single 2D VFX layer, short bright holy light burst extending 60px forward from staff tip, pale gold main body with soft lavender edge highlights, sharp clean silhouette, instant appear then fast fade out, no characters, no text, no UI, no scenery, fully transparent background, optimized for add blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50318_holy_release-msgxmhkd:screen_subtle_flash": "Isolated single 2D VFX layer, very faint soft warm gold full screen light overlay, smooth fast fade in and out, no patterns, no characters, no text, no UI, no scenery, fully transparent edges, optimized for screen blend mode\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the screen phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nFULLSCREEN_TARGET_RESOLUTION: 1536x864.\nFULLSCREEN_CONTACT_SHEET_RESOLUTION: 3072x1728.\nEach quadrant is one complete 16:9 full-screen frame.\nThe VFX composition must cover the full frame and remain visually active across at least 90% of both width and height; do not return a small centered icon with large empty borders.\nKeep important energy, flames, particles and edge lighting inside the frame while allowing soft atmospheric falloff at all four edges.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/m's:50318:skill3": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "skill_50318_holy_release-msgxmhkd": {
+      "createdAt": "2026-08-06T03:04:10.861Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "screen_subtle_flash"
+  ],
+  "trackSelectedFrames": {
+    "charge_staff_glow": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "release_holy_burst": [
+      0,
+      3,
+      2,
+      1
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "charge_staff_glow": 4,
+    "release_holy_burst": 3
+  },
+  "candidatePageOffsets": {
+    "charge_staff_glow": 0,
+    "release_holy_burst": 96
+  },
+  "selectedAssets": [
+    {
+      "trackId": "charge_staff_glow",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 360,
+        "height": 255
+      },
+      "frameCount": 10,
+      "fps": 14,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "9ae1584acd533a9a",
+        "name": "270 金色BUFF",
+        "path": "UI 界面技能特效序列帧素材（命名）/01  376套/270 金色BUFF",
+        "score": 0.6608
+      },
+      "atlasRef": ".gametool/skill_fx_states/50318/assets/charge_staff_glow.png"
+    },
+    {
+      "trackId": "release_holy_burst",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 185,
+        "height": 185
+      },
+      "frameCount": 4,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "a3535e9269049daa",
+        "name": "start.img",
+        "path": "DNF特效全集库3338套/sprite_character_priest_effect_hammerofcontrition/start.img",
+        "score": 0.6104
+      },
+      "atlasRef": ".gametool/skill_fx_states/50318/assets/release_holy_burst.png"
+    }
+  ]
+}

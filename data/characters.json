@@ -472,11 +472,11 @@
     "scene": "res://assets/characters/m's/godot/m's.tscn",
     "skill_unlocks": {
       "skill1": {
-        "skill_id": 6082,
+        "skill_id": 50317,
         "unlock_level": 1
       },
       "skill2": {
-        "skill_id": 6083,
+        "skill_id": 50318,
         "unlock_level": 1
       },
       "skill3": {
@@ -488,7 +488,10 @@
       6081,
       6082,
       6083,
-      6084
+      6084,
+      50316,
+      50317,
+      50318
     ]
   }
 }

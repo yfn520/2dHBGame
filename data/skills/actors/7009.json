@@ -1,1 +1,163 @@
-{}
+{
+  "50316": {
+    "name": "普攻",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "attack"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "spawn_projectile",
+        "result_key": "projectile_hit",
+        "scene": "res://assets/effects/skill_fx/m-s-50316/godot/effect_scenes/holy_light_missile/effect.tscn",
+        "origin": "actor_root",
+        "trajectory": "straight",
+        "aim_mode": "facing_elevation",
+        "emission": "single",
+        "ai_min_range": 0,
+        "ai_max_range": 280,
+        "speed": 300,
+        "lifetime": 5,
+        "damage_ratio": 1,
+        "scale": 5.8,
+        "offset_x": -73,
+        "offset_y": -143,
+        "rotation_degrees": 0,
+        "mirror": false,
+        "tint": "#dff0a3",
+        "opacity": 1,
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "m-s-50316",
+        "source_track_id": "holy_light_missile"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "937138cf68c30454",
+      "entries": [
+        {
+          "node_index": 2,
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 280,
+          "detail": "ai_min=0 ai_max=280"
+        }
+      ]
+    }
+  },
+  "50317": {
+    "name": "skill1",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "spawn_projectile",
+        "result_key": "arrow_hit",
+        "scene": "res://assets/effects/skill_fx/m-s-50317/godot/effect_scenes/holy_bolt_projectile/effect.tscn",
+        "origin": "actor_root",
+        "trajectory": "straight",
+        "aim_mode": "facing_elevation",
+        "emission": "sequence",
+        "count": 3,
+        "interval": 0.15,
+        "ai_min_range": 0,
+        "ai_max_range": 320,
+        "speed": 420,
+        "lifetime": 2,
+        "damage_ratio": 0.8,
+        "scale": 4.8,
+        "offset_x": -64,
+        "offset_y": -128,
+        "rotation_degrees": 0,
+        "mirror": false,
+        "tint": "#f6fecd",
+        "opacity": 1,
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "m-s-50317",
+        "source_track_id": "holy_bolt_projectile"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "cea3981654aaab97",
+      "entries": [
+        {
+          "node_index": 2,
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 320,
+          "detail": "ai_min=0 ai_max=320"
+        }
+      ]
+    }
+  },
+  "50318": {
+    "name": "skill2",
+    "description": "",
+    "cooldown": 1,
+    "nodes": [
+      {
+        "type": "play_animation",
+        "action": "skill2"
+      },
+      {
+        "type": "wait_hit_window",
+        "hit_window_index": 0
+      },
+      {
+        "type": "apply_self_buff",
+        "buff_ids": [
+          20011
+        ]
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "96c659ae4f961613",
+      "entries": [
+        {
+          "node_index": -1,
+          "source": "support",
+          "kind": "support",
+          "min_edge_distance": 0,
+          "max_edge_distance": 99999,
+          "detail": "纯辅助技能，任意距离可起手"
+        }
+      ]
+    }
+  }
+}

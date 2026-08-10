@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/effects/skill_fx/m-s-50317/visual/holy_bolt_projectile/atlas.png" id="1_atlas"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_visual"]
+blend_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 310, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(310, 0, 310, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(620, 0, 310, 90)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_visual"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_3")}],
+"loop": false,
+"name": &"visual",
+"speed": 1.5
+}]
+
+[node name="Visual" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_visual")
+animation = &"visual"
+autoplay = "visual"
+centered = true
+material = SubResource("CanvasItemMaterial_visual")
+flip_h = true

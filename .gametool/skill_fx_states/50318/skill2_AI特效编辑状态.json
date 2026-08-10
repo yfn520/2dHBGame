@@ -1,0 +1,304 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/m's",
+  "actorName": "m's",
+  "skillId": "50318",
+  "skillName": "skill2",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "You are the VFX director for a production 2D side-scrolling Godot game.\nCreate exactly one production-feasible creative proposal. Return only JSON matching the supplied response schema.\n\nActor: m's (character)\nSkill id/name: 50318 / skill2\nOptional user request: (none; infer a suitable effect from the skill, motion storyboard and project style)\nProject style: 2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing\nAction: skill2, 4 frames at 7 fps\nFrame size: 240x240\nFoot center: (113, 228)\nAllowed action events: [{\"name\":\"release\",\"frame\":3}]\nAllowed hit windows: [{\"index\":0,\"start_frame\":3,\"end_frame\":3,\"forward\":54,\"y\":-140,\"width\":15,\"height\":16}]\nAllowed anchors: [\"origin\",\"foot\",\"body_center\"]\nCurrent skill nodes are included and MUST influence the phase plan:\n[\n  {\n    \"type\": \"play_animation\",\n    \"action\": \"skill2\"\n  },\n  {\n    \"type\": \"wait_hit_window\",\n    \"hit_window_index\": 0\n  },\n  {\n    \"type\": \"wait_animation_end\"\n  },\n  {\n    \"type\": \"end_skill\"\n  }\n]\n\nRules:\n- An action storyboard image is attached. Read the selected numbered poses, motion direction and silhouette before designing tracks.\n- Use only these phases: charge, release, projectile, impact, area, attachment, buff, screen.\n- Use only these trigger types: skill_start, action_event, hit_window_start, after_skill_node.\n- Never invent an event, hit-window index, skill-node index, anchor or Buff id.\n- For action_event, copy only the exact event name; never append a frame number or explanation.\n- When no weapon/hand socket exists, use origin with an offset inferred from the storyboard and attack window.\n- Do NOT create any impact track. Enemy-hit VFX are outside this workflow for normal skills; spend no tokens designing them.\n- Add only phases justified by the action and user request; do not manufacture projectile or Buff stages.\n- For every projectile_config, auto_calc_source must be exactly \"alpha_bbox_median\" and collision_shape exactly \"rectangle\".\n- generation_prompt must be technical English for one isolated VFX layer and explicitly forbid characters, text, UI and scenery.\n- library_query must be compact technical English suitable for semantic asset search.\n- Use normal blend for smoke, leaves, soil and dark opaque effects; add/screen for energy, fire, lightning and glow.\n- Keep the proposal production-feasible with 1-6 tracks. Proposal titles, summaries, track titles and descriptions must be Simplified Chinese.",
+  "proposals": [
+    {
+      "id": "skill_50318_holy_release-msn9b2tw",
+      "title": "牧师神圣法杖释放技能特效",
+      "summary": "适配Q版2D横版奇幻牧师角色的2技能特效,对应竖持法杖蓄力、横杖前指释放神圣能量的动作时序,在释放帧触发攻击判定,光效轮廓清晰,战斗反馈明确,符合项目干净易读的视觉风格要求。",
+      "style": "2D横版奇幻Q版手绘风格,光效剪影清晰干净,神圣柔和辉光质感,无冗余细节,战斗时序辨识度高,适配现有角色美术风格。",
+      "palette": [
+        "#e9d8ff",
+        "#f2dc94",
+        "#fffaf0",
+        "#f2f8ff",
+        "#fff4c2"
+      ],
+      "tracks": [
+        {
+          "id": "charge_staff_glow",
+          "phase": "charge",
+          "title": "法杖顶端蓄力辉光",
+          "description": "技能启动后在法杖顶端紫水晶位置聚集淡紫金辉光,亮度随蓄力逐渐升高,到释放帧达到峰值,对应前两帧持杖站立的动作。",
+          "trigger": {
+            "type": "skill_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 5,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -60,
+              "y": -139
+            },
+            "scale": 1.1,
+            "rotation_degrees": 0,
+            "opacity": 0.9,
+            "tint": "#9bff80"
+          },
+          "library_query": "2d cartoon soft holy glow orb, purple gold energy buildup, clean silhouette, transparent background",
+          "generation_prompt": "Isolated soft holy energy glow orb, pale lavender and warm gold color, soft radial gradient, gently pulsing brightness, smooth clean edges, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_holy_burst",
+          "phase": "release",
+          "title": "法杖端圣光爆发",
+          "description": "释放事件触发时,在水平前指的法杖顶端位置生成短程扇形神圣光效,覆盖攻击判定区域,亮核柔边,视觉反馈明确。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 143,
+          "blend_mode": "add",
+          "layer": 6,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 3,
+              "y": -67
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#8ef595"
+          },
+          "library_query": "2d cartoon short horizontal holy light burst, fan shape, gold white purple glow, clean silhouette",
+          "generation_prompt": "Isolated short horizontal holy light burst, fan shape pointing forward, bright warm gold core, pale white edge with faint lavender tint, soft glow, clean silhouette, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "release_sparkle_drift",
+          "phase": "release",
+          "title": "神圣光屑飘散",
+          "description": "圣光爆发同时散出少量细碎金白色光屑,沿攻击方向缓慢飘散后快速淡出消失,增强神圣技能的质感层次。",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 286,
+          "blend_mode": "add",
+          "layer": 7,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 60,
+              "y": -74
+            },
+            "scale": 0.8,
+            "rotation_degrees": 0,
+            "opacity": 0.85,
+            "tint": "#ffffff"
+          },
+          "library_query": "2d cartoon small floating holy sparkles, gold white glowing particles, soft trails",
+          "generation_prompt": "Isolated small floating holy sparkles, warm gold and pale white tiny glowing dots with faint soft trails, drifting slowly forward, fading out smoothly, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset",
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "id": "manual-release-1",
+          "phase": "release",
+          "title": "释放特效",
+          "description": "技能释放瞬间的主体视觉反馈",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "duration_ms": 500,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -73,
+              "y": -138
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#5cf088"
+          },
+          "library_query": "fantasy skill release burst",
+          "generation_prompt": "isolated fantasy skill release burst game VFX, transparent background, no character, no text, no UI, no scenery"
+        }
+      ]
+    }
+  ],
+  "proposalId": "skill_50318_holy_release-msn9b2tw",
+  "actionHash": "2f9f9dd7770205f62f5848f86ca32698dac185f399a0baa78dde394aa54fcde6",
+  "drawPrompts": {
+    "skill_50318_holy_release-msn9b2tw:charge_staff_glow": "Isolated soft holy energy glow orb, pale lavender and warm gold color, soft radial gradient, gently pulsing brightness, smooth clean edges, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the charge phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50318_holy_release-msn9b2tw:release_holy_burst": "Isolated short horizontal holy light burst, fan shape pointing forward, bright warm gold core, pale white edge with faint lavender tint, soft glow, clean silhouette, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50318_holy_release-msn9b2tw:release_sparkle_drift": "Isolated small floating holy sparkles, warm gold and pale white tiny glowing dots with faint soft trails, drifting slowly forward, fading out smoothly, no characters, no text, no UI elements, no scenery, transparent background, 2D side-scroller VFX asset\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending.",
+    "skill_50318_holy_release-msn9b2tw:manual-release-1": "isolated fantasy skill release burst game VFX, transparent background, no character, no text, no UI, no scenery\n\nFINAL OUTPUT REQUIREMENTS (editable)\nGenerate one animation contact sheet for the release phase after studying every numbered action pose in the attached storyboard.\nReturn exactly one clean 2x2 contact sheet with four equal, unlabeled quadrants in normal reading order.\nThe first three quadrants show the same isolated VFX evolving from early state to strongest state to fading state. The fourth quadrant is completely empty background.\nCONTACT_SHEET_RESOLUTION: 512x512.\nEach quadrant is exactly 256x256.\nKeep the isolated VFX centered inside each quadrant with consistent scale and anchor.\nABSOLUTELY NO TEXT OR GLYPHS: do not render START, PEAK, DISSOLVE, EMPTY, frame numbers, panel numbers, captions, headings, labels, letters, words, logos, signatures or watermarks.\nDo not draw panel separators, grid lines, borders, UI, characters, weapons, armor, bodies, faces, hands, scenery or ground.\nPreserve the action pose direction, effect scale and timing implied by the red dashed allowed-VFX regions in the reference storyboard.\nUse a pure black background suitable for additive blending."
+  },
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/m's:50318:skill2": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {
+    "skill_50318_holy_release-msn9b2tw": {
+      "createdAt": "2026-08-10T13:17:50.996Z",
+      "userPrompt": "",
+      "selectedFrames": [
+        0,
+        1,
+        2,
+        3
+      ]
+    }
+  },
+  "disabledTrackIds": [
+    "release_sparkle_drift",
+    "charge_staff_glow"
+  ],
+  "trackSelectedFrames": {
+    "release_holy_burst": [
+      0,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+    ],
+    "charge_staff_glow": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "manual-release-1": [
+      0,
+      1
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "manual-release-1": 0
+  },
+  "candidatePageOffsets": {
+    "charge_staff_glow": 12,
+    "release_holy_burst": 0,
+    "manual-release-1": 48
+  },
+  "selectedAssets": [
+    {
+      "trackId": "charge_staff_glow",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 100,
+        "height": 94
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "6cf3b452750854f1",
+        "name": "3",
+        "path": "UI 界面技能特效序列帧素材（命名）/01  376套/373-376 符文之火 4组/3",
+        "score": 0.6249
+      },
+      "atlasRef": ".gametool/skill_fx_states/50318/assets/charge_staff_glow.png"
+    },
+    {
+      "trackId": "release_holy_burst",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 360,
+        "height": 255
+      },
+      "frameCount": 10,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "9ae1584acd533a9a",
+        "name": "270 金色BUFF",
+        "path": "UI 界面技能特效序列帧素材（命名）/01  376套/270 金色BUFF",
+        "score": 0.652
+      },
+      "atlasRef": ".gametool/skill_fx_states/50318/assets/release_holy_burst.png"
+    },
+    {
+      "trackId": "manual-release-1",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 64,
+        "height": 64
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "sequence",
+        "id": "ffea1b966477e821",
+        "name": "end01_up_d.img",
+        "path": "DNF特效全集库3338套/sprite_character_fighter_effect_typhoon/end01_up_d.img",
+        "score": 0.613
+      },
+      "atlasRef": ".gametool/skill_fx_states/50318/assets/manual-release-1.png"
+    }
+  ]
+}

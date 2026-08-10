@@ -1,0 +1,147 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "m-s-50318",
+  "skill_id": "50318",
+  "proposal": {
+    "id": "m-s-50318-unified",
+    "title": "牧师神圣法杖释放技能特效",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "release_holy_burst",
+      "phase": "release",
+      "title": "法杖端圣光爆发",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 143,
+      "blend_mode": "add",
+      "layer": 6,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 3,
+          "y": -67
+        },
+        "scale": 1,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#8ef595"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_holy_burst",
+        "atlas_path": "assets/effects/skill_fx/m-s-50318/visual/release_holy_burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/m-s-50318/godot/effect_scenes/release_holy_burst/effect.tscn",
+        "frame_size": {
+          "width": 360,
+          "height": 255
+        },
+        "frame_count": 10,
+        "fps": 69.93006993006993,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "法杖端圣光爆发",
+          "selected_source_frames": [
+            0,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            1
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0,
+            "7": 0,
+            "8": 0,
+            "9": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "manual-release-1",
+      "phase": "release",
+      "title": "释放特效",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 500,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -73,
+          "y": -138
+        },
+        "scale": 1,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#5cf088"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "manual-release-1",
+        "atlas_path": "assets/effects/skill_fx/m-s-50318/visual/manual-release-1/atlas.png",
+        "scene_path": "assets/effects/skill_fx/m-s-50318/godot/effect_scenes/manual-release-1/effect.tscn",
+        "frame_size": {
+          "width": 64,
+          "height": 64
+        },
+        "frame_count": 2,
+        "fps": 4,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "释放特效",
+          "selected_source_frames": [
+            0,
+            1
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}
