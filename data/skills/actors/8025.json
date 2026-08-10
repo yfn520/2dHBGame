@@ -27,53 +27,6 @@
     ]
   },
   "50242": {
-    "cast_range": 90,
-    "cooldown": 3,
-    "description": "mo'o1 的技能1，播放 skill 动作。",
-    "name": "mo'o1 技能1",
-    "nodes": [
-      {
-        "type": "play_animation",
-        "action": "skill"
-      },
-      {
-        "type": "wait_hit_window",
-        "hit_window_index": 0
-      },
-      {
-        "type": "spawn_projectile",
-        "scene": "res://assets/effects/skill_fx/mo-o1-50242/godot/effect_scenes/manual-projectile-1/effect.tscn",
-        "result_key": "projectile_hit",
-        "origin": "actor_root",
-        "trajectory": "straight",
-        "aim_mode": "facing_elevation",
-        "emission": "single",
-        "speed": 300,
-        "lifetime": 5,
-        "damage_ratio": 1,
-        "scale": 1.76,
-        "mirror": false,
-        "mirror_with_facing": true,
-        "flip_to_velocity": false,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": false,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 167,
-        "offset_x": -115,
-        "offset_y": -78,
-        "ai_min_range": 0,
-        "ai_max_range": 280,
-        "source_bundle_id": "mo-o1-50242",
-        "source_track_id": "manual-projectile-1"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ],
     "ai_range_cache": {
       "policy": "any_damage_node",
       "source_hash": "d3fc7ac387c71472",
@@ -87,6 +40,57 @@
           "detail": "ai_min=0 ai_max=280"
         }
       ]
-    }
+    },
+    "cast_range": 90,
+    "cooldown": 3,
+    "description": "mo'o1 的技能1，播放 skill 动作。",
+    "name": "mo'o1 技能1",
+    "nodes": [
+      {
+        "action": "skill",
+        "type": "play_animation"
+      },
+      {
+        "hit_window_index": 0,
+        "type": "wait_hit_window"
+      },
+      {
+        "ai_max_range": 280,
+        "ai_min_range": 0,
+        "aim_mode": "facing_elevation",
+        "damage_ratio": 1,
+        "delay_ms": 167,
+        "emission": "single",
+        "flip_to_velocity": false,
+        "lifetime": 5,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
+        "offset_x": -55.41,
+        "offset_y": -9.01,
+        "origin": "socket",
+        "result_key": "projectile_hit",
+        "rotate_to_velocity": false,
+        "rotation_degrees": 0,
+        "scale": 1.76,
+        "scene": "res://assets/effects/skill_fx/mo-o1-50242/godot/effect_scenes/manual-projectile-1/effect.tscn",
+        "source_bundle_id": "mo-o1-50242",
+        "source_track_id": "manual-projectile-1",
+        "speed": 300,
+        "trajectory": "straight",
+        "type": "spawn_projectile",
+        "tint": "#ffffff",
+        "opacity": 1,
+        "attachment_blend_mode": "add",
+        "socket": "actor_root"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
   }
 }

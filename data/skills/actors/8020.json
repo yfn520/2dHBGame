@@ -1,134 +1,134 @@
 {
-  "50191": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=74.0 width=70.0 scale=1.00 body_half=49.5",
-          "kind": "melee",
-          "max_edge_distance": 57.5,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "1f0ff7f37ee0b79a"
-    },
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "shi'to'ren 的默认近战攻击。",
-    "name": "shi'to'ren 重拳",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "melee_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50192": {
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "a6c358427891c876",
-      "entries": [
-        {
-          "node_index": 4,
-          "source": "projectile",
-          "kind": "projectile",
-          "min_edge_distance": 0,
-          "max_edge_distance": 280,
-          "detail": "ai_min=0 ai_max=280"
-        }
-      ]
-    },
-    "cooldown": 3,
-    "description": "",
-    "name": "8020_skill",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "anchor": "origin",
-        "attachment_blend_mode": "add",
-        "attachment_box_height": 256,
-        "attachment_box_width": 256,
-        "attachment_layer": "front",
-        "coordinate_space": "character_local",
-        "delay_ms": 0,
-        "effect_scale": 0.3,
-        "follow_target": true,
-        "lifetime_ms": 50,
-        "mirror": false,
-        "mirror_with_facing": true,
-        "offset_x": -98.2253570556641,
-        "offset_y": -90.8450698852539,
-        "opacity": 1,
-        "origin": "preview_position",
-        "rotation_degrees": 0,
-        "scene": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/fist_blast/effect.tscn",
-        "target": "origin",
-        "tint": "#ffffff",
-        "type": "play_effect",
-        "source_bundle_id": "shi-to-ren-50192",
-        "source_track_id": "fist_blast"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "ai_max_range": 280,
-        "ai_min_range": 0,
-        "aim_mode": "facing_elevation",
-        "buff_ids": [],
-        "damage_ratio": 1,
-        "emission": "single",
-        "lifetime": 5,
-        "mirror": false,
-        "offset_x": -96.3943634033203,
-        "offset_y": -92,
-        "origin": "preview_position",
-        "result_key": "projectile_hit",
-        "rotation_degrees": 0,
-        "scale": 1.71,
-        "scene": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/rock_projectile/effect.tscn",
-        "speed": 300,
-        "trajectory": "straight",
-        "type": "spawn_projectile",
-        "source_bundle_id": "shi-to-ren-50192",
-        "source_track_id": "rock_projectile",
-        "mirror_with_facing": true,
-        "flip_to_velocity": false,
-        "rotate_to_velocity": false,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0,
-        "opacity": 1,
-        "tint": "#ffffff",
-        "attachment_blend_mode": "add"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50191": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=74.0 width=70.0 scale=1.00 body_half=49.5",
+					"kind": "melee",
+					"max_edge_distance": 57.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "1f0ff7f37ee0b79a"
+		},
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "shi'to'ren 的默认近战攻击。",
+		"name": "shi'to'ren 重拳",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50192": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "ai_min=0 ai_max=280",
+					"kind": "projectile",
+					"max_edge_distance": 280.0,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "projectile"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "a6c358427891c876"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "8020_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_box_height": 256.0,
+				"attachment_box_width": 256.0,
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 0.0,
+				"effect_scale": 0.3,
+				"follow_target": true,
+				"lifetime_ms": 50.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": -98.2253570556641,
+				"offset_y": -90.8450698852539,
+				"opacity": 1.0,
+				"origin": "preview_position",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/fist_blast/effect.tscn",
+				"source_bundle_id": "shi-to-ren-50192",
+				"source_track_id": "fist_blast",
+				"target": "origin",
+				"tint": "#ffffff",
+				"type": "play_effect"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"ai_max_range": 280.0,
+				"ai_min_range": 0.0,
+				"aim_mode": "facing_elevation",
+				"attachment_blend_mode": "add",
+				"buff_ids": [],
+				"damage_ratio": 1.0,
+				"delay_ms": 0.0,
+				"emission": "single",
+				"flip_to_velocity": false,
+				"lifetime": 5.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_follows_visual_scale": true,
+				"offset_mirror_with_facing": true,
+				"offset_x": -96.3943634033203,
+				"offset_y": -92.0,
+				"opacity": 1.0,
+				"origin": "preview_position",
+				"result_key": "projectile_hit",
+				"rotate_to_velocity": false,
+				"rotation_degrees": 0.0,
+				"scale": 1.71,
+				"scene": "res://assets/effects/skill_fx/shi-to-ren-50192/godot/effect_scenes/rock_projectile/effect.tscn",
+				"source_bundle_id": "shi-to-ren-50192",
+				"source_track_id": "rock_projectile",
+				"speed": 300.0,
+				"tint": "#ffffff",
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

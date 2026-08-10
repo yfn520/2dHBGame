@@ -21,7 +21,7 @@
         "offset_ms": 0
       },
       "space": "world",
-      "anchor": "origin",
+      "anchor": "actor_root",
       "direction": "facing",
       "mirror": false,
       "duration_ms": 600,
@@ -30,8 +30,8 @@
       "loop": true,
       "transform": {
         "offset": {
-          "x": -115,
-          "y": -78
+          "x": 137.96,
+          "y": -13.19
         },
         "scale": 0.44,
         "rotation_degrees": 0,
@@ -75,7 +75,18 @@
         "loop": true,
         "source": {
           "kind": "generated",
-          "description": "弹道特效"
+          "description": "弹道特效",
+          "selected_source_frames": [
+            5,
+            3,
+            4
+          ],
+          "selected_frame_rotations": {
+            "3": 0,
+            "4": 0,
+            "5": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
         }
       }
     }

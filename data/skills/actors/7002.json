@@ -16,6 +16,7 @@
     },
     "cast_range": 60,
     "cooldown": 1,
+    "description": "",
     "name": "弓手普攻",
     "nodes": [
       {
@@ -23,16 +24,16 @@
         "type": "play_animation"
       },
       {
-        "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6011/track_6011_action_v2.wav",
-        "spatial_mode": "caster",
-        "gain_db": -2,
-        "pitch_variation": 0.1,
-        "loop": false,
-        "delay_ms": 250,
-        "stop_on_skill_end": false,
         "bus": "SFX",
-        "source_track_id": "track_6011_action"
+        "delay_ms": 250,
+        "gain_db": -2,
+        "loop": false,
+        "pitch_variation": 0.1,
+        "source_track_id": "track_6011_action",
+        "spatial_mode": "caster",
+        "stop_on_skill_end": false,
+        "type": "play_sound"
       },
       {
         "hit_window_index": 0,
@@ -45,27 +46,27 @@
         "damage_channel": "physical",
         "damage_ratio": 1,
         "damage_tag": "pierce",
+        "delay_ms": 0,
         "emission": "single",
+        "flip_to_velocity": true,
         "lifetime": 5,
-        "mirror": false,
+        "mirror": true,
+        "mirror_with_facing": true,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
         "offset_x": -74.8028182983398,
         "offset_y": -101.732398986816,
         "origin": "preview_position",
         "result_key": "projectile_hit",
+        "rotate_to_velocity": true,
+        "rotation_degrees": 0,
         "scale": 2,
         "scene": "res://assets/effects/skill_fx/gong-sho-6011/legacy/3ba0d8c4/projectiles/effect-arrow.tscn",
-        "speed": 300,
-        "trajectory": "straight",
-        "type": "spawn_projectile",
         "source_bundle_id": "gong-sho-6011",
         "source_track_id": "legacy_spawn_projectile_3",
-        "mirror_with_facing": true,
-        "flip_to_velocity": true,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": true,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0
+        "speed": 300,
+        "trajectory": "straight",
+        "type": "spawn_projectile"
       },
       {
         "type": "wait_animation_end"
@@ -73,25 +74,25 @@
       {
         "type": "end_skill"
       }
-    ],
-    "description": ""
+    ]
   },
   "6012": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "74c1514cb18c82f2",
       "entries": [
         {
-          "node_index": 4,
-          "source": "projectile",
+          "detail": "ai_min=0 ai_max=300",
           "kind": "projectile",
-          "min_edge_distance": 0,
           "max_edge_distance": 300,
-          "detail": "ai_min=0 ai_max=300"
+          "min_edge_distance": 0,
+          "node_index": 4,
+          "source": "projectile"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "74c1514cb18c82f2"
     },
     "cooldown": 1,
+    "description": "",
     "name": "弓手技能1",
     "nodes": [
       {
@@ -99,16 +100,16 @@
         "type": "play_animation"
       },
       {
-        "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6012/projectile_spawn_v2.wav",
-        "spatial_mode": "caster",
-        "gain_db": -3,
-        "pitch_variation": 0.05,
-        "loop": false,
-        "delay_ms": 250,
-        "stop_on_skill_end": false,
         "bus": "SFX",
-        "source_track_id": "projectile_spawn"
+        "delay_ms": 250,
+        "gain_db": -3,
+        "loop": false,
+        "pitch_variation": 0.05,
+        "source_track_id": "projectile_spawn",
+        "spatial_mode": "caster",
+        "stop_on_skill_end": false,
+        "type": "play_sound"
       },
       {
         "hit_window_index": 0,
@@ -175,25 +176,25 @@
       {
         "type": "end_skill"
       }
-    ],
-    "description": ""
+    ]
   },
   "6013": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "4bccd360d2e4c90d",
       "entries": [
         {
-          "node_index": -1,
-          "source": "support",
+          "detail": "纯辅助技能，任意距离可起手",
           "kind": "support",
-          "min_edge_distance": 0,
           "max_edge_distance": 99999,
-          "detail": "纯辅助技能，任意距离可起手"
+          "min_edge_distance": 0,
+          "node_index": -1,
+          "source": "support"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "4bccd360d2e4c90d"
     },
     "cooldown": 2,
+    "description": "",
     "name": "弓手技能2",
     "nodes": [
       {
@@ -201,16 +202,16 @@
         "type": "play_animation"
       },
       {
-        "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6013/buff_v1.wav",
-        "spatial_mode": "caster",
-        "gain_db": -4,
-        "pitch_variation": 0.05,
-        "loop": false,
-        "delay_ms": 200,
-        "stop_on_skill_end": false,
         "bus": "SFX",
-        "source_track_id": "buff"
+        "delay_ms": 200,
+        "gain_db": -4,
+        "loop": false,
+        "pitch_variation": 0.05,
+        "source_track_id": "buff",
+        "spatial_mode": "caster",
+        "stop_on_skill_end": false,
+        "type": "play_sound"
       },
       {
         "attachment_blend_mode": "normal",
@@ -226,10 +227,10 @@
         "origin": "caster",
         "rotation_degrees": 0,
         "scene": "res://assets/effects/skill_fx/gong-sho-6013/legacy/f567045a/attachments/effect-gong'sho-skill1/effect.tscn",
-        "target": "origin",
-        "type": "play_effect",
         "source_bundle_id": "gong-sho-6013",
-        "source_track_id": "legacy_play_effect_2"
+        "source_track_id": "legacy_play_effect_2",
+        "target": "origin",
+        "type": "play_effect"
       },
       {
         "event": "release",
@@ -248,25 +249,25 @@
       {
         "type": "end_skill"
       }
-    ],
-    "description": ""
+    ]
   },
   "6014": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "4df19cf1803c61d9",
       "entries": [
         {
-          "node_index": 3,
-          "source": "projectile",
+          "detail": "ai_min=0 ai_max=280",
           "kind": "projectile",
-          "min_edge_distance": 0,
           "max_edge_distance": 280,
-          "detail": "ai_min=0 ai_max=280"
+          "min_edge_distance": 0,
+          "node_index": 3,
+          "source": "projectile"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "4df19cf1803c61d9"
     },
     "cooldown": 5,
+    "description": "",
     "name": "弓手技能3",
     "nodes": [
       {
@@ -274,16 +275,16 @@
         "type": "play_animation"
       },
       {
-        "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6014/projectilespawn_01_v1.wav",
-        "spatial_mode": "caster",
-        "gain_db": -3,
-        "pitch_variation": 0.05,
-        "loop": false,
-        "delay_ms": 0,
-        "stop_on_skill_end": false,
         "bus": "SFX",
-        "source_track_id": "projectilespawn_01"
+        "delay_ms": 0,
+        "gain_db": -3,
+        "loop": false,
+        "pitch_variation": 0.05,
+        "source_track_id": "projectilespawn_01",
+        "spatial_mode": "caster",
+        "stop_on_skill_end": false,
+        "type": "play_sound"
       },
       {
         "hit_window_index": 0,
@@ -300,31 +301,31 @@
         "damage_channel": "physical",
         "damage_ratio": 1.5,
         "damage_tag": "pierce",
+        "delay_ms": 0,
         "emission": "area_rain",
+        "flip_to_velocity": true,
         "gravity": 1500,
         "interval": 0.08,
         "lifetime": 3,
         "max_pierce": 20,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
+        "offset_x": 0,
+        "offset_y": 0,
         "origin": "hit_window",
         "result_key": "rain_hit",
+        "rotate_to_velocity": true,
+        "rotation_degrees": 0,
         "scale": 5.01,
         "scene": "res://assets/effects/skill_fx/gong-sho-6014/legacy/7e49ce4f/projectiles/effect_gongshou_skill2.tscn",
+        "source_bundle_id": "gong-sho-6014",
+        "source_track_id": "legacy_spawn_projectile_3",
         "speed": 540,
         "target_search_range": 500,
         "trajectory": "ballistic",
-        "type": "spawn_projectile",
-        "source_bundle_id": "gong-sho-6014",
-        "source_track_id": "legacy_spawn_projectile_3",
-        "mirror": false,
-        "mirror_with_facing": true,
-        "flip_to_velocity": true,
-        "rotation_degrees": 0,
-        "rotate_to_velocity": true,
-        "offset_follows_visual_scale": true,
-        "offset_mirror_with_facing": true,
-        "delay_ms": 0,
-        "offset_x": 0,
-        "offset_y": 0
+        "type": "spawn_projectile"
       },
       {
         "type": "wait_animation_end"
@@ -332,7 +333,6 @@
       {
         "type": "end_skill"
       }
-    ],
-    "description": ""
+    ]
   }
 }

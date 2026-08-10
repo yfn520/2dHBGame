@@ -1,0 +1,18 @@
+{
+	"version": 1,
+	"id": "npc_9003",
+	"display_name": "老邮差洛伯",
+	"default_animation": "idle",
+	"spriteframes": "res://assets/npcs/npc_9003/godot/spriteframes.tres",
+	"visual_scene": "res://assets/npcs/npc_9003/godot/npc_visual.tscn",
+	"portrait": "res://assets/npcs/npc_9003/portrait.png",
+	"frame_size": {
+		"width": 256,
+		"height": 256
+	},
+	"foot_center": {
+		"x": 128,
+		"y": 243
+	},
+	"display_scale": 1
+}

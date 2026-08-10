@@ -22,6 +22,8 @@ const ACTION_TYPES := {
 	"apply_self_buff": "施加自身 Buff",
 	"heal": "治疗",
 	"move_x": "水平移动",
+	"teleport_to_enemy": "瞬移至敌人",
+	"move_to_screen_center": "移至屏幕中心",
 }
 const CONTROL_TYPES := {
 	"wait_action_event": "等待动作事件",
@@ -859,6 +861,15 @@ func _show_node_details(index: int) -> void:
 			_add_node_spin(form, "固定治疗", "amount", node, 0.0, 0.0, 999999.0, 1.0)
 			_add_node_spin(form, "攻击倍率", "ratio", node, 0.0, 0.0, 99.0, 0.1)
 		"move_x": _add_node_spin(form, "移动距离", "distance", node, 0.0, -9999.0, 9999.0, 1.0)
+		"teleport_to_enemy":
+			_add_node_spin(form, "落点间距", "landing_gap", node, 60.0, 0.0, 400.0, 1.0)
+			_add_node_spin(form, "目标搜索范围", "target_search_range", node, 99999.0, 0.0, 99999.0, 50.0)
+			_add_node_spin(form, "残影数量", "afterimage_count", node, 3.0, 0.0, 8.0, 1.0)
+			_add_node_spin(form, "残影时长", "afterimage_duration", node, 0.6, 0.0, 3.0, 0.05)
+		"move_to_screen_center":
+			_add_node_spin(form, "中心偏移", "offset_x", node, 0.0, -1000.0, 1000.0, 1.0)
+			_add_node_spin(form, "残影数量", "afterimage_count", node, 3.0, 0.0, 8.0, 1.0)
+			_add_node_spin(form, "残影时长", "afterimage_duration", node, 0.6, 0.0, 3.0, 0.05)
 		_:
 			var empty := Label.new()
 			empty.text = "该控制节点没有额外参数。"
@@ -1939,6 +1950,8 @@ func _default_node(type_name: String) -> Dictionary:
 		"apply_self_buff": return {"type": type_name, "buff_ids": []}
 		"heal": return {"type": type_name, "amount": 10}
 		"move_x": return {"type": type_name, "distance": 32.0}
+		"teleport_to_enemy": return {"type": type_name, "landing_gap": 60.0, "target_search_range": 99999.0, "afterimage_count": 3, "afterimage_duration": 0.6}
+		"move_to_screen_center": return {"type": type_name, "offset_x": 0.0, "afterimage_count": 3, "afterimage_duration": 0.6}
 		"wait_time": return {"type": type_name, "seconds": 0.1}
 	return {"type": type_name}
 

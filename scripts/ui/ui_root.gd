@@ -19,7 +19,6 @@ var _popup_layer: CanvasLayer
 var _notification_layer: CanvasLayer
 var _debug_layer: CanvasLayer
 
-var _hud: BattleHud
 var _main_menu: MainMenu
 var _task_drawer: TaskDrawer
 var _debug_panel: DebugPanel
@@ -48,14 +47,14 @@ func _ready() -> void:
 func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 	_party_manager = party_manager
 	_enemy_spawner = enemy_spawner
-	if _hud != null:
-		_hud.setup(party_manager, enemy_spawner)
 	if _main_menu != null:
 		_main_menu.setup(party_manager)
 	if _debug_panel != null:
 		_debug_panel.setup(party_manager, enemy_spawner)
 	if _task_drawer != null:
 		_task_drawer.setup(GameRegistry.quest_service)
+	if _main_ui != null and _main_ui.has_method("setup"):
+		_main_ui.setup(party_manager, enemy_spawner)
 	_connect_npc_services()
 
 
@@ -251,13 +250,7 @@ func _make_layer(name: String, layer_num: int) -> CanvasLayer:
 
 
 func _build_content() -> void:
-	# HUD
-	_hud = preload("res://scripts/ui/battle_hud.gd").new()
-	_hud.name = "BattleHud"
-	_hud.theme = skin.theme
-	_hud.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_hud.ui_root = self
-	_hud_layer.add_child(_hud)
+	# 交互提示（HUDLayer）
 	_interaction_prompt = Label.new()
 	_interaction_prompt.name = "InteractionPrompt"
 	_interaction_prompt.anchor_left = 0.5
@@ -311,14 +304,14 @@ func _build_content() -> void:
 	_debug_panel.visible = false
 	_debug_layer.add_child(_debug_panel)
 
-	# 主界面 UI（资源验证）
+	# 主界面 UI（资源验证）：常驻 HUD，替换原 BattleHud
 	_main_ui = preload("res://scripts/ui/main_ui.gd").new()
 	_main_ui.name = "MainUI"
 	_main_ui.theme = skin.theme
 	_main_ui.ui_root = self
 	_main_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_main_ui.visible = false
-	_screen_layer.add_child(_main_ui)
+	_main_ui.visible = true
+	_hud_layer.add_child(_main_ui)
 
 	# 触屏控件（CanvasLayer，layer=15）
 	_touch_controls = TouchControls.new()
@@ -370,6 +363,11 @@ func _on_dialogue_node_changed(node: Dictionary) -> void:
 func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:
 	close_popup(_dialogue_panel)
 	get_tree().paused = _dialogue_previous_pause
+
+
+## 公开的短暂提示（供未实现功能按钮等弹「功能开发中」提示）。
+func show_notification(text: String) -> void:
+	_show_notification(text)
 
 
 func _show_notification(text: String) -> void:

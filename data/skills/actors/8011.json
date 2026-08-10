@@ -1,137 +1,137 @@
 {
-  "50101": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=75.0 width=66.0 scale=1.00 body_half=33.5",
-          "kind": "melee",
-          "max_edge_distance": 72.5,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "6f20b7223ad1c2d0"
-    },
-    "cooldown": 1,
-    "name": "hh_ack",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "melee_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50102": {
-    "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "e844021967f408f0",
-      "entries": [
-        {
-          "node_index": 4,
-          "source": "hit_window",
-          "kind": "melee",
-          "min_edge_distance": 0,
-          "max_edge_distance": 77,
-          "detail": "forward=83.0 width=59.0 scale=1.00 body_half=33.5"
-        }
-      ]
-    },
-    "cooldown": 3,
-    "description": "",
-    "name": "hh_skill",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/charge_weapon_glow/effect.tscn",
-        "coordinate_space": "character_local",
-        "target": "origin",
-        "origin": "caster",
-        "offset_x": 39,
-        "offset_y": -141,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": true,
-        "mirror_with_facing": true,
-        "mirror": false,
-        "lifetime_ms": 286,
-        "effect_scale": 0.6,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#ff4d00",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "huo-hu-50102",
-        "source_track_id": "charge_weapon_glow"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "type": "play_effect",
-        "scene": "res://assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/release_slash_arc/effect.tscn",
-        "coordinate_space": "world",
-        "target": "origin",
-        "origin": "hit_window",
-        "offset_x": -63,
-        "offset_y": -70,
-        "delay_ms": 0,
-        "anchor": "origin",
-        "follow_target": false,
-        "mirror_with_facing": false,
-        "mirror": true,
-        "lifetime_ms": 143,
-        "effect_scale": 0.85,
-        "rotation_degrees": 0,
-        "opacity": 1,
-        "tint": "#f82a2a",
-        "attachment_layer": "front",
-        "attachment_blend_mode": "add",
-        "source_bundle_id": "huo-hu-50102",
-        "source_track_id": "release_slash_arc"
-      },
-      {
-        "damage_ratio": 2,
-        "result_key": "melee_hit",
-        "type": "melee_damage",
-        "flat_damage": 3
-      },
-      {
-        "type": "apply_target_buff",
-        "target": "result",
-        "result_key": "melee_hit",
-        "buff_ids": [
-          10002
-        ],
-        "chance": 1
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50101": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=75.0 width=66.0 scale=1.00 body_half=33.5",
+					"kind": "melee",
+					"max_edge_distance": 72.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "6f20b7223ad1c2d0"
+		},
+		"cooldown": 1.0,
+		"name": "hh_ack",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50102": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=83.0 width=59.0 scale=1.00 body_half=33.5",
+					"kind": "melee",
+					"max_edge_distance": 77.0,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "e844021967f408f0"
+		},
+		"cooldown": 3.0,
+		"description": "",
+		"name": "hh_skill",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 0.0,
+				"effect_scale": 0.6,
+				"follow_target": true,
+				"lifetime_ms": 286.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": 39.0,
+				"offset_y": -141.0,
+				"opacity": 1.0,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/charge_weapon_glow/effect.tscn",
+				"source_bundle_id": "huo-hu-50102",
+				"source_track_id": "charge_weapon_glow",
+				"target": "origin",
+				"tint": "#ff4d00",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "world",
+				"delay_ms": 0.0,
+				"effect_scale": 0.85,
+				"follow_target": false,
+				"lifetime_ms": 143.0,
+				"mirror": true,
+				"mirror_with_facing": false,
+				"offset_x": -63.0,
+				"offset_y": -70.0,
+				"opacity": 1.0,
+				"origin": "hit_window",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/huo-hu-50102/godot/effect_scenes/release_slash_arc/effect.tscn",
+				"source_bundle_id": "huo-hu-50102",
+				"source_track_id": "release_slash_arc",
+				"target": "origin",
+				"tint": "#f82a2a",
+				"type": "play_effect"
+			},
+			{
+				"damage_ratio": 2.0,
+				"flat_damage": 3.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10002.0
+				],
+				"chance": 1.0,
+				"result_key": "melee_hit",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

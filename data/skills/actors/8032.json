@@ -1,56 +1,120 @@
 {
-  "50311": {
-    "cast_range": 120,
-    "cooldown": 1,
-    "description": "诺瓦的可调整默认近战攻击。",
-    "name": "诺瓦默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_50311",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50312": {
-    "cast_range": 140,
-    "cooldown": 3,
-    "description": "诺瓦的技能1占位配置，素材导入后播放 skill 动作。",
-    "name": "诺瓦技能1",
-    "nodes": [
-      {
-        "action": "skill",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1.5,
-        "result_key": "hit_50312",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50311": {
+		"cast_range": 110.0,
+		"cooldown": 1.0,
+		"description": "诺瓦的默认普通攻击。",
+		"name": "诺瓦默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.0,
+				"damage_tag": "fire",
+				"result_key": "hit_50311",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50312": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=112.0 width=64.0 scale=1.00 body_half=48.0",
+					"kind": "melee",
+					"max_edge_distance": 94.0,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "88c48893ad791b7c"
+		},
+		"cast_range": 120.0,
+		"cooldown": 3.0,
+		"description": "诺瓦的技能1，播放 skill 动作。",
+		"name": "诺瓦技能1",
+		"nodes": [
+			{
+				"action": "skill",
+				"type": "play_animation"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"delay_ms": 286.0,
+				"effect_scale": 1.0,
+				"follow_target": true,
+				"lifetime_ms": 300.0,
+				"mirror": true,
+				"mirror_with_facing": true,
+				"offset_x": -92.0,
+				"offset_y": -149.0,
+				"opacity": 1.0,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/50162/godot/effect_scenes/track_slash_arc/effect.tscn",
+				"source_bundle_id": "50162",
+				"source_track_id": "track_slash_arc",
+				"target": "origin",
+				"tint": "#ffffff",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "world",
+				"delay_ms": 0.0,
+				"effect_scale": 1.47,
+				"follow_target": false,
+				"lifetime_ms": 400.0,
+				"mirror": false,
+				"mirror_with_facing": false,
+				"offset_x": -155.0,
+				"offset_y": -97.0,
+				"opacity": 1.0,
+				"origin": "hit_window",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/50162/godot/effect_scenes/track_impact_burst/effect.tscn",
+				"source_bundle_id": "50162",
+				"source_track_id": "track_impact_burst",
+				"target": "origin",
+				"tint": "#ffffff",
+				"type": "play_effect"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.5,
+				"damage_tag": "fire",
+				"result_key": "hit_50312",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

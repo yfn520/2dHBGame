@@ -209,7 +209,7 @@
   },
   "7004": {
     "actor_scale": 1,
-    "asset": "res://assets/characters/char_7004",
+    "asset": "res://assets/characters/shushi",
     "base_stats": {
       "armor_pen_flat": 0,
       "armor_pen_percent": 0,
@@ -233,7 +233,7 @@
       "status_resist": 0
     },
     "can_select_as_lead": false,
-    "character_config": "res://assets/characters/char_7004/character_config.json",
+    "character_config": "res://assets/characters/shushi/character_config.json",
     "class_id": "cleric",
     "default_companion_hero_ids": [
       7001
@@ -253,13 +253,31 @@
     "normal_skill": 6031,
     "personal_quest_id": 1011,
     "recruit_chapter_id": "prologue",
-    "scene": "res://assets/characters/char_7004/char_7004.tscn",
-    "skill_unlocks": {},
-    "skills": []
+    "scene": "res://assets/characters/shushi/godot/shushi.tscn",
+    "skill_unlocks": {
+      "skill1": {
+        "skill_id": 6034,
+        "unlock_level": 1
+      },
+      "skill2": {
+        "skill_id": 6035,
+        "unlock_level": 1
+      },
+      "skill3": {
+        "skill_id": 6036,
+        "unlock_level": 1
+      }
+    },
+    "skills": [
+      6031,
+      6034,
+      6035,
+      6036
+    ]
   },
   "7005": {
     "actor_scale": 1,
-    "asset": "res://assets/characters/char_7005",
+    "asset": "res://assets/characters/c'k",
     "base_stats": {
       "armor_pen_flat": 0,
       "armor_pen_percent": 0,
@@ -283,7 +301,7 @@
       "status_resist": 0
     },
     "can_select_as_lead": false,
-    "character_config": "res://assets/characters/char_7005/character_config.json",
+    "character_config": "res://assets/characters/c'k/character_config.json",
     "class_id": "summoner",
     "default_companion_hero_ids": [],
     "description": "被当成怪物的遗响一直叫他'哥哥'",
@@ -301,13 +319,31 @@
     "normal_skill": 6032,
     "personal_quest_id": 1012,
     "recruit_chapter_id": "chapter_2",
-    "scene": "res://assets/characters/char_7005/char_7005.tscn",
-    "skill_unlocks": {},
-    "skills": []
+    "scene": "res://assets/characters/c'k/godot/c'k.tscn",
+    "skill_unlocks": {
+      "skill1": {
+        "skill_id": 50313,
+        "unlock_level": 1
+      },
+      "skill2": {
+        "skill_id": 50314,
+        "unlock_level": 1
+      },
+      "skill3": {
+        "skill_id": 50315,
+        "unlock_level": 1
+      }
+    },
+    "skills": [
+      6032,
+      50313,
+      50314,
+      50315
+    ]
   },
   "7006": {
     "actor_scale": 1,
-    "asset": "res://assets/characters/char_7006",
+    "asset": "res://assets/characters/m's",
     "base_stats": {
       "armor_pen_flat": 8,
       "armor_pen_percent": 0.15,
@@ -331,7 +367,7 @@
       "status_resist": 0
     },
     "can_select_as_lead": false,
-    "character_config": "res://assets/characters/char_7006/character_config.json",
+    "character_config": "res://assets/characters/m's/character_config.json",
     "class_id": "assassin",
     "default_companion_hero_ids": [],
     "description": "一份针对星楔守护者的旧契约仍然有效",
@@ -349,149 +385,26 @@
     "normal_skill": 6033,
     "personal_quest_id": 1013,
     "recruit_chapter_id": "chapter_4",
-    "scene": "res://assets/characters/char_7006/char_7006.tscn",
-    "skill_unlocks": {},
-    "skills": []
-  },
-  "7007": {
-    "actor_scale": 1,
-    "asset": "res://assets/characters/shushi",
-    "base_stats": {
-      "attack": 1,
-      "attack_speed": 1,
-      "crit_damage": 1.5,
-      "crit_rate": 0,
-      "defense": 0,
-      "max_hp": 200,
-      "move_speed": 220
-    },
-    "character_config": "res://assets/characters/shushi/character_config.json",
-    "description": "",
-    "growth": {
-      "attack": 1,
-      "defense": 0,
-      "max_hp": 15,
-      "move_speed": 0
-    },
-    "max_level": 60,
-    "name": "shushi",
-    "normal_skill": 6061,
-    "scene": "res://assets/characters/shushi/godot/shushi.tscn",
-    "skill_unlocks": {
-      "skill1": {
-        "skill_id": 6062,
-        "unlock_level": 1
-      },
-      "skill2": {
-        "skill_id": 6063,
-        "unlock_level": 1
-      },
-      "skill3": {
-        "skill_id": 6064,
-        "unlock_level": 1
-      }
-    },
-    "skills": [
-      6061,
-      6062,
-      6063,
-      6064
-    ]
-  },
-  "7008": {
-    "actor_scale": 1,
-    "asset": "res://assets/characters/c'k",
-    "base_stats": {
-      "attack": 1,
-      "attack_speed": 1,
-      "crit_damage": 1.5,
-      "crit_rate": 0,
-      "defense": 0,
-      "max_hp": 200,
-      "move_speed": 220
-    },
-    "character_config": "res://assets/characters/c'k/character_config.json",
-    "description": "",
-    "growth": {
-      "attack": 1,
-      "defense": 0,
-      "max_hp": 15,
-      "move_speed": 0
-    },
-    "max_level": 60,
-    "name": "c'k",
-    "normal_skill": 6071,
-    "scene": "res://assets/characters/c'k/godot/c'k.tscn",
-    "skill_unlocks": {
-      "skill1": {
-        "skill_id": 50313,
-        "unlock_level": 1
-      },
-      "skill2": {
-        "skill_id": 50314,
-        "unlock_level": 1
-      },
-      "skill3": {
-        "skill_id": 50315,
-        "unlock_level": 1
-      }
-    },
-    "skills": [
-      6071,
-      6072,
-      6073,
-      6074,
-      50313,
-      50314,
-      50315
-    ]
-  },
-  "7009": {
-    "actor_scale": 1,
-    "asset": "res://assets/characters/m's",
-    "base_stats": {
-      "attack": 1,
-      "attack_speed": 1,
-      "crit_damage": 1.5,
-      "crit_rate": 0,
-      "defense": 0,
-      "max_hp": 200,
-      "move_speed": 220
-    },
-    "character_config": "res://assets/characters/m's/character_config.json",
-    "description": "",
-    "growth": {
-      "attack": 1,
-      "defense": 0,
-      "max_hp": 15,
-      "move_speed": 0
-    },
-    "max_level": 60,
-    "name": "m's",
-    "normal_skill": 6081,
     "scene": "res://assets/characters/m's/godot/m's.tscn",
     "skill_unlocks": {
       "skill1": {
-        "skill_id": 50317,
+        "skill_id": 6037,
         "unlock_level": 1
       },
       "skill2": {
-        "skill_id": 50318,
+        "skill_id": 6038,
         "unlock_level": 1
       },
       "skill3": {
-        "skill_id": 6084,
+        "skill_id": 6039,
         "unlock_level": 1
       }
     },
     "skills": [
-      6081,
-      6082,
-      6083,
-      6084,
-      50316,
-      50317,
-      50318
+      6033,
+      6037,
+      6038,
+      6039
     ]
   }
 }

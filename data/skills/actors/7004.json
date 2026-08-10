@@ -1,29 +1,128 @@
 {
-  "6031": {
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "伊莱的可调整默认攻击。",
-    "name": "伊莱默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_ratio": 1,
-        "result_key": "hit_6031",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"6031": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "伊莱的可调整默认攻击。",
+		"name": "伊莱默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"result_key": "hit_6031",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6034": {
+		"cast_range": 90.0,
+		"cooldown": 3.0,
+		"description": "伊莱的圣光一击。",
+		"name": "圣光一击",
+		"nodes": [
+			{
+				"action": "skill1",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.4,
+				"damage_tag": "holy",
+				"result_key": "hit_6034",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6035": {
+		"cast_range": 60.0,
+		"cooldown": 5.0,
+		"description": "伊莱的惩戒打击，附带重伤效果。",
+		"name": "惩戒打击",
+		"nodes": [
+			{
+				"action": "skill2",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.6,
+				"damage_tag": "holy",
+				"result_key": "hit_6035",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10020.0
+				],
+				"chance": 1.0,
+				"result_key": "hit_6035",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6036": {
+		"cast_range": 0.0,
+		"cooldown": 7.0,
+		"description": "伊莱的圣光领域，对周围敌人造成范围伤害。",
+		"name": "圣光领域",
+		"nodes": [
+			{
+				"action": "skill3",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 2.0,
+				"damage_tag": "holy",
+				"origin": "hit_window",
+				"radius": 100.0,
+				"result_key": "area_6036",
+				"shape": "circle",
+				"type": "area_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

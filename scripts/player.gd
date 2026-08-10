@@ -16,9 +16,6 @@ const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
 const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
 const CAMERA_VERTICAL_OFFSET := -173.0
-const ACTOR_BODY_HEIGHT_MIN := 110.0
-const ACTOR_BODY_HEIGHT_MAX := 160.0
-
 var was_jump_pressed := false
 var is_climbing_ladder := false
 var current_ladder: Area2D
@@ -188,11 +185,7 @@ func _apply_character_display_config() -> void:
 	var body_box: Dictionary = cfg.get("body_box", {})
 	var authored_body_height := float(body_box.get("height", cfg.get("body_size", {}).get("y", 0.0)))
 	if authored_body_height > 0.0:
-		_actor_scale = clampf(
-			_actor_scale,
-			ACTOR_BODY_HEIGHT_MIN / authored_body_height,
-			ACTOR_BODY_HEIGHT_MAX / authored_body_height
-		)
+		_actor_scale = EntityAutoScaler.compute_scale(authored_body_height, _actor_scale)
 	var base_display_scale := float(cfg.get("display_scale", visual_root.scale.x))
 	var display_offset := _get_vector2_from_dict(cfg.get("display_offset", {}), visual_root.position)
 	visual_root.position = display_offset * _actor_scale

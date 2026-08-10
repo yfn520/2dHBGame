@@ -1,90 +1,90 @@
 {
-  "50001": {
-    "ai_range_cache": {
-      "entries": [
-        {
-          "detail": "forward=36.0 width=27.0 scale=1.00 body_half=12.0",
-          "kind": "melee",
-          "max_edge_distance": 35.5,
-          "min_edge_distance": 0,
-          "node_index": 2,
-          "source": "hit_window"
-        }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "0d77604e2913a471"
-    },
-    "cast_range": 60,
-    "cooldown": 1,
-    "description": "史莱姆普通攻击。攻击范围由外部动作有效区间决定。",
-    "name": "史莱姆普攻",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "buff_chance": 0.3,
-        "buff_ids": [],
-        "damage_channel": "physical",
-        "damage_ratio": 1,
-        "damage_tag": "blunt",
-        "result_key": "slimu_attack_hit",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  },
-  "50002": {
-    "cast_range": 200,
-    "cooldown": 4,
-    "description": "远程酸液示例；当前临时使用火球弹道场景，可在节点编辑器中替换视觉。",
-    "name": "史莱姆酸液喷射",
-    "nodes": [
-      {
-        "action": "skill1",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "aim_mode": "facing_elevation",
-        "buff_chance": 0.5,
-        "buff_ids": [
-          10001
-        ],
-        "damage_channel": "magic",
-        "damage_ratio": 1.5,
-        "damage_tag": "poison",
-        "elevation_degrees": 0,
-        "emission": "single",
-        "lifetime": 3,
-        "max_pierce": 0,
-        "origin": "hit_window",
-        "result_key": "acid_hit",
-        "scale": 2,
-        "scene": "res://assets/effects/projectiles/fireball.tscn",
-        "speed": 260,
-        "trajectory": "straight",
-        "type": "spawn_projectile"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50001": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=36.0 width=27.0 scale=1.00 body_half=12.0",
+					"kind": "melee",
+					"max_edge_distance": 35.5,
+					"min_edge_distance": 0.0,
+					"node_index": 2.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "0d77604e2913a471"
+		},
+		"cast_range": 60.0,
+		"cooldown": 1.0,
+		"description": "史莱姆普通攻击。攻击范围由外部动作有效区间决定。",
+		"name": "史莱姆普攻",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_chance": 0.3,
+				"buff_ids": [],
+				"damage_channel": "physical",
+				"damage_ratio": 1.0,
+				"damage_tag": "blunt",
+				"result_key": "slimu_attack_hit",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50002": {
+		"cast_range": 200.0,
+		"cooldown": 4.0,
+		"description": "远程酸液示例；当前临时使用火球弹道场景，可在节点编辑器中替换视觉。",
+		"name": "史莱姆酸液喷射",
+		"nodes": [
+			{
+				"action": "skill1",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"aim_mode": "facing_elevation",
+				"buff_chance": 0.5,
+				"buff_ids": [
+					10001.0
+				],
+				"damage_channel": "magic",
+				"damage_ratio": 1.5,
+				"damage_tag": "poison",
+				"elevation_degrees": 0.0,
+				"emission": "single",
+				"lifetime": 3.0,
+				"max_pierce": 0.0,
+				"origin": "hit_window",
+				"result_key": "acid_hit",
+				"scale": 2.0,
+				"scene": "res://assets/effects/projectiles/fireball.tscn",
+				"speed": 260.0,
+				"trajectory": "straight",
+				"type": "spawn_projectile"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

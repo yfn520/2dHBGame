@@ -1,0 +1,105 @@
+{
+	"actions": {
+		"attack": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"frame": 1,
+					"id": "evt-1783931096717-s91ls",
+					"name": "effect"
+				},
+				{
+					"frame": 3,
+					"id": "evt-1783931100093-o5w9n",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -95.0,
+					"end_frame": 3,
+					"forward": 95.0,
+					"height": 35.0,
+					"id": "hitbox-1783845070666-uzx9v:region-1783845070666-w9bur",
+					"source_attack_id": "hitbox-1783845070666-uzx9v",
+					"source_region_id": "region-1783845070666-w9bur",
+					"start_frame": 3,
+					"width": 49.0,
+					"y": -80.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"dead": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"hurt": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"idle": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"run": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"skill": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"frame": 1,
+					"id": "evt-1783931084957-wgmdq",
+					"name": "effect"
+				},
+				{
+					"frame": 3,
+					"id": "evt-1783931078717-xryck",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -69.0,
+					"end_frame": 3,
+					"forward": 69.0,
+					"height": 25.0,
+					"id": "hitbox-1783845080698-q2sx3:region-1783845080698-we80f",
+					"source_attack_id": "hitbox-1783845080698-q2sx3",
+					"source_region_id": "region-1783845080698-we80f",
+					"start_frame": 3,
+					"width": 31.0,
+					"y": -84.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"source_schema_version": 3,
+	"sprite_scale": 1.0,
+	"version": 3
+}

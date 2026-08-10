@@ -98,7 +98,7 @@ func _ready() -> void:
 	player_data_provider.load_local()
 	quest_service = load("res://scripts/system/quest_service.gd").new()
 	add_child(quest_service)
-	quest_service.setup(quest_config, quest_state, inventory_provider)
+	quest_service.setup(quest_config, quest_state, inventory_provider, roster_data)
 	dialogue_service = load("res://scripts/system/dialogue_service.gd").new()
 	add_child(dialogue_service)
 	dialogue_service.setup(npc_config, dialogue_config, quest_service, inventory_provider)

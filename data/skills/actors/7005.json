@@ -1,30 +1,281 @@
 {
-  "6032": {
-    "cast_range": 80,
-    "cooldown": 1,
-    "description": "奥兹的可调整默认攻击。",
-    "name": "奥兹默认攻击",
-    "nodes": [
-      {
-        "action": "attack",
-        "type": "play_animation"
-      },
-      {
-        "hit_window_index": 0,
-        "type": "wait_hit_window"
-      },
-      {
-        "damage_channel": "magic",
-        "damage_ratio": 1,
-        "result_key": "hit_6032",
-        "type": "melee_damage"
-      },
-      {
-        "type": "wait_animation_end"
-      },
-      {
-        "type": "end_skill"
-      }
-    ]
-  }
+	"50313": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "forward=14.0 width=264.0 scale=1.00 body_half=32.5",
+					"kind": "melee",
+					"max_edge_distance": 111.5,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "hit_window"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "476583056569d62a"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "skill1",
+		"nodes": [
+			{
+				"action": "skill1",
+				"type": "play_animation"
+			},
+			{
+				"afterimage_count": 3.0,
+				"afterimage_duration": 0.6,
+				"landing_gap": 60.0,
+				"target_search_range": 99999.0,
+				"type": "teleport_to_enemy"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "world",
+				"effect_scale": 1.3,
+				"follow_target": false,
+				"lifetime_ms": 286.0,
+				"mirror": false,
+				"mirror_with_facing": false,
+				"offset_x": 16.0,
+				"offset_y": -94.0,
+				"opacity": 1.0,
+				"origin": "hit_window",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/c-k-50313/godot/effect_scenes/release_stab_trail/effect.tscn",
+				"source_bundle_id": "c-k-50313",
+				"source_track_id": "release_stab_trail",
+				"target": "origin",
+				"tint": "#ff0000",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_ratio": 1.0,
+				"flat_damage": 2.0,
+				"result_key": "melee_hit",
+				"type": "melee_damage"
+			},
+			{
+				"buff_ids": [
+					10007.0
+				],
+				"chance": 1.0,
+				"result_key": "melee_hit",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50314": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "纯辅助技能，任意距离可起手",
+					"kind": "support",
+					"max_edge_distance": 99999.0,
+					"min_edge_distance": 0.0,
+					"node_index": -1.0,
+					"source": "support"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "d566d89b09150e35"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "skill2",
+		"nodes": [
+			{
+				"action": "skill2",
+				"type": "play_animation"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"effect_scale": 1.5,
+				"follow_target": true,
+				"lifetime_ms": 420.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": -4.0,
+				"offset_y": -99.0,
+				"opacity": 0.7,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/c-k-50314/godot/effect_scenes/charge-dagger-glow/effect.tscn",
+				"source_bundle_id": "c-k-50314",
+				"source_track_id": "charge-dagger-glow",
+				"target": "origin",
+				"tint": "#c92f48",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"buff_ids": [
+					20008.0,
+					20005.0
+				],
+				"type": "apply_self_buff"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"50315": {
+		"ai_range_cache": {
+			"entries": [
+				{
+					"detail": "origin=hit_window radius=103.5 scale=1.00",
+					"kind": "area",
+					"max_edge_distance": 187.5,
+					"min_edge_distance": 0.0,
+					"node_index": 4.0,
+					"source": "area"
+				}
+			],
+			"policy": "any_damage_node",
+			"source_hash": "6c62b620e3f9fd4a"
+		},
+		"cooldown": 1.0,
+		"description": "",
+		"name": "skill3",
+		"nodes": [
+			{
+				"action": "skill3",
+				"type": "play_animation"
+			},
+			{
+				"anchor": "body_center",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "character_local",
+				"effect_scale": 0.4,
+				"follow_target": true,
+				"lifetime_ms": 285.0,
+				"mirror": false,
+				"mirror_with_facing": true,
+				"offset_x": 51.0,
+				"offset_y": -193.0,
+				"opacity": 0.7,
+				"origin": "caster",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/c-k-50315/godot/effect_scenes/charge-dark-aura/effect.tscn",
+				"source_bundle_id": "c-k-50315",
+				"source_track_id": "charge-dark-aura",
+				"target": "origin",
+				"tint": "#ff0000",
+				"type": "play_effect"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"anchor": "origin",
+				"attachment_blend_mode": "add",
+				"attachment_layer": "front",
+				"coordinate_space": "world",
+				"effect_scale": 1.4,
+				"follow_target": false,
+				"lifetime_ms": 280.0,
+				"mirror": true,
+				"mirror_with_facing": false,
+				"offset_x": -75.0,
+				"offset_y": -101.0,
+				"opacity": 0.9,
+				"origin": "hit_window",
+				"rotation_degrees": 0.0,
+				"scene": "res://assets/effects/skill_fx/c-k-50315/godot/effect_scenes/release-cross-slash/effect.tscn",
+				"source_bundle_id": "c-k-50315",
+				"source_track_id": "release-cross-slash",
+				"target": "origin",
+				"tint": "#ff0000",
+				"type": "play_effect"
+			},
+			{
+				"damage_ratio": 1.0,
+				"flat_damage": 2.0,
+				"origin": "hit_window",
+				"radius": 103.5,
+				"result_key": "area_hit",
+				"shape": "circle",
+				"type": "area_damage"
+			},
+			{
+				"buff_ids": [
+					10020.0
+				],
+				"chance": 1.0,
+				"result_key": "area_hit",
+				"target": "result",
+				"type": "apply_target_buff"
+			},
+			{
+				"audio_path": "",
+				"bus": "SFX",
+				"delay_ms": 0.0,
+				"gain_db": 0.0,
+				"loop": false,
+				"pitch_variation": 0.0,
+				"spatial_mode": "caster",
+				"stop_on_skill_end": false,
+				"type": "play_sound"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	},
+	"6032": {
+		"cast_range": 80.0,
+		"cooldown": 1.0,
+		"description": "奥兹的可调整默认攻击。",
+		"name": "奥兹默认攻击",
+		"nodes": [
+			{
+				"action": "attack",
+				"type": "play_animation"
+			},
+			{
+				"hit_window_index": 0.0,
+				"type": "wait_hit_window"
+			},
+			{
+				"damage_channel": "magic",
+				"damage_ratio": 1.0,
+				"result_key": "hit_6032",
+				"type": "melee_damage"
+			},
+			{
+				"type": "wait_animation_end"
+			},
+			{
+				"type": "end_skill"
+			}
+		]
+	}
 }

@@ -2,191 +2,803 @@
   "generatedBy": "FrameRonin UI Prototype Generator",
   "type": "godot_ui_scene",
   "designSize": {
-    "width": 1920,
-    "height": 1080
+    "width": 1536,
+    "height": 864
   },
   "scenePath": "res://assets/ui/ui_main_lp.tscn",
-  "backgroundPath": null,
+  "backgroundPath": "res://assets/ui/ui_main_lp/background/background.png",
   "nodes": [
     {
-      "name": "player_",
+      "name": "image_background",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 17,
+        "y": 10,
+        "width": 265,
+        "height": 93
+      },
+      "zIndex": 0,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "image_avatar",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 28,
+        "y": 10,
+        "width": 76,
+        "height": 95
+      },
+      "zIndex": 1,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "image_exp_label",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 109,
+        "y": 83,
+        "width": 25,
+        "height": 13
+      },
+      "zIndex": 2,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "progress_health_bar",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 104,
+        "y": 41,
+        "width": 164,
+        "height": 18
+      },
+      "zIndex": 3,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_magicbar",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 105,
+        "y": 62,
+        "width": 163,
+        "height": 18
+      },
+      "zIndex": 4,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_expbar",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 140,
+        "y": 83,
+        "width": 114,
+        "height": 13
+      },
+      "zIndex": 5,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "image_token_background",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 990,
+        "y": 14,
+        "width": 293,
+        "height": 42
+      },
+      "zIndex": 6,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "label_gold",
+      "kind": "dynamic_label",
+      "rect": {
+        "x": 1037,
+        "y": 23,
+        "width": 52,
+        "height": 24
+      },
+      "zIndex": 7,
+      "godotType": "Label"
+    },
+    {
+      "name": "image_gold",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1004,
+        "y": 23,
+        "width": 24,
+        "height": 24
+      },
+      "zIndex": 8,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "label_Sstone",
+      "kind": "dynamic_label",
+      "rect": {
+        "x": 1128,
+        "y": 23,
+        "width": 52,
+        "height": 23
+      },
+      "zIndex": 9,
+      "godotType": "Label"
+    },
+    {
+      "name": "image_Sstone",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1099,
+        "y": 23,
+        "width": 19,
+        "height": 23
+      },
+      "zIndex": 10,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "label_stone",
+      "kind": "dynamic_label",
+      "rect": {
+        "x": 1219,
+        "y": 23,
+        "width": 53,
+        "height": 24
+      },
+      "zIndex": 11,
+      "godotType": "Label"
+    },
+    {
+      "name": "image_stone",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1188,
+        "y": 23,
+        "width": 20,
+        "height": 24
+      },
+      "zIndex": 12,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_hero",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1294,
+        "y": 63,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 13,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_skill",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1411,
+        "y": 66,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 14,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_map",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1475,
+        "y": 174,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 15,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_back",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1474,
+        "y": 67,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 16,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_Trading",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1415,
+        "y": 172,
+        "width": 46,
+        "height": 47
+      },
+      "zIndex": 17,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_plan",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1353,
+        "y": 63,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 18,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_military",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1474,
+        "y": 230,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 19,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_friend",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1353,
+        "y": 13,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 20,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_calendar",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1411,
+        "y": 13,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 21,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_rune",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1473,
+        "y": 119,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 22,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_mail",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1294,
+        "y": 13,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 23,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_副本",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1412,
+        "y": 119,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 24,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_pet",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1353,
+        "y": 118,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 25,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_set",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1472,
+        "y": 13,
+        "width": 46,
+        "height": 42
+      },
+      "zIndex": 26,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "player_one",
       "kind": "texture_rect",
       "rect": {
         "x": 16,
-        "y": 15,
-        "width": 409,
-        "height": 144
+        "y": 109,
+        "width": 228,
+        "height": 80
       },
-      "zIndex": 0,
+      "zIndex": 27,
       "godotType": "TextureRect"
     },
     {
       "name": "image_002",
       "kind": "texture_rect",
       "rect": {
-        "x": 32,
-        "y": 14,
-        "width": 118,
-        "height": 148
+        "x": 26,
+        "y": 108,
+        "width": 65,
+        "height": 82
       },
-      "zIndex": 1,
+      "zIndex": 28,
       "godotType": "TextureRect"
     },
     {
       "name": "image_004",
       "kind": "texture_rect",
       "rect": {
-        "x": 142,
-        "y": 127,
-        "width": 39,
-        "height": 16
+        "x": 87,
+        "y": 172,
+        "width": 21,
+        "height": 14
       },
-      "zIndex": 2,
+      "zIndex": 29,
       "godotType": "TextureRect"
     },
     {
       "name": "progress_005",
       "kind": "dynamic_progress",
       "rect": {
-        "x": 150,
-        "y": 63,
-        "width": 252,
-        "height": 28
+        "x": 91,
+        "y": 134,
+        "width": 141,
+        "height": 14
       },
-      "zIndex": 3,
+      "zIndex": 30,
       "godotType": "TextureProgressBar"
     },
     {
       "name": "progress_006",
       "kind": "dynamic_progress",
       "rect": {
-        "x": 151,
-        "y": 95,
-        "width": 251,
-        "height": 27
+        "x": 92,
+        "y": 153,
+        "width": 140,
+        "height": 14
       },
-      "zIndex": 4,
+      "zIndex": 31,
       "godotType": "TextureProgressBar"
     },
     {
       "name": "progress_003",
       "kind": "dynamic_progress",
       "rect": {
-        "x": 184,
-        "y": 127,
-        "width": 176,
-        "height": 16
+        "x": 108,
+        "y": 172,
+        "width": 98,
+        "height": 14
       },
-      "zIndex": 5,
+      "zIndex": 32,
       "godotType": "TextureProgressBar"
     },
     {
-      "name": "image_005",
+      "name": "player_one_2",
       "kind": "texture_rect",
       "rect": {
-        "x": 69,
-        "y": 933,
-        "width": 1757,
-        "height": 122
+        "x": 15,
+        "y": 193,
+        "width": 229,
+        "height": 82
       },
-      "zIndex": 6,
+      "zIndex": 33,
       "godotType": "TextureRect"
     },
     {
-      "name": "button_001",
+      "name": "image_002_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 25,
+        "y": 192,
+        "width": 66,
+        "height": 83
+      },
+      "zIndex": 34,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "image_004_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 87,
+        "y": 257,
+        "width": 22,
+        "height": 18
+      },
+      "zIndex": 35,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "progress_005_2",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 90,
+        "y": 219,
+        "width": 142,
+        "height": 18
+      },
+      "zIndex": 36,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_006_2",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 90,
+        "y": 238,
+        "width": 142,
+        "height": 18
+      },
+      "zIndex": 37,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "progress_003_2",
+      "kind": "dynamic_progress",
+      "rect": {
+        "x": 109,
+        "y": 257,
+        "width": 99,
+        "height": 18
+      },
+      "zIndex": 38,
+      "godotType": "TextureProgressBar"
+    },
+    {
+      "name": "button_skill_background_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 94,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 65,
+        "y": 745,
+        "width": 403,
+        "height": 56
       },
-      "zIndex": 7,
+      "zIndex": 84,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_002",
+      "name": "button_character_num_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 311,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 110,
+        "y": 745,
+        "width": 47,
+        "height": 57
       },
-      "zIndex": 9,
+      "zIndex": 85,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_003",
+      "name": "button_skill_passive_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 526,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 400,
+        "y": 753,
+        "width": 35,
+        "height": 35
       },
-      "zIndex": 10,
+      "zIndex": 86,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_004",
+      "name": "button_skill_icon_1_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 739,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 182,
+        "y": 750,
+        "width": 46,
+        "height": 46
       },
-      "zIndex": 11,
+      "zIndex": 87,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_005",
+      "name": "image_skill_border_1_2_3",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 176,
+        "y": 744,
+        "width": 61,
+        "height": 57
+      },
+      "zIndex": 88,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_2_2_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 951,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 255,
+        "y": 750,
+        "width": 46,
+        "height": 46
       },
-      "zIndex": 12,
+      "zIndex": 89,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_006",
+      "name": "image_skill_border_2_2_3",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 250,
+        "y": 743,
+        "width": 61,
+        "height": 57
+      },
+      "zIndex": 90,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_3_2_3",
       "kind": "texture_button",
       "rect": {
-        "x": 1165,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 332,
+        "y": 751,
+        "width": 46,
+        "height": 45
       },
-      "zIndex": 13,
+      "zIndex": 91,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_007",
+      "name": "image_skill_border_3_2_3",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 326,
+        "y": 745,
+        "width": 61,
+        "height": 57
+      },
+      "zIndex": 92,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_background_2",
       "kind": "texture_button",
       "rect": {
-        "x": 1377,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 527,
+        "y": 738,
+        "width": 504,
+        "height": 69
       },
-      "zIndex": 14,
+      "zIndex": 93,
       "godotType": "TextureButton"
     },
     {
-      "name": "button_009",
+      "name": "button_character_num_2",
       "kind": "texture_button",
       "rect": {
-        "x": 1590,
-        "y": 948,
-        "width": 213,
-        "height": 90
+        "x": 582,
+        "y": 737,
+        "width": 57,
+        "height": 72
       },
-      "zIndex": 15,
+      "zIndex": 94,
       "godotType": "TextureButton"
+    },
+    {
+      "name": "button_skill_passive_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 945,
+        "y": 748,
+        "width": 44,
+        "height": 45
+      },
+      "zIndex": 95,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_skill_icon_1_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 673,
+        "y": 744,
+        "width": 56,
+        "height": 56
+      },
+      "zIndex": 96,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_1_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 666,
+        "y": 736,
+        "width": 74,
+        "height": 72
+      },
+      "zIndex": 97,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 766,
+        "y": 743,
+        "width": 56,
+        "height": 56
+      },
+      "zIndex": 98,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_2_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 758,
+        "y": 735,
+        "width": 74,
+        "height": 72
+      },
+      "zIndex": 99,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_3_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 862,
+        "y": 745,
+        "width": 55,
+        "height": 55
+      },
+      "zIndex": 100,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_3_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 854,
+        "y": 737,
+        "width": 74,
+        "height": 72
+      },
+      "zIndex": 101,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_background_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1096,
+        "y": 741,
+        "width": 366,
+        "height": 56
+      },
+      "zIndex": 102,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_character_num_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1136,
+        "y": 741,
+        "width": 42,
+        "height": 58
+      },
+      "zIndex": 103,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_skill_passive_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1400,
+        "y": 749,
+        "width": 32,
+        "height": 35
+      },
+      "zIndex": 104,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "button_skill_icon_1_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1202,
+        "y": 746,
+        "width": 41,
+        "height": 46
+      },
+      "zIndex": 105,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_1_2_2_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1198,
+        "y": 740,
+        "width": 54,
+        "height": 57
+      },
+      "zIndex": 106,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_2_2_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1270,
+        "y": 744,
+        "width": 41,
+        "height": 46
+      },
+      "zIndex": 107,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_2_2_2_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1264,
+        "y": 739,
+        "width": 54,
+        "height": 57
+      },
+      "zIndex": 108,
+      "godotType": "TextureRect"
+    },
+    {
+      "name": "button_skill_icon_3_2_2_2",
+      "kind": "texture_button",
+      "rect": {
+        "x": 1339,
+        "y": 747,
+        "width": 40,
+        "height": 45
+      },
+      "zIndex": 109,
+      "godotType": "TextureButton"
+    },
+    {
+      "name": "image_skill_border_3_2_2_2",
+      "kind": "texture_rect",
+      "rect": {
+        "x": 1334,
+        "y": 741,
+        "width": 54,
+        "height": 57
+      },
+      "zIndex": 110,
+      "godotType": "TextureRect"
     }
   ],
   "bindings": []

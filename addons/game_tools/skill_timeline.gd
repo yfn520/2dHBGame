@@ -20,6 +20,8 @@ const NODE_LABELS := {
 	"apply_self_buff": "施加自身 Buff",
 	"heal": "治疗",
 	"move_x": "水平移动",
+	"teleport_to_enemy": "瞬移至敌人",
+	"move_to_screen_center": "移至屏幕中心",
 	"wait_action_event": "等待动作事件",
 	"wait_action_frame": "等待动作帧",
 	"wait_hit_window": "等待攻击有效区间",
@@ -27,7 +29,7 @@ const NODE_LABELS := {
 	"wait_time": "等待时长",
 	"end_skill": "结束技能",
 }
-const ACTION_NODES := ["play_animation", "melee_damage", "area_damage", "fullscreen_damage", "spawn_projectile", "play_effect", "apply_target_buff", "apply_self_buff", "heal", "move_x"]
+const ACTION_NODES := ["play_animation", "melee_damage", "area_damage", "fullscreen_damage", "spawn_projectile", "play_effect", "apply_target_buff", "apply_self_buff", "heal", "move_x", "teleport_to_enemy", "move_to_screen_center"]
 
 var _action: Dictionary = {}
 var _nodes: Array = []

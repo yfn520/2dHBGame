@@ -1,701 +1,842 @@
 {
 	"1001": {
-		"title": "铁锋佣兵团正规击杀契约",
-		"description_template": "由莱昂试行远征的契约担保人霍雷克签发的正规击杀委托，凭证优先于人情。严格遵照佣兵公会规章击杀 {{target_count}} 只 {{target_name}}，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算——「人、药、凭证都回来了」才算履行完毕。",
-		"description": "由莱昂试行远征的契约担保人霍雷克签发的正规击杀委托，凭证优先于人情。严格遵照佣兵公会规章击杀 1 只 xiao'huei'heu'i，任务期间不得殃及平民、损毁登记在册的合法私人财产，集齐有效击杀凭证后返回霍雷克处核验结算——「人、药、凭证都回来了」才算履行完毕。",
-		"quest_kind": "public",
+		"title": "C1-01 从第四套餐具旁醒来",
+		"description_template": "余晖城旅店里，柏婶为陌生的来客多摆出第四套餐具。三名伤员被平民救回，尚未写入主角。在开场与陌生善意中，选出一名主角，从第四套餐具旁醒来。",
+		"description": "余晖城旅店里，柏婶为陌生的来客多摆出第四套餐具。三名伤员被平民救回，尚未写入主角。在开场与陌生善意中，选出一名主角，从第四套餐具旁醒来。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9002, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1001_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1001",
+			"objective_type": "talk",
+			"target_name": "柏婶",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "柏婶把第四套餐具推到桌角，又停手。三名伤员都找到了，第四张伤情牌没有，只有多出来的东西。",
+				"active": "正在旅店中选择主角，接受基础装备与临时契约。",
+				"ready": "已完成复路任务前的准备，返回柏婶处。",
+				"completed": "第四套餐具旁，主角从这场陌生的醒转中站起来。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1002": {
+		"title": "C1-02 湿地里的药箱",
+		"description_template": "湿地里的药箱被黏液拖进沼泽。先拿止血草，箱子坏了也不至于空手回来。在荒诞与陪伴中取回救援药箱，强化执行者也应计入人数。",
+		"description": "湿地里的药箱被黏液拖进沼泽。先拿止血草，箱子坏了也不至于空手回来。在荒诞与陪伴中取回救援药箱，强化执行者也应计入人数。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{ "id": "obj_1", "type": "collect", "item_id": 100024, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1002_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1002",
+			"objective_type": "collect",
+			"target_name": "救援药箱",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "伊莱指向空药架：药箱被黏液拖进湿地，先拿止血草再找回箱子。",
+				"active": "正在湿地中寻找被拖走的救援药箱与止血草。",
+				"ready": "已找回救援药箱，返回伊莱处清点交接。",
+				"completed": "草三束，药箱封口完整。执行者被计入四项。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1003": {
+		"title": "C1-03 把粮种送过去",
+		"description_template": "粮农桑叔守着卡在断篱旁的粮车，路牌今早又少了一个字。把粮种护送到育苗棚，证明道路问题真实存在，救灾优先于追查私人记忆。",
+		"description": "粮农桑叔守着卡在断篱旁的粮车，路牌今早又少了一个字。把粮种护送到育苗棚，证明道路问题真实存在，救灾优先于追查私人记忆。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{ "id": "obj_1", "type": "collect", "item_id": 100025, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1003_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1003",
+			"objective_type": "collect",
+			"target_name": "粮种",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "桑叔守着卡在断篱旁的粮车，路牌今早又少了一个字。粮车耐久待护送至育苗棚。",
+				"active": "正在护送粮种车队穿越断篱与浅滩，抵御草原狼。",
+				"ready": "粮种已抵达终点，返回桑叔处逐袋报数。",
+				"completed": "三袋粮种逐袋报数完成，粮种进入育苗棚。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1004": {
+		"title": "C1-04 点亮第一座邮路信标",
+		"description_template": "旧邮站管理员遗响第三句话每次都缺少收件地。清理甲虫取得信标导片，按三拍点亮信标，选择第二名主角。你决定顺序，不决定谁被放弃。",
+		"description": "旧邮站管理员遗响第三句话每次都缺少收件地。清理甲虫取得信标导片，按三拍点亮信标，选择第二名主角。你决定顺序，不决定谁被放弃。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9001,
 		"turn_in_npc_id": 9001,
 		"objectives": [
-			{
-				"id": "kill_target",
-				"type": "kill",
-				"count": 1,
-				"enemy_id": 8003
-			}
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8001, "count": 4 }
 		],
-		"rewards": {
-			"items": [],
-			"flags": []
-		},
+		"rewards": { "items": [], "flags": ["quest_1004_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9001",
+			"dialogue_id": "quest_1004",
 			"objective_type": "kill",
-			"target_name": "xiao'huei'heu'i",
+			"target_name": "甲虫",
 			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "铁锋佣兵团队长霍雷克处发布了一份走正规公会流程的击杀委托。他是莱昂试行远征的契约担保人，先验凭证再看人情，无任何通融空间；若有意承接需按流程签订正式契约，不得提出违规要求。",
-				"active": "你已与霍雷克签订正式击杀契约，需击杀 {{target_count}} 只 {{target_name}}。任务过程须严格遵守佣兵公会规章，不得伪造击杀凭证，集齐有效凭证后返回找霍雷克核验。",
-				"ready": "你已击杀足额的 {{target_name}}，请携带有效击杀凭证返回霍雷克处。他核验无误后才按公会统一标准结算酬劳，本次委托无额外物品奖励。",
-				"completed": "你已完成与铁锋佣兵团的击杀契约。霍雷克核验凭证后只说了一句「人、药、凭证都回来了，下一项」，按公会标准结算了酬劳，铁锋佣兵团七年零违约的记录仍在保持。"
+				"inactive": "旧邮站管理员遗响重复三拍点灯，第三句话总缺少收件地。信标导片待取得。",
+				"active": "正在清理甲虫，收集信标导片以点亮第一座邮路信标。",
+				"ready": "信标导片已集齐，返回霍雷克处确认两条求援线的顺序。",
+				"completed": "第一座邮路信标点亮，第二名主角线索被选定。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_kill_contract",
-				"turn_in_intent_key": "turn_in_kill_contract"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1002": {
-		"title": "序章·三人立契",
-		"description_template": "余晖城城门与旅店之间，柏婶为陌生的来客多摆出第四套餐具。在被遗忘效应抹去第四人的痕迹、却保留生活惯性的陌生善意中，尚未成形的三人需在星契立约前先安顿下来。",
-		"description": "余晖城城门与旅店之间，柏婶为陌生的来客多摆出第四套餐具。在被遗忘效应抹去第四人的痕迹、却保留生活惯性的陌生善意中，尚未成形的三人需在星契立约前先安顿下来。",
-		"quest_kind": "public",
-		"chapter_id": "prologue",
+	"1005": {
+		"title": "C1-05 先找到你",
+		"description_template": "沿三处职业痕迹找到被渊蚀兽群围困的第二名主角。身份各算各的，路线和判断共享。先找到你，再把第三个人的空位继续留着。",
+		"description": "沿三处职业痕迹找到被渊蚀兽群围困的第二名主角。身份各算各的，路线和判断共享。先找到你，再把第三个人的空位继续留着。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9002,
-		"turn_in_npc_id": 9002,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9002,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "talk", "npc_id": 9001, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1002_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1005_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9002",
+			"dialogue_id": "quest_1005",
 			"objective_type": "talk",
+			"target_name": "霍雷克",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "柏婶在余晖城旅店擦拭桌子，话不多但顺手多拿出了第四套餐具。遗忘效应抹去了第四人的记录，她的手却仍按四人份摆放——星契立约前的安顿尚未开始。",
-				"active": "你正与柏婶交谈，安顿星契立约前的琐碎事宜。她不追问被抹去的名字，只记好事、把汤重新热一遍。",
-				"ready": "你已与柏婶谈妥安顿事宜，返回柏婶处完成星契立约前的交接。",
-				"completed": "柏婶把第四套餐具摆好，三人立契前的安顿已完成。星隙抹去的名字暂时没有答案，那个空位先留在柜台下。"
+				"inactive": "三名主角仍在移动，被渊蚀兽群围困的第二名主角信号微弱。",
+				"active": "正在沿三处职业痕迹追踪被围困的第二名主角。",
+				"ready": "第二名主角已找到，返回霍雷克处确认身份边界。",
+				"completed": "第二名主角正式加入，契约改为两人，空位继续留着。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1003": {
-		"title": "第1章·最后一袋信",
-		"description_template": "草原驿道尽头的旧邮站，老邮差洛伯守着十七封无法投递的退件，邮袋口系着十七根细绳。在荒唐与轻微遗憾中，找回被星隙抹掉的最后一袋信的收件地址——洛伯拒绝把女儿的下落不确定写成死讯。",
-		"description": "草原驿道尽头的旧邮站，老邮差洛伯守着十七封无法投递的退件，邮袋口系着十七根细绳。在荒唐与轻微遗憾中，找回被星隙抹掉的最后一袋信的收件地址——洛伯拒绝把女儿的下落不确定写成死讯。",
-		"quest_kind": "public",
+	"1006": {
+		"title": "C1-06 最后一袋信",
+		"description_template": "荒野驿道尽头的旧邮站，老邮差洛伯守着十七封退件。找回被星隙抹掉的收件地址，把最后一袋信送回它该去的地方。",
+		"description": "荒野驿道尽头的旧邮站，老邮差洛伯守着十七封退件。找回被星隙抹掉的收件地址，把最后一袋信送回它该去的地方。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9003,
 		"turn_in_npc_id": 9003,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100024,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "collect", "item_id": 100026, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1003_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1006_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9003",
+			"dialogue_id": "quest_1006",
 			"objective_type": "collect",
+			"target_name": "退件",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "老邮差洛伯在旧邮站守着十七封退件，邮袋口系着十七根细绳，每归档一封解开一根。最后一袋信的收件地址已被星隙抹掉，他还在等收件人。",
-				"active": "你正沿草原驿道寻找被抹掉的收件地址线索。洛伯不解释为什么坚持，写给女儿的信也在退件中，他不把不确定写成死讯。",
-				"ready": "你已找回最后一袋信的相关凭证，返回旧邮站交给洛伯核验。",
-				"completed": "洛伯接过信件解开最后一根细绳，最后一袋信的收件地址被重新补全。女儿的退件被他收进口袋，旧邮站的灯又亮了一夜。"
+				"inactive": "老邮差洛伯在旧邮站守着十七封退件，收件地址已被星隙抹掉。",
+				"active": "正在沿驿道寻找被抹掉的收件地址线索。",
+				"ready": "已找回退件凭证，返回洛伯处核验。",
+				"completed": "最后一袋信被重新补全地址。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1004": {
-		"title": "第2章·木风车与守门兵",
-		"description_template": "月影遗迹的宵禁门前，无名守门兵遗响日复一日重复'关闭城门'，每次数到十六就重新开始。在荒诞与安静释然中，拼回被官方记录删掉的命令后半段——等最后一批平民过去，再关门，让木风车重新转动。",
-		"description": "月影遗迹的宵禁门前，无名守门兵遗响日复一日重复'关闭城门'，每次数到十六就重新开始。在荒诞与安静释然中，拼回被官方记录删掉的命令后半段——等最后一批平民过去，再关门，让木风车重新转动。",
-		"quest_kind": "public",
+	"1007": {
+		"title": "C1-07 第三座灯前的人",
+		"description_template": "两人护送送信队到第二信标，修复第二灯。第三名主角沿独立线索抵达，三人守住第三信标九十秒。我们不是互相忘了，更像同一个关系节点被拿走。",
+		"description": "两人护送送信队到第二信标，修复第二灯。第三名主角沿独立线索抵达，三人守住第三信标九十秒。我们不是互相忘了，更像同一个关系节点被拿走。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9001, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1007_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1007",
+			"objective_type": "talk",
+			"target_name": "霍雷克",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "第三名主角仍沿独立线索移动，两座信标已亮。",
+				"active": "正在护送送信队并修复第二信标，等待第三名主角抵达。",
+				"ready": "三人已会合守住第三信标，返回霍雷克处交留文件副本。",
+				"completed": "三名主角会合，第三座灯前的人不再被动等救。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1008": {
+		"title": "C1-08 吞信者与失路哨兵",
+		"description_template": "咕噜姆吞信却保持信件干燥。先隔开核心，缩小咕噜姆而不杀，校准第一枚星楔。返程遭遇失路哨兵，第一处官方标签矛盾被建立。",
+		"description": "咕噜姆吞信却保持信件干燥。先隔开核心，缩小咕噜姆而不杀，校准第一枚星楔。返程遭遇失路哨兵，第一处官方标签矛盾被建立。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8027, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1008_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1008",
+			"objective_type": "kill",
+			"target_name": "咕噜姆",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "咕噜姆吞信却保持信件干燥，黑色核心在消耗文字。失路哨兵巡着旧护送线。",
+				"active": "正在隔开核心、缩小咕噜姆，校准第一枚星楔。",
+				"ready": "第一枚星楔已校准，返回洛伯处完成信件交接。",
+				"completed": "咕噜姆缩小不死亡，第一处官方标签矛盾被建立。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1009": {
+		"title": "C2-01 宵禁门为什么没关",
+		"description_template": "运粮车第三次回到同一片黄昏。守门兵遗响数到十六便重来。找回风车三件套与撤离名单末行，证明命令和名册不完整。",
+		"description": "运粮车第三次回到同一片黄昏。守门兵遗响数到十六便重来。找回风车三件套与撤离名单末行，证明命令和名册不完整。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9004,
 		"turn_in_npc_id": 9004,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9004,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1004_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1009_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9004",
+			"dialogue_id": "quest_1009",
 			"objective_type": "talk",
+			"target_name": "守门兵遗响",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "守门兵遗响在宵禁门机械地重复'关闭城门'，每次数到十六就重来。被删掉的命令后半段仍未补全，木风车还未挂回城门。",
-				"active": "你正与守门兵遗响交谈，拼凑被删掉的命令片段。他只会报人数、门号和宵禁时刻，木风车仍未挂回城门。",
-				"ready": "你已拼回完整的封门命令，返回守门兵遗响处交付最后一段。",
-				"completed": "守门兵遗响拼回'等最后一批平民过去，再关门'，这一次数到十七，关门，不再起身。木风车挂上城门重新转动，遗响终于安息。"
+				"inactive": "宵禁门第三次回到同一片黄昏，守门兵遗响数到十六便重来。",
+				"active": "正在寻找风车三件套与撤离名单末行，拼凑被截断的命令。",
+				"ready": "风车部件与命令载体已找回，返回守门兵遗响处。",
+				"completed": "命令与名册不完整的事实被确认，进入下一项。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1005": {
-		"title": "第3章·十七号毕业",
-		"description_template": "烛塔学院的清扫魔偶十七号背着三条基础指令——清扫、关灯、回储物间——每天参加停办的毕业考试，把储物柜编号当成考试答案。在热闹与不舍中，帮它完成最后一次考试，找到那道写着'回家'的答案。",
-		"description": "烛塔学院的清扫魔偶十七号背着三条基础指令——清扫、关灯、回储物间——每天参加停办的毕业考试，把储物柜编号当成考试答案。在热闹与不舍中，帮它完成最后一次考试，找到那道写着'回家'的答案。",
-		"quest_kind": "public",
+	"1010": {
+		"title": "C2-02 等最后一个孩子过去",
+		"description_template": "组装风车，完整命令恢复：等最后一个孩子过去，再关门。护送孩子遗响通过守门所，手动拉下门闩。门内我守，不替你选家在哪。",
+		"description": "组装风车，完整命令恢复：等最后一个孩子过去，再关门。护送孩子遗响通过守门所，手动拉下门闩。门内我守，不替你选家在哪。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1010_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1010",
+			"objective_type": "talk",
+			"target_name": "守门兵遗响",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "木风车三件套齐全，守门所尚未组装。完整命令仍待恢复。",
+				"active": "正在组装风车并护送孩子遗响通过守门所。",
+				"ready": "孩子已通过，守门兵数到十七，返回确认。",
+				"completed": "完整命令恢复，守门兵遗响的循环结束。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1011": {
+		"title": "C2-03 只为主角打开的房间",
+		"description_template": "凝胶记忆膜显出一个职业房间，只承认开局时承受最强反噬的人。主角进入核心区，两名同伴门外协作。取得本存档唯一主契遗装。",
+		"description": "凝胶记忆膜显出一个职业房间，只承认开局时承受最强反噬的人。主角进入核心区，两名同伴门外协作。取得本存档唯一主契遗装。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1011_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1011",
+			"objective_type": "talk",
+			"target_name": "守门兵遗响",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "凝胶记忆膜持有的职业房间只为主角打开，另外两扇门无响应。",
+				"active": "主角正在核心区完成职业机关，两名同伴门外协作。",
+				"ready": "职业机关已通过，返回取得对应主契遗装。",
+				"completed": "本存档唯一主契遗装被取得。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1012": {
+		"title": "C2-04 停下月影钟",
+		"description_template": "关闭钟楼三层齿轮锁，击败阿尔戈并使四座副钟接班。搜集脉化编队装备编号与撤离后令残页，形成名册矛盾。现在能证明人数不对，还不能证明谁动的手。",
+		"description": "关闭钟楼三层齿轮锁，击败阿尔戈并使四座副钟接班。搜集脉化编队装备编号与撤离后令残页，形成名册矛盾。现在能证明人数不对，还不能证明谁动的手。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8028, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1012_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1012",
+			"objective_type": "kill",
+			"target_name": "阿尔戈",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "副钟未接，主钟不停。阿尔戈守着月影钟，轮值者缺失。",
+				"active": "正在关闭钟楼齿轮锁并击败阿尔戈，让四座副钟接班。",
+				"ready": "月影钟已停，返回收集编队装备编号与命令残页。",
+				"completed": "名册矛盾被建立，实际参战者远多于名册。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1013": {
+		"title": "C3-01 十七号又没毕业",
+		"description_template": "清扫魔偶十七号把储物柜编号当成考试答案。穿过重复教室找回答案页，标出封存档案柜。分类错误，定位正确。",
+		"description": "清扫魔偶十七号把储物柜编号当成考试答案。穿过重复教室找回答案页，标出封存档案柜。分类错误，定位正确。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9005,
 		"turn_in_npc_id": 9005,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100027,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "collect", "item_id": 100027, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1005_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1013_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9005",
+			"dialogue_id": "quest_1013",
 			"objective_type": "collect",
+			"target_name": "档案",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "十七号背着扫把在毕业礼堂前等待，它的三条基础指令是清扫、关灯、回储物间。停办的考试答案仍未找到，它把储物柜编号当成考试答案。",
-				"active": "你正帮十七号寻找最后一次考试的答案。它答非所问，答案却意外指向无名人员留下的物件。",
-				"ready": "你已找到十七号最后一次考试的凭证，返回毕业礼堂交给它。",
-				"completed": "十七号在最后一题写下'回家'，毕业礼堂的烛火重新点亮。它终于放下扫把，离校后开始把夜校也算作自己的储物间。"
+				"inactive": "十七号把储物柜编号当成考试答案，记录员遗响判它离题。",
+				"active": "正在穿过重复教室找回答案页，标出封存档案柜。",
+				"ready": "答案页已找回，返回十七号处完成定位。",
+				"completed": "封存档案柜被定位，十七号取得最终考试资格。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1006": {
-		"title": "第4章·船长留下的家书与日志",
-		"description_template": "苍蓝港湾的漂流瓶滩上，船长埃蒙留下的家书与航海日志被冲回旧码头。在胡闹与悬疑中，把两份记录放在一起读懂——家书答应按时回家，日志记录了主动改航带离居民区的决定，一个失约的父亲也完成了船长的职责。",
-		"description": "苍蓝港湾的漂流瓶滩上，船长埃蒙留下的家书与航海日志被冲回旧码头。在胡闹与悬疑中，把两份记录放在一起读懂——家书答应按时回家，日志记录了主动改航带离居民区的决定，一个失约的父亲也完成了船长的职责。",
-		"quest_kind": "public",
+	"1014": {
+		"title": "C3-02 点亮四座烛塔",
+		"description_template": "四塔不是同时点亮，要按相克顺序卸载。击败四类元素体取得烛芯，按相克顺序点亮四塔，打开毕业礼堂路线。术式可以关闭，是否关闭由在场的人共同决定。",
+		"description": "四塔不是同时点亮，要按相克顺序卸载。击败四类元素体取得烛芯，按相克顺序点亮四塔，打开毕业礼堂路线。术式可以关闭，是否关闭由在场的人共同决定。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8005, "count": 8 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1014_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1014",
+			"objective_type": "kill",
+			"target_name": "元素体",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "四塔不是同时点亮，要按相克顺序卸载。元素体守着烛芯。",
+				"active": "正在击败四类元素体取得烛芯，按相克顺序点亮四塔。",
+				"ready": "四塔已进入低功率记录模式，返回确认毕业礼堂路线。",
+				"completed": "四座烛塔点亮，毕业礼堂路线打开。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1015": {
+		"title": "C3-03 把点名册送进礼堂",
+		"description_template": "找回点名册缺页，每页同时保留正式学生与杂役物件编号。护送十七号经过三个点名门，把完整名册送进讲台。新增类别：经共同确认的离校者。",
+		"description": "找回点名册缺页，每页同时保留正式学生与杂役物件编号。护送十七号经过三个点名门，把完整名册送进讲台。新增类别：经共同确认的离校者。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{ "id": "obj_1", "type": "collect", "item_id": 100028, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1015_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1015",
+			"objective_type": "collect",
+			"target_name": "点名册",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "点名册缺页待找回，十七号没有正式学籍。",
+				"active": "正在找回点名册缺页并护送十七号经过三个点名门。",
+				"ready": "完整名册已备齐，返回将十七号送入礼堂。",
+				"completed": "完整点名册进入讲台，十七号站到队伍末尾。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1016": {
+		"title": "C3-04 毕业前一天",
+		"description_template": "露米娜把学院锁在毕业前一天。打断召唤的魔偶并保护点名册，让十七号完成最后一题。从坐标柜取得记忆损耗账页，确认抽取早于敌袭。",
+		"description": "露米娜把学院锁在毕业前一天。打断召唤的魔偶并保护点名册，让十七号完成最后一题。从坐标柜取得记忆损耗账页，确认抽取早于敌袭。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8029, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1016_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1016",
+			"objective_type": "kill",
+			"target_name": "露米娜",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "露米娜仍拥有重置毕业日的权限，点名未结束，礼堂不能关灯。",
+				"active": "正在打断露米娜召唤的魔偶并保护点名册，让十七号完成最后一题。",
+				"ready": "十七号完成离校，返回取得记忆损耗账页。",
+				"completed": "抽取与损耗早于敌袭的事实被确认。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1017": {
+		"title": "C4-01 暴雨前的灯塔",
+		"description_template": "救援船在暴雨后重新出现在出发点，船员少了十分钟记忆。收回灯塔镜片恢复灯塔，让活人的船不再等英雄回来点灯。",
+		"description": "救援船在暴雨后重新出现在出发点，船员少了十分钟记忆。收回灯塔镜片恢复灯塔，让活人的船不再等英雄回来点灯。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9006,
 		"turn_in_npc_id": 9006,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9006,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "collect", "item_id": 100029, "count": 3 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1006_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1017_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9006",
-			"objective_type": "talk",
-			"state_text_templates": {
-				"inactive": "船长埃蒙的家书与航海日志被冲回旧码头。家书答应按时回家，日志则记录改航决定，两份记录尚未放在一起读。",
-				"active": "你正逐字解读埃蒙的航海日志，他先报坐标，再报船员人数，最后才提家人，多用术语回避真正的原因。",
-				"ready": "你已读懂船长留下的家书与日志，返回旧码头完成最后的交接。",
-				"completed": "埃蒙改航把受蚀船带离居民区的选择被读懂，家书与日志放在一起，失约的父亲也完成了船长的职责。纽扣和记录交回家属手中。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1007": {
-		"title": "第5章·被写成逃兵的号手",
-		"description_template": "灰烬王城的撤离钟楼下，号手多恩被旧档案写成贵族车队离开后临阵逃跑的逃兵。在黑色幽默与愤怒中，调出脚印与钟锤记录、找回备用门维修签收簿上那根不合规格的红绳，把纪功墙上被篡改的名册按证据纠正过来——姓名由证据确认，不靠守护者口述。",
-		"description": "灰烬王城的撤离钟楼下，号手多恩被旧档案写成贵族车队离开后临阵逃跑的逃兵。在黑色幽默与愤怒中，调出脚印与钟锤记录、找回备用门维修签收簿上那根不合规格的红绳，把纪功墙上被篡改的名册按证据纠正过来——姓名由证据确认，不靠守护者口述。",
-		"quest_kind": "public",
-		"chapter_id": "chapter_5",
-		"required_lead_hero_id": 0,
-		"required_hero_id": 0,
-		"giver_npc_id": 9008,
-		"turn_in_npc_id": 9008,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9008,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1007_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9008",
-			"objective_type": "talk",
-			"state_text_templates": {
-				"inactive": "号手多恩的遗响在撤离钟楼下抱着生锈的号角，旧档案把他写成临阵逃跑的逃兵。被篡改的名册尚未纠正，维修签收簿上的红绳还未对上。",
-				"active": "你正与多恩遗响交谈，调出脚印与钟锤记录，寻找备用门维修签收簿的佐证。他不说遗言，只有喘息、脚步和两次试吹。",
-				"ready": "你已找到纠正名册的凭证，返回号手处完成最后的交接。",
-				"completed": "多恩遗响敲响修好的钟，纪功墙上按脚印、钟锤记录与维修签收簿的红绳补回他的名字。逃兵的污名终于洗清，姓名由证据确认。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1008": {
-		"title": "莱昂·封门命令的回响",
-		"description_template": "月影遗迹的守门兵遗响困在未完成的封门命令里。镇脉军直属盾卫队长莱昂曾主动执行最后一道封门命令，此刻需直面'命令是否值得服从'，击杀渊蚀构造体并拼回命令后半段。",
-		"description": "月影遗迹的守门兵遗响困在未完成的封门命令里。镇脉军直属盾卫队长莱昂曾主动执行最后一道封门命令，此刻需直面'命令是否值得服从'，击杀渊蚀构造体并拼回命令后半段。",
-		"quest_kind": "profession",
-		"chapter_id": "chapter_2",
-		"required_lead_hero_id": 7001,
-		"required_hero_id": 0,
-		"giver_npc_id": 9004,
-		"turn_in_npc_id": 9004,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8028,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1008_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9004",
-			"objective_type": "kill",
-			"state_text_templates": {
-				"inactive": "守门兵遗响在月影遗迹重复封门命令。莱昂作为镇脉军直属盾卫队长曾主动执行最后一道封门命令，他尚未直面这道命令是否值得服从。",
-				"active": "莱昂正与守门兵遗响共同面对渊蚀构造体，命令的后半段仍未拼回。",
-				"ready": "莱昂已击杀目标，返回守门兵遗响处核验封门命令的回响。",
-				"completed": "莱昂直面封门命令的回响，守门兵遗响拼回完整命令。命令是否值得服从有了答案，盾卫队长放下了那道他亲手执行过的命令。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1009": {
-		"title": "露娜·单刻兔牙标的旧路",
-		"description_template": "月影遗迹的撤离路上，森语游侠会自由弓手露娜曾在箭杆与墙角刻下第一道兔牙标保留路线判断，第二道却始终没补上。在荒诞与责任中击杀渊蚀构造体，重新看清这条民间救援路——她不接受别人替自己决定风险。",
-		"description": "月影遗迹的撤离路上，森语游侠会自由弓手露娜曾在箭杆与墙角刻下第一道兔牙标保留路线判断，第二道却始终没补上。在荒诞与责任中击杀渊蚀构造体，重新看清这条民间救援路——她不接受别人替自己决定风险。",
-		"quest_kind": "profession",
-		"chapter_id": "chapter_2",
-		"required_lead_hero_id": 7002,
-		"required_hero_id": 0,
-		"giver_npc_id": 9004,
-		"turn_in_npc_id": 9004,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8028,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1009_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9004",
-			"objective_type": "kill",
-			"state_text_templates": {
-				"inactive": "守门兵遗响困在封门命令里。露娜作为森语游侠会自由弓手，曾在箭杆与墙角刻下第一道兔牙标保留路线判断；旧箭与地图上还留着没人能解释的第二道刻痕。她尚未面对这条民间救援路。",
-				"active": "露娜正沿月影遗迹追击渊蚀构造体，沿途的单刻兔牙标仍在。她不接受别人替自己决定风险，真正作判断时停下闲话，逐项报风、地面和回程标记。",
-				"ready": "露娜已击杀目标，返回守门兵遗响处核验这条民间救援路。",
-				"completed": "露娜看清了单刻兔牙标保留的路线判断，旧箭上那道无人认领的第二道刻痕仍留着。民间救援路有了答案，谁补第二道还没返还。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1010": {
-		"title": "米娅·双头校验笔的旧档",
-		"description_template": "烛塔学院的封存档案里藏着一条漏掉校验签章的研究。星环秘法学会术式校验员米娅用双头校验笔比对旧术式——一端记术式能否运行，另一端记还有谁留在危险区。在热闹与不舍中，收集凭证，找到那条被漏掉签章的旧档。",
-		"description": "烛塔学院的封存档案里藏着一条漏掉校验签章的研究。星环秘法学会术式校验员米娅用双头校验笔比对旧术式——一端记术式能否运行，另一端记还有谁留在危险区。在热闹与不舍中，收集凭证，找到那条被漏掉签章的旧档。",
-		"quest_kind": "profession",
-		"chapter_id": "chapter_3",
-		"required_lead_hero_id": 7003,
-		"required_hero_id": 0,
-		"giver_npc_id": 9005,
-		"turn_in_npc_id": 9005,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100027,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1010_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9005",
+			"dialogue_id": "quest_1017",
 			"objective_type": "collect",
+			"target_name": "灯塔镜片",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "十七号在毕业礼堂前等待。米娅作为学院术式校验员尚未找到封存档案里那条漏掉校验签章的研究，双头校验笔的另一端还空着。",
-				"active": "米娅正与十七号一起寻找封存档案位置。她用双头校验笔一端记术式能否运行、另一端记还有谁留在危险区，漏掉签章的旧档仍未浮出。",
-				"ready": "米娅已收集到凭证，返回十七号处核验那条漏掉校验签章的旧档。",
-				"completed": "米娅读懂了那条漏掉校验签章的研究，双头校验笔的两端都记上了。十七号的答案指向回家，校验员的判断留在了档案里。"
+				"inactive": "守塔人守着灯没灭、方向却每天不一样的灯塔。灯塔镜片被拖进巢穴。",
+				"active": "正在从水母与珊瑚怪巢穴收回灯塔镜片，恢复灯塔。",
+				"ready": "灯塔镜片已集齐，返回按磨痕安装顺序恢复灯塔。",
+				"completed": "灯塔恢复，救援队接班点灯。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1011": {
-		"title": "伊莱·先问姓名再记伤情",
-		"description_template": "余晖城旅店里，伊莱守着大月蚀后最初几天的无名伤员登记册。他见过太多无名伤员被写成一个数字，因此形成先问姓名、再记伤情的习惯——对方不能开口时，就记录衣物、旧伤和被谁送来。在被抹除感与陌生善意中，回应他序章加入旅团的请求。",
-		"description": "余晖城旅店里，伊莱守着大月蚀后最初几天的无名伤员登记册。他见过太多无名伤员被写成一个数字，因此形成先问姓名、再记伤情的习惯——对方不能开口时，就记录衣物、旧伤和被谁送来。在被抹除感与陌生善意中，回应他序章加入旅团的请求。",
-		"quest_kind": "personal",
-		"chapter_id": "prologue",
-		"required_lead_hero_id": 0,
-		"required_hero_id": 7004,
-		"giver_npc_id": 9016,
-		"turn_in_npc_id": 9016,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9016,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1011_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9016",
-			"objective_type": "talk",
-			"state_text_templates": {
-				"inactive": "伊莱在余晖城旅店等待。他每天结算先数绷带再数人，先问姓名再记伤情的登记册仍未交出。",
-				"active": "你正与伊莱交谈。他先确认姓名、伤势和被发现地点再说话，对方不能开口时就记下衣物、旧伤和被谁送来，话说到一半会停。",
-				"ready": "你已回应伊莱的加入请求，返回他处完成序章招募的最后交接。",
-				"completed": "伊莱加入旅团。先问姓名再记伤情的习惯被默默保留，星契立约前多了一位沉默的牧师，登记册上不再只有一个数字。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1012": {
-		"title": "奥兹·被叫作哥哥的怪物",
-		"description_template": "月影遗迹的一台畸变守门魔偶从奥兹的工坊编号中认出同源零件，反复叫他'哥哥'。在荒诞与安静释然中，击杀渊蚀构造体，回应魔偶的旧称呼并接纳奥兹——会咬人和坏掉，是两回事。",
-		"description": "月影遗迹的一台畸变守门魔偶从奥兹的工坊编号中认出同源零件，反复叫他'哥哥'。在荒诞与安静释然中，击杀渊蚀构造体，回应魔偶的旧称呼并接纳奥兹——会咬人和坏掉，是两回事。",
-		"quest_kind": "personal",
-		"chapter_id": "chapter_2",
-		"required_lead_hero_id": 0,
-		"required_hero_id": 7005,
-		"giver_npc_id": 9013,
-		"turn_in_npc_id": 9013,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8028,
-				"count": 1
-			}
-		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1012_completed"
-			]
-		},
-		"authoring": {
-			"dialogue_id": "npc_9013",
-			"objective_type": "kill",
-			"state_text_templates": {
-				"inactive": "奥兹在月影遗迹与一台畸变守门魔偶对话。魔偶从他的工坊编号认出同源零件，反复叫他'哥哥'，这个旧称呼仍未被回应。",
-				"active": "奥兹正与魔偶一起面对渊蚀构造体。他先问构造体叫什么、再问有没有伤人，旧称呼背后的同源仍未说出口。",
-				"ready": "奥兹已击杀目标，返回他处回应魔偶的旧称呼。",
-				"completed": "奥兹回应了魔偶的旧称呼，加入旅团但不交过去。月影遗迹的魔偶有了名字，会咬人和坏掉被分成了两回事。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
-		}
-	},
-	"1013": {
-		"title": "凯·星楔守护者的旧契约",
-		"description_template": "苍蓝港湾出现的刺客凯，受雇夺取星楔，旧契约仍然有效。他接下委托时只知道雇主需要一枚'古代航道锚具'，发现目标会导致现役救援线崩坏后停止交付。在胡闹与悬疑中，击杀目标，面对这份旧契约并接纳他——「我没站你们这边，我只是不替死人收货」。",
-		"description": "苍蓝港湾出现的刺客凯，受雇夺取星楔，旧契约仍然有效。他接下委托时只知道雇主需要一枚'古代航道锚具'，发现目标会导致现役救援线崩坏后停止交付。在胡闹与悬疑中，击杀目标，面对这份旧契约并接纳他——「我没站你们这边，我只是不替死人收货」。",
-		"quest_kind": "personal",
+	"1018": {
+		"title": "C4-02 被铁壳蟹偷走的航线",
+		"description_template": "绞盘钥匙被铁壳蟹偷走。三次追踪铁壳蟹取回钥匙、鱼篓和鞋带，放下锚链。绞盘缝隙掉出一枚黄色纽扣，指向埃蒙沉船坐标。",
+		"description": "绞盘钥匙被铁壳蟹偷走。三次追踪铁壳蟹取回钥匙、鱼篓和鞋带，放下锚链。绞盘缝隙掉出一枚黄色纽扣，指向埃蒙沉船坐标。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
-		"required_hero_id": 7006,
-		"giver_npc_id": 9015,
-		"turn_in_npc_id": 9015,
+		"required_hero_id": 0,
+		"giver_npc_id": 9007,
+		"turn_in_npc_id": 9007,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8030,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "collect", "item_id": 100030, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1013_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1018_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9015",
+			"dialogue_id": "quest_1018",
+			"objective_type": "collect",
+			"target_name": "黄色纽扣",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "绞盘钥匙没了，鱼篓和鞋带也没了。铁壳蟹只被亮片与盐味引开。",
+				"active": "正在三次追踪铁壳蟹，取回钥匙、鱼篓和鞋带。",
+				"ready": "锚链已放下，黄色纽扣待带去登记处核验。",
+				"completed": "黄色纽扣建立可核验线索，指向埃蒙沉船坐标。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1019": {
+		"title": "C4-03 两封没有一起寄出的信",
+		"description_template": "埃蒙船长的家书答应按时回家，航海日志记录改航决定。两份记录放在一起，才看见一个失约的父亲也完成了船长职责。",
+		"description": "埃蒙船长的家书答应按时回家，航海日志记录改航决定。两份记录放在一起，才看见一个失约的父亲也完成了船长职责。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9006,
+		"turn_in_npc_id": 9006,
+		"objectives": [
+			{ "id": "obj_1", "type": "collect", "item_id": 100031, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1019_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1019",
+			"objective_type": "collect",
+			"target_name": "家书",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "埃蒙船长的家书答应按时回家，航海日志记录改航决定，两份记录尚未放在一起读。",
+				"active": "正在沿航标残片寻找沉船，逐字解读埃蒙的家书与日志。",
+				"ready": "家书、航海记录与航线图已取得，返回登记处完成登记。",
+				"completed": "埃蒙失约但完成船长职责，家书与日志归还原处。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1020": {
+		"title": "C4-04 让船不再回头",
+		"description_template": "赛壬保存遇难者声音，也让活人无法离开。校准潮汐钟，击败赛壬让锚链松开。登上运输船取得三源时序证据，官方因果不成立。",
+		"description": "赛壬保存遇难者声音，也让活人无法离开。校准潮汐钟，击败赛壬让锚链松开。登上运输船取得三源时序证据，官方因果不成立。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9006,
+		"turn_in_npc_id": 9006,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8030, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1020_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1020",
 			"objective_type": "kill",
+			"target_name": "赛壬",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "凯在苍蓝港口等待。他受雇夺取星楔，旧契约仍然生效；雇主的真实身份与复原委员会的联系仍未交出。",
-				"active": "凯正与你共同面对目标。他先看出口、价格和谁在撒谎，发现目标会导致现役救援线崩坏后已停止交付，旧契约的雇主姓名仍未交出。",
-				"ready": "凯已击杀目标，返回他处面对旧契约的最后交接。",
-				"completed": "凯面对旧契约加入旅团。他不替死人收货，雇主与复原委员会的联系仍留一截，出口在那边。"
+				"inactive": "赛壬用录音贝壳重复普通生活片段，让活人无法离港。",
+				"active": "正在校准潮汐钟并击败赛壬，让锚链松开。",
+				"ready": "赛壬退为低强度残响，返回取得运输船三源证据。",
+				"completed": "官方因果不成立，三人明确怀疑王室并决定查清。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1014": {
-		"title": "莱昂·盾卫印与档案校验",
-		"description_template": "灰烬王城的焚毁档案馆前，最后的档案守卫雷欧哈特认得莱昂的直属盾卫印，要求他亲自确认旧记录。在黑色幽默与怀疑中，与号手多恩遗响交谈，调出盾卫队岗位名册与号手证据，确认被删去的执行记录——空白留空，谁填谁担责。",
-		"description": "灰烬王城的焚毁档案馆前，最后的档案守卫雷欧哈特认得莱昂的直属盾卫印，要求他亲自确认旧记录。在黑色幽默与怀疑中，与号手多恩遗响交谈，调出盾卫队岗位名册与号手证据，确认被删去的执行记录——空白留空，谁填谁担责。",
-		"quest_kind": "personal",
+	"1021": {
+		"title": "C5-01 名册上不存在的街",
+		"description_template": "难民街被登记为全员撤离。走访药铺、面摊、修械棚取得三户证据，为拒绝登记制度的行政错误建立临时复路名册。删除记录不等于人不存在。",
+		"description": "难民街被登记为全员撤离。走访药铺、面摊、修械棚取得三户证据，为拒绝登记制度的行政错误建立临时复路名册。删除记录不等于人不存在。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
-		"required_hero_id": 7001,
+		"required_hero_id": 0,
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9008,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1014_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1021_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9008",
+			"dialogue_id": "quest_1021",
 			"objective_type": "talk",
+			"target_name": "多恩",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "号手多恩的遗响在撤离钟楼下等待。雷欧哈特认得莱昂的直属盾卫印，要求他亲自确认旧岗位名册与号手证据，莱昂尚未面对这次档案校验。",
-				"active": "莱昂正与号手多恩遗响交谈，调出盾卫队岗位名册，比对脚印、钟锤记录与维修签收簿的红绳。雷欧哈特拒绝跳过执行者验证。",
-				"ready": "莱昂已找到凭证，返回号手处完成档案校验的最后交接。",
-				"completed": "莱昂以直属盾卫印确认了旧岗位名册，号手多恩的姓名由证据补回纪功墙。雷欧哈特开放档案，空白仍留空，谁填谁担责。"
+				"inactive": "难民街被登记为全员撤离，记录员以档案显示无人拒绝发粮。",
+				"active": "正在走访药铺、面摊、修械棚，收集三户证据建立复路名册。",
+				"ready": "三户证据与居民按印已集齐，返回结束登记。",
+				"completed": "难民街获得合法地址，记录为恢复承认而非重新出现。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1015": {
-		"title": "露娜·游侠会救援记录与难民街登记",
-		"description_template": "灰烬王城的难民街已形成自己的取水轮值与夜间巡逻，旧档案却把街区写成全员撤离。森语游侠会自由弓手露娜持有民间救援路线记录，雷欧哈特要求她确认其与官方名册的冲突。在黑色幽默与怀疑中，与号手多恩遗响交谈，把难民街的真实住户记进会留下来的档案。",
-		"description": "灰烬王城的难民街已形成自己的取水轮值与夜间巡逻，旧档案却把街区写成全员撤离。森语游侠会自由弓手露娜持有民间救援路线记录，雷欧哈特要求她确认其与官方名册的冲突。在黑色幽默与怀疑中，与号手多恩遗响交谈，把难民街的真实住户记进会留下来的档案。",
-		"quest_kind": "personal",
+	"1022": {
+		"title": "C5-02 最后一声撤离号",
+		"description_template": "号手多恩被旧档案写成逃兵。找回断裂钟锤两段与撤离名单缺页，修好钟锤按旧节奏敲响第二次警报。备份门开启，姓名由证据确认。",
+		"description": "号手多恩被旧档案写成逃兵。找回断裂钟锤两段与撤离名单缺页，修好钟锤按旧节奏敲响第二次警报。备份门开启，姓名由证据确认。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
-		"required_hero_id": 7002,
+		"required_hero_id": 0,
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9008,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1015_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1022_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9008",
+			"dialogue_id": "quest_1022",
 			"objective_type": "talk",
+			"target_name": "多恩",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "号手多恩的遗响在撤离钟楼下等待。雷欧哈特认得露娜的游侠会救援记录，要求她确认民间路线与官方名册的冲突，难民街的真实登记仍未交出。",
-				"active": "露娜正与号手多恩遗响交谈，沿难民街核对取水轮值、屋顶修补与夜间巡逻。她不接受别人替自己决定风险，民间救援路线的佐证逐项上报。",
-				"ready": "露娜已找到凭证，返回号手处完成难民街登记的最后交接。",
-				"completed": "露娜确认了游侠会救援记录与难民街的真实住户，号手多恩的姓名由证据补回纪功墙。民间路线被写进会留下来的档案，第二道刻痕仍待返还。"
+				"inactive": "号手多恩的行动遗响被困在撤离钟楼，旧档案把他写成逃兵。",
+				"active": "正在找回断裂钟锤与撤离名单缺页，修好钟锤敲响第二次警报。",
+				"ready": "备用门已开启，返回确认多恩的姓名。",
+				"completed": "多恩姓名由证据确认，名字回来了，人没有。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	},
-	"1016": {
-		"title": "米娅·学院校验签章与雷欧哈特档案",
-		"description_template": "灰烬王城的焚毁档案馆里，雷欧哈特认得米娅的学院校验签章，要求她确认旧术式参数与星楔转换记录。在黑色幽默与怀疑中，与号手多恩遗响交谈，用双头校验笔比对被删去的执行记录——一端记术式能否运行，另一端记还有谁留在危险区。",
-		"description": "灰烬王城的焚毁档案馆里，雷欧哈特认得米娅的学院校验签章，要求她确认旧术式参数与星楔转换记录。在黑色幽默与怀疑中，与号手多恩遗响交谈，用双头校验笔比对被删去的执行记录——一端记术式能否运行，另一端记还有谁留在危险区。",
-		"quest_kind": "personal",
+	"1023": {
+		"title": "C5-03 三种身份，一扇档案门",
+		"description_template": "焚毁档案馆由军务锁、民间路线锁、术式锁并存。三份记录共同指向一名被删骑士统领。身份未知，关系未知。",
+		"description": "焚毁档案馆由军务锁、民间路线锁、术式锁并存。三份记录共同指向一名被删骑士统领。身份未知，关系未知。",
+		"quest_kind": "main",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
-		"required_hero_id": 7003,
+		"required_hero_id": 0,
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9008,
-				"count": 1
-			}
+			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
 		],
-		"rewards": {
-			"items": [
-				{
-					"item_id": 100001,
-					"count": 3
-				}
-			],
-			"flags": [
-				"quest_1016_completed"
-			]
-		},
+		"rewards": { "items": [], "flags": ["quest_1023_completed"] },
 		"authoring": {
-			"dialogue_id": "npc_9008",
+			"dialogue_id": "quest_1023",
 			"objective_type": "talk",
+			"target_name": "多恩",
+			"reward_item_name": "",
 			"state_text_templates": {
-				"inactive": "号手多恩的遗响在撤离钟楼下等待。雷欧哈特认得米娅的学院校验签章，要求她确认旧术式参数与星楔转换记录，被删去的执行记录仍未校验。",
-				"active": "米娅正与号手多恩遗响交谈，用双头校验笔比对焚毁档案。她明确区分证据、推测与未知项，雷欧哈特拒绝她跳过各自验证。",
-				"ready": "米娅已找到凭证，返回号手处完成档案校验的最后交接。",
-				"completed": "米娅以学院校验签章确认了旧术式参数与星楔转换记录，号手多恩的姓名由证据补回纪功墙。双头校验笔的两端都记上了，冲突版本都被保留。"
+				"inactive": "焚毁档案馆仍由三种权限锁定，三份旧身份拓印待取得。",
+				"active": "正在逐一通过军务锁、民间路线锁、术式锁，收集三份旧身份拓印。",
+				"ready": "三组旧身份拓印已取得，返回确认被删统领存在。",
+				"completed": "被删骑士统领被确认，身份与关系仍未知。"
 			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			}
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1024": {
+		"title": "C5-04 叛逃统领与第六号脉化体",
+		"description_template": "雷欧哈特以长剑扣住档案门。击败雷欧哈特开放档案，取得岗位名册与永曜预算残页。两份卷宗故意不互认，主契遗装写入三名当前调查成员。",
+		"description": "雷欧哈特以长剑扣住档案门。击败雷欧哈特开放档案，取得岗位名册与永曜预算残页。两份卷宗故意不互认，主契遗装写入三名当前调查成员。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9008,
+		"turn_in_npc_id": 9008,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8031, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1024_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1024",
+			"objective_type": "kill",
+			"target_name": "雷欧哈特",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "雷欧哈特看守第五枚星楔与军务封档，要求逐项确认三种身份。",
+				"active": "正在击败雷欧哈特，保护证据区，让档案开放交付。",
+				"ready": "岗位名册与预算残页已取得，返回完成主契重铸。",
+				"completed": "两份卷宗故意不互认，主契遗装写入三名成员。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1025": {
+		"title": "C6-01 三把旧钥匙",
+		"description_template": "持有前五枚星楔权限与最终清除令。用三把旧钥匙解除旧锁，同步前五枚星楔开启核心门。两支失败处置队只有进入记录，死因未知。",
+		"description": "持有前五枚星楔权限与最终清除令。用三把旧钥匙解除旧锁，同步前五枚星楔开启核心门。两支失败处置队只有进入记录，死因未知。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1025_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1025",
+			"objective_type": "talk",
+			"target_name": "诺瓦",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "核心门由三类旧锁锁定，两支失败处置队只留下烧蚀星印与单向定位日志。",
+				"active": "正在用三把旧钥匙解除旧锁，同步前五枚星楔开启核心门。",
+				"ready": "核心门已开启，返回确认进入内环。",
+				"completed": "核心门开启，常规队伍无法正常进入或返回的事实被确认。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1026": {
+		"title": "C6-02 第四套餐具",
+		"description_template": "失落营地重现，有四套餐具。三个人的生活习惯逐件指向第四个人曾长期共同生活。我们记得怎么用，不记得谁用过。",
+		"description": "失落营地重现，有四套餐具。三个人的生活习惯逐件指向第四个人曾长期共同生活。我们记得怎么用，不记得谁用过。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1026_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1026",
+			"objective_type": "talk",
+			"target_name": "诺瓦",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "失落营地有四套餐具，第四只杯子被推到右手边又停住。某人曾长期在这里共同生活。",
+				"active": "正在调查营地物件，确认第四个人曾与三人长期共同生活。",
+				"ready": "物件多源证据已收集，返回围第四空位完成配装。",
+				"completed": "第四个人曾长期共同生活被确认，姓名与关系仍未知。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1027": {
+		"title": "C6-03 六张只为王族制作的椅子",
+		"description_template": "永曜灌注庭有六张只为王族体型制作的椅子。测量椅体磨损，复制疗程指标，拓印现任王室印玺，确认永曜工程服务王族延寿与魔力增幅。",
+		"description": "永曜灌注庭有六张只为王族体型制作的椅子。测量椅体磨损，复制疗程指标，拓印现任王室印玺，确认永曜工程服务王族延寿与魔力增幅。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8015, "count": 4 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1027_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1027",
+			"objective_type": "kill",
+			"target_name": "王室构造体",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "六张灌注椅按不同王族体型制作，通讯员称其为战时医疗设施。",
+				"active": "正在阻止构造体销毁座椅铭印，测量磨损并拓印印玺。",
+				"ready": "三组证据已闭环，返回选择终战增益。",
+				"completed": "永曜工程服务王族的目的是首次确认。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1028": {
+		"title": "C6-04 把六枚星楔改成救人的方式",
+		"description_template": "先保邮路、粮道和救援航线，关闭王室专线、观光传送和灌注旁路。按顺序重排六楔，设置记忆吞噬阈值自动停机。",
+		"description": "先保邮路、粮道和救援航线，关闭王室专线、观光传送和灌注旁路。按顺序重排六楔，设置记忆吞噬阈值自动停机。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8017, "count": 8 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1028_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1028",
+			"objective_type": "kill",
+			"target_name": "渊蚀构造体",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "第六枚星楔仍与核心目标连接，王室专线仍在占用中央配额。",
+				"active": "正在按邮路、粮道、救援航线顺序重排六楔，抵御渊蚀构造体。",
+				"ready": "六楔已转入低负载待命，返回确认地方基础功能。",
+				"completed": "六枚星楔转为救人的方式，不恢复中央高负载。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1029": {
+		"title": "C6-05 没有名字的目标",
+		"description_template": "完全脉化的目标从核心裂隙中形成，无台词、无姓名、无意识。三人共同处置，完成最后一击。目标死亡，三段关系同时恢复：诺瓦是我们的统领、恋人、哥哥。",
+		"description": "完全脉化的目标从核心裂隙中形成，无台词、无姓名、无意识。三人共同处置，完成最后一击。目标死亡，三段关系同时恢复：诺瓦是我们的统领、恋人、哥哥。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "kill", "enemy_id": 8032, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1029_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1029",
+			"objective_type": "kill",
+			"target_name": "诺瓦",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "王脉核心开始物质化坍塌，目标从裂隙中形成，三人只以目标称呼它。",
+				"active": "正在共同处置目标，固定正面、建立相位路线、同步六楔。",
+				"ready": "目标已处置，返回完成最后的证据确认。",
+				"completed": "诺瓦死亡，三段关系同时恢复，进入灭口证据调查。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
+		}
+	},
+	"1030": {
+		"title": "C6-06 最后九十秒",
+		"description_template": "主出口被远程封闭，九十秒倒计时启动。重读最终清除令认出隐藏军务码，展开被整段删掉的返程图。活着带回证据，让下命令的人解释为什么要他死两次。",
+		"description": "主出口被远程封闭，九十秒倒计时启动。重读最终清除令认出隐藏军务码，展开被整段删掉的返程图。活着带回证据，让下命令的人解释为什么要他死两次。",
+		"quest_kind": "main",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9009,
+		"turn_in_npc_id": 9009,
+		"objectives": [
+			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+		],
+		"rewards": { "items": [], "flags": ["quest_1030_completed"] },
+		"authoring": {
+			"dialogue_id": "quest_1030",
+			"objective_type": "talk",
+			"target_name": "诺瓦",
+			"reward_item_name": "",
+			"state_text_templates": {
+				"inactive": "诺瓦死亡，三段关系返还，主出口尚未完全封闭。",
+				"active": "正在九十秒倒计时内逃离坍塌的核心，识别承重安全区与民间旧路。",
+				"ready": "三人已撤出主出口，返回与其他接应确认。",
+				"completed": "灭口证据被证明，三人决定追责，要求解释为什么要他死两次。"
+			},
+			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
 		}
 	}
 }

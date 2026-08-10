@@ -39,7 +39,7 @@ func get_errors() -> Array[String]:
 
 
 func _validate_npc(id: int, raw: Dictionary, dialogue_config) -> Dictionary:
-	var allowed_fields := ["name", "asset", "dialogue_id", "interaction_radius", "default_facing"]
+	var allowed_fields := ["name", "asset", "dialogue_id", "interaction_radius", "default_facing", "chapter_id", "npc_kind", "hero_id"]
 	for field in raw:
 		if str(field) not in allowed_fields:
 			_errors.append("NPC %d definition contains unsupported field: %s" % [id, field])
@@ -78,6 +78,9 @@ func _validate_npc(id: int, raw: Dictionary, dialogue_config) -> Dictionary:
 		"dialogue_id": dialogue_id,
 		"interaction_radius": float(raw.get("interaction_radius")),
 		"default_facing": str(raw.get("default_facing")),
+		"chapter_id": str(raw.get("chapter_id", "")),
+		"npc_kind": str(raw.get("npc_kind", "story")),
+		"hero_id": int(raw.get("hero_id", 0)),
 		"asset_data": asset,
 		"portrait": str(asset.get("portrait")),
 	}
@@ -148,7 +151,7 @@ func _is_number(value: Variant) -> bool:
 
 
 func _is_slug(value: String) -> bool:
-	var pattern := RegEx.create_from_string("^[a-z][a-z0-9_]*$")
+	var pattern := RegEx.create_from_string("^[a-z0-9][a-z0-9_]*$")
 	return pattern.search(value) != null
 
 

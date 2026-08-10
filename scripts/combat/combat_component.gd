@@ -310,6 +310,10 @@ func _execute_node(node: Dictionary) -> bool:
 			_execute_heal_node(node)
 		"move_x":
 			_execute_move_node(node)
+		"teleport_to_enemy":
+			_execute_teleport_to_enemy(node)
+		"move_to_screen_center":
+			_execute_move_to_screen_center(node)
 		"end_skill":
 			_finish_cast()
 			return true
@@ -571,17 +575,23 @@ func _spawn_effect_at(position_value: Vector2, node: Dictionary, target_owner: N
 		# applied actor_scale twice to body_center and shifted release effects.
 		var anchor_offset := _resolve_effect_anchor_offset(node, attach_root)
 		var mirror_enabled := bool(node.get("mirror_with_facing", true))
-		var mirror_x := -1.0 if mirror_enabled and attach_sprite != null and attach_sprite.flip_h else 1.0
+		var facing_flip := mirror_enabled and attach_sprite != null and attach_sprite.flip_h
+		var mirror_x := -1.0 if facing_flip else 1.0
 		attach_root.add_child(effect_node)
 		effect_node.position = anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		effect_node.scale = effect_node.scale * Vector2(visual_scale, visual_scale)
 		var explicit_mirror := bool(node.get("mirror", false))
-		if effect_node is AnimatedSprite2D and mirror_enabled and attach_sprite != null:
-			# 效果场景可烘焙水平镜像（flip_h），与挂载根朝向取异或，使特效内部镜像独立于挂载根朝向。
-			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != attach_sprite.flip_h
-		if effect_node is AnimatedSprite2D and explicit_mirror:
-			(effect_node as AnimatedSprite2D).flip_h = not (effect_node as AnimatedSprite2D).flip_h
-		elif explicit_mirror or mirror_x < 0.0:
+		# 朝向翻转时特效必须是「朝左成品的整体水平镜像」：偏移取反（上方 mirror_x）
+		# + 旋转取反 + 镜像状态取反（XOR），三者缺一不可。
+		# 数学依据：H·R(θ) = R(-θ)·H —— 只切镜像不取反旋转时，朝右的特效看起来
+		# 和朝左一模一样（旋转方向错误）；用 OR 保留镜像则在 mirror=true 时永不翻转。
+		var should_mirror := explicit_mirror != facing_flip
+		if facing_flip:
+			effect_node.rotation = -effect_node.rotation
+		if effect_node is AnimatedSprite2D:
+			# 与场景烘焙的 flip_h 取异或：若烘焙已翻转且需镜像，则两者抵消
+			(effect_node as AnimatedSprite2D).flip_h = (effect_node as AnimatedSprite2D).flip_h != should_mirror
+		elif should_mirror:
 			effect_node.scale.x *= -1.0
 		# The character visuals are a sibling at z=100 in imported actor scenes.
 		# Resolve front/behind relative to that node rather than relative to the world root.
@@ -617,8 +627,36 @@ func _apply_imported_effect_transform(effect: Node, node: Dictionary) -> void:
 	effect_node.rotation += deg_to_rad(float(node.get("rotation_degrees", 0.0)))
 	var tint := Color.from_string(str(node.get("tint", "#ffffff")), Color.WHITE)
 	tint.a *= clampf(float(node.get("opacity", 1.0)), 0.0, 1.0)
-	effect_node.modulate *= tint
-	_apply_imported_effect_blend_mode(effect, node)
+	if tint.r >= 0.999 and tint.g >= 0.999 and tint.b >= 0.999:
+		# 白色 tint：只需 modulate 处理 opacity
+		effect_node.modulate *= tint
+		_apply_imported_effect_blend_mode(effect, node)
+	else:
+		# 非白色 tint：用 shader 做颜色替换（对齐网页侧 source-atop 行为，
+		# 将所有像素 RGB 替换为 tint 色并保留原始 alpha）
+		_apply_tint_replacement_material(effect, tint, node)
+
+
+func _apply_tint_replacement_material(effect: Node, tint: Color, node: Dictionary) -> void:
+	var blend_mode_str := str(node.get("attachment_blend_mode", "normal"))
+	var render_mode := "blend_mix"
+	if blend_mode_str == "add":
+		render_mode = "blend_add"
+	elif blend_mode_str == "screen":
+		render_mode = "blend_premul_alpha"
+	var shader := Shader.new()
+	shader.code = "shader_type canvas_item;\nrender_mode %s;\nuniform vec4 tint : source_color = vec4(1.0);\nvoid fragment() {\n    vec4 c = texture(TEXTURE, UV);\n    COLOR = vec4(tint.rgb, c.a * tint.a);\n}" % render_mode
+	var mat := ShaderMaterial.new()
+	mat.shader = shader
+	mat.set_shader_parameter("tint", tint)
+	var canvas_items: Array[CanvasItem] = []
+	if effect is CanvasItem:
+		canvas_items.append(effect as CanvasItem)
+	for child in effect.find_children("*", "CanvasItem", true, false):
+		if child is CanvasItem:
+			canvas_items.append(child as CanvasItem)
+	for canvas_item in canvas_items:
+		canvas_item.material = mat
 
 
 func _apply_imported_effect_blend_mode(effect: Node, node: Dictionary) -> void:
@@ -759,6 +797,76 @@ func _execute_heal_node(node: Dictionary) -> void:
 func _execute_move_node(node: Dictionary) -> void:
 	if _owner is Node2D:
 		(_owner as Node2D).global_position.x += float(node.get("distance", node.get("delta_x", 0.0))) * _get_facing_sign()
+
+
+## 瞬移至敌人节点：把施法者瞬间移到最近敌人身边（贴边留 landing_gap），并在路径上撒缠影。
+func _execute_teleport_to_enemy(node: Dictionary) -> void:
+	if not _owner is Node2D:
+		return
+	var hurt_box := _skill_executor.find_nearest_enemy(float(node.get("target_search_range", 99999.0)))
+	if hurt_box == null or not is_instance_valid(hurt_box):
+		return
+	var enemy: Node = hurt_box.get("_owner_entity") if "_owner_entity" in hurt_box else null
+	if enemy == null or not enemy is Node2D:
+		return
+	var caster := _owner as Node2D
+	var enemy_node := enemy as Node2D
+	var facing := signf(enemy_node.global_position.x - caster.global_position.x)
+	if is_zero_approx(facing):
+		facing = _get_facing_sign()
+	var target_x: float = enemy_node.global_position.x \
+		- facing * (_actor_half_width(caster) + _actor_half_width(enemy_node) + float(node.get("landing_gap", 60.0)))
+	var start := caster.global_position
+	caster.global_position.x = target_x
+	_spawn_afterimage_trail(start, caster.global_position, int(node.get("afterimage_count", 3)), float(node.get("afterimage_duration", 0.6)))
+
+
+## 读取实体的战斗半宽（经 has_method 安全调用，避免对 Node 类型做静态调用）。
+func _actor_half_width(actor: Node2D) -> float:
+	if actor == null:
+		return 0.0
+	if actor.has_method("_combat_half_width"):
+		return float(actor.call("_combat_half_width", actor))
+	return 0.0
+
+
+## 移至屏幕中心节点：把施法者瞬间移到相机屏幕水平中心（可选 offset_x），并撒缠影。
+func _execute_move_to_screen_center(node: Dictionary) -> void:
+	if not _owner is Node2D or _owner.get_viewport() == null:
+		return
+	var cam := _owner.get_viewport().get_camera_2d()
+	if cam == null:
+		return
+	var caster := _owner as Node2D
+	var target_x: float = cam.get_screen_center_position().x + float(node.get("offset_x", 0.0))
+	var start := caster.global_position
+	caster.global_position.x = target_x
+	_spawn_afterimage_trail(start, caster.global_position, int(node.get("afterimage_count", 3)), float(node.get("afterimage_duration", 0.6)))
+
+
+## 程序化缠影：沿 from→to 撒 count 个施法者当前帧精灵副本，淡出后释放。
+## 纯表现：只挂 Sprite2D 副本，不带 HitBox/HurtBox/碰撞，不参与战斗逻辑。
+func _spawn_afterimage_trail(from: Vector2, to: Vector2, count: int, duration: float) -> void:
+	if _sprite == null or count <= 0:
+		return
+	var scene := _owner.get_tree().current_scene if _owner != null and _owner.get_tree() != null else null
+	if scene == null:
+		return
+	var visual_root := _owner.get_node_or_null("CharacterActionSet") as Node2D
+	var base_z := int(visual_root.z_index if visual_root != null else 0) - 1
+	for i in range(count):
+		var t := float(i) / float(maxi(1, count - 1))
+		var pos := from.lerp(to, t)
+		var ghost := _sprite.duplicate() as AnimatedSprite2D
+		scene.add_child(ghost)
+		ghost.global_position = pos
+		ghost.z_as_relative = false
+		ghost.z_index = base_z
+		ghost.stop()
+		ghost.self_modulate = Color(1.0, 1.0, 1.0, 0.35)
+		var tw := ghost.create_tween()
+		tw.tween_property(ghost, "self_modulate:a", 0.0, maxf(0.05, duration))
+		tw.tween_callback(ghost.queue_free)
 
 
 func _resolve_origin(node: Dictionary) -> Vector2:

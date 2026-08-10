@@ -10,12 +10,14 @@ signal notification_requested(text: String)
 var config: QuestConfig
 var state: QuestStateData
 var inventory: InventoryProvider
+var roster: CharacterRosterData
 
 
-func setup(p_config: QuestConfig, p_state: QuestStateData, p_inventory: InventoryProvider) -> void:
+func setup(p_config: QuestConfig, p_state: QuestStateData, p_inventory: InventoryProvider, p_roster: CharacterRosterData = null) -> void:
 	config = p_config
 	state = p_state
 	inventory = p_inventory
+	roster = p_roster
 	if inventory != null:
 		if not inventory.item_added.is_connected(_on_inventory_changed):
 			inventory.item_added.connect(_on_inventory_changed)
@@ -145,6 +147,8 @@ func evaluate_condition(condition: Dictionary) -> bool:
 			return state.get_flag(str(condition.get("flag", ""))) == condition.get("value", true)
 		"item_count":
 			return inventory != null and inventory.get_count_by_id(int(condition.get("item_id", 0))) >= int(condition.get("count", 1))
+		"lead_hero":
+			return roster != null and roster.get_protagonist_hero_id() == int(condition.get("hero_id", 0))
 		"":
 			return true
 		_:

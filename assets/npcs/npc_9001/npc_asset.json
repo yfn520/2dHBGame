@@ -1,0 +1,18 @@
+{
+	"version": 1,
+	"id": "npc_9001",
+	"display_name": "霍雷克",
+	"default_animation": "idle",
+	"spriteframes": "res://assets/npcs/npc_9001/godot/spriteframes.tres",
+	"visual_scene": "res://assets/npcs/npc_9001/godot/npc_visual.tscn",
+	"portrait": "res://assets/npcs/npc_9001/portrait.png",
+	"frame_size": {
+		"width": 512,
+		"height": 512
+	},
+	"foot_center": {
+		"x": 256,
+		"y": 486
+	},
+	"display_scale": 1
+}
