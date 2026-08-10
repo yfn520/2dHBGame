@@ -27,6 +27,7 @@ var _npcs_cfg: Dictionary = {}        # npc_id_str → npc dict（名称/asset �
 var _npc_placements: Dictionary = {}   # level_id_str → Array[placement dict]（来自 npc_placements.json）
 var _current_level_id: String = ""
 var _selected_spawn_id: String = ""
+var _selected_npc_id: String = ""   # 选中/拖动的 NPC 摆放 instance_id
 var _preview_textures: Dictionary = {}  # enemy_id(int) → Texture2D
 var _npc_preview_textures: Dictionary = {}  # npc_id(int) → Texture2D（资源缺失时为 null）
 var _loading := false
@@ -91,6 +92,7 @@ var _zoom := 0.5
 var _dragging_cam := false
 var _dragging_spawn := false
 var _dragging_player_spawn := false
+var _dragging_npc := false
 var _drag_last_screen := Vector2.ZERO
 var _show_grid := true
 const GRID_SIZE := 64.0
@@ -303,7 +305,7 @@ func _build_ui() -> void:
 	toolbar.add_child(_grid_check)
 	_show_npcs_check = CheckBox.new()
 	_show_npcs_check.text = "显示NPC"
-	_show_npcs_check.tooltip_text = "叠加显示 npc_placements.json 中的 NPC 摆放（只读，编辑请用 web NPC 工作台）"
+	_show_npcs_check.tooltip_text = "叠加显示 npc_placements.json 中的 NPC 摆放；可拖动调整位置，保存时写回 npc_placements.json"
 	_show_npcs_check.button_pressed = _show_npcs
 	_show_npcs_check.toggled.connect(_on_show_npcs_toggled)
 	toolbar.add_child(_show_npcs_check)
@@ -600,6 +602,7 @@ func _on_level_selected(index: int) -> void:
 		return
 	_current_level_id = String(_level_picker.get_item_metadata(index))
 	_selected_spawn_id = ""
+	_selected_npc_id = ""
 	_refresh_test_start_ui()
 	_load_level_fields()
 	_refresh_spawn_list()
@@ -1299,6 +1302,21 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 					_add_mode = ""
 					_status.text = "已添加刷怪点"
 					return
+				# 优先命中 NPC 摆放标记：选中并进入拖动（可编辑位置）
+				var npc_index := _find_npc_at(world_pos)
+				if npc_index >= 0:
+					var npc_entries: Array = _npc_placements.get(_current_level_id, [])
+					if npc_entries[npc_index] is Dictionary:
+						_selected_npc_id = String((npc_entries[npc_index] as Dictionary).get("instance_id", ""))
+					_dragging_npc = true
+					_dragging_spawn = false
+					_dragging_player_spawn = false
+					_selected_spawn_id = ""
+					_drag_last_screen = mb.position
+					_refresh_spawn_list()
+					_refresh_spawn_props()
+					_refresh_markers()
+					return
 				var spawn_id := _find_spawn_at(world_pos)
 				if spawn_id == PLAYER_SPAWN_ID:
 					# 拖拽玩家出生点
@@ -1318,6 +1336,7 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 				else:
 					# 点空白：取消选中
 					_selected_spawn_id = ""
+					_selected_npc_id = ""
 					_dragging_player_spawn = false
 					_refresh_spawn_list()
 					_refresh_spawn_props()
@@ -1325,12 +1344,17 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 			else:
 				_dragging_spawn = false
 				_dragging_player_spawn = false
+				_dragging_npc = false
 		elif mb.button_index == MOUSE_BUTTON_RIGHT and mb.pressed:
 			# 右键刷怪点：删除（玩家出生点不可删）
 			var spawn_id := _find_spawn_at(world_pos)
 			if spawn_id != PLAYER_SPAWN_ID and not spawn_id.is_empty():
 				_selected_spawn_id = spawn_id
 				_on_delete_spawn()
+			# 右键 NPC 摆放：删除
+			var npc_index := _find_npc_at(world_pos)
+			if npc_index >= 0:
+				_delete_npc_at(npc_index)
 	elif event is InputEventMouseMotion:
 		var mm := event as InputEventMouseMotion
 		if _dragging_cam:
@@ -1359,6 +1383,20 @@ func _on_viewport_gui_input(event: InputEvent) -> void:
 				_update_selected_spawn(entry)
 				_refresh_spawn_props()
 				_refresh_markers()
+		elif _dragging_npc and not _selected_npc_id.is_empty():
+			# 拖动 NPC 摆放位置（写回 npc_placements.json，保存时落盘）
+			var world_pos := _screen_to_world(mm.position)
+			var npc_entries: Array = _npc_placements.get(_current_level_id, [])
+			for i in range(npc_entries.size()):
+				if not npc_entries[i] is Dictionary:
+					continue
+				var npc_entry: Dictionary = npc_entries[i]
+				if String(npc_entry.get("instance_id", "")) == _selected_npc_id:
+					npc_entry["x"] = world_pos.x
+					npc_entry["y"] = world_pos.y
+					_npc_placements[_current_level_id] = npc_entries
+					_refresh_markers()
+					break
 	elif event is InputEventKey:
 		var ek := event as InputEventKey
 		if ek.pressed and ek.keycode == KEY_ESCAPE:
@@ -1380,6 +1418,41 @@ func _world_to_screen(world_pos: Vector2) -> Vector2:
 
 func _is_clicking_spawn_marker(world_pos: Vector2) -> bool:
 	return not _find_spawn_at(world_pos).is_empty()
+
+
+## 返回世界坐标处命中的 NPC 摆放索引；未命中返回 -1。容差按当前缩放调整。
+func _find_npc_at(world_pos: Vector2) -> int:
+	if _current_level_id.is_empty():
+		return -1
+	var entries: Array = _npc_placements.get(_current_level_id, [])
+	var best_index := -1
+	var best_dist := _marker_radius / _zoom
+	for i in range(entries.size()):
+		if not entries[i] is Dictionary:
+			continue
+		var entry: Dictionary = entries[i]
+		var p := Vector2(float(entry.get("x", 0)), float(entry.get("y", 0)))
+		var d := p.distance_to(world_pos)
+		if d <= best_dist:
+			best_dist = d
+			best_index = i
+	return best_index
+
+
+## 删除指定索引的 NPC 摆放，并刷新标记。
+func _delete_npc_at(index: int) -> void:
+	if _current_level_id.is_empty():
+		return
+	var entries: Array = _npc_placements.get(_current_level_id, [])
+	if index < 0 or index >= entries.size():
+		return
+	var removed_id := String(entries[index].get("instance_id", "")) if entries[index] is Dictionary else ""
+	entries.remove_at(index)
+	_npc_placements[_current_level_id] = entries
+	if _selected_npc_id == removed_id:
+		_selected_npc_id = ""
+	_status.text = "已删除 NPC 摆放 %s（保存后生效）" % removed_id
+	_refresh_markers()
 
 
 ## 返回世界坐标处命中的标记 ID（容差按当前缩放调整）。
@@ -1526,7 +1599,7 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 
 
 ## 绘制 NPC 摆放标记：方形 + 交互范围环 + 名称，区别于圆形刷怪点与菱形出生点。
-## 只读可视化：NPC 不参与选区/拖拽/删除（其数据由 web 工作台维护）。
+## 支持在编辑器中选中/拖动/删除（数据写回 npc_placements.json，保存时落盘）。
 func _draw_npc_markers(canvas_item: CanvasItem) -> void:
 	if _current_level_id.is_empty():
 		return
@@ -1543,8 +1616,13 @@ func _draw_npc_markers(canvas_item: CanvasItem) -> void:
 			continue
 		var entry: Dictionary = entry_value
 		var p := Vector2(float(entry.get("x", 0)), float(entry.get("y", 0)))
+		var instance_id := String(entry.get("instance_id", ""))
+		var is_selected := instance_id == _selected_npc_id
 		var npc_id := int(entry.get("npc_id", 0))
 		var nname := _npc_display_name(npc_id)
+		# 选中高亮外圈
+		if is_selected:
+			canvas_item.draw_circle(p, ring_radius + 4.0 / _zoom, Color("ffffff", 0.5))
 		# 交互范围环（虚线效果：多个小弧段近似）
 		var radius := float(entry.get("interaction_radius", 0.0))
 		if radius > 0.0:
@@ -1723,6 +1801,8 @@ func _on_save() -> void:
 	var lc = GameRegistry.get("level_config") if GameRegistry.get("level_config") != null else null
 	if lc != null and lc.has_method("load_config"):
 		lc.load_config()
+	# 写回 NPC 摆放（选中/拖动/删除后落盘）
+	_save_npc_placements()
 	var msg := "已保存 levels.json（%d 个关卡）" % data.size()
 	if removed_count > 0:
 		msg += "，清理了 %d 个引用已删除怪物的刷怪点" % removed_count
@@ -1735,6 +1815,20 @@ func _on_save() -> void:
 		EditorInterface.get_resource_filesystem().scan()
 
 
+## 把内存中的 NPC 摆放写回 npc_placements.json（version=1 + levels）。
+func _save_npc_placements() -> void:
+	var npc_data: Dictionary = {"version": 1, "levels": _npc_placements}
+	var npc_file := FileAccess.open(NPC_PLACEMENTS_PATH, FileAccess.WRITE)
+	if npc_file == null:
+		_status.text = "无法写入 npc_placements.json"
+		return
+	npc_file.store_string(JSON.stringify(npc_data, "\t") + "\n")
+	# 同步内存中的 NpcPlacementConfig
+	var npc_pc = GameRegistry.get("npc_placement_config") if GameRegistry.get("npc_placement_config") != null else null
+	if npc_pc != null and npc_pc.has_method("load_config"):
+		npc_pc.load_config()
+
+
 func _on_discard() -> void:
 	_levels.clear()
 	_enemies_cfg.clear()
@@ -1744,6 +1838,7 @@ func _on_discard() -> void:
 	_npc_preview_textures.clear()
 	_current_level_id = ""
 	_selected_spawn_id = ""
+	_selected_npc_id = ""
 	_load_data()
 	_refresh_level_picker()
 	_status.text = "已放弃未保存修改。"
