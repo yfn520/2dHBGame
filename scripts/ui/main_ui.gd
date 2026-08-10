@@ -482,7 +482,7 @@ func _on_data_changed(_arg = null) -> void:
 
 # ---- 刷新 ----
 
-func _refresh_all() -> void:
+func _refresh_all(_by_id: int = -1) -> void:
 	if _scene_root == null or not _built:
 		return
 	var members := _get_members()
