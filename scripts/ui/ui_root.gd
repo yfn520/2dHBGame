@@ -34,6 +34,7 @@ var _popup_stack: Array[Control] = []
 var _tooltip: Control = null
 var _party_manager: PartyManager
 var _enemy_spawner: Node
+var _backpack_ui: BackpackUI
 
 
 func _ready() -> void:
@@ -122,6 +123,19 @@ func is_main_ui_open() -> bool:
 	return _main_ui != null and _main_ui.visible
 
 
+# ---- 背包界面（B 键弹出） ----
+
+func toggle_backpack() -> void:
+	if _backpack_ui == null:
+		return
+	_backpack_ui.toggle()
+	_set_world_input_for_ui(_backpack_ui.visible)
+
+
+func is_backpack_open() -> bool:
+	return _backpack_ui != null and _backpack_ui.visible
+
+
 # ---- 弹窗 ----
 
 ## 在 PopupLayer 显示一个阻塞弹窗，加入关闭栈。
@@ -169,7 +183,7 @@ func hide_tooltip() -> void:
 	_tooltip = null
 
 
-## 按优先级关闭最上层：弹窗 → 任务抽屉 → 主菜单 → 主界面 UI。
+## 按优先级关闭最上层：弹窗 → 任务抽屉 → 主菜单 → 背包 → 主界面 UI。
 func close_top() -> void:
 	if not _popup_stack.is_empty():
 		var top: Control = _popup_stack.back()
@@ -184,6 +198,10 @@ func close_top() -> void:
 	if _main_menu != null and _main_menu.is_open():
 		_main_menu.close()
 		return
+	if _backpack_ui != null and _backpack_ui.is_open():
+		_backpack_ui.close()
+		_set_world_input_for_ui(false)
+		return
 	if _main_ui != null and _main_ui.visible:
 		_main_ui.visible = false
 		_set_world_input_for_ui(false)
@@ -193,7 +211,7 @@ func is_modal_open() -> bool:
 	# 注意：常驻战斗 HUD（_main_ui）默认可见，不是模态层，不能计入阻塞，
 	# 否则会一直阻断 NPC 交互（需按 ESC 关闭 HUD 才能触发对话）。
 	# M 键切换主界面显隐时由 toggle_main_ui 单独用 _main_ui.visible 控制世界输入。
-	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open())
+	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open()) or (_backpack_ui != null and _backpack_ui.visible)
 
 
 func is_main_menu_open() -> bool:
@@ -348,6 +366,13 @@ func _build_content() -> void:
 	_notification_label.visible = false
 	_notification_label.process_mode = Node.PROCESS_MODE_ALWAYS
 	_notification_layer.add_child(_notification_label)
+
+	# 背包界面（B 键弹出）：从 UiInteractionComposer 导出的 backpack.tscn 实例化
+	_backpack_ui = preload("res://scripts/ui/backpack_ui.gd").new()
+	_backpack_ui.name = "BackpackUI"
+	_backpack_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_backpack_ui.visible = false
+	_screen_layer.add_child(_backpack_ui)
 
 
 func _connect_npc_services() -> void:

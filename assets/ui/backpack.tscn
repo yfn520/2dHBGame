@@ -1,0 +1,1062 @@
+[gd_scene format=3 uid="uid://wj62wwyk3l8x"]
+
+[ext_resource type="Texture2D" uid="uid://cd8qsxhractwj" path="res://assets/ui/backpack/background/icon_01_baa4cad1.png" id="res_1"]
+[ext_resource type="Texture2D" uid="uid://d1ckt20fmowe" path="res://assets/ui/backpack/textures/icon_01_ea7ba115.png" id="res_2"]
+
+[node name="UiScreen" type="Control" unique_id=420037698]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 760.0
+offset_bottom = 515.0
+
+[node name="Background" type="TextureRect" parent="." unique_id=809334368]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("res_1")
+expand_mode = 1
+
+[node name="player_sprite" type="AnimatedSprite2D" parent="." unique_id=392391338]
+unique_name_in_owner = true
+position = Vector2(125, 380)
+autoplay = "idle"
+centered = false
+
+[node name="compound_002" type="Control" parent="." unique_id=781419430]
+anchors_preset = 0
+offset_left = 186.0
+offset_top = 90.0
+offset_right = 236.0
+offset_bottom = 380.0
+
+[node name="dynamic_image_001_slot" type="Control" parent="compound_002" unique_id=631487602]
+clip_children = 1
+z_index = 2
+layout_mode = 1
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="dynamic_image_001" type="TextureRect" parent="compound_002/dynamic_image_001_slot" unique_id=1394980244]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_click" type="Button" parent="compound_002/dynamic_image_001_slot" unique_id=1114502753]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_slot" type="Control" parent="compound_002" unique_id=2051297987]
+clip_children = 1
+z_index = 3
+layout_mode = 1
+anchors_preset = 0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 110.0
+
+[node name="dynamic_image_001_2" type="TextureRect" parent="compound_002/dynamic_image_001_2_slot" unique_id=1356202949]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_click" type="Button" parent="compound_002/dynamic_image_001_2_slot" unique_id=1593684556]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_slot" type="Control" parent="compound_002" unique_id=1155726281]
+clip_children = 1
+z_index = 4
+layout_mode = 1
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 50.0
+offset_bottom = 170.0
+
+[node name="dynamic_image_001_2_2" type="TextureRect" parent="compound_002/dynamic_image_001_2_2_slot" unique_id=689942607]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_click" type="Button" parent="compound_002/dynamic_image_001_2_2_slot" unique_id=342486462]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_2_slot" type="Control" parent="compound_002" unique_id=1138846757]
+clip_children = 1
+z_index = 5
+layout_mode = 1
+anchors_preset = 0
+offset_top = 180.0
+offset_right = 50.0
+offset_bottom = 230.0
+
+[node name="dynamic_image_001_2_2_2" type="TextureRect" parent="compound_002/dynamic_image_001_2_2_2_slot" unique_id=1867063652]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_2_click" type="Button" parent="compound_002/dynamic_image_001_2_2_2_slot" unique_id=1679610582]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_2_2_slot" type="Control" parent="compound_002" unique_id=298720744]
+clip_children = 1
+z_index = 6
+layout_mode = 1
+anchors_preset = 0
+offset_top = 240.0
+offset_right = 50.0
+offset_bottom = 290.0
+
+[node name="dynamic_image_001_2_2_2_2" type="TextureRect" parent="compound_002/dynamic_image_001_2_2_2_2_slot" unique_id=644630980]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_2_2_click" type="Button" parent="compound_002/dynamic_image_001_2_2_2_2_slot" unique_id=633747029]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="compound_002_2" type="Control" parent="." unique_id=534212302]
+anchors_preset = 0
+offset_left = 15.0
+offset_top = 90.0
+offset_right = 65.0
+offset_bottom = 380.0
+
+[node name="dynamic_image_001_3_slot" type="Control" parent="compound_002_2" unique_id=1454093225]
+clip_children = 1
+z_index = 7
+layout_mode = 1
+anchors_preset = 0
+offset_right = 50.0
+offset_bottom = 50.0
+
+[node name="dynamic_image_001_3" type="TextureRect" parent="compound_002_2/dynamic_image_001_3_slot" unique_id=1359973362]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_3_click" type="Button" parent="compound_002_2/dynamic_image_001_3_slot" unique_id=1673316842]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_3_slot" type="Control" parent="compound_002_2" unique_id=995168191]
+clip_children = 1
+z_index = 8
+layout_mode = 1
+anchors_preset = 0
+offset_top = 60.0
+offset_right = 50.0
+offset_bottom = 110.0
+
+[node name="dynamic_image_001_2_3" type="TextureRect" parent="compound_002_2/dynamic_image_001_2_3_slot" unique_id=760324797]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_3_click" type="Button" parent="compound_002_2/dynamic_image_001_2_3_slot" unique_id=1095086730]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_3_slot" type="Control" parent="compound_002_2" unique_id=519576071]
+clip_children = 1
+z_index = 9
+layout_mode = 1
+anchors_preset = 0
+offset_top = 120.0
+offset_right = 50.0
+offset_bottom = 170.0
+
+[node name="dynamic_image_001_2_2_3" type="TextureRect" parent="compound_002_2/dynamic_image_001_2_2_3_slot" unique_id=1570528666]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_3_click" type="Button" parent="compound_002_2/dynamic_image_001_2_2_3_slot" unique_id=1046817735]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_2_3_slot" type="Control" parent="compound_002_2" unique_id=1318529886]
+clip_children = 1
+z_index = 10
+layout_mode = 1
+anchors_preset = 0
+offset_top = 180.0
+offset_right = 50.0
+offset_bottom = 230.0
+
+[node name="dynamic_image_001_2_2_2_3" type="TextureRect" parent="compound_002_2/dynamic_image_001_2_2_2_3_slot" unique_id=2069242741]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_2_3_click" type="Button" parent="compound_002_2/dynamic_image_001_2_2_2_3_slot" unique_id=267695265]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="dynamic_image_001_2_2_2_2_2_slot" type="Control" parent="compound_002_2" unique_id=143312340]
+clip_children = 1
+z_index = 11
+layout_mode = 1
+anchors_preset = 0
+offset_top = 240.0
+offset_right = 50.0
+offset_bottom = 290.0
+
+[node name="dynamic_image_001_2_2_2_2_2" type="TextureRect" parent="compound_002_2/dynamic_image_001_2_2_2_2_2_slot" unique_id=72548992]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+texture = ExtResource("res_2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="dynamic_image_001_2_2_2_2_2_click" type="Button" parent="compound_002_2/dynamic_image_001_2_2_2_2_2_slot" unique_id=812175186]
+unique_name_in_owner = true
+layout_mode = 1
+offset_right = 50.0
+offset_bottom = 50.0
+focus_mode = 0
+flat = true
+
+[node name="scroll_grid_001" type="ScrollContainer" parent="." unique_id=163028996]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 1
+offset_left = 246.0
+offset_top = 95.0
+offset_right = 662.0
+offset_bottom = 453.0
+follow_focus = true
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="scroll_grid_001_margin" type="MarginContainer" parent="scroll_grid_001" unique_id=512527061]
+custom_minimum_size = Vector2(416, 880)
+layout_mode = 2
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 9
+
+[node name="scroll_grid_001_content" type="GridContainer" parent="scroll_grid_001/scroll_grid_001_margin" unique_id=945813975]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(398, 862)
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 7
+
+[node name="item_001" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2007421027]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_002" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1414055447]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_003" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2140232731]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_004" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2136344375]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_005" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=61962169]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_006" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1866952233]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_007" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=581035323]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_008" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1631036514]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_009" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=77021235]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_010" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1546055810]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_011" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1556916141]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_012" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=118411411]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_013" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1581734218]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_014" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1634273991]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_015" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1924398528]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_016" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2041117988]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_017" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=944309175]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_018" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1758334961]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_019" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1069800166]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_020" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=691304144]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_021" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=523050958]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_022" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2138466332]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_023" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=398738832]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_024" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1135876517]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_025" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1364410732]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_026" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1566875709]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_027" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=338643596]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_028" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1048259680]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_029" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1885755142]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_030" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=585991048]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_031" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1870386915]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_032" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2129066815]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_033" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=997787370]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_034" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=202970787]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_035" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=335466189]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_036" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=953427190]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_037" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1370665770]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_038" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1428096267]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_039" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1795006140]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_040" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1336217224]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_041" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1339839564]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_042" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=873953393]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_043" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=762358937]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_044" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1249623778]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_045" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=191739794]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_046" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=836791127]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_047" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=716287868]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_048" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1040100901]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_049" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=68126414]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_050" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1941286259]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_051" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1989606677]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_052" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1164019154]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_053" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=745915496]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_054" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1403145343]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_055" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=37308625]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_056" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1178056134]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_057" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1153449533]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_058" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2082502403]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_059" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1540084350]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_060" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1332138819]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_061" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=693834887]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_062" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1702294304]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_063" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1285185901]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_064" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2142222486]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_065" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=698395464]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_066" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1882263068]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_067" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1983685086]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_068" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=378483749]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_069" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1081478527]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_070" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=204462748]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_071" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=123897351]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_072" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1268379593]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_073" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1210799765]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_074" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=734651841]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_075" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=784419627]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_076" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1476008336]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_077" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=707801595]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_078" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2044994258]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_079" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=838292389]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_080" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=960817788]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_081" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=126987016]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_082" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=590327155]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_083" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1589615886]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_084" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=308275339]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_085" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1730319736]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_086" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1357133210]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_087" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=882003058]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_088" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1722028975]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_089" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1843216820]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_090" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=764314469]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_091" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1511708193]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_092" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1272451158]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_093" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1796341675]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_094" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=279969504]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_095" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=2032279159]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_096" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1518696762]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_097" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1106564266]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_098" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=666398798]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_099" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=77467820]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_100" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=549988935]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_101" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1775826538]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_102" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1556083181]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_103" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1872986424]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_104" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=1868851124]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="item_105" type="TextureButton" parent="scroll_grid_001/scroll_grid_001_margin/scroll_grid_001_content" unique_id=174329283]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture_normal = ExtResource("res_2")
+ignore_texture_size = true
+stretch_mode = 0

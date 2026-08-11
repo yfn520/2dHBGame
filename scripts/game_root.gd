@@ -1,4 +1,4 @@
-﻿extends Node2D
+extends Node2D
 ## 游戏根节点：只持有 UIRoot 作为唯一 UI 入口，不再直接挂载 HUD、角色面板、旧背包和动态 DebugLayer。
 
 const TEST_SETTINGS_PATH := "res://data/test_settings.json"
@@ -141,7 +141,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_pressed() or event.is_echo():
 		return
 	if event.is_action_pressed(InputActions.TOGGLE_INVENTORY):
-		ui_root.toggle_main_menu(UIRoot.TAB_INVENTORY)
+		ui_root.toggle_backpack()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed(InputActions.TOGGLE_EQUIPMENT):
 		ui_root.toggle_main_menu(UIRoot.TAB_EQUIPMENT)

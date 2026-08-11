@@ -276,7 +276,7 @@ func _on_skills_button() -> void:
 
 func _on_inventory_button() -> void:
 	if ui_root != null:
-		ui_root.toggle_main_menu(ui_root.TAB_INVENTORY)
+		ui_root.toggle_backpack()
 
 func _on_back_button() -> void:
 	if ui_root != null:
