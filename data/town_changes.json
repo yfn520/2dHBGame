@@ -3,7 +3,7 @@
 		"town_change_id": "town_bread_stall",
 		"chapter_id": "chapter_1",
 		"trigger_node_id": "node_ch1_truth_guluom",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_bread_stall.tscn",
 		"npc_placement_patch": [],
 		"description": "第1章通关后余晖城面包摊启用。新增 NPC'面包摊主'与少量对话。"
@@ -12,7 +12,7 @@
 		"town_change_id": "town_mailbox",
 		"chapter_id": "chapter_1",
 		"trigger_node_id": "node_ch1_truth_guluom",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_mailbox.tscn",
 		"npc_placement_patch": [],
 		"description": "第1章通关后邮筒信件更新。可在余晖城邮筒读到第1章史莱姆事件相关信件。"
@@ -21,7 +21,7 @@
 		"town_change_id": "town_wood_mill",
 		"chapter_id": "chapter_2",
 		"trigger_node_id": "node_ch2_truth_eclipse",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_wood_mill.tscn",
 		"npc_placement_patch": [],
 		"description": "第2章通关后余晖城木风车启用。"
@@ -30,7 +30,7 @@
 		"town_change_id": "town_night_school",
 		"chapter_id": "chapter_3",
 		"trigger_node_id": "node_ch3_main_relic_eclipse",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_night_school.tscn",
 		"npc_placement_patch": [],
 		"description": "第3章通关后烛塔学院夜校开启。"
@@ -39,7 +39,7 @@
 		"town_change_id": "town_dock",
 		"chapter_id": "chapter_4",
 		"trigger_node_id": "node_ch4_truth_relic_source",
-		"target_level_id": 5,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_dock.tscn",
 		"npc_placement_patch": [],
 		"description": "第4章通关后余晖城码头开放。"
@@ -48,7 +48,7 @@
 		"town_change_id": "town_merit_wall",
 		"chapter_id": "chapter_5",
 		"trigger_node_id": "node_ch5_reforge_pact",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/town_merit_wall.tscn",
 		"npc_placement_patch": [],
 		"description": "第5章通关后纪功墙落成。可查看已完成章节的功勋记录。"
@@ -57,7 +57,7 @@
 		"town_change_id": "town_star_monument",
 		"chapter_id": "chapter_6",
 		"trigger_node_id": "node_ch6_home",
-		"target_level_id": 3,
+		"target_level_id": 0,
 		"scene_patch": "res://scenes/town/star_monument.tscn",
 		"npc_placement_patch": [],
 		"description": "终局后余晖城立起星契纪念碑。回余晖城后柏婶摆三碗汤，墙上空白木牌刻上玩家名字。"

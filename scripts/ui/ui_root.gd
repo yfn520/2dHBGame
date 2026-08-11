@@ -35,6 +35,7 @@ var _tooltip: Control = null
 var _party_manager: PartyManager
 var _enemy_spawner: Node
 var _backpack_ui: BackpackUI
+var _map_panel: MapPanel
 
 
 func _ready() -> void:
@@ -136,6 +137,25 @@ func is_backpack_open() -> bool:
 	return _backpack_ui != null and _backpack_ui.visible
 
 
+# ---- 地图切换（测试） ----
+
+func toggle_map_panel() -> void:
+	if _map_panel == null:
+		return
+	_map_panel.toggle()
+	_set_world_input_for_ui(_map_panel.is_open())
+
+
+func close_map_panel() -> void:
+	if _map_panel != null and _map_panel.is_open():
+		_map_panel.close()
+		_set_world_input_for_ui(is_modal_open())
+
+
+func is_map_panel_open() -> bool:
+	return _map_panel != null and _map_panel.is_open()
+
+
 # ---- 弹窗 ----
 
 ## 在 PopupLayer 显示一个阻塞弹窗，加入关闭栈。
@@ -202,6 +222,9 @@ func close_top() -> void:
 		_backpack_ui.close()
 		_set_world_input_for_ui(false)
 		return
+	if is_map_panel_open():
+		close_map_panel()
+		return
 	if _main_ui != null and _main_ui.visible:
 		_main_ui.visible = false
 		_set_world_input_for_ui(false)
@@ -211,7 +234,7 @@ func is_modal_open() -> bool:
 	# 注意：常驻战斗 HUD（_main_ui）默认可见，不是模态层，不能计入阻塞，
 	# 否则会一直阻断 NPC 交互（需按 ESC 关闭 HUD 才能触发对话）。
 	# M 键切换主界面显隐时由 toggle_main_ui 单独用 _main_ui.visible 控制世界输入。
-	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open()) or (_backpack_ui != null and _backpack_ui.visible)
+	return not _popup_stack.is_empty() or (_main_menu != null and _main_menu.is_open()) or (_task_drawer != null and _task_drawer.is_open()) or (_backpack_ui != null and _backpack_ui.visible) or is_map_panel_open()
 
 
 func is_main_menu_open() -> bool:
@@ -373,6 +396,13 @@ func _build_content() -> void:
 	_backpack_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_backpack_ui.visible = false
 	_screen_layer.add_child(_backpack_ui)
+
+	# 地图切换测试面板（F2 打开）
+	_map_panel = preload("res://scripts/ui/map_panel.gd").new()
+	_map_panel.name = "MapPanel"
+	_map_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_map_panel.visible = true
+	_screen_layer.add_child(_map_panel)
 
 
 func _connect_npc_services() -> void:

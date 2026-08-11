@@ -27,6 +27,8 @@ func load_config() -> void:
 			"name": raw.get("name", ""),
 			"type": raw.get("type", ""),
 			"gear_category": str(raw.get("gear_category", "normal")),
+			"quality": str(raw.get("quality", "普通")),
+			"class_id": str(raw.get("class_id", "")),
 			"chapter_id": str(raw.get("chapter_id", "")),
 			"is_tradable": raw.get("is_tradable", true),
 			"is_droppable": raw.get("is_droppable", true),

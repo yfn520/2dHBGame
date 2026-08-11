@@ -10,9 +10,19 @@
 		"giver_npc_id": 9002,
 		"turn_in_npc_id": 9002,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9002, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1001_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1001_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1001",
 			"objective_type": "talk",
@@ -24,8 +34,12 @@
 				"ready": "已完成复路任务前的准备，返回柏婶处。",
 				"completed": "第四套餐具旁，主角从这场陌生的醒转中站起来。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": []
 	},
 	"1002": {
 		"title": "C1-02 湿地里的药箱",
@@ -38,9 +52,19 @@
 		"giver_npc_id": 9016,
 		"turn_in_npc_id": 9016,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100024, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100246,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1002_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1002_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1002",
 			"objective_type": "collect",
@@ -52,8 +76,14 @@
 				"ready": "已找回救援药箱，返回伊莱处清点交接。",
 				"completed": "草三束，药箱封口完整。执行者被计入四项。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1001
+		]
 	},
 	"1003": {
 		"title": "C1-03 把粮种送过去",
@@ -66,9 +96,19 @@
 		"giver_npc_id": 9002,
 		"turn_in_npc_id": 9002,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100025, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100247,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1003_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1003_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1003",
 			"objective_type": "collect",
@@ -80,8 +120,14 @@
 				"ready": "粮种已抵达终点，返回桑叔处逐袋报数。",
 				"completed": "三袋粮种逐袋报数完成，粮种进入育苗棚。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1002
+		]
 	},
 	"1004": {
 		"title": "C1-04 点亮第一座邮路信标",
@@ -94,9 +140,19 @@
 		"giver_npc_id": 9001,
 		"turn_in_npc_id": 9001,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8001, "count": 4 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8001,
+				"count": 4
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1004_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1004_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1004",
 			"objective_type": "kill",
@@ -108,8 +164,14 @@
 				"ready": "信标导片已集齐，返回霍雷克处确认两条求援线的顺序。",
 				"completed": "第一座邮路信标点亮，第二名主角线索被选定。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1003
+		]
 	},
 	"1005": {
 		"title": "C1-05 先找到你",
@@ -122,9 +184,19 @@
 		"giver_npc_id": 9001,
 		"turn_in_npc_id": 9001,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9001, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1005_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1005_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1005",
 			"objective_type": "talk",
@@ -136,8 +208,14 @@
 				"ready": "第二名主角已找到，返回霍雷克处确认身份边界。",
 				"completed": "第二名主角正式加入，契约改为两人，空位继续留着。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1004
+		]
 	},
 	"1006": {
 		"title": "C1-06 最后一袋信",
@@ -150,9 +228,19 @@
 		"giver_npc_id": 9003,
 		"turn_in_npc_id": 9003,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100026, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100248,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1006_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1006_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1006",
 			"objective_type": "collect",
@@ -164,8 +252,14 @@
 				"ready": "已找回退件凭证，返回洛伯处核验。",
 				"completed": "最后一袋信被重新补全地址。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1005
+		]
 	},
 	"1007": {
 		"title": "C1-07 第三座灯前的人",
@@ -178,9 +272,19 @@
 		"giver_npc_id": 9001,
 		"turn_in_npc_id": 9001,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9001, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1007_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1007_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1007",
 			"objective_type": "talk",
@@ -192,8 +296,14 @@
 				"ready": "三人已会合守住第三信标，返回霍雷克处交留文件副本。",
 				"completed": "三名主角会合，第三座灯前的人不再被动等救。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1006
+		]
 	},
 	"1008": {
 		"title": "C1-08 吞信者与失路哨兵",
@@ -206,9 +316,19 @@
 		"giver_npc_id": 9003,
 		"turn_in_npc_id": 9003,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8027, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8027,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1008_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1008_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1008",
 			"objective_type": "kill",
@@ -220,8 +340,14 @@
 				"ready": "第一枚星楔已校准，返回洛伯处完成信件交接。",
 				"completed": "咕噜姆缩小不死亡，第一处官方标签矛盾被建立。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1007
+		]
 	},
 	"1009": {
 		"title": "C2-01 宵禁门为什么没关",
@@ -234,9 +360,19 @@
 		"giver_npc_id": 9004,
 		"turn_in_npc_id": 9004,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9004,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1009_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1009_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1009",
 			"objective_type": "talk",
@@ -248,8 +384,14 @@
 				"ready": "风车部件与命令载体已找回，返回守门兵遗响处。",
 				"completed": "命令与名册不完整的事实被确认，进入下一项。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1008
+		]
 	},
 	"1010": {
 		"title": "C2-02 等最后一个孩子过去",
@@ -262,9 +404,19 @@
 		"giver_npc_id": 9004,
 		"turn_in_npc_id": 9004,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9004,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1010_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1010_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1010",
 			"objective_type": "talk",
@@ -276,8 +428,14 @@
 				"ready": "孩子已通过，守门兵数到十七，返回确认。",
 				"completed": "完整命令恢复，守门兵遗响的循环结束。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1009
+		]
 	},
 	"1011": {
 		"title": "C2-03 只为主角打开的房间",
@@ -290,9 +448,19 @@
 		"giver_npc_id": 9004,
 		"turn_in_npc_id": 9004,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9004, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9004,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1011_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1011_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1011",
 			"objective_type": "talk",
@@ -304,8 +472,14 @@
 				"ready": "职业机关已通过，返回取得对应主契遗装。",
 				"completed": "本存档唯一主契遗装被取得。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1010
+		]
 	},
 	"1012": {
 		"title": "C2-04 停下月影钟",
@@ -318,9 +492,19 @@
 		"giver_npc_id": 9004,
 		"turn_in_npc_id": 9004,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8028, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1012_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1012_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1012",
 			"objective_type": "kill",
@@ -332,8 +516,14 @@
 				"ready": "月影钟已停，返回收集编队装备编号与命令残页。",
 				"completed": "名册矛盾被建立，实际参战者远多于名册。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1011
+		]
 	},
 	"1013": {
 		"title": "C3-01 十七号又没毕业",
@@ -346,9 +536,19 @@
 		"giver_npc_id": 9005,
 		"turn_in_npc_id": 9005,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100027, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100249,
+				"count": 3
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1013_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1013_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1013",
 			"objective_type": "collect",
@@ -360,8 +560,14 @@
 				"ready": "答案页已找回，返回十七号处完成定位。",
 				"completed": "封存档案柜被定位，十七号取得最终考试资格。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1012
+		]
 	},
 	"1014": {
 		"title": "C3-02 点亮四座烛塔",
@@ -374,9 +580,19 @@
 		"giver_npc_id": 9005,
 		"turn_in_npc_id": 9005,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8005, "count": 8 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8005,
+				"count": 8
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1014_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1014_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1014",
 			"objective_type": "kill",
@@ -388,8 +604,14 @@
 				"ready": "四塔已进入低功率记录模式，返回确认毕业礼堂路线。",
 				"completed": "四座烛塔点亮，毕业礼堂路线打开。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1013
+		]
 	},
 	"1015": {
 		"title": "C3-03 把点名册送进礼堂",
@@ -402,9 +624,19 @@
 		"giver_npc_id": 9005,
 		"turn_in_npc_id": 9005,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100028, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100250,
+				"count": 3
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1015_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1015_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1015",
 			"objective_type": "collect",
@@ -416,8 +648,14 @@
 				"ready": "完整名册已备齐，返回将十七号送入礼堂。",
 				"completed": "完整点名册进入讲台，十七号站到队伍末尾。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1014
+		]
 	},
 	"1016": {
 		"title": "C3-04 毕业前一天",
@@ -430,9 +668,19 @@
 		"giver_npc_id": 9005,
 		"turn_in_npc_id": 9005,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8029, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8029,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1016_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1016_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1016",
 			"objective_type": "kill",
@@ -444,8 +692,14 @@
 				"ready": "十七号完成离校，返回取得记忆损耗账页。",
 				"completed": "抽取与损耗早于敌袭的事实被确认。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1015
+		]
 	},
 	"1017": {
 		"title": "C4-01 暴雨前的灯塔",
@@ -458,9 +712,19 @@
 		"giver_npc_id": 9006,
 		"turn_in_npc_id": 9006,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100029, "count": 3 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100251,
+				"count": 3
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1017_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1017_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1017",
 			"objective_type": "collect",
@@ -472,8 +736,14 @@
 				"ready": "灯塔镜片已集齐，返回按磨痕安装顺序恢复灯塔。",
 				"completed": "灯塔恢复，救援队接班点灯。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1016
+		]
 	},
 	"1018": {
 		"title": "C4-02 被铁壳蟹偷走的航线",
@@ -486,9 +756,19 @@
 		"giver_npc_id": 9007,
 		"turn_in_npc_id": 9007,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100030, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100252,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1018_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1018_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1018",
 			"objective_type": "collect",
@@ -500,8 +780,14 @@
 				"ready": "锚链已放下，黄色纽扣待带去登记处核验。",
 				"completed": "黄色纽扣建立可核验线索，指向埃蒙沉船坐标。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1017
+		]
 	},
 	"1019": {
 		"title": "C4-03 两封没有一起寄出的信",
@@ -514,9 +800,19 @@
 		"giver_npc_id": 9006,
 		"turn_in_npc_id": 9006,
 		"objectives": [
-			{ "id": "obj_1", "type": "collect", "item_id": 100031, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "collect",
+				"item_id": 100253,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1019_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1019_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1019",
 			"objective_type": "collect",
@@ -528,8 +824,14 @@
 				"ready": "家书、航海记录与航线图已取得，返回登记处完成登记。",
 				"completed": "埃蒙失约但完成船长职责，家书与日志归还原处。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1018
+		]
 	},
 	"1020": {
 		"title": "C4-04 让船不再回头",
@@ -542,9 +844,19 @@
 		"giver_npc_id": 9006,
 		"turn_in_npc_id": 9006,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8030, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8030,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1020_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1020_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1020",
 			"objective_type": "kill",
@@ -556,8 +868,14 @@
 				"ready": "赛壬退为低强度残响，返回取得运输船三源证据。",
 				"completed": "官方因果不成立，三人明确怀疑王室并决定查清。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1019
+		]
 	},
 	"1021": {
 		"title": "C5-01 名册上不存在的街",
@@ -570,9 +888,19 @@
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1021_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1021_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1021",
 			"objective_type": "talk",
@@ -584,8 +912,14 @@
 				"ready": "三户证据与居民按印已集齐，返回结束登记。",
 				"completed": "难民街获得合法地址，记录为恢复承认而非重新出现。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1020
+		]
 	},
 	"1022": {
 		"title": "C5-02 最后一声撤离号",
@@ -598,9 +932,19 @@
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1022_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1022_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1022",
 			"objective_type": "talk",
@@ -612,8 +956,14 @@
 				"ready": "备用门已开启，返回确认多恩的姓名。",
 				"completed": "多恩姓名由证据确认，名字回来了，人没有。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1021
+		]
 	},
 	"1023": {
 		"title": "C5-03 三种身份，一扇档案门",
@@ -626,9 +976,19 @@
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9008, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9008,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1023_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1023_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1023",
 			"objective_type": "talk",
@@ -640,8 +1000,14 @@
 				"ready": "三组旧身份拓印已取得，返回确认被删统领存在。",
 				"completed": "被删骑士统领被确认，身份与关系仍未知。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1022
+		]
 	},
 	"1024": {
 		"title": "C5-04 叛逃统领与第六号脉化体",
@@ -654,9 +1020,19 @@
 		"giver_npc_id": 9008,
 		"turn_in_npc_id": 9008,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8031, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8031,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1024_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1024_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1024",
 			"objective_type": "kill",
@@ -668,8 +1044,14 @@
 				"ready": "岗位名册与预算残页已取得，返回完成主契重铸。",
 				"completed": "两份卷宗故意不互认，主契遗装写入三名成员。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1023
+		]
 	},
 	"1025": {
 		"title": "C6-01 三把旧钥匙",
@@ -682,9 +1064,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9009,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1025_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1025_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1025",
 			"objective_type": "talk",
@@ -696,8 +1088,14 @@
 				"ready": "核心门已开启，返回确认进入内环。",
 				"completed": "核心门开启，常规队伍无法正常进入或返回的事实被确认。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1024
+		]
 	},
 	"1026": {
 		"title": "C6-02 第四套餐具",
@@ -710,9 +1108,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9009,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1026_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1026_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1026",
 			"objective_type": "talk",
@@ -724,8 +1132,14 @@
 				"ready": "物件多源证据已收集，返回围第四空位完成配装。",
 				"completed": "第四个人曾长期共同生活被确认，姓名与关系仍未知。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1025
+		]
 	},
 	"1027": {
 		"title": "C6-03 六张只为王族制作的椅子",
@@ -738,9 +1152,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8015, "count": 4 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8015,
+				"count": 4
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1027_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1027_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1027",
 			"objective_type": "kill",
@@ -752,8 +1176,14 @@
 				"ready": "三组证据已闭环，返回选择终战增益。",
 				"completed": "永曜工程服务王族的目的是首次确认。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1026
+		]
 	},
 	"1028": {
 		"title": "C6-04 把六枚星楔改成救人的方式",
@@ -766,9 +1196,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8017, "count": 8 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8017,
+				"count": 8
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1028_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1028_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1028",
 			"objective_type": "kill",
@@ -780,8 +1220,14 @@
 				"ready": "六楔已转入低负载待命，返回确认地方基础功能。",
 				"completed": "六枚星楔转为救人的方式，不恢复中央高负载。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1027
+		]
 	},
 	"1029": {
 		"title": "C6-05 没有名字的目标",
@@ -794,9 +1240,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "kill", "enemy_id": 8032, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "kill",
+				"enemy_id": 8032,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1029_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1029_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1029",
 			"objective_type": "kill",
@@ -808,8 +1264,14 @@
 				"ready": "目标已处置，返回完成最后的证据确认。",
 				"completed": "诺瓦死亡，三段关系同时恢复，进入灭口证据调查。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1028
+		]
 	},
 	"1030": {
 		"title": "C6-06 最后九十秒",
@@ -822,9 +1284,19 @@
 		"giver_npc_id": 9009,
 		"turn_in_npc_id": 9009,
 		"objectives": [
-			{ "id": "obj_1", "type": "talk", "npc_id": 9009, "count": 1 }
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9009,
+				"count": 1
+			}
 		],
-		"rewards": { "items": [], "flags": ["quest_1030_completed"] },
+		"rewards": {
+			"items": [],
+			"flags": [
+				"quest_1030_completed"
+			]
+		},
 		"authoring": {
 			"dialogue_id": "quest_1030",
 			"objective_type": "talk",
@@ -836,7 +1308,13 @@
 				"ready": "三人已撤出主出口，返回与其他接应确认。",
 				"completed": "灭口证据被证明，三人决定追责，要求解释为什么要他死两次。"
 			},
-			"hooks": { "start_intent_key": "accept_quest", "turn_in_intent_key": "turn_in_quest" }
-		}
+			"hooks": {
+				"start_intent_key": "accept_quest",
+				"turn_in_intent_key": "turn_in_quest"
+			}
+		},
+		"required_quest_ids": [
+			1029
+		]
 	}
 }

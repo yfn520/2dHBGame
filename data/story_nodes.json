@@ -15,10 +15,17 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_lead_knight", "node_prologue_lead_archer", "node_prologue_lead_mage"],
+		"next_node_ids": [
+			"node_prologue_lead_knight",
+			"node_prologue_lead_archer",
+			"node_prologue_lead_mage"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "从三名固定英雄中选择一人。本存档主角由此确定，主线远征中保持上阵。",
-		"editor": {"x": 675, "y": 70}
+		"editor": {
+			"x": 675,
+			"y": 70
+		}
 	},
 	"node_prologue_lead_knight": {
 		"title": "莱昂成为主角",
@@ -36,10 +43,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_party_knight"],
+		"next_node_ids": [
+			"node_prologue_party_knight"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "城防队不承认莱昂的身份。他在没有命令的情况下先去保护商队。",
-		"editor": {"x": 130, "y": 190}
+		"editor": {
+			"x": 130,
+			"y": 190
+		}
 	},
 	"node_prologue_lead_archer": {
 		"title": "露娜成为主角",
@@ -57,10 +69,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_party_archer"],
+		"next_node_ids": [
+			"node_prologue_party_archer"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "地图失去她留下的标记，露娜仍从邮袋上的泥和草籽找到方向。",
-		"editor": {"x": 675, "y": 190}
+		"editor": {
+			"x": 675,
+			"y": 190
+		}
 	},
 	"node_prologue_lead_mage": {
 		"title": "米娅成为主角",
@@ -78,10 +95,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_party_mage"],
+		"next_node_ids": [
+			"node_prologue_party_mage"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "学院否认她的借阅记录，一本无字法典却自动翻向城外星隙。",
-		"editor": {"x": 1220, "y": 190}
+		"editor": {
+			"x": 1220,
+			"y": 190
+		}
 	},
 	"node_prologue_party_knight": {
 		"title": "莱昂新手队",
@@ -99,10 +121,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_pact"],
+		"next_node_ids": [
+			"node_prologue_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "伊莱负责救治伤员，露娜找到撤离路。三人在共同脱险后立契。",
-		"editor": {"x": 130, "y": 330}
+		"editor": {
+			"x": 130,
+			"y": 330
+		}
 	},
 	"node_prologue_party_archer": {
 		"title": "露娜新手队",
@@ -120,10 +147,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_pact"],
+		"next_node_ids": [
+			"node_prologue_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "露娜负责找路，莱昂顶住坍塌木门，伊莱稳定伤员记忆。",
-		"editor": {"x": 675, "y": 330}
+		"editor": {
+			"x": 675,
+			"y": 330
+		}
 	},
 	"node_prologue_party_mage": {
 		"title": "米娅新手队",
@@ -141,10 +173,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_prologue_pact"],
+		"next_node_ids": [
+			"node_prologue_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "伊莱看住身份不明的法师，莱昂执行护送委托。撤离后两人选择继续同行。",
-		"editor": {"x": 1220, "y": 330}
+		"editor": {
+			"x": 1220,
+			"y": 330
+		}
 	},
 	"node_prologue_pact": {
 		"title": "三人正式立下星契",
@@ -162,10 +199,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch1_main"],
+		"next_node_ids": [
+			"node_ch1_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "契约不是召唤。三人共享方向、撤离坐标和战斗意志，进入第一章。",
-		"editor": {"x": 675, "y": 460}
+		"editor": {
+			"x": 675,
+			"y": 460
+		}
 	},
 	"node_prologue_recruit_elai": {
 		"title": "序章·招募伊莱",
@@ -183,10 +225,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch1_story_last_letter"],
+		"next_node_ids": [
+			"node_ch1_story_last_letter"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "伊莱(牧师)序章固定入队，与主角组成初始三人队。不受主角选择影响。",
-		"editor": {"x": 405, "y": 330}
+		"editor": {
+			"x": 405,
+			"y": 330
+		}
 	},
 	"node_ch1_main": {
 		"title": "第1章 · 星露草原",
@@ -204,10 +251,18 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch1_story_last_letter", "node_ch1_story_gear1", "node_ch1_recruit_luna", "node_ch2_main"],
+		"next_node_ids": [
+			"node_ch1_story_last_letter",
+			"node_ch1_story_gear1",
+			"node_ch1_recruit_luna",
+			"node_ch2_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "寻找十七封寄往失落村庄的信，确认道路与地址会一起从记录中消失。",
-		"editor": {"x": 675, "y": 620}
+		"editor": {
+			"x": 675,
+			"y": 620
+		}
 	},
 	"node_ch1_story_last_letter": {
 		"title": "最后一袋信",
@@ -223,12 +278,22 @@
 		"dialogue_id": "quest_1006",
 		"quest_id": "1006",
 		"level_id": 1,
-		"gear_drops": [100021, 100022, 100023],
-		"town_change_ids": ["town_bread_stall", "town_mailbox"],
+		"gear_drops": [
+			100021,
+			100022,
+			100023
+		],
+		"town_change_ids": [
+			"town_bread_stall",
+			"town_mailbox"
+		],
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "node_echo",
 		"summary": "史莱姆吞信后学人说话。最后一封退件请老邮差别再站在断路前等候。",
-		"editor": {"x": 1010, "y": 620}
+		"editor": {
+			"x": 1010,
+			"y": 620
+		}
 	},
 	"node_ch1_story_gear1": {
 		"title": "第一章装备节点",
@@ -249,7 +314,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "普通到稀有装备建立职业手感，剧情物不占普通装备槽。",
-		"editor": {"x": 340, "y": 620}
+		"editor": {
+			"x": 340,
+			"y": 620
+		}
 	},
 	"node_ch1_recruit_luna": {
 		"title": "米娅路线招募露娜",
@@ -270,7 +338,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "露娜完成旧村追踪后回到余晖城。其他两条路线中她已是新手伙伴。",
-		"editor": {"x": 1220, "y": 750}
+		"editor": {
+			"x": 1220,
+			"y": 750
+		}
 	},
 	"node_ch1_truth_guluom": {
 		"title": "第1章·真相: 咕噜姆",
@@ -285,13 +356,18 @@
 		"required_pact_stage": 0,
 		"dialogue_id": "quest_1008",
 		"quest_id": "1008",
-		"level_id": 2,
+		"level_id": 1,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch2_recruit_oz"],
+		"next_node_ids": [
+			"node_ch2_recruit_oz"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "第1章Boss咕噜姆真相揭露: 它曾是某代守门者，吞信只为复述未送达的话。揭示后开启第2章。",
-		"editor": {"x": 1330, "y": 620}
+		"editor": {
+			"x": 1330,
+			"y": 620
+		}
 	},
 	"node_ch2_main": {
 		"title": "第2章 · 月影遗迹",
@@ -309,10 +385,20 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch2_story_wood_mill", "node_ch2_recruit_oz", "node_ch2_legacy_knight", "node_ch2_legacy_archer", "node_ch2_legacy_mage", "node_ch3_main"],
+		"next_node_ids": [
+			"node_ch2_story_wood_mill",
+			"node_ch2_recruit_oz",
+			"node_ch2_legacy_knight",
+			"node_ch2_legacy_archer",
+			"node_ch2_legacy_mage",
+			"node_ch3_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "守门兵真正的命令是等最后一个孩子通过。阿尔戈断路是为了压住渊蚀。",
-		"editor": {"x": 675, "y": 950}
+		"editor": {
+			"x": 675,
+			"y": 950
+		}
 	},
 	"node_ch2_story_wood_mill": {
 		"title": "木风车与守门兵",
@@ -333,7 +419,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "玩家拼回木风车，补全命令后半句。守门兵终于把城门关对一次。",
-		"editor": {"x": 1010, "y": 950}
+		"editor": {
+			"x": 1010,
+			"y": 950
+		}
 	},
 	"node_ch2_recruit_oz": {
 		"title": "奥兹加入旅团",
@@ -350,11 +439,16 @@
 		"quest_id": "",
 		"level_id": 0,
 		"gear_drops": [],
-		"town_change_ids": ["town_wood_mill"],
+		"town_change_ids": [
+			"town_wood_mill"
+		],
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "奥兹听见旧魔偶内部的称呼，完成事件后带着不会战斗的魔偶回城。",
-		"editor": {"x": 1270, "y": 950}
+		"editor": {
+			"x": 1270,
+			"y": 950
+		}
 	},
 	"node_ch2_legacy_knight": {
 		"title": "获得《归城残盾》",
@@ -372,10 +466,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch3_main"],
+		"next_node_ids": [
+			"node_ch3_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "仅莱昂主角存档生成。能力连接团队守护、稳定道路和承担代价。",
-		"editor": {"x": 70, "y": 1090}
+		"editor": {
+			"x": 70,
+			"y": 1090
+		}
 	},
 	"node_ch2_legacy_archer": {
 		"title": "获得《无路之弦》",
@@ -393,10 +492,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch3_main"],
+		"next_node_ids": [
+			"node_ch3_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "仅露娜主角存档生成。能力连接弱点标记、隐藏路线和追踪选项。",
-		"editor": {"x": 350, "y": 1090}
+		"editor": {
+			"x": 350,
+			"y": 1090
+		}
 	},
 	"node_ch2_legacy_mage": {
 		"title": "获得《缺页星典》",
@@ -414,10 +518,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch3_main"],
+		"next_node_ids": [
+			"node_ch3_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "仅米娅主角存档生成。能力连接技能回响、元素机关和记录识别。",
-		"editor": {"x": 630, "y": 1090}
+		"editor": {
+			"x": 630,
+			"y": 1090
+		}
 	},
 	"node_ch2_truth_eclipse": {
 		"title": "第2章·真相: 月影",
@@ -435,10 +544,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch3_truth_pact_legacy"],
+		"next_node_ids": [
+			"node_ch3_truth_pact_legacy"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "月影遗迹守门钟楼真相: 坍塌道路是上一代守护者的回响。开启第3章烛塔学院。",
-		"editor": {"x": 1330, "y": 1050}
+		"editor": {
+			"x": 1330,
+			"y": 1050
+		}
 	},
 	"node_ch3_main": {
 		"title": "第3章 · 烛塔学院",
@@ -456,10 +570,18 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch3_story_graduation", "node_ch3_recruit_mia", "node_ch3_legacy_sync", "node_ch4_main"],
+		"next_node_ids": [
+			"node_ch3_story_graduation",
+			"node_ch3_recruit_mia",
+			"node_ch3_legacy_sync",
+			"node_ch4_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "学院困在毕业前夕，玩家帮助学生残响完成最后一次点名和离校。",
-		"editor": {"x": 675, "y": 1290}
+		"editor": {
+			"x": 675,
+			"y": 1290
+		}
 	},
 	"node_ch3_story_graduation": {
 		"title": "十七号毕业",
@@ -480,7 +602,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "总答错题的清扫魔偶找到了封存档案。最后一题的答案是关灯、回家。",
-		"editor": {"x": 1010, "y": 1290}
+		"editor": {
+			"x": 1010,
+			"y": 1290
+		}
 	},
 	"node_ch3_recruit_mia": {
 		"title": "米娅加入旅团",
@@ -501,7 +626,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "莱昂或露娜路线正式招募米娅。米娅主角路线推进她的个人线。",
-		"editor": {"x": 1270, "y": 1290}
+		"editor": {
+			"x": 1270,
+			"y": 1290
+		}
 	},
 	"node_ch3_legacy_sync": {
 		"title": "主契遗装第二阶段",
@@ -522,7 +650,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "当前存档唯一遗装获得新接口，另外两件仍不生成。",
-		"editor": {"x": 340, "y": 1290}
+		"editor": {
+			"x": 340,
+			"y": 1290
+		}
 	},
 	"node_ch3_truth_pact_legacy": {
 		"title": "第3章·主契共鸣",
@@ -539,11 +670,18 @@
 		"quest_id": "1016",
 		"level_id": 0,
 		"gear_drops": [],
-		"town_change_ids": ["town_night_school"],
-		"next_node_ids": ["node_ch3_main_relic_eclipse"],
+		"town_change_ids": [
+			"town_night_school"
+		],
+		"next_node_ids": [
+			"node_ch3_main_relic_eclipse"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "主契遗装进入'共鸣'阶段。烛塔学院夜校开启。揭示主契遗装部分历史真相(莱昂路线示例)。",
-		"editor": {"x": 1330, "y": 1390}
+		"editor": {
+			"x": 1330,
+			"y": 1390
+		}
 	},
 	"node_ch3_main_relic_eclipse": {
 		"title": "第3章·遗物同源",
@@ -561,10 +699,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch4_recruit_kai"],
+		"next_node_ids": [
+			"node_ch4_recruit_kai"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "揭示遗物/主契遗装同源真相。开启第4章苍蓝港湾。",
-		"editor": {"x": 1330, "y": 1490}
+		"editor": {
+			"x": 1330,
+			"y": 1490
+		}
 	},
 	"node_ch4_main": {
 		"title": "第4章 · 苍蓝港湾",
@@ -582,10 +725,18 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch4_story_two_letters", "node_ch4_recruit_kai", "node_ch4_gear", "node_ch5_main"],
+		"next_node_ids": [
+			"node_ch4_story_two_letters",
+			"node_ch4_recruit_kai",
+			"node_ch4_gear",
+			"node_ch5_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "赛壬保存遇难者声音，也让活人无法离开。队伍解除灯塔、锚链和航道。",
-		"editor": {"x": 675, "y": 1590}
+		"editor": {
+			"x": 675,
+			"y": 1590
+		}
 	},
 	"node_ch4_story_two_letters": {
 		"title": "船长留下的家书与日志",
@@ -606,7 +757,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "家书答应按时回家，航海日志记录改航决定。两份记录放在一起，才看见一个失约的父亲也完成了船长职责。",
-		"editor": {"x": 1010, "y": 1590}
+		"editor": {
+			"x": 1010,
+			"y": 1590
+		}
 	},
 	"node_ch4_recruit_kai": {
 		"title": "凯加入旅团",
@@ -623,11 +777,16 @@
 		"quest_id": "",
 		"level_id": 0,
 		"gear_drops": [],
-		"town_change_ids": ["town_dock"],
+		"town_change_ids": [
+			"town_dock"
+		],
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "凯受雇夺取星楔，以客援进入副本。章末加入，但暂不交出雇主姓名。",
-		"editor": {"x": 1270, "y": 1590}
+		"editor": {
+			"x": 1270,
+			"y": 1590
+		}
 	},
 	"node_ch4_gear": {
 		"title": "港湾装备节点",
@@ -648,7 +807,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "普通装备承担净化和解控，主契材料只用于稳定多系统能力。",
-		"editor": {"x": 340, "y": 1590}
+		"editor": {
+			"x": 340,
+			"y": 1590
+		}
 	},
 	"node_ch4_truth_relic_source": {
 		"title": "第4章·真相: 遗物源",
@@ -666,10 +828,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch5_truth_lead"],
+		"next_node_ids": [
+			"node_ch5_truth_lead"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "苍蓝港湾遗物源真相揭示。主契遗装进入'稳定'阶段。开启第5章灰烬王城。",
-		"editor": {"x": 1330, "y": 1690}
+		"editor": {
+			"x": 1330,
+			"y": 1690
+		}
 	},
 	"node_ch5_main": {
 		"title": "第5章 · 灰烬王城",
@@ -687,10 +854,19 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch5_story_bugler", "node_ch5_truth_knight", "node_ch5_truth_archer", "node_ch5_truth_mage", "node_ch6_main"],
+		"next_node_ids": [
+			"node_ch5_story_bugler",
+			"node_ch5_truth_knight",
+			"node_ch5_truth_archer",
+			"node_ch5_truth_mage",
+			"node_ch6_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "玩家公开普通撤离者的功绩，也看到开局主角亲自参与断脉的证据。",
-		"editor": {"x": 675, "y": 1890}
+		"editor": {
+			"x": 675,
+			"y": 1890
+		}
 	},
 	"node_ch5_story_bugler": {
 		"title": "被写成逃兵的号手",
@@ -711,7 +887,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "号手独自敲响撤离钟，却被贵族夺走功绩。玩家修复档案和备用门。",
-		"editor": {"x": 1010, "y": 1890}
+		"editor": {
+			"x": 1010,
+			"y": 1890
+		}
 	},
 	"node_ch5_truth_knight": {
 		"title": "莱昂的过去",
@@ -729,10 +908,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch5_reforge"],
+		"next_node_ids": [
+			"node_ch5_reforge"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "莱昂主动执行最后一道封门命令，挡住渊蚀，也把诺瓦留在门后。",
-		"editor": {"x": 70, "y": 2020}
+		"editor": {
+			"x": 70,
+			"y": 2020
+		}
 	},
 	"node_ch5_truth_archer": {
 		"title": "露娜的过去",
@@ -750,10 +934,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch5_reforge"],
+		"next_node_ids": [
+			"node_ch5_reforge"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "露娜在民间救援路线上先刻一道保留判断，诺瓦只补第二道表示看见风险。遗忘效应后第二道刻痕仍在旧箭与地图上，却失去作者与含义。",
-		"editor": {"x": 350, "y": 2020}
+		"editor": {
+			"x": 350,
+			"y": 2020
+		}
 	},
 	"node_ch5_truth_mage": {
 		"title": "米娅的过去",
@@ -771,10 +960,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch5_reforge"],
+		"next_node_ids": [
+			"node_ch5_reforge"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "米娅一端记录术式能否运行，诺瓦另一端记录还有谁留在危险区；三拍节奏是哥哥阻止她过度施法的提醒。",
-		"editor": {"x": 630, "y": 2020}
+		"editor": {
+			"x": 630,
+			"y": 2020
+		}
 	},
 	"node_ch5_truth_lead": {
 		"title": "第5章·主角真相",
@@ -791,11 +985,18 @@
 		"quest_id": "1024",
 		"level_id": 0,
 		"gear_drops": [],
-		"town_change_ids": ["town_merit_wall"],
-		"next_node_ids": ["node_ch5_reforge"],
+		"town_change_ids": [
+			"town_merit_wall"
+		],
+		"next_node_ids": [
+			"node_ch5_reforge"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "揭示主角真相(随路线不同)。莱昂路线示例: 守门人往事。纪功墙落成。",
-		"editor": {"x": 1330, "y": 2120}
+		"editor": {
+			"x": 1330,
+			"y": 2120
+		}
 	},
 	"node_ch5_reforge": {
 		"title": "唯一主契遗装重铸",
@@ -811,12 +1012,19 @@
 		"dialogue_id": "",
 		"quest_id": "",
 		"level_id": 0,
-		"gear_drops": [100018],
+		"gear_drops": [
+			100018
+		],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_main"],
+		"next_node_ids": [
+			"node_ch6_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "当前主契遗装完成形态变化，另两件仍然不存在于本存档。",
-		"editor": {"x": 1010, "y": 2020}
+		"editor": {
+			"x": 1010,
+			"y": 2020
+		}
 	},
 	"node_ch6_main": {
 		"title": "第6章 · 王脉深庭",
@@ -834,10 +1042,18 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_breakfast", "node_ch6_final_knight", "node_ch6_final_archer", "node_ch6_final_mage"],
+		"next_node_ids": [
+			"node_ch6_breakfast",
+			"node_ch6_final_knight",
+			"node_ch6_final_archer",
+			"node_ch6_final_mage"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "在王脉深庭拼回烧黑的锅、丢失的帐篷钉和旧营地。诺瓦仍记得主角。",
-		"editor": {"x": 675, "y": 2260}
+		"editor": {
+			"x": 675,
+			"y": 2260
+		}
 	},
 	"node_ch6_breakfast": {
 		"title": "难吃的早餐",
@@ -858,7 +1074,10 @@
 		"next_node_ids": [],
 		"repeat_replacement_node_id": "",
 		"summary": "生活痕迹逐步证明两人的旧关系。诺瓦没有长篇解释，只抱怨主角回来晚了。",
-		"editor": {"x": 1010, "y": 2260}
+		"editor": {
+			"x": 1010,
+			"y": 2260
+		}
 	},
 	"node_ch6_final_knight": {
 		"title": "骑士终局执行",
@@ -876,10 +1095,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_new_pact"],
+		"next_node_ids": [
+			"node_ch6_new_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "莱昂用主契能力承担节点同步时的冲击，其他英雄完成路线和术式。",
-		"editor": {"x": 70, "y": 2390}
+		"editor": {
+			"x": 70,
+			"y": 2390
+		}
 	},
 	"node_ch6_final_archer": {
 		"title": "弓箭手终局执行",
@@ -897,10 +1121,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_new_pact"],
+		"next_node_ids": [
+			"node_ch6_new_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "露娜用主契能力找出六个地方节点之间仍可成立的道路。",
-		"editor": {"x": 350, "y": 2390}
+		"editor": {
+			"x": 350,
+			"y": 2390
+		}
 	},
 	"node_ch6_final_mage": {
 		"title": "魔法师终局执行",
@@ -918,10 +1147,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_new_pact"],
+		"next_node_ids": [
+			"node_ch6_new_pact"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "米娅用主契能力切断核心的集中索取，让六地各自维护节点。",
-		"editor": {"x": 630, "y": 2390}
+		"editor": {
+			"x": 630,
+			"y": 2390
+		}
 	},
 	"node_ch6_final_execution": {
 		"title": "第6章·终章执行",
@@ -939,10 +1173,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_home"],
+		"next_node_ids": [
+			"node_ch6_home"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "终章执行(随主角路线不同)。莱昂路线: 骑士终局执行。",
-		"editor": {"x": 1330, "y": 2490}
+		"editor": {
+			"x": 1330,
+			"y": 2490
+		}
 	},
 	"node_ch6_new_pact": {
 		"title": "建立分布式新星契",
@@ -960,10 +1199,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch6_home"],
+		"next_node_ids": [
+			"node_ch6_home"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "六枚星楔分散到六地。世界恢复较慢，但不再消耗无名者的记忆。",
-		"editor": {"x": 1010, "y": 2390}
+		"editor": {
+			"x": 1010,
+			"y": 2390
+		}
 	},
 	"node_ch6_home": {
 		"title": "回到余晖城",
@@ -981,10 +1225,15 @@
 		"level_id": 0,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_echo"],
+		"next_node_ids": [
+			"node_echo"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "主角没有取回旧档案，却在旅店拥有自己的碗、挂钩和名字。",
-		"editor": {"x": 675, "y": 2550}
+		"editor": {
+			"x": 675,
+			"y": 2550
+		}
 	},
 	"node_echo": {
 		"title": "回响远征",
@@ -1002,9 +1251,14 @@
 		"level_id": 1,
 		"gear_drops": [],
 		"town_change_ids": [],
-		"next_node_ids": ["node_ch1_main"],
+		"next_node_ids": [
+			"node_ch1_main"
+		],
 		"repeat_replacement_node_id": "",
 		"summary": "首次通关后，副本改刷守护者回响、事件余波和另一视角，不重演正史告别。",
-		"editor": {"x": 1010, "y": 2550}
+		"editor": {
+			"x": 1010,
+			"y": 2550
+		}
 	}
 }

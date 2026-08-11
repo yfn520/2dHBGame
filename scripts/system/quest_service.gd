@@ -31,6 +31,8 @@ func setup(p_config: QuestConfig, p_state: QuestStateData, p_inventory: Inventor
 func start_quest(quest_id: int) -> bool:
 	if config == null or config.get_quest(quest_id).is_empty() or state.get_status(quest_id) != "inactive":
 		return false
+	if not is_quest_unlocked(quest_id):
+		return false
 	state.set_entry(quest_id, {"status": "active", "counters": {}})
 	_refresh_ready_state(quest_id)
 	quest_started.emit(quest_id)
@@ -123,9 +125,20 @@ func has_available_quest(npc_id: int) -> bool:
 	for id_value in config.get_all_quests():
 		var quest_id := int(id_value)
 		var quest := config.get_quest(quest_id)
-		if int(quest.get("giver_npc_id", 0)) == npc_id and state.get_status(quest_id) == "inactive":
+		if int(quest.get("giver_npc_id", 0)) == npc_id and state.get_status(quest_id) == "inactive" and is_quest_unlocked(quest_id):
 			return true
 	return false
+
+
+## 任务是否满足接取前置：required_quest_ids 全部需为已完成状态（DAG 前置，支持多前置）。
+func is_quest_unlocked(quest_id: int) -> bool:
+	if config == null or state == null:
+		return true
+	var quest := config.get_quest(quest_id)
+	for req_value in quest.get("required_quest_ids", []):
+		if state.get_status(int(req_value)) != "completed":
+			return false
+	return true
 
 
 ## 该 NPC 是否派发过尚未完成的任务（进行中 active / 待交付 ready）。

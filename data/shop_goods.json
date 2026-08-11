@@ -1,48 +1,48 @@
 {
 	"good_basic_herb": {
-		"item_id": 100015,
+		"item_id": 100136,
 		"price": 50,
 		"stock": -1,
 		"unlock_chapter_id": "prologue"
 	},
 	"good_basic_torch": {
-		"item_id": 100016,
+		"item_id": 100137,
 		"price": 30,
 		"stock": -1,
 		"unlock_chapter_id": "prologue"
 	},
 	"good_basic_bandage": {
-		"item_id": 100014,
+		"item_id": 100228,
 		"price": 40,
 		"stock": -1,
 		"unlock_chapter_id": "prologue"
 	},
 	"good_health_potion_small": {
-		"item_id": 100014,
+		"item_id": 100136,
 		"price": 100,
 		"stock": -1,
 		"unlock_chapter_id": "prologue"
 	},
 	"good_mana_potion_small": {
-		"item_id": 100015,
+		"item_id": 100138,
 		"price": 120,
 		"stock": -1,
 		"unlock_chapter_id": "prologue"
 	},
 	"good_iron_sword": {
-		"item_id": 100001,
+		"item_id": 100044,
 		"price": 500,
 		"stock": -1,
 		"unlock_chapter_id": "chapter_1"
 	},
 	"good_wooden_bow": {
-		"item_id": 100009,
+		"item_id": 100049,
 		"price": 500,
 		"stock": -1,
 		"unlock_chapter_id": "chapter_1"
 	},
 	"good_apprentice_staff": {
-		"item_id": 100012,
+		"item_id": 100054,
 		"price": 500,
 		"stock": -1,
 		"unlock_chapter_id": "chapter_1"

@@ -8,7 +8,17 @@
 		"normal_boss_enemy_id": 0,
 		"echo_boss_enemy_id": 0,
 		"town_change_ids": [],
-		"story_node_ids": ["node_prologue_lead_select", "node_prologue_recruit_elai", "node_prologue_pact", "node_prologue_lead_knight", "node_prologue_lead_archer", "node_prologue_lead_mage", "node_prologue_party_knight", "node_prologue_party_archer", "node_prologue_party_mage"],
+		"story_node_ids": [
+			"node_prologue_lead_select",
+			"node_prologue_recruit_elai",
+			"node_prologue_pact",
+			"node_prologue_lead_knight",
+			"node_prologue_lead_archer",
+			"node_prologue_lead_mage",
+			"node_prologue_party_knight",
+			"node_prologue_party_archer",
+			"node_prologue_party_mage"
+		],
 		"description": "三主角选一开局，与伊莱、第三人组成初始三人队。序章决定主契遗装归属与整局叙事基调。"
 	},
 	"chapter_1": {
@@ -16,11 +26,22 @@
 		"name": "星露草原",
 		"mood": "荒唐、陪伴、轻遗憾",
 		"required_previous_chapter_id": "prologue",
-		"dungeon_level_ids": [1, 2],
+		"dungeon_level_ids": [
+			1
+		],
 		"normal_boss_enemy_id": 8027,
 		"echo_boss_enemy_id": 8027,
-		"town_change_ids": ["town_bread_stall", "town_mailbox"],
-		"story_node_ids": ["node_ch1_main", "node_ch1_story_last_letter", "node_ch1_story_gear1", "node_ch1_recruit_luna", "node_ch1_truth_guluom"],
+		"town_change_ids": [
+			"town_bread_stall",
+			"town_mailbox"
+		],
+		"story_node_ids": [
+			"node_ch1_main",
+			"node_ch1_story_last_letter",
+			"node_ch1_story_gear1",
+			"node_ch1_recruit_luna",
+			"node_ch1_truth_guluom"
+		],
 		"description": "主线: 咕噜姆与最后一袋信。通关后余晖城面包摊启用、邮筒信件更新。"
 	},
 	"chapter_2": {
@@ -28,11 +49,24 @@
 		"name": "月影遗迹",
 		"mood": "怀疑、抉择、重压",
 		"required_previous_chapter_id": "chapter_1",
-		"dungeon_level_ids": [6, 7],
+		"dungeon_level_ids": [
+			2,
+			7
+		],
 		"normal_boss_enemy_id": 8028,
 		"echo_boss_enemy_id": 8028,
-		"town_change_ids": ["town_wood_mill"],
-		"story_node_ids": ["node_ch2_main", "node_ch2_story_wood_mill", "node_ch2_recruit_oz", "node_ch2_truth_eclipse", "node_ch2_legacy_knight", "node_ch2_legacy_archer", "node_ch2_legacy_mage"],
+		"town_change_ids": [
+			"town_wood_mill"
+		],
+		"story_node_ids": [
+			"node_ch2_main",
+			"node_ch2_story_wood_mill",
+			"node_ch2_recruit_oz",
+			"node_ch2_truth_eclipse",
+			"node_ch2_legacy_knight",
+			"node_ch2_legacy_archer",
+			"node_ch2_legacy_mage"
+		],
 		"description": "招募奥兹(召唤师)。主线聚焦'回响机制'初识: 月影守门钟楼与坍塌道路。"
 	},
 	"chapter_3": {
@@ -40,11 +74,23 @@
 		"name": "烛塔学院",
 		"mood": "求知、克制、轻哀",
 		"required_previous_chapter_id": "chapter_2",
-		"dungeon_level_ids": [8, 9],
+		"dungeon_level_ids": [
+			3,
+			9
+		],
 		"normal_boss_enemy_id": 8029,
 		"echo_boss_enemy_id": 8029,
-		"town_change_ids": ["town_night_school"],
-		"story_node_ids": ["node_ch3_main", "node_ch3_story_graduation", "node_ch3_recruit_mia", "node_ch3_truth_pact_legacy", "node_ch3_legacy_sync", "node_ch3_main_relic_eclipse"],
+		"town_change_ids": [
+			"town_night_school"
+		],
+		"story_node_ids": [
+			"node_ch3_main",
+			"node_ch3_story_graduation",
+			"node_ch3_recruit_mia",
+			"node_ch3_truth_pact_legacy",
+			"node_ch3_legacy_sync",
+			"node_ch3_main_relic_eclipse"
+		],
 		"description": "主契遗装获得'共鸣'阶段。烛塔学院夜校开启。揭示主契遗装部分历史真相。"
 	},
 	"chapter_4": {
@@ -52,11 +98,21 @@
 		"name": "苍蓝港湾",
 		"mood": "风波、争夺、暂歇",
 		"required_previous_chapter_id": "chapter_3",
-		"dungeon_level_ids": [10, 11],
+		"dungeon_level_ids": [
+			4
+		],
 		"normal_boss_enemy_id": 8030,
 		"echo_boss_enemy_id": 8030,
-		"town_change_ids": ["town_dock"],
-		"story_node_ids": ["node_ch4_main", "node_ch4_story_two_letters", "node_ch4_recruit_kai", "node_ch4_truth_relic_source", "node_ch4_gear"],
+		"town_change_ids": [
+			"town_dock"
+		],
+		"story_node_ids": [
+			"node_ch4_main",
+			"node_ch4_story_two_letters",
+			"node_ch4_recruit_kai",
+			"node_ch4_truth_relic_source",
+			"node_ch4_gear"
+		],
 		"description": "招募凯(刺客)。主契遗装进入'稳定'阶段。揭示遗物/主契遗装同源真相。"
 	},
 	"chapter_5": {
@@ -64,11 +120,23 @@
 		"name": "灰烬王城",
 		"mood": "清算、重铸、爆发",
 		"required_previous_chapter_id": "chapter_4",
-		"dungeon_level_ids": [12, 13],
+		"dungeon_level_ids": [
+			5
+		],
 		"normal_boss_enemy_id": 8031,
 		"echo_boss_enemy_id": 8031,
-		"town_change_ids": ["town_merit_wall"],
-		"story_node_ids": ["node_ch5_main", "node_ch5_story_bugler", "node_ch5_truth_lead", "node_ch5_truth_knight", "node_ch5_truth_archer", "node_ch5_truth_mage", "node_ch5_reforge"],
+		"town_change_ids": [
+			"town_merit_wall"
+		],
+		"story_node_ids": [
+			"node_ch5_main",
+			"node_ch5_story_bugler",
+			"node_ch5_truth_lead",
+			"node_ch5_truth_knight",
+			"node_ch5_truth_archer",
+			"node_ch5_truth_mage",
+			"node_ch5_reforge"
+		],
 		"description": "揭示主角真相(随路线不同)。主契遗装'重铸'阶段。纪功墙落成。"
 	},
 	"chapter_6": {
@@ -76,11 +144,23 @@
 		"name": "王脉深庭与结局",
 		"mood": "终局、回响、抉择",
 		"required_previous_chapter_id": "chapter_5",
-		"dungeon_level_ids": [14, 15],
+		"dungeon_level_ids": [
+			6
+		],
 		"normal_boss_enemy_id": 8032,
 		"echo_boss_enemy_id": 8032,
 		"town_change_ids": [],
-		"story_node_ids": ["node_ch6_main", "node_ch6_breakfast", "node_ch6_final_execution", "node_ch6_final_knight", "node_ch6_final_archer", "node_ch6_final_mage", "node_ch6_new_pact", "node_ch6_home", "node_echo"],
+		"story_node_ids": [
+			"node_ch6_main",
+			"node_ch6_breakfast",
+			"node_ch6_final_execution",
+			"node_ch6_final_knight",
+			"node_ch6_final_archer",
+			"node_ch6_final_mage",
+			"node_ch6_new_pact",
+			"node_ch6_home",
+			"node_echo"
+		],
 		"description": "终章执行(随主角路线不同)，全篇结局回响。完成全篇正史，开启全章节回响远征。"
 	}
 }

@@ -1,5 +1,105 @@
 {
+	"0": {
+		"bgm": "",
+		"description": "余灰城",
+		"enemies": [],
+		"name": "余灰城",
+		"npcs": [],
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 184,
+		"spawn_y": 744
+	},
 	"1": {
+		"bgm": "",
+		"description": "星露草原",
+		"enemies": [],
+		"name": "星露草原",
+		"npcs": [],
+		"scene_path": "res://scenes/city3.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"2": {
+		"bgm": "",
+		"description": "月影遗迹",
+		"enemies": [],
+		"name": "月影遗迹",
+		"npcs": [],
+		"scene_path": "res://scenes/city.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"3": {
+		"bgm": "",
+		"description": " 烛塔学院",
+		"enemies": [],
+		"name": " 烛塔学院",
+		"npcs": [],
+		"scene_path": "res://scenes/city.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"4": {
+		"bgm": "",
+		"description": "苍蓝港湾",
+		"enemies": [],
+		"name": "苍蓝港湾",
+		"npcs": [],
+		"scene_path": "res://scenes/city2.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"5": {
+		"bgm": "",
+		"description": "灰烬王城",
+		"enemies": [],
+		"name": "灰烬王城",
+		"npcs": [],
+		"scene_path": "res://scenes/xingheneihuan.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"6": {
+		"bgm": "",
+		"description": "王脉深庭",
+		"enemies": [],
+		"name": "王脉深庭",
+		"npcs": [],
+		"scene_path": "res://scenes/xing.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"7": {
+		"bgm": "",
+		"description": "月影遗迹 Boss 战：在月影钟楼遭遇持续敲宵禁钟的阿尔戈。",
+		"enemies": [],
+		"name": "月影钟楼",
+		"npcs": [],
+		"scene_path": "res://scenes/xingheneihuan.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"8": {
+		"bgm": "",
+		"description": "烛塔学院普通关卡：穿过重复教室与书灵长廊，前往毕业礼堂与四座烛塔。",
+		"enemies": [],
+		"name": "烛塔学院",
+		"npcs": [],
+		"scene_path": "res://scenes/xing.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"9": {
+		"bgm": "",
+		"description": "烛塔学院 Boss 战：在毕业礼堂遭遇把学院锁在毕业前一天的露米娜。",
+		"enemies": [],
+		"name": "毕业礼堂",
+		"npcs": [],
+		"scene_path": "res://scenes/level_01.tscn",
+		"spawn_x": 500,
+		"spawn_y": 400
+	},
+	"10": {
 		"bgm": "",
 		"description": "初始关卡",
 		"enemies": [
@@ -24,65 +124,45 @@
 		"spawn_x": 160,
 		"spawn_y": 350
 	},
-	"10": {
-		"bgm": "",
-		"description": "星露草原",
-		"enemies": [],
-		"name": "星露草原",
-		"npcs": [],
-		"scene_path": "res://scenes/city3.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
-	},
 	"11": {
 		"bgm": "",
-		"description": "月影遗迹",
-		"enemies": [],
-		"name": "月影遗迹",
+		"description": "第二关卡",
+		"enemies": [
+			{
+				"count": 3,
+				"enemy_id": 8001,
+				"mode": "group",
+				"scatter_x": 20,
+				"spawn_id": "spawn_0",
+				"x": 350,
+				"y": 350
+			}
+		],
+		"name": "丛林",
 		"npcs": [],
-		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
+		"scene_path": "res://scenes/jungle_01.tscn",
+		"spawn_x": 160,
+		"spawn_y": 350
 	},
 	"12": {
 		"bgm": "",
-		"description": " 烛塔学院",
+		"description": "余晖城主城",
 		"enemies": [],
-		"name": " 烛塔学院",
+		"name": "city",
 		"npcs": [],
 		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
+		"spawn_x": 497,
+		"spawn_y": 397
 	},
 	"13": {
 		"bgm": "",
-		"description": "苍蓝港湾",
+		"description": "余晖城东街",
 		"enemies": [],
-		"name": "苍蓝港湾",
+		"name": "city2",
 		"npcs": [],
 		"scene_path": "res://scenes/city2.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
-	},
-	"14": {
-		"bgm": "",
-		"description": "灰烬王城",
-		"enemies": [],
-		"name": "灰烬王城",
-		"npcs": [],
-		"scene_path": "res://scenes/xingheneihuan.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
-	},
-	"15": {
-		"bgm": "",
-		"description": "王脉深庭",
-		"enemies": [],
-		"name": "王脉深庭",
-		"npcs": [],
-		"scene_path": "res://scenes/xing.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
+		"spawn_x": 184,
+		"spawn_y": 397
 	},
 	"16": {
 		"bgm": "",
@@ -125,85 +205,5 @@
 		"scene_path": "res://scenes/xingheneihuan.tscn",
 		"spawn_x": 497,
 		"spawn_y": 397
-	},
-	"2": {
-		"bgm": "",
-		"description": "第二关卡",
-		"enemies": [
-			{
-				"count": 3,
-				"enemy_id": 8001,
-				"mode": "group",
-				"scatter_x": 20.0,
-				"spawn_id": "spawn_0",
-				"x": 350.0,
-				"y": 350.0
-			}
-		],
-		"name": "丛林",
-		"npcs": [],
-		"scene_path": "res://scenes/jungle_01.tscn",
-		"spawn_x": 160,
-		"spawn_y": 350
-	},
-	"3": {
-		"bgm": "",
-		"description": "余晖城主城",
-		"enemies": [],
-		"name": "city",
-		"npcs": [],
-		"scene_path": "res://scenes/city.tscn",
-		"spawn_x": 497,
-		"spawn_y": 397
-	},
-	"4": {
-		"bgm": "",
-		"description": "余晖城东街",
-		"enemies": [],
-		"name": "city2",
-		"npcs": [],
-		"scene_path": "res://scenes/city2.tscn",
-		"spawn_x": 184,
-		"spawn_y": 397
-	},
-	"5": {
-		"bgm": "",
-		"description": "余晖城港口",
-		"enemies": [],
-		"name": "city3",
-		"npcs": [],
-		"scene_path": "res://scenes/city3.tscn",
-		"spawn_x": 184,
-		"spawn_y": 397
-	},
-	"7": {
-		"bgm": "",
-		"description": "月影遗迹 Boss 战：在月影钟楼遭遇持续敲宵禁钟的阿尔戈。",
-		"enemies": [],
-		"name": "月影钟楼",
-		"npcs": [],
-		"scene_path": "res://scenes/xingheneihuan.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
-	},
-	"8": {
-		"bgm": "",
-		"description": "烛塔学院普通关卡：穿过重复教室与书灵长廊，前往毕业礼堂与四座烛塔。",
-		"enemies": [],
-		"name": "烛塔学院",
-		"npcs": [],
-		"scene_path": "res://scenes/xing.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
-	},
-	"9": {
-		"bgm": "",
-		"description": "烛塔学院 Boss 战：在毕业礼堂遭遇把学院锁在毕业前一天的露米娜。",
-		"enemies": [],
-		"name": "毕业礼堂",
-		"npcs": [],
-		"scene_path": "res://scenes/level_01.tscn",
-		"spawn_x": 500,
-		"spawn_y": 400
 	}
 }
