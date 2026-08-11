@@ -53,6 +53,10 @@ var _hit_targets: Dictionary = {}
 var _visual_sprite: AnimatedSprite2D
 var _visual_root: Node2D
 var _visual_root_base_scale := Vector2.ONE
+# 碰撞体缓存：node.scale 同步缩放碰撞（与视觉保持一致比例），基准值在首次缓存时记录。
+var _collision_shape: CollisionShape2D
+var _collision_base_scale := Vector2.ONE
+var _collision_base_position := Vector2.ZERO
 var _visual_nodes_cached := false
 # GameTool 导出时 baked 到子节点的 flip_h（素材规范层，朝右素材 baked 成朝左）。
 # rotate_to_velocity=true 时需基于此值抵消，否则 rotation 会让 baked 朝向反转。
@@ -183,6 +187,11 @@ func _update_projectile_transform(delta: float, advance_motion: bool) -> void:
 		if extra_mirror:
 			sign_x *= -1.0
 		_visual_root.scale = Vector2(absf(_visual_root_base_scale.x) * visual_scale_multiplier * sign_x, absf(_visual_root_base_scale.y) * visual_scale_multiplier)
+	# node.scale 同步缩放碰撞体，使命中框与视觉保持一致比例；
+	# 位置（烘焙进场景的碰撞偏移）同步乘倍率，保持与视觉对齐。
+	if _collision_shape != null:
+		_collision_shape.scale = Vector2(_collision_base_scale.x * visual_scale_multiplier, _collision_base_scale.y * visual_scale_multiplier)
+		_collision_shape.position = _collision_base_position * visual_scale_multiplier
 
 
 func _cache_visual_nodes() -> void:
@@ -195,6 +204,11 @@ func _cache_visual_nodes() -> void:
 		_visual_root_base_scale = _visual_root.scale
 	if _visual_sprite != null:
 		_visual_sprite_base_flip = _visual_sprite.flip_h
+	var collision_nodes := find_children("*", "CollisionShape2D", true, false)
+	_collision_shape = collision_nodes[0] as CollisionShape2D if not collision_nodes.is_empty() else null
+	if _collision_shape != null:
+		_collision_base_scale = _collision_shape.scale
+		_collision_base_position = _collision_shape.position
 
 
 func _find_visual_sprite() -> AnimatedSprite2D:
