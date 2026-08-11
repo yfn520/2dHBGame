@@ -115,7 +115,6 @@ func _build() -> void:
 		return
 	add_child(_scene_root)
 	_scene_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_fix_imported_button_children(_scene_root)
 	_apply_hud_mode()
 	_load_manifest_bindings()
 	_bind_bars()
@@ -139,29 +138,6 @@ func _apply_hud_mode() -> void:
 			node.visible = false
 	# 顶部功能按钮默认隐藏，button_set 常驻用于切换其显隐
 	_set_function_buttons_visible(false)
-
-
-## 修复 GameTool 编排导出的 .tscn 中按钮子节点坐标问题：
-## _over（hover 状态）/_tint（着色遮罩）子节点被写成了绝对坐标，导致它们跑到父按钮的右下方。
-## 这里统一将所有按钮的 _over/_tint 直接子节点重置为充满父按钮（anchor=(0,0,1,1), offset=0）。
-func _fix_imported_button_children(node: Node) -> void:
-	if node == null:
-		return
-	for child in node.get_children():
-		if child is Button or child is TextureButton:
-			for sub in child.get_children():
-				var sub_name: String = sub.name.to_lower()
-				if (sub is TextureRect or sub is ColorRect) and (sub_name.ends_with("_over") or sub_name.ends_with("_tint")):
-					var c: Control = sub as Control
-					c.anchor_left = 0.0
-					c.anchor_top = 0.0
-					c.anchor_right = 1.0
-					c.anchor_bottom = 1.0
-					c.offset_left = 0.0
-					c.offset_top = 0.0
-					c.offset_right = 0.0
-					c.offset_bottom = 0.0
-		_fix_imported_button_children(child)
 
 
 # ---- 节点引用 ----
@@ -344,6 +320,7 @@ func _make_skill_group(group_index: int, bg_name: String, prefix: String) -> Dic
 	var char_btn := _get_unique("button_character_num%s" % prefix)
 	var char_key := "switch_%d" % (group_index + 1)
 	var passive_key := "skill_passive_%d" % (group_index + 1)
+	var passive_btn := _get_by_key(_button_by_key, passive_key, "button_skill_passive%s" % prefix)
 	var icons: Array = []
 	for i in range(SKILL_SLOTS.size()):
 		var icon_key := "skill_%d_%d" % [group_index + 1, i + 1]
@@ -354,7 +331,7 @@ func _make_skill_group(group_index: int, bg_name: String, prefix: String) -> Dic
 		icons.append({"btn": btn, "overlay": overlay["overlay"], "label": overlay["label"]})
 	_bind_button_by_key(char_key, "button_character_num%s" % prefix, Callable(self, "_on_character_num_pressed").bind(group_index))
 	_bind_button_by_key(passive_key, "button_skill_passive%s" % prefix, Callable(self, "_on_placeholder_button"))
-	return {"root": root, "char_btn": char_btn, "member": null, "icons": icons}
+	return {"root": root, "char_btn": char_btn, "passive_btn": passive_btn, "member": null, "icons": icons}
 
 
 ## 为技能图标按钮附加冷却遮罩+倒计时标签。
@@ -572,14 +549,34 @@ func _refresh_skill_groups(members: Array) -> void:
 		_refresh_skill_group(group, positions[i])
 
 
-func _refresh_skill_group(group: Dictionary, member) -> void:
+## 整组统一显隐。新版导出会把技能组包进组容器 Control（compound_*），
+## 直接切换容器即可覆盖底框/边框/切换/被动/图标及其全部子层；
+## 旧版平铺场景没有容器，退回逐节点隐藏（底框/切换/被动/3个技能图标）。
+func _set_skill_group_visible(group: Dictionary, visible: bool) -> void:
 	var root: Control = group.get("root")
-	if member == null or not is_instance_valid(member):
-		if root != null:
-			root.visible = false
+	if root != null and is_instance_valid(root):
+		var container := root.get_parent()
+		if container is Control and container != _scene_root:
+			container.visible = visible
+			return
+	var nodes: Array[Control] = [
+		root,
+		group.get("char_btn"),
+		group.get("passive_btn"),
+	]
+	for icon_data in group.get("icons", []):
+		nodes.append(icon_data.get("btn"))
+	for ctrl in nodes:
+		if ctrl is Control and is_instance_valid(ctrl):
+			ctrl.visible = visible
+
+
+func _refresh_skill_group(group: Dictionary, member) -> void:
+	var has_member := member != null and is_instance_valid(member)
+	_set_skill_group_visible(group, has_member)
+	if not has_member:
 		return
-	if root != null:
-		root.visible = true
+	var root: Control = group.get("root")
 	var combat: Node = member.get_node_or_null("CombatComponent")
 	var cooldowns: Dictionary = {}
 	if combat != null and combat.has_method("get_cooldowns_dict"):

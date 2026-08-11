@@ -1,60 +1,58 @@
-[gd_scene format=3 uid="uid://dmnbiin802uq3"]
+[gd_scene load_steps=47 format=3]
 
-[ext_resource type="Texture2D" uid="uid://dxyjwv36fb3mo" path="res://assets/ui/ui_main_lp/background/background.png" id="res_1"]
-[ext_resource type="Texture2D" uid="uid://c6jlla4uwo80c" path="res://assets/ui/ui_main_lp/textures/icon_01_ba60ab01.png" id="res_2"]
-[ext_resource type="Texture2D" uid="uid://cgxkju8dcikn" path="res://assets/ui/ui_main_lp/textures/icon_02_38afd007.png" id="res_3"]
-[ext_resource type="Texture2D" uid="uid://cfd44tc0lnhbf" path="res://assets/ui/ui_main_lp/textures/icon_03_43e25224.png" id="res_4"]
-[ext_resource type="Texture2D" uid="uid://dw120edmfqkft" path="res://assets/ui/ui_main_lp/textures/icon_04_3212e5ba.png" id="res_5"]
-[ext_resource type="Texture2D" uid="uid://by66560twre71" path="res://assets/ui/ui_main_lp/textures/icon_05_05b22d5e.png" id="res_6"]
-[ext_resource type="Texture2D" uid="uid://crrjpf55oq0jg" path="res://assets/ui/ui_main_lp/textures/icon_06_81f24685.png" id="res_7"]
-[ext_resource type="Texture2D" uid="uid://dbot7ltjjy1hn" path="res://assets/ui/ui_main_lp/textures/icon_07_c0e12e37.png" id="res_8"]
-[ext_resource type="Texture2D" uid="uid://bnucfq7wfo0as" path="res://assets/ui/ui_main_lp/textures/icon_04_4672ff65.png" id="res_9"]
-[ext_resource type="Texture2D" uid="uid://c2jyonxb8ierj" path="res://assets/ui/ui_main_lp/textures/icon_05_bc350c83.png" id="res_10"]
-[ext_resource type="Texture2D" uid="uid://dklg5ies6wkxi" path="res://assets/ui/ui_main_lp/textures/icon_01_51de9202.png" id="res_11"]
-[ext_resource type="Texture2D" uid="uid://cd5bo8yxh11h4" path="res://assets/ui/ui_main_lp/textures/icon_05_edfe90b4.png" id="res_12"]
-[ext_resource type="Texture2D" uid="uid://dkqeyy4enmw7d" path="res://assets/ui/ui_main_lp/textures/icon_06_46620371.png" id="res_13"]
-[ext_resource type="Texture2D" uid="uid://cbr6ynaqu0aw6" path="res://assets/ui/ui_main_lp/textures/icon_07_38da100d.png" id="res_14"]
-[ext_resource type="Texture2D" uid="uid://baxg1ra2rk5gk" path="res://assets/ui/ui_main_lp/textures/icon_08_566d3bb2.png" id="res_15"]
-[ext_resource type="Texture2D" uid="uid://febo483srl54" path="res://assets/ui/ui_main_lp/textures/icon_09_9532a409.png" id="res_16"]
-[ext_resource type="Texture2D" uid="uid://b5fvm2b7jtee" path="res://assets/ui/ui_main_lp/textures/icon_10_9c1af4ae.png" id="res_17"]
-[ext_resource type="Texture2D" uid="uid://dlxatg1f35f4g" path="res://assets/ui/ui_main_lp/textures/icon_04_6214959d.png" id="res_18"]
-[ext_resource type="Texture2D" uid="uid://ddf6pjx288qqi" path="res://assets/ui/ui_main_lp/textures/icon_05_de5e00a1.png" id="res_19"]
-[ext_resource type="Texture2D" uid="uid://cx7wlto6b0ja8" path="res://assets/ui/ui_main_lp/textures/icon_06_3cf27428.png" id="res_20"]
-[ext_resource type="Texture2D" uid="uid://d6iu17gqr6nt" path="res://assets/ui/ui_main_lp/textures/icon_11_daa97a9f.png" id="res_21"]
-[ext_resource type="Texture2D" uid="uid://cpdgckx8cvehx" path="res://assets/ui/ui_main_lp/textures/icon_14_e40e848d.png" id="res_22"]
-[ext_resource type="Texture2D" uid="uid://dj2382qb46lqe" path="res://assets/ui/ui_main_lp/textures/icon_15_8d9f8da2.png" id="res_23"]
-[ext_resource type="Texture2D" uid="uid://bh0oveemm0rcx" path="res://assets/ui/ui_main_lp/textures/icon_01_067ff1c2.png" id="res_24"]
-[ext_resource type="Texture2D" uid="uid://bc1uxj7ulan8q" path="res://assets/ui/ui_main_lp/textures/icon_02_3059bac2.png" id="res_25"]
-[ext_resource type="Texture2D" uid="uid://cm5u1jfj2yh83" path="res://assets/ui/ui_main_lp/textures/icon_03_7f715bab.png" id="res_26"]
-[ext_resource type="Texture2D" uid="uid://cioku2ierb4h" path="res://assets/ui/ui_main_lp/textures/icon_32_afdd38ef.png" id="res_27"]
-[ext_resource type="Texture2D" uid="uid://b3v1xyguv4qqc" path="res://assets/ui/ui_main_lp/textures/icon_01_a8199373.png" id="res_28"]
-[ext_resource type="Texture2D" uid="uid://dhth8jxowwnpl" path="res://assets/ui/ui_main_lp/textures/icon_02_878e718c.png" id="res_29"]
-[ext_resource type="Texture2D" uid="uid://x4f40vcwiwvl" path="res://assets/ui/ui_main_lp/textures/icon_03_76d502eb.png" id="res_30"]
-[ext_resource type="Texture2D" uid="uid://vnuh4bmjuytd" path="res://assets/ui/ui_main_lp/textures/icon_01_fdbdac4c.png" id="res_31"]
-[ext_resource type="Texture2D" uid="uid://bi8g68wa63qr2" path="res://assets/ui/ui_main_lp/textures/icon_02_de44f941.png" id="res_32"]
-[ext_resource type="Texture2D" uid="uid://bp2k84ewcsfr8" path="res://assets/ui/ui_main_lp/textures/icon_03_54fdad83.png" id="res_33"]
-[ext_resource type="Texture2D" uid="uid://cn0g4fpyjniv5" path="res://assets/ui/ui_main_lp/textures/icon_02_b30e7c8c.png" id="res_34"]
-[ext_resource type="Texture2D" uid="uid://2b50nke2vc2n" path="res://assets/ui/ui_main_lp/textures/icon_04_63007f4e.png" id="res_35"]
-[ext_resource type="Texture2D" uid="uid://drerkno3xf47p" path="res://assets/ui/ui_main_lp/textures/icon_06_53511356.png" id="res_36"]
-[ext_resource type="Texture2D" uid="uid://s2qlodmr62o6" path="res://assets/ui/ui_main_lp/textures/icon_13_e4aabbd4.png" id="res_37"]
-[ext_resource type="Texture2D" uid="uid://cxe1cqo7rn1nr" path="res://assets/ui/ui_main_lp/textures/icon_14_b1038a1d.png" id="res_38"]
-[ext_resource type="Texture2D" uid="uid://dvoyqsts5l7gc" path="res://assets/ui/ui_main_lp/textures/icon_15_5a10c70f.png" id="res_39"]
-[ext_resource type="Texture2D" uid="uid://d66df8vty2t4" path="res://assets/ui/ui_main_lp/textures/icon_16_50310545.png" id="res_40"]
-[ext_resource type="Texture2D" uid="uid://dxwc24tmpavl8" path="res://assets/ui/ui_main_lp/textures/icon_17_49eea319.png" id="res_41"]
-[ext_resource type="Texture2D" uid="uid://b8vmj10rfc620" path="res://assets/ui/ui_main_lp/textures/icon_18_f8dba971.png" id="res_42"]
-[ext_resource type="Texture2D" uid="uid://cvtf24l70ld7a" path="res://assets/ui/ui_main_lp/textures/icon_01_e8c268e5.png" id="res_43"]
-[ext_resource type="Texture2D" uid="uid://cj7kyjhpdjuqo" path="res://assets/ui/ui_main_lp/textures/progress_health_bar_progress_color.svg" id="res_44"]
-[ext_resource type="Texture2D" uid="uid://p6ypvt73ygtg" path="res://assets/ui/ui_main_lp/textures/progress_magicbar_progress_color.svg" id="res_45"]
-[ext_resource type="Texture2D" uid="uid://c5p4o4vrudy8j" path="res://assets/ui/ui_main_lp/textures/progress_expbar_progress_color.svg" id="res_46"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/background/background.png" id="res_1"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_ba60ab01.png" id="res_2"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_38afd007.png" id="res_3"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_43e25224.png" id="res_4"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_3212e5ba.png" id="res_5"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_05b22d5e.png" id="res_6"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_81f24685.png" id="res_7"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_07_c0e12e37.png" id="res_8"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_4672ff65.png" id="res_9"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_bc350c83.png" id="res_10"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_51de9202.png" id="res_11"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_edfe90b4.png" id="res_12"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_46620371.png" id="res_13"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_07_38da100d.png" id="res_14"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_08_566d3bb2.png" id="res_15"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_09_9532a409.png" id="res_16"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_10_9c1af4ae.png" id="res_17"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_6214959d.png" id="res_18"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_de5e00a1.png" id="res_19"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_3cf27428.png" id="res_20"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_11_daa97a9f.png" id="res_21"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_14_e40e848d.png" id="res_22"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_15_8d9f8da2.png" id="res_23"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_067ff1c2.png" id="res_24"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_3059bac2.png" id="res_25"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_7f715bab.png" id="res_26"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_32_afdd38ef.png" id="res_27"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_a8199373.png" id="res_28"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_878e718c.png" id="res_29"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_76d502eb.png" id="res_30"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_fdbdac4c.png" id="res_31"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_de44f941.png" id="res_32"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_54fdad83.png" id="res_33"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_b30e7c8c.png" id="res_34"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_63007f4e.png" id="res_35"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_53511356.png" id="res_36"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_13_e4aabbd4.png" id="res_37"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_14_b1038a1d.png" id="res_38"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_15_5a10c70f.png" id="res_39"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_16_50310545.png" id="res_40"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_17_49eea319.png" id="res_41"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_18_f8dba971.png" id="res_42"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_e8c268e5.png" id="res_43"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_health_bar_progress_color.svg" id="res_44"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_magicbar_progress_color.svg" id="res_45"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_expbar_progress_color.svg" id="res_46"]
 
-[node name="UiScreen" type="Control" unique_id=1355074608]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1536.0
-offset_bottom = 864.0
+[node name="UiScreen" type="Control"]
+offset_right = 1536
+offset_bottom = 864
 
-[node name="Background" type="TextureRect" parent="." unique_id=1620069825]
-visible = false
+[node name="Background" type="TextureRect" parent="."]
+texture = ExtResource("res_1")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,1032 +60,1231 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("res_1")
 expand_mode = 1
+stretch_mode = 0
 
-[node name="image_background" type="TextureRect" parent="." unique_id=796494173]
-modulate = Color(1, 1, 1, 0.75)
+[node name="role_information_bar_1" type="Control" parent="."]
+offset_right = 282
+offset_bottom = 105
+offset_left = 17
+offset_top = 10
 layout_mode = 1
-offset_left = 17.0
-offset_top = 10.0
-offset_right = 282.0
-offset_bottom = 103.0
-mouse_filter = 2
-texture = ExtResource("res_2")
-expand_mode = 1
 
-[node name="image_avatar" type="TextureRect" parent="." unique_id=1506826904]
-unique_name_in_owner = true
+[node name="token_row" type="Control" parent="."]
+offset_right = 1283
+offset_bottom = 56
+offset_left = 990
+offset_top = 14
+layout_mode = 1
+
+[node name="mainmenu" type="Control" parent="."]
+offset_right = 1521
+offset_bottom = 272
+offset_left = 1294
+offset_top = 13
+layout_mode = 1
+
+[node name="role_information_bar_2" type="Control" parent="."]
+offset_right = 244
+offset_bottom = 190
+offset_left = 16
+offset_top = 108
+layout_mode = 1
+
+[node name="role_information_bar_3" type="Control" parent="."]
+offset_right = 244
+offset_bottom = 275
+offset_left = 15
+offset_top = 192
+layout_mode = 1
+
+[node name="compound_020" type="Control" parent="."]
+offset_right = 468
+offset_bottom = 802
+offset_left = 65
+offset_top = 743
+
+[node name="compound_018_2" type="Control" parent="."]
+offset_right = 1031
+offset_bottom = 809
+offset_left = 527
+offset_top = 735
+
+[node name="compound_019" type="Control" parent="."]
+offset_right = 1462
+offset_bottom = 799
+offset_left = 1096
+offset_top = 739
+
+[node name="image_background" type="TextureRect" parent="role_information_bar_1"]
+offset_right = 265
+offset_bottom = 93
+offset_left = 0
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
+z_index = 0
+modulate = Color(1, 1, 1, 0.75)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_2")
+
+[node name="image_avatar" type="TextureRect" parent="role_information_bar_1"]
+offset_right = 87
+offset_bottom = 95
+offset_left = 11
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
 z_index = 1
-layout_mode = 1
-offset_left = 28.0
-offset_top = 10.0
-offset_right = 104.0
-offset_bottom = 105.0
-mouse_filter = 2
-texture = ExtResource("res_3")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
 stretch_mode = 5
+texture = ExtResource("res_3")
 
-[node name="image_exp_label" type="TextureRect" parent="." unique_id=960308961]
+[node name="image_exp_label" type="TextureRect" parent="role_information_bar_1"]
+offset_right = 117
+offset_bottom = 86
+offset_left = 92
+offset_top = 73
+layout_mode = 1
+mouse_filter = 2
 z_index = 2
-layout_mode = 1
-offset_left = 109.0
-offset_top = 83.0
-offset_right = 134.0
-offset_bottom = 96.0
-mouse_filter = 2
-texture = ExtResource("res_8")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
 stretch_mode = 5
+texture = ExtResource("res_8")
 
-[node name="progress_health_bar" type="TextureProgressBar" parent="." unique_id=2141857409]
-unique_name_in_owner = true
+[node name="progress_health_bar" type="TextureProgressBar" parent="role_information_bar_1"]
+offset_right = 251
+offset_bottom = 49
+offset_left = 87
+offset_top = 31
+layout_mode = 1
 z_index = 3
-layout_mode = 1
-offset_left = 104.0
-offset_top = 41.0
-offset_right = 268.0
-offset_bottom = 59.0
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("res_4")
-texture_progress = ExtResource("res_44")
-
-[node name="progress_magicbar" type="TextureProgressBar" parent="." unique_id=1061072750]
+modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
+nine_patch_stretch = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_44")
+texture_over = ExtResource("res_4")
+
+[node name="progress_magicbar" type="TextureProgressBar" parent="role_information_bar_1"]
+offset_right = 251
+offset_bottom = 70
+offset_left = 88
+offset_top = 52
+layout_mode = 1
 z_index = 4
-layout_mode = 1
-offset_left = 105.0
-offset_top = 62.0
-offset_right = 268.0
-offset_bottom = 80.0
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("res_5")
-texture_progress = ExtResource("res_45")
-
-[node name="progress_expbar" type="TextureProgressBar" parent="." unique_id=1169124702]
+modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
+nine_patch_stretch = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_45")
+texture_over = ExtResource("res_5")
+
+[node name="progress_expbar" type="TextureProgressBar" parent="role_information_bar_1"]
+offset_right = 237
+offset_bottom = 86
+offset_left = 123
+offset_top = 73
+layout_mode = 1
 z_index = 5
-layout_mode = 1
-offset_left = 140.0
-offset_top = 83.0
-offset_right = 254.0
-offset_bottom = 96.0
-value = 50.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 nine_patch_stretch = true
-texture_over = ExtResource("res_7")
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
 texture_progress = ExtResource("res_46")
+texture_over = ExtResource("res_7")
 
-[node name="image_token_background" type="TextureRect" parent="." unique_id=2042104079]
+[node name="image_token_background" type="TextureRect" parent="token_row"]
+offset_right = 293
+offset_bottom = 42
+offset_left = 0
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
 z_index = 6
-layout_mode = 1
-offset_left = 990.0
-offset_top = 14.0
-offset_right = 1283.0
-offset_bottom = 56.0
-mouse_filter = 2
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_11")
-expand_mode = 1
 
-[node name="label_gold" type="Label" parent="." unique_id=474001936]
-unique_name_in_owner = true
+[node name="label_gold" type="Label" parent="token_row"]
+offset_right = 99
+offset_bottom = 33
+offset_left = 47
+offset_top = 9
+layout_mode = 1
 z_index = 7
-layout_mode = 1
-offset_left = 1037.0
-offset_top = 23.0
-offset_right = 1089.0
-offset_bottom = 47.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+text = ""
 theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.000000, 1.000000, 1.000000, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="image_gold" type="TextureRect" parent="." unique_id=1928726679]
+[node name="image_gold" type="TextureRect" parent="token_row"]
+offset_right = 38
+offset_bottom = 33
+offset_left = 14
+offset_top = 9
+layout_mode = 1
+mouse_filter = 2
 z_index = 8
-layout_mode = 1
-offset_left = 1004.0
-offset_top = 23.0
-offset_right = 1028.0
-offset_bottom = 47.0
-mouse_filter = 2
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_18")
-expand_mode = 1
 
-[node name="label_Sstone" type="Label" parent="." unique_id=1004690626]
-unique_name_in_owner = true
+[node name="label_Sstone" type="Label" parent="token_row"]
+offset_right = 190
+offset_bottom = 32
+offset_left = 138
+offset_top = 9
+layout_mode = 1
 z_index = 9
-layout_mode = 1
-offset_left = 1128.0
-offset_top = 23.0
-offset_right = 1180.0
-offset_bottom = 46.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+text = ""
 theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.000000, 1.000000, 1.000000, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="image_Sstone" type="TextureRect" parent="." unique_id=1130190364]
+[node name="image_Sstone" type="TextureRect" parent="token_row"]
+offset_right = 128
+offset_bottom = 32
+offset_left = 109
+offset_top = 9
+layout_mode = 1
+mouse_filter = 2
 z_index = 10
-layout_mode = 1
-offset_left = 1099.0
-offset_top = 23.0
-offset_right = 1118.0
-offset_bottom = 46.0
-mouse_filter = 2
-texture = ExtResource("res_19")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_19")
 
-[node name="label_stone" type="Label" parent="." unique_id=222156039]
-unique_name_in_owner = true
-z_index = 11
+[node name="label_stone" type="Label" parent="token_row"]
+offset_right = 282
+offset_bottom = 33
+offset_left = 229
+offset_top = 9
 layout_mode = 1
-offset_left = 1219.0
-offset_top = 23.0
-offset_right = 1272.0
-offset_bottom = 47.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+z_index = 11
+unique_name_in_owner = true
+text = ""
 theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(1.000000, 1.000000, 1.000000, 1)
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="image_stone" type="TextureRect" parent="." unique_id=321267098]
+[node name="image_stone" type="TextureRect" parent="token_row"]
+offset_right = 218
+offset_bottom = 33
+offset_left = 198
+offset_top = 9
+layout_mode = 1
+mouse_filter = 2
 z_index = 12
-layout_mode = 1
-offset_left = 1188.0
-offset_top = 23.0
-offset_right = 1208.0
-offset_bottom = 47.0
-mouse_filter = 2
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_20")
-expand_mode = 1
 
-[node name="button_hero" type="TextureButton" parent="." unique_id=1836801848]
-unique_name_in_owner = true
+[node name="button_hero" type="TextureButton" parent="mainmenu"]
+offset_right = 46
+offset_bottom = 92
+offset_left = 0
+offset_top = 50
+layout_mode = 1
 z_index = 13
-layout_mode = 1
-offset_left = 1294.0
-offset_top = 63.0
-offset_right = 1340.0
-offset_bottom = 105.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_hero_over" type="TextureRect" parent="button_hero" unique_id=1385437510]
+[node name="button_hero_over" type="TextureRect" parent="mainmenu/button_hero"]
+offset_right = 40
+offset_bottom = 42
+offset_left = 6
+offset_top = 0
 layout_mode = 1
-offset_left = 1294.0
-offset_top = 63.0
-offset_right = 1340.0
-offset_bottom = 105.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_12")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_skill" type="TextureButton" parent="." unique_id=82388478]
-unique_name_in_owner = true
+[node name="button_skill" type="TextureButton" parent="mainmenu"]
+offset_right = 163
+offset_bottom = 95
+offset_left = 117
+offset_top = 53
+layout_mode = 1
 z_index = 14
-layout_mode = 1
-offset_left = 1411.0
-offset_top = 66.0
-offset_right = 1457.0
-offset_bottom = 108.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_skill_over" type="TextureRect" parent="button_skill" unique_id=1013131711]
+[node name="button_skill_over" type="TextureRect" parent="mainmenu/button_skill"]
+offset_right = 40
+offset_bottom = 42
+offset_left = 6
+offset_top = 0
 layout_mode = 1
-offset_left = 1411.0
-offset_top = 66.0
-offset_right = 1457.0
-offset_bottom = 108.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_13")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_map" type="TextureButton" parent="." unique_id=2047426232]
-unique_name_in_owner = true
+[node name="button_map" type="TextureButton" parent="mainmenu"]
+offset_right = 227
+offset_bottom = 203
+offset_left = 181
+offset_top = 161
+layout_mode = 1
 z_index = 15
-layout_mode = 1
-offset_left = 1475.0
-offset_top = 174.0
-offset_right = 1521.0
-offset_bottom = 216.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_map_over" type="TextureRect" parent="button_map" unique_id=1684496059]
+[node name="button_map_over" type="TextureRect" parent="mainmenu/button_map"]
+offset_right = 46
+offset_bottom = 41
+offset_left = 0
+offset_top = 1
 layout_mode = 1
-offset_left = 1475.0
-offset_top = 174.0
-offset_right = 1521.0
-offset_bottom = 216.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_15")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_back" type="TextureButton" parent="." unique_id=778223754]
-unique_name_in_owner = true
+[node name="button_back" type="TextureButton" parent="mainmenu"]
+offset_right = 226
+offset_bottom = 96
+offset_left = 180
+offset_top = 54
+layout_mode = 1
 z_index = 16
-layout_mode = 1
-offset_left = 1474.0
-offset_top = 67.0
-offset_right = 1520.0
-offset_bottom = 109.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_back_over" type="TextureRect" parent="button_back" unique_id=1708046378]
+[node name="button_back_over" type="TextureRect" parent="mainmenu/button_back"]
+offset_right = 42
+offset_bottom = 42
+offset_left = 4
+offset_top = 0
 layout_mode = 1
-offset_left = 1474.0
-offset_top = 67.0
-offset_right = 1520.0
-offset_bottom = 109.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_9")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_Trading" type="TextureButton" parent="." unique_id=1549237910]
-unique_name_in_owner = true
+[node name="button_Trading" type="TextureButton" parent="mainmenu"]
+offset_right = 167
+offset_bottom = 206
+offset_left = 121
+offset_top = 159
+layout_mode = 1
 z_index = 17
-layout_mode = 1
-offset_left = 1415.0
-offset_top = 172.0
-offset_right = 1461.0
-offset_bottom = 219.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_Trading_over" type="TextureRect" parent="button_Trading" unique_id=813546125]
+[node name="button_Trading_over" type="TextureRect" parent="mainmenu/button_Trading"]
+offset_right = 46
+offset_bottom = 46
+offset_left = 0
+offset_top = 1
 layout_mode = 1
-offset_left = 1415.0
-offset_top = 172.0
-offset_right = 1461.0
-offset_bottom = 219.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_14")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_plan" type="TextureButton" parent="." unique_id=29987033]
-unique_name_in_owner = true
+[node name="button_plan" type="TextureButton" parent="mainmenu"]
+offset_right = 105
+offset_bottom = 92
+offset_left = 59
+offset_top = 50
+layout_mode = 1
 z_index = 18
-layout_mode = 1
-offset_left = 1353.0
-offset_top = 63.0
-offset_right = 1399.0
-offset_bottom = 105.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_plan_over" type="TextureRect" parent="button_plan" unique_id=1256241708]
+[node name="button_plan_over" type="TextureRect" parent="mainmenu/button_plan"]
+offset_right = 43
+offset_bottom = 42
+offset_left = 3
+offset_top = 0
 layout_mode = 1
-offset_left = 1353.0
-offset_top = 63.0
-offset_right = 1399.0
-offset_bottom = 105.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_10")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_military" type="TextureButton" parent="." unique_id=1093326948]
-unique_name_in_owner = true
+[node name="button_military" type="TextureButton" parent="mainmenu"]
+offset_right = 226
+offset_bottom = 259
+offset_left = 180
+offset_top = 217
+layout_mode = 1
 z_index = 19
-layout_mode = 1
-offset_left = 1474.0
-offset_top = 230.0
-offset_right = 1520.0
-offset_bottom = 272.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_military_over" type="TextureRect" parent="button_military" unique_id=654956470]
+[node name="button_military_over" type="TextureRect" parent="mainmenu/button_military"]
+offset_right = 38
+offset_bottom = 42
+offset_left = 8
+offset_top = 0
 layout_mode = 1
-offset_left = 1474.0
-offset_top = 230.0
-offset_right = 1520.0
-offset_bottom = 272.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_6")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_friend" type="TextureButton" parent="." unique_id=936822618]
-unique_name_in_owner = true
+[node name="button_friend" type="TextureButton" parent="mainmenu"]
+offset_right = 105
+offset_bottom = 42
+offset_left = 59
+offset_top = 0
+layout_mode = 1
 z_index = 20
-layout_mode = 1
-offset_left = 1353.0
-offset_top = 13.0
-offset_right = 1399.0
-offset_bottom = 55.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_friend_over" type="TextureRect" parent="button_friend" unique_id=1083649219]
+[node name="button_friend_over" type="TextureRect" parent="mainmenu/button_friend"]
+offset_right = 46
+offset_bottom = 42
+offset_left = 0
+offset_top = 0
 layout_mode = 1
-offset_left = 1353.0
-offset_top = 13.0
-offset_right = 1399.0
-offset_bottom = 55.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_17")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_calendar" type="TextureButton" parent="." unique_id=55398112]
-unique_name_in_owner = true
+[node name="button_calendar" type="TextureButton" parent="mainmenu"]
+offset_right = 163
+offset_bottom = 42
+offset_left = 117
+offset_top = 0
+layout_mode = 1
 z_index = 21
-layout_mode = 1
-offset_left = 1411.0
-offset_top = 13.0
-offset_right = 1457.0
-offset_bottom = 55.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_calendar_over" type="TextureRect" parent="button_calendar" unique_id=636280051]
+[node name="button_calendar_over" type="TextureRect" parent="mainmenu/button_calendar"]
+offset_right = 44
+offset_bottom = 42
+offset_left = 2
+offset_top = 0
 layout_mode = 1
-offset_left = 1411.0
-offset_top = 13.0
-offset_right = 1457.0
-offset_bottom = 55.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_21")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_rune" type="TextureButton" parent="." unique_id=1528811512]
-unique_name_in_owner = true
+[node name="button_rune" type="TextureButton" parent="mainmenu"]
+offset_right = 225
+offset_bottom = 148
+offset_left = 179
+offset_top = 106
+layout_mode = 1
 z_index = 22
-layout_mode = 1
-offset_left = 1473.0
-offset_top = 119.0
-offset_right = 1519.0
-offset_bottom = 161.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_rune_over" type="TextureRect" parent="button_rune" unique_id=430075367]
+[node name="button_rune_over" type="TextureRect" parent="mainmenu/button_rune"]
+offset_right = 41
+offset_bottom = 42
+offset_left = 5
+offset_top = 0
 layout_mode = 1
-offset_left = 1473.0
-offset_top = 119.0
-offset_right = 1519.0
-offset_bottom = 161.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_25")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_mail" type="TextureButton" parent="." unique_id=668539846]
-unique_name_in_owner = true
+[node name="button_mail" type="TextureButton" parent="mainmenu"]
+offset_right = 46
+offset_bottom = 42
+offset_left = 0
+offset_top = 0
+layout_mode = 1
 z_index = 23
-layout_mode = 1
-offset_left = 1294.0
-offset_top = 13.0
-offset_right = 1340.0
-offset_bottom = 55.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_mail_over" type="TextureRect" parent="button_mail" unique_id=457438629]
+[node name="button_mail_over" type="TextureRect" parent="mainmenu/button_mail"]
+offset_right = 46
+offset_bottom = 39
+offset_left = 0
+offset_top = 3
 layout_mode = 1
-offset_left = 1294.0
-offset_top = 13.0
-offset_right = 1340.0
-offset_bottom = 55.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_22")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_副本" type="TextureButton" parent="." unique_id=1783655594]
-unique_name_in_owner = true
+[node name="button_副本" type="TextureButton" parent="mainmenu"]
+offset_right = 164
+offset_bottom = 148
+offset_left = 118
+offset_top = 106
+layout_mode = 1
 z_index = 24
-layout_mode = 1
-offset_left = 1412.0
-offset_top = 119.0
-offset_right = 1458.0
-offset_bottom = 161.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_副本_over" type="TextureRect" parent="button_副本" unique_id=1338218686]
+[node name="button_副本_over" type="TextureRect" parent="mainmenu/button_副本"]
+offset_right = 44
+offset_bottom = 42
+offset_left = 2
+offset_top = 0
 layout_mode = 1
-offset_left = 1412.0
-offset_top = 119.0
-offset_right = 1458.0
-offset_bottom = 161.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_24")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_pet" type="TextureButton" parent="." unique_id=77906766]
-unique_name_in_owner = true
+[node name="button_pet" type="TextureButton" parent="mainmenu"]
+offset_right = 105
+offset_bottom = 147
+offset_left = 59
+offset_top = 105
+layout_mode = 1
 z_index = 25
-layout_mode = 1
-offset_left = 1353.0
-offset_top = 118.0
-offset_right = 1399.0
-offset_bottom = 160.0
-texture_normal = ExtResource("res_23")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_23")
 
-[node name="button_pet_over" type="TextureRect" parent="button_pet" unique_id=1845984349]
+[node name="button_pet_over" type="TextureRect" parent="mainmenu/button_pet"]
+offset_right = 41
+offset_bottom = 42
+offset_left = 5
+offset_top = 0
 layout_mode = 1
-offset_left = 1353.0
-offset_top = 118.0
-offset_right = 1399.0
-offset_bottom = 160.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_26")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_set" type="TextureButton" parent="." unique_id=2087200585]
-unique_name_in_owner = true
+[node name="button_set" type="TextureButton" parent="mainmenu"]
+offset_right = 224
+offset_bottom = 42
+offset_left = 178
+offset_top = 0
+layout_mode = 1
 z_index = 26
-layout_mode = 1
-offset_left = 1472.0
-offset_top = 13.0
-offset_right = 1518.0
-offset_bottom = 55.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_23")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="button_set_over" type="TextureRect" parent="button_set" unique_id=2121221453]
+[node name="button_set_over" type="TextureRect" parent="mainmenu/button_set"]
+offset_right = 43
+offset_bottom = 42
+offset_left = 3
+offset_top = 0
 layout_mode = 1
-offset_left = 1472.0
-offset_top = 13.0
-offset_right = 1518.0
-offset_bottom = 55.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_16")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="player_one" type="TextureRect" parent="." unique_id=204167374]
-modulate = Color(1, 1, 1, 0.75)
+[node name="player_one" type="TextureRect" parent="role_information_bar_2"]
+offset_right = 228
+offset_bottom = 81
+offset_left = 0
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
 z_index = 27
-layout_mode = 1
-offset_left = 16.0
-offset_top = 109.0
-offset_right = 244.0
-offset_bottom = 189.0
-mouse_filter = 2
-texture = ExtResource("res_2")
-expand_mode = 1
-
-[node name="image_002" type="TextureRect" parent="." unique_id=1148918642]
-z_index = 28
-layout_mode = 1
-offset_left = 26.0
-offset_top = 108.0
-offset_right = 91.0
-offset_bottom = 190.0
-mouse_filter = 2
-texture = ExtResource("res_3")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="image_004" type="TextureRect" parent="." unique_id=651336003]
-z_index = 29
-layout_mode = 1
-offset_left = 87.0
-offset_top = 172.0
-offset_right = 108.0
-offset_bottom = 186.0
-mouse_filter = 2
-texture = ExtResource("res_8")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="progress_005" type="TextureProgressBar" parent="." unique_id=2143726199]
-unique_name_in_owner = true
-z_index = 30
-layout_mode = 1
-offset_left = 91.0
-offset_top = 134.0
-offset_right = 232.0
-offset_bottom = 148.0
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("res_4")
-texture_progress = ExtResource("res_44")
-
-[node name="progress_006" type="TextureProgressBar" parent="." unique_id=1331600552]
-unique_name_in_owner = true
-z_index = 31
-layout_mode = 1
-offset_left = 92.0
-offset_top = 153.0
-offset_right = 232.0
-offset_bottom = 167.0
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("res_5")
-texture_progress = ExtResource("res_45")
-
-[node name="progress_003" type="TextureProgressBar" parent="." unique_id=1855715106]
-unique_name_in_owner = true
-z_index = 32
-layout_mode = 1
-offset_left = 108.0
-offset_top = 172.0
-offset_right = 206.0
-offset_bottom = 186.0
-value = 50.0
-nine_patch_stretch = true
-texture_over = ExtResource("res_7")
-texture_progress = ExtResource("res_46")
-
-[node name="player_one_2" type="TextureRect" parent="." unique_id=1490640225]
 modulate = Color(1, 1, 1, 0.75)
-z_index = 33
-layout_mode = 1
-offset_left = 15.0
-offset_top = 193.0
-offset_right = 244.0
-offset_bottom = 275.0
-mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_2")
-expand_mode = 1
 
-[node name="image_002_2" type="TextureRect" parent="." unique_id=1272045640]
-z_index = 34
+[node name="image_002" type="TextureRect" parent="role_information_bar_2"]
+offset_right = 75
+offset_bottom = 82
+offset_left = 10
+offset_top = 0
 layout_mode = 1
-offset_left = 25.0
-offset_top = 192.0
-offset_right = 91.0
-offset_bottom = 275.0
 mouse_filter = 2
+z_index = 28
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 5
 texture = ExtResource("res_3")
+
+[node name="image_004" type="TextureRect" parent="role_information_bar_2"]
+offset_right = 92
+offset_bottom = 78
+offset_left = 71
+offset_top = 64
+layout_mode = 1
+mouse_filter = 2
+z_index = 29
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
 stretch_mode = 5
-
-[node name="image_004_2" type="TextureRect" parent="." unique_id=540024802]
-z_index = 35
-layout_mode = 1
-offset_left = 87.0
-offset_top = 257.0
-offset_right = 109.0
-offset_bottom = 275.0
-mouse_filter = 2
 texture = ExtResource("res_8")
-expand_mode = 1
-stretch_mode = 5
 
-[node name="progress_005_2" type="TextureProgressBar" parent="." unique_id=65026728]
-unique_name_in_owner = true
-z_index = 36
+[node name="progress_005" type="TextureProgressBar" parent="role_information_bar_2"]
+offset_right = 216
+offset_bottom = 40
+offset_left = 75
+offset_top = 26
 layout_mode = 1
-offset_left = 90.0
-offset_top = 219.0
-offset_right = 232.0
-offset_bottom = 237.0
-value = 50.0
+z_index = 30
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 nine_patch_stretch = true
-texture_over = ExtResource("res_4")
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
 texture_progress = ExtResource("res_44")
+texture_over = ExtResource("res_4")
 
-[node name="progress_006_2" type="TextureProgressBar" parent="." unique_id=656279638]
-unique_name_in_owner = true
-z_index = 37
+[node name="progress_006" type="TextureProgressBar" parent="role_information_bar_2"]
+offset_right = 216
+offset_bottom = 59
+offset_left = 76
+offset_top = 45
 layout_mode = 1
-offset_left = 90.0
-offset_top = 238.0
-offset_right = 232.0
-offset_bottom = 256.0
-value = 50.0
+z_index = 31
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 nine_patch_stretch = true
-texture_over = ExtResource("res_5")
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
 texture_progress = ExtResource("res_45")
+texture_over = ExtResource("res_5")
 
-[node name="progress_003_2" type="TextureProgressBar" parent="." unique_id=171086123]
-unique_name_in_owner = true
-z_index = 38
+[node name="progress_003" type="TextureProgressBar" parent="role_information_bar_2"]
+offset_right = 190
+offset_bottom = 78
+offset_left = 92
+offset_top = 64
 layout_mode = 1
-offset_left = 109.0
-offset_top = 257.0
-offset_right = 208.0
-offset_bottom = 275.0
-value = 50.0
+z_index = 32
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 nine_patch_stretch = true
-texture_over = ExtResource("res_7")
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
 texture_progress = ExtResource("res_46")
+texture_over = ExtResource("res_7")
 
-[node name="button_skill_background_2_3" type="TextureButton" parent="." unique_id=756148609]
+[node name="player_one_2" type="TextureRect" parent="role_information_bar_3"]
+offset_right = 229
+offset_bottom = 83
+offset_left = 0
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
+z_index = 33
+modulate = Color(1, 1, 1, 0.75)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_2")
+
+[node name="image_002_2" type="TextureRect" parent="role_information_bar_3"]
+offset_right = 76
+offset_bottom = 83
+offset_left = 10
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
+z_index = 34
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("res_3")
+
+[node name="image_004_2" type="TextureRect" parent="role_information_bar_3"]
+offset_right = 94
+offset_bottom = 83
+offset_left = 72
+offset_top = 65
+layout_mode = 1
+mouse_filter = 2
+z_index = 35
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("res_8")
+
+[node name="progress_005_2" type="TextureProgressBar" parent="role_information_bar_3"]
+offset_right = 217
+offset_bottom = 45
+offset_left = 75
+offset_top = 27
+layout_mode = 1
+z_index = 36
+modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
+nine_patch_stretch = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_44")
+texture_over = ExtResource("res_4")
+
+[node name="progress_006_2" type="TextureProgressBar" parent="role_information_bar_3"]
+offset_right = 217
+offset_bottom = 64
+offset_left = 75
+offset_top = 46
+layout_mode = 1
+z_index = 37
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+nine_patch_stretch = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_45")
+texture_over = ExtResource("res_5")
+
+[node name="progress_003_2" type="TextureProgressBar" parent="role_information_bar_3"]
+offset_right = 193
+offset_bottom = 83
+offset_left = 94
+offset_top = 65
+layout_mode = 1
+z_index = 38
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+nine_patch_stretch = true
+min_value = 0
+max_value = 100
+value = 50
+fill_mode = 0
+texture_progress = ExtResource("res_46")
+texture_over = ExtResource("res_7")
+
+[node name="button_skill_background_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 403
+offset_bottom = 58
+offset_left = 0
+offset_top = 2
+layout_mode = 1
 z_index = 84
-layout_mode = 1
-offset_left = 65.0
-offset_top = 745.0
-offset_right = 468.0
-offset_bottom = 801.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_3_tint" type="ColorRect" parent="button_skill_background_2_3" unique_id=599527941]
+[node name="button_skill_background_2_3_tint" type="ColorRect" parent="compound_020/button_skill_background_2_3"]
+offset_right = 403
+offset_bottom = 56
+offset_left = 0
+offset_top = 0
 layout_mode = 1
-offset_left = 65.0
-offset_top = 745.0
-offset_right = 468.0
-offset_bottom = 801.0
 mouse_filter = 2
 color = Color(0.058824, 0.082353, 0.101961, 0.8)
 
-[node name="button_skill_background_2_3_over" type="TextureRect" parent="button_skill_background_2_3" unique_id=1472331116]
+[node name="button_skill_background_2_3_over" type="TextureRect" parent="compound_020/button_skill_background_2_3"]
+offset_right = 403
+offset_bottom = 56
+offset_left = 0
+offset_top = 0
 layout_mode = 1
-offset_left = 65.0
-offset_top = 745.0
-offset_right = 468.0
-offset_bottom = 801.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_28")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_character_num_2_3" type="TextureButton" parent="." unique_id=192249354]
-unique_name_in_owner = true
+[node name="button_character_num_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 92
+offset_bottom = 59
+offset_left = 45
+offset_top = 2
+layout_mode = 1
 z_index = 85
-layout_mode = 1
-offset_left = 110.0
-offset_top = 745.0
-offset_right = 157.0
-offset_bottom = 802.0
-texture_normal = ExtResource("res_27")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_27")
 
-[node name="button_skill_passive_2_3" type="TextureButton" parent="." unique_id=2022229]
-unique_name_in_owner = true
+[node name="button_skill_passive_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 370
+offset_bottom = 45
+offset_left = 335
+offset_top = 10
+layout_mode = 1
 z_index = 86
-layout_mode = 1
-offset_left = 400.0
-offset_top = 753.0
-offset_right = 435.0
-offset_bottom = 788.0
-texture_normal = ExtResource("res_43")
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_43")
 
-[node name="button_skill_passive_2_3_over" type="TextureRect" parent="button_skill_passive_2_3" unique_id=2019971747]
-layout_mode = 1
-offset_left = 400.0
-offset_top = 753.0
-offset_right = 435.0
-offset_bottom = 788.0
-mouse_filter = 2
-texture = ExtResource("res_43")
-expand_mode = 1
-
-[node name="button_skill_passive_2_3_tint" type="Polygon2D" parent="." unique_id=270983526]
+[node name="button_skill_passive_2_3_tint" type="Polygon2D" parent="compound_020/button_skill_passive_2_3"]
+polygon = PackedVector2Array(33, 18, 32.71, 20.93, 31.86, 23.74, 30.47, 26.33, 28.61, 28.61, 26.33, 30.47, 23.74, 31.86, 20.93, 32.71, 18, 33, 15.07, 32.71, 12.26, 31.86, 9.67, 30.47, 7.39, 28.61, 5.53, 26.33, 4.14, 23.74, 3.29, 20.93, 3, 18, 3.29, 15.07, 4.14, 12.26, 5.53, 9.67, 7.39, 7.39, 9.67, 5.53, 12.26, 4.14, 15.07, 3.29, 18, 3, 20.93, 3.29, 23.74, 4.14, 26.33, 5.53, 28.61, 7.39, 30.47, 9.67, 31.86, 12.26, 32.71, 15.07)
 color = Color(0.023529, 0.109804, 0.286275, 1)
-polygon = PackedVector2Array(433, 771, 432.71, 773.93, 431.86, 776.74, 430.47, 779.33, 428.61, 781.61, 426.33, 783.47, 423.74, 784.86, 420.93, 785.71, 418, 786, 415.07, 785.71, 412.26, 784.86, 409.67, 783.47, 407.39, 781.61, 405.53, 779.33, 404.14, 776.74, 403.29, 773.93, 403, 771, 403.29, 768.07, 404.14, 765.26, 405.53, 762.67, 407.39, 760.39, 409.67, 758.53, 412.26, 757.14, 415.07, 756.29, 418, 756, 420.93, 756.29, 423.74, 757.14, 426.33, 758.53, 428.61, 760.39, 430.47, 762.67, 431.86, 765.26, 432.71, 768.07)
 
-[node name="button_skill_icon_1_2_3" type="TextureButton" parent="." unique_id=1881322990]
-unique_name_in_owner = true
+[node name="button_skill_passive_2_3_over" type="TextureRect" parent="compound_020/button_skill_passive_2_3"]
+offset_right = 35
+offset_bottom = 35
+offset_left = 0
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_43")
+modulate = Color(1, 1, 1, 1)
+
+[node name="button_skill_icon_1_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 163
+offset_bottom = 53
+offset_left = 117
+offset_top = 7
+layout_mode = 1
 z_index = 87
-layout_mode = 1
-offset_left = 182.0
-offset_top = 750.0
-offset_right = 228.0
-offset_bottom = 796.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_39")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_1_2_3" type="TextureRect" parent="." unique_id=115120243]
+[node name="image_skill_border_1_2_3" type="TextureRect" parent="compound_020"]
+offset_right = 172
+offset_bottom = 58
+offset_left = 111
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
 z_index = 88
-layout_mode = 1
-offset_left = 176.0
-offset_top = 744.0
-offset_right = 237.0
-offset_bottom = 801.0
-mouse_filter = 2
-texture = ExtResource("res_31")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_31")
 
-[node name="button_skill_icon_2_2_2_3" type="TextureButton" parent="." unique_id=719080786]
-unique_name_in_owner = true
+[node name="button_skill_icon_2_2_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 236
+offset_bottom = 53
+offset_left = 190
+offset_top = 7
+layout_mode = 1
 z_index = 89
-layout_mode = 1
-offset_left = 255.0
-offset_top = 750.0
-offset_right = 301.0
-offset_bottom = 796.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_37")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_2_2_3" type="TextureRect" parent="." unique_id=145982124]
+[node name="image_skill_border_2_2_3" type="TextureRect" parent="compound_020"]
+offset_right = 246
+offset_bottom = 57
+offset_left = 185
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
 z_index = 90
-layout_mode = 1
-offset_left = 250.0
-offset_top = 743.0
-offset_right = 311.0
-offset_bottom = 800.0
-mouse_filter = 2
-texture = ExtResource("res_31")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_31")
 
-[node name="button_skill_icon_3_2_3" type="TextureButton" parent="." unique_id=1974901984]
-unique_name_in_owner = true
+[node name="button_skill_icon_3_2_3" type="TextureButton" parent="compound_020"]
+offset_right = 313
+offset_bottom = 53
+offset_left = 267
+offset_top = 8
+layout_mode = 1
 z_index = 91
-layout_mode = 1
-offset_left = 332.0
-offset_top = 751.0
-offset_right = 378.0
-offset_bottom = 796.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_38")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_3_2_3" type="TextureRect" parent="." unique_id=1414255970]
+[node name="image_skill_border_3_2_3" type="TextureRect" parent="compound_020"]
+offset_right = 322
+offset_bottom = 59
+offset_left = 261
+offset_top = 2
+layout_mode = 1
+mouse_filter = 2
 z_index = 92
-layout_mode = 1
-offset_left = 326.0
-offset_top = 745.0
-offset_right = 387.0
-offset_bottom = 802.0
-mouse_filter = 2
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_31")
-expand_mode = 1
 
-[node name="button_skill_background_2" type="TextureButton" parent="." unique_id=1348615080]
-unique_name_in_owner = true
+[node name="button_skill_background_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 504
+offset_bottom = 72
+offset_left = 0
+offset_top = 3
+layout_mode = 1
 z_index = 93
-layout_mode = 1
-offset_left = 527.0
-offset_top = 738.0
-offset_right = 1031.0
-offset_bottom = 807.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_tint" type="ColorRect" parent="button_skill_background_2" unique_id=1493930131]
+[node name="button_skill_background_2_tint" type="ColorRect" parent="compound_018_2/button_skill_background_2"]
+offset_right = 504
+offset_bottom = 69
+offset_left = 0
+offset_top = 0
 layout_mode = 1
-offset_left = 527.0
-offset_top = 738.0
-offset_right = 1031.0
-offset_bottom = 807.0
 mouse_filter = 2
 color = Color(0.058824, 0.082353, 0.101961, 0.8)
 
-[node name="button_skill_background_2_over" type="TextureRect" parent="button_skill_background_2" unique_id=1521841289]
+[node name="button_skill_background_2_over" type="TextureRect" parent="compound_018_2/button_skill_background_2"]
+offset_right = 502
+offset_bottom = 69
+offset_left = 2
+offset_top = 0
 layout_mode = 1
-offset_left = 527.0
-offset_top = 738.0
-offset_right = 1031.0
-offset_bottom = 807.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_29")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_character_num_2" type="TextureButton" parent="." unique_id=573025521]
-unique_name_in_owner = true
+[node name="button_character_num_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 112
+offset_bottom = 74
+offset_left = 55
+offset_top = 2
+layout_mode = 1
 z_index = 94
-layout_mode = 1
-offset_left = 582.0
-offset_top = 737.0
-offset_right = 639.0
-offset_bottom = 809.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_27")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="button_skill_passive_2" type="TextureButton" parent="." unique_id=331486183]
-unique_name_in_owner = true
+[node name="button_skill_passive_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 462
+offset_bottom = 58
+offset_left = 418
+offset_top = 13
+layout_mode = 1
 z_index = 95
-layout_mode = 1
-offset_left = 945.0
-offset_top = 748.0
-offset_right = 989.0
-offset_bottom = 793.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_43")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="button_skill_passive_2_over" type="TextureRect" parent="button_skill_passive_2" unique_id=908250687]
-layout_mode = 1
-offset_left = 945.0
-offset_top = 748.0
-offset_right = 989.0
-offset_bottom = 793.0
-mouse_filter = 2
-texture = ExtResource("res_43")
-expand_mode = 1
-
-[node name="button_skill_passive_2_tint" type="Polygon2D" parent="." unique_id=173944186]
+[node name="button_skill_passive_2_tint" type="Polygon2D" parent="compound_018_2/button_skill_passive_2"]
+polygon = PackedVector2Array(43, 23, 42.62, 26.9, 41.48, 30.65, 39.63, 34.11, 37.14, 37.14, 34.11, 39.63, 30.65, 41.48, 26.9, 42.62, 23, 43, 19.1, 42.62, 15.35, 41.48, 11.89, 39.63, 8.86, 37.14, 6.37, 34.11, 4.52, 30.65, 3.38, 26.9, 3, 23, 3.38, 19.1, 4.52, 15.35, 6.37, 11.89, 8.86, 8.86, 11.89, 6.37, 15.35, 4.52, 19.1, 3.38, 23, 3, 26.9, 3.38, 30.65, 4.52, 34.11, 6.37, 37.14, 8.86, 39.63, 11.89, 41.48, 15.35, 42.62, 19.1)
 color = Color(0.168627, 0.258824, 0.090196, 1)
-polygon = PackedVector2Array(988, 771, 987.62, 774.9, 986.48, 778.65, 984.63, 782.11, 982.14, 785.14, 979.11, 787.63, 975.65, 789.48, 971.9, 790.62, 968, 791, 964.1, 790.62, 960.35, 789.48, 956.89, 787.63, 953.86, 785.14, 951.37, 782.11, 949.52, 778.65, 948.38, 774.9, 948, 771, 948.38, 767.1, 949.52, 763.35, 951.37, 759.89, 953.86, 756.86, 956.89, 754.37, 960.35, 752.52, 964.1, 751.38, 968, 751, 971.9, 751.38, 975.65, 752.52, 979.11, 754.37, 982.14, 756.86, 984.63, 759.89, 986.48, 763.35, 987.62, 767.1)
 
-[node name="button_skill_icon_1_2" type="TextureButton" parent="." unique_id=1420350730]
-unique_name_in_owner = true
+[node name="button_skill_passive_2_over" type="TextureRect" parent="compound_018_2/button_skill_passive_2"]
+offset_right = 44
+offset_bottom = 45
+offset_left = 0
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_43")
+modulate = Color(1, 1, 1, 1)
+
+[node name="button_skill_icon_1_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 202
+offset_bottom = 65
+offset_left = 146
+offset_top = 9
+layout_mode = 1
 z_index = 96
-layout_mode = 1
-offset_left = 673.0
-offset_top = 744.0
-offset_right = 729.0
-offset_bottom = 800.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_41")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_1_2" type="TextureRect" parent="." unique_id=155704239]
+[node name="image_skill_border_1_2" type="TextureRect" parent="compound_018_2"]
+offset_right = 213
+offset_bottom = 73
+offset_left = 139
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
 z_index = 97
-layout_mode = 1
-offset_left = 666.0
-offset_top = 736.0
-offset_right = 740.0
-offset_bottom = 808.0
-mouse_filter = 2
-texture = ExtResource("res_32")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_32")
 
-[node name="button_skill_icon_2_2_2" type="TextureButton" parent="." unique_id=889727486]
-unique_name_in_owner = true
+[node name="button_skill_icon_2_2_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 295
+offset_bottom = 64
+offset_left = 239
+offset_top = 8
+layout_mode = 1
 z_index = 98
-layout_mode = 1
-offset_left = 766.0
-offset_top = 743.0
-offset_right = 822.0
-offset_bottom = 799.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_42")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_2_2" type="TextureRect" parent="." unique_id=1004309625]
+[node name="image_skill_border_2_2" type="TextureRect" parent="compound_018_2"]
+offset_right = 305
+offset_bottom = 72
+offset_left = 231
+offset_top = 0
+layout_mode = 1
+mouse_filter = 2
 z_index = 99
-layout_mode = 1
-offset_left = 758.0
-offset_top = 735.0
-offset_right = 832.0
-offset_bottom = 807.0
-mouse_filter = 2
-texture = ExtResource("res_32")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_32")
 
-[node name="button_skill_icon_3_2" type="TextureButton" parent="." unique_id=50157332]
-unique_name_in_owner = true
+[node name="button_skill_icon_3_2" type="TextureButton" parent="compound_018_2"]
+offset_right = 390
+offset_bottom = 65
+offset_left = 335
+offset_top = 10
+layout_mode = 1
 z_index = 100
-layout_mode = 1
-offset_left = 862.0
-offset_top = 745.0
-offset_right = 917.0
-offset_bottom = 800.0
-texture_normal = ExtResource("res_40")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="image_skill_border_3_2" type="TextureRect" parent="." unique_id=1892348688]
-z_index = 101
-layout_mode = 1
-offset_left = 854.0
-offset_top = 737.0
-offset_right = 928.0
-offset_bottom = 809.0
-mouse_filter = 2
-texture = ExtResource("res_32")
-expand_mode = 1
-
-[node name="button_skill_background_2_2_2" type="TextureButton" parent="." unique_id=1648898738]
+modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-z_index = 102
+ignore_texture_size = true
+stretch_mode = 5
+texture_normal = ExtResource("res_40")
+
+[node name="image_skill_border_3_2" type="TextureRect" parent="compound_018_2"]
+offset_right = 401
+offset_bottom = 74
+offset_left = 327
+offset_top = 2
 layout_mode = 1
-offset_left = 1096.0
-offset_top = 741.0
-offset_right = 1462.0
-offset_bottom = 797.0
+mouse_filter = 2
+z_index = 101
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_32")
+
+[node name="button_skill_background_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 366
+offset_bottom = 58
+offset_left = 0
+offset_top = 2
+layout_mode = 1
+z_index = 102
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_2_2_tint" type="ColorRect" parent="button_skill_background_2_2_2" unique_id=1591522875]
+[node name="button_skill_background_2_2_2_tint" type="ColorRect" parent="compound_019/button_skill_background_2_2_2"]
+offset_right = 366
+offset_bottom = 56
+offset_left = 0
+offset_top = 0
 layout_mode = 1
-offset_left = 1096.0
-offset_top = 741.0
-offset_right = 1462.0
-offset_bottom = 797.0
 mouse_filter = 2
 color = Color(0.058824, 0.082353, 0.101961, 0.8)
 
-[node name="button_skill_background_2_2_2_over" type="TextureRect" parent="button_skill_background_2_2_2" unique_id=679774941]
+[node name="button_skill_background_2_2_2_over" type="TextureRect" parent="compound_019/button_skill_background_2_2_2"]
+offset_right = 366
+offset_bottom = 53
+offset_left = 0
+offset_top = 3
 layout_mode = 1
-offset_left = 1096.0
-offset_top = 741.0
-offset_right = 1462.0
-offset_bottom = 797.0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
 texture = ExtResource("res_30")
-expand_mode = 1
+modulate = Color(1, 1, 1, 1)
 
-[node name="button_character_num_2_2_2" type="TextureButton" parent="." unique_id=1171640920]
-unique_name_in_owner = true
+[node name="button_character_num_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 82
+offset_bottom = 60
+offset_left = 40
+offset_top = 2
+layout_mode = 1
 z_index = 103
-layout_mode = 1
-offset_left = 1136.0
-offset_top = 741.0
-offset_right = 1178.0
-offset_bottom = 799.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_27")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="button_skill_passive_2_2_2" type="TextureButton" parent="." unique_id=287941929]
-unique_name_in_owner = true
+[node name="button_skill_passive_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 336
+offset_bottom = 45
+offset_left = 304
+offset_top = 10
+layout_mode = 1
 z_index = 104
-layout_mode = 1
-offset_left = 1400.0
-offset_top = 749.0
-offset_right = 1432.0
-offset_bottom = 784.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_43")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="button_skill_passive_2_2_2_over" type="TextureRect" parent="button_skill_passive_2_2_2" unique_id=986935035]
-layout_mode = 1
-offset_left = 1400.0
-offset_top = 749.0
-offset_right = 1432.0
-offset_bottom = 784.0
-mouse_filter = 2
-texture = ExtResource("res_43")
-expand_mode = 1
-
-[node name="button_skill_passive_2_2_2_tint" type="Polygon2D" parent="." unique_id=456191720]
+[node name="button_skill_passive_2_2_2_tint" type="Polygon2D" parent="compound_019/button_skill_passive_2_2_2"]
+polygon = PackedVector2Array(31, 18, 30.73, 20.73, 29.93, 23.36, 28.64, 25.78, 26.9, 27.9, 24.78, 29.64, 22.36, 30.93, 19.73, 31.73, 17, 32, 14.27, 31.73, 11.64, 30.93, 9.22, 29.64, 7.1, 27.9, 5.36, 25.78, 4.07, 23.36, 3.27, 20.73, 3, 18, 3.27, 15.27, 4.07, 12.64, 5.36, 10.22, 7.1, 8.1, 9.22, 6.36, 11.64, 5.07, 14.27, 4.27, 17, 4, 19.73, 4.27, 22.36, 5.07, 24.78, 6.36, 26.9, 8.1, 28.64, 10.22, 29.93, 12.64, 30.73, 15.27)
 color = Color(0.952941, 0.945098, 0.917647, 1)
-polygon = PackedVector2Array(1431, 767, 1430.73, 769.73, 1429.93, 772.36, 1428.64, 774.78, 1426.9, 776.9, 1424.78, 778.64, 1422.36, 779.93, 1419.73, 780.73, 1417, 781, 1414.27, 780.73, 1411.64, 779.93, 1409.22, 778.64, 1407.1, 776.9, 1405.36, 774.78, 1404.07, 772.36, 1403.27, 769.73, 1403, 767, 1403.27, 764.27, 1404.07, 761.64, 1405.36, 759.22, 1407.1, 757.1, 1409.22, 755.36, 1411.64, 754.07, 1414.27, 753.27, 1417, 753, 1419.73, 753.27, 1422.36, 754.07, 1424.78, 755.36, 1426.9, 757.1, 1428.64, 759.22, 1429.93, 761.64, 1430.73, 764.27)
 
-[node name="button_skill_icon_1_2_2_2" type="TextureButton" parent="." unique_id=1151623952]
-unique_name_in_owner = true
+[node name="button_skill_passive_2_2_2_over" type="TextureRect" parent="compound_019/button_skill_passive_2_2_2"]
+offset_right = 32
+offset_bottom = 34
+offset_left = 0
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_43")
+modulate = Color(1, 1, 1, 1)
+
+[node name="button_skill_icon_1_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 147
+offset_bottom = 53
+offset_left = 106
+offset_top = 7
+layout_mode = 1
 z_index = 105
-layout_mode = 1
-offset_left = 1202.0
-offset_top = 746.0
-offset_right = 1243.0
-offset_bottom = 792.0
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
 texture_normal = ExtResource("res_35")
-ignore_texture_size = true
-stretch_mode = 5
 
-[node name="image_skill_border_1_2_2_2" type="TextureRect" parent="." unique_id=2132795445]
+[node name="image_skill_border_1_2_2_2" type="TextureRect" parent="compound_019"]
+offset_right = 156
+offset_bottom = 58
+offset_left = 102
+offset_top = 1
+layout_mode = 1
+mouse_filter = 2
 z_index = 106
-layout_mode = 1
-offset_left = 1198.0
-offset_top = 740.0
-offset_right = 1252.0
-offset_bottom = 797.0
-mouse_filter = 2
-texture = ExtResource("res_33")
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_33")
 
-[node name="button_skill_icon_2_2_2_2_2" type="TextureButton" parent="." unique_id=2136623848]
-unique_name_in_owner = true
+[node name="button_skill_icon_2_2_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 215
+offset_bottom = 51
+offset_left = 174
+offset_top = 5
+layout_mode = 1
 z_index = 107
-layout_mode = 1
-offset_left = 1270.0
-offset_top = 744.0
-offset_right = 1311.0
-offset_bottom = 790.0
-texture_normal = ExtResource("res_34")
-ignore_texture_size = true
-stretch_mode = 5
-
-[node name="image_skill_border_2_2_2_2" type="TextureRect" parent="." unique_id=1954214814]
-z_index = 108
-layout_mode = 1
-offset_left = 1264.0
-offset_top = 739.0
-offset_right = 1318.0
-offset_bottom = 796.0
-mouse_filter = 2
-texture = ExtResource("res_33")
-expand_mode = 1
-
-[node name="button_skill_icon_3_2_2_2" type="TextureButton" parent="." unique_id=1548190017]
+modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-z_index = 109
-layout_mode = 1
-offset_left = 1339.0
-offset_top = 747.0
-offset_right = 1379.0
-offset_bottom = 792.0
-texture_normal = ExtResource("res_36")
 ignore_texture_size = true
 stretch_mode = 5
+texture_normal = ExtResource("res_34")
 
-[node name="image_skill_border_3_2_2_2" type="TextureRect" parent="." unique_id=902077200]
-z_index = 110
+[node name="image_skill_border_2_2_2_2" type="TextureRect" parent="compound_019"]
+offset_right = 222
+offset_bottom = 57
+offset_left = 168
+offset_top = 0
 layout_mode = 1
-offset_left = 1334.0
-offset_top = 741.0
-offset_right = 1388.0
-offset_bottom = 798.0
 mouse_filter = 2
-texture = ExtResource("res_33")
+z_index = 108
+modulate = Color(1, 1, 1, 1)
 expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_33")
+
+[node name="button_skill_icon_3_2_2_2" type="TextureButton" parent="compound_019"]
+offset_right = 283
+offset_bottom = 53
+offset_left = 243
+offset_top = 8
+layout_mode = 1
+z_index = 109
+modulate = Color(1, 1, 1, 1)
+unique_name_in_owner = true
+ignore_texture_size = true
+stretch_mode = 5
+texture_normal = ExtResource("res_36")
+
+[node name="image_skill_border_3_2_2_2" type="TextureRect" parent="compound_019"]
+offset_right = 292
+offset_bottom = 59
+offset_left = 238
+offset_top = 2
+layout_mode = 1
+mouse_filter = 2
+z_index = 110
+modulate = Color(1, 1, 1, 1)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_33")
