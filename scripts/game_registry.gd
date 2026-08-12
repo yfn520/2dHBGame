@@ -91,9 +91,16 @@ func _ready() -> void:
 	quest_state = load("res://scripts/data/quest_state_data.gd").new()
 	chapter_state = load("res://scripts/data/chapter_state_data.gd").new()
 
+	# 章节推进服务（阶段2 新增）：须在 load_local 之前装配，
+	# 否则读档时 chapter_state 尚无 chapter_service 可恢复。
+	chapter_service = load("res://scripts/system/chapter_service.gd").new()
+	add_child(chapter_service)
+	chapter_service.setup(chapter_config)
+	chapter_state.chapter_service = chapter_service
+
 	inventory_provider = load("res://scripts/provider/inventory_provider.gd").new(inventory_data, item_config)
 	equipment_provider = load("res://scripts/provider/equipment_provider.gd").new(equipment_data, inventory_data, character_stats, item_config)
-	player_data_provider = load("res://scripts/provider/player_data_provider.gd").new(inventory_data, equipment_data, roster_data, character_config, quest_state)
+	player_data_provider = load("res://scripts/provider/player_data_provider.gd").new(inventory_data, equipment_data, roster_data, character_config, quest_state, chapter_state)
 
 	player_data_provider.load_local()
 	quest_service = load("res://scripts/system/quest_service.gd").new()
@@ -106,12 +113,6 @@ func _ready() -> void:
 	add_child(npc_interaction_dispatcher)
 	npc_interaction_dispatcher.setup(dialogue_service, interaction_binding_config, quest_service)
 	quest_service.quest_updated.connect(_on_quest_updated)
-
-	# 章节推进服务（阶段2 新增）
-	chapter_service = load("res://scripts/system/chapter_service.gd").new()
-	add_child(chapter_service)
-	chapter_service.setup(chapter_config)
-	chapter_state.chapter_service = chapter_service
 
 	character_stats.setup(roster_data, character_config)
 	equipment_provider.refresh_current_stats()

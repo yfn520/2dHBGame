@@ -172,6 +172,11 @@ func _execute_actions(raw: Variant) -> void:
 			"give_item":
 				if inventory != null:
 					inventory.add_item(int(value.get("item_id", 0)), maxi(1, int(value.get("count", 1))))
+			"set_protagonist":
+				# 序章三选一：写入存档级主角标记并立即落盘。
+				if quest_service != null and quest_service.roster != null:
+					quest_service.roster.set_protagonist(int(value.get("hero_id", 0)))
+					GameRegistry.save_game()
 			"close_dialogue":
 				call_deferred("finish", true)
 			"":

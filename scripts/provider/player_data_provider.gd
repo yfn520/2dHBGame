@@ -5,25 +5,27 @@ var equipment: EquipmentData
 var roster: CharacterRosterData
 var character_config: CharacterConfigData
 var quest_state: QuestStateData
+var chapter_state: ChapterStateData
 
 
-func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: CharacterRosterData, p_character_config: CharacterConfigData, p_quest_state: QuestStateData = null) -> void:
+func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: CharacterRosterData, p_character_config: CharacterConfigData, p_quest_state: QuestStateData = null, p_chapter_state: ChapterStateData = null) -> void:
 	inventory = p_inventory
 	equipment = p_equipment
 	roster = p_roster
 	character_config = p_character_config
 	quest_state = p_quest_state
+	chapter_state = p_chapter_state
 
 
 func load_local() -> bool:
-	var loaded := SaveManager.load_save(inventory, equipment, roster, character_config, quest_state)
+	var loaded := SaveManager.load_save(inventory, equipment, roster, character_config, quest_state, chapter_state)
 	if not loaded or inventory.get_items().is_empty():
 		_apply_local_mock_snapshot()
 	return loaded
 
 
 func save_local() -> void:
-	SaveManager.save(inventory, equipment, roster, quest_state)
+	SaveManager.save(inventory, equipment, roster, quest_state, chapter_state)
 
 
 func apply_server_snapshot(snapshot: Dictionary) -> void:

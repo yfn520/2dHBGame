@@ -252,7 +252,10 @@ func _apply_rewards(quest: Dictionary) -> void:
 		if item_value is Dictionary and inventory != null:
 			inventory.add_item(int(item_value.get("item_id", 0)), maxi(1, int(item_value.get("count", 1))))
 	for flag_value in rewards.get("flags", []):
-		if flag_value is Dictionary:
+		# 兼容两种写法：字符串即 flag 名（置 true），Dictionary 为 {"flag", "value"}。
+		if flag_value is String or flag_value is StringName:
+			state.set_flag(str(flag_value), true)
+		elif flag_value is Dictionary:
 			state.set_flag(str(flag_value.get("flag", "")), flag_value.get("value", true))
 
 

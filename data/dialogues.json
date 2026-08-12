@@ -1368,6 +1368,83 @@
 					"y": 720
 				}
 			},
+			"prologue_lead_select": {
+				"type": "branch",
+				"speaker": "柏婶",
+				"text": "三张伤情牌，三个还站着的人。先说好——这趟差事，谁来领头？",
+				"text_template": "三张伤情牌，三个还站着的人。先说好——这趟差事，谁来领头？",
+				"next_id": "",
+				"default_next": "",
+				"choices": [
+					{
+						"id": "lead_select_7001",
+						"intent_key": "",
+						"text": "由莱昂领头——没有命令，也有人要先站出来。",
+						"next_id": "quest_state_router",
+						"text_template": "由莱昂领头——没有命令，也有人要先站出来。",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "prologue_lead_selected",
+								"value": true
+							},
+							{
+								"type": "set_protagonist",
+								"hero_id": 7001
+							}
+						]
+					},
+					{
+						"id": "lead_select_7002",
+						"intent_key": "",
+						"text": "由露娜领头——地图背面的路，她认得。",
+						"next_id": "quest_state_router",
+						"text_template": "由露娜领头——地图背面的路，她认得。",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "prologue_lead_selected",
+								"value": true
+							},
+							{
+								"type": "set_protagonist",
+								"hero_id": 7002
+							}
+						]
+					},
+					{
+						"id": "lead_select_7003",
+						"intent_key": "",
+						"text": "由米娅领头——缺页总会自己翻开。",
+						"next_id": "quest_state_router",
+						"text_template": "由米娅领头——缺页总会自己翻开。",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "prologue_lead_selected",
+								"value": true
+							},
+							{
+								"type": "set_protagonist",
+								"hero_id": 7003
+							}
+						]
+					}
+				],
+				"routes": [],
+				"conditions": [],
+				"actions": [],
+				"story_layer": "COMMON",
+				"required_lead_hero_id": 0,
+				"required_hero_id": 0,
+				"required_event_state": "",
+				"chapter_id": "prologue",
+				"quest_binding": {},
+				"editor": {
+					"x": 320,
+					"y": -140
+				}
+			},
 			"quest_state_router": {
 				"type": "branch",
 				"speaker": "",
@@ -1377,6 +1454,16 @@
 				"default_next": "completed_greeting",
 				"choices": [],
 				"routes": [
+					{
+						"conditions": [
+							{
+								"type": "flag_equals",
+								"flag": "prologue_lead_selected",
+								"value": false
+							}
+						],
+						"next_id": "prologue_lead_select"
+					},
 					{
 						"conditions": [
 							{

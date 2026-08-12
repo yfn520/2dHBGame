@@ -178,7 +178,7 @@ func _refresh_tasks() -> void:
 		title.add_theme_font_size_override("font_size", 16)
 		box.add_child(title)
 		var description := Label.new()
-		description.text = str(quest.get("description", ""))
+		description.text = _quest_state_text(quest, status)
 		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		description.modulate = Color(0.82, 0.78, 0.70)
 		box.add_child(description)
@@ -203,6 +203,13 @@ func _build_empty_state_in(parent: Container) -> void:
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	parent.add_child(hint)
+
+
+## 按任务当前状态取 authoring.state_text_templates 文案，缺省回退 description。
+func _quest_state_text(quest: Dictionary, status: String) -> String:
+	var templates: Dictionary = (quest.get("authoring", {}) as Dictionary).get("state_text_templates", {})
+	var text := str(templates.get(status, ""))
+	return text if not text.is_empty() else str(quest.get("description", ""))
 
 
 func _objective_text(objective: Dictionary) -> String:
