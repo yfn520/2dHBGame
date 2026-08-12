@@ -33,6 +33,15 @@ func dispatch(dialogue_id: String, intent_key: String) -> bool:
 			success = quest_service != null and quest_service.start_quest(int(binding.get("quest_id", 0)))
 		"turn_in_quest":
 			success = quest_service != null and quest_service.turn_in_quest(int(binding.get("quest_id", 0)))
+		"set_second_hero", "recruit_hero":
+			if quest_service != null and quest_service.roster != null:
+				var hero_id := int(binding.get("hero_id", 0))
+				if hero_id > 0 and hero_id != quest_service.roster.get_protagonist_hero_id():
+					quest_service.roster.recruit_hero(hero_id, true)
+					quest_service.state.set_flag("SecondHero", hero_id)
+					quest_service.state.set_flag("PartyStage", "Duo")
+					GameRegistry.save_game()
+					success = true
 		"open_shop":
 			unhandled_binding.emit(binding_key, binding)
 		_:

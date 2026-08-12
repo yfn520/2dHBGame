@@ -83,6 +83,7 @@ func turn_in_quest(quest_id: int) -> bool:
 	entry["status"] = "completed"
 	state.set_entry(quest_id, entry)
 	_apply_rewards(quest)
+	_apply_progression_rewards(quest_id, quest)
 	quest_completed.emit(quest_id)
 	quest_updated.emit(quest_id)
 	notification_requested.emit("任务完成：%s" % str(quest.get("title", quest_id)))
@@ -257,6 +258,26 @@ func _apply_rewards(quest: Dictionary) -> void:
 			state.set_flag(str(flag_value), true)
 		elif flag_value is Dictionary:
 			state.set_flag(str(flag_value.get("flag", "")), flag_value.get("value", true))
+
+
+func _apply_progression_rewards(quest_id: int, quest: Dictionary) -> void:
+	if quest_id == 1004 and roster != null:
+		state.set_flag("PartyStage", "Duo")
+	if quest_id == 1007 and roster != null:
+		var recruited_id := roster.recruit_remaining_prologue_hero()
+		if recruited_id > 0:
+			state.set_flag("ThirdHero", recruited_id)
+		state.set_flag("PartyStage", "Trio")
+	var chapter_id := str(quest.get("completes_chapter", ""))
+	if chapter_id.is_empty():
+		match quest_id:
+			1008: chapter_id = "chapter_1"
+			1012: chapter_id = "chapter_2"
+			1030: chapter_id = "chapter_6"
+	if not chapter_id.is_empty() and GameRegistry.chapter_service != null:
+		GameRegistry.chapter_service.complete_chapter_normal(chapter_id)
+		state.set_flag("chapter_completed:%s" % chapter_id, true)
+	GameRegistry.save_game()
 
 
 func _on_inventory_changed(_value: Variant) -> void:

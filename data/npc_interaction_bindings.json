@@ -1,6 +1,18 @@
 {
 	"version": 1,
 	"bindings": {
+		"npc_9001.select_second_leon": {
+			"type": "set_second_hero",
+			"hero_id": 7001
+		},
+		"npc_9001.select_second_luna": {
+			"type": "set_second_hero",
+			"hero_id": 7002
+		},
+		"npc_9001.select_second_mia": {
+			"type": "set_second_hero",
+			"hero_id": 7003
+		},
 		"npc_9002.accept_quest": {
 			"type": "start_quest",
 			"quest_id": 1001

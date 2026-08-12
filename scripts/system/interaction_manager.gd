@@ -3,14 +3,16 @@ extends Node
 
 var _party_manager: PartyManager
 var _npc_spawner: NpcSpawner
+var _world_spawner: WorldContentSpawner
 var _ui_root: UIRoot
-var _target: NpcActor
+var _target: Node2D
 
 
-func setup(party_manager: PartyManager, npc_spawner: NpcSpawner, ui_root: UIRoot) -> void:
+func setup(party_manager: PartyManager, npc_spawner: NpcSpawner, ui_root: UIRoot, world_spawner: WorldContentSpawner = null) -> void:
 	_party_manager = party_manager
 	_npc_spawner = npc_spawner
 	_ui_root = ui_root
+	_world_spawner = world_spawner
 	set_process(true)
 
 
@@ -23,7 +25,7 @@ func _process(_delta: float) -> void:
 		if _player != null and _npc_spawner != null:
 			for _n in _npc_spawner.get_active_npcs():
 				_dists.append({"id": _n.npc_id, "d": round(_player.global_position.distance_to(_n.global_position)), "r": _n.interaction_radius, "valid": is_instance_valid(_n)})
-		DebugSink.report("H1", "process-dbg", {"active": _active, "player": _player.global_position if _player else null, "dists": _dists, "target": _target.npc_id if is_instance_valid(_target) else null})
+		DebugSink.report("H1", "process-dbg", {"active": _active, "player": _player.global_position if _player else null, "dists": _dists, "target": _target.name if is_instance_valid(_target) else null})
 	# #endregion
 	if _party_manager == null or _npc_spawner == null or GameRegistry.dialogue_service == null:
 		_set_target(null)
@@ -35,22 +37,32 @@ func _process(_delta: float) -> void:
 	if player == null:
 		_set_target(null)
 		return
-	var nearest: NpcActor = null
+	var nearest: Node2D = null
 	var nearest_distance := INF
 	for npc in _npc_spawner.get_active_npcs():
 		var distance := player.global_position.distance_to(npc.global_position)
 		if distance <= npc.interaction_radius and distance < nearest_distance:
 			nearest = npc
 			nearest_distance = distance
+	if _world_spawner != null:
+		for interactable in _world_spawner.get_active_interactables():
+			var distance := player.global_position.distance_to(interactable.global_position)
+			if distance <= interactable.interaction_radius and distance < nearest_distance:
+				nearest = interactable
+				nearest_distance = distance
 	_set_target(nearest)
 
 
 func try_interact() -> bool:
 	if not is_instance_valid(_target):
 		return false
-	var npc_id := _target.npc_id
+	var target := _target
 	_set_target(null)
-	return GameRegistry.dialogue_service.start_dialogue(npc_id)
+	if target is NpcActor:
+		return GameRegistry.dialogue_service.start_dialogue((target as NpcActor).npc_id)
+	if target.has_method("interact"):
+		return bool(target.interact())
+	return false
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -58,7 +70,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _set_target(next: NpcActor) -> void:
+func _set_target(next: Node2D) -> void:
 	if _target == next:
 		return
 	_target = next

@@ -260,10 +260,18 @@ func from_dict(data: Dictionary, config_data: CharacterConfigData = null) -> voi
 
 ## 选择主角（序章调用）。设置存档级主角标记并加入阵容。
 func set_protagonist(hero_id: int) -> void:
+	if hero_id <= 0:
+		return
 	if protagonist_hero_id == hero_id:
 		return
+	var is_first_selection := protagonist_hero_id == 0
 	protagonist_hero_id = hero_id
-	if not lineup_ids.has(hero_id):
+	if is_first_selection:
+		lineup_ids = [hero_id]
+		active_character_id = hero_id
+		active_index = 0
+		ensure_character(hero_id)
+	elif not lineup_ids.has(hero_id):
 		lineup_ids.insert(0, hero_id)
 		ensure_character(hero_id)
 	if not recruited_hero_ids.has(hero_id):
@@ -273,12 +281,27 @@ func set_protagonist(hero_id: int) -> void:
 
 
 ## 招募英雄（章节推进时调用）。
-func recruit_hero(hero_id: int) -> void:
-	if recruited_hero_ids.has(hero_id):
+func recruit_hero(hero_id: int, add_to_lineup: bool = true) -> void:
+	if hero_id <= 0:
 		return
-	recruited_hero_ids.append(hero_id)
+	var changed := false
+	if not recruited_hero_ids.has(hero_id):
+		recruited_hero_ids.append(hero_id)
+		changed = true
 	ensure_character(hero_id)
-	roster_changed.emit()
+	if add_to_lineup and not lineup_ids.has(hero_id) and lineup_ids.size() < 3:
+		lineup_ids.append(hero_id)
+		changed = true
+	if changed:
+		roster_changed.emit()
+
+
+func recruit_remaining_prologue_hero() -> int:
+	for hero_id in [7001, 7002, 7003]:
+		if not recruited_hero_ids.has(hero_id):
+			recruit_hero(hero_id, true)
+			return hero_id
+	return 0
 
 
 func is_hero_recruited(hero_id: int) -> bool:

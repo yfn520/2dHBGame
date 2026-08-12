@@ -57,6 +57,9 @@ func _normalize_enemies(raw_enemies: Variant) -> Array:
 			"x": float(entry.get("x", 0.0)),
 			"y": float(entry.get("y", 0.0)),
 		}
+		for key in ["required_quest_id", "required_quest_states", "boss", "drop_table_id"]:
+			if entry.has(key):
+				normalized[key] = entry[key]
 		if mode == "group":
 			normalized["count"] = maxi(1, count)
 			normalized["scatter_x"] = float(entry.get("scatter_x", 20.0))

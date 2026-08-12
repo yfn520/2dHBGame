@@ -1,0 +1,9 @@
+{
+	"schema_version": 1,
+	"runtime_version": "0.2.0",
+	"quest_objectives": ["talk", "kill", "collect", "interact", "pickup", "area_trigger"],
+	"dialogue_actions": ["set_flag", "start_quest", "give_item", "set_protagonist", "set_second_hero", "recruit_hero", "complete_chapter", "close_dialogue"],
+	"world_content": ["enemy_spawn", "quest_pickup", "portal", "checkpoint"],
+	"chapter_end_quests": {"1008": "chapter_1", "1012": "chapter_2", "1030": "chapter_6"},
+	"publish_targets": ["quests.json", "dialogues.json", "npc_interaction_bindings.json", "runtime_world_content.json"]
+}

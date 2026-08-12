@@ -86,9 +86,20 @@ func get_visible_choices(node: Dictionary = {}) -> Array[Dictionary]:
 		node = get_current_node()
 	var result: Array[Dictionary] = []
 	for value in node.get("choices", []):
-		if value is Dictionary and _conditions_pass(value.get("conditions", [])):
+		if value is Dictionary and _conditions_pass(value.get("conditions", [])) and not _is_current_protagonist_choice(value):
 			result.append(value)
 	return result
+
+
+func _is_current_protagonist_choice(choice: Dictionary) -> bool:
+	if quest_service == null or quest_service.roster == null:
+		return false
+	var choice_hero_id := 0
+	match str(choice.get("intent_key", "")):
+		"select_second_leon": choice_hero_id = 7001
+		"select_second_luna": choice_hero_id = 7002
+		"select_second_mia": choice_hero_id = 7003
+	return choice_hero_id > 0 and choice_hero_id == quest_service.roster.get_protagonist_hero_id()
 
 
 func is_active() -> bool:
@@ -175,7 +186,25 @@ func _execute_actions(raw: Variant) -> void:
 			"set_protagonist":
 				# 序章三选一：写入存档级主角标记并立即落盘。
 				if quest_service != null and quest_service.roster != null:
-					quest_service.roster.set_protagonist(int(value.get("hero_id", 0)))
+					var hero_id := int(value.get("hero_id", 0))
+					quest_service.roster.set_protagonist(hero_id)
+					quest_service.state.set_flag("LeadHero", hero_id)
+					quest_service.state.set_flag("PartyStage", "Solo")
+					if GameRegistry.chapter_service != null:
+						GameRegistry.chapter_service.complete_chapter_normal("prologue")
+					GameRegistry.save_game()
+			"set_second_hero", "recruit_hero":
+				if quest_service != null and quest_service.roster != null:
+					var hero_id := int(value.get("hero_id", 0))
+					if hero_id != quest_service.roster.get_protagonist_hero_id():
+						quest_service.roster.recruit_hero(hero_id, true)
+						quest_service.state.set_flag("SecondHero", hero_id)
+						quest_service.state.set_flag("PartyStage", "Duo")
+						GameRegistry.save_game()
+			"complete_chapter":
+				var chapter_id := str(value.get("chapter_id", ""))
+				if not chapter_id.is_empty() and GameRegistry.chapter_service != null:
+					GameRegistry.chapter_service.complete_chapter_normal(chapter_id)
 					GameRegistry.save_game()
 			"close_dialogue":
 				call_deferred("finish", true)

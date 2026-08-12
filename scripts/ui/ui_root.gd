@@ -26,7 +26,7 @@ var _main_ui: Control
 var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
 var _interaction_prompt: Label
-var _interaction_npc: NpcActor
+var _interaction_target: Node2D
 var _notification_label: Label
 var _dialogue_previous_pause := false
 
@@ -61,24 +61,29 @@ func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 	_connect_npc_services()
 
 
-func set_interaction_target(npc: NpcActor) -> void:
-	_interaction_npc = npc
-	var available := is_instance_valid(npc)
+func set_interaction_target(target: Node2D) -> void:
+	_interaction_target = target
+	var available := is_instance_valid(target)
 	if _interaction_prompt != null:
 		_interaction_prompt.visible = available
-		_interaction_prompt.text = "E  与 %s 对话" % npc.get_display_name() if available else ""
+		if available and target.has_method("get_interaction_prompt"):
+			_interaction_prompt.text = target.get_interaction_prompt()
+		elif available and target.has_method("get_display_name"):
+			_interaction_prompt.text = "E  %s" % target.get_display_name()
+		else:
+			_interaction_prompt.text = ""
 	if _touch_controls != null:
 		_touch_controls.set_interact_available(available)
 
 
 ## 交互提示跟随目标 NPC 头顶，而非固定在屏幕中央。
 func _process(_delta: float) -> void:
-	if _interaction_prompt == null or not _interaction_prompt.visible or not is_instance_valid(_interaction_npc):
+	if _interaction_prompt == null or not _interaction_prompt.visible or not is_instance_valid(_interaction_target):
 		return
 	var cam := get_viewport().get_camera_2d()
 	if cam == null:
 		return
-	var screen := cam.get_canvas_transform() * _interaction_npc.global_position
+	var screen := cam.get_canvas_transform() * _interaction_target.global_position
 	_interaction_prompt.position.x = screen.x - _interaction_prompt.size.x * 0.5
 	_interaction_prompt.position.y = screen.y - 40.0
 

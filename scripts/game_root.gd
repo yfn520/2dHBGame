@@ -12,6 +12,8 @@ var _level_manager: Node
 var _enemy_spawner: Node
 var _npc_spawner: NpcSpawner
 var _interaction_manager: InteractionManager
+var _world_content_spawner: WorldContentSpawner
+var _party_retry_pending := false
 
 
 
@@ -22,6 +24,8 @@ func _ready() -> void:
 		push_error("[GameRoot] PartyManager 没有可用的主控角色")
 		return
 	party_manager.active_character_changed.connect(_on_active_character_changed)
+	party_manager.party_changed.connect(_on_party_changed)
+	_on_party_changed()
 
 	# 创建并注册 LevelManager
 	_level_manager = load("res://scripts/system/level_manager.gd").new()
@@ -42,13 +46,17 @@ func _ready() -> void:
 	_npc_spawner.name = "NpcSpawner"
 	add_child(_npc_spawner)
 	_npc_spawner.setup(level_container)
+	_world_content_spawner = WorldContentSpawner.new()
+	_world_content_spawner.name = "WorldContentSpawner"
+	add_child(_world_content_spawner)
+	_world_content_spawner.setup(level_container)
 
 	# 初始化统一 UIRoot（HUD / 主菜单 / 任务抽屉 / Debug 面板均在内部构建）
 	ui_root.setup(party_manager, _enemy_spawner)
 	_interaction_manager = InteractionManager.new()
 	_interaction_manager.name = "InteractionManager"
 	add_child(_interaction_manager)
-	_interaction_manager.setup(party_manager, _npc_spawner, ui_root)
+	_interaction_manager.setup(party_manager, _npc_spawner, ui_root, _world_content_spawner)
 	ui_root.interact_requested.connect(_interaction_manager.try_interact)
 	if GameRegistry.quest_service != null:
 		GameRegistry.quest_service.quest_updated.connect(_on_quest_updated)
@@ -69,7 +77,42 @@ func _on_active_character_changed(character: CharacterBody2D) -> void:
 		_enemy_spawner.setup(party_manager, level_container)
 
 
+func _on_party_changed() -> void:
+	for member in party_manager.get_party_members():
+		var combat := member.get_node_or_null("CombatComponent")
+		if combat != null and combat.has_signal("died") and not combat.died.is_connected(_on_party_member_died):
+			combat.died.connect(_on_party_member_died)
+
+
+func _on_party_member_died() -> void:
+	call_deferred("_check_party_wipe")
+
+
+func _check_party_wipe() -> void:
+	if _party_retry_pending or not party_manager.get_alive_party_members().is_empty():
+		return
+	_party_retry_pending = true
+	ui_root.show_notification("队伍全灭，正在返回本关入口……")
+	get_tree().create_timer(1.5).timeout.connect(_retry_from_level_start)
+
+
+func _retry_from_level_start() -> void:
+	if _level_manager == null:
+		_party_retry_pending = false
+		return
+	var level_id: int = int(_level_manager.get_current_level_id())
+	var config: Dictionary = GameRegistry.level_config.get_level(level_id)
+	var spawn: Vector2 = Vector2(float(config.get("spawn_x", 160)), float(config.get("spawn_y", 350)))
+	party_manager.respawn_party(spawn)
+	_level_manager.reload_current()
+	_party_retry_pending = false
+
+
 func _load_start_level() -> void:
+	var saved_level_id := int(GameRegistry.quest_state.get_flag("current_level_id", -1)) if GameRegistry.quest_state != null else -1
+	if saved_level_id >= 0 and not GameRegistry.level_config.get_level(saved_level_id).is_empty():
+		_level_manager.load_level(saved_level_id)
+		return
 	var debug_level_id := _get_debug_start_level_id()
 	if debug_level_id > 0:
 		var debug_level: Dictionary = GameRegistry.level_config.get_level(debug_level_id)
@@ -107,16 +150,19 @@ func _on_level_loaded(level_id: int, level_name: String) -> void:
 	# 生成怪物（测试用：在关卡中生成几只 slime）
 	_spawn_level_enemies(level_id)
 	_spawn_level_npcs(level_id)
+	_world_content_spawner.spawn_for_level(level_id)
 
 
 func _on_level_unloaded(_level_id: int) -> void:
 	_enemy_spawner.clear_all()
 	_npc_spawner.clear_all()
+	_world_content_spawner.clear_all()
 
 
 func _spawn_level_enemies(level_id: int) -> void:
 	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
 	var spawns: Array = level_cfg.get("enemies", [])
+	spawns.append_array(_world_content_spawner.get_enemy_spawns(level_id))
 	if spawns.is_empty():
 		return
 	_enemy_spawner.spawn_enemies_for_level(spawns)
@@ -134,6 +180,11 @@ func _on_enemy_defeated(enemy_id: int) -> void:
 func _on_quest_updated(_quest_id: int) -> void:
 	if _npc_spawner != null:
 		_npc_spawner.refresh_indicators()
+	if _world_content_spawner != null:
+		_world_content_spawner.refresh()
+	if _enemy_spawner != null and _level_manager != null:
+		_enemy_spawner.clear_all()
+		_spawn_level_enemies(_level_manager.get_current_level_id())
 
 
 ## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。

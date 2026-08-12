@@ -55,7 +55,7 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 
 	_active_enemies.append(enemy)
 	if enemy.has_signal("defeated"):
-		enemy.defeated.connect(_on_enemy_defeated)
+		enemy.defeated.connect(_on_enemy_defeated.bind(enemy))
 	enemy.tree_exiting.connect(_on_enemy_removed.bind(enemy))
 	return enemy
 
@@ -113,5 +113,27 @@ func _on_enemy_removed(enemy: Node) -> void:
 	_active_enemies.erase(enemy)
 
 
-func _on_enemy_defeated(enemy_id: int) -> void:
+func _on_enemy_defeated(enemy_id: int, _enemy: Node = null) -> void:
+	_grant_drops(enemy_id)
 	enemy_defeated.emit(enemy_id)
+
+
+func _grant_drops(enemy_id: int) -> void:
+	if GameRegistry.inventory_provider == null:
+		return
+	var cfg: Dictionary = GameRegistry.enemy_config.get_enemy(enemy_id)
+	for value in cfg.get("drop_items", []):
+		var item_id := 0
+		var count := 1
+		var chance := 1.0
+		if value is Dictionary:
+			item_id = int(value.get("item_id", 0))
+			count = maxi(1, int(value.get("count", 1)))
+			chance = clampf(float(value.get("chance", 1.0)), 0.0, 1.0)
+		else:
+			item_id = int(value)
+		if item_id > 0 and randf() <= chance:
+			GameRegistry.inventory_provider.add_item(item_id, count)
+			var ui_root := get_tree().get_first_node_in_group("ui_root")
+			if ui_root != null and ui_root.has_method("show_notification"):
+				ui_root.show_notification("获得战利品 ×%d" % count)

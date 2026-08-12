@@ -59,6 +59,8 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 	level_instance.name = "CurrentLevel"
 	_level_container.add_child(level_instance)
 	_current_level_id = level_id
+	if GameRegistry.quest_state != null:
+		GameRegistry.quest_state.set_flag("current_level_id", level_id)
 
 	# 传送玩家到出生点
 	# 优先级：spawn_override > levels.json.spawn_x/spawn_y > 场景 PlayerSpawn Marker2D
@@ -89,6 +91,7 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 	_apply_camera_limits(level_instance)
 
 	level_loaded.emit(level_id, config.get("name", ""))
+	GameRegistry.save_game()
 
 
 ## 传送到指定关卡的指定坐标
@@ -161,7 +164,7 @@ func _apply_camera_bounds(bounds: Rect2, ground_line_y: float = 605.0) -> void:
 
 ## 重新加载当前关卡（死亡重生等）
 func reload_current() -> void:
-	if _current_level_id > 0:
+	if _current_level_id >= 0:
 		load_level(_current_level_id)
 
 

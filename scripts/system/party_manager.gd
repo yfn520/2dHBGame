@@ -18,6 +18,7 @@ var _member_by_id: Dictionary = {}
 var _editor_preview: Node2D
 var _preview_signature := ""
 var _manual_skill_input_enabled := true
+var _rebuilding_from_roster := false
 
 
 func _ready() -> void:
@@ -30,6 +31,8 @@ func _ready() -> void:
 	var start_index := initial_active_index
 	if switch_character(clampi(start_index, 0, maxi(0, lineup_character_ids.size() - 1))):
 		place_party_at(global_position)
+	if GameRegistry.roster_data != null and not GameRegistry.roster_data.roster_changed.is_connected(_on_roster_changed):
+		GameRegistry.roster_data.roster_changed.connect(_on_roster_changed)
 
 
 func _process(_delta: float) -> void:
@@ -115,6 +118,32 @@ func refresh_party_stats() -> void:
 			member.refresh_combat_stats()
 
 
+func rebuild_from_roster(spawn_position: Vector2 = Vector2.INF) -> void:
+	if _rebuilding_from_roster or GameRegistry.roster_data == null:
+		return
+	_rebuilding_from_roster = true
+	var previous_position := global_position
+	if is_instance_valid(active_character):
+		previous_position = active_character.global_position
+	var previous_active_id: int = int(GameRegistry.roster_data.active_character_id)
+	lineup_character_ids = GameRegistry.roster_data.lineup_ids.duplicate()
+	_spawn_lineup()
+	var next_index: int = lineup_character_ids.find(previous_active_id)
+	if next_index < 0:
+		next_index = 0
+	if not _party_members.is_empty():
+		switch_character(next_index)
+		place_party_at(previous_position if spawn_position == Vector2.INF else spawn_position)
+	_rebuilding_from_roster = false
+
+
+func respawn_party(spawn_position: Vector2) -> void:
+	if GameRegistry.roster_data != null:
+		for character_id in GameRegistry.roster_data.lineup_ids:
+			GameRegistry.roster_data.set_hp(-1, character_id)
+	rebuild_from_roster(spawn_position)
+
+
 ## 控制玩家手动技能输入（J/K/L/U）是否生效。
 ## 只影响玩家输入，不影响队友 AI、敌人和弹道。
 func set_manual_skill_input_enabled(enabled: bool) -> void:
@@ -193,12 +222,18 @@ func _apply_party_collision_exceptions() -> void:
 func _sync_lineup_to_roster() -> void:
 	if GameRegistry.roster_data == null:
 		return
-	var ids := lineup_character_ids.duplicate()
-	if ids.is_empty():
-		ids = GameRegistry.character_config.get_default_lineup()
-	if GameRegistry.roster_data.lineup_ids != ids:
+	if GameRegistry.roster_data.lineup_ids.is_empty():
+		var ids := lineup_character_ids.duplicate()
+		if ids.is_empty():
+			ids = GameRegistry.character_config.get_default_lineup()
 		GameRegistry.roster_data.set_lineup(ids)
 	lineup_character_ids = GameRegistry.roster_data.lineup_ids.duplicate()
+
+
+func _on_roster_changed() -> void:
+	if _rebuilding_from_roster or lineup_character_ids == GameRegistry.roster_data.lineup_ids:
+		return
+	call_deferred("rebuild_from_roster")
 
 
 func _get_preview_signature() -> String:
