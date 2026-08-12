@@ -213,11 +213,7 @@ func _quest_state_text(quest: Dictionary, status: String) -> String:
 
 
 func _objective_text(objective: Dictionary) -> String:
-	match str(objective.get("type", "")):
-		"talk": return "与 NPC %d 对话" % int(objective.get("npc_id", 0))
-		"kill": return "击败怪物 %d" % int(objective.get("enemy_id", 0))
-		"collect": return "收集物品 %d" % int(objective.get("item_id", 0))
-		_: return "完成目标"
+	return _service.get_objective_text(objective) if _service != null else "完成目标"
 
 
 func _on_quest_updated(_quest_id: int) -> void:

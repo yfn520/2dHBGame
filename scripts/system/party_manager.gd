@@ -132,8 +132,13 @@ func rebuild_from_roster(spawn_position: Vector2 = Vector2.INF) -> void:
 	if next_index < 0:
 		next_index = 0
 	if not _party_members.is_empty():
-		switch_character(next_index)
+		# 先在目标位置摆好新主控，再启用它的 Camera2D。若先 switch，开启了
+		# position smoothing 的相机会从世界原点滑向玩家，地图会暂时只露出右下角。
+		active_character = _party_members[next_index]
+		active_index = next_index
+		active_character_id = int(lineup_character_ids[next_index])
 		place_party_at(previous_position if spawn_position == Vector2.INF else spawn_position)
+		switch_character(next_index)
 	_rebuilding_from_roster = false
 
 
@@ -161,9 +166,15 @@ func is_manual_skill_input_enabled() -> bool:
 func _spawn_lineup() -> void:
 	for member in _party_members:
 		if is_instance_valid(member):
+			var old_camera := member.get_node_or_null("Camera2D") as Camera2D
+			if old_camera != null:
+				old_camera.enabled = false
 			member.queue_free()
 	_party_members.clear()
 	_member_by_id.clear()
+	active_character = null
+	active_index = -1
+	active_character_id = 0
 	for i in range(lineup_character_ids.size()):
 		var character_id := int(lineup_character_ids[i])
 		var scene_path := _get_scene_path_for_id(character_id)
@@ -183,6 +194,11 @@ func _spawn_lineup() -> void:
 		member.name = "%s_%d" % [GameRegistry.character_config.get_name(character_id), character_id]
 		if member.has_method("set_party_character_id"):
 			member.set_party_character_id(character_id)
+		# 预制体中的 Camera2D 默认 enabled。阵容全部生成并完成站位之前，
+		# 不允许任何新成员抢占当前相机。
+		var member_camera := member.get_node_or_null("Camera2D") as Camera2D
+		if member_camera != null:
+			member_camera.enabled = false
 		add_child(member)
 		member.global_position = global_position + Vector2(-32.0 * float(i), 0.0)
 		_party_members.append(member)
@@ -222,7 +238,18 @@ func _apply_party_collision_exceptions() -> void:
 func _sync_lineup_to_roster() -> void:
 	if GameRegistry.roster_data == null:
 		return
-	if GameRegistry.roster_data.lineup_ids.is_empty():
+	var loaded_from_save := false
+	if GameRegistry.player_data_provider != null and GameRegistry.player_data_provider.has_method("has_loaded_local_save"):
+		loaded_from_save = GameRegistry.player_data_provider.has_loaded_local_save()
+	if not loaded_from_save:
+		# 新存档以 GameRoot/Player Inspector 中配置的阵容为启动来源。
+		# CharacterRosterData 的默认值和本地 mock 仅用于数据兜底，不能覆盖场景配置。
+		var ids := lineup_character_ids.duplicate()
+		if ids.is_empty():
+			ids = GameRegistry.character_config.get_default_lineup()
+		GameRegistry.roster_data.set_lineup(ids)
+		GameRegistry.roster_data.set_active_by_index(clampi(initial_active_index, 0, maxi(0, ids.size() - 1)))
+	elif GameRegistry.roster_data.lineup_ids.is_empty():
 		var ids := lineup_character_ids.duplicate()
 		if ids.is_empty():
 			ids = GameRegistry.character_config.get_default_lineup()

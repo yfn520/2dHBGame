@@ -14,6 +14,7 @@ var _npc_spawner: NpcSpawner
 var _interaction_manager: InteractionManager
 var _world_content_spawner: WorldContentSpawner
 var _party_retry_pending := false
+var _quest_world_refresh_pending := false
 
 
 
@@ -60,6 +61,8 @@ func _ready() -> void:
 	ui_root.interact_requested.connect(_interaction_manager.try_interact)
 	if GameRegistry.quest_service != null:
 		GameRegistry.quest_service.quest_updated.connect(_on_quest_updated)
+		GameRegistry.quest_service.quest_started.connect(_on_quest_world_state_changed)
+		GameRegistry.quest_service.quest_completed.connect(_on_quest_world_state_changed)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -178,6 +181,25 @@ func _on_enemy_defeated(enemy_id: int) -> void:
 
 
 func _on_quest_updated(_quest_id: int) -> void:
+	# 进度更新（例如击杀 +1）只刷新 NPC 标识和 HUD。不能重建敌人，否则
+	# 每杀一只任务怪都会清场并重新生成整批怪物。
+	if _npc_spawner != null:
+		_npc_spawner.refresh_indicators()
+
+
+func _on_quest_world_state_changed(_quest_id: int) -> void:
+	# 只有接取/交付造成任务阶段变化时，才重建受条件控制的世界内容。
+	# 信号也可能从物理回调链发出，因此仍延迟到安全帧并合并重复请求。
+	if _quest_world_refresh_pending:
+		return
+	_quest_world_refresh_pending = true
+	call_deferred("_refresh_world_after_quest_update")
+
+
+func _refresh_world_after_quest_update() -> void:
+	if not is_inside_tree():
+		_quest_world_refresh_pending = false
+		return
 	if _npc_spawner != null:
 		_npc_spawner.refresh_indicators()
 	if _world_content_spawner != null:
@@ -185,6 +207,7 @@ func _on_quest_updated(_quest_id: int) -> void:
 	if _enemy_spawner != null and _level_manager != null:
 		_enemy_spawner.clear_all()
 		_spawn_level_enemies(_level_manager.get_current_level_id())
+	_quest_world_refresh_pending = false
 
 
 ## UI 输入统一在此处理；世界操作（Tab 切人、R 重载）保留。

@@ -12,7 +12,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"attack": 5
-		}
+		},
+		"icon": "res://assets/icons/items/100001.png"
 	},
 	"100002": {
 		"name": "铁甲",
@@ -59,7 +60,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"max_hp": 20
-		}
+		},
+		"icon": "res://assets/icons/items/100004.png"
 	},
 	"100005": {
 		"name": "月光项链",
@@ -75,7 +77,8 @@
 		"stats": {
 			"attack": 2,
 			"defense": 1
-		}
+		},
+		"icon": "res://assets/icons/items/100005.png"
 	},
 	"100006": {
 		"name": "旧圣物",
@@ -121,7 +124,8 @@
 		"stats": {
 			"attack": 4,
 			"max_hp": 15
-		}
+		},
+		"icon": "res://assets/icons/items/100008.png"
 	},
 	"100009": {
 		"name": "英雄之刃",
@@ -136,7 +140,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"attack": 8
-		}
+		},
+		"icon": "res://assets/icons/items/100009.png"
 	},
 	"100010": {
 		"name": "骑士板甲",
@@ -152,7 +157,8 @@
 		"stats": {
 			"defense": 6,
 			"max_hp": 30
-		}
+		},
+		"icon": "res://assets/icons/items/100010.png"
 	},
 	"100011": {
 		"name": "迅捷靴",
@@ -182,7 +188,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"attack": 10
-		}
+		},
+		"icon": "res://assets/icons/items/100012.png"
 	},
 	"100013": {
 		"name": "远古圣物",
@@ -198,7 +205,8 @@
 		"stats": {
 			"attack": 6,
 			"defense": 2
-		}
+		},
+		"icon": "res://assets/icons/items/100013.png"
 	},
 	"100014": {
 		"name": "生命药水",
@@ -250,7 +258,8 @@
 		"stackable": true,
 		"max_count": 999,
 		"heal_amount": 0,
-		"stats": {}
+		"stats": {},
+		"icon": "res://assets/icons/items/100017.png"
 	},
 	"100018": {
 		"name": "归城残盾",
@@ -270,7 +279,8 @@
 			"defense": 8,
 			"max_hp": 40,
 			"block_rate": 0.15
-		}
+		},
+		"icon": "res://assets/icons/items/100018.png"
 	},
 	"100019": {
 		"name": "无路之弦",
@@ -310,7 +320,8 @@
 			"attack": 12,
 			"skill_haste": 15,
 			"magic_pen_percent": 0.1
-		}
+		},
+		"icon": "res://assets/icons/items/100020.png"
 	},
 	"100021": {
 		"name": "旧邮袋",
@@ -326,7 +337,8 @@
 		"stats": {
 			"max_hp": 15,
 			"move_speed": 8
-		}
+		},
+		"icon": "res://assets/icons/items/100021.png"
 	},
 	"100022": {
 		"name": "退件",
@@ -342,7 +354,8 @@
 		"stats": {
 			"defense": 2,
 			"reflect_rate": 0.05
-		}
+		},
+		"icon": "res://assets/icons/items/100022.png"
 	},
 	"100023": {
 		"name": "失效信标",
@@ -375,7 +388,8 @@
 			"defense": 6,
 			"max_hp": 35,
 			"block_rate": 0.12
-		}
+		},
+		"icon": "res://assets/icons/items/100024.png"
 	},
 	"100025": {
 		"name": "遗响护符",
@@ -392,7 +406,8 @@
 			"max_hp": 20,
 			"defense": 2,
 			"magic_pen_percent": 0.05
-		}
+		},
+		"icon": "res://assets/icons/items/100025.png"
 	},
 	"100026": {
 		"name": "召唤者印记",
@@ -408,7 +423,8 @@
 		"stats": {
 			"attack": 4,
 			"skill_haste": 10
-		}
+		},
+		"icon": "res://assets/icons/items/100026.png"
 	},
 	"100027": {
 		"name": "学院徽章",
@@ -424,7 +440,8 @@
 		"stats": {
 			"max_hp": 25,
 			"magic_pen_percent": 0.08
-		}
+		},
+		"icon": "res://assets/icons/items/100027.png"
 	},
 	"100028": {
 		"name": "毕业证书残页",
@@ -440,7 +457,8 @@
 		"stats": {
 			"attack": 5,
 			"crit_rate": 0.06
-		}
+		},
+		"icon": "res://assets/icons/items/100028.png"
 	},
 	"100029": {
 		"name": "烛塔法袍",
@@ -457,7 +475,8 @@
 			"defense": 5,
 			"skill_haste": 12,
 			"max_hp": 20
-		}
+		},
+		"icon": "res://assets/icons/items/100029.png"
 	},
 	"100030": {
 		"name": "港湾罗盘",
@@ -473,7 +492,8 @@
 		"stats": {
 			"move_speed": 12,
 			"crit_rate": 0.05
-		}
+		},
+		"icon": "res://assets/icons/items/100030.png"
 	},
 	"100031": {
 		"name": "赛壬之歌",
@@ -489,7 +509,8 @@
 		"stats": {
 			"magic_pen_percent": 0.1,
 			"skill_haste": 10
-		}
+		},
+		"icon": "res://assets/icons/items/100031.png"
 	},
 	"100032": {
 		"name": "铁壳甲片",
@@ -506,7 +527,8 @@
 			"defense": 7,
 			"block_rate": 0.1,
 			"max_hp": 25
-		}
+		},
+		"icon": "res://assets/icons/items/100032.png"
 	},
 	"100033": {
 		"name": "王城号角",
@@ -522,7 +544,8 @@
 		"stats": {
 			"attack": 6,
 			"max_hp": 30
-		}
+		},
+		"icon": "res://assets/icons/items/100033.png"
 	},
 	"100034": {
 		"name": "逃兵档案",
@@ -538,7 +561,8 @@
 		"stats": {
 			"defense": 3,
 			"crit_rate": 0.07
-		}
+		},
+		"icon": "res://assets/icons/items/100034.png"
 	},
 	"100035": {
 		"name": "重铸印记",
@@ -554,7 +578,8 @@
 		"stats": {
 			"attack": 4,
 			"defense": 4
-		}
+		},
+		"icon": "res://assets/icons/items/100035.png"
 	},
 	"100036": {
 		"name": "核心碎片",
@@ -571,7 +596,8 @@
 			"attack": 7,
 			"magic_pen_percent": 0.1,
 			"max_hp": 30
-		}
+		},
+		"icon": "res://assets/icons/items/100036.png"
 	},
 	"100037": {
 		"name": "旧镇脉军日志",
@@ -587,7 +613,8 @@
 		"stats": {
 			"max_hp": 35,
 			"skill_haste": 12
-		}
+		},
+		"icon": "res://assets/icons/items/100037.png"
 	},
 	"100038": {
 		"name": "终局信物",
@@ -604,7 +631,8 @@
 			"attack": 6,
 			"crit_rate": 0.08,
 			"defense": 3
-		}
+		},
+		"icon": "res://assets/icons/items/100038.png"
 	},
 	"100039": {
 		"name": "遗忘之刃",
@@ -652,7 +680,8 @@
 		"stats": {
 			"magic_pen_percent": 0.12,
 			"attack": 6
-		}
+		},
+		"icon": "res://assets/icons/items/100041.png"
 	},
 	"100042": {
 		"name": "渊蚀核心",
@@ -668,7 +697,8 @@
 		"stats": {
 			"attack": 8,
 			"defense": 5
-		}
+		},
+		"icon": "res://assets/icons/items/100042.png"
 	},
 	"100043": {
 		"name": "时间沙漏",
@@ -720,7 +750,7 @@
 		"stats": {
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100045.png"
 	},
 	"100046": {
 		"name": "余烬誓剑",
@@ -738,7 +768,7 @@
 		"stats": {
 			"attack": 25
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100046.png"
 	},
 	"100047": {
 		"name": "圣垒塔盾",
@@ -757,7 +787,7 @@
 			"defense": 22,
 			"max_hp": 80
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100047.png"
 	},
 	"100048": {
 		"name": "晨辉裁决",
@@ -775,7 +805,7 @@
 		"stats": {
 			"attack": 28
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100048.png"
 	},
 	"100049": {
 		"name": "榆木猎弓",
@@ -793,7 +823,7 @@
 		"stats": {
 			"attack": 5
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100049.png"
 	},
 	"100050": {
 		"name": "逐风长弓",
@@ -811,7 +841,7 @@
 		"stats": {
 			"attack": 8
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100050.png"
 	},
 	"100051": {
 		"name": "荆棘回响",
@@ -829,7 +859,7 @@
 		"stats": {
 			"attack": 18
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100051.png"
 	},
 	"100052": {
 		"name": "千羽追星",
@@ -883,7 +913,7 @@
 		"stats": {
 			"attack": 5
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100054.png"
 	},
 	"100055": {
 		"name": "蓝晶导杖",
@@ -901,7 +931,7 @@
 		"stats": {
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100055.png"
 	},
 	"100056": {
 		"name": "雷鸣枝杖",
@@ -974,7 +1004,7 @@
 		"stats": {
 			"attack": 5
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100059.png"
 	},
 	"100060": {
 		"name": "银铃权杖",
@@ -1047,7 +1077,7 @@
 			"max_hp": 75,
 			"skill_haste": 14
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100063.png"
 	},
 	"100064": {
 		"name": "旧守卫铁盔",
@@ -1066,7 +1096,7 @@
 			"defense": 3,
 			"max_hp": 10
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100064.png"
 	},
 	"100065": {
 		"name": "林径斗篷",
@@ -1085,7 +1115,7 @@
 			"defense": 5,
 			"max_hp": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100065.png"
 	},
 	"100066": {
 		"name": "蓝钢胸甲",
@@ -1104,7 +1134,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100066.png"
 	},
 	"100067": {
 		"name": "静风行靴",
@@ -1123,7 +1153,7 @@
 			"defense": 2,
 			"move_speed": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100067.png"
 	},
 	"100068": {
 		"name": "紫晶护腕",
@@ -1142,7 +1172,7 @@
 			"defense": 12,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100068.png"
 	},
 	"100069": {
 		"name": "不屈者腰带",
@@ -1181,7 +1211,7 @@
 			"defense": 8,
 			"max_hp": 60
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100070.png"
 	},
 	"100071": {
 		"name": "深渊凝视",
@@ -1219,7 +1249,7 @@
 			"attack": 30,
 			"skill_haste": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100072.png"
 	},
 	"100073": {
 		"name": "圣约护符",
@@ -1257,7 +1287,7 @@
 			"defense": 3,
 			"max_hp": 10
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100074.png"
 	},
 	"100075": {
 		"name": "壁行重靴",
@@ -1276,7 +1306,7 @@
 			"defense": 1,
 			"move_speed": 13
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100075.png"
 	},
 	"100076": {
 		"name": "边塞板甲",
@@ -1295,7 +1325,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100076.png"
 	},
 	"100077": {
 		"name": "固阵扣带",
@@ -1333,7 +1363,7 @@
 			"attack": 35,
 			"skill_haste": 21
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100078.png"
 	},
 	"100079": {
 		"name": "星落壁垒",
@@ -1371,7 +1401,7 @@
 			"defense": 3,
 			"max_hp": 10
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100080.png"
 	},
 	"100081": {
 		"name": "星纹法袍",
@@ -1390,7 +1420,7 @@
 			"defense": 5,
 			"max_hp": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100081.png"
 	},
 	"100082": {
 		"name": "聚焦手套",
@@ -1466,7 +1496,7 @@
 			"max_hp": 60,
 			"skill_haste": 15
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100085.png"
 	},
 	"100086": {
 		"name": "猎迹兜帽",
@@ -1485,7 +1515,7 @@
 			"defense": 3,
 			"max_hp": 10
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100086.png"
 	},
 	"100087": {
 		"name": "林卫皮甲",
@@ -1504,7 +1534,7 @@
 			"defense": 5,
 			"max_hp": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100087.png"
 	},
 	"100088": {
 		"name": "扣弦护臂",
@@ -1523,7 +1553,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100088.png"
 	},
 	"100089": {
 		"name": "鹿径轻靴",
@@ -1599,7 +1629,7 @@
 			"defense": 3,
 			"max_hp": 10
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100092.png"
 	},
 	"100093": {
 		"name": "银线祭服",
@@ -1618,7 +1648,7 @@
 			"defense": 5,
 			"max_hp": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100093.png"
 	},
 	"100094": {
 		"name": "仁心手套",
@@ -1637,7 +1667,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100094.png"
 	},
 	"100095": {
 		"name": "曙光行靴",
@@ -1676,7 +1706,7 @@
 			"defense": 6,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100096.png"
 	},
 	"100097": {
 		"name": "星祷香炉",
@@ -1695,7 +1725,7 @@
 			"max_hp": 70,
 			"skill_haste": 15
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100097.png"
 	},
 	"100098": {
 		"name": "旧铁匕首",

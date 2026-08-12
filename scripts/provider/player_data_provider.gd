@@ -6,6 +6,7 @@ var roster: CharacterRosterData
 var character_config: CharacterConfigData
 var quest_state: QuestStateData
 var chapter_state: ChapterStateData
+var _loaded_local_save := false
 
 
 func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: CharacterRosterData, p_character_config: CharacterConfigData, p_quest_state: QuestStateData = null, p_chapter_state: ChapterStateData = null) -> void:
@@ -18,10 +19,14 @@ func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: Cha
 
 
 func load_local() -> bool:
-	var loaded := SaveManager.load_save(inventory, equipment, roster, character_config, quest_state, chapter_state)
-	if not loaded or inventory.get_items().is_empty():
+	_loaded_local_save = SaveManager.load_save(inventory, equipment, roster, character_config, quest_state, chapter_state)
+	if not _loaded_local_save or inventory.get_items().is_empty():
 		_apply_local_mock_snapshot()
-	return loaded
+	return _loaded_local_save
+
+
+func has_loaded_local_save() -> bool:
+	return _loaded_local_save
 
 
 func save_local() -> void:

@@ -142,16 +142,46 @@ func is_quest_unlocked(quest_id: int) -> bool:
 	return true
 
 
-## 该 NPC 是否派发过尚未完成的任务（进行中 active / 待交付 ready）。
+## 该 NPC 是否关联进行中的任务。交付状态由 has_ready_quest 单独处理。
 func has_active_quest(npc_id: int) -> bool:
 	if config == null:
 		return false
 	for id_value in config.get_all_quests():
 		var quest_id := int(id_value)
 		var quest := config.get_quest(quest_id)
-		if int(quest.get("giver_npc_id", 0)) == npc_id and state.get_status(quest_id) in ["active", "ready"]:
+		var is_related := int(quest.get("giver_npc_id", 0)) == npc_id or int(quest.get("turn_in_npc_id", 0)) == npc_id
+		if is_related and state.get_status(quest_id) == "active":
 			return true
 	return false
+
+
+## 供 HUD / 任务抽屉共用的目标描述，避免向玩家暴露配置 ID。
+func get_objective_text(objective: Dictionary) -> String:
+	match str(objective.get("type", "")):
+		"talk":
+			var npc_id := int(objective.get("npc_id", 0))
+			var npc_name := "NPC"
+			if GameRegistry.npc_config != null:
+				npc_name = str(GameRegistry.npc_config.get_npc(npc_id).get("name", npc_name))
+			return "与%s对话" % npc_name
+		"kill":
+			var enemy_id := int(objective.get("enemy_id", 0))
+			var enemy_name := "目标"
+			if GameRegistry.enemy_config != null:
+				enemy_name = str(GameRegistry.enemy_config.get_enemy(enemy_id).get("name", enemy_name))
+			return "击败%s" % enemy_name
+		"collect":
+			var item_id := int(objective.get("item_id", 0))
+			var item_name := "任务物品"
+			if GameRegistry.item_config != null:
+				item_name = str(GameRegistry.item_config.get_item(item_id).get("name", item_name))
+			return "收集%s" % item_name
+		"interact", "pickup":
+			return str(objective.get("name", "完成交互"))
+		"area_trigger":
+			return str(objective.get("name", "到达目标区域"))
+		_:
+			return "完成目标"
 
 
 func has_ready_quest(npc_id: int) -> bool:
@@ -168,7 +198,13 @@ func has_ready_quest(npc_id: int) -> bool:
 func evaluate_condition(condition: Dictionary) -> bool:
 	match str(condition.get("type", "")):
 		"quest_state":
-			return state.get_status(int(condition.get("quest_id", 0))) == str(condition.get("state", "inactive"))
+			var quest_id := int(condition.get("quest_id", 0))
+			var expected_state := str(condition.get("state", "inactive"))
+			if state.get_status(quest_id) != expected_state:
+				return false
+			# NPC 对话里的 inactive 分支就是“可接取任务”分支。仅有未接取
+			# 状态还不够，所有前置任务也必须完成，避免展示一个必然派发失败的选项。
+			return expected_state != "inactive" or is_quest_unlocked(quest_id)
 		"flag_equals":
 			return state.get_flag(str(condition.get("flag", ""))) == condition.get("value", true)
 		"item_count":

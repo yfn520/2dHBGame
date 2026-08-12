@@ -155,14 +155,15 @@ func _bind_bars() -> void:
 
 	_ally_panels.clear()
 	_ally_panels.append({
-		"panel": _get_by_key(_panel_by_key, "ally1_panel", "player_one"),
+		# 隐藏整个队员栏，而不是只隐藏其中的底图。否则空头像、血条仍会残留。
+		"panel": _get_by_key(_panel_by_key, "ally1_panel", "role_information_bar_2"),
 		"avatar": _get_by_key(_avatar_by_key, "ally1_avatar", "image_002"),
 		"hp": _get_by_key(_bar_by_key, "ally1_hp", "progress_005") as ProgressBar,
 		"blue": _get_by_key(_bar_by_key, "ally1_energy", "progress_006") as ProgressBar,
 		"exp": _get_by_key(_bar_by_key, "ally1_exp", "progress_003") as ProgressBar,
 	})
 	_ally_panels.append({
-		"panel": _get_by_key(_panel_by_key, "ally2_panel", "player_one_2"),
+		"panel": _get_by_key(_panel_by_key, "ally2_panel", "role_information_bar_3"),
 		"avatar": _get_by_key(_avatar_by_key, "ally2_avatar", "image_002_2"),
 		"hp": _get_by_key(_bar_by_key, "ally2_hp", "progress_005_2") as ProgressBar,
 		"blue": _get_by_key(_bar_by_key, "ally2_energy", "progress_006_2") as ProgressBar,
@@ -173,7 +174,11 @@ func _bind_bars() -> void:
 func _get_unique(node_name: String) -> Node:
 	if _scene_root == null:
 		return null
-	return _scene_root.get_node_or_null(NodePath("%" + node_name))
+	var unique_node := _scene_root.get_node_or_null(NodePath("%" + node_name))
+	if unique_node != null:
+		return unique_node
+	# 导出的 UI 场景没有给所有绑定节点设置 unique_name_in_owner；按名称递归兜底。
+	return _scene_root.find_child(node_name, true, false)
 
 
 ## 绑定键优先取节点，缺键/缺节点时回退到场景唯一节点名兜底。

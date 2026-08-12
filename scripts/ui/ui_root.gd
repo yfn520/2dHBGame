@@ -21,6 +21,7 @@ var _debug_layer: CanvasLayer
 
 var _main_menu: MainMenu
 var _task_drawer: TaskDrawer
+var _quest_tracker: QuestTracker
 var _debug_panel: DebugPanel
 var _main_ui: Control
 var _touch_controls: TouchControls
@@ -56,6 +57,8 @@ func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 		_debug_panel.setup(party_manager, enemy_spawner)
 	if _task_drawer != null:
 		_task_drawer.setup(GameRegistry.quest_service)
+	if _quest_tracker != null:
+		_quest_tracker.setup(GameRegistry.quest_service)
 	if _main_ui != null and _main_ui.has_method("setup"):
 		_main_ui.setup(party_manager, enemy_spawner)
 	_connect_npc_services()
@@ -372,6 +375,13 @@ func _build_content() -> void:
 	_main_ui.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_main_ui.visible = true
 	_hud_layer.add_child(_main_ui)
+
+	# 常驻任务追踪面板：显示进行中任务及目标数量，不阻塞世界输入。
+	_quest_tracker = preload("res://scripts/ui/quest_tracker.gd").new()
+	_quest_tracker.name = "QuestTracker"
+	_quest_tracker.theme = skin.theme
+	_quest_tracker.visible = false
+	_hud_layer.add_child(_quest_tracker)
 
 	# 触屏控件（CanvasLayer，layer=15）
 	_touch_controls = TouchControls.new()

@@ -66,6 +66,11 @@ func choose(index: int) -> void:
 		return
 	var choice: Dictionary = visible[index]
 	var intent_key := str(choice.get("intent_key", "")).strip_edges()
+	if not intent_key.is_empty() and not _can_dispatch_intent(intent_key):
+		# 状态可能在对话打开后发生变化；在真正选择时再校验一次，
+		# 避免播放“已接取/已交付”的后续节点却没有实际改变任务状态。
+		finish(false)
+		return
 	if not intent_key.is_empty():
 		intent_selected.emit(current_npc_id, current_dialogue_id, str(choice.get("id", "")), intent_key)
 	_execute_actions(choice.get("actions", []))
@@ -100,6 +105,19 @@ func _is_current_protagonist_choice(choice: Dictionary) -> bool:
 		"select_second_luna": choice_hero_id = 7002
 		"select_second_mia": choice_hero_id = 7003
 	return choice_hero_id > 0 and choice_hero_id == quest_service.roster.get_protagonist_hero_id()
+
+
+func _can_dispatch_intent(intent_key: String) -> bool:
+	if quest_service == null or GameRegistry.interaction_binding_config == null:
+		return true
+	var binding: Dictionary = GameRegistry.interaction_binding_config.get_binding(current_dialogue_id, intent_key)
+	match str(binding.get("type", "")):
+		"start_quest":
+			var quest_id := int(binding.get("quest_id", 0))
+			return quest_service.get_status(quest_id) == "inactive" and quest_service.is_quest_unlocked(quest_id)
+		"turn_in_quest":
+			return quest_service.get_status(int(binding.get("quest_id", 0))) == "ready"
+	return true
 
 
 func is_active() -> bool:
