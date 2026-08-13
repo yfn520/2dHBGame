@@ -29,7 +29,8 @@
 		"stats": {
 			"defense": 3,
 			"max_hp": 10
-		}
+		},
+		"icon": "res://assets/icons/items/100002.png"
 	},
 	"100003": {
 		"name": "铁靴",
@@ -45,7 +46,8 @@
 		"stats": {
 			"defense": 1,
 			"move_speed": 10
-		}
+		},
+		"icon": "res://assets/icons/items/100003.png"
 	},
 	"100004": {
 		"name": "生命戒指",
@@ -93,7 +95,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"attack": 3
-		}
+		},
+		"icon": "res://assets/icons/items/100006.png"
 	},
 	"100007": {
 		"name": "旅行坐骑",
@@ -108,7 +111,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"move_speed": 15
-		}
+		},
+		"icon": "res://assets/icons/items/100007.png"
 	},
 	"100008": {
 		"name": "星辰神器",
@@ -173,7 +177,8 @@
 		"heal_amount": 0,
 		"stats": {
 			"move_speed": 25
-		}
+		},
+		"icon": "res://assets/icons/items/100011.png"
 	},
 	"100012": {
 		"name": "法师杖",
@@ -219,7 +224,8 @@
 		"stackable": true,
 		"max_count": 99,
 		"heal_amount": 30,
-		"stats": {}
+		"stats": {},
+		"icon": "res://assets/icons/items/100014.png"
 	},
 	"100015": {
 		"name": "解毒剂",
@@ -232,7 +238,8 @@
 		"stackable": true,
 		"max_count": 99,
 		"heal_amount": 0,
-		"stats": {}
+		"stats": {},
+		"icon": "res://assets/icons/items/100015.png"
 	},
 	"100016": {
 		"name": "木材",
@@ -245,7 +252,8 @@
 		"stackable": true,
 		"max_count": 999,
 		"heal_amount": 0,
-		"stats": {}
+		"stats": {},
+		"icon": "res://assets/icons/items/100016.png"
 	},
 	"100017": {
 		"name": "铁矿石",
@@ -300,7 +308,8 @@
 			"attack": 10,
 			"crit_rate": 0.1,
 			"move_speed": 20
-		}
+		},
+		"icon": "res://assets/icons/items/100019.png"
 	},
 	"100020": {
 		"name": "缺页星典",
@@ -371,7 +380,8 @@
 		"stats": {
 			"crit_rate": 0.05,
 			"attack": 3
-		}
+		},
+		"icon": "res://assets/icons/items/100023.png"
 	},
 	"100024": {
 		"name": "月影守门之盾",
@@ -648,7 +658,8 @@
 		"stats": {
 			"attack": 12,
 			"crit_rate": 0.1
-		}
+		},
+		"icon": "res://assets/icons/items/100039.png"
 	},
 	"100040": {
 		"name": "记忆碎片",
@@ -664,7 +675,8 @@
 		"stats": {
 			"max_hp": 40,
 			"skill_haste": 15
-		}
+		},
+		"icon": "res://assets/icons/items/100040.png"
 	},
 	"100041": {
 		"name": "星脉残片",
@@ -714,7 +726,8 @@
 		"stats": {
 			"move_speed": 15,
 			"skill_haste": 18
-		}
+		},
+		"icon": "res://assets/icons/items/100043.png"
 	},
 	"100044": {
 		"name": "铁脊长剑",
@@ -732,7 +745,7 @@
 		"stats": {
 			"attack": 5
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100044.png"
 	},
 	"100045": {
 		"name": "灰堡阔剑",
@@ -877,7 +890,7 @@
 		"stats": {
 			"attack": 35
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100052.png"
 	},
 	"100053": {
 		"name": "星轨猎弓",
@@ -895,7 +908,7 @@
 		"stats": {
 			"attack": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100053.png"
 	},
 	"100054": {
 		"name": "学徒橡木杖",
@@ -949,7 +962,7 @@
 		"stats": {
 			"attack": 18
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100056.png"
 	},
 	"100057": {
 		"name": "秘法棱镜",
@@ -968,7 +981,7 @@
 			"attack": 35,
 			"skill_haste": 21
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100057.png"
 	},
 	"100058": {
 		"name": "深空引星杖",
@@ -986,7 +999,7 @@
 		"stats": {
 			"attack": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100058.png"
 	},
 	"100059": {
 		"name": "旅途木杖",
@@ -1022,7 +1035,7 @@
 		"stats": {
 			"attack": 8
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100060.png"
 	},
 	"100061": {
 		"name": "复苏圣枝",
@@ -1040,7 +1053,7 @@
 		"stats": {
 			"attack": 18
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100061.png"
 	},
 	"100062": {
 		"name": "黎明祷杖",
@@ -1058,7 +1071,7 @@
 		"stats": {
 			"attack": 35
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100062.png"
 	},
 	"100063": {
 		"name": "白昼赦令",
@@ -1191,7 +1204,7 @@
 			"defense": 12,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100069.png"
 	},
 	"100070": {
 		"name": "余烬守心坠",
@@ -1230,7 +1243,7 @@
 			"attack": 16,
 			"crit_rate": 0.34
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100071.png"
 	},
 	"100072": {
 		"name": "星辉罗盘",
@@ -1268,7 +1281,7 @@
 			"max_hp": 75,
 			"skill_haste": 14
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100073.png"
 	},
 	"100074": {
 		"name": "铆铁护手",
@@ -1344,7 +1357,7 @@
 			"defense": 12,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100077.png"
 	},
 	"100078": {
 		"name": "誓约之心",
@@ -1382,7 +1395,7 @@
 			"defense": 18,
 			"max_hp": 70
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100079.png"
 	},
 	"100080": {
 		"name": "抄录者兜帽",
@@ -1439,7 +1452,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100082.png"
 	},
 	"100083": {
 		"name": "静步软靴",
@@ -1458,7 +1471,7 @@
 			"defense": 1,
 			"move_speed": 13
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100083.png"
 	},
 	"100084": {
 		"name": "折光指环",
@@ -1477,7 +1490,7 @@
 			"attack": 9,
 			"crit_rate": 0.19999999999999998
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100084.png"
 	},
 	"100085": {
 		"name": "深渊低语书",
@@ -1572,7 +1585,7 @@
 			"defense": 2,
 			"move_speed": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100089.png"
 	},
 	"100090": {
 		"name": "鹰眼指环",
@@ -1591,7 +1604,7 @@
 			"attack": 9,
 			"crit_rate": 0.19999999999999998
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100090.png"
 	},
 	"100091": {
 		"name": "渊牙箭袋",
@@ -1610,7 +1623,7 @@
 			"max_hp": 60,
 			"skill_haste": 15
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100091.png"
 	},
 	"100092": {
 		"name": "行旅披肩",
@@ -1686,7 +1699,7 @@
 			"defense": 2,
 			"move_speed": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100095.png"
 	},
 	"100096": {
 		"name": "庇护垂饰",
@@ -1743,7 +1756,7 @@
 		"stats": {
 			"attack": 5
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100098.png"
 	},
 	"100099": {
 		"name": "双牙短刃",
@@ -1761,7 +1774,7 @@
 		"stats": {
 			"attack": 8
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100099.png"
 	},
 	"100100": {
 		"name": "夜缝面罩",
@@ -1780,7 +1793,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100100.png"
 	},
 	"100101": {
 		"name": "影行短衣",
@@ -1799,7 +1812,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100101.png"
 	},
 	"100102": {
 		"name": "无声丝手",
@@ -1818,7 +1831,7 @@
 			"defense": 5,
 			"max_hp": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100102.png"
 	},
 	"100103": {
 		"name": "暮色软靴",
@@ -1837,7 +1850,7 @@
 			"defense": 2,
 			"move_speed": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100103.png"
 	},
 	"100104": {
 		"name": "毒牙指环",
@@ -1856,7 +1869,7 @@
 			"attack": 9,
 			"crit_rate": 0.19999999999999998
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100104.png"
 	},
 	"100105": {
 		"name": "处决手弩",
@@ -1874,7 +1887,7 @@
 		"stats": {
 			"attack": 18
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100105.png"
 	},
 	"100106": {
 		"name": "静钟烟匣",
@@ -1893,7 +1906,7 @@
 			"max_hp": 60,
 			"skill_haste": 13
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100106.png"
 	},
 	"100107": {
 		"name": "无影核心",
@@ -1912,7 +1925,7 @@
 			"attack": 35,
 			"skill_haste": 21
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100107.png"
 	},
 	"100108": {
 		"name": "星痕折刃",
@@ -1930,7 +1943,7 @@
 		"stats": {
 			"attack": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100108.png"
 	},
 	"100109": {
 		"name": "渊噬断刃",
@@ -1948,7 +1961,7 @@
 		"stats": {
 			"attack": 32
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100109.png"
 	},
 	"100110": {
 		"name": "裁罪银刃",
@@ -1966,7 +1979,7 @@
 		"stats": {
 			"attack": 28
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100110.png"
 	},
 	"100111": {
 		"name": "旅契薄册",
@@ -1985,7 +1998,7 @@
 			"max_hp": 10,
 			"skill_haste": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100111.png"
 	},
 	"100112": {
 		"name": "黄铜引灵铃",
@@ -2003,7 +2016,7 @@
 		"stats": {
 			"attack": 8
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100112.png"
 	},
 	"100113": {
 		"name": "结印额环",
@@ -2022,7 +2035,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100113.png"
 	},
 	"100114": {
 		"name": "缚灵长衣",
@@ -2041,7 +2054,7 @@
 			"defense": 8,
 			"max_hp": 30
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100114.png"
 	},
 	"100115": {
 		"name": "织符手套",
@@ -2060,7 +2073,7 @@
 			"defense": 12,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100115.png"
 	},
 	"100116": {
 		"name": "回声软靴",
@@ -2079,7 +2092,7 @@
 			"defense": 1,
 			"move_speed": 13
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100116.png"
 	},
 	"100117": {
 		"name": "灵契垂饰",
@@ -2099,7 +2112,7 @@
 			"defense": 6,
 			"max_hp": 45
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100117.png"
 	},
 	"100118": {
 		"name": "机巧灵核",
@@ -2118,7 +2131,7 @@
 			"attack": 18,
 			"skill_haste": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100118.png"
 	},
 	"100119": {
 		"name": "百灵契卷",
@@ -2137,7 +2150,7 @@
 			"max_hp": 60,
 			"skill_haste": 13
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100119.png"
 	},
 	"100120": {
 		"name": "万象灵笼",
@@ -2156,7 +2169,7 @@
 			"attack": 35,
 			"skill_haste": 21
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100120.png"
 	},
 	"100121": {
 		"name": "星门罗盘",
@@ -2175,7 +2188,7 @@
 			"attack": 30,
 			"skill_haste": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100121.png"
 	},
 	"100122": {
 		"name": "渊胎核心",
@@ -2194,7 +2207,7 @@
 			"attack": 32,
 			"skill_haste": 20
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100122.png"
 	},
 	"100123": {
 		"name": "圣契鸣钟",
@@ -2212,7 +2225,7 @@
 		"stats": {
 			"attack": 28
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100123.png"
 	},
 	"100124": {
 		"name": "边境铜币",
@@ -2228,7 +2241,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100124.png"
 	},
 	"100125": {
 		"name": "星砂",
@@ -2244,7 +2257,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100125.png"
 	},
 	"100126": {
 		"name": "深渊残屑",
@@ -2260,7 +2273,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100126.png"
 	},
 	"100127": {
 		"name": "圣印徽记",
@@ -2276,7 +2289,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100127.png"
 	},
 	"100128": {
 		"name": "粗铁矿",
@@ -2292,7 +2305,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100128.png"
 	},
 	"100129": {
 		"name": "韧皮",
@@ -2308,7 +2321,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100129.png"
 	},
 	"100130": {
 		"name": "松脂",
@@ -2324,7 +2337,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100130.png"
 	},
 	"100131": {
 		"name": "蓝晶矿",
@@ -2340,7 +2353,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100131.png"
 	},
 	"100132": {
 		"name": "月纹布",
@@ -2356,7 +2369,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100132.png"
 	},
 	"100133": {
 		"name": "余烬核心",
@@ -2372,7 +2385,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100133.png"
 	},
 	"100134": {
 		"name": "星银锭",
@@ -2388,7 +2401,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100134.png"
 	},
 	"100135": {
 		"name": "净光棱晶",
@@ -2420,7 +2433,7 @@
 		"max_count": 99,
 		"heal_amount": 30,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100136.png"
 	},
 	"100137": {
 		"name": "旅者干粮",
@@ -2436,7 +2449,7 @@
 		"max_count": 99,
 		"heal_amount": 15,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100137.png"
 	},
 	"100138": {
 		"name": "专注药剂",
@@ -2452,7 +2465,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100138.png"
 	},
 	"100139": {
 		"name": "解咒粉",
@@ -2468,7 +2481,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100139.png"
 	},
 	"100140": {
 		"name": "木纹宝箱",
@@ -2484,7 +2497,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100140.png"
 	},
 	"100141": {
 		"name": "符文钥匙",
@@ -2500,7 +2513,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100141.png"
 	},
 	"100142": {
 		"name": "裂隙罗盘",
@@ -2538,7 +2551,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100143.png"
 	},
 	"100144": {
 		"name": "兽骨片",
@@ -2554,7 +2567,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100144.png"
 	},
 	"100145": {
 		"name": "锐爪",
@@ -2698,7 +2711,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100153.png"
 	},
 	"100154": {
 		"name": "深渊甲片",
@@ -2762,7 +2775,7 @@
 		"max_count": 99,
 		"heal_amount": 80,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100157.png"
 	},
 	"100158": {
 		"name": "铁肤药",
@@ -2810,7 +2823,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100160.png"
 	},
 	"100161": {
 		"name": "守护熏香",
@@ -2890,7 +2903,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100165.png"
 	},
 	"100166": {
 		"name": "冻裂罐",
