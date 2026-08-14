@@ -2,6 +2,26 @@ extends SceneTree
 
 const RAW_SCENE_FILE := "map_stitch_godot.tscn"
 const RAW_JSON_FILE := "map_stitch_godot.json"
+const RAW_SCENE_SUFFIX := "_godot.tscn"
+const RAW_JSON_SUFFIX := "_godot.json"
+
+
+# 新版导出包文件名跟随导出名称（<名称>_godot.tscn/json）；按后缀查找，回退旧固定名
+static func _find_packaged_file(source_dir: String, suffix: String, fallback_name: String) -> String:
+	var direct := source_dir.path_join(fallback_name)
+	if FileAccess.file_exists(direct):
+		return direct
+	var dir := DirAccess.open(source_dir)
+	if dir != null:
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir() and file_name.ends_with(suffix):
+				dir.list_dir_end()
+				return source_dir.path_join(file_name)
+			file_name = dir.get_next()
+		dir.list_dir_end()
+	return direct
 
 
 func _init() -> void:
@@ -65,8 +85,8 @@ func _import_world(options: Dictionary) -> int:
 	var output_scene: String = options["output_scene"]
 	var root_name: String = options["root_name"]
 
-	var raw_scene_path := source_dir.path_join(RAW_SCENE_FILE)
-	var raw_json_path := source_dir.path_join(RAW_JSON_FILE)
+	var raw_scene_path := _find_packaged_file(source_dir, RAW_SCENE_SUFFIX, RAW_SCENE_FILE)
+	var raw_json_path := _find_packaged_file(source_dir, RAW_JSON_SUFFIX, RAW_JSON_FILE)
 
 	if not FileAccess.file_exists(raw_scene_path):
 		push_error("Missing raw scene: %s" % raw_scene_path)
@@ -92,7 +112,7 @@ func _import_world(options: Dictionary) -> int:
 		or int(json.data.get("version", 0)) != 2
 		or str(json.data.get("profile", "")) != "side_scroller_battle"
 	):
-		push_error("Only map_stitch_godot.json v2 side_scroller_battle packages are accepted")
+		push_error("Only *_godot.json v2 side_scroller_battle packages are accepted")
 		return ERR_INVALID_DATA
 
 	var root := Node2D.new()

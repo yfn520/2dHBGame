@@ -1004,8 +1004,8 @@
 			"q1001_ready_greeting": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "对话结束。",
-				"text_template": "对话结束。",
+				"text": "三张伤情牌还压在我这儿。东门外的事做完记得回来——回来，也算在任务里。",
+				"text_template": "三张伤情牌还压在我这儿。东门外的事做完记得回来——回来，也算在任务里。",
 				"next_id": "q1001_ready_choice",
 				"default_next": "",
 				"choices": [],
@@ -1232,8 +1232,8 @@
 			"q1003_ready_greeting": {
 				"type": "line",
 				"speaker": "柏婶",
-				"text": "对话结束。",
-				"text_template": "对话结束。",
+				"text": "桑叔托人捎话来：粮种一粒没撒，全进了育苗棚。先坐下，粥凉了我再热。",
+				"text_template": "桑叔托人捎话来：粮种一粒没撒，全进了育苗棚。先坐下，粥凉了我再热。",
 				"next_id": "q1003_ready_choice",
 				"default_next": "",
 				"choices": [],
@@ -4091,8 +4091,8 @@
 			"q1016_ready_greeting": {
 				"type": "line",
 				"speaker": "十七号",
-				"text": "对话结束。",
-				"text_template": "对话结束。",
+				"text": "离校登记：完成。灯已关。可以回家。",
+				"text_template": "离校登记：完成。灯已关。可以回家。",
 				"next_id": "q1016_ready_choice",
 				"default_next": "",
 				"choices": [],
@@ -7979,8 +7979,8 @@
 			"q1030_ready_greeting": {
 				"type": "line",
 				"speaker": "诺瓦",
-				"text": "对话结束。",
-				"text_template": "对话结束。",
+				"text": "（统领夜岗牌沉默着。名字还在，人没能回来。）",
+				"text_template": "（统领夜岗牌沉默着。名字还在，人没能回来。）",
 				"next_id": "q1030_ready_choice",
 				"default_next": "",
 				"choices": [],

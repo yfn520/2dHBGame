@@ -164,11 +164,28 @@ func _on_level_unloaded(_level_id: int) -> void:
 
 func _spawn_level_enemies(level_id: int) -> void:
 	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
-	var spawns: Array = level_cfg.get("enemies", [])
-	spawns.append_array(_world_content_spawner.get_enemy_spawns(level_id))
+	var spawns: Array = []
+	var index := 0
+	for value in level_cfg.get("enemies", []):
+		if value is Dictionary:
+			spawns.append(_tag_spawn_key(value, level_id, "s", index))
+			index += 1
+	index = 0
+	for value in _world_content_spawner.get_enemy_spawns(level_id):
+		if value is Dictionary:
+			spawns.append(_tag_spawn_key(value, level_id, "d", index))
+			index += 1
 	if spawns.is_empty():
 		return
 	_enemy_spawner.spawn_enemies_for_level(spawns)
+
+
+## 给生成条目打上稳定 spawn 标识：静态配置与动态内容分命名空间，
+## 优先用数据里的 spawn_id，缺失时退回条目下标（静态顺序稳定，动态条目均配有 spawn_id）。
+func _tag_spawn_key(entry: Dictionary, level_id: int, source: String, index: int) -> Dictionary:
+	var result := entry.duplicate(true)
+	result["spawn_key"] = "l%d_%s_%s" % [level_id, source, str(entry.get("spawn_id", "idx%d" % index))]
+	return result
 
 
 func _spawn_level_npcs(level_id: int) -> void:

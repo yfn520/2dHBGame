@@ -40,14 +40,16 @@ func _get_scene(enemy_id: int) -> PackedScene:
 	return scene
 
 
-## 在指定位置生成怪物
-func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
+## 在指定位置生成怪物；spawn_key 非空时记录到实例上，击杀时用于持久化
+func spawn_enemy(enemy_id: int, pos: Vector2, spawn_key := "") -> Node:
 	var scene := _get_scene(enemy_id)
 	if scene == null:
 		return null
 
 	var enemy := scene.instantiate()
 	enemy.global_position = pos
+	if not spawn_key.is_empty():
+		enemy.set_meta("spawn_key", spawn_key)
 	_spawn_container.add_child(enemy)
 
 	if enemy.has_method("init_from_config"):
@@ -65,6 +67,7 @@ func spawn_enemy(enemy_id: int, pos: Vector2) -> Node:
 ##   point: {mode:"point", enemy_id, x, y} 单怪点，绝不随机偏移
 ##   group: {mode:"group", enemy_id, x, y, count, scatter_x} 中心点 + X 轴散布
 ## 旧记录（无 mode）按 count 推断：count<=1 视为 point，count>1 视为 group（scatter_x 默认 20）。
+## 带 spawn_key 的记录按已击杀数过滤：单怪杀过跳过，群怪只补剩余只数。
 func spawn_enemies_for_level(spawns: Array) -> void:
 	for spawn_data in spawns:
 		if not spawn_data is Dictionary:
@@ -77,16 +80,20 @@ func spawn_enemies_for_level(spawns: Array) -> void:
 		)
 		var mode := str(entry.get("mode", ""))
 		var count := int(entry.get("count", 1))
+		var spawn_key := str(entry.get("spawn_key", ""))
+		var killed := _get_kill_count(spawn_key)
 		if mode.is_empty():
 			mode = "group" if count > 1 else "point"
 		if mode == "point":
-			spawn_enemy(enemy_id, pos)
+			if killed >= 1:
+				continue
+			spawn_enemy(enemy_id, pos, spawn_key)
 		else:
 			var scatter_x := float(entry.get("scatter_x", 20.0))
-			var actual_count := maxi(1, count)
+			var actual_count := maxi(0, maxi(1, count) - killed)
 			for _i in range(actual_count):
 				var offset_x: float = randf_range(-scatter_x, scatter_x)
-				spawn_enemy(enemy_id, pos + Vector2(offset_x, 0))
+				spawn_enemy(enemy_id, pos + Vector2(offset_x, 0), spawn_key)
 
 
 ## 清除所有怪物
@@ -114,8 +121,27 @@ func _on_enemy_removed(enemy: Node) -> void:
 
 
 func _on_enemy_defeated(enemy_id: int, _enemy: Node = null) -> void:
+	_record_kill(_enemy)
 	_grant_drops(enemy_id)
 	enemy_defeated.emit(enemy_id)
+
+
+## 已击杀数持久化在 world_state.flags（enemy_kills:<spawn_key> → int），随存档保存；
+## 无 spawn_key 的敌人（如调试生成）不记录，行为与之前一致。
+func _get_kill_count(spawn_key: String) -> int:
+	if spawn_key.is_empty() or GameRegistry.quest_state == null:
+		return 0
+	return int(GameRegistry.quest_state.get_flag("enemy_kills:%s" % spawn_key, 0))
+
+
+func _record_kill(enemy: Node) -> void:
+	if enemy == null or not is_instance_valid(enemy) or not enemy.has_meta("spawn_key"):
+		return
+	if GameRegistry.quest_state == null:
+		return
+	var spawn_key := str(enemy.get_meta("spawn_key"))
+	GameRegistry.quest_state.set_flag("enemy_kills:%s" % spawn_key, _get_kill_count(spawn_key) + 1)
+	GameRegistry.save_game()
 
 
 func _grant_drops(enemy_id: int) -> void:

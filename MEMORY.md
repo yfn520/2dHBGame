@@ -11,6 +11,7 @@
 
 ## Decisions
 
+- Enemy kill state persists across level switches and saves, mirroring the pickup `world_content:<id>` pattern: each spawn entry gets a stable `spawn_key` (`l<level_id>_s_<spawn_id>` for static levels.json entries, `l<level_id>_d_<spawn_id>` for runtime_world_content entries), kills are counted in the `enemy_kills:<spawn_key>` flag, and spawning skips killed singles / only tops up groups to their remaining count. Boss mid-fight HP is not persisted by design.
 - Skill VFX authoring uses one exchange contract: `assets/skill_fx/<bundle_id>/skill_fx_bundle.json`. The web tool may create packages but never writes `skills.json`; the Godot Skill Sequence Editor is the only importer.
 - A VFX plan may trigger only from `skill_start`, a real action event, a real hit-window start, or a real skill-node index. Package paths must remain inside their own bundle and all references are rejected before export/import when stale.
 - Imported `play_effect` nodes carry `source_bundle_id` and `source_track_id`. Import first removes nodes from the previously active generated package and then inserts the selected package, so one skill has one active VFX package and repeated imports stay idempotent.

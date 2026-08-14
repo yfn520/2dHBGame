@@ -8,8 +8,8 @@ Convert a raw stitched world package under `res://world/stitched/<name>/` into a
 
 The source directory must contain:
 
-- `map_stitch_godot.tscn`
-- `map_stitch_godot.json`
+- `<name>_godot.tscn`（旧包为固定名 `map_stitch_godot.tscn`，按 `_godot.tscn` 后缀自动识别）
+- `<name>_godot.json`（旧包为固定名 `map_stitch_godot.json`，按 `_godot.json` 后缀自动识别）
 - `images/`
 
 Example:

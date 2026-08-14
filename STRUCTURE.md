@@ -26,7 +26,7 @@ The web `AI 技能特效导演` reads `data/skills.json`, the selected actor man
 
 - `level_manager.gd`: level loading/unloading, player teleportation, reload support.
 - `save_manager.gd`: JSON save/load to user://.
-- `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`).
+- `enemy_spawner.gd`: loads enemy prefabs from `<asset>/godot/<asset-folder>.tscn` (for example `slimu/godot/slimu.tscn`). Kill counts are persisted per spawn entry (`enemy_kills:<spawn_key>` in world_state.flags) and filtered at spawn time, so killed enemies never respawn.
 - `party_manager.gd`: exposes the playable lineup as `Array[int]`, instantiates all lineup members, switches the active controller, and keeps inactive members in simple follow/assist AI.
 - `enemy.gd`: single-platform AI uses horizontal distance; `attack_range` is the preferred stopping distance, while each skill's `range` controls selection during pursuit.
 - `npc_spawner.gd`: spawns only validated `NpcPlacementConfig` records, skips invalid definitions, and retains errors for failed instance IDs.
@@ -115,6 +115,7 @@ Step 6 sends only the NPC profile and selected target/reward display names to AI
 - Player must be in "player" group for portal detection
 - Character import generates every character prefab and never rewrites `player.tscn`; lineup selection belongs to `PartyManager`.
 - Runtime party selection is prototype-authoritative from `player.tscn` so editor lineup changes override old local save lineup IDs while preserving character progress.
+- Enemy kills persist like pickups: `game_root._spawn_level_enemies` tags every spawn entry with a stable `spawn_key` (`l<level_id>_s|d_<spawn_id>`), `EnemySpawner` stores it as instance meta, increments the `enemy_kills:<spawn_key>` int flag in world_state.flags on defeat (saving immediately), and spawns only `count - killed` remaining enemies. Boss mid-fight HP is intentionally not persisted.
 - A playable character's authored foot point is normalized to the bottom center of its body collision inside its own prefab.
 - Character `actor_scale` is read from `data/characters.json` at runtime and scales the prefab visual root, body collision, hurt box, and hit boxes together.
 - Keyboard polling is used for now so the prototype works without setting up an input map.

@@ -9,14 +9,15 @@ extends RefCounted
 ## 3. 生成关卡场景 res://scenes/<map_name>.tscn（Node2D + Map instance + PlayerSpawn）
 ## 4. 追加到 res://data/levels.json
 ##
-## 不重写 map_stitch_godot.tscn 内的相对路径（./images/xxx.png），
-## 解压到 <map_name>/ 后 Godot 按场景文件所在目录自动解析。
+## 包内文件名跟随导出名称（<名称>_godot.tscn / <名称>_godot.json / <名称>_runtime.gd），
+## 旧固定名（map_stitch_godot.tscn 等）因后缀一致同样可导入。
+## 不重写 tscn 内的相对路径（./images/xxx.png），解压到 <map_name>/ 后 Godot 按场景文件所在目录自动解析。
 
 const SCENES_DIR := "res://scenes"
 const LEVELS_PATH := "res://data/levels.json"
-const MAP_SCENE_FILE := "map_stitch_godot.tscn"
-const MAP_JSON_FILE := "map_stitch_godot.json"
-const MAP_RUNTIME_FILE := "map_stitch_runtime.gd"
+const MAP_SCENE_SUFFIX := "_godot.tscn"
+const MAP_JSON_SUFFIX := "_godot.json"
+const MAP_RUNTIME_SUFFIX := "_runtime.gd"
 
 
 static func import_zip(zip_path: String) -> Dictionary:
@@ -37,6 +38,8 @@ static func import_zip(zip_path: String) -> Dictionary:
 	# 校验 + 收集要写入的文件
 	var has_scene := false
 	var has_json := false
+	var has_runtime := false
+	var scene_entry := ""
 	var manifest_entry := ""
 	var normalized_files: Array[String] = []
 	for entry in source_files:
@@ -46,14 +49,17 @@ static func import_zip(zip_path: String) -> Dictionary:
 		if not _is_safe_archive_path(p):
 			reader.close()
 			return _failure("ZIP 包含不安全路径，已取消导入：%s" % entry)
-		if p == MAP_SCENE_FILE:
+		if p.ends_with(MAP_SCENE_SUFFIX):
 			has_scene = true
-		if p == MAP_JSON_FILE:
+			scene_entry = p
+		if p.ends_with(MAP_JSON_SUFFIX):
 			has_json = true
 			manifest_entry = String(entry)
+		if p.ends_with(MAP_RUNTIME_SUFFIX):
+			has_runtime = true
 		normalized_files.append(p)
 
-	if not has_scene or not has_json or not normalized_files.has(MAP_RUNTIME_FILE):
+	if not has_scene or not has_json or not has_runtime:
 		reader.close()
 		return _failure("不是有效的 GameTool v2 地图包：缺少场景、清单或线性 mipmap 运行脚本")
 
@@ -61,7 +67,7 @@ static func import_zip(zip_path: String) -> Dictionary:
 	var manifest_parse_error := manifest_json.parse(reader.read_file(manifest_entry).get_string_from_utf8())
 	if manifest_parse_error != OK or typeof(manifest_json.data) != TYPE_DICTIONARY:
 		reader.close()
-		return _failure("无法解析 %s" % MAP_JSON_FILE)
+		return _failure("无法解析 %s" % manifest_entry)
 	var manifest_validation := _validate_v2_manifest(manifest_json.data, normalized_files)
 	if not bool(manifest_validation.get("ok", false)):
 		reader.close()
@@ -100,19 +106,19 @@ static func import_zip(zip_path: String) -> Dictionary:
 	reader.close()
 
 	# 读 map_stitch_godot.json 算 spawn
-	var json_res := "%s/%s" % [target_dir_res, MAP_JSON_FILE]
+	var json_res := "%s/%s" % [target_dir_res, manifest_entry.replace("\\", "/").trim_prefix("/")]
 	var json_text := FileAccess.get_file_as_string(json_res)
 	var json := JSON.new()
 	var parse_err := json.parse(json_text)
 	if parse_err != OK:
-		return _failure("解析 %s 失败" % MAP_JSON_FILE)
+		return _failure("解析 %s 失败" % json_res)
 	var manifest: Dictionary = json.data
 	var spawn := _get_default_spawn(manifest)
 
 	# 生成关卡场景 res://scenes/<map_name>.tscn
 	var root_name := _to_pascal_case(map_name)
 	var level_scene_res := "%s/%s.tscn" % [SCENES_DIR, map_name]
-	var map_scene_res := "%s/%s" % [target_dir_res, MAP_SCENE_FILE]
+	var map_scene_res := "%s/%s" % [target_dir_res, scene_entry]
 	var tscn := "[gd_scene load_steps=2 format=3]\n\n"
 	tscn += "[ext_resource type=\"PackedScene\" path=\"%s\" id=\"1_map\"]\n\n" % map_scene_res
 	tscn += "[node name=\"%s\" type=\"Node2D\"]\n\n" % root_name
