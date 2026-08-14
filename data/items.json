@@ -2417,7 +2417,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100135.png"
 	},
 	"100136": {
 		"name": "小型治疗药",
@@ -2532,7 +2532,7 @@
 			"attack": 18,
 			"skill_haste": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100142.png"
 	},
 	"100143": {
 		"name": "回响晶片",
@@ -2583,7 +2583,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100145.png"
 	},
 	"100146": {
 		"name": "韧筋束",
@@ -2599,7 +2599,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100146.png"
 	},
 	"100147": {
 		"name": "毒腺囊",
@@ -2615,7 +2615,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100147.png"
 	},
 	"100148": {
 		"name": "甲壳板",
@@ -2631,7 +2631,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100148.png"
 	},
 	"100149": {
 		"name": "古机齿轮",
@@ -2647,7 +2647,7 @@
 		"max_count": 999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100149.png"
 	},
 	"100150": {
 		"name": "暗影腺体",
@@ -2663,7 +2663,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100150.png"
 	},
 	"100151": {
 		"name": "首领心核",
@@ -2679,7 +2679,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100151.png"
 	},
 	"100152": {
 		"name": "回响丝",
@@ -2695,7 +2695,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100152.png"
 	},
 	"100153": {
 		"name": "星脉碎晶",
@@ -2727,7 +2727,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100154.png"
 	},
 	"100155": {
 		"name": "净露结晶",
@@ -2743,7 +2743,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100155.png"
 	},
 	"100156": {
 		"name": "强效治疗药",
@@ -2759,7 +2759,7 @@
 		"max_count": 99,
 		"heal_amount": 60,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100156.png"
 	},
 	"100157": {
 		"name": "再生露",
@@ -2791,7 +2791,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100158.png"
 	},
 	"100159": {
 		"name": "狂战酿",
@@ -2807,7 +2807,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100159.png"
 	},
 	"100160": {
 		"name": "迅行油",
@@ -2839,7 +2839,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100161.png"
 	},
 	"100162": {
 		"name": "解毒剂",
@@ -2855,7 +2855,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100162.png"
 	},
 	"100163": {
 		"name": "清明滴剂",
@@ -2871,7 +2871,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100163.png"
 	},
 	"100164": {
 		"name": "净咒膏",
@@ -2887,7 +2887,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100164.png"
 	},
 	"100165": {
 		"name": "爆焰瓶",
@@ -2919,7 +2919,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100166.png"
 	},
 	"100167": {
 		"name": "雷鸣罐",
@@ -2935,7 +2935,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100167.png"
 	},
 	"100168": {
 		"name": "烟幕弹",
@@ -2951,7 +2951,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100168.png"
 	},
 	"100169": {
 		"name": "诱敌哨",
@@ -2967,7 +2967,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100169.png"
 	},
 	"100170": {
 		"name": "回城羽标",
@@ -2983,7 +2983,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100170.png"
 	},
 	"100171": {
 		"name": "改命骰",
@@ -2999,7 +2999,7 @@
 		"max_count": 99,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100171.png"
 	},
 	"100172": {
 		"name": "裂隙币",
@@ -3015,7 +3015,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100172.png"
 	},
 	"100173": {
 		"name": "远征徽章",
@@ -3031,7 +3031,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100173.png"
 	},
 	"100174": {
 		"name": "锻造券章",
@@ -3047,7 +3047,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100174.png"
 	},
 	"100175": {
 		"name": "守卫勋印",
@@ -3063,7 +3063,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100175.png"
 	},
 	"100176": {
 		"name": "秘法印记",
@@ -3079,7 +3079,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100176.png"
 	},
 	"100177": {
 		"name": "追猎标记",
@@ -3095,7 +3095,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100177.png"
 	},
 	"100178": {
 		"name": "祷告珠",
@@ -3111,7 +3111,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100178.png"
 	},
 	"100179": {
 		"name": "夜刃签",
@@ -3127,7 +3127,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100179.png"
 	},
 	"100180": {
 		"name": "灵契扣",
@@ -3143,7 +3143,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100180.png"
 	},
 	"100181": {
 		"name": "首领冠片",
@@ -3159,7 +3159,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100181.png"
 	},
 	"100182": {
 		"name": "赛季星章",
@@ -3175,7 +3175,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100182.png"
 	},
 	"100183": {
 		"name": "净化圣章",
@@ -3191,7 +3191,7 @@
 		"max_count": 9999,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100183.png"
 	},
 	"100184": {
 		"name": "猛击符文",
@@ -3210,7 +3210,7 @@
 			"max_hp": 10,
 			"attack": 2
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100184.png"
 	},
 	"100185": {
 		"name": "连击符文",
@@ -3229,7 +3229,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100185.png"
 	},
 	"100186": {
 		"name": "穿透符文",
@@ -3248,7 +3248,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100186.png"
 	},
 	"100187": {
 		"name": "回响符文",
@@ -3267,7 +3267,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100187.png"
 	},
 	"100188": {
 		"name": "链雷符文",
@@ -3286,7 +3286,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100188.png"
 	},
 	"100189": {
 		"name": "燃烧符文",
@@ -3305,7 +3305,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100189.png"
 	},
 	"100190": {
 		"name": "冻结符文",
@@ -3324,7 +3324,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100190.png"
 	},
 	"100191": {
 		"name": "守护符文",
@@ -3343,7 +3343,7 @@
 			"max_hp": 10,
 			"attack": 2
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100191.png"
 	},
 	"100192": {
 		"name": "荆棘符文",
@@ -3362,7 +3362,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100192.png"
 	},
 	"100193": {
 		"name": "复苏符文",
@@ -3381,7 +3381,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100193.png"
 	},
 	"100194": {
 		"name": "疾行符文",
@@ -3400,7 +3400,7 @@
 			"max_hp": 20,
 			"attack": 4
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100194.png"
 	},
 	"100195": {
 		"name": "寻宝符文",
@@ -3419,7 +3419,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100195.png"
 	},
 	"100196": {
 		"name": "固阵刻印",
@@ -3438,7 +3438,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100196.png"
 	},
 	"100197": {
 		"name": "多重施法刻印",
@@ -3457,7 +3457,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100197.png"
 	},
 	"100198": {
 		"name": "弱点标记刻印",
@@ -3476,7 +3476,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100198.png"
 	},
 	"100199": {
 		"name": "群灵契印",
@@ -3495,7 +3495,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100199.png"
 	},
 	"100200": {
 		"name": "裂纹沙漏",
@@ -3514,7 +3514,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100200.png"
 	},
 	"100201": {
 		"name": "缺口幸运币",
@@ -3533,7 +3533,7 @@
 			"max_hp": 20,
 			"attack": 4
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100201.png"
 	},
 	"100202": {
 		"name": "余火提灯",
@@ -3552,7 +3552,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100202.png"
 	},
 	"100203": {
 		"name": "旅者折图",
@@ -3571,7 +3571,7 @@
 			"max_hp": 30,
 			"attack": 6
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100203.png"
 	},
 	"100204": {
 		"name": "空杯之誓",
@@ -3590,7 +3590,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100204.png"
 	},
 	"100205": {
 		"name": "双面棋子",
@@ -3609,7 +3609,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100205.png"
 	},
 	"100206": {
 		"name": "倒刺王冠",
@@ -3628,7 +3628,7 @@
 			"max_hp": 60,
 			"attack": 12
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100206.png"
 	},
 	"100207": {
 		"name": "静默铃舌",
@@ -3647,7 +3647,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100207.png"
 	},
 	"100208": {
 		"name": "缝补护符",
@@ -3666,7 +3666,7 @@
 			"max_hp": 20,
 			"attack": 4
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100208.png"
 	},
 	"100209": {
 		"name": "黑蜡烛",
@@ -3685,7 +3685,7 @@
 			"max_hp": 60,
 			"attack": 16
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100209.png"
 	},
 	"100210": {
 		"name": "星轨怀表",
@@ -3704,7 +3704,7 @@
 			"max_hp": 70,
 			"attack": 15
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100210.png"
 	},
 	"100211": {
 		"name": "晨祷烛台",
@@ -3723,7 +3723,7 @@
 			"max_hp": 75,
 			"attack": 14
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100211.png"
 	},
 	"100212": {
 		"name": "猎人断箭",
@@ -3742,7 +3742,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100212.png"
 	},
 	"100213": {
 		"name": "守门旧钥",
@@ -3761,7 +3761,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100213.png"
 	},
 	"100214": {
 		"name": "无字残页",
@@ -3780,7 +3780,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100214.png"
 	},
 	"100215": {
 		"name": "契约空环",
@@ -3799,7 +3799,7 @@
 			"max_hp": 45,
 			"attack": 9
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100215.png"
 	},
 	"100216": {
 		"name": "木制补给箱",
@@ -3815,7 +3815,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100216.png"
 	},
 	"100217": {
 		"name": "加固行囊箱",
@@ -3831,7 +3831,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100217.png"
 	},
 	"100218": {
 		"name": "蓝晶秘箱",
@@ -3847,7 +3847,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100218.png"
 	},
 	"100219": {
 		"name": "秘法藏箱",
@@ -3863,7 +3863,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100219.png"
 	},
 	"100220": {
 		"name": "王城珍藏箱",
@@ -3879,7 +3879,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100220.png"
 	},
 	"100221": {
 		"name": "远古遗宝匣",
@@ -3895,7 +3895,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100221.png"
 	},
 	"100222": {
 		"name": "星门储藏箱",
@@ -3911,7 +3911,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100222.png"
 	},
 	"100223": {
 		"name": "深渊封锁箱",
@@ -3927,7 +3927,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100223.png"
 	},
 	"100224": {
 		"name": "圣藏匣",
@@ -3943,7 +3943,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100224.png"
 	},
 	"100225": {
 		"name": "记忆残页",
@@ -3959,7 +3959,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100225.png"
 	},
 	"100226": {
 		"name": "失效信标",
@@ -3975,7 +3975,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100226.png"
 	},
 	"100227": {
 		"name": "星隙测针",
@@ -3994,7 +3994,7 @@
 			"attack": 12,
 			"skill_haste": 14
 		},
-		"icon": ""
+		"icon": "res://assets/icons/items/100227.png"
 	},
 	"100228": {
 		"name": "营火石",
@@ -4010,7 +4010,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100228.png"
 	},
 	"100229": {
 		"name": "拆解钳",
@@ -4026,7 +4026,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100229.png"
 	},
 	"100230": {
 		"name": "封印钉",
@@ -4042,7 +4042,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100230.png"
 	},
 	"100231": {
 		"name": "首领挑战书",
@@ -4058,7 +4058,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100231.png"
 	},
 	"100232": {
 		"name": "回声瓶",
@@ -4074,7 +4074,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100232.png"
 	},
 	"100233": {
 		"name": "契约名牌",
@@ -4090,7 +4090,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100233.png"
 	},
 	"100234": {
 		"name": "临时契约牌",
@@ -4106,7 +4106,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100234.png"
 	},
 	"100235": {
 		"name": "旧邮袋",
@@ -4122,7 +4122,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100235.png"
 	},
 	"100236": {
 		"name": "十二年前的退件",
@@ -4138,7 +4138,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100236.png"
 	},
 	"100237": {
 		"name": "凝胶记忆膜",
@@ -4154,7 +4154,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100237.png"
 	},
 	"100238": {
 		"name": "木风车",
@@ -4170,7 +4170,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100238.png"
 	},
 	"100239": {
 		"name": "记忆损耗账页",
@@ -4186,7 +4186,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100239.png"
 	},
 	"100240": {
 		"name": "黄色雨衣纽扣",
@@ -4202,7 +4202,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100240.png"
 	},
 	"100241": {
 		"name": "港湾运输证据匣",
@@ -4218,7 +4218,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100241.png"
 	},
 	"100242": {
 		"name": "号手撤离名册",
@@ -4234,7 +4234,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100242.png"
 	},
 	"100243": {
 		"name": "永曜灌注记录",
@@ -4250,7 +4250,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100243.png"
 	},
 	"100244": {
 		"name": "死脉稳定片",
@@ -4266,7 +4266,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100244.png"
 	},
 	"100245": {
 		"name": "灭口证据卷",
@@ -4282,7 +4282,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100245.png"
 	},
 	"100246": {
 		"name": "救援药箱",
@@ -4298,7 +4298,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100246.png"
 	},
 	"100247": {
 		"name": "粮种",
@@ -4314,7 +4314,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100247.png"
 	},
 	"100248": {
 		"name": "信件束",
@@ -4330,7 +4330,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100248.png"
 	},
 	"100249": {
 		"name": "答卷页",
@@ -4346,7 +4346,7 @@
 		"max_count": 3,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100249.png"
 	},
 	"100250": {
 		"name": "点名册缺页",
@@ -4362,7 +4362,7 @@
 		"max_count": 3,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100250.png"
 	},
 	"100251": {
 		"name": "灯塔镜片",
@@ -4378,7 +4378,7 @@
 		"max_count": 3,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100251.png"
 	},
 	"100252": {
 		"name": "绞盘钥匙",
@@ -4394,7 +4394,7 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100252.png"
 	},
 	"100253": {
 		"name": "埃蒙家书",
@@ -4410,6 +4410,6 @@
 		"max_count": 1,
 		"heal_amount": 0,
 		"stats": {},
-		"icon": ""
+		"icon": "res://assets/icons/items/100253.png"
 	}
 }
