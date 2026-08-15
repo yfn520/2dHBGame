@@ -1,0 +1,15 @@
+﻿[gd_scene format=3 uid="uid://bv058qs4nwsgk"]
+
+[ext_resource type="PackedScene" path="res://scenes/yuhuicheng/main_city_godot.tscn" id="1_map"]
+[ext_resource type="Script" uid="uid://plbxwv3blykg" path="res://scenes/yuhuicheng/main_city_runtime.gd" id="2_1id7b"]
+
+[node name="@Node2D@26439" type="Node2D" unique_id=1469042476]
+metadata/profile = "side_scroller_battle"
+metadata/ground_line_y = 743
+
+[node name="Map" type="Node2D" parent="." unique_id=1328447987 instance=ExtResource("1_map")]
+texture_filter = 4
+script = ExtResource("2_1id7b")
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1360952848]
+position = Vector2(184, 700)

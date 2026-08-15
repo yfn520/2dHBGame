@@ -49,6 +49,7 @@ var _scene_edit: LineEdit
 var _scene_browse: Button
 var _spawn_x_spin: SpinBox
 var _spawn_y_spin: SpinBox
+var _ground_line_spin: SpinBox
 var _bgm_edit: LineEdit
 var _desc_edit: TextEdit
 
@@ -480,6 +481,9 @@ func _build_ui() -> void:
 	_spawn_x_spin.value_changed.connect(_on_level_num_changed.bind("spawn_x"))
 	_spawn_y_spin = _add_grid_spin(lvl_props, "出生 Y", -9999.0, 99999.0, 1.0)
 	_spawn_y_spin.value_changed.connect(_on_level_num_changed.bind("spawn_y"))
+	_ground_line_spin = _add_grid_spin(lvl_props, "地面线 Y", 0.0, 864.0, 1.0)
+	_ground_line_spin.value_changed.connect(_on_ground_line_changed)
+	_ground_line_spin.tooltip_text = "地面线高度（像素），影响相机垂直偏移。修改后保存时写入关卡场景文件。"
 	_bgm_edit = _add_grid_line(lvl_props, "BGM")
 	_bgm_edit.text_changed.connect(_on_level_field_changed.bind("bgm"))
 	lvl_props.add_child(_make_label("描述"))
@@ -686,9 +690,26 @@ func _load_level_fields() -> void:
 	_scene_edit.text = String(level.get("scene_path", ""))
 	_spawn_x_spin.value = float(level.get("spawn_x", 0))
 	_spawn_y_spin.value = float(level.get("spawn_y", 0))
+	_ground_line_spin.value = _read_ground_line_from_scene()
 	_bgm_edit.text = String(level.get("bgm", ""))
 	_desc_edit.text = String(level.get("description", ""))
 	_loading = false
+
+
+## 从当前加载的关卡场景根节点读取 ground_line_y meta，回退默认 605。
+func _read_ground_line_from_scene() -> float:
+	if _map_instance != null and is_instance_valid(_map_instance):
+		return float(_map_instance.get_meta("ground_line_y", 605.0))
+	return 605.0
+
+
+## 地面线修改：实时更新场景实例 meta 并刷新标记，保存时写入场景文件。
+func _on_ground_line_changed(value: float) -> void:
+	if _loading or _current_level_id.is_empty():
+		return
+	if _map_instance != null and is_instance_valid(_map_instance):
+		_map_instance.set_meta("ground_line_y", int(value))
+	_refresh_markers()
 
 
 func _on_level_field_changed(field: String, value: String) -> void:
@@ -1206,6 +1227,11 @@ func _load_map_for_current_level() -> void:
 	if is_instance_valid(_markers_node):
 		_world_root.move_child(_markers_node, -1)
 	_status.text = "已加载地图：%s" % scene_path
+	# 场景加载后从 meta 更新地面线 SpinBox
+	if not _current_level_id.is_empty():
+		_loading = true
+		_ground_line_spin.value = _read_ground_line_from_scene()
+		_loading = false
 	# 适应窗口
 	call_deferred("_on_fit_view")
 
@@ -1583,6 +1609,27 @@ func _draw_markers(canvas_item: CanvasItem) -> void:
 		while y <= end_y:
 			canvas_item.draw_line(Vector2(start_x, y), Vector2(end_x, y), grid_color, 1.0 / _zoom)
 			y += GRID_SIZE
+	# 地面线
+	var ground_line_y := _read_ground_line_from_scene()
+	if ground_line_y > 0.0:
+		var visible_world := Rect2(
+			_screen_to_world(Vector2.ZERO),
+			_screen_to_world(_viewport_container.size) - _screen_to_world(Vector2.ZERO)
+		)
+		var gl_color := Color("ff6b6b", 0.7)
+		var gl_w := 2.0 / _zoom
+		canvas_item.draw_line(
+			Vector2(visible_world.position.x, ground_line_y),
+			Vector2(visible_world.end.x, ground_line_y),
+			gl_color, gl_w
+		)
+		# 标签
+		var gl_font := ThemeDB.fallback_font
+		var gl_font_size := maxi(8, int(11.0 / _zoom))
+		var gl_label := "地面线 Y=%d" % int(ground_line_y)
+		for offset in [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]:
+			canvas_item.draw_string(gl_font, Vector2(visible_world.position.x + 4.0 / _zoom, ground_line_y - 4.0 / _zoom) + offset / _zoom, gl_label, HORIZONTAL_ALIGNMENT_LEFT, -1, gl_font_size, Color(0, 0, 0, 0.8))
+		canvas_item.draw_string(gl_font, Vector2(visible_world.position.x + 4.0 / _zoom, ground_line_y - 4.0 / _zoom), gl_label, HORIZONTAL_ALIGNMENT_LEFT, -1, gl_font_size, gl_color)
 	# 玩家出生点
 	var spawn_pos := Vector2(float(level.get("spawn_x", 0)), float(level.get("spawn_y", 0)))
 	_draw_player_spawn_marker(canvas_item, spawn_pos)
@@ -1919,6 +1966,8 @@ func _on_save() -> void:
 		lc.load_config()
 	# 写回 NPC 摆放（选中/拖动/删除后落盘）
 	_save_npc_placements()
+	# 保存地面线到当前关卡场景文件
+	_save_scene_ground_line()
 	var msg := "已保存 levels.json（%d 个关卡）" % data.size()
 	if removed_count > 0:
 		msg += "，清理了 %d 个引用已删除怪物的刷怪点" % removed_count
@@ -1943,6 +1992,35 @@ func _save_npc_placements() -> void:
 	var npc_pc = GameRegistry.get("npc_placement_config") if GameRegistry.get("npc_placement_config") != null else null
 	if npc_pc != null and npc_pc.has_method("load_config"):
 		npc_pc.load_config()
+
+
+## 把当前关卡的地面线写入关卡场景 .tscn 文件的根节点 metadata。
+func _save_scene_ground_line() -> void:
+	if _map_instance == null or not is_instance_valid(_map_instance):
+		return
+	if _current_level_id.is_empty():
+		return
+	var level: Dictionary = _levels.get(_current_level_id, {})
+	var scene_path := String(level.get("scene_path", ""))
+	if scene_path.is_empty() or not ResourceLoader.exists(scene_path):
+		return
+	# 临时恢复 modulate，避免编辑器的透明度设置被写入场景
+	var saved_modulate := Color.WHITE
+	var is_canvas_item := _map_instance is CanvasItem
+	if is_canvas_item:
+		saved_modulate = (_map_instance as CanvasItem).modulate
+		(_map_instance as CanvasItem).modulate = Color.WHITE
+	var packed := PackedScene.new()
+	var pack_err := packed.pack(_map_instance)
+	if is_canvas_item:
+		(_map_instance as CanvasItem).modulate = saved_modulate
+	if pack_err != OK:
+		_status.text = "场景保存失败（pack error: %d）" % pack_err
+		return
+	var save_err := ResourceSaver.save(packed, scene_path)
+	if save_err != OK:
+		_status.text = "场景保存失败（save error: %d）" % save_err
+		return
 
 
 func _on_discard() -> void:

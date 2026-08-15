@@ -1033,8 +1033,8 @@ func _validate_world_manifest_v2(data: Variant) -> String:
 		return "禁止纵向拼接"
 	var composition: Dictionary = data.get("composition", {})
 	var ground_line_y := int(composition.get("ground_line_y", -1))
-	if ground_line_y < 570 or ground_line_y > 639:
-		return "地面线必须位于 570–639px"
+	if ground_line_y < 432 or ground_line_y > 777:
+		return "地面线必须位于 432–777px"
 	var collisions: Dictionary = data.get("collisions", {})
 	if str(collisions.get("mode", "none")) == "none":
 		return "缺少碰撞"

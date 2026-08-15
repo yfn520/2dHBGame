@@ -3,159 +3,159 @@
 		"0": [
 			{
 				"facing": "right",
-				"interaction_radius": 96,
-				"scale": 0.5,
 				"instance_id": "npc_9001_0",
-				"npc_id": 9001,
-				"x": 300,
-				"y": 744
+				"interaction_radius": 96.0,
+				"npc_id": 9001.0,
+				"scale": 0.5,
+				"x": 300.0,
+				"y": 744.0
 			},
 			{
 				"facing": "right",
-				"interaction_radius": 96,
-				"scale": 0.5,
 				"instance_id": "npc_9002_0",
-				"npc_id": 9002,
-				"x": 460,
-				"y": 744
+				"interaction_radius": 96.0,
+				"npc_id": 9002.0,
+				"scale": 0.5,
+				"x": 460.0,
+				"y": 744.0
 			},
 			{
 				"facing": "right",
-				"interaction_radius": 96,
-				"scale": 0.5,
 				"instance_id": "npc_9016_0",
-				"npc_id": 9016,
-				"x": 620,
-				"y": 744
+				"interaction_radius": 96.0,
+				"npc_id": 9016.0,
+				"scale": 0.5,
+				"x": 620.0,
+				"y": 744.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9010_0",
-				"interaction_radius": 96,
-				"npc_id": 9010,
+				"interaction_radius": 96.0,
+				"npc_id": 9010.0,
 				"scale": 0.5,
-				"x": 780,
-				"y": 744
+				"x": 780.0,
+				"y": 744.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9011_0",
-				"interaction_radius": 96,
-				"npc_id": 9011,
+				"interaction_radius": 96.0,
+				"npc_id": 9011.0,
 				"scale": 0.5,
-				"x": 940,
-				"y": 744
+				"x": 940.0,
+				"y": 744.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9012_0",
-				"interaction_radius": 96,
-				"npc_id": 9012,
+				"interaction_radius": 96.0,
+				"npc_id": 9012.0,
 				"scale": 0.5,
-				"x": 1100,
-				"y": 744
+				"x": 1100.0,
+				"y": 744.0
 			}
 		],
 		"1": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9003_1",
-				"interaction_radius": 96,
-				"npc_id": 9003,
+				"interaction_radius": 96.0,
+				"npc_id": 9003.0,
 				"scale": 0.5,
 				"x": 753.859436035156,
-				"y": 744
+				"y": 744.0
 			}
 		],
 		"2": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9004_2",
-				"interaction_radius": 96,
-				"npc_id": 9004,
+				"interaction_radius": 96.0,
+				"npc_id": 9004.0,
 				"scale": 0.5,
-				"x": 500,
-				"y": 724
+				"x": 500.0,
+				"y": 724.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9013_2",
-				"interaction_radius": 96,
-				"npc_id": 9013,
+				"interaction_radius": 96.0,
+				"npc_id": 9013.0,
 				"scale": 0.5,
 				"x": 815.238159179688,
-				"y": 724
+				"y": 724.0
 			}
 		],
 		"3": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9005_3",
-				"interaction_radius": 96,
-				"npc_id": 9005,
+				"interaction_radius": 96.0,
+				"npc_id": 9005.0,
 				"scale": 0.5,
-				"x": 500,
-				"y": 724
+				"x": 500.0,
+				"y": 724.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9014_3",
-				"interaction_radius": 96,
-				"npc_id": 9014,
+				"interaction_radius": 96.0,
+				"npc_id": 9014.0,
 				"scale": 0.5,
 				"x": 683.870971679688,
-				"y": 724
+				"y": 724.0
 			}
 		],
 		"4": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9006_4",
-				"interaction_radius": 96,
-				"npc_id": 9006,
+				"interaction_radius": 96.0,
+				"npc_id": 9006.0,
 				"scale": 0.5,
 				"x": 261.431488037109,
-				"y": 736
+				"y": 736.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9007_4",
-				"interaction_radius": 96,
-				"npc_id": 9007,
+				"interaction_radius": 96.0,
+				"npc_id": 9007.0,
 				"scale": 0.5,
 				"x": 1040.09814453125,
-				"y": 736
+				"y": 736.0
 			},
 			{
 				"facing": "right",
 				"instance_id": "npc_9015_4",
-				"interaction_radius": 96,
-				"npc_id": 9015,
+				"interaction_radius": 96.0,
+				"npc_id": 9015.0,
 				"scale": 0.5,
 				"x": 692.574462890625,
-				"y": 736
+				"y": 736.0
 			}
 		],
 		"5": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9008_5",
-				"interaction_radius": 96,
-				"npc_id": 9008,
+				"interaction_radius": 96.0,
+				"npc_id": 9008.0,
 				"scale": 0.5,
-				"x": 500,
-				"y": 620
+				"x": 500.0,
+				"y": 620.0
 			}
 		],
 		"6": [
 			{
 				"facing": "right",
 				"instance_id": "npc_9009_6",
-				"interaction_radius": 96,
-				"npc_id": 9009,
+				"interaction_radius": 96.0,
+				"npc_id": 9009.0,
 				"scale": 0.5,
-				"x": 500,
-				"y": 536
+				"x": 500.0,
+				"y": 536.0
 			}
 		]
 	},

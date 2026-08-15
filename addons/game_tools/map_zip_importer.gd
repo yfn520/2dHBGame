@@ -211,8 +211,8 @@ static func _validate_v2_manifest(data: Dictionary, archive_files: Array[String]
 	var composition: Dictionary = data.get("composition", {})
 	var ground_line_y := int(composition.get("ground_line_y", -1))
 	var ground_ratio := float(composition.get("ground_ratio", -1.0))
-	if ground_line_y < 570 or ground_line_y > 639:
-		return _failure("地面线越界：必须位于 570–639px")
+	if ground_line_y < 432 or ground_line_y > 777:
+		return _failure("地面线越界：必须位于 432–777px")
 	if absf(ground_ratio - float(ground_line_y) / 864.0) > 0.01:
 		return _failure("ground_ratio 与 ground_line_y 不一致")
 
@@ -237,11 +237,32 @@ static func _validate_v2_manifest(data: Dictionary, archive_files: Array[String]
 
 	var overlap: Dictionary = data.get("overlap", {})
 	var horizontal_overlap := float(overlap.get("horizontal_percent", 15.0))
-	if tile_count > 1 and (horizontal_overlap < 12.0 or horizontal_overlap > 18.0):
-		return _failure("横向重叠必须位于 12%–18%")
+	# 新版导出支持左右分开的重叠（horizontal_percent_left/right）；旧包只有 horizontal_percent
+	var has_split_overlap: bool = overlap.has("horizontal_percent_left") or overlap.has("horizontal_percent_right")
+	var overlap_left := float(overlap.get("horizontal_percent_left", horizontal_overlap))
+	var overlap_right := float(overlap.get("horizontal_percent_right", horizontal_overlap))
+	if tile_count > 1:
+		if has_split_overlap:
+			if overlap_left < 12.0 or overlap_left > 18.0 or overlap_right < 12.0 or overlap_right > 18.0:
+				return _failure("横向重叠必须位于 12%–18%")
+		elif horizontal_overlap < 12.0 or horizontal_overlap > 18.0:
+			return _failure("横向重叠必须位于 12%–18%")
 	if not is_zero_approx(float(overlap.get("vertical_percent", 0.0))):
 		return _failure("禁止战斗地图纵向拼接")
-	var expected_canvas_width := roundi(1536.0 * (tile_count - float(tile_count - 1) * horizontal_overlap / 100.0))
+	var expected_canvas_width := 0
+	if has_split_overlap:
+		# 期望画布宽 = 1536 × (1 + 各拼接缝步进之和)，步进 = 1 - 该侧重叠
+		var layout_info: Dictionary = data.get("layout", {})
+		var layout_direction := str(layout_info.get("direction", "both"))
+		var step_sum := 0.0
+		if tile_count > 1:
+			if tile_count > 2 or layout_direction == "left":
+				step_sum += 1.0 - overlap_left / 100.0
+			if tile_count > 2 or layout_direction == "right":
+				step_sum += 1.0 - overlap_right / 100.0
+		expected_canvas_width = roundi(1536.0 * (1.0 + step_sum))
+	else:
+		expected_canvas_width = roundi(1536.0 * (tile_count - float(tile_count - 1) * horizontal_overlap / 100.0))
 	if absi(int(canvas.get("width", 0)) - expected_canvas_width) > 2:
 		return _failure("画布宽度与块数/重叠比例不一致")
 

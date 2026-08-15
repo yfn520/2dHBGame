@@ -136,8 +136,8 @@ func _apply_camera_limits(level_instance: Node) -> void:
 	)
 	_current_ground_line_y = clampf(
 		float(level_instance.get_meta("ground_line_y", 605.0)),
-		570.0,
-		639.0
+		432.0,
+		777.0
 	)
 	_has_current_level_bounds = true
 	_apply_camera_bounds(_current_level_bounds, _current_ground_line_y)

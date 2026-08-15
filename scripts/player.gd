@@ -89,7 +89,7 @@ func configure_level_camera(_level_bounds: Rect2, ground_line_y: float = 605.0) 
 	if camera == null:
 		return
 	camera.zoom = Vector2.ONE
-	_camera_vertical_offset = LEVEL_SIZE.y * 0.5 - clampf(ground_line_y, 570.0, 639.0)
+	_camera_vertical_offset = LEVEL_SIZE.y * 0.5 - clampf(ground_line_y, 432.0, 777.0)
 	_camera_base_position.y = _camera_vertical_offset
 	camera.position = Vector2(_camera_base_position.x, _camera_vertical_offset)
 	camera.limit_smoothed = true
