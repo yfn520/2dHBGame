@@ -504,6 +504,8 @@ func _build_ui() -> void:
 	npc_box.add_child(npc_props)
 	_npc_scale_spin = _add_grid_spin(npc_props, "缩放", 0.1, 4.0, 0.05)
 	_npc_scale_spin.value_changed.connect(_on_npc_scale_changed)
+	var reset_npc_y_btn := _add_btn(npc_box, "重置 NPC 脚点 Y 到地面线", _on_reset_npc_y)
+	reset_npc_y_btn.tooltip_text = "把当前关卡所有 NPC 摆放的 Y 坐标设为地面线（脚点贴地），X 保持不变；保存时写回 npc_placements.json。"
 	npc_box.add_child(_make_label("点击地图上的 NPC 可拖动位置；", 12))
 	npc_box.add_child(_make_label("缩放改动实时生效，保存时写回 npc_placements.json。", 12))
 
@@ -1035,6 +1037,31 @@ func _on_npc_scale_changed(value: float) -> void:
 			break
 	_npc_placements[_current_level_id] = npc_entries
 	_refresh_markers()
+
+
+## 重置当前关卡所有 NPC 的脚点 Y 到地面线（X 保持不变），保存时写回 npc_placements.json。
+func _on_reset_npc_y() -> void:
+	if _current_level_id.is_empty():
+		_status.text = "请先选择关卡"
+		return
+	var ground_y := _read_ground_line_from_scene()
+	if ground_y <= 0.0:
+		_status.text = "当前关卡场景未配置地面线"
+		return
+	var npc_entries: Array = _npc_placements.get(_current_level_id, [])
+	var count := 0
+	for i in range(npc_entries.size()):
+		if not npc_entries[i] is Dictionary:
+			continue
+		var entry: Dictionary = npc_entries[i]
+		entry["y"] = float(ground_y)
+		count += 1
+	if count == 0:
+		_status.text = "当前关卡没有 NPC 摆放"
+		return
+	_npc_placements[_current_level_id] = npc_entries
+	_refresh_markers()
+	_status.text = "已把 %d 个 NPC 的脚点 Y 重置到地面线 %d（保存时落盘）" % [count, int(ground_y)]
 
 
 func _on_duplicate_spawn() -> void:

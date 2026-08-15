@@ -1,9 +1,9 @@
-﻿[gd_scene format=3 uid="uid://bv058qs4nwsgk"]
+[gd_scene format=3 uid="uid://b14ugmwl37510"]
 
 [ext_resource type="PackedScene" path="res://scenes/yuhuicheng/main_city_godot.tscn" id="1_map"]
 [ext_resource type="Script" uid="uid://plbxwv3blykg" path="res://scenes/yuhuicheng/main_city_runtime.gd" id="2_1id7b"]
 
-[node name="@Node2D@26439" type="Node2D" unique_id=1469042476]
+[node name="_Node2D_26439" type="Node2D" unique_id=1469042476]
 metadata/profile = "side_scroller_battle"
 metadata/ground_line_y = 743
 

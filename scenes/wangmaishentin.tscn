@@ -1,12 +1,15 @@
-﻿[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bqku4jc7x1ho6"]
 
 [ext_resource type="PackedScene" path="res://scenes/wangmaishentin/wangmaishentin_godot.tscn" id="1_map"]
+[ext_resource type="Script" uid="uid://bruqsxp5t1w0w" path="res://scenes/wangmaishentin/wangmaishentin_runtime.gd" id="2_ut4vv"]
 
-[node name="Wangmai" type="Node2D"]
+[node name="Wangmai" type="Node2D" unique_id=900731429]
 metadata/profile = "side_scroller_battle"
 metadata/ground_line_y = 623
 
-[node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+[node name="Map" type="Node2D" parent="." unique_id=330193199 instance=ExtResource("1_map")]
+texture_filter = 4
+script = ExtResource("2_ut4vv")
 
-[node name="PlayerSpawn" type="Marker2D" parent="."]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=396413430]
 position = Vector2(498, 623)

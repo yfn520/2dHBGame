@@ -1,12 +1,15 @@
-﻿[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://pi4mdbm8u04p"]
 
 [ext_resource type="PackedScene" path="res://scenes/zhutaxueyuan/zhutaxueyuan_godot.tscn" id="1_map"]
+[ext_resource type="Script" uid="uid://egm2ps0olpfp" path="res://scenes/zhutaxueyuan/zhutaxueyuan_runtime.gd" id="2_cul43"]
 
-[node name="City2" type="Node2D"]
+[node name="City2" type="Node2D" unique_id=598464698]
 metadata/profile = "side_scroller_battle"
 metadata/ground_line_y = 731
 
-[node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+[node name="Map" type="Node2D" parent="." unique_id=1374327420 instance=ExtResource("1_map")]
+texture_filter = 4
+script = ExtResource("2_cul43")
 
-[node name="PlayerSpawn" type="Marker2D" parent="."]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=1536353302]
 position = Vector2(498, 731)

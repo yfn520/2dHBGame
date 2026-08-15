@@ -6,8 +6,8 @@
 		"name": "余灰城",
 		"npcs": [],
 		"scene_path": "res://scenes/yuhuicheng.tscn",
-		"spawn_x": 184,
-		"spawn_y": 743
+		"spawn_x": 133,
+		"spawn_y": 616
 	},
 	"1": {
 		"bgm": "",
@@ -16,8 +16,8 @@
 		"name": "星露草原",
 		"npcs": [],
 		"scene_path": "res://scenes/xinglucaoyuan.tscn",
-		"spawn_x": 886,
-		"spawn_y": 706
+		"spawn_x": 596,
+		"spawn_y": 651
 	},
 	"2": {
 		"bgm": "",
@@ -26,8 +26,8 @@
 		"name": "月影遗迹",
 		"npcs": [],
 		"scene_path": "res://scenes/yueyingyiji.tscn",
-		"spawn_x": 498,
-		"spawn_y": 632
+		"spawn_x": 76,
+		"spawn_y": 525
 	},
 	"3": {
 		"bgm": "",
@@ -36,8 +36,8 @@
 		"name": " 烛塔学院",
 		"npcs": [],
 		"scene_path": "res://scenes/zhutaxueyuan.tscn",
-		"spawn_x": 498,
-		"spawn_y": 731
+		"spawn_x": 72,
+		"spawn_y": 627
 	},
 	"4": {
 		"bgm": "",
@@ -46,8 +46,8 @@
 		"name": "苍蓝港湾",
 		"npcs": [],
 		"scene_path": "res://scenes/canglangangwan.tscn",
-		"spawn_x": 498,
-		"spawn_y": 629
+		"spawn_x": 489,
+		"spawn_y": 488
 	},
 	"5": {
 		"bgm": "",
@@ -56,8 +56,8 @@
 		"name": "灰烬王城",
 		"npcs": [],
 		"scene_path": "res://scenes/huijingwangcheng.tscn",
-		"spawn_x": 498,
-		"spawn_y": 683
+		"spawn_x": 105,
+		"spawn_y": 563
 	},
 	"6": {
 		"bgm": "",
@@ -66,7 +66,7 @@
 		"name": "王脉深庭",
 		"npcs": [],
 		"scene_path": "res://scenes/wangmaishentin.tscn",
-		"spawn_x": 498,
-		"spawn_y": 623
+		"spawn_x": 84,
+		"spawn_y": 552
 	}
 }

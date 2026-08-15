@@ -1,12 +1,15 @@
-﻿[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://c6vr6grsptn0d"]
 
 [ext_resource type="PackedScene" path="res://scenes/canglangangwan/canglangangwan_godot.tscn" id="1_map"]
+[ext_resource type="Script" uid="uid://ba5fju6pxqv2g" path="res://scenes/canglangangwan/canglangangwan_runtime.gd" id="2_cp2id"]
 
-[node name="Canglang" type="Node2D"]
+[node name="Canglang" type="Node2D" unique_id=797216105]
 metadata/profile = "side_scroller_battle"
 metadata/ground_line_y = 629
 
-[node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+[node name="Map" type="Node2D" parent="." unique_id=1570832790 instance=ExtResource("1_map")]
+texture_filter = 4
+script = ExtResource("2_cp2id")
 
-[node name="PlayerSpawn" type="Marker2D" parent="."]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=843990158]
 position = Vector2(498, 629)

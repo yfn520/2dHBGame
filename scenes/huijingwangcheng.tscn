@@ -1,12 +1,15 @@
-﻿[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://b50orrv33ll7g"]
 
 [ext_resource type="PackedScene" path="res://scenes/huijingwangcheng/huijingwangcheng_godot.tscn" id="1_map"]
+[ext_resource type="Script" uid="uid://dk7g4goo8o3kh" path="res://scenes/huijingwangcheng/huijingwangcheng_runtime.gd" id="2_obodf"]
 
-[node name="Huijin" type="Node2D"]
+[node name="Huijin" type="Node2D" unique_id=986223675]
 metadata/profile = "side_scroller_battle"
 metadata/ground_line_y = 683
 
-[node name="Map" type="Node2D" parent="." instance=ExtResource("1_map")]
+[node name="Map" type="Node2D" parent="." unique_id=1609949643 instance=ExtResource("1_map")]
+texture_filter = 4
+script = ExtResource("2_obodf")
 
-[node name="PlayerSpawn" type="Marker2D" parent="."]
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=795887583]
 position = Vector2(498, 683)
