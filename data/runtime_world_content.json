@@ -21,8 +21,8 @@
 		},
 		"2": {
 			"interactables": [
-				{"id": "gate_ch1_return", "type": "portal", "name": "返回星露草原", "x": 220, "y": 400, "target_level_id": 1},
-				{"id": "gate_ch3", "type": "portal", "name": "进入烛塔学院", "x": 1380, "y": 400, "target_level_id": 3, "required_quest_id": 1012, "required_quest_states": ["completed"]}
+				{"id": "gate_ch1_return", "type": "portal", "name": "返回星露草原", "x": 220, "y": 632, "target_level_id": 1},
+				{"id": "gate_ch3", "type": "portal", "name": "进入烛塔学院", "x": 1380, "y": 632, "target_level_id": 3, "required_quest_id": 1012, "required_quest_states": ["completed"]}
 			],
 			"enemies": [
 				{"spawn_id": "ch2_boss", "mode": "point", "enemy_id": 8028, "x": 1120, "y": 360, "required_quest_id": 1012, "required_quest_states": ["active"]}
@@ -30,7 +30,10 @@
 		},
 		"3": {
 			"interactables": [
-				{"id": "gate_ch2_return", "type": "portal", "name": "返回月影遗迹", "x": 220, "y": 400, "target_level_id": 2}
+				{"id": "gate_ch2_return", "type": "portal", "name": "返回月影遗迹", "x": 220, "y": 731, "target_level_id": 2},
+			{"id": "pickup_answer_sheet_1", "type": "pickup", "name": "答卷页", "x": 760, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]},
+			{"id": "pickup_answer_sheet_2", "type": "pickup", "name": "答卷页", "x": 1020, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]},
+			{"id": "pickup_answer_sheet_3", "type": "pickup", "name": "答卷页", "x": 1300, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]}
 			]
 		}
 	}

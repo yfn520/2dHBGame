@@ -53,16 +53,21 @@ var _refresh_timer := 0.0
 var _function_buttons_visible := false
 
 # 顶部主控状态
-var _main_hp_bar: ProgressBar
-var _main_blue_bar: ProgressBar
-var _main_exp_bar: ProgressBar
+# 场景里的条是 TextureProgressBar（继承 Range，不是 ProgressBar），统一按 Range 引用
+var _main_hp_bar: Range
+var _main_blue_bar: Range
+var _main_exp_bar: Range
 var _main_avatar: TextureRect
+# 叠加在条上的数值标签（HP/MAX 形式），运行时创建
+var _main_hp_label: Label
+var _main_blue_label: Label
+var _main_exp_label: Label
 # 队友面板（player_one / player_one_2）
-var _ally_panels: Array = []  # [{panel, avatar, hp, blue, exp}]
+var _ally_panels: Array = []  # [{panel, avatar, hp, blue, exp, hp_label, blue_label, exp_label}]
 # 底部角色技能栏（3 组：左=队友1 / 中=主控 / 右=队友2）
 var _skill_groups: Array = []  # [{root, char_btn, member, icons:[{btn,overlay,label}]}]
 # 绑定键 → 节点映射（来自 ui_scene_manifest.json 的 bindings）
-var _bar_by_key: Dictionary = {}    # bindingKey -> ProgressBar
+var _bar_by_key: Dictionary = {}    # bindingKey -> Range（进度条）
 var _avatar_by_key: Dictionary = {} # bindingKey -> TextureRect
 var _label_by_key: Dictionary = {}  # bindingKey -> Label
 var _button_by_key: Dictionary = {} # bindingKey -> Button/TextureButton
@@ -145,30 +150,37 @@ func _apply_hud_mode() -> void:
 func _bind_bars() -> void:
 	if _scene_root == null:
 		return
-	_main_hp_bar = _get_by_key(_bar_by_key, "player_hp", "progress_health_bar") as ProgressBar
-	_main_blue_bar = _get_by_key(_bar_by_key, "player_energy", "progress_magicbar") as ProgressBar
-	_main_exp_bar = _get_by_key(_bar_by_key, "player_exp", "progress_expbar") as ProgressBar
+	_main_hp_bar = _get_by_key(_bar_by_key, "player_hp", "progress_health_bar") as Range
+	_main_blue_bar = _get_by_key(_bar_by_key, "player_energy", "progress_magicbar") as Range
+	_main_exp_bar = _get_by_key(_bar_by_key, "player_exp", "progress_expbar") as Range
 	_main_avatar = _get_by_key(_avatar_by_key, "player_avatar", "image_avatar") as TextureRect
 	_gold_label = _get_by_key(_label_by_key, "gold", "label_gold") as Label
 	_sstone_label = _get_by_key(_label_by_key, "sstone", "label_Sstone") as Label
 	_stone_label = _get_by_key(_label_by_key, "stone", "label_stone") as Label
+	_main_hp_label = _attach_bar_label(_main_hp_bar)
+	_main_blue_label = _attach_bar_label(_main_blue_bar)
+	_main_exp_label = _attach_bar_label(_main_exp_bar)
 
 	_ally_panels.clear()
 	_ally_panels.append({
 		# 隐藏整个队员栏，而不是只隐藏其中的底图。否则空头像、血条仍会残留。
 		"panel": _get_by_key(_panel_by_key, "ally1_panel", "role_information_bar_2"),
 		"avatar": _get_by_key(_avatar_by_key, "ally1_avatar", "image_002"),
-		"hp": _get_by_key(_bar_by_key, "ally1_hp", "progress_005") as ProgressBar,
-		"blue": _get_by_key(_bar_by_key, "ally1_energy", "progress_006") as ProgressBar,
-		"exp": _get_by_key(_bar_by_key, "ally1_exp", "progress_003") as ProgressBar,
+		"hp": _get_by_key(_bar_by_key, "ally1_hp", "progress_005") as Range,
+		"blue": _get_by_key(_bar_by_key, "ally1_energy", "progress_006") as Range,
+		"exp": _get_by_key(_bar_by_key, "ally1_exp", "progress_003") as Range,
 	})
 	_ally_panels.append({
 		"panel": _get_by_key(_panel_by_key, "ally2_panel", "role_information_bar_3"),
 		"avatar": _get_by_key(_avatar_by_key, "ally2_avatar", "image_002_2"),
-		"hp": _get_by_key(_bar_by_key, "ally2_hp", "progress_005_2") as ProgressBar,
-		"blue": _get_by_key(_bar_by_key, "ally2_energy", "progress_006_2") as ProgressBar,
-		"exp": _get_by_key(_bar_by_key, "ally2_exp", "progress_003_2") as ProgressBar,
+		"hp": _get_by_key(_bar_by_key, "ally2_hp", "progress_005_2") as Range,
+		"blue": _get_by_key(_bar_by_key, "ally2_energy", "progress_006_2") as Range,
+		"exp": _get_by_key(_bar_by_key, "ally2_exp", "progress_003_2") as Range,
 	})
+	for panel_data in _ally_panels:
+		panel_data["hp_label"] = _attach_bar_label(panel_data.get("hp"))
+		panel_data["blue_label"] = _attach_bar_label(panel_data.get("blue"))
+		panel_data["exp_label"] = _attach_bar_label(panel_data.get("exp"))
 
 
 func _get_unique(node_name: String) -> Node:
@@ -186,6 +198,23 @@ func _get_by_key(node_map: Dictionary, binding_key: String, fallback_name: Strin
 	if node_map.has(binding_key):
 		return node_map[binding_key]
 	return _get_unique(fallback_name)
+
+
+## 在进度条上叠加居中的数值标签（HP/MAX 形式）。运行时创建，不改动导出的 .tscn。
+func _attach_bar_label(bar: Range) -> Label:
+	if bar == null or not (bar is Control):
+		return null
+	var label := Label.new()
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_color_override("font_color", Color.WHITE)
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	label.add_theme_constant_override("outline_size", 4)
+	(bar as Control).add_child(label)
+	return label
 
 
 ## 读取 ui_scene_manifest.json 的 bindings，按 kind 分类建立绑定键→节点映射。
@@ -226,7 +255,7 @@ func _load_manifest_bindings() -> void:
 				else:
 					_button_by_key[binding_key] = ctrl
 			"range":
-				if ctrl is ProgressBar:
+				if ctrl is Range:
 					_bar_by_key[binding_key] = ctrl
 			"texture":
 				if ctrl is TextureRect:
@@ -489,13 +518,16 @@ func _refresh_main(members: Array) -> void:
 		if stats != null:
 			hp = int(stats.hp)
 			max_hp = maxi(1, int(stats.max_hp))
+		hp = clampi(hp, 0, max_hp)
 		_main_hp_bar.max_value = max_hp
-		_main_hp_bar.value = clampi(hp, 0, max_hp)
+		_main_hp_bar.value = hp
+		_set_bar_label(_main_hp_label, hp, max_hp)
 	if _main_blue_bar != null:
 		_main_blue_bar.max_value = BLUE_PLACEHOLDER_MAX
 		_main_blue_bar.value = BLUE_PLACEHOLDER_MAX
+		_set_bar_label(_main_blue_label, BLUE_PLACEHOLDER_MAX, BLUE_PLACEHOLDER_MAX)
 	if _main_exp_bar != null:
-		_set_exp_bar(_main_exp_bar, active)
+		_set_exp_bar(_main_exp_bar, active, _main_exp_label)
 	if _main_avatar != null:
 		_set_avatar_texture(_main_avatar, active)
 	if _gold_label != null:
@@ -518,19 +550,21 @@ func _refresh_ally_panels(members: Array) -> void:
 			continue
 		var member = members[member_index]
 		var stats = _get_member_stats(member)
-		var hp_bar: ProgressBar = panel_data.get("hp")
+		var hp_bar: Range = panel_data.get("hp")
 		if hp_bar != null and stats != null:
-			var hp := int(stats.hp)
 			var max_hp := maxi(1, int(stats.max_hp))
+			var hp := clampi(int(stats.hp), 0, max_hp)
 			hp_bar.max_value = max_hp
-			hp_bar.value = clampi(hp, 0, max_hp)
-		var blue_bar: ProgressBar = panel_data.get("blue")
+			hp_bar.value = hp
+			_set_bar_label(panel_data.get("hp_label"), hp, max_hp)
+		var blue_bar: Range = panel_data.get("blue")
 		if blue_bar != null:
 			blue_bar.max_value = BLUE_PLACEHOLDER_MAX
 			blue_bar.value = BLUE_PLACEHOLDER_MAX
-		var exp_bar: ProgressBar = panel_data.get("exp")
+			_set_bar_label(panel_data.get("blue_label"), BLUE_PLACEHOLDER_MAX, BLUE_PLACEHOLDER_MAX)
+		var exp_bar: Range = panel_data.get("exp")
 		if exp_bar != null:
-			_set_exp_bar(exp_bar, member)
+			_set_exp_bar(exp_bar, member, panel_data.get("exp_label"))
 		var avatar := panel_data.get("avatar") as TextureRect
 		if avatar != null:
 			_set_avatar_texture(avatar, member)
@@ -672,15 +706,24 @@ func _get_skill_id(member, slot_name: String) -> int:
 	return GameRegistry.character_config.get_skill_for_slot(character_id, slot_name, _get_member_level(member))
 
 
-func _set_exp_bar(bar: ProgressBar, member) -> void:
+func _set_exp_bar(bar: Range, member, label: Label = null) -> void:
 	var character_id := _get_member_character_id(member)
 	var level := _get_member_level(member)
 	var exp := 0
 	if GameRegistry.roster_data != null and character_id > 0:
 		exp = GameRegistry.roster_data.get_exp(character_id)
 	var need := maxi(1, level * 100)
+	exp = clampi(exp, 0, need)
 	bar.max_value = need
-	bar.value = clampi(exp, 0, need)
+	bar.value = exp
+	_set_bar_label(label, exp, need)
+
+
+## 更新条上叠加的数值标签文本（value/max 形式）。
+func _set_bar_label(label: Label, value: int, max_value: int) -> void:
+	if label == null:
+		return
+	label.text = "%d/%d" % [value, max_value]
 
 
 func _set_avatar_texture(tex: TextureRect, member) -> void:

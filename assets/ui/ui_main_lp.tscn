@@ -1,12 +1,9 @@
-[gd_scene load_steps=47 format=3]
+[gd_scene load_steps=62 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/background/background.png" id="res_1"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_ba60ab01.png" id="res_2"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_02_38afd007.png" id="res_3"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_03_43e25224.png" id="res_4"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_3212e5ba.png" id="res_5"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_05b22d5e.png" id="res_6"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_06_81f24685.png" id="res_7"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_07_c0e12e37.png" id="res_8"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_04_4672ff65.png" id="res_9"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_05_bc350c83.png" id="res_10"]
@@ -43,9 +40,27 @@
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_17_49eea319.png" id="res_41"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_18_f8dba971.png" id="res_42"]
 [ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/icon_01_e8c268e5.png" id="res_43"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_health_bar_progress_color.svg" id="res_44"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_magicbar_progress_color.svg" id="res_45"]
-[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_expbar_progress_color.svg" id="res_46"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_health_bar_fill.png" id="res_50"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_magicbar_fill.png" id="res_51"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_expbar_fill.png" id="res_52"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_005_fill.png" id="res_53"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_006_fill.png" id="res_54"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_003_fill.png" id="res_55"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_005_2_fill.png" id="res_56"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_006_2_fill.png" id="res_57"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_003_2_fill.png" id="res_58"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_health_bar_over.png" id="res_59"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_magicbar_over.png" id="res_60"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_expbar_over.png" id="res_61"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_005_over.png" id="res_62"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_006_over.png" id="res_63"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_003_over.png" id="res_64"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_005_2_over.png" id="res_65"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_006_2_over.png" id="res_66"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/progress_003_2_over.png" id="res_67"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/skill_bg_tint_shield.png" id="res_47"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/skill_bg_tint_gem_green.png" id="res_48"]
+[ext_resource type="Texture2D" path="res://assets/ui/ui_main_lp/textures/skill_bg_tint_gem_gold.png" id="res_49"]
 
 [node name="UiScreen" type="Control"]
 offset_right = 1536
@@ -164,13 +179,13 @@ layout_mode = 1
 z_index = 3
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_44")
-texture_over = ExtResource("res_4")
+texture_progress = ExtResource("res_50")
+texture_over = ExtResource("res_59")
 
 [node name="progress_magicbar" type="TextureProgressBar" parent="role_information_bar_1"]
 offset_right = 251
@@ -181,13 +196,13 @@ layout_mode = 1
 z_index = 4
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_45")
-texture_over = ExtResource("res_5")
+texture_progress = ExtResource("res_51")
+texture_over = ExtResource("res_60")
 
 [node name="progress_expbar" type="TextureProgressBar" parent="role_information_bar_1"]
 offset_right = 237
@@ -198,13 +213,13 @@ layout_mode = 1
 z_index = 5
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_46")
-texture_over = ExtResource("res_7")
+texture_progress = ExtResource("res_52")
+texture_over = ExtResource("res_61")
 
 [node name="image_token_background" type="TextureRect" parent="token_row"]
 offset_right = 293
@@ -698,13 +713,13 @@ layout_mode = 1
 z_index = 30
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_44")
-texture_over = ExtResource("res_4")
+texture_progress = ExtResource("res_53")
+texture_over = ExtResource("res_62")
 
 [node name="progress_006" type="TextureProgressBar" parent="role_information_bar_2"]
 offset_right = 216
@@ -715,13 +730,13 @@ layout_mode = 1
 z_index = 31
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_45")
-texture_over = ExtResource("res_5")
+texture_progress = ExtResource("res_54")
+texture_over = ExtResource("res_63")
 
 [node name="progress_003" type="TextureProgressBar" parent="role_information_bar_2"]
 offset_right = 190
@@ -732,13 +747,13 @@ layout_mode = 1
 z_index = 32
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_46")
-texture_over = ExtResource("res_7")
+texture_progress = ExtResource("res_55")
+texture_over = ExtResource("res_64")
 
 [node name="player_one_2" type="TextureRect" parent="role_information_bar_3"]
 offset_right = 229
@@ -788,13 +803,13 @@ layout_mode = 1
 z_index = 36
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_44")
-texture_over = ExtResource("res_4")
+texture_progress = ExtResource("res_56")
+texture_over = ExtResource("res_65")
 
 [node name="progress_006_2" type="TextureProgressBar" parent="role_information_bar_3"]
 offset_right = 217
@@ -805,13 +820,13 @@ layout_mode = 1
 z_index = 37
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_45")
-texture_over = ExtResource("res_5")
+texture_progress = ExtResource("res_57")
+texture_over = ExtResource("res_66")
 
 [node name="progress_003_2" type="TextureProgressBar" parent="role_information_bar_3"]
 offset_right = 193
@@ -822,13 +837,13 @@ layout_mode = 1
 z_index = 38
 modulate = Color(1, 1, 1, 1)
 unique_name_in_owner = true
-nine_patch_stretch = true
+nine_patch_stretch = false
 min_value = 0
 max_value = 100
 value = 50
 fill_mode = 0
-texture_progress = ExtResource("res_46")
-texture_over = ExtResource("res_7")
+texture_progress = ExtResource("res_58")
+texture_over = ExtResource("res_67")
 
 [node name="button_skill_background_2_3" type="TextureButton" parent="compound_020"]
 offset_right = 403
@@ -842,14 +857,16 @@ unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_3_tint" type="ColorRect" parent="compound_020/button_skill_background_2_3"]
+[node name="button_skill_background_2_3_tint" type="TextureRect" parent="compound_020/button_skill_background_2_3"]
 offset_right = 403
 offset_bottom = 56
 offset_left = 0
 offset_top = 0
 layout_mode = 1
 mouse_filter = 2
-color = Color(0.058824, 0.082353, 0.101961, 0.8)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_47")
 
 [node name="button_skill_background_2_3_over" type="TextureRect" parent="compound_020/button_skill_background_2_3"]
 offset_right = 403
@@ -995,14 +1012,16 @@ unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_tint" type="ColorRect" parent="compound_018_2/button_skill_background_2"]
+[node name="button_skill_background_2_tint" type="TextureRect" parent="compound_018_2/button_skill_background_2"]
 offset_right = 504
 offset_bottom = 69
 offset_left = 0
 offset_top = 0
 layout_mode = 1
 mouse_filter = 2
-color = Color(0.058824, 0.082353, 0.101961, 0.8)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_48")
 
 [node name="button_skill_background_2_over" type="TextureRect" parent="compound_018_2/button_skill_background_2"]
 offset_right = 502
@@ -1148,14 +1167,16 @@ unique_name_in_owner = true
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="button_skill_background_2_2_2_tint" type="ColorRect" parent="compound_019/button_skill_background_2_2_2"]
+[node name="button_skill_background_2_2_2_tint" type="TextureRect" parent="compound_019/button_skill_background_2_2_2"]
 offset_right = 366
 offset_bottom = 56
 offset_left = 0
 offset_top = 0
 layout_mode = 1
 mouse_filter = 2
-color = Color(0.058824, 0.082353, 0.101961, 0.8)
+expand_mode = 1
+stretch_mode = 0
+texture = ExtResource("res_49")
 
 [node name="button_skill_background_2_2_2_over" type="TextureRect" parent="compound_019/button_skill_background_2_2_2"]
 offset_right = 366
