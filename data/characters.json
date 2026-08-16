@@ -1,7 +1,7 @@
 {
 	"7001": {
-		"actor_scale": 2.0,
-		"asset": "res://assets/characters/new_kivin",
+		"actor_scale": 0.8,
+		"asset": "res://assets/characters/qishi",
 		"base_stats": {
 			"armor_pen_flat": 0.0,
 			"armor_pen_percent": 0.0,
@@ -25,7 +25,7 @@
 			"status_resist": 0.0
 		},
 		"can_select_as_lead": true,
-		"character_config": "res://assets/characters/new_kivin/character_config.json",
+		"character_config": "res://assets/characters/qishi/character_config.json",
 		"class_id": "knight",
 		"default_companion_hero_ids": [
 			7004.0,
@@ -41,12 +41,12 @@
 		},
 		"hero_name": "莱昂",
 		"lead_content_package_id": "lead_knight",
-		"max_level": 60.0,
-		"name": "new_kivin",
-		"normal_skill": 6001.0,
+		"max_level": 60,
+		"name": "qishi",
+		"normal_skill": 6001,
 		"personal_quest_id": "profession_knight",
 		"recruit_chapter_id": "prologue",
-		"scene": "res://assets/characters/new_kivin/godot/new_kivin.tscn",
+		"scene": "res://assets/characters/qishi/godot/qishi.tscn",
 		"skill_unlocks": {
 			"skill1": {
 				"skill_id": 6002.0,
@@ -110,7 +110,7 @@
 		},
 		"hero_name": "露娜",
 		"lead_content_package_id": "lead_archer",
-		"max_level": 60,
+		"max_level": 60.0,
 		"name": "gong'sho",
 		"normal_skill": 6011.0,
 		"personal_quest_id": "profession_archer",

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6anugvn6nfc4"
-path="res://.godot/imported/portrait.png-966b2aa55e7da2d7396ca1b935a69b89.ctex"
+uid="uid://c1eefimy8hrwv"
+path="res://.godot/imported/all_actions_atlas.png-48667d99773ebbfbdada9c131513495e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/characters/new_kivin/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-966b2aa55e7da2d7396ca1b935a69b89.ctex"]
+source_file="res://assets/characters/qishi/godot/all_actions_atlas.png"
+dest_files=["res://.godot/imported/all_actions_atlas.png-48667d99773ebbfbdada9c131513495e.ctex"]
 
 [params]
 

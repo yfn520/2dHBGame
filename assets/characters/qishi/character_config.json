@@ -1,0 +1,63 @@
+{
+	"actions_scene": "res://assets/characters/qishi/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/characters/qishi/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill1",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 171.0,
+			"width": 76.0,
+			"x": 84.0,
+			"y": 72.0
+		},
+		"forwardDistance": 2.0,
+		"height": 171.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 76.0,
+		"yOffset": -82.0
+	},
+	"body_position": {
+		"x": 2.0,
+		"y": -85.5
+	},
+	"body_size": {
+		"x": 76.0,
+		"y": 171.0
+	},
+	"centered": true,
+	"character_name": "qishi",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/characters/qishi/combat_actions.json",
+	"combat_source": "res://assets/characters/qishi/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": 0.0,
+		"y": -123.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 120.0,
+		"y": 240.0
+	},
+	"frame_cell_height": 144.0,
+	"portrait": "res://assets/characters/qishi/portrait.png",
+	"production_format": true,
+	"resource_type": "character",
+	"scene_name": "qishi",
+	"spriteframes": "res://assets/characters/qishi/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

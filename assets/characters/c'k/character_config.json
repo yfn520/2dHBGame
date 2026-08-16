@@ -53,11 +53,11 @@
 		"y": 227.0
 	},
 	"frame_cell_height": 144.0,
+	"portrait": "res://assets/characters/c'k/portrait.png",
 	"production_format": true,
 	"resource_type": "character",
 	"scene_name": "c'k",
 	"spriteframes": "res://assets/characters/c'k/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {},
-	"portrait": "res://assets/characters/c'k/portrait.png"
+	"unified_box": {}
 }

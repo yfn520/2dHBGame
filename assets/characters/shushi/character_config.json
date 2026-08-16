@@ -53,11 +53,11 @@
 		"y": 230.0
 	},
 	"frame_cell_height": 144.0,
+	"portrait": "res://assets/characters/shushi/portrait.png",
 	"production_format": true,
 	"resource_type": "character",
 	"scene_name": "shushi",
 	"spriteframes": "res://assets/characters/shushi/godot/spriteframes.tres",
 	"target_display_height": 52.0,
-	"unified_box": {},
-	"portrait": "res://assets/characters/shushi/portrait.png"
+	"unified_box": {}
 }
