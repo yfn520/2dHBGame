@@ -5,7 +5,7 @@
 [node name="NpcVisual" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-offset = Vector2(-127, -245)
+offset = Vector2(-127, -248)
 scale = Vector2(1, 1)
 sprite_frames = ExtResource("frames")
 animation = &"idle"
@@ -13,9 +13,9 @@ centered = false
 
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -128
-offset_top = 15
+offset_top = 12
 offset_right = 128
-offset_bottom = 41
+offset_bottom = 38
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -23,9 +23,9 @@ theme_override_constants/outline_size = 4
 
 [node name="QuestLabel" type="Label" parent="."]
 offset_left = -24
-offset_top = -293
+offset_top = -296
 offset_right = 24
-offset_bottom = -249
+offset_bottom = -252
 horizontal_alignment = 1
 theme_override_font_sizes/font_size = 32
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
