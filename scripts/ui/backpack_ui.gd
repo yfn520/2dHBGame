@@ -9,12 +9,13 @@ const DESIGN_SIZE := Vector2(760, 515)
 # 拖拽滚动判定阈值（像素），超过此距离才视为拖拽而非点击
 const DRAG_THRESHOLD := 5.0
 
-# 品质 → 边框贴图（切自 rxgame_res/素材/UI/装备边框/边框.png，九档品质见物品与装备设计规范）
+# 显示分类 → 边框贴图；“任务”是独立 UI 分类，不参与装备品质排序
 const QUALITY_FRAMES := {
 	"普通": "res://assets/ui/item_frames/frame_normal.png",
 	"优秀": "res://assets/ui/item_frames/frame_fine.png",
 	"稀有": "res://assets/ui/item_frames/frame_rare.png",
 	"史诗": "res://assets/ui/item_frames/frame_epic.png",
+	"任务": "res://assets/ui/item_frames/frame_quest.png",
 	"传说": "res://assets/ui/item_frames/frame_legend.png",
 	"神话": "res://assets/ui/item_frames/frame_myth.png",
 	"星辉": "res://assets/ui/item_frames/frame_starlight.png",
