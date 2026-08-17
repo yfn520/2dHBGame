@@ -441,7 +441,46 @@ func _on_dialogue_started(_npc_id: int) -> void:
 
 func _on_dialogue_node_changed(node: Dictionary) -> void:
 	var npc: Dictionary = GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id) as Dictionary
+	# 按当前说话者切换头像：主角/三英雄用角色头像，具名 NPC 用各自头像，旁白回退当前 NPC
+	node["portrait"] = _resolve_speaker_portrait(str(node.get("speaker", "")).strip_edges(), npc)
 	_dialogue_panel.show_node(node, npc)
+
+
+const _HERO_SPEAKER_PORTRAIT_IDS := {"莱昂": 7001, "露娜": 7002, "米娅": 7003}
+
+
+func _resolve_speaker_portrait(speaker: String, npc: Dictionary) -> String:
+	if speaker.is_empty() or speaker == "旁白":
+		return str(npc.get("portrait", ""))
+	var hero_id := 0
+	if speaker == "主角":
+		if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:
+			hero_id = GameRegistry.quest_service.roster.get_protagonist_hero_id()
+	elif _HERO_SPEAKER_PORTRAIT_IDS.has(speaker):
+		hero_id = int(_HERO_SPEAKER_PORTRAIT_IDS[speaker])
+	if hero_id > 0:
+		var hero_portrait := _character_portrait_path(hero_id)
+		if not hero_portrait.is_empty():
+			return hero_portrait
+	if GameRegistry.npc_config != null:
+		for npc_id in GameRegistry.npc_config.get_all_npcs():
+			var entry: Dictionary = GameRegistry.npc_config.get_all_npcs()[npc_id]
+			if str(entry.get("name", "")) == speaker and not str(entry.get("portrait", "")).is_empty():
+				return str(entry.get("portrait", ""))
+	return str(npc.get("portrait", ""))
+
+
+func _character_portrait_path(character_id: int) -> String:
+	if GameRegistry.character_config == null:
+		return ""
+	var config: Dictionary = GameRegistry.character_config.get_character(character_id)
+	var cc_path := str(config.get("character_config", ""))
+	if cc_path.is_empty() or not FileAccess.file_exists(cc_path):
+		return ""
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(cc_path)) == OK and json.data is Dictionary:
+		return str(json.data.get("portrait", ""))
+	return ""
 
 
 func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:

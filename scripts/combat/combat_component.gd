@@ -1005,12 +1005,28 @@ func take_damage(amount: int, source: Node = null, play_hit_reaction: bool = tru
 				_post_hit_iframes_timer = POST_HIT_IFRAMES_DURATION
 	hp_changed.emit(_stats.hp, _stats.max_hp)
 	took_damage.emit(actual, source)
+	_notify_party_assist(source)
 	# 反伤（设计案 7.4）：实际受伤后回调攻击者，上限 8% 攻击者最大生命
 	_apply_reflect_damage(actual, source)
 	if _stats.hp <= 0:
 		_die()
 	elif play_hit_reaction and _owner.has_method("play_combat_animation"):
 		_owner.play_combat_animation("hit")
+
+
+## 主控角色命中敌人后通报队伍集火目标（队友 AI 的命中不通报）。
+func _notify_party_assist(source: Node) -> void:
+	if _owner == null or not _owner.is_in_group("enemies"):
+		return
+	if source == null or not is_instance_valid(source):
+		return
+	if not source.is_in_group("player"):
+		return
+	if not source.has_method("is_player_controlled") or not source.is_player_controlled():
+		return
+	var pm := source.get_parent()
+	if pm != null and pm.has_method("set_assist_target"):
+		pm.set_assist_target(_owner)
 
 
 ## 反伤结算（设计案 7.4）。

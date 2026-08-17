@@ -16,6 +16,8 @@ var current_dialogue_id := ""
 var current_node_id := ""
 var _graph: Dictionary = {}
 var _active := false
+# 任务对话触发：命中 quest authoring.dialogue_id 时记录对话结束后要执行的任务动作
+var _pending_quest_action: Dictionary = {}
 
 
 func setup(p_npc_config: NpcConfig, p_dialogue_config: DialogueConfig, p_quest_service: QuestService, p_inventory: InventoryProvider) -> void:
@@ -32,6 +34,19 @@ func start_dialogue(npc_id: int) -> bool:
 	if npc.is_empty():
 		push_warning("NPC 不存在: %d" % npc_id)
 		return false
+	# 优先播放任务剧情对话（quest authoring.dialogue_id）：交付(ready) 优先于接取(inactive 且已解锁)
+	var quest_hook := _find_quest_dialogue_hook(npc_id)
+	if not quest_hook.is_empty():
+		var quest_dialogue_id := str(quest_hook.get("dialogue_id", ""))
+		var quest_graph := dialogue_config.get_dialogue(quest_dialogue_id)
+		if not quest_graph.is_empty():
+			current_npc_id = npc_id
+			current_dialogue_id = quest_dialogue_id
+			_graph = quest_graph
+			_active = true
+			_pending_quest_action = quest_hook
+			dialogue_started.emit(npc_id)
+			return _enter_node(str(quest_graph.get("entry_node", quest_graph.get("entry", ""))))
 	var dialogue_id := str(npc.get("dialogue_id", ""))
 	var graph := dialogue_config.get_dialogue(dialogue_id)
 	if dialogue_id.is_empty() or graph.is_empty():
@@ -43,6 +58,24 @@ func start_dialogue(npc_id: int) -> bool:
 	_active = true
 	dialogue_started.emit(npc_id)
 	return _enter_node(str(graph.get("entry_node", graph.get("entry", ""))))
+
+
+func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
+	if quest_service == null or quest_service.config == null or dialogue_config == null:
+		return {}
+	var starters: Array[Dictionary] = []
+	for quest_id_value in quest_service.config.get_all_quests():
+		var quest: Dictionary = quest_service.config.get_quest(int(quest_id_value))
+		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
+		if dialogue_id.is_empty() or dialogue_config.get_dialogue(dialogue_id).is_empty():
+			continue
+		var quest_id := int(quest_id_value)
+		# 交付优先：任务 ready 且本 NPC 是交付人
+		if int(quest.get("turn_in_npc_id", 0)) == npc_id and quest_service.get_status(quest_id) == "ready":
+			return {"quest_id": quest_id, "action": "turn_in_quest", "dialogue_id": dialogue_id}
+		if int(quest.get("giver_npc_id", 0)) == npc_id and quest_service.get_status(quest_id) == "inactive" and quest_service.is_quest_unlocked(quest_id):
+			starters.append({"quest_id": quest_id, "action": "start_quest", "dialogue_id": dialogue_id})
+	return starters[0] if not starters.is_empty() else {}
 
 
 func advance() -> void:
@@ -131,6 +164,17 @@ func finish(completed: bool = false) -> void:
 	_active = false
 	if completed and quest_service != null:
 		quest_service.record_talk(npc_id)
+		# 任务剧情对话正常结束后执行接取/交付
+		if not _pending_quest_action.is_empty():
+			var quest_id := int(_pending_quest_action.get("quest_id", 0))
+			match str(_pending_quest_action.get("action", "")):
+				"start_quest":
+					if quest_service.get_status(quest_id) == "inactive":
+						quest_service.start_quest(quest_id)
+				"turn_in_quest":
+					if quest_service.get_status(quest_id) == "ready":
+						quest_service.turn_in_quest(quest_id)
+	_pending_quest_action = {}
 	current_node_id = ""
 	_graph = {}
 	dialogue_finished.emit(npc_id, completed)
