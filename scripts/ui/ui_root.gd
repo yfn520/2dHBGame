@@ -441,21 +441,66 @@ func _on_dialogue_started(_npc_id: int) -> void:
 
 func _on_dialogue_node_changed(node: Dictionary) -> void:
 	var npc: Dictionary = GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id) as Dictionary
-	# 按当前说话者切换头像：主角/三英雄用角色头像，具名 NPC 用各自头像，旁白回退当前 NPC
-	node["portrait"] = _resolve_speaker_portrait(str(node.get("speaker", "")).strip_edges(), npc)
+	# 头像由落表时就确定的 speaker_kind/speaker_id 直接决定；
+	# 仅没有身份字段的旧数据才回退按名字解析
+	node["portrait"] = _resolve_speaker_portrait(node, npc)
 	_dialogue_panel.show_node(node, npc)
 
 
 const _HERO_SPEAKER_PORTRAIT_IDS := {"莱昂": 7001, "露娜": 7002, "米娅": 7003}
 
 
-func _resolve_speaker_portrait(speaker: String, npc: Dictionary) -> String:
+func _resolve_speaker_portrait(node: Dictionary, npc: Dictionary) -> String:
+	match str(node.get("speaker_kind", "")):
+		"protagonist":
+			return _protagonist_portrait(npc)
+		"hero":
+			var hero_portrait := _character_portrait_path(int(node.get("speaker_id", 0)))
+			return hero_portrait if not hero_portrait.is_empty() else str(npc.get("portrait", ""))
+		"npc":
+			# speaker_id=0 是未登记的群像角色，沿用当前交互 NPC 头像
+			var speaker_npc: Dictionary = GameRegistry.npc_config.get_npc(int(node.get("speaker_id", 0))) as Dictionary
+			var speaker_portrait := str(speaker_npc.get("portrait", ""))
+			return speaker_portrait if not speaker_portrait.is_empty() else str(npc.get("portrait", ""))
+		"narrator":
+			return str(npc.get("portrait", ""))
+	return _legacy_resolve_speaker_portrait(str(node.get("speaker", "")).strip_edges(), npc)
+
+
+func _protagonist_portrait(npc: Dictionary) -> String:
+	var hero_id := 0
+	if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:
+		var roster: CharacterRosterData = GameRegistry.quest_service.roster as CharacterRosterData
+		hero_id = roster.get_protagonist_hero_id()
+		# 存档尚未写入主角标记（如序章选角前）时，用当前操控角色兜底，
+		# 否则会一路回退到当前 NPC 头像，出现主角说话却显示 NPC 脸的错位。
+		if hero_id <= 0:
+			hero_id = roster.active_character_id
+		if hero_id <= 0:
+			hero_id = CharacterRosterData.DEFAULT_CHARACTER_ID
+	if hero_id > 0:
+		var hero_portrait := _character_portrait_path(hero_id)
+		if not hero_portrait.is_empty():
+			return hero_portrait
+	return str(npc.get("portrait", ""))
+
+
+## 旧数据（无 speaker_kind 字段）兜底：按说话者名字解析。
+## 主角/三英雄用角色头像，具名 NPC 用各自头像，旁白回退当前 NPC。
+func _legacy_resolve_speaker_portrait(speaker: String, npc: Dictionary) -> String:
 	if speaker.is_empty() or speaker == "旁白":
 		return str(npc.get("portrait", ""))
 	var hero_id := 0
 	if speaker == "主角":
 		if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:
-			hero_id = GameRegistry.quest_service.roster.get_protagonist_hero_id()
+			var roster: CharacterRosterData = GameRegistry.quest_service.roster as CharacterRosterData
+			hero_id = roster.get_protagonist_hero_id()
+			# 存档尚未写入主角标记（如序章选角前）时，用当前操控角色兜底，
+			# 否则会一路回退到当前 NPC 头像，出现主角说话却显示 NPC 脸的错位。
+			if hero_id <= 0:
+				hero_id = roster.active_character_id
+			if hero_id <= 0:
+				hero_id = CharacterRosterData.DEFAULT_CHARACTER_ID
 	elif _HERO_SPEAKER_PORTRAIT_IDS.has(speaker):
 		hero_id = int(_HERO_SPEAKER_PORTRAIT_IDS[speaker])
 	if hero_id > 0:
