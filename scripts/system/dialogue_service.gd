@@ -18,6 +18,11 @@ var _graph: Dictionary = {}
 var _active := false
 # 任务对话触发：命中 quest authoring.dialogue_id 时记录对话结束后要执行的任务动作
 var _pending_quest_action: Dictionary = {}
+# 过场自动播放：line 节点定时自动推进，choice 节点停下等输入；代际令牌使旧定时器失效
+var _auto_advance := false
+var _auto_gen := 0
+# 当前对话是否为过场（UI 据此用纯黑背景遮住主界面）
+var _cutscene := false
 
 
 func setup(p_npc_config: NpcConfig, p_dialogue_config: DialogueConfig, p_quest_service: QuestService, p_inventory: InventoryProvider) -> void:
@@ -60,6 +65,34 @@ func start_dialogue(npc_id: int) -> bool:
 	return _enter_node(str(graph.get("entry_node", graph.get("entry", ""))))
 
 
+## 过场播放：不依赖 NPC/任务钩子直接播对话图（npc_id 可为 0），进入自动推进模式。
+## cinematic=true 时用纯黑背景（仅开局选角）；任务过场用半透背景保留场景画面。
+func start_cutscene(dialogue_id: String, npc_id: int = 0, cinematic: bool = false) -> bool:
+	if _active:
+		return false
+	var graph := dialogue_config.get_dialogue(dialogue_id)
+	if graph.is_empty():
+		push_warning("过场对话不存在: %s" % dialogue_id)
+		return false
+	current_npc_id = npc_id
+	current_dialogue_id = dialogue_id
+	_graph = graph
+	_active = true
+	_auto_advance = true
+	_cutscene = cinematic
+	dialogue_started.emit(npc_id)
+	return _enter_node(str(graph.get("entry_node", graph.get("entry", ""))))
+
+
+func is_cutscene() -> bool:
+	return _active and _cutscene
+
+
+## 是否处于过场播放（含开局选角与任务过场）：UI 据此隐藏主 HUD。
+func is_auto_cutscene() -> bool:
+	return _active and _auto_advance
+
+
 func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
 	if quest_service == null or quest_service.config == null or dialogue_config == null:
 		return {}
@@ -81,6 +114,7 @@ func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
 func advance() -> void:
 	if not _active:
 		return
+	_auto_gen += 1  # 手动推进使待处理的自动定时器失效
 	var node := get_current_node()
 	var choices: Array = node.get("choices", [])
 	if not choices.is_empty():
@@ -162,6 +196,9 @@ func finish(completed: bool = false) -> void:
 		return
 	var npc_id := current_npc_id
 	_active = false
+	_auto_advance = false
+	_cutscene = false
+	_auto_gen += 1
 	if completed and quest_service != null:
 		quest_service.record_talk(npc_id)
 		# 任务剧情对话正常结束后执行接取/交付
@@ -198,6 +235,7 @@ func _enter_node(node_id: String) -> bool:
 				# A branch with player choices must be presented to the UI. Only
 				# route-only branches are resolved automatically.
 				if not get_visible_choices(node).is_empty():
+					_auto_gen += 1  # 选项等待玩家输入，不自动推进
 					node_changed.emit(node.duplicate(true))
 					return true
 				next_id = _resolve_branch(node)
@@ -209,6 +247,7 @@ func _enter_node(node_id: String) -> bool:
 				return true
 			_:
 				node_changed.emit(node.duplicate(true))
+				_schedule_auto_advance(node)
 				return true
 	push_warning("对话条件分支超过 64 次，疑似无出口循环: %s" % current_dialogue_id)
 	finish(false)
@@ -220,6 +259,26 @@ func _resolve_branch(node: Dictionary) -> String:
 		if value is Dictionary and _conditions_pass(value.get("conditions", [])):
 			return str(value.get("next_id", value.get("next", "")))
 	return str(node.get("default_next", ""))
+
+
+## 过场自动推进：按台词长度定时 advance；代际令牌保证手动推进/选项/结束后的旧定时器作废。
+func _schedule_auto_advance(node: Dictionary) -> void:
+	if not _auto_advance:
+		return
+	_auto_gen += 1
+	var gen := _auto_gen
+	var text_len := float(str(node.get("text", "")).length())
+	var delay := clampf(0.8 + text_len * 0.11, 1.6, 7.0)
+	get_tree().create_timer(delay).timeout.connect(_auto_step.bind(gen))
+
+
+func _auto_step(gen: int) -> void:
+	if gen != _auto_gen or not _active or not _auto_advance:
+		return
+	var node := get_current_node()
+	if not node.get("choices", []).is_empty():
+		return
+	advance()
 
 
 func _conditions_pass(raw: Variant) -> bool:
@@ -246,9 +305,14 @@ func _execute_actions(raw: Variant) -> void:
 				if inventory != null:
 					inventory.add_item(int(value.get("item_id", 0)), maxi(1, int(value.get("count", 1))))
 			"set_protagonist":
-				# 序章三选一：写入存档级主角标记并立即落盘。
+				# 序章三选一：写入存档级主角标记并立即落盘；
+				# hero_id<=0 为“跳过选角”，兜底用当前上场角色（gameroot 场景配置的默认主角）。
 				if quest_service != null and quest_service.roster != null:
 					var hero_id := int(value.get("hero_id", 0))
+					if hero_id <= 0:
+						hero_id = int(quest_service.roster.active_character_id)
+					if hero_id <= 0:
+						hero_id = 7002
 					quest_service.roster.set_protagonist(hero_id)
 					quest_service.state.set_flag("LeadHero", hero_id)
 					quest_service.state.set_flag("PartyStage", "Solo")

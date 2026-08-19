@@ -37,6 +37,7 @@ var quest_service
 var dialogue_service
 var npc_interaction_dispatcher
 var chapter_service
+var story_auto_play
 
 var level_manager: Node
 var _quest_save_scheduled := false
@@ -112,6 +113,10 @@ func _ready() -> void:
 	npc_interaction_dispatcher = load("res://scripts/system/npc_interaction_dispatcher.gd").new()
 	add_child(npc_interaction_dispatcher)
 	npc_interaction_dispatcher.setup(dialogue_service, interaction_binding_config, quest_service)
+	# 开局选角 + 纯对白任务自动链（由 GameRoot 首关加载后触发 bootstrap）
+	story_auto_play = load("res://scripts/system/story_auto_play.gd").new()
+	add_child(story_auto_play)
+	story_auto_play.setup(quest_service, dialogue_service)
 	quest_service.quest_updated.connect(_on_quest_updated)
 
 	character_stats.setup(roster_data, character_config)

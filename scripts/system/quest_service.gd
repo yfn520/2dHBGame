@@ -206,8 +206,16 @@ func evaluate_condition(condition: Dictionary) -> bool:
 			# 状态还不够，所有前置任务也必须完成，避免展示一个必然派发失败的选项。
 			return expected_state != "inactive" or is_quest_unlocked(quest_id)
 		"flag_equals":
-			# 旗标未写入时 get_flag 返回 bool(false)，与数值条件值直接 == 会崩溃；统一按字符串比较
-			return str(state.get_flag(str(condition.get("flag", "")))) == str(condition.get("value", true))
+			# 数值旗标按数值比较：存档写入的是 int（如 LeadHero=7002），
+			# 而 JSON 解析出的条件值是 float，若统一 str() 会出现 "7002" != "7002.0" 导致分支全部不命中；
+			# 非数值（字符串/未写入的 bool 默认值）仍按字符串比较。
+			var flag_actual: Variant = state.get_flag(str(condition.get("flag", "")))
+			var flag_expected: Variant = condition.get("value", true)
+			var actual_is_num := typeof(flag_actual) == TYPE_INT or typeof(flag_actual) == TYPE_FLOAT
+			var expected_is_num := typeof(flag_expected) == TYPE_INT or typeof(flag_expected) == TYPE_FLOAT
+			if actual_is_num and expected_is_num:
+				return float(flag_actual) == float(flag_expected)
+			return str(flag_actual) == str(flag_expected)
 		"item_count":
 			return inventory != null and inventory.get_count_by_id(int(condition.get("item_id", 0))) >= int(condition.get("count", 1))
 		"lead_hero":

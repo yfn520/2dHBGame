@@ -1,8 +1,8 @@
 {
-	"1001": {
-		"title": "被救回来的人",
-		"description_template": "余晖城旅店里，柏婶为陌生的来客多摆出第四套餐具。三名伤员被平民救回，尚未写入主角。在开场与陌生善意中，选出一名主角，从第四套餐具旁醒来。",
-		"description": "开场动画已经完成角色选择并写入 `LeadHero`；三名伤员均被平民搜救队救回，随后因暴雨后的转运安排被送往不同救护点。",
+	"21010": {
+		"id": 21010,
+		"title": "醒来的人",
+		"description": "无",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
@@ -21,13 +21,81 @@
 			"items": [],
 			"flags": [
 				{
-					"flag": "PartyStage",
-					"value": "Solo"
-				},
+					"flag": "VoluntaryAidAccepted",
+					"value": false
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-A",
+			"dialogue_id": "task_c1_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21011": {
+		"id": 21011,
+		"title": "霍雷克的委托",
+		"description": "C1-01-A 完成后自动播放",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "VoluntaryAidAccepted",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-B",
+			"dialogue_id": "task_c1_01_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21010
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21012": {
+		"id": 21012,
+		"title": "仓库领取装备",
+		"description": "接受委托后",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "SupplyAuthorizationIssued",
 					"value": true
@@ -39,30 +107,21 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_01",
-			"objective_type": "talk",
-			"target_name": "柏婶",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "柏婶把第四套餐具推到桌角，又停手。三名伤员都找到了，第四张伤情牌没有，只有多出来的东西。",
-				"active": "正在旅店中选择主角，接受基础装备与临时契约。",
-				"ready": "已完成复路任务前的准备，返回柏婶处。",
-				"completed": "第四套餐具旁，主角从这场陌生的醒转中站起来。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-01",
+			"task_script_id": "C1-01-C",
+			"dialogue_id": "task_c1_01_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
-		"required_quest_ids": [],
-		"id": 1001
+		"required_quest_ids": [
+			21011
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1002": {
-		"title": "洪水里的药箱",
-		"description_template": "湿地里的药箱被黏液拖进沼泽。先拿止血草，箱子坏了也不至于空手回来。在荒诞与陪伴中取回救援药箱，强化执行者也应计入人数。",
-		"description": "`PartyStage=Solo`，主角自愿接受灾后协助。",
+	"21013": {
+		"id": 21013,
+		"title": "出发前的安全测试",
+		"description": "装备领取完成",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
@@ -72,8 +131,75 @@
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100246,
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PartyStage",
+					"value": "Solo"
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-D",
+			"dialogue_id": "task_c1_01_d",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21012
+		],
+		"level_id": 1
+	},
+	"21020": {
+		"id": 21020,
+		"title": "芦苇滩捞药箱",
+		"description": "教学完成，伊莱交接",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9020,
+		"turn_in_npc_id": 9020,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-02-A",
+			"dialogue_id": "task_c1_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 1
+	},
+	"21021": {
+		"id": 21021,
+		"title": "交药与当面道谢",
+		"description": "药箱归还",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9016,
 				"count": 1
 			}
 		],
@@ -87,43 +213,32 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_02",
-			"objective_type": "collect",
-			"target_name": "救援药箱",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "伊莱指向空药架：药箱被黏液拖进湿地，先拿止血草再找回箱子。",
-				"active": "正在湿地中寻找被拖走的救援药箱与止血草。",
-				"ready": "已找回救援药箱，返回伊莱处清点交接。",
-				"completed": "草三束，药箱封口完整。执行者被计入四项。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-02",
+			"task_script_id": "C1-02-B",
+			"dialogue_id": "task_c1_02_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1001
+			21020
 		],
-		"id": 1002
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1003": {
-		"title": "把粮种送过塌方路",
-		"description_template": "粮农桑叔守着卡在断篱旁的粮车，路牌今早又少了一个字。把粮种护送到育苗棚，证明道路问题真实存在，救灾优先于追查私人记忆。",
-		"description": "救援药箱已归还。",
+	"21030": {
+		"id": 21030,
+		"title": "护送粮种过塌方路",
+		"description": "接取霍雷克第二项委托",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9002,
-		"turn_in_npc_id": 9002,
+		"giver_npc_id": 9021,
+		"turn_in_npc_id": 9021,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100247,
+				"type": "talk",
+				"npc_id": 9021,
 				"count": 1
 			}
 		],
@@ -137,44 +252,31 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_03",
-			"objective_type": "collect",
-			"target_name": "粮种",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "桑叔守着卡在断篱旁的粮车，路牌今早又少了一个字。粮车耐久待护送至育苗棚。",
-				"active": "正在护送粮种车队穿越断篱与浅滩，抵御草原狼。",
-				"ready": "粮种已抵达终点，返回桑叔处逐袋报数。",
-				"completed": "三袋粮种逐袋报数完成，粮种进入育苗棚。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-03",
+			"task_script_id": "C1-03-A",
+			"dialogue_id": "task_c1_03_a",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1002
+			21021
 		],
-		"id": 1003
+		"level_id": 1
 	},
-	"1004": {
-		"title": "修好第一座救援信标",
-		"description_template": "旧邮站管理员遗响第三句话每次都缺少收件地。清理甲虫取得信标导片，按三拍点亮信标，选择第二名主角。你决定顺序，不决定谁被放弃。",
-		"description": "三项单人任务中的前两项完成。",
+	"21040": {
+		"id": 21040,
+		"title": "修复第一座救援信标",
+		"description": "单人三项委托前两项已完成（C1-02、C1-03）",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9001,
+		"giver_npc_id": 9022,
+		"turn_in_npc_id": 9022,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8001,
-				"count": 4
+				"type": "talk",
+				"npc_id": 9022,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -187,32 +289,85 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_04",
-			"objective_type": "kill",
-			"target_name": "甲虫",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "旧邮站管理员遗响重复三拍点灯，第三句话总缺少收件地。信标导片待取得。",
-				"active": "正在清理甲虫，收集信标导片以点亮第一座邮路信标。",
-				"ready": "信标导片已集齐，返回霍雷克处确认两条求援线的顺序。",
-				"completed": "第一座邮路信标点亮，第二名主角线索被选定。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-04",
+			"task_script_id": "C1-04-A",
+			"dialogue_id": "task_c1_04_a",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1003
+			21030
 		],
-		"id": 1004
+		"level_id": 1
 	},
-	"1005": {
-		"title": "先找到你",
-		"description_template": "沿三处职业痕迹找到被渊蚀兽群围困的第二名主角。身份各算各的，路线和判断共享。先找到你，再把第三个人的空位继续留着。",
-		"description": "已选择 `SecondHero`。",
+	"21041": {
+		"id": 21041,
+		"title": "先救哪一边",
+		"description": "信标修复完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-04-B",
+			"dialogue_id": "task_c1_04_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21040
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21050": {
+		"id": 21050,
+		"title": "循迹会合",
+		"description": "选择完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9069,
+		"turn_in_npc_id": 9069,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9069,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-05-A",
+			"dialogue_id": "task_c1_05_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21041
+		],
+		"level_id": 1
+	},
+	"21051": {
+		"id": 21051,
+		"title": "签下同行者",
+		"description": "突围战后",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
@@ -241,32 +396,21 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_05",
-			"objective_type": "talk",
-			"target_name": "霍雷克",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "三名主角仍在移动，被渊蚀兽群围困的第二名主角信号微弱。",
-				"active": "正在沿三处职业痕迹追踪被围困的第二名主角。",
-				"ready": "第二名主角已找到，返回霍雷克处确认身份边界。",
-				"completed": "第二名主角正式加入，契约改为两人，空位继续留着。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-05",
+			"task_script_id": "C1-05-B",
+			"dialogue_id": "task_c1_05_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1004
+			21050
 		],
-		"id": 1005
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1006": {
-		"title": "断桥后的最后一袋信",
-		"description_template": "荒野驿道尽头的旧邮站，老邮差洛伯守着十七封退件。找回被星隙抹掉的收件地址，把最后一袋信送回它该去的地方。",
-		"description": "双人队形成；旧邮车棚被洪水冲毁，河对岸村庄因断桥暂时断供。",
+	"21060": {
+		"id": 21060,
+		"title": "打捞沉河邮袋",
+		"description": "双人队抵达旧邮车棚，洛伯接洽",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
@@ -276,8 +420,40 @@
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100248,
+				"type": "talk",
+				"npc_id": 9003,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-06-A",
+			"dialogue_id": "task_c1_06_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21051
+		],
+		"level_id": 1
+	},
+	"21061": {
+		"id": 21061,
+		"title": "架绳桥送药",
+		"description": "工匠架起绳桥",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9024,
+		"turn_in_npc_id": 9024,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9024,
 				"count": 1
 			}
 		],
@@ -287,7 +463,40 @@
 				{
 					"flag": "RiverVillageReached",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-06-B",
+			"dialogue_id": "task_c1_06_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21060
+		],
+		"level_id": 1
+	},
+	"21062": {
+		"id": 21062,
+		"title": "投递剩下的信",
+		"description": "药品送达",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9003,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "LastMailbagResolved",
 					"value": true
@@ -295,46 +504,60 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_06",
-			"objective_type": "collect",
-			"target_name": "退件",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "老邮差洛伯在旧邮站守着十七封退件，收件地址已被星隙抹掉。",
-				"active": "正在沿驿道寻找被抹掉的收件地址线索。",
-				"ready": "已找回退件凭证，返回洛伯处核验。",
-				"completed": "最后一袋信被重新补全地址。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-06",
+			"task_script_id": "C1-06-C",
+			"dialogue_id": "task_c1_06_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1005
+			21061
 		],
-		"id": 1006
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1007": {
-		"title": "第三座灯前的人",
-		"description_template": "两人护送送信队到第二信标，修复第二灯。第三名主角沿独立线索抵达，三人守住第三信标九十秒。我们不是互相忘了，更像同一个关系节点被拿走。",
-		"description": "双人队已抵达河湾村并架起临时绳桥；第三名主角仍沿独立救援线移动。",
+	"21070": {
+		"id": 21070,
+		"title": "护送灯油点亮第二信标",
+		"description": "补给队交接灯油",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9001,
+		"giver_npc_id": 9025,
+		"turn_in_npc_id": 9025,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9001,
+				"npc_id": 9025,
 				"count": 1
 			}
 		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-07-A",
+			"dialogue_id": "task_c1_07_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21062
+		],
+		"level_id": 1
+	},
+	"21071": {
+		"id": 21071,
+		"title": "第三信标前的会合",
+		"description": "第二信标亮起，发现第三名主角的独立信号",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -353,32 +576,53 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_07",
-			"objective_type": "talk",
-			"target_name": "霍雷克",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "第三名主角仍沿独立线索移动，两座信标已亮。",
-				"active": "正在护送送信队并修复第二信标，等待第三名主角抵达。",
-				"ready": "三人已会合守住第三信标，返回霍雷克处交留文件副本。",
-				"completed": "三名主角会合，第三座灯前的人不再被动等救。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-07",
+			"task_script_id": "C1-07-B",
+			"dialogue_id": "task_c1_07_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1006
+			21070
 		],
-		"id": 1007
+		"level_id": 1
 	},
-	"1008": {
-		"title": "吞信者与失路哨兵",
-		"description_template": "咕噜姆吞信却保持信件干燥。先隔开核心，缩小咕噜姆而不杀，校准第一枚星楔。返程遭遇失路哨兵，第一处官方标签矛盾被建立。",
-		"description": "三人齐聚，三座救援信标恢复，河湾村临时补给线开通。",
+	"21072": {
+		"id": 21072,
+		"title": "三份档案盒",
+		"description": "碎片记录完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-07-C",
+			"dialogue_id": "task_c1_07_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21071
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21080": {
+		"id": 21080,
+		"title": "邮站保卫战",
+		"description": "三人齐聚后，洛伯发现咕噜姆体内的干燥旧信",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
@@ -388,8 +632,72 @@
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8027,
+				"type": "talk",
+				"npc_id": 9003,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-08-A",
+			"dialogue_id": "task_c1_08_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21072
+		],
+		"level_id": 1
+	},
+	"21081": {
+		"id": 21081,
+		"title": "校准第一枚星楔",
+		"description": "邮站事件后，霍雷克给出星楔坐标",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge01Calibrated",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-B",
+			"dialogue_id": "task_c1_08_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21080
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21082": {
+		"id": 21082,
+		"title": "失路哨兵",
+		"description": "校准返程遭遇",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
 				"count": 1
 			}
 		],
@@ -397,13 +705,42 @@
 			"items": [],
 			"flags": [
 				{
-					"flag": "Wedge01Calibrated",
-					"value": true
-				},
-				{
 					"flag": "MemoryFragmentStage",
 					"value": 1
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-C",
+			"dialogue_id": "task_c1_08_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			21081
+		],
+		"level_id": 1
+	},
+	"21083": {
+		"id": 21083,
+		"title": "善后院的通行令",
+		"description": "哨兵调查完成，联络官通讯接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "Chapter01Complete",
 					"value": true
@@ -411,32 +748,21 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c1_08",
-			"objective_type": "kill",
-			"target_name": "咕噜姆",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "咕噜姆吞信却保持信件干燥，黑色核心在消耗文字。失路哨兵巡着旧护送线。",
-				"active": "正在隔开核心、缩小咕噜姆，校准第一枚星楔。",
-				"ready": "第一枚星楔已校准，返回洛伯处完成信件交接。",
-				"completed": "咕噜姆缩小不死亡，第一处官方标签矛盾被建立。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C1-08",
+			"task_script_id": "C1-08-D",
+			"dialogue_id": "task_c1_08_d",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1007
+			21082
 		],
-		"id": 1008
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1009": {
-		"title": "宵禁门为什么没关",
-		"description_template": "运粮车第三次回到同一片黄昏。守门兵遗响数到十六便重来。找回风车三件套与撤离名单末行，证明命令和名册不完整。",
-		"description": "第一章完成；人工邮路进入月影遗迹外围。",
+	"22010": {
+		"id": 22010,
+		"title": "回到原点的粮车",
+		"description": "三人随运粮车进入遗迹范围",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
@@ -453,11 +779,69 @@
 		],
 		"rewards": {
 			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-01-A",
+			"dialogue_id": "task_c2_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"22011": {
+		"id": 22011,
+		"title": "木风车的三个部件",
+		"description": "确认目标：寻找木风车部件",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
 			"flags": [
 				{
 					"flag": "WindmillParts",
 					"value": 3
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-01-B",
+			"dialogue_id": "task_c2_01_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22010
+		],
+		"level_id": 2
+	},
+	"22012": {
+		"id": 22012,
+		"title": "守门所攻防",
+		"description": "部件收齐返回守门所，钟声唤醒守卫",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9013,
+		"turn_in_npc_id": 9013,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9013,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "GateOrderTraceFound",
 					"value": true
@@ -465,32 +849,71 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c2_01",
-			"objective_type": "talk",
-			"target_name": "守门兵遗响",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "宵禁门第三次回到同一片黄昏，守门兵遗响数到十六便重来。",
-				"active": "正在寻找风车三件套与撤离名单末行，拼凑被截断的命令。",
-				"ready": "风车部件与命令载体已找回，返回守门兵遗响处。",
-				"completed": "命令与名册不完整的事实被确认，进入下一项。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C2-01",
+			"task_script_id": "C2-01-C",
+			"dialogue_id": "task_c2_01_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1008
+			22011
 		],
-		"id": 1009
+		"level_id": 2
 	},
-	"1010": {
-		"title": "等最后一个孩子过去",
-		"description_template": "组装风车，完整命令恢复：等最后一个孩子过去，再关门。护送孩子遗响通过守门所，手动拉下门闩。门内我守，不替你选家在哪。",
-		"description": "木风车已在守门所装好，但轴心尚未启动；第十七组小鞋印通往外侧小门。",
+	"22020": {
+		"id": 22020,
+		"title": "风车转动",
+		"description": "三人带着装好的风车抵达外侧小门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-02-A",
+			"dialogue_id": "task_c2_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22012
+		],
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"22021": {
+		"id": 22021,
+		"title": "护送孩子过门",
+		"description": "孩子遗响出现，抱住风车不肯过门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-02-B",
+			"dialogue_id": "task_c2_02_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22020
+		],
+		"level_id": 2
+	},
+	"22022": {
+		"id": 22022,
+		"title": "十七，闭门",
+		"description": "孩子越过最后一道月纹线",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
@@ -519,46 +942,80 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c2_02",
-			"objective_type": "talk",
-			"target_name": "守门兵遗响",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "木风车三件套齐全，守门所尚未组装。完整命令仍待恢复。",
-				"active": "正在组装风车并护送孩子遗响通过守门所。",
-				"ready": "孩子已通过，守门兵数到十七，返回确认。",
-				"completed": "完整命令恢复，守门兵遗响的循环结束。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C2-02",
+			"task_script_id": "C2-02-C",
+			"dialogue_id": "task_c2_02_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1009
+			22021
 		],
-		"id": 1010
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1011": {
-		"title": "只为主角打开的房间",
-		"description_template": "凝胶记忆膜显出一个职业房间，只承认开局时承受最强反噬的人。主角进入核心区，两名同伴门外协作。取得本存档唯一主契遗装。",
-		"description": "拥有凝胶记忆膜；当前存档 `LeadHero` 已确定。",
+	"22030": {
+		"id": 22030,
+		"title": "膜选择的门",
+		"description": "持有凝胶记忆膜，抵达职业房",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9004,
-		"turn_in_npc_id": 9004,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9004,
-				"count": 1
-			}
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-03-A",
+			"dialogue_id": "task_c2_03_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22022
 		],
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"22031": {
+		"id": 22031,
+		"title": "职业房试炼",
+		"description": "主角机关通过，房间唤醒守卫",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-03-B",
+			"dialogue_id": "task_c2_03_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22030
+		],
+		"level_id": 2
+	},
+	"22032": {
+		"id": 22032,
+		"title": "主契遗装",
+		"description": "守卫停机，房间记录与遗装残片绑定",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -569,43 +1026,64 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c2_03",
-			"objective_type": "talk",
-			"target_name": "守门兵遗响",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "凝胶记忆膜持有的职业房间只为主角打开，另外两扇门无响应。",
-				"active": "主角正在核心区完成职业机关，两名同伴门外协作。",
-				"ready": "职业机关已通过，返回取得对应主契遗装。",
-				"completed": "本存档唯一主契遗装被取得。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C2-03",
+			"task_script_id": "C2-03-C",
+			"dialogue_id": "task_c2_03_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1010
+			22031
 		],
-		"id": 1011
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1012": {
-		"title": "停下月影钟",
-		"description_template": "关闭钟楼三层齿轮锁，击败阿尔戈并使四座副钟接班。搜集脉化编队装备编号与撤离后令残页，形成名册矛盾。现在能证明人数不对，还不能证明谁动的手。",
-		"description": "副钟轮值方案可执行；主契遗装已取得。",
+	"22040": {
+		"id": 22040,
+		"title": "接班印与阿尔戈",
+		"description": "三人进入钟楼，主钟仍牵动地下封锁",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9004,
-		"turn_in_npc_id": 9004,
+		"giver_npc_id": 9028,
+		"turn_in_npc_id": 9028,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8028,
+				"type": "talk",
+				"npc_id": 9028,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-04-A",
+			"dialogue_id": "task_c2_04_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22032
+		],
+		"level_id": 2
+	},
+	"22041": {
+		"id": 22041,
+		"title": "月影钟停",
+		"description": "四枚接班印全部落位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9028,
+		"turn_in_npc_id": 9028,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9028,
 				"count": 1
 			}
 		],
@@ -619,7 +1097,40 @@
 				{
 					"flag": "ArmyRosterContradiction",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-04-B",
+			"dialogue_id": "task_c2_04_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			22040
+		],
+		"level_id": 2
+	},
+	"22042": {
+		"id": 22042,
+		"title": "善后院的解释",
+		"description": "证物封存完成，联络官接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "Chapter02Complete",
 					"value": true
@@ -627,32 +1138,21 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c2_04",
-			"objective_type": "kill",
-			"target_name": "阿尔戈",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "副钟未接，主钟不停。阿尔戈守着月影钟，轮值者缺失。",
-				"active": "正在关闭钟楼齿轮锁并击败阿尔戈，让四座副钟接班。",
-				"ready": "月影钟已停，返回收集编队装备编号与命令残页。",
-				"completed": "名册矛盾被建立，实际参战者远多于名册。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C2-04",
+			"task_script_id": "C2-04-C",
+			"dialogue_id": "task_c2_04_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1011
+			22041
 		],
-		"id": 1012
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1013": {
-		"title": "十七号又没毕业",
-		"description_template": "清扫魔偶十七号把储物柜编号当成考试答案。穿过重复教室找回答案页，标出封存档案柜。分类错误，定位正确。",
-		"description": "取得学院外围通行权限；第三枚星楔仍维持毕业日前循环。",
+	"23010": {
+		"id": 23010,
+		"title": "答案：储物柜四十七",
+		"description": "三人取得学院外围通行权限，进入重复教室",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
@@ -661,12 +1161,40 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "c3_01_02_collect_100249",
-				"type": "collect",
-				"item_id": 100249,
-				"count": 3,
-				"consume_on_turn_in": true,
-				"authoring_source": "三人穿过三间重复教室，击败书灵×5，找回答卷页×3。"
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-01-A",
+			"dialogue_id": "task_c3_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 3
+	},
+	"23011": {
+		"id": 23011,
+		"title": "最后一场考试资格",
+		"description": "答卷页收齐",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -683,32 +1211,46 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c3_01",
-			"objective_type": "collect",
-			"target_name": "档案",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "十七号把储物柜编号当成考试答案，记录员遗响判它离题。",
-				"active": "正在穿过重复教室找回答案页，标出封存档案柜。",
-				"ready": "答案页已找回，返回十七号处完成定位。",
-				"completed": "封存档案柜被定位，十七号取得最终考试资格。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C3-01",
-			"compile_status": "mapped"
+			"task_script_id": "C3-01-B",
+			"dialogue_id": "task_c3_01_b",
+			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1012
+			23010
 		],
-		"id": 1013
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1014": {
-		"title": "点亮四座烛塔",
-		"description_template": "四塔不是同时点亮，要按相克顺序卸载。击败四类元素体取得烛芯，按相克顺序点亮四塔，打开毕业礼堂路线。术式可以关闭，是否关闭由在场的人共同决定。",
-		"description": "已定位档案柜；毕业礼堂仍封闭。",
+	"23020": {
+		"id": 23020,
+		"title": "四色烛芯",
+		"description": "档案柜定位后，毕业礼堂仍封闭，需点亮四座烛塔",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-02-A",
+			"dialogue_id": "task_c3_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			23011
+		],
+		"level_id": 3
+	},
+	"23021": {
+		"id": 23021,
+		"title": "点塔顺序",
+		"description": "烛芯收齐",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
@@ -718,9 +1260,9 @@
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8005,
-				"count": 8
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -733,32 +1275,21 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c3_02",
-			"objective_type": "kill",
-			"target_name": "元素体",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "四塔不是同时点亮，要按相克顺序卸载。元素体守着烛芯。",
-				"active": "正在击败四类元素体取得烛芯，按相克顺序点亮四塔。",
-				"ready": "四塔已进入低功率记录模式，返回确认毕业礼堂路线。",
-				"completed": "四座烛塔点亮，毕业礼堂路线打开。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C3-02",
+			"task_script_id": "C3-02-B",
+			"dialogue_id": "task_c3_02_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1013
+			23020
 		],
-		"id": 1014
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1015": {
-		"title": "把点名册送进礼堂",
-		"description_template": "找回点名册缺页，每页同时保留正式学生与杂役物件编号。护送十七号经过三个点名门，把完整名册送进讲台。新增类别：经共同确认的离校者。",
-		"description": "四塔稳定；露米娜仍拥有重置毕业日的权限。",
+	"23030": {
+		"id": 23030,
+		"title": "点名册缺页与第十七个名字",
+		"description": "四塔稳定，准备送名册进礼堂",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
@@ -767,12 +1298,76 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "c3_03_01_collect_100250",
-				"type": "collect",
-				"item_id": 100250,
-				"count": 3,
-				"consume_on_turn_in": true,
-				"authoring_source": "三人从书灵长廊找回点名册缺页×3。每页同时保留正式学生与杂役物件编号。"
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-03-A",
+			"dialogue_id": "task_c3_03_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			23021
+		],
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"23031": {
+		"id": 23031,
+		"title": "护送名册过三道门",
+		"description": "名册补齐，十七号取得随行资格",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-03-B",
+			"dialogue_id": "task_c3_03_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			23030
+		],
+		"level_id": 3
+	},
+	"23032": {
+		"id": 23032,
+		"title": "名册上讲台",
+		"description": "完整名册抵达礼堂",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9030,
+		"turn_in_npc_id": 9030,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9030,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -789,44 +1384,94 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c3_03",
-			"objective_type": "collect",
-			"target_name": "点名册",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "点名册缺页待找回，十七号没有正式学籍。",
-				"active": "正在找回点名册缺页并护送十七号经过三个点名门。",
-				"ready": "完整名册已备齐，返回将十七号送入礼堂。",
-				"completed": "完整点名册进入讲台，十七号站到队伍末尾。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C3-03",
-			"compile_status": "mapped"
+			"task_script_id": "C3-03-C",
+			"dialogue_id": "task_c3_03_c",
+			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1014
+			23031
 		],
-		"id": 1015
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1016": {
-		"title": "毕业前一天",
-		"description_template": "露米娜把学院锁在毕业前一天。打断召唤的魔偶并保护点名册，让十七号完成最后一题。从坐标柜取得记忆损耗账页，确认抽取早于敌袭。",
-		"description": "完整点名册进入礼堂，四塔处于低功率模式。",
+	"23040": {
+		"id": 23040,
+		"title": "毕业战",
+		"description": "名册上讲台，礼堂主灯仍不肯熄灭",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
-		"completes_chapter": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9005,
-		"turn_in_npc_id": 9005,
+		"giver_npc_id": 9030,
+		"turn_in_npc_id": 9030,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8029,
+				"type": "talk",
+				"npc_id": 9030,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-04-A",
+			"dialogue_id": "task_c3_04_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			23032
+		],
+		"level_id": 3
+	},
+	"23041": {
+		"id": 23041,
+		"title": "损耗账页",
+		"description": "循环停止，坐标柜露出账页",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MemoryConsumptionPredatesAttack",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-04-B",
+			"dialogue_id": "task_c3_04_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			23040
+		],
+		"level_id": 3
+	},
+	"23042": {
+		"id": 23042,
+		"title": "三条路与一盏灯",
+		"description": "账页封存完成，联络官接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
 				"count": 1
 			}
 		],
@@ -838,56 +1483,103 @@
 					"value": true
 				},
 				{
-					"flag": "MemoryConsumptionPredatesAttack",
-					"value": true
-				},
-				{
 					"flag": "Chapter03Complete",
 					"value": true
 				}
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c3_04",
-			"objective_type": "kill",
-			"target_name": "露米娜",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "露米娜仍拥有重置毕业日的权限，点名未结束，礼堂不能关灯。",
-				"active": "正在打断露米娜召唤的魔偶并保护点名册，让十七号完成最后一题。",
-				"ready": "十七号完成离校，返回取得记忆损耗账页。",
-				"completed": "抽取与损耗早于敌袭的事实被确认。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C3-04",
+			"task_script_id": "C3-04-C",
+			"dialogue_id": "task_c3_04_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1015
+			23041
 		],
-		"id": 1016
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1017": {
-		"title": "暴雨前的灯塔",
-		"description_template": "救援船在暴雨后重新出现在出发点，船员少了十分钟记忆。收回灯塔镜片恢复灯塔，让活人的船不再等英雄回来点灯。",
-		"description": "港湾回航循环持续，人工救援船无法进入旧码头。",
+	"24010": {
+		"id": 24010,
+		"title": "倒退的船",
+		"description": "三人抵达港湾，暴雨刚停",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9006,
-		"turn_in_npc_id": 9006,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9031,
 		"objectives": [
 			{
-				"id": "c4_01_03_collect_100251",
-				"type": "collect",
-				"item_id": 100251,
-				"count": 3,
-				"consume_on_turn_in": true,
-				"authoring_source": "三人从水母与珊瑚怪巢穴收回灯塔镜片×3。守塔人接过第一片，没有急着安装：“边缘这道白痕朝海，另外两片要按旧磨口接上。顺序错了，光会分成三条。”露娜把三片按磨痕排开，米娅记录透光差，莱昂负责清出搬运路线。"
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9031,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-01-A",
+			"dialogue_id": "task_c4_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"24011": {
+		"id": 24011,
+		"title": "夺回灯塔镜片",
+		"description": "修复方案确定，需镜片 ×3",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9031,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9031,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-01-B",
+			"dialogue_id": "task_c4_01_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24010
+		],
+		"level_id": 4
+	},
+	"24012": {
+		"id": 24012,
+		"title": "灯塔复明",
+		"description": "镜片带回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9032,
+		"turn_in_npc_id": 9032,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9032,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -904,43 +1596,64 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c4_01",
-			"objective_type": "collect",
-			"target_name": "灯塔镜片",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "守塔人守着灯没灭、方向却每天不一样的灯塔。灯塔镜片被拖进巢穴。",
-				"active": "正在从水母与珊瑚怪巢穴收回灯塔镜片，恢复灯塔。",
-				"ready": "灯塔镜片已集齐，返回按磨痕安装顺序恢复灯塔。",
-				"completed": "灯塔恢复，救援队接班点灯。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C4-01",
-			"compile_status": "mapped"
+			"task_script_id": "C4-01-C",
+			"dialogue_id": "task_c4_01_c",
+			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1016
+			24011
 		],
-		"id": 1017
+		"level_id": 4
 	},
-	"1018": {
-		"title": "被铁壳蟹偷走的航线",
-		"description_template": "绞盘钥匙被铁壳蟹偷走。三次追踪铁壳蟹取回钥匙、鱼篓和鞋带，放下锚链。绞盘缝隙掉出一枚黄色纽扣，指向埃蒙沉船坐标。",
-		"description": "灯塔恢复；锚链绞盘仍锁死。",
+	"24020": {
+		"id": 24020,
+		"title": "追踪铁壳蟹",
+		"description": "灯塔恢复后，码头工求助：绞盘钥匙被偷",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9007,
-		"turn_in_npc_id": 9007,
+		"giver_npc_id": 9033,
+		"turn_in_npc_id": 9033,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100252,
+				"type": "talk",
+				"npc_id": 9033,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-02-A",
+			"dialogue_id": "task_c4_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24012
+		],
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"24021": {
+		"id": 24021,
+		"title": "解开锚链",
+		"description": "钥匙取回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9071,
+		"turn_in_npc_id": 9071,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9071,
 				"count": 1
 			}
 		],
@@ -950,7 +1663,40 @@
 				{
 					"flag": "AnchorChainRouteOpen",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-02-B",
+			"dialogue_id": "task_c4_02_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24020
+		],
+		"level_id": 4
+	},
+	"24022": {
+		"id": 24022,
+		"title": "黄色纽扣",
+		"description": "锚链落位，绞盘缝滚出纽扣",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9033,
+		"turn_in_npc_id": 9033,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9033,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "YellowButtonFound",
 					"value": true
@@ -958,43 +1704,91 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c4_02",
-			"objective_type": "collect",
-			"target_name": "黄色纽扣",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "绞盘钥匙没了，鱼篓和鞋带也没了。铁壳蟹只被亮片与盐味引开。",
-				"active": "正在三次追踪铁壳蟹，取回钥匙、鱼篓和鞋带。",
-				"ready": "锚链已放下，黄色纽扣待带去登记处核验。",
-				"completed": "黄色纽扣建立可核验线索，指向埃蒙沉船坐标。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C4-02",
+			"task_script_id": "C4-02-C",
+			"dialogue_id": "task_c4_02_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1017
+			24021
 		],
-		"id": 1018
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1019": {
-		"title": "两封没有一起寄出的信",
-		"description_template": "埃蒙船长的家书答应按时回家，航海日志记录改航决定。两份记录放在一起，才看见一个失约的父亲也完成了船长职责。",
-		"description": "取得黄色纽扣，锚链区开放。",
+	"24030": {
+		"id": 24030,
+		"title": "雨衣上的针脚",
+		"description": "持纽扣找登记员",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9035,
+		"turn_in_npc_id": 9035,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9035,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-03-A",
+			"dialogue_id": "task_c4_03_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24022
+		],
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"24031": {
+		"id": 24031,
+		"title": "沉船驾驶舱",
+		"description": "取得航向坐标",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-03-B",
+			"dialogue_id": "task_c4_03_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24030
+		],
+		"level_id": 4
+	},
+	"24032": {
+		"id": 24032,
+		"title": "埃蒙的航线",
+		"description": "携证物回港，埃蒙家属代表到场",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9006,
-		"turn_in_npc_id": 9006,
+		"turn_in_npc_id": 9035,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "collect",
-				"item_id": 100253,
+				"type": "talk",
+				"npc_id": 9006,
 				"count": 1
 			}
 		],
@@ -1012,44 +1806,128 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c4_03",
-			"objective_type": "collect",
-			"target_name": "家书",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "埃蒙船长的家书答应按时回家，航海日志记录改航决定，两份记录尚未放在一起读。",
-				"active": "正在沿航标残片寻找沉船，逐字解读埃蒙的家书与日志。",
-				"ready": "家书、航海记录与航线图已取得，返回登记处完成登记。",
-				"completed": "埃蒙失约但完成船长职责，家书与日志归还原处。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C4-03",
+			"task_script_id": "C4-03-C",
+			"dialogue_id": "task_c4_03_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1018
+			24031
 		],
-		"id": 1019
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1020": {
-		"title": "让船不再回头",
-		"description_template": "赛壬保存遇难者声音，也让活人无法离开。校准潮汐钟，击败赛壬让锚链松开。登上运输船取得三源时序证据，官方因果不成立。",
-		"description": "灯塔、锚链和救援航线可用；失踪运输船坐标已恢复。",
+	"24040": {
+		"id": 24040,
+		"title": "回音与赛壬",
+		"description": "失踪运输船坐标恢复，需解除回航循环",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
-		"completes_chapter": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9006,
-		"turn_in_npc_id": 9006,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-04-A",
+			"dialogue_id": "task_c4_04_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24032
+		],
+		"level_id": 4
+	},
+	"24041": {
+		"id": 24041,
+		"title": "时序闭环",
+		"description": "赛壬退为残响，运输船可登",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8030,
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RoyalTimelineContradicted",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-04-B",
+			"dialogue_id": "task_c4_04_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24040
+		],
+		"level_id": 4
+	},
+	"24042": {
+		"id": 24042,
+		"title": "断桥九十秒前",
+		"description": "通讯未了，撤离开始",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9032,
+		"turn_in_npc_id": 9032,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9032,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-04-C",
+			"dialogue_id": "task_c4_04_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			24041
+		],
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"24043": {
+		"id": 24043,
+		"title": "继续查，不等于继续信",
+		"description": "全员抵达安全仓",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9056,
+		"turn_in_npc_id": 9056,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9056,
 				"count": 1
 			}
 		],
@@ -1058,10 +1936,6 @@
 			"flags": [
 				{
 					"flag": "Wedge04Calibrated",
-					"value": true
-				},
-				{
-					"flag": "RoyalTimelineContradicted",
 					"value": true
 				},
 				{
@@ -1075,43 +1949,96 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c4_04",
-			"objective_type": "kill",
-			"target_name": "赛壬",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "赛壬用录音贝壳重复普通生活片段，让活人无法离港。",
-				"active": "正在校准潮汐钟并击败赛壬，让锚链松开。",
-				"ready": "赛壬退为低强度残响，返回取得运输船三源证据。",
-				"completed": "官方因果不成立，三人明确怀疑王室并决定查清。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C4-04",
+			"task_script_id": "C4-04-D",
+			"dialogue_id": "task_c4_04_d",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1019
+			24042
 		],
-		"id": 1020
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1021": {
-		"title": "名册上不存在的街",
-		"description_template": "难民街被登记为全员撤离。走访药铺、面摊、修械棚取得三户证据，为拒绝登记制度的行政错误建立临时复路名册。删除记录不等于人不存在。",
-		"description": "三人持有王城外围通行权；难民街被登记为全员撤离。",
+	"25010": {
+		"id": 25010,
+		"title": "数活人",
+		"description": "三人持王城外围通行权抵达难民街，登记受阻",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9008,
-		"turn_in_npc_id": 9008,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9008,
+				"npc_id": 9037,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-01-A",
+			"dialogue_id": "task_c5_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 5
+	},
+	"25011": {
+		"id": 25011,
+		"title": "两套表格",
+		"description": "三户证据收齐",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9037,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-01-B",
+			"dialogue_id": "task_c5_01_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25010
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25012": {
+		"id": 25012,
+		"title": "恢复承认",
+		"description": "维恩授权到位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9041,
+		"turn_in_npc_id": 9041,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9041,
 				"count": 1
 			}
 		],
@@ -1125,46 +2052,67 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c5_01",
-			"objective_type": "talk",
-			"target_name": "多恩",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "难民街被登记为全员撤离，记录员以档案显示无人拒绝发粮。",
-				"active": "正在走访药铺、面摊、修械棚，收集三户证据建立复路名册。",
-				"ready": "三户证据与居民按印已集齐，返回结束登记。",
-				"completed": "难民街获得合法地址，记录为恢复承认而非重新出现。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C5-01",
+			"task_script_id": "C5-01-C",
+			"dialogue_id": "task_c5_01_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1020
+			25011
 		],
-		"id": 1021
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1022": {
-		"title": "最后一声撤离号",
-		"description_template": "号手多恩被旧档案写成逃兵。找回断裂钟锤两段与撤离名单缺页，修好钟锤按旧节奏敲响第二次警报。备份门开启，姓名由证据确认。",
-		"description": "难民街合法地址恢复；撤离钟楼可进入。",
+	"25020": {
+		"id": 25020,
+		"title": "红绳与第二声号",
+		"description": "难民街地址恢复，老人持维修签收簿来访",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9008,
-		"turn_in_npc_id": 9008,
+		"giver_npc_id": 9042,
+		"turn_in_npc_id": 9042,
 		"objectives": [
 			{
-				"id": "c5_02_03_kill_8017",
-				"type": "kill",
-				"enemy_id": 8017,
-				"count": 2,
-				"consume_on_turn_in": false,
-				"authoring_source": "灰烬骑士×4、焰灵×2。多恩遗响只有喘息、脚步和两次试吹，不参与战斗对白。"
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9042,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-02-A",
+			"dialogue_id": "task_c5_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25012
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25021": {
+		"id": 25021,
+		"title": "第二声撤离号",
+		"description": "钟锤找回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9073,
+		"turn_in_npc_id": 9073,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9073,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -1181,43 +2129,96 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c5_02",
-			"objective_type": "talk",
-			"target_name": "多恩",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "号手多恩的行动遗响被困在撤离钟楼，旧档案把他写成逃兵。",
-				"active": "正在找回断裂钟锤与撤离名单缺页，修好钟锤敲响第二次警报。",
-				"ready": "备用门已开启，返回确认多恩的姓名。",
-				"completed": "多恩姓名由证据确认，名字回来了，人没有。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C5-02",
-			"compile_status": "mapped"
+			"task_script_id": "C5-02-B",
+			"dialogue_id": "task_c5_02_b",
+			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1021
+			25020
 		],
-		"id": 1022
+		"level_id": 5
 	},
-	"1023": {
-		"title": "三种身份，一扇档案门",
-		"description_template": "焚毁档案馆由军务锁、民间路线锁、术式锁并存。三份记录共同指向一名被删骑士统领。身份未知，关系未知。",
-		"description": "备用门开启；焚毁档案馆仍由三种权限锁定。",
+	"25022": {
+		"id": 25022,
+		"title": "更正栏",
+		"description": "认名完成，携证物回登记桌",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9008,
-		"turn_in_npc_id": 9008,
+		"giver_npc_id": 9042,
+		"turn_in_npc_id": 9042,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9008,
+				"npc_id": 9042,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-02-C",
+			"dialogue_id": "task_c5_02_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25021
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25030": {
+		"id": 25030,
+		"title": "三把锁",
+		"description": "备用门开启，抵达档案门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "ThreeOldRolesVerified",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-03-A",
+			"dialogue_id": "task_c5_03_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25022
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25031": {
+		"id": 25031,
+		"title": "档案门之战",
+		"description": "三锁开启",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9061,
+		"turn_in_npc_id": 9061,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9061,
 				"count": 1
 			}
 		],
@@ -1227,52 +2228,100 @@
 				{
 					"flag": "DeletedCommanderConfirmed",
 					"value": true
-				},
-				{
-					"flag": "ThreeOldRolesVerified",
-					"value": true
 				}
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c5_03",
-			"objective_type": "talk",
-			"target_name": "多恩",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "焚毁档案馆仍由三种权限锁定，三份旧身份拓印待取得。",
-				"active": "正在逐一通过军务锁、民间路线锁、术式锁，收集三份旧身份拓印。",
-				"ready": "三组旧身份拓印已取得，返回确认被删统领存在。",
-				"completed": "被删骑士统领被确认，身份与关系仍未知。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C5-03",
+			"task_script_id": "C5-03-B",
+			"dialogue_id": "task_c5_03_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1022
+			25030
 		],
-		"id": 1023
+		"level_id": 5
 	},
-	"1024": {
-		"title": "叛逃统领与第六号脉化体",
-		"description_template": "雷欧哈特以长剑扣住档案门。击败雷欧哈特开放档案，取得岗位名册与永曜预算残页。两份卷宗故意不互认，主契遗装写入三名当前调查成员。",
-		"description": "三种身份验证完成；第五枚星楔与军务封档由雷欧哈特看守。",
+	"25032": {
+		"id": 25032,
+		"title": "三个档袋",
+		"description": "三份记录共同指向被删骑士统领",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
-		"completes_chapter": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9008,
-		"turn_in_npc_id": 9008,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8031,
+				"type": "talk",
+				"npc_id": 9037,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-03-C",
+			"dialogue_id": "task_c5_03_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25031
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25040": {
+		"id": 25040,
+		"title": "雷欧哈特的剑",
+		"description": "三种身份验证完成，面对看守者雷欧哈特",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9043,
+		"turn_in_npc_id": 9043,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9043,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-04-A",
+			"dialogue_id": "task_c5_04_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25032
+		],
+		"level_id": 5
+	},
+	"25041": {
+		"id": 25041,
+		"title": "两份互不相认的卷宗",
+		"description": "取得档案访问权",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
 				"count": 1
 			}
 		],
@@ -1282,7 +2331,42 @@
 				{
 					"flag": "Wedge05Authorized",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-B",
+			"dialogue_id": "task_c5_04_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25040
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25042": {
+		"id": 25042,
+		"title": "签署清除令",
+		"description": "最终清除令待签",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9076,
+		"turn_in_npc_id": 9076,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9076,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "FinalPurgeOrderAccepted",
 					"value": true
@@ -1290,7 +2374,42 @@
 				{
 					"flag": "ReturnClauseAdded",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-C",
+			"dialogue_id": "task_c5_04_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			25041
+		],
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"25043": {
+		"id": 25043,
+		"title": "死脉稳定片",
+		"description": "签署完成，准备离开档案馆",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9036,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9036,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "DeadLeyStabilizerObtained",
 					"value": true
@@ -1302,43 +2421,64 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c5_04",
-			"objective_type": "kill",
-			"target_name": "雷欧哈特",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "雷欧哈特看守第五枚星楔与军务封档，要求逐项确认三种身份。",
-				"active": "正在击败雷欧哈特，保护证据区，让档案开放交付。",
-				"ready": "岗位名册与预算残页已取得，返回完成主契重铸。",
-				"completed": "两份卷宗故意不互认，主契遗装写入三名成员。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C5-04",
+			"task_script_id": "C5-04-D",
+			"dialogue_id": "task_c5_04_d",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1023
+			25042
 		],
-		"id": 1024
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1025": {
-		"title": "三把旧钥匙",
-		"description_template": "持有前五枚星楔权限与最终清除令。用三把旧钥匙解除旧锁，同步前五枚星楔开启核心门。两支失败处置队只有进入记录，死因未知。",
-		"description": "持有前五枚星楔权限、三份现职凭证与最终清除令。",
+	"26010": {
+		"id": 26010,
+		"title": "空的返程栏",
+		"description": "持前五枚星楔权限、三份现职凭证与最终清除令抵达核心门",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9009,
+				"npc_id": 9044,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-01-A",
+			"dialogue_id": "task_c6_01_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26011": {
+		"id": 26011,
+		"title": "单向坐标",
+		"description": "三锁就位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9060,
+		"turn_in_npc_id": 9060,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9060,
 				"count": 1
 			}
 		],
@@ -1356,43 +2496,55 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_01",
-			"objective_type": "talk",
-			"target_name": "诺瓦",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "核心门由三类旧锁锁定，两支失败处置队只留下烧蚀星印与单向定位日志。",
-				"active": "正在用三把旧钥匙解除旧锁，同步前五枚星楔开启核心门。",
-				"ready": "核心门已开启，返回确认进入内环。",
-				"completed": "核心门开启，常规队伍无法正常进入或返回的事实被确认。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-01",
+			"task_script_id": "C6-01-B",
+			"dialogue_id": "task_c6_01_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1024
+			26010
 		],
-		"id": 1025
+		"level_id": 6
 	},
-	"1026": {
+	"26020": {
+		"id": 26020,
 		"title": "第四套餐具",
-		"description_template": "失落营地重现，有四套餐具。三个人的生活习惯逐件指向第四个人曾长期共同生活。我们记得怎么用，不记得谁用过。",
-		"description": "核心门开启；失落营地重现。",
+		"description": "核心门开启，营地重现",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-02-A",
+			"dialogue_id": "task_c6_02_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26011
+		],
+		"level_id": 6
+	},
+	"26021": {
+		"id": 26021,
+		"title": "不命名",
+		"description": "营地证物整理",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9072,
+		"turn_in_npc_id": 9072,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9009,
+				"npc_id": 9072,
 				"count": 1
 			}
 		],
@@ -1406,44 +2558,65 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_02",
-			"objective_type": "talk",
-			"target_name": "诺瓦",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "失落营地有四套餐具，第四只杯子被推到右手边又停住。某人曾长期在这里共同生活。",
-				"active": "正在调查营地物件，确认第四个人曾与三人长期共同生活。",
-				"ready": "物件多源证据已收集，返回围第四空位完成配装。",
-				"completed": "第四个人曾长期共同生活被确认，姓名与关系仍未知。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-02",
+			"task_script_id": "C6-02-B",
+			"dialogue_id": "task_c6_02_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1025
+			26020
 		],
-		"id": 1026
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	},
-	"1027": {
-		"title": "六张只为王族制作的椅子",
-		"description_template": "永曜灌注庭有六张只为王族体型制作的椅子。测量椅体磨损，复制疗程指标，拓印现任王室印玺，确认永曜工程服务王族延寿与魔力增幅。",
-		"description": "穿过失落营地，进入永曜灌注庭。",
+	"26030": {
+		"id": 26030,
+		"title": "六张椅子",
+		"description": "穿过失落营地，进入灌注庭",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8015,
-				"count": 4
+				"type": "talk",
+				"npc_id": 9044,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-03-A",
+			"dialogue_id": "task_c6_03_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26021
+		],
+		"level_id": 6
+	},
+	"26031": {
+		"id": 26031,
+		"title": "三环相扣",
+		"description": "战斗结束，开始取证",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9044,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -1460,44 +2633,92 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_03",
-			"objective_type": "kill",
-			"target_name": "王室构造体",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "六张灌注椅按不同王族体型制作，通讯员称其为战时医疗设施。",
-				"active": "正在阻止构造体销毁座椅铭印，测量磨损并拓印印玺。",
-				"ready": "三组证据已闭环，返回选择终战增益。",
-				"completed": "永曜工程服务王族的目的是首次确认。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-03",
+			"task_script_id": "C6-03-B",
+			"dialogue_id": "task_c6_03_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1026
+			26030
 		],
-		"id": 1027
+		"level_id": 6
 	},
-	"1028": {
-		"title": "把六枚星楔改成救人的方式",
-		"description_template": "先保邮路、粮道和救援航线，关闭王室专线、观光传送和灌注旁路。按顺序重排六楔，设置记忆吞噬阈值自动停机。",
-		"description": "永曜工程目的已确认；第六枚星楔仍与核心目标连接。",
+	"26032": {
+		"id": 26032,
+		"title": "终战增益",
+		"description": "证据封存完成，剩余能量可选",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-03-C",
+			"dialogue_id": "task_c6_03_c",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26031
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26040": {
+		"id": 26040,
+		"title": "重排六楔",
+		"description": "永曜目的确认，第六枚星楔仍与核心目标连接",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8017,
-				"count": 8
+				"type": "talk",
+				"npc_id": 9044,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-04-A",
+			"dialogue_id": "task_c6_04_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26032
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26041": {
+		"id": 26041,
+		"title": "校准台保卫战",
+		"description": "重排开始，渊蚀构造体反扑",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9044,
+				"count": 1
 			}
 		],
 		"rewards": {
@@ -1514,55 +2735,97 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_04",
-			"objective_type": "kill",
-			"target_name": "渊蚀构造体",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "第六枚星楔仍与核心目标连接，王室专线仍在占用中央配额。",
-				"active": "正在按邮路、粮道、救援航线顺序重排六楔，抵御渊蚀构造体。",
-				"ready": "六楔已转入低负载待命，返回确认地方基础功能。",
-				"completed": "六枚星楔转为救人的方式，不恢复中央高负载。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-04",
+			"task_script_id": "C6-04-B",
+			"dialogue_id": "task_c6_04_b",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1027
+			26040
 		],
-		"id": 1028
+		"level_id": 6
 	},
-	"1029": {
-		"title": "没有名字的目标",
-		"description_template": "完全脉化的目标从核心裂隙中形成，无台词、无姓名、无意识。三人共同处置，完成最后一击。目标死亡，三段关系同时恢复：诺瓦是我们的统领、恋人、哥哥。",
-		"description": "地方低负载模式完成；最终处置条件成立。",
+	"26050": {
+		"id": 26050,
+		"title": "无名目标",
+		"description": "地方低负载确认完成，裂隙张开",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
 				"id": "obj_1",
-				"type": "kill",
-				"enemy_id": 8032,
+				"type": "talk",
+				"npc_id": 9044,
 				"count": 1
 			}
 		],
 		"rewards": {
 			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-05-A",
+			"dialogue_id": "task_c6_05_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26041
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26051": {
+		"id": 26051,
+		"title": "行为异常",
+		"description": "第一阶段结束",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9049,
+		"turn_in_npc_id": 9049,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9049,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-05-B",
+			"dialogue_id": "task_c6_05_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26050
+		],
+		"level_id": 6
+	},
+	"26052": {
+		"id": 26052,
+		"title": "最后一击",
+		"description": "脉核暴露",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
 			"flags": [
 				{
 					"flag": "NovaKilled",
-					"value": true
-				},
-				{
-					"flag": "RelationshipMemoriesRestored",
 					"value": true
 				},
 				{
@@ -1572,43 +2835,62 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_05",
-			"objective_type": "kill",
-			"target_name": "诺瓦",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "王脉核心开始物质化坍塌，目标从裂隙中形成，三人只以目标称呼它。",
-				"active": "正在共同处置目标，固定正面、建立相位路线、同步六楔。",
-				"ready": "目标已处置，返回完成最后的证据确认。",
-				"completed": "诺瓦死亡，三段关系同时恢复，进入灭口证据调查。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-05",
+			"task_script_id": "C6-05-C",
+			"dialogue_id": "task_c6_05_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1028
+			26051
 		],
-		"id": 1029
+		"level_id": 6
 	},
-	"1030": {
-		"title": "最后九十秒",
-		"description_template": "主出口被远程封闭，九十秒倒计时启动。重读最终清除令认出隐藏军务码，展开被整段删掉的返程图。活着带回证据，让下命令的人解释为什么要他死两次。",
-		"description": "诺瓦死亡，三段关系返还；主出口尚未完全封闭。",
+	"26053": {
+		"id": 26053,
+		"title": "返忆",
+		"description": "诺瓦死亡，遗忘遮蔽解除",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9009,
-		"turn_in_npc_id": 9009,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RelationshipMemoriesRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-05-D",
+			"dialogue_id": "task_c6_05_d",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26052
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26060": {
+		"id": 26060,
+		"title": "灭口令",
+		"description": "返忆完成，主出口尚未完全封闭",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9009,
+				"npc_id": 9044,
 				"count": 1
 			}
 		],
@@ -1618,7 +2900,74 @@
 				{
 					"flag": "RoyalExterminationIntentProved",
 					"value": true
-				},
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-06-A",
+			"dialogue_id": "task_c6_06_a",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26053
+		],
+		"level_id": 6
+	},
+	"26061": {
+		"id": 26061,
+		"title": "最后九十秒",
+		"description": "主出口落锁，死脉稳定片震动，90 秒倒计时开始",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9036,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9036,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-06-B",
+			"dialogue_id": "task_c6_06_b",
+			"compile_status": "missing_runtime_target_ids"
+		},
+		"required_quest_ids": [
+			26060
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26062": {
+		"id": 26062,
+		"title": "点名",
+		"description": "三人冲出侧门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
 				{
 					"flag": "Chapter06Complete",
 					"value": true
@@ -1630,26 +2979,15 @@
 			]
 		},
 		"authoring": {
-			"dialogue_id": "task_c6_06",
-			"objective_type": "talk",
-			"target_name": "诺瓦",
-			"reward_item_name": "",
-			"state_text_templates": {
-				"inactive": "诺瓦死亡，三段关系返还，主出口尚未完全封闭。",
-				"active": "正在九十秒倒计时内逃离坍塌的核心，识别承重安全区与民间旧路。",
-				"ready": "三人已撤出主出口，返回与其他接应确认。",
-				"completed": "灭口证据被证明，三人决定追责，要求解释为什么要他死两次。"
-			},
-			"hooks": {
-				"start_intent_key": "accept_quest",
-				"turn_in_intent_key": "turn_in_quest"
-			},
-			"task_script_id": "C6-06",
+			"task_script_id": "C6-06-C",
+			"dialogue_id": "task_c6_06_c",
 			"compile_status": "missing_runtime_target_ids"
 		},
 		"required_quest_ids": [
-			1029
+			26061
 		],
-		"id": 1030
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	}
 }

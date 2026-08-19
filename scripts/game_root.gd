@@ -15,6 +15,7 @@ var _interaction_manager: InteractionManager
 var _world_content_spawner: WorldContentSpawner
 var _party_retry_pending := false
 var _quest_world_refresh_pending := false
+var _story_bootstrap_pending := false
 
 
 
@@ -154,6 +155,19 @@ func _on_level_loaded(level_id: int, level_name: String) -> void:
 	_spawn_level_enemies(level_id)
 	_spawn_level_npcs(level_id)
 	_world_content_spawner.spawn_for_level(level_id)
+	# 首个关卡就绪后触发开局选角/过场自动链（内部保证只执行一次）
+	if not _story_bootstrap_pending:
+		_story_bootstrap_pending = true
+		call_deferred("_bootstrap_story")
+	# 进入关卡时尝试恢复属于该关卡的自动链（排在 bootstrap 之后执行）
+	if GameRegistry.story_auto_play != null:
+		GameRegistry.story_auto_play.on_level_loaded(level_id)
+
+
+func _bootstrap_story() -> void:
+	_story_bootstrap_pending = false
+	if GameRegistry.story_auto_play != null:
+		GameRegistry.story_auto_play.bootstrap()
 
 
 func _on_level_unloaded(_level_id: int) -> void:

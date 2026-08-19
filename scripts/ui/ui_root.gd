@@ -28,6 +28,9 @@ var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
 var _interaction_prompt: Label
 var _interaction_target: Node2D
+# 过场播放前主 HUD 的显隐状态，结束后恢复
+var _hud_visible_before_cutscene := false
+var _in_cutscene := false
 var _notification_label: Label
 var _dialogue_previous_pause := false
 
@@ -434,6 +437,14 @@ func _connect_npc_services() -> void:
 
 func _on_dialogue_started(_npc_id: int) -> void:
 	set_interaction_target(null)
+	# 过场（开局选角）用纯黑背景；任务过场保持半透保留场景画面
+	var cinematic: bool = GameRegistry.dialogue_service.is_cutscene()
+	_dialogue_panel.set_cinematic(cinematic)
+	# 过场（含任务过场）隐藏主 HUD（角色栏/技能栏/图标），避免画面错乱；普通对话保留
+	_in_cutscene = GameRegistry.dialogue_service.is_auto_cutscene()
+	if _in_cutscene and _main_ui != null and _main_ui.visible:
+		_hud_visible_before_cutscene = true
+		_main_ui.visible = false
 	_dialogue_previous_pause = get_tree().paused
 	show_popup(_dialogue_panel)
 	get_tree().paused = true
@@ -530,6 +541,12 @@ func _character_portrait_path(character_id: int) -> String:
 
 func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:
 	close_popup(_dialogue_panel)
+	# 过场结束后恢复主 HUD 与电影遮罩状态
+	if _in_cutscene:
+		_in_cutscene = false
+		if _hud_visible_before_cutscene and _main_ui != null:
+			_main_ui.visible = true
+		_hud_visible_before_cutscene = false
 	get_tree().paused = _dialogue_previous_pause
 
 
