@@ -26,6 +26,21 @@ func setup(p_quest_service: QuestService, p_dialogue_service: DialogueService) -
 	dialogue_service.dialogue_finished.connect(_on_dialogue_finished)
 	# 任务完成（含手动玩法任务）后尝试推进自动链：只接续"以该任务为前置"的下一任务
 	quest_service.quest_completed.connect(_on_quest_completed)
+	# auto_start 挑战段（纯战斗/收集、无接取 NPC）：目标达成（ready）即自动交付
+	quest_service.quest_ready.connect(_on_quest_ready)
+
+
+## auto_complete 任务的 ready 即完成（auto_start 挑战段打完即过）。
+## auto_play 过场任务播放中不抢跑：由对话收尾统一处理，避免完成通知早于过场弹出。
+func _on_quest_ready(quest_id: int) -> void:
+	if quest_service == null or quest_service.config == null:
+		return
+	if _playing_quest_id == quest_id:
+		return
+	var quest: Dictionary = quest_service.config.get_quest(quest_id)
+	if quest.is_empty() or not bool(quest.get("auto_complete", false)):
+		return
+	quest_service.turn_in_quest(quest_id)
 
 
 func _on_quest_completed(quest_id: int) -> void:
@@ -123,6 +138,7 @@ func _on_dialogue_finished(_npc_id: int, completed: bool) -> void:
 ## 推进自动链。trigger_quest_id >= 0 时只接续"以该任务为前置"的自动任务；
 ## 无触发（启动/选角后）时只恢复有前置的续点或链上第一个任务，不抢跑事件触发型任务；
 ## only_level_id >= 0 时只处理属于该关卡的任务（玩家进入关卡时的恢复）。
+## 链任务含两类：auto_play（过场：接取+播对话）与 auto_start（挑战段：仅自动接取，不播对话）。
 func _advance_chain(trigger_quest_id: int = -1, only_level_id: int = -1) -> void:
 	if quest_service == null or quest_service.config == null or dialogue_service == null:
 		return
@@ -136,12 +152,14 @@ func _advance_chain(trigger_quest_id: int = -1, only_level_id: int = -1) -> void
 	var first_auto_id := -1
 	for quest_id in sorted_ids:
 		var q: Dictionary = quest_service.config.get_quest(quest_id)
-		if bool(q.get("auto_play", false)):
+		if bool(q.get("auto_play", false)) or bool(q.get("auto_start", false)):
 			first_auto_id = quest_id
 			break
 	for quest_id in sorted_ids:
 		var quest: Dictionary = quest_service.config.get_quest(quest_id)
-		if not bool(quest.get("auto_play", false)):
+		var is_auto_play := bool(quest.get("auto_play", false))
+		var is_auto_start := bool(quest.get("auto_start", false))
+		if not is_auto_play and not is_auto_start:
 			continue
 		if quest_service.get_status(quest_id) != "inactive":
 			continue
@@ -161,9 +179,6 @@ func _advance_chain(trigger_quest_id: int = -1, only_level_id: int = -1) -> void
 				continue
 		elif required.is_empty() and quest_id != first_auto_id:
 			continue
-		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
-		if dialogue_id.is_empty():
-			continue
 		# 场景门槛：仅开局首次允许定位到首任务场景；之后链不跨关卡传送
 		if GameRegistry.level_manager != null:
 			var level_id := int(quest.get("level_id", -1))
@@ -174,6 +189,12 @@ func _advance_chain(trigger_quest_id: int = -1, only_level_id: int = -1) -> void
 				GameRegistry.level_manager.load_level(level_id)
 		_opening_positioned = true
 		if not quest_service.start_quest(quest_id):
+			continue
+		# auto_start 挑战段：只接取不播过场（目标由玩家战斗/收集推进，ready 即自动交付）
+		if not is_auto_play:
+			return
+		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
+		if dialogue_id.is_empty():
 			continue
 		_playing_quest_id = quest_id
 		if not dialogue_service.start_cutscene(dialogue_id, int(quest.get("giver_npc_id", 0))):

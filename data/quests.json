@@ -11,7 +11,7 @@
 		"turn_in_npc_id": 9002,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9002",
 				"type": "talk",
 				"npc_id": 9002,
 				"count": 1
@@ -44,13 +44,13 @@
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9001,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
 		"objectives": [
 			{
 				"id": "obj_1",
 				"type": "talk",
-				"npc_id": 9001,
+				"npc_id": 9002,
 				"count": 1
 			}
 		],
@@ -78,18 +78,24 @@
 	"21012": {
 		"id": 21012,
 		"title": "仓库领取装备",
-		"description": "接受委托后",
+		"description": "C1-01-B 完成后自动解锁",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9001,
+		"turn_in_npc_id": 9045,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9001",
 				"type": "talk",
 				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "talk_9045",
+				"type": "talk",
+				"npc_id": 9045,
 				"count": 1
 			}
 		],
@@ -109,14 +115,19 @@
 		"authoring": {
 			"task_script_id": "C1-01-C",
 			"dialogue_id": "task_c1_01_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9001": "flow_d01_line_01",
+				"9045": "flow_d02_branch_router"
+			},
+			"delivery_entries": {
+				"9045": "flow_d03_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21011
 		],
-		"level_id": 1,
-		"auto_play": true,
-		"auto_complete": true
+		"level_id": 1
 	},
 	"21013": {
 		"id": 21013,
@@ -127,12 +138,12 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9016,
-		"turn_in_npc_id": 9016,
+		"turn_in_npc_id": 9002,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9002",
 				"type": "talk",
-				"npc_id": 9016,
+				"npc_id": 9002,
 				"count": 1
 			}
 		],
@@ -148,7 +159,11 @@
 		"authoring": {
 			"task_script_id": "C1-01-D",
 			"dialogue_id": "task_c1_01_d",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9002": "flow_d05_line_01",
+				"9016": "flow_d01_k_2_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21012
@@ -164,12 +179,24 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9020,
-		"turn_in_npc_id": 9020,
+		"turn_in_npc_id": 9016,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9020",
 				"type": "talk",
 				"npc_id": 9020,
+				"count": 1
+			},
+			{
+				"id": "talk_9016",
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			},
+			{
+				"id": "kill_8001",
+				"type": "kill",
+				"enemy_id": 8001,
 				"count": 1
 			}
 		],
@@ -180,7 +207,11 @@
 		"authoring": {
 			"task_script_id": "C1-02-A",
 			"dialogue_id": "task_c1_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9016": "flow_d02_line_01",
+				"9020": "flow_d01_line_01"
+			}
 		},
 		"required_quest_ids": [],
 		"level_id": 1
@@ -197,9 +228,9 @@
 		"turn_in_npc_id": 9016,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9020",
 				"type": "talk",
-				"npc_id": 9016,
+				"npc_id": 9020,
 				"count": 1
 			}
 		],
@@ -215,14 +246,19 @@
 		"authoring": {
 			"task_script_id": "C1-02-B",
 			"dialogue_id": "task_c1_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9016": "flow_d01_line_01",
+				"9020": "flow_d05_line_01"
+			},
+			"delivery_entries": {
+				"9016": "flow_d01_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21020
 		],
-		"level_id": 1,
-		"auto_play": true,
-		"auto_complete": true
+		"level_id": 1
 	},
 	"21030": {
 		"id": 21030,
@@ -236,7 +272,7 @@
 		"turn_in_npc_id": 9021,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9021",
 				"type": "talk",
 				"npc_id": 9021,
 				"count": 1
@@ -254,7 +290,13 @@
 		"authoring": {
 			"task_script_id": "C1-03-A",
 			"dialogue_id": "task_c1_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9021": "flow_d01_line_01"
+			},
+			"delivery_entries": {
+				"9021": "flow_d11_k_1_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21021
@@ -270,12 +312,18 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9022,
-		"turn_in_npc_id": 9022,
+		"turn_in_npc_id": 9001,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9022",
 				"type": "talk",
 				"npc_id": 9022,
+				"count": 1
+			},
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
 				"count": 1
 			}
 		],
@@ -291,7 +339,12 @@
 		"authoring": {
 			"task_script_id": "C1-04-A",
 			"dialogue_id": "task_c1_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9001": "flow_d02_line_01",
+				"9022": "flow_d01_line_01",
+				"9023": "flow_d03_k_2_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21030
@@ -340,16 +393,9 @@
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9069,
-		"turn_in_npc_id": 9069,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9069,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -362,7 +408,9 @@
 		"required_quest_ids": [
 			21041
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"21051": {
 		"id": 21051,
@@ -469,7 +517,11 @@
 		"authoring": {
 			"task_script_id": "C1-06-B",
 			"dialogue_id": "task_c1_06_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9003": "flow_d02_line_01",
+				"9024": "flow_d01_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21060
@@ -583,7 +635,9 @@
 		"required_quest_ids": [
 			21070
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"21072": {
 		"id": 21072,
@@ -644,7 +698,11 @@
 		"authoring": {
 			"task_script_id": "C1-08-A",
 			"dialogue_id": "task_c1_08_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9003": "flow_d01_line_01",
+				"9026": "flow_d08_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21072
@@ -713,7 +771,10 @@
 		"authoring": {
 			"task_script_id": "C1-08-C",
 			"dialogue_id": "task_c1_08_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9027": "flow_d05_line_01"
+			}
 		},
 		"required_quest_ids": [
 			21081
@@ -819,7 +880,9 @@
 		"required_quest_ids": [
 			22010
 		],
-		"level_id": 2
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"22012": {
 		"id": 22012,
@@ -851,7 +914,10 @@
 		"authoring": {
 			"task_script_id": "C2-01-C",
 			"dialogue_id": "task_c2_01_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"delivery_entries": {
+				"9013": "flow_d09_line_01"
+			}
 		},
 		"required_quest_ids": [
 			22011
@@ -908,7 +974,9 @@
 		"required_quest_ids": [
 			22020
 		],
-		"level_id": 2
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"22022": {
 		"id": 22022,
@@ -1003,7 +1071,9 @@
 		"required_quest_ids": [
 			22030
 		],
-		"level_id": 2
+		"level_id": 2,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"22032": {
 		"id": 22032,
@@ -1103,7 +1173,10 @@
 		"authoring": {
 			"task_script_id": "C2-04-B",
 			"dialogue_id": "task_c2_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9028": "flow_d03_line_01"
+			}
 		},
 		"required_quest_ids": [
 			22040
@@ -1161,7 +1234,7 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9005",
 				"type": "talk",
 				"npc_id": 9005,
 				"count": 1
@@ -1174,7 +1247,11 @@
 		"authoring": {
 			"task_script_id": "C3-01-A",
 			"dialogue_id": "task_c3_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9005": "flow_d01_line_01",
+				"9029": "flow_d02_line_01"
+			}
 		},
 		"required_quest_ids": [],
 		"level_id": 3
@@ -1245,7 +1322,9 @@
 		"required_quest_ids": [
 			23011
 		],
-		"level_id": 3
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"23021": {
 		"id": 23021,
@@ -1328,16 +1407,9 @@
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9005,
-		"turn_in_npc_id": 9005,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9005,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1350,7 +1422,9 @@
 		"required_quest_ids": [
 			23030
 		],
-		"level_id": 3
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"23032": {
 		"id": 23032,
@@ -1364,7 +1438,7 @@
 		"turn_in_npc_id": 9030,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9030",
 				"type": "talk",
 				"npc_id": 9030,
 				"count": 1
@@ -1420,7 +1494,11 @@
 		"authoring": {
 			"task_script_id": "C3-04-A",
 			"dialogue_id": "task_c3_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9005": "flow_d10_line_01",
+				"9030": "flow_d01_line_01"
+			}
 		},
 		"required_quest_ids": [
 			23032
@@ -1455,7 +1533,9 @@
 		"required_quest_ids": [
 			23040
 		],
-		"level_id": 3
+		"level_id": 3,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"23042": {
 		"id": 23042,
@@ -1617,10 +1697,11 @@
 		"turn_in_npc_id": 9033,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9033,
-				"count": 1
+				"id": "collect_100252",
+				"type": "collect",
+				"item_id": 100252,
+				"count": 1,
+				"consume_on_turn_in": true
 			}
 		],
 		"rewards": {
@@ -1630,14 +1711,16 @@
 		"authoring": {
 			"task_script_id": "C4-02-A",
 			"dialogue_id": "task_c4_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9033": "flow_d01_line_01",
+				"9034": "flow_d02_line_01"
+			}
 		},
 		"required_quest_ids": [
 			24012
 		],
-		"level_id": 4,
-		"auto_play": true,
-		"auto_complete": true
+		"level_id": 4
 	},
 	"24021": {
 		"id": 24021,
@@ -1647,13 +1730,13 @@
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9071,
-		"turn_in_npc_id": 9071,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9071,
+				"id": "kill_8026",
+				"type": "kill",
+				"enemy_id": 8026,
 				"count": 1
 			}
 		],
@@ -1674,7 +1757,9 @@
 		"required_quest_ids": [
 			24020
 		],
-		"level_id": 4
+		"level_id": 4,
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"24022": {
 		"id": 24022,
@@ -1772,7 +1857,9 @@
 		"required_quest_ids": [
 			24030
 		],
-		"level_id": 4
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"24032": {
 		"id": 24032,
@@ -1840,7 +1927,9 @@
 		"required_quest_ids": [
 			24032
 		],
-		"level_id": 4
+		"level_id": 4,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"24041": {
 		"id": 24041,
@@ -1854,7 +1943,7 @@
 		"turn_in_npc_id": 9027,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9027",
 				"type": "talk",
 				"npc_id": 9027,
 				"count": 1
@@ -1872,7 +1961,10 @@
 		"authoring": {
 			"task_script_id": "C4-04-B",
 			"dialogue_id": "task_c4_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9027": "flow_d04_line_01"
+			}
 		},
 		"required_quest_ids": [
 			24040
@@ -1921,13 +2013,13 @@
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9056,
-		"turn_in_npc_id": 9056,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 9001,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9001",
 				"type": "talk",
-				"npc_id": 9056,
+				"npc_id": 9001,
 				"count": 1
 			}
 		],
@@ -1985,7 +2077,14 @@
 		"authoring": {
 			"task_script_id": "C5-01-A",
 			"dialogue_id": "task_c5_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9037": "flow_d01_line_01",
+				"9038": "flow_d02_line_01",
+				"9039": "flow_d04_line_01",
+				"9040": "flow_d05_line_01",
+				"9041": "flow_d06_line_01"
+			}
 		},
 		"required_quest_ids": [],
 		"level_id": 5
@@ -2105,13 +2204,13 @@
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9073,
-		"turn_in_npc_id": 9073,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9073,
+				"id": "kill_8017",
+				"type": "kill",
+				"enemy_id": 8017,
 				"count": 1
 			}
 		],
@@ -2136,7 +2235,9 @@
 		"required_quest_ids": [
 			25020
 		],
-		"level_id": 5
+		"level_id": 5,
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"25022": {
 		"id": 25022,
@@ -2212,16 +2313,9 @@
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9061,
-		"turn_in_npc_id": 9061,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9061,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2239,7 +2333,9 @@
 		"required_quest_ids": [
 			25030
 		],
-		"level_id": 5
+		"level_id": 5,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"25032": {
 		"id": 25032,
@@ -2287,7 +2383,7 @@
 		"turn_in_npc_id": 9043,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9043",
 				"type": "talk",
 				"npc_id": 9043,
 				"count": 1
@@ -2319,7 +2415,7 @@
 		"turn_in_npc_id": 9027,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9027",
 				"type": "talk",
 				"npc_id": 9027,
 				"count": 1
@@ -2354,16 +2450,9 @@
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9076,
-		"turn_in_npc_id": 9076,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9076,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2472,16 +2561,9 @@
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9060,
-		"turn_in_npc_id": 9060,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9060,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2503,7 +2585,9 @@
 		"required_quest_ids": [
 			26010
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"26020": {
 		"id": 26020,
@@ -2528,7 +2612,9 @@
 		"required_quest_ids": [
 			26011
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"26021": {
 		"id": 26021,
@@ -2538,16 +2624,9 @@
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9072,
-		"turn_in_npc_id": 9072,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9072,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2635,7 +2714,10 @@
 		"authoring": {
 			"task_script_id": "C6-03-B",
 			"dialogue_id": "task_c6_03_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9044": "flow_d07_line_01"
+			}
 		},
 		"required_quest_ids": [
 			26030
@@ -2786,16 +2868,9 @@
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9049,
-		"turn_in_npc_id": 9049,
-		"objectives": [
-			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9049,
-				"count": 1
-			}
-		],
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2808,7 +2883,9 @@
 		"required_quest_ids": [
 			26050
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"26052": {
 		"id": 26052,
@@ -2842,7 +2919,9 @@
 		"required_quest_ids": [
 			26051
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"26053": {
 		"id": 26053,
@@ -2853,8 +2932,15 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
-		"objectives": [],
+		"turn_in_npc_id": 9014,
+		"objectives": [
+			{
+				"id": "talk_9014",
+				"type": "talk",
+				"npc_id": 9014,
+				"count": 1
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2906,7 +2992,10 @@
 		"authoring": {
 			"task_script_id": "C6-06-A",
 			"dialogue_id": "task_c6_06_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9044": "flow_d06_line_01"
+			}
 		},
 		"required_quest_ids": [
 			26053
@@ -2922,12 +3011,12 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9036,
-		"turn_in_npc_id": 9036,
+		"turn_in_npc_id": 9014,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9014",
 				"type": "talk",
-				"npc_id": 9036,
+				"npc_id": 9014,
 				"count": 1
 			}
 		],
@@ -2938,14 +3027,15 @@
 		"authoring": {
 			"task_script_id": "C6-06-B",
 			"dialogue_id": "task_c6_06_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"npc_entries": {
+				"9036": "flow_d04_line_01"
+			}
 		},
 		"required_quest_ids": [
 			26060
 		],
-		"level_id": 6,
-		"auto_play": true,
-		"auto_complete": true
+		"level_id": 6
 	},
 	"26062": {
 		"id": 26062,
@@ -2959,7 +3049,7 @@
 		"turn_in_npc_id": 9001,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9001",
 				"type": "talk",
 				"npc_id": 9001,
 				"count": 1

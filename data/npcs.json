@@ -438,5 +438,15 @@
 		"chapter_id": "chapter_6",
 		"npc_kind": "story",
 		"hero_id": 0
+	},
+	"9045": {
+		"name": "仓库看守",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9045",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_1",
+		"npc_kind": "story",
+		"hero_id": 0
 	}
 }
