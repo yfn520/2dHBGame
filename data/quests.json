@@ -17,6 +17,69 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-01-A.D01",
+					"C1-01-A.D02",
+					"C1-01-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-A.D04",
+					"C1-01-A.D05K-1",
+					"C1-01-A.D05K-2",
+					"C1-01-A.D05K-3",
+					"C1-01-A.D05K-4",
+					"C1-01-A.D05K-5",
+					"C1-01-A.D05K-6",
+					"C1-01-A.D05K-7",
+					"C1-01-A.D05L-1",
+					"C1-01-A.D05L-2",
+					"C1-01-A.D05L-3",
+					"C1-01-A.D05L-4",
+					"C1-01-A.D05L-5",
+					"C1-01-A.D05L-6",
+					"C1-01-A.D05L-7",
+					"C1-01-A.D05L-8",
+					"C1-01-A.D05M-1",
+					"C1-01-A.D05M-2",
+					"C1-01-A.D05M-3",
+					"C1-01-A.D05M-4",
+					"C1-01-A.D05M-5",
+					"C1-01-A.D05M-6",
+					"C1-01-A.D05M-7",
+					"C1-01-A.D12",
+					"C1-01-A.D13",
+					"C1-01-A.D14",
+					"C1-01-A.D15",
+					"C1-01-A.D16"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -29,7 +92,12 @@
 		"authoring": {
 			"task_script_id": "C1-01-A",
 			"dialogue_id": "task_c1_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 20200,
+				"9016": 20200
+			}
 		},
 		"required_quest_ids": [],
 		"level_id": 1,
@@ -44,14 +112,63 @@
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9002,
-		"turn_in_npc_id": 9002,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
 		"objectives": [
 			{
-				"id": "obj_1",
+				"id": "talk_9001",
 				"type": "talk",
-				"npc_id": 9002,
+				"npc_id": 9001,
 				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-B.D01",
+					"C1-01-B.D02",
+					"C1-01-B.D03",
+					"C1-01-B.D04",
+					"C1-01-B.D05",
+					"C1-01-B.D06",
+					"C1-01-B.D07",
+					"C1-01-B.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-B-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
+				"node_ids": [
+					"C1-01-B.D09K-1",
+					"C1-01-B.D09K-2",
+					"C1-01-B.D09K-3",
+					"C1-01-B.D09L-1",
+					"C1-01-B.D09L-2",
+					"C1-01-B.D09L-3",
+					"C1-01-B.D09M-1",
+					"C1-01-B.D09M-2",
+					"C1-01-B.D09M-3"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
 			}
 		],
 		"rewards": {
@@ -66,7 +183,13 @@
 		"authoring": {
 			"task_script_id": "C1-01-B",
 			"dialogue_id": "task_c1_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 32240,
+				"9002": 0,
+				"9016": 38440
+			}
 		},
 		"required_quest_ids": [
 			21010
@@ -99,6 +222,44 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-01-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-C.D01",
+					"C1-01-C.D02K",
+					"C1-01-C.D02L",
+					"C1-01-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C1-01-C.D03"
+				],
+				"objective_ids": [
+					"talk_9001",
+					"talk_9045"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -115,19 +276,18 @@
 		"authoring": {
 			"task_script_id": "C1-01-C",
 			"dialogue_id": "task_c1_01_c",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9001": "flow_d01_line_01",
-				"9045": "flow_d02_branch_router"
-			},
-			"delivery_entries": {
-				"9045": "flow_d03_line_01"
+				"9001": 0,
+				"9045": 6680
 			}
 		},
 		"required_quest_ids": [
 			21011
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_start": true
 	},
 	"21013": {
 		"id": 21013,
@@ -147,6 +307,47 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-01-D-S01",
+				"title": "教学",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C1-01-D.D01K-1",
+					"C1-01-D.D01K-2",
+					"C1-01-D.D01K-3",
+					"C1-01-D.D01K-4",
+					"C1-01-D.D01L-1",
+					"C1-01-D.D01L-2",
+					"C1-01-D.D01M-1",
+					"C1-01-D.D01M-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-D-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-D.D05"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -159,10 +360,11 @@
 		"authoring": {
 			"task_script_id": "C1-01-D",
 			"dialogue_id": "task_c1_01_d",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9002": "flow_d05_line_01",
-				"9016": "flow_d01_k_2_line_01"
+				"9002": 19120,
+				"9016": 3080
 			}
 		},
 		"required_quest_ids": [
@@ -200,6 +402,85 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-02-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-02-A.D01",
+					"C1-02-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C1-02-A.D03K-1",
+					"C1-02-A.D03K-2",
+					"C1-02-A.D03K-3",
+					"C1-02-A.D03L-1",
+					"C1-02-A.D03L-2",
+					"C1-02-A.D03L-3",
+					"C1-02-A.D03M-1",
+					"C1-02-A.D03M-2",
+					"C1-02-A.D03M-3",
+					"C1-02-A.D03M-4"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S03",
+				"title": "战斗",
+				"order": 3,
+				"kind": "combat",
+				"node_ids": [
+					"C1-02-A.D06"
+				],
+				"objective_ids": [
+					"kill_8001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S04",
+				"title": "交互",
+				"order": 4,
+				"kind": "interact",
+				"node_ids": [
+					"C1-02-A.D07K",
+					"C1-02-A.D07L",
+					"C1-02-A.D07M"
+				],
+				"objective_ids": [
+					"talk_9020",
+					"talk_9016"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -207,13 +488,17 @@
 		"authoring": {
 			"task_script_id": "C1-02-A",
 			"dialogue_id": "task_c1_02_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9016": "flow_d02_line_01",
-				"9020": "flow_d01_line_01"
+				"9016": 5640,
+				"9020": 0
 			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			21012,
+			21013
+		],
 		"level_id": 1
 	},
 	"21021": {
@@ -234,6 +519,52 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-02-B-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-02-B.D01",
+					"C1-02-B.D02K-1",
+					"C1-02-B.D02K-2",
+					"C1-02-B.D02K-3",
+					"C1-02-B.D02L-1",
+					"C1-02-B.D02L-2",
+					"C1-02-B.D02M-1",
+					"C1-02-B.D02M-2",
+					"C1-02-B.D02M-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-B-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C1-02-B.D05",
+					"C1-02-B.D06",
+					"C1-02-B.D07",
+					"C1-02-B.D08",
+					"C1-02-B.D09"
+				],
+				"objective_ids": [
+					"talk_9020"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -246,13 +577,11 @@
 		"authoring": {
 			"task_script_id": "C1-02-B",
 			"dialogue_id": "task_c1_02_b",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9016": "flow_d01_line_01",
-				"9020": "flow_d05_line_01"
-			},
-			"delivery_entries": {
-				"9016": "flow_d01_line_01"
+				"9016": 17880,
+				"9020": 17880
 			}
 		},
 		"required_quest_ids": [
@@ -278,6 +607,75 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-03-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-03-A.D01",
+					"C1-03-A.D02",
+					"C1-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-03-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C1-03-A.D04K-1",
+					"C1-03-A.D04K-2",
+					"C1-03-A.D04K-3",
+					"C1-03-A.D04L-1",
+					"C1-03-A.D04L-2",
+					"C1-03-A.D04M-1",
+					"C1-03-A.D04M-2",
+					"C1-03-A.D04M-3",
+					"C1-03-A.D07K",
+					"C1-03-A.D07L",
+					"C1-03-A.D07M",
+					"C1-03-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-03-A.D11K-1",
+					"C1-03-A.D11K-2",
+					"C1-03-A.D11K-3",
+					"C1-03-A.D11L-1",
+					"C1-03-A.D11L-2",
+					"C1-03-A.D11M-1",
+					"C1-03-A.D11M-2",
+					"C1-03-A.D11M-3"
+				],
+				"objective_ids": [
+					"talk_9021"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -290,12 +688,10 @@
 		"authoring": {
 			"task_script_id": "C1-03-A",
 			"dialogue_id": "task_c1_03_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9021": "flow_d01_line_01"
-			},
-			"delivery_entries": {
-				"9021": "flow_d11_k_1_line_01"
+				"9021": 49480
 			}
 		},
 		"required_quest_ids": [
@@ -327,6 +723,62 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-04-A.D01",
+					"C1-04-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-04-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-04-A.D03K-1",
+					"C1-04-A.D03K-2",
+					"C1-04-A.D03L",
+					"C1-04-A.D03M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-04-A-S03",
+				"title": "交互",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C1-04-A.D06",
+					"C1-04-A.D07",
+					"C1-04-A.D08"
+				],
+				"objective_ids": [
+					"talk_9022",
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -339,11 +791,12 @@
 		"authoring": {
 			"task_script_id": "C1-04-A",
 			"dialogue_id": "task_c1_04_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9001": "flow_d02_line_01",
-				"9022": "flow_d01_line_01",
-				"9023": "flow_d03_k_2_line_01"
+				"9001": 10200,
+				"9022": 2400,
+				"9023": 18200
 			}
 		},
 		"required_quest_ids": [
@@ -369,6 +822,28 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-04-B-S01",
+				"title": "选择",
+				"order": 1,
+				"kind": "choice",
+				"node_ids": [
+					"C1-04-B.D01K-1",
+					"C1-04-B.D01K-2",
+					"C1-04-B.D01L-1",
+					"C1-04-B.D01L-2",
+					"C1-04-B.D01M-1",
+					"C1-04-B.D01M-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -376,7 +851,11 @@
 		"authoring": {
 			"task_script_id": "C1-04-B",
 			"dialogue_id": "task_c1_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
 		},
 		"required_quest_ids": [
 			21040
@@ -396,6 +875,75 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C1-05-A-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-05-A.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-05-A.D02a-1",
+					"C1-05-A.D02a-2",
+					"C1-05-A.D02a-3",
+					"C1-05-A.D02a-4",
+					"C1-05-A.D02b-1",
+					"C1-05-A.D02b-2",
+					"C1-05-A.D02b-3",
+					"C1-05-A.D02b-4",
+					"C1-05-A.D02c-1",
+					"C1-05-A.D02c-2",
+					"C1-05-A.D02c-3",
+					"C1-05-A.D02d-1",
+					"C1-05-A.D02d-2",
+					"C1-05-A.D02d-3",
+					"C1-05-A.D02d-4",
+					"C1-05-A.D02e-1",
+					"C1-05-A.D02e-2",
+					"C1-05-A.D02e-3",
+					"C1-05-A.D02f-1",
+					"C1-05-A.D02f-2",
+					"C1-05-A.D02f-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-A-S03",
+				"title": "战斗",
+				"order": 3,
+				"kind": "combat",
+				"node_ids": [
+					"C1-05-A.D08",
+					"C1-05-A.D09",
+					"C1-05-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -403,7 +951,9 @@
 		"authoring": {
 			"task_script_id": "C1-05-A",
 			"dialogue_id": "task_c1_05_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			21041
@@ -430,6 +980,83 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-05-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-05-B.D01a-1",
+					"C1-05-B.D01a-2",
+					"C1-05-B.D01b-1",
+					"C1-05-B.D01b-2",
+					"C1-05-B.D01b-3",
+					"C1-05-B.D01c-1",
+					"C1-05-B.D01c-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-05-B.D04",
+					"C1-05-B.D05a",
+					"C1-05-B.D05b-1",
+					"C1-05-B.D05b-2",
+					"C1-05-B.D05c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S03",
+				"title": "选择",
+				"order": 3,
+				"kind": "choice",
+				"node_ids": [
+					"C1-05-B.D08a",
+					"C1-05-B.D08b",
+					"C1-05-B.D08c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S04",
+				"title": "系统",
+				"order": 4,
+				"kind": "system",
+				"node_ids": [
+					"C1-05-B.D11",
+					"C1-05-B.D12a",
+					"C1-05-B.D12b",
+					"C1-05-B.D12c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -446,7 +1073,11 @@
 		"authoring": {
 			"task_script_id": "C1-05-B",
 			"dialogue_id": "task_c1_05_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9001": 46680
+			}
 		},
 		"required_quest_ids": [
 			21050
@@ -473,6 +1104,65 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-06-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-06-A.D01",
+					"C1-06-A.D02-1",
+					"C1-06-A.D02-2",
+					"C1-06-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-06-A.D04a-1",
+					"C1-06-A.D04a-2",
+					"C1-06-A.D04b-1",
+					"C1-06-A.D04b-2",
+					"C1-06-A.D04c-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S03",
+				"title": "调查",
+				"order": 3,
+				"kind": "explore",
+				"node_ids": [
+					"C1-06-A.D07a-1",
+					"C1-06-A.D07a-2",
+					"C1-06-A.D07b-1",
+					"C1-06-A.D07b-2",
+					"C1-06-A.D07c-1",
+					"C1-06-A.D07c-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -480,7 +1170,11 @@
 		"authoring": {
 			"task_script_id": "C1-06-A",
 			"dialogue_id": "task_c1_06_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9003": 26920
+			}
 		},
 		"required_quest_ids": [
 			21051
@@ -505,6 +1199,27 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-06-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-06-B.D01",
+					"C1-06-B.D02",
+					"C1-06-B.D03a",
+					"C1-06-B.D03b",
+					"C1-06-B.D03c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -518,9 +1233,10 @@
 			"task_script_id": "C1-06-B",
 			"dialogue_id": "task_c1_06_b",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9003": "flow_d02_line_01",
-				"9024": "flow_d01_line_01"
+				"9003": 2440,
+				"9024": 0
 			}
 		},
 		"required_quest_ids": [
@@ -546,6 +1262,58 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-06-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-06-C.D01",
+					"C1-06-C.D02",
+					"C1-06-C.D03-1",
+					"C1-06-C.D03-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C1-06-C.D04K",
+					"C1-06-C.D04L",
+					"C1-06-C.D04M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-C-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C1-06-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -558,7 +1326,11 @@
 		"authoring": {
 			"task_script_id": "C1-06-C",
 			"dialogue_id": "task_c1_06_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9003": 22200
+			}
 		},
 		"required_quest_ids": [
 			21061
@@ -585,6 +1357,47 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-07-A-S01",
+				"title": "护送",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-07-A.D01",
+					"C1-07-A.D02a",
+					"C1-07-A.D02b"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-07-A.D04a-1",
+					"C1-07-A.D04a-2",
+					"C1-07-A.D04a-3",
+					"C1-07-A.D04b-1",
+					"C1-07-A.D04b-2",
+					"C1-07-A.D04c-1",
+					"C1-07-A.D04c-2",
+					"C1-07-A.D04c-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -592,7 +1405,11 @@
 		"authoring": {
 			"task_script_id": "C1-07-A",
 			"dialogue_id": "task_c1_07_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9025": 11080
+			}
 		},
 		"required_quest_ids": [
 			21062
@@ -610,6 +1427,87 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C1-07-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-07-B.D01a",
+					"C1-07-B.D01b",
+					"C1-07-B.D01c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-07-B.D04a-1",
+					"C1-07-B.D04a-2",
+					"C1-07-B.D04a-3",
+					"C1-07-B.D04a-4",
+					"C1-07-B.D04b-1",
+					"C1-07-B.D04b-2",
+					"C1-07-B.D04b-3",
+					"C1-07-B.D04b-4",
+					"C1-07-B.D04b-5",
+					"C1-07-B.D04c-1",
+					"C1-07-B.D04c-2",
+					"C1-07-B.D04c-3",
+					"C1-07-B.D04c-4"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S03",
+				"title": "战斗",
+				"order": 3,
+				"kind": "combat",
+				"node_ids": [
+					"C1-07-B.D07",
+					"C1-07-B.D08",
+					"C1-07-B.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S04",
+				"title": "交互",
+				"order": 4,
+				"kind": "interact",
+				"node_ids": [
+					"C1-07-B.D10",
+					"C1-07-B.D11",
+					"C1-07-B.D12",
+					"C1-07-B.D13"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -630,7 +1528,9 @@
 		"authoring": {
 			"task_script_id": "C1-07-B",
 			"dialogue_id": "task_c1_07_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			21070
@@ -657,6 +1557,26 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-07-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-07-C.D01",
+					"C1-07-C.D02",
+					"C1-07-C.D03",
+					"C1-07-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -664,7 +1584,11 @@
 		"authoring": {
 			"task_script_id": "C1-07-C",
 			"dialogue_id": "task_c1_07_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
 		},
 		"required_quest_ids": [
 			21071
@@ -691,6 +1615,61 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-08-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-A.D01",
+					"C1-08-A.D02",
+					"C1-08-A.D03",
+					"C1-08-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-08-A.D05",
+					"C1-08-A.D06",
+					"C1-08-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S03",
+				"title": "交互",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C1-08-A.D08",
+					"C1-08-A.D09",
+					"C1-08-A.D10-1",
+					"C1-08-A.D10-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -699,9 +1678,10 @@
 			"task_script_id": "C1-08-A",
 			"dialogue_id": "task_c1_08_a",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9003": "flow_d01_line_01",
-				"9026": "flow_d08_line_01"
+				"9003": 28120,
+				"9026": 28120
 			}
 		},
 		"required_quest_ids": [
@@ -720,6 +1700,26 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C1-08-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-08-B.D01",
+					"C1-08-B.D02",
+					"C1-08-B.D03",
+					"C1-08-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -732,7 +1732,9 @@
 		"authoring": {
 			"task_script_id": "C1-08-B",
 			"dialogue_id": "task_c1_08_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			21080
@@ -759,6 +1761,67 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-08-C-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-C.D01-1",
+					"C1-08-C.D01-2",
+					"C1-08-C.D02",
+					"C1-08-C.D03",
+					"C1-08-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-C-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-08-C.D05",
+					"C1-08-C.D06",
+					"C1-08-C.D07",
+					"C1-08-C.D08",
+					"C1-08-C.D09",
+					"C1-08-C.D10-1",
+					"C1-08-C.D10-2",
+					"C1-08-C.D10-3",
+					"C1-08-C.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-C-S03",
+				"title": "调查",
+				"order": 3,
+				"kind": "explore",
+				"node_ids": [
+					"C1-08-C.D12",
+					"C1-08-C.D13",
+					"C1-08-C.D14"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -772,8 +1835,9 @@
 			"task_script_id": "C1-08-C",
 			"dialogue_id": "task_c1_08_c",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9027": "flow_d05_line_01"
+				"9027": 50400
 			}
 		},
 		"required_quest_ids": [
@@ -799,6 +1863,42 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C1-08-D-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-08-D.D01",
+					"C1-08-D.D02",
+					"C1-08-D.D03",
+					"C1-08-D.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-D-S02",
+				"title": "城镇",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-08-D.D05",
+					"C1-08-D.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -811,7 +1911,11 @@
 		"authoring": {
 			"task_script_id": "C1-08-D",
 			"dialogue_id": "task_c1_08_d",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9027": 13760
+			}
 		},
 		"required_quest_ids": [
 			21082
@@ -838,6 +1942,44 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-01-A.D01",
+					"C2-01-A.D02",
+					"C2-01-A.D03",
+					"C2-01-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C2-01-A.D05",
+					"C2-01-A.D06",
+					"C2-01-A.D07",
+					"C2-01-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -845,9 +1987,15 @@
 		"authoring": {
 			"task_script_id": "C2-01-A",
 			"dialogue_id": "task_c2_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9004": 23280
+			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			21083
+		],
 		"level_id": 2,
 		"auto_play": true,
 		"auto_complete": true
@@ -863,6 +2011,26 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-01-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C2-01-B.D01",
+					"C2-01-B.D02",
+					"C2-01-B.D03",
+					"C2-01-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -875,7 +2043,9 @@
 		"authoring": {
 			"task_script_id": "C2-01-B",
 			"dialogue_id": "task_c2_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			22010
@@ -902,6 +2072,78 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-01-C-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C2-01-C.D01",
+					"C2-01-C.D02-1",
+					"C2-01-C.D02-2",
+					"C2-01-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S02",
+				"title": "条件对白",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C2-01-C.D04",
+					"C2-01-C.D05-1",
+					"C2-01-C.D05-2",
+					"C2-01-C.D05-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S03",
+				"title": "途中",
+				"order": 3,
+				"kind": "travel",
+				"node_ids": [
+					"C2-01-C.D06",
+					"C2-01-C.D07",
+					"C2-01-C.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C2-01-C.D09",
+					"C2-01-C.D10",
+					"C2-01-C.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -915,8 +2157,9 @@
 			"task_script_id": "C2-01-C",
 			"dialogue_id": "task_c2_01_c",
 			"compile_status": "missing_runtime_target_ids",
-			"delivery_entries": {
-				"9013": "flow_d09_line_01"
+			"preview": true,
+			"npc_entries": {
+				"9013": 34200
 			}
 		},
 		"required_quest_ids": [
@@ -935,6 +2178,45 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-02-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-A.D01",
+					"C2-02-A.D02",
+					"C2-02-A.D03",
+					"C2-02-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-02-A.D05-1",
+					"C2-02-A.D05-2",
+					"C2-02-A.D06",
+					"C2-02-A.D07",
+					"C2-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -942,7 +2224,11 @@
 		"authoring": {
 			"task_script_id": "C2-02-A",
 			"dialogue_id": "task_c2_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9004": 22000
+			}
 		},
 		"required_quest_ids": [
 			22012
@@ -962,6 +2248,43 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-02-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-B.D01",
+					"C2-02-B.D02",
+					"C2-02-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-B-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C2-02-B.D04",
+					"C2-02-B.D05",
+					"C2-02-B.D06",
+					"C2-02-B.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -969,7 +2292,9 @@
 		"authoring": {
 			"task_script_id": "C2-02-B",
 			"dialogue_id": "task_c2_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			22020
@@ -996,6 +2321,56 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-02-C-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-C.D01K",
+					"C2-02-C.D01L",
+					"C2-02-C.D01M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-C-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-02-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-02-C.D05",
+					"C2-02-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1012,7 +2387,11 @@
 		"authoring": {
 			"task_script_id": "C2-02-C",
 			"dialogue_id": "task_c2_02_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9004": 12880
+			}
 		},
 		"required_quest_ids": [
 			22021
@@ -1032,6 +2411,49 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-03-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-03-A.D01",
+					"C2-03-A.D02",
+					"C2-03-A.D03",
+					"C2-03-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-A-S02",
+				"title": "主角机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C2-03-A.D05K-1",
+					"C2-03-A.D05K-2",
+					"C2-03-A.D05K-3",
+					"C2-03-A.D05L-1",
+					"C2-03-A.D05L-2",
+					"C2-03-A.D05L-3",
+					"C2-03-A.D05M-1",
+					"C2-03-A.D05M-2",
+					"C2-03-A.D05M-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1039,7 +2461,9 @@
 		"authoring": {
 			"task_script_id": "C2-03-A",
 			"dialogue_id": "task_c2_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			22022
@@ -1059,6 +2483,25 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-03-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C2-03-B.D01",
+					"C2-03-B.D02",
+					"C2-03-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1066,7 +2509,9 @@
 		"authoring": {
 			"task_script_id": "C2-03-B",
 			"dialogue_id": "task_c2_03_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			22030
@@ -1086,6 +2531,41 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C2-03-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C2-03-C.D01K-1",
+					"C2-03-C.D01K-2",
+					"C2-03-C.D01L",
+					"C2-03-C.D01M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-C-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C2-03-C.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1098,7 +2578,9 @@
 		"authoring": {
 			"task_script_id": "C2-03-C",
 			"dialogue_id": "task_c2_03_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			22031
@@ -1125,6 +2607,47 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-04-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-A.D01",
+					"C2-04-A.D02",
+					"C2-04-A.D03",
+					"C2-04-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C2-04-A.D05",
+					"C2-04-A.D06",
+					"C2-04-A.D07",
+					"C2-04-A.D08",
+					"C2-04-A.D09",
+					"C2-04-A.D10",
+					"C2-04-A.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1132,7 +2655,11 @@
 		"authoring": {
 			"task_script_id": "C2-04-A",
 			"dialogue_id": "task_c2_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9028": 10640
+			}
 		},
 		"required_quest_ids": [
 			22032
@@ -1157,6 +2684,60 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-04-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-B.D01",
+					"C2-04-B.D02",
+					"C2-04-B.D03",
+					"C2-04-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-B-S02",
+				"title": "调查",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C2-04-B.D05",
+					"C2-04-B.D06",
+					"C2-04-B.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-B-S03",
+				"title": "主角反应",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-B.D08K",
+					"C2-04-B.D08L",
+					"C2-04-B.D08M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1174,8 +2755,9 @@
 			"task_script_id": "C2-04-B",
 			"dialogue_id": "task_c2_04_b",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9028": "flow_d03_line_01"
+				"9028": 18280
 			}
 		},
 		"required_quest_ids": [
@@ -1201,6 +2783,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C2-04-C-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-C.D01",
+					"C2-04-C.D02K",
+					"C2-04-C.D02L",
+					"C2-04-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C2-04-C.D05",
+					"C2-04-C.D06",
+					"C2-04-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1213,7 +2832,12 @@
 		"authoring": {
 			"task_script_id": "C2-04-C",
 			"dialogue_id": "task_c2_04_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9001": 16480,
+				"9027": 0
+			}
 		},
 		"required_quest_ids": [
 			22041
@@ -1240,6 +2864,45 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-01-A.D01",
+					"C3-01-A.D02",
+					"C3-01-A.D03",
+					"C3-01-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C3-01-A.D05",
+					"C3-01-A.D06",
+					"C3-01-A.D07"
+				],
+				"objective_ids": [
+					"talk_9005"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1247,13 +2910,16 @@
 		"authoring": {
 			"task_script_id": "C3-01-A",
 			"dialogue_id": "task_c3_01_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9005": "flow_d01_line_01",
-				"9029": "flow_d02_line_01"
+				"9005": 18480,
+				"9029": 6600
 			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			22042
+		],
 		"level_id": 3
 	},
 	"23011": {
@@ -1274,6 +2940,60 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-01-B.D01",
+					"C3-01-B.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-B-S02",
+				"title": "主角动作",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C3-01-B.D03K-1",
+					"C3-01-B.D03L",
+					"C3-01-B.D03M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-B-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-01-B.D06",
+					"C3-01-B.D07K",
+					"C3-01-B.D07L",
+					"C3-01-B.D07M",
+					"C3-01-B.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1290,7 +3010,12 @@
 		"authoring": {
 			"task_script_id": "C3-01-B",
 			"dialogue_id": "task_c3_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9005": 12240,
+				"9029": 12240
+			}
 		},
 		"required_quest_ids": [
 			23010
@@ -1310,6 +3035,42 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C3-02-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-A.D01",
+					"C3-02-A.D02",
+					"C3-02-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C3-02-A.D04",
+					"C3-02-A.D05",
+					"C3-02-A.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1317,7 +3078,9 @@
 		"authoring": {
 			"task_script_id": "C3-02-A",
 			"dialogue_id": "task_c3_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			23011
@@ -1344,6 +3107,75 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-02-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-B.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C3-02-B.D02",
+					"C3-02-B.D03",
+					"C3-02-B.D04",
+					"C3-02-B.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S03",
+				"title": "主角动作",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-B.D06K",
+					"C3-02-B.D06L",
+					"C3-02-B.D06M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C3-02-B.D09",
+					"C3-02-B.D10",
+					"C3-02-B.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1356,7 +3188,11 @@
 		"authoring": {
 			"task_script_id": "C3-02-B",
 			"dialogue_id": "task_c3_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9005": 15640
+			}
 		},
 		"required_quest_ids": [
 			23020
@@ -1383,6 +3219,27 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-03-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-03-A.D01",
+					"C3-03-A.D02",
+					"C3-03-A.D03",
+					"C3-03-A.D04",
+					"C3-03-A.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1390,7 +3247,11 @@
 		"authoring": {
 			"task_script_id": "C3-03-A",
 			"dialogue_id": "task_c3_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9005": 0
+			}
 		},
 		"required_quest_ids": [
 			23021
@@ -1410,6 +3271,25 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C3-03-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C3-03-B.D01",
+					"C3-03-B.D02",
+					"C3-03-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1417,7 +3297,9 @@
 		"authoring": {
 			"task_script_id": "C3-03-B",
 			"dialogue_id": "task_c3_03_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			23030
@@ -1444,6 +3326,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-03-C-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-03-C.D01",
+					"C3-03-C.D02",
+					"C3-03-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C3-03-C.D04",
+					"C3-03-C.D05"
+				],
+				"objective_ids": [
+					"talk_9030"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1460,7 +3379,11 @@
 		"authoring": {
 			"task_script_id": "C3-03-C",
 			"dialogue_id": "task_c3_03_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9030": 16360
+			}
 		},
 		"required_quest_ids": [
 			23031
@@ -1487,6 +3410,61 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-04-A.D01",
+					"C3-04-A.D02",
+					"C3-04-A.D03",
+					"C3-04-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C3-04-A.D05",
+					"C3-04-A.D06K",
+					"C3-04-A.D06L",
+					"C3-04-A.D06M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-04-A.D09",
+					"C3-04-A.D10",
+					"C3-04-A.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1495,9 +3473,10 @@
 			"task_script_id": "C3-04-A",
 			"dialogue_id": "task_c3_04_a",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9005": "flow_d10_line_01",
-				"9030": "flow_d01_line_01"
+				"9005": 31960,
+				"9030": 25280
 			}
 		},
 		"required_quest_ids": [
@@ -1516,6 +3495,43 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C3-04-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C3-04-B.D01",
+					"C3-04-B.D02",
+					"C3-04-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-B-S02",
+				"title": "拉锯",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C3-04-B.D04",
+					"C3-04-B.D05",
+					"C3-04-B.D06",
+					"C3-04-B.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1528,7 +3544,9 @@
 		"authoring": {
 			"task_script_id": "C3-04-B",
 			"dialogue_id": "task_c3_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			23040
@@ -1555,6 +3573,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C3-04-C-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-04-C.D01",
+					"C3-04-C.D02K",
+					"C3-04-C.D02L",
+					"C3-04-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-C-S02",
+				"title": "城镇",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C3-04-C.D05",
+					"C3-04-C.D06",
+					"C3-04-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1571,7 +3626,13 @@
 		"authoring": {
 			"task_script_id": "C3-04-C",
 			"dialogue_id": "task_c3_04_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9002": 15800,
+				"9005": 14080,
+				"9027": 14080
+			}
 		},
 		"required_quest_ids": [
 			23041
@@ -1598,6 +3659,40 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-01-A.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-01-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C4-01-A.D02",
+					"C4-01-A.D03",
+					"C4-01-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1605,9 +3700,15 @@
 		"authoring": {
 			"task_script_id": "C4-01-A",
 			"dialogue_id": "task_c4_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9031": 7720
+			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			23042
+		],
 		"level_id": 4,
 		"auto_play": true,
 		"auto_complete": true
@@ -1630,6 +3731,23 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-01-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-01-B.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1637,7 +3755,11 @@
 		"authoring": {
 			"task_script_id": "C4-01-B",
 			"dialogue_id": "task_c4_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9031": 0
+			}
 		},
 		"required_quest_ids": [
 			24010
@@ -1662,6 +3784,25 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-01-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C4-01-C.D01",
+					"C4-01-C.D02",
+					"C4-01-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1678,7 +3819,11 @@
 		"authoring": {
 			"task_script_id": "C4-01-C",
 			"dialogue_id": "task_c4_01_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9032": 0
+			}
 		},
 		"required_quest_ids": [
 			24011
@@ -1704,6 +3849,46 @@
 				"consume_on_turn_in": true
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-02-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-02-A.D01",
+					"C4-02-A.D02",
+					"C4-02-A.D03",
+					"C4-02-A.D04"
+				],
+				"objective_ids": [
+					"collect_100252"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C4-02-A.D05",
+					"C4-02-A.D06",
+					"C4-02-A.D07",
+					"C4-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1711,10 +3896,11 @@
 		"authoring": {
 			"task_script_id": "C4-02-A",
 			"dialogue_id": "task_c4_02_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9033": "flow_d01_line_01",
-				"9034": "flow_d02_line_01"
+				"9033": 10560,
+				"9034": 2840
 			}
 		},
 		"required_quest_ids": [
@@ -1740,6 +3926,7 @@
 				"count": 1
 			}
 		],
+		"stages": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1752,7 +3939,9 @@
 		"authoring": {
 			"task_script_id": "C4-02-B",
 			"dialogue_id": "task_c4_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			24020
@@ -1779,6 +3968,40 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-02-C-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-02-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C4-02-C.D02",
+					"C4-02-C.D03",
+					"C4-02-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1791,7 +4014,11 @@
 		"authoring": {
 			"task_script_id": "C4-02-C",
 			"dialogue_id": "task_c4_02_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9033": 5800
+			}
 		},
 		"required_quest_ids": [
 			24021
@@ -1818,6 +4045,24 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-03-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-03-A.D01",
+					"C4-03-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1825,7 +4070,11 @@
 		"authoring": {
 			"task_script_id": "C4-03-A",
 			"dialogue_id": "task_c4_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9035": 0
+			}
 		},
 		"required_quest_ids": [
 			24022
@@ -1845,6 +4094,43 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C4-03-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-03-B.D01",
+					"C4-03-B.D02",
+					"C4-03-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-B-S02",
+				"title": "调查",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C4-03-B.D04",
+					"C4-03-B.D05",
+					"C4-03-B.D06",
+					"C4-03-B.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1852,7 +4138,9 @@
 		"authoring": {
 			"task_script_id": "C4-03-B",
 			"dialogue_id": "task_c4_03_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			24030
@@ -1879,6 +4167,56 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-03-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-03-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-C-S02",
+				"title": "主角回应",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C4-03-C.D02K",
+					"C4-03-C.D02L",
+					"C4-03-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-03-C.D05",
+					"C4-03-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1895,7 +4233,12 @@
 		"authoring": {
 			"task_script_id": "C4-03-C",
 			"dialogue_id": "task_c4_03_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9006": 0,
+				"9035": 0
+			}
 		},
 		"required_quest_ids": [
 			24031
@@ -1915,6 +4258,41 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C4-04-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-04-A.D01-1",
+					"C4-04-A.D01-2",
+					"C4-04-A.D01-3",
+					"C4-04-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C4-04-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1922,7 +4300,9 @@
 		"authoring": {
 			"task_script_id": "C4-04-A",
 			"dialogue_id": "task_c4_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			24032
@@ -1949,6 +4329,45 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-04-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-04-B.D01",
+					"C4-04-B.D02",
+					"C4-04-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C4-04-B.D04",
+					"C4-04-B.D05K",
+					"C4-04-B.D05L",
+					"C4-04-B.D05M"
+				],
+				"objective_ids": [
+					"talk_9027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -1961,9 +4380,10 @@
 		"authoring": {
 			"task_script_id": "C4-04-B",
 			"dialogue_id": "task_c4_04_b",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9027": "flow_d04_line_01"
+				"9027": 8040
 			}
 		},
 		"required_quest_ids": [
@@ -1989,6 +4409,40 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-04-C-S01",
+				"title": "撤离",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C4-04-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-C-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-C.D02",
+					"C4-04-C.D03-1",
+					"C4-04-C.D03-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -1996,7 +4450,12 @@
 		"authoring": {
 			"task_script_id": "C4-04-C",
 			"dialogue_id": "task_c4_04_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9032": 2920,
+				"9036": 5320
+			}
 		},
 		"required_quest_ids": [
 			24041
@@ -2023,6 +4482,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C4-04-D-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C4-04-D.D01",
+					"C4-04-D.D02",
+					"C4-04-D.D03",
+					"C4-04-D.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-D-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C4-04-D.D05"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2043,7 +4539,11 @@
 		"authoring": {
 			"task_script_id": "C4-04-D",
 			"dialogue_id": "task_c4_04_d",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 14560
+			}
 		},
 		"required_quest_ids": [
 			24042
@@ -2070,6 +4570,42 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-01-A.D01",
+					"C5-01-A.D02",
+					"C5-01-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-A-S02",
+				"title": "走访",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C5-01-A.D04",
+					"C5-01-A.D05",
+					"C5-01-A.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2078,15 +4614,18 @@
 			"task_script_id": "C5-01-A",
 			"dialogue_id": "task_c5_01_a",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9037": "flow_d01_line_01",
-				"9038": "flow_d02_line_01",
-				"9039": "flow_d04_line_01",
-				"9040": "flow_d05_line_01",
-				"9041": "flow_d06_line_01"
+				"9037": 18120,
+				"9038": 9480,
+				"9039": 18120,
+				"9040": 21200,
+				"9041": 24280
 			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			24043
+		],
 		"level_id": 5
 	},
 	"25011": {
@@ -2107,6 +4646,44 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-01-B.D01",
+					"C5-01-B.D02",
+					"C5-01-B.D03",
+					"C5-01-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-B-S02",
+				"title": "条件对白",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-01-B.D05",
+					"C5-01-B.D06K",
+					"C5-01-B.D06L",
+					"C5-01-B.D06M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2114,7 +4691,12 @@
 		"authoring": {
 			"task_script_id": "C5-01-B",
 			"dialogue_id": "task_c5_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9017": 15680,
+				"9037": 15680
+			}
 		},
 		"required_quest_ids": [
 			25010
@@ -2141,6 +4723,25 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-01-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C5-01-C.D01",
+					"C5-01-C.D02",
+					"C5-01-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2153,7 +4754,11 @@
 		"authoring": {
 			"task_script_id": "C5-01-C",
 			"dialogue_id": "task_c5_01_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9041": 0
+			}
 		},
 		"required_quest_ids": [
 			25011
@@ -2180,6 +4785,24 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-02-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-A.D01",
+					"C5-02-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2187,7 +4810,11 @@
 		"authoring": {
 			"task_script_id": "C5-02-A",
 			"dialogue_id": "task_c5_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9042": 0
+			}
 		},
 		"required_quest_ids": [
 			25012
@@ -2214,6 +4841,26 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-02-B-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-02-B.D01",
+					"C5-02-B.D02"
+				],
+				"objective_ids": [
+					"kill_8017"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2230,7 +4877,9 @@
 		"authoring": {
 			"task_script_id": "C5-02-B",
 			"dialogue_id": "task_c5_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			25020
@@ -2257,6 +4906,39 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-02-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-C.D01",
+					"C5-02-C.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C5-02-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2264,7 +4946,11 @@
 		"authoring": {
 			"task_script_id": "C5-02-C",
 			"dialogue_id": "task_c5_02_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9042": 7760
+			}
 		},
 		"required_quest_ids": [
 			25021
@@ -2284,6 +4970,29 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C5-03-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-03-A.D01",
+					"C5-03-A.D02",
+					"C5-03-A.D03",
+					"C5-03-A.D04",
+					"C5-03-A.D05",
+					"C5-03-A.D06",
+					"C5-03-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2296,7 +5005,9 @@
 		"authoring": {
 			"task_script_id": "C5-03-A",
 			"dialogue_id": "task_c5_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			25022
@@ -2316,6 +5027,7 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2328,7 +5040,9 @@
 		"authoring": {
 			"task_script_id": "C5-03-B",
 			"dialogue_id": "task_c5_03_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			25030
@@ -2355,6 +5069,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-03-C-S01",
+				"title": "主角反应",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-03-C.D01",
+					"C5-03-C.D02",
+					"C5-03-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C5-03-C.D04",
+					"C5-03-C.D05",
+					"C5-03-C.D06",
+					"C5-03-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2362,7 +5113,11 @@
 		"authoring": {
 			"task_script_id": "C5-03-C",
 			"dialogue_id": "task_c5_03_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9037": 10680
+			}
 		},
 		"required_quest_ids": [
 			25031
@@ -2389,6 +5144,57 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-04-A.D01",
+					"C5-04-A.D02",
+					"C5-04-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C5-04-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-04-A.D05"
+				],
+				"objective_ids": [
+					"talk_9043"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2396,7 +5202,11 @@
 		"authoring": {
 			"task_script_id": "C5-04-A",
 			"dialogue_id": "task_c5_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9043": 19920
+			}
 		},
 		"required_quest_ids": [
 			25032
@@ -2421,6 +5231,28 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-04-B-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-04-B.D01",
+					"C5-04-B.D02K",
+					"C5-04-B.D02L",
+					"C5-04-B.D02M"
+				],
+				"objective_ids": [
+					"talk_9027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2433,7 +5265,11 @@
 		"authoring": {
 			"task_script_id": "C5-04-B",
 			"dialogue_id": "task_c5_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9027": 0
+			}
 		},
 		"required_quest_ids": [
 			25040
@@ -2453,6 +5289,25 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C5-04-C-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C5-04-C.D01",
+					"C5-04-C.D02",
+					"C5-04-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2469,7 +5324,9 @@
 		"authoring": {
 			"task_script_id": "C5-04-C",
 			"dialogue_id": "task_c5_04_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			25041
@@ -2496,6 +5353,60 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C5-04-D-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-04-D.D01",
+					"C5-04-D.D02-1",
+					"C5-04-D.D02-2",
+					"C5-04-D.D03-1",
+					"C5-04-D.D03-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-D-S02",
+				"title": "主角决定",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-04-D.D04",
+					"C5-04-D.D05K",
+					"C5-04-D.D05L",
+					"C5-04-D.D05M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-D-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C5-04-D.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2512,7 +5423,12 @@
 		"authoring": {
 			"task_script_id": "C5-04-D",
 			"dialogue_id": "task_c5_04_d",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9001": 26520,
+				"9036": 40280
+			}
 		},
 		"required_quest_ids": [
 			25042
@@ -2539,6 +5455,45 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-01-A-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C6-01-A.D01",
+					"C6-01-A.D02-1",
+					"C6-01-A.D02-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-01-A.D03",
+					"C6-01-A.D04",
+					"C6-01-A.D05",
+					"C6-01-A.D06",
+					"C6-01-A.D07",
+					"C6-01-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2546,9 +5501,15 @@
 		"authoring": {
 			"task_script_id": "C6-01-A",
 			"dialogue_id": "task_c6_01_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9044": 9720
+			}
 		},
-		"required_quest_ids": [],
+		"required_quest_ids": [
+			25043
+		],
 		"level_id": 6,
 		"auto_play": true,
 		"auto_complete": true
@@ -2564,6 +5525,42 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-01-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C6-01-B.D01",
+					"C6-01-B.D02",
+					"C6-01-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-B-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C6-01-B.D04K",
+					"C6-01-B.D04L",
+					"C6-01-B.D04M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2580,7 +5577,9 @@
 		"authoring": {
 			"task_script_id": "C6-01-B",
 			"dialogue_id": "task_c6_01_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26010
@@ -2600,6 +5599,42 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-02-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-02-A.D01",
+					"C6-02-A.D02",
+					"C6-02-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S02",
+				"title": "调查",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C6-02-A.D04",
+					"C6-02-A.D05",
+					"C6-02-A.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2607,7 +5642,9 @@
 		"authoring": {
 			"task_script_id": "C6-02-A",
 			"dialogue_id": "task_c6_02_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26011
@@ -2627,6 +5664,25 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-02-B-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C6-02-B.D01",
+					"C6-02-B.D02",
+					"C6-02-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2639,7 +5695,9 @@
 		"authoring": {
 			"task_script_id": "C6-02-B",
 			"dialogue_id": "task_c6_02_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26020
@@ -2666,6 +5724,24 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-03-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-03-A.D01",
+					"C6-03-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2673,7 +5749,11 @@
 		"authoring": {
 			"task_script_id": "C6-03-A",
 			"dialogue_id": "task_c6_03_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9044": 0
+			}
 		},
 		"required_quest_ids": [
 			26021
@@ -2698,6 +5778,46 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-03-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C6-03-B.D01",
+					"C6-03-B.D02",
+					"C6-03-B.D03",
+					"C6-03-B.D04",
+					"C6-03-B.D05",
+					"C6-03-B.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-03-B.D07",
+					"C6-03-B.D08K",
+					"C6-03-B.D08L",
+					"C6-03-B.D08M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2715,8 +5835,9 @@
 			"task_script_id": "C6-03-B",
 			"dialogue_id": "task_c6_03_b",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9044": "flow_d07_line_01"
+				"9044": 20320
 			}
 		},
 		"required_quest_ids": [
@@ -2735,6 +5856,7 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2742,7 +5864,9 @@
 		"authoring": {
 			"task_script_id": "C6-03-C",
 			"dialogue_id": "task_c6_03_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26031
@@ -2769,6 +5893,43 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-04-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C6-04-A.D01",
+					"C6-04-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-A-S02",
+				"title": "拉锯",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C6-04-A.D03",
+					"C6-04-A.D04-1",
+					"C6-04-A.D04-2",
+					"C6-04-A.D04-3",
+					"C6-04-A.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2776,7 +5937,11 @@
 		"authoring": {
 			"task_script_id": "C6-04-A",
 			"dialogue_id": "task_c6_04_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9044": 8000
+			}
 		},
 		"required_quest_ids": [
 			26032
@@ -2803,6 +5968,59 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-04-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C6-04-B.D01",
+					"C6-04-B.D02",
+					"C6-04-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-04-B.D04",
+					"C6-04-B.D05K",
+					"C6-04-B.D05L",
+					"C6-04-B.D05M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-B-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-04-B.D08",
+					"C6-04-B.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2819,7 +6037,11 @@
 		"authoring": {
 			"task_script_id": "C6-04-B",
 			"dialogue_id": "task_c6_04_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9044": 0
+			}
 		},
 		"required_quest_ids": [
 			26040
@@ -2844,6 +6066,41 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-05-A-S01",
+				"title": "登场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-A.D01",
+					"C6-05-A.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-A-S02",
+				"title": "第一阶段",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C6-05-A.D03",
+					"C6-05-A.D04",
+					"C6-05-A.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2851,7 +6108,11 @@
 		"authoring": {
 			"task_script_id": "C6-05-A",
 			"dialogue_id": "task_c6_05_a",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9044": 9760
+			}
 		},
 		"required_quest_ids": [
 			26041
@@ -2871,6 +6132,60 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-05-B-S01",
+				"title": "第二阶段",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C6-05-B.D01",
+					"C6-05-B.D02",
+					"C6-05-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-B-S02",
+				"title": "第三阶段",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C6-05-B.D04",
+					"C6-05-B.D05",
+					"C6-05-B.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-B-S03",
+				"title": "阶段转换",
+				"order": 3,
+				"kind": "boss",
+				"node_ids": [
+					"C6-05-B.D07",
+					"C6-05-B.D08",
+					"C6-05-B.D09",
+					"C6-05-B.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -2878,7 +6193,9 @@
 		"authoring": {
 			"task_script_id": "C6-05-B",
 			"dialogue_id": "task_c6_05_b",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26050
@@ -2898,6 +6215,41 @@
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
 		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-05-C-S01",
+				"title": "最后一击",
+				"order": 1,
+				"kind": "boss",
+				"node_ids": [
+					"C6-05-C.D01K-1",
+					"C6-05-C.D01K-2",
+					"C6-05-C.D01L",
+					"C6-05-C.D01M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-C-S02",
+				"title": "死亡",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-C.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2914,7 +6266,9 @@
 		"authoring": {
 			"task_script_id": "C6-05-C",
 			"dialogue_id": "task_c6_05_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
 			26051
@@ -2941,6 +6295,72 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-05-D-S01",
+				"title": "返忆·莱昂",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S02",
+				"title": "返忆·露娜",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S03",
+				"title": "返忆·米娅",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S04",
+				"title": "共同确认",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D04",
+					"C6-05-D.D05",
+					"C6-05-D.D06"
+				],
+				"objective_ids": [
+					"talk_9014"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2953,7 +6373,11 @@
 		"authoring": {
 			"task_script_id": "C6-05-D",
 			"dialogue_id": "task_c6_05_d",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9014": 12440
+			}
 		},
 		"required_quest_ids": [
 			26052
@@ -2980,6 +6404,59 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-06-A-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C6-06-A.D01",
+					"C6-06-A.D02-1",
+					"C6-06-A.D02-2",
+					"C6-06-A.D03",
+					"C6-06-A.D04",
+					"C6-06-A.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-06-A.D06",
+					"C6-06-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C6-06-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -2993,8 +6470,9 @@
 			"task_script_id": "C6-06-A",
 			"dialogue_id": "task_c6_06_a",
 			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
 			"npc_entries": {
-				"9044": "flow_d06_line_01"
+				"9044": 26480
 			}
 		},
 		"required_quest_ids": [
@@ -3020,6 +6498,57 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-06-B-S01",
+				"title": "限时",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C6-06-B.D01",
+					"C6-06-B.D02",
+					"C6-06-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-B-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-B-S03",
+				"title": "状态确认",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C6-06-B.D05"
+				],
+				"objective_ids": [
+					"talk_9014"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": []
@@ -3027,9 +6556,11 @@
 		"authoring": {
 			"task_script_id": "C6-06-B",
 			"dialogue_id": "task_c6_06_b",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
+			"preview": true,
 			"npc_entries": {
-				"9036": "flow_d04_line_01"
+				"9014": 13920,
+				"9036": 0
 			}
 		},
 		"required_quest_ids": [
@@ -3055,6 +6586,64 @@
 				"count": 1
 			}
 		],
+		"stages": [
+			{
+				"id": "C6-06-C-S01",
+				"title": "接应",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C6-06-C.D01-1",
+					"C6-06-C.D01-2",
+					"C6-06-C.D01-3",
+					"C6-06-C.D02",
+					"C6-06-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-C-S02",
+				"title": "官方公报",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C6-06-C.D04",
+					"C6-06-C.D05",
+					"C6-06-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-C-S03",
+				"title": "结尾对白",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-C.D07",
+					"C6-06-C.D08",
+					"C6-06-C.D09",
+					"C6-06-C.D10"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
 		"rewards": {
 			"items": [],
 			"flags": [
@@ -3071,7 +6660,12 @@
 		"authoring": {
 			"task_script_id": "C6-06-C",
 			"dialogue_id": "task_c6_06_c",
-			"compile_status": "missing_runtime_target_ids"
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 26160,
+				"9002": 28560
+			}
 		},
 		"required_quest_ids": [
 			26061

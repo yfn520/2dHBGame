@@ -16,6 +16,16 @@ func set_entry(quest_id: int, entry: Dictionary) -> void:
 	quests[str(quest_id)] = entry.duplicate(true)
 
 
+func get_current_stage_id(quest_id: int) -> String:
+	return str(get_entry(quest_id).get("current_stage_id", ""))
+
+
+func set_current_stage_id(quest_id: int, stage_id: String) -> void:
+	var entry := get_entry(quest_id)
+	entry["current_stage_id"] = stage_id
+	set_entry(quest_id, entry)
+
+
 func get_flag(flag_name: String, default_value: Variant = false) -> Variant:
 	return flags.get(flag_name, default_value)
 

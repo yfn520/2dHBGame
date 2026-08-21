@@ -6,6 +6,9 @@ signal quest_started(quest_id: int)
 signal quest_ready(quest_id: int)
 signal quest_completed(quest_id: int)
 signal notification_requested(text: String)
+signal stage_changed(quest_id: int, stage_id: String)
+## 单个目标（key = objective id）完成时发出；供时间轴事件门控续播。
+signal objective_completed(quest_id: int, objective_key: String)
 
 var config: QuestConfig
 var state: QuestStateData
@@ -33,11 +36,16 @@ func start_quest(quest_id: int) -> bool:
 		return false
 	if not is_quest_unlocked(quest_id):
 		return false
-	state.set_entry(quest_id, {"status": "active", "counters": {}})
+	var quest := config.get_quest(quest_id)
+	var stages: Array = quest.get("stages", [])
+	var first_stage_id := str((stages[0] as Dictionary).get("id", "")) if not stages.is_empty() and stages[0] is Dictionary else ""
+	state.set_entry(quest_id, {"status": "active", "counters": {}, "current_stage_id": first_stage_id})
 	_refresh_ready_state(quest_id)
 	quest_started.emit(quest_id)
 	quest_updated.emit(quest_id)
-	var quest := config.get_quest(quest_id)
+	# quest was loaded before the state entry was written.
+	if not first_stage_id.is_empty():
+		stage_changed.emit(quest_id, first_stage_id)
 	notification_requested.emit("已接取任务：%s" % str(quest.get("title", quest_id)))
 	return true
 
@@ -48,6 +56,52 @@ func record_talk(npc_id: int) -> void:
 
 func record_kill(enemy_id: int) -> void:
 	_record_event("kill", "enemy_id", enemy_id)
+
+
+func record_collect(item_id: int) -> void:
+	_record_event("collect", "item_id", item_id)
+
+
+func record_interact(interact_id: String) -> void:
+	_record_named_event("interact", interact_id)
+
+
+func record_area_event(event_name: String) -> void:
+	if state != null:
+		state.set_flag("event:%s" % event_name, true)
+	_record_named_event("area_trigger", event_name)
+
+
+func record_named_event(event_name: String) -> void:
+	if state != null:
+		state.set_flag("event:%s" % event_name, true)
+	_record_named_event("named_event", event_name)
+
+
+func get_current_stage_id(quest_id: int) -> String:
+	return state.get_current_stage_id(quest_id) if state != null else ""
+
+
+func set_current_stage(quest_id: int, stage_id: String) -> bool:
+	if config == null or state == null or stage_id.is_empty():
+		return false
+	for stage_value in config.get_quest(quest_id).get("stages", []):
+		if stage_value is Dictionary and str(stage_value.get("id", "")) == stage_id:
+			state.set_current_stage_id(quest_id, stage_id)
+			stage_changed.emit(quest_id, stage_id)
+			quest_updated.emit(quest_id)
+			return true
+	return false
+
+
+func get_current_stage(quest_id: int) -> Dictionary:
+	if config == null:
+		return {}
+	var current_id := get_current_stage_id(quest_id)
+	for stage_value in config.get_quest(quest_id).get("stages", []):
+		if stage_value is Dictionary and str(stage_value.get("id", "")) == current_id:
+			return (stage_value as Dictionary).duplicate(true)
+	return {}
 
 
 func turn_in_for_npc(npc_id: int) -> Array[int]:
@@ -132,6 +186,25 @@ func has_available_quest(npc_id: int) -> bool:
 
 
 ## 任务是否满足接取前置：required_quest_ids 全部需为已完成状态（DAG 前置，支持多前置）。
+func _mainline_quest_ids() -> Array[int]:
+	var ids: Array[int] = []
+	if config == null:
+		return ids
+	for id_value in config.get_all_quests():
+		var quest := config.get_quest(int(id_value))
+		if str(quest.get("quest_kind", "story_task_script")) == "story_task_script":
+			ids.append(int(id_value))
+	ids.sort()
+	return ids
+
+
+func _previous_mainline_quest_id(quest_id: int) -> int:
+	var ids := _mainline_quest_ids()
+	var index := ids.find(quest_id)
+	return ids[index - 1] if index > 0 else 0
+
+
+## 任务必须同时满足显式前置和主线顺序；即使旧 quests.json 漏写 required_quest_ids，也不能越过上一条主线。
 func is_quest_unlocked(quest_id: int) -> bool:
 	if config == null or state == null:
 		return true
@@ -139,6 +212,9 @@ func is_quest_unlocked(quest_id: int) -> bool:
 	for req_value in quest.get("required_quest_ids", []):
 		if state.get_status(int(req_value)) != "completed":
 			return false
+	var previous_mainline_id := _previous_mainline_quest_id(quest_id)
+	if previous_mainline_id > 0 and state.get_status(previous_mainline_id) != "completed":
+		return false
 	return true
 
 
@@ -149,9 +225,19 @@ func has_active_quest(npc_id: int) -> bool:
 	for id_value in config.get_all_quests():
 		var quest_id := int(id_value)
 		var quest := config.get_quest(quest_id)
-		var is_related := int(quest.get("giver_npc_id", 0)) == npc_id or int(quest.get("turn_in_npc_id", 0)) == npc_id
-		if is_related and state.get_status(quest_id) == "active":
-			return true
+		if state.get_status(quest_id) != "active":
+			continue
+		var objectives: Array = quest.get("objectives", [])
+		for index in range(objectives.size()):
+			if not objectives[index] is Dictionary:
+				continue
+			var objective: Dictionary = objectives[index]
+			if str(objective.get("type", "")) != "talk":
+				continue
+			if int(objective.get("npc_id", 0)) != npc_id:
+				continue
+			if not bool(get_objective_progress(quest_id, objective, index).get("complete", false)):
+				return true
 	return false
 
 
@@ -218,6 +304,9 @@ func evaluate_condition(condition: Dictionary) -> bool:
 			return str(flag_actual) == str(flag_expected)
 		"item_count":
 			return inventory != null and inventory.get_count_by_id(int(condition.get("item_id", 0))) >= int(condition.get("count", 1))
+		"area_event", "named_event":
+			var event_name := str(condition.get("event_name", ""))
+			return bool(state.get_flag("event:%s" % event_name, false)) or bool(state.get_flag(event_name, false))
 		"lead_hero":
 			return roster != null and roster.get_protagonist_hero_id() == int(condition.get("hero_id", 0))
 		"":
@@ -236,6 +325,7 @@ func _record_event(objective_type: String, id_field: String, target_id: int) -> 
 		var entry := state.get_entry(quest_id)
 		var counters: Dictionary = entry.get("counters", {})
 		var changed := false
+		var completed: Array[String] = []
 		var objectives: Array = quest.get("objectives", [])
 		for index in range(objectives.size()):
 			if not objectives[index] is Dictionary:
@@ -245,13 +335,57 @@ func _record_event(objective_type: String, id_field: String, target_id: int) -> 
 				continue
 			var key := _objective_key(objective, index)
 			var required := maxi(1, int(objective.get("count", 1)))
+			var was_complete := int(counters.get(key, 0)) >= required
 			counters[key] = mini(required, int(counters.get(key, 0)) + 1)
 			changed = true
+			if not was_complete and int(counters.get(key, 0)) >= required:
+				completed.append(key)
 		if changed:
 			entry["counters"] = counters
 			state.set_entry(quest_id, entry)
 			_refresh_ready_state(quest_id)
 			quest_updated.emit(quest_id)
+			for key in completed:
+				objective_completed.emit(quest_id, key)
+
+
+func _record_named_event(objective_type: String, event_name: String) -> void:
+	if config == null or state == null:
+		return
+	for id_value in config.get_all_quests():
+		var quest_id := int(id_value)
+		if state.get_status(quest_id) != "active":
+			continue
+		var quest := config.get_quest(quest_id)
+		var entry := state.get_entry(quest_id)
+		var counters: Dictionary = entry.get("counters", {})
+		var changed := false
+		var completed: Array[String] = []
+		var objectives: Array = quest.get("objectives", [])
+		for index in range(objectives.size()):
+			if not objectives[index] is Dictionary:
+				continue
+			var objective: Dictionary = objectives[index]
+			var objective_type_value := str(objective.get("type", ""))
+			if objective_type_value != objective_type and not (objective_type == "area_trigger" and objective_type_value == "area_trigger"):
+				continue
+			var expected := str(objective.get("event_name", objective.get("name", objective.get("id", ""))))
+			if expected != event_name:
+				continue
+			var key := _objective_key(objective, index)
+			var required := maxi(1, int(objective.get("count", 1)))
+			var was_complete := int(counters.get(key, 0)) >= required
+			counters[key] = mini(required, int(counters.get(key, 0)) + 1)
+			changed = true
+			if not was_complete and int(counters.get(key, 0)) >= required:
+				completed.append(key)
+		if changed:
+			entry["counters"] = counters
+			state.set_entry(quest_id, entry)
+			_refresh_ready_state(quest_id)
+			quest_updated.emit(quest_id)
+			for key in completed:
+				objective_completed.emit(quest_id, key)
 
 
 func _refresh_all_ready_states() -> void:
