@@ -265,7 +265,18 @@ func _execute_actions(raw: Variant) -> void:
 				quest_service.start_quest(int(value.get("quest_id", 0)))
 			"give_item":
 				if inventory != null:
-					inventory.add_item(int(value.get("item_id", 0)), maxi(1, int(value.get("count", 1))))
+					var give_id := int(value.get("item_id", 0))
+					var give_count := maxi(1, int(value.get("count", 1)))
+					inventory.add_item(give_id, give_count)
+					# 与世界拾取/战利品一致：对话内发放（如按职业领装备）也要提示玩家并落盘，
+					# 否则装备悄悄入包且对话中途退出会丢。
+					var item_name := str(give_id)
+					if GameRegistry.item_config != null:
+						item_name = str(GameRegistry.item_config.get_item(give_id).get("name", item_name))
+					var ui_root := get_tree().get_first_node_in_group("ui_root")
+					if ui_root != null and ui_root.has_method("show_notification"):
+						ui_root.show_notification("获得 %s ×%d" % [item_name, give_count])
+					GameRegistry.save_game()
 			"set_protagonist":
 				# 序章三选一：写入存档级主角标记并立即落盘；
 				# hero_id<=0 为“跳过选角”，兜底用当前上场角色（gameroot 场景配置的默认主角）。

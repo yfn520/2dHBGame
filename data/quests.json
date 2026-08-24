@@ -230,9 +230,8 @@
 				"kind": "interact",
 				"node_ids": [
 					"C1-01-C.D01",
-					"C1-01-C.D02K",
-					"C1-01-C.D02L",
-					"C1-01-C.D02M"
+					"C1-01-C.D02",
+					"C1-01-C.D03"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -243,11 +242,35 @@
 			},
 			{
 				"id": "C1-01-C-S02",
-				"title": "交付",
+				"title": "交互",
 				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-C.D04K-1",
+					"C1-01-C.D04K-2",
+					"C1-01-C.D04K-3",
+					"C1-01-C.D04L-1",
+					"C1-01-C.D04L-2",
+					"C1-01-C.D04L-3",
+					"C1-01-C.D04M-1",
+					"C1-01-C.D04M-2",
+					"C1-01-C.D04M-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-C-S03",
+				"title": "交付",
+				"order": 3,
 				"kind": "complete",
 				"node_ids": [
-					"C1-01-C.D03"
+					"C1-01-C.D05",
+					"C1-01-C.D06"
 				],
 				"objective_ids": [
 					"talk_9001",
@@ -270,6 +293,22 @@
 				{
 					"flag": "BorrowedGearIssued",
 					"value": true
+				},
+				{
+					"flag": "100001",
+					"value": 1
+				},
+				{
+					"flag": "100002",
+					"value": 1
+				},
+				{
+					"flag": "100049",
+					"value": 1
+				},
+				{
+					"flag": "100012",
+					"value": 1
 				}
 			]
 		},
@@ -280,7 +319,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9001": 0,
-				"9045": 6680
+				"9045": 0
 			}
 		},
 		"required_quest_ids": [
@@ -580,8 +619,8 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9016": 17880,
-				"9020": 17880
+				"9016": 18000,
+				"9020": 18000
 			}
 		},
 		"required_quest_ids": [
@@ -1207,7 +1246,8 @@
 				"kind": "travel",
 				"node_ids": [
 					"C1-06-B.D01",
-					"C1-06-B.D02",
+					"C1-06-B.D02-1",
+					"C1-06-B.D02-2",
 					"C1-06-B.D03a",
 					"C1-06-B.D03b",
 					"C1-06-B.D03c"
@@ -1329,7 +1369,7 @@
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {
-				"9003": 22200
+				"9003": 22320
 			}
 		},
 		"required_quest_ids": [
@@ -1914,7 +1954,7 @@
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {
-				"9027": 13760
+				"9027": 13880
 			}
 		},
 		"required_quest_ids": [
@@ -2835,7 +2875,7 @@
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {
-				"9001": 16480,
+				"9001": 16600,
 				"9027": 0
 			}
 		},
@@ -3014,7 +3054,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9005": 12240,
-				"9029": 12240
+				"9029": 12360
 			}
 		},
 		"required_quest_ids": [
@@ -3317,7 +3357,7 @@
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9030,
-		"turn_in_npc_id": 9030,
+		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
 				"id": "talk_9030",
@@ -3350,8 +3390,10 @@
 				"order": 2,
 				"kind": "complete",
 				"node_ids": [
-					"C3-03-C.D04",
-					"C3-03-C.D05"
+					"C3-03-C.D04-1",
+					"C3-03-C.D04-2",
+					"C3-03-C.D05-1",
+					"C3-03-C.D05-2"
 				],
 				"objective_ids": [
 					"talk_9030"
@@ -3382,7 +3424,8 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9030": 16360
+				"9005": 18520,
+				"9030": 2400
 			}
 		},
 		"required_quest_ids": [
@@ -3738,7 +3781,8 @@
 				"order": 1,
 				"kind": "explore",
 				"node_ids": [
-					"C4-01-B.D01"
+					"C4-01-B.D01-1",
+					"C4-01-B.D01-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -4793,7 +4837,8 @@
 				"kind": "interact",
 				"node_ids": [
 					"C5-02-A.D01",
-					"C5-02-A.D02"
+					"C5-02-A.D02-1",
+					"C5-02-A.D02-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -4849,7 +4894,8 @@
 				"kind": "cinematic",
 				"node_ids": [
 					"C5-02-B.D01",
-					"C5-02-B.D02"
+					"C5-02-B.D02-1",
+					"C5-02-B.D02-2"
 				],
 				"objective_ids": [
 					"kill_8017"
@@ -5183,7 +5229,8 @@
 				"order": 3,
 				"kind": "cinematic",
 				"node_ids": [
-					"C5-04-A.D05"
+					"C5-04-A.D05-1",
+					"C5-04-A.D05-2"
 				],
 				"objective_ids": [
 					"talk_9043"

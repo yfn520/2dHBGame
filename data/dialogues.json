@@ -14300,9 +14300,9 @@
 				"trackId": "track_dialogue",
 				"kind": "line",
 				"startMs": 0,
-				"durationMs": 6280,
+				"durationMs": 3640,
 				"speaker": "霍雷克",
-				"text": "签上现在的名字。这是救援仓库的授权，拿它去领适合你职业和目前身体状况的基础装备，再带一块联络牌。仓库看守只看领取联，你告诉他现在会用什么就行。",
+				"text": "领取联我批好了，就差名字。签上现在的名字就行——这批装备，算救援仓库借你的。",
 				"channel": "public",
 				"stageId": "C1-01-C-S01",
 				"nodeId": "C1-01-C.D01",
@@ -14313,14 +14313,69 @@
 				"id": "C1-01-C-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6680,
-				"durationMs": 3320,
-				"speaker": "仓库看守",
-				"text": "领取联给我看看……行。普通训练盾、短剑、旧护甲，穿戴前检查一下绑带。",
-				"routeHero": "leon",
+				"startMs": 4040,
+				"durationMs": 1640,
+				"speaker": "主角",
+				"text": "借的。好，借的东西我会还。",
 				"channel": "public",
 				"stageId": "C1-01-C-S01",
-				"nodeId": "C1-01-C.D02K",
+				"nodeId": "C1-01-C.D02",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
+			},
+			{
+				"id": "C1-01-C-S01_004",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 6080,
+				"durationMs": 3880,
+				"speaker": "霍雷克",
+				"text": "把领取联交给仓库看守，顺带告诉他你手上还记得什么。他配给你的东西，比你自己挑的准。",
+				"channel": "public",
+				"stageId": "C1-01-C-S01",
+				"nodeId": "C1-01-C.D03",
+				"speaker_kind": "npc",
+				"speaker_id": 9001
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_exit",
+				"startMs": 9960,
+				"durationMs": 0,
+				"text": "退出阶段：C1-01-C-S01",
+				"payload": "C1-01-C-S01",
+				"id": "C1-01-C-S01_event_005",
+				"stageId": "C1-01-C-S01",
+				"nodeId": "C1-01-C.D03",
+				"nextStageId": "C1-01-C-S02",
+				"questId": 21012
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_enter",
+				"startMs": 10360,
+				"durationMs": 0,
+				"text": "进入阶段：C1-01-C-S02",
+				"payload": "C1-01-C-S02",
+				"id": "C1-01-C-S02_event_001",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04K-1",
+				"questId": 21012
+			},
+			{
+				"id": "C1-01-C-S02_002",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 10360,
+				"durationMs": 2520,
+				"speaker": "仓库看守",
+				"text": "领取联……霍雷克批的。说说，现在手上还能用什么？",
+				"routeHero": "leon",
+				"channel": "public",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04K-1",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -14332,17 +14387,73 @@
 				"speaker_id": 9045
 			},
 			{
-				"id": "C1-01-C-S01_004",
+				"id": "C1-01-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10400,
+				"startMs": 13280,
+				"durationMs": 1640,
+				"speaker": "莱昂",
+				"text": "剑和盾。手比脑子记得清楚。",
+				"routeHero": "leon",
+				"channel": "leon",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04K-2",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				],
+				"speaker_kind": "hero",
+				"speaker_id": 7001
+			},
+			{
+				"id": "C1-01-C-S02_004",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 15320,
+				"durationMs": 3400,
+				"speaker": "仓库看守",
+				"text": "那就这套：训练盾、短剑、旧护甲。绑带我看过一遍，你穿之前再自己摸一遍。",
+				"routeHero": "leon",
+				"channel": "public",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04K-3",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				],
+				"speaker_kind": "npc",
+				"speaker_id": 9045,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100001,
+						"count": 1
+					},
+					{
+						"type": "give_item",
+						"item_id": 100002,
+						"count": 1
+					}
+				]
+			},
+			{
+				"id": "C1-01-C-S02_005",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 19120,
 				"durationMs": 2520,
 				"speaker": "仓库看守",
-				"text": "备用猎弓、普通箭。肩膀还没好利索，拉弓别太用力。",
+				"text": "领取联……霍雷克批的。说说，现在手上还能用什么？",
 				"routeHero": "luna",
 				"channel": "public",
-				"stageId": "C1-01-C-S01",
-				"nodeId": "C1-01-C.D02L",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04L-1",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -14354,17 +14465,112 @@
 				"speaker_id": 9045
 			},
 			{
-				"id": "C1-01-C-S01_005",
+				"id": "C1-01-C-S02_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 13320,
-				"durationMs": 2200,
+				"startMs": 22040,
+				"durationMs": 1560,
+				"speaker": "露娜",
+				"text": "弓。肩膀还疼，但拉得开。",
+				"routeHero": "luna",
+				"channel": "luna",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04L-2",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7002
+					}
+				],
+				"speaker_kind": "hero",
+				"speaker_id": 7002
+			},
+			{
+				"id": "C1-01-C-S02_007",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 24000,
+				"durationMs": 2760,
 				"speaker": "仓库看守",
-				"text": "练习法杖。用它跑基础术式，高阶的先别碰。",
+				"text": "备用猎弓、普通箭。头几天弦别拉满，肩膀借一半力气就够。",
+				"routeHero": "luna",
+				"channel": "public",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04L-3",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7002
+					}
+				],
+				"speaker_kind": "npc",
+				"speaker_id": 9045,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100049,
+						"count": 1
+					}
+				]
+			},
+			{
+				"id": "C1-01-C-S02_008",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 27160,
+				"durationMs": 2520,
+				"speaker": "仓库看守",
+				"text": "领取联……霍雷克批的。说说，现在手上还能用什么？",
 				"routeHero": "mia",
 				"channel": "public",
-				"stageId": "C1-01-C-S01",
-				"nodeId": "C1-01-C.D02M",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04M-1",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7003
+					}
+				],
+				"speaker_kind": "npc",
+				"speaker_id": 9045
+			},
+			{
+				"id": "C1-01-C-S02_009",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 30080,
+				"durationMs": 1960,
+				"speaker": "米娅",
+				"text": "基础术式都在。高阶的，暂时碰不了。",
+				"routeHero": "mia",
+				"channel": "mia",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04M-2",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7003
+					}
+				],
+				"speaker_kind": "hero",
+				"speaker_id": 7003
+			},
+			{
+				"id": "C1-01-C-S02_010",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 32440,
+				"durationMs": 3080,
+				"speaker": "仓库看守",
+				"text": "练习法杖拿去。先跑基础术式把手感找回来，高阶的等记忆顺了再说。",
+				"routeHero": "mia",
+				"channel": "public",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04M-3",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -14379,68 +14585,89 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 15520,
+				"startMs": 35520,
 				"durationMs": 0,
-				"text": "退出阶段：C1-01-C-S01",
-				"payload": "C1-01-C-S01",
-				"id": "C1-01-C-S01_event_006",
-				"stageId": "C1-01-C-S01",
-				"nodeId": "C1-01-C.D02M",
-				"nextStageId": "C1-01-C-S02",
-				"questId": 21012
+				"text": "退出阶段：C1-01-C-S02",
+				"payload": "C1-01-C-S02",
+				"id": "C1-01-C-S02_event_011",
+				"stageId": "C1-01-C-S02",
+				"nodeId": "C1-01-C.D04M-3",
+				"nextStageId": "C1-01-C-S03",
+				"questId": 21012,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100012,
+						"count": 1
+					}
+				]
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 15920,
+				"startMs": 35920,
 				"durationMs": 0,
-				"text": "进入阶段：C1-01-C-S02",
-				"payload": "C1-01-C-S02",
-				"id": "C1-01-C-S02_event_001",
-				"stageId": "C1-01-C-S02",
-				"nodeId": "C1-01-C.D03",
+				"text": "进入阶段：C1-01-C-S03",
+				"payload": "C1-01-C-S03",
+				"id": "C1-01-C-S03_event_001",
+				"stageId": "C1-01-C-S03",
+				"nodeId": "C1-01-C.D05",
 				"questId": 21012
-			},
-			{
-				"id": "C1-01-C-S02_002",
-				"trackId": "track_dialogue",
-				"kind": "line",
-				"startMs": 15920,
-				"durationMs": 2760,
-				"speaker": "仓库看守",
-				"text": "联络牌也拿着，随身带。以后还装备，把领取联一起带回来。",
-				"channel": "public",
-				"stageId": "C1-01-C-S02",
-				"nodeId": "C1-01-C.D03",
-				"speaker_kind": "npc",
-				"speaker_id": 9045
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 18680,
+				"startMs": 35920,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
-				"id": "C1-01-C-S02_event_003",
-				"stageId": "C1-01-C-S02",
-				"nodeId": "C1-01-C.D03",
+				"id": "C1-01-C-S03_event_002",
+				"stageId": "C1-01-C-S03",
+				"nodeId": "C1-01-C.D05",
 				"questId": 21012
+			},
+			{
+				"id": "C1-01-C-S03_003",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 36040,
+				"durationMs": 3320,
+				"speaker": "仓库看守",
+				"text": "联络牌也带上，随身放。装备是借的——还的时候，牌和领取联一起拿回来。",
+				"channel": "public",
+				"stageId": "C1-01-C-S03",
+				"nodeId": "C1-01-C.D05",
+				"speaker_kind": "npc",
+				"speaker_id": 9045
+			},
+			{
+				"id": "C1-01-C-S03_004",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 39760,
+				"durationMs": 1880,
+				"speaker": "主角",
+				"text": "记下了。用完这一程，我就回来还。",
+				"channel": "public",
+				"stageId": "C1-01-C-S03",
+				"nodeId": "C1-01-C.D06",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 18680,
+				"startMs": 41640,
 				"durationMs": 0,
-				"text": "退出阶段：C1-01-C-S02",
-				"payload": "C1-01-C-S02",
-				"id": "C1-01-C-S02_event_004",
-				"stageId": "C1-01-C-S02",
-				"nodeId": "C1-01-C.D03",
+				"text": "退出阶段：C1-01-C-S03",
+				"payload": "C1-01-C-S03",
+				"id": "C1-01-C-S03_event_005",
+				"stageId": "C1-01-C-S03",
+				"nodeId": "C1-01-C.D06",
 				"questId": 21012,
 				"actions": [
 					{
@@ -14458,7 +14685,7 @@
 		],
 		"entries": {
 			"9001": 0,
-			"9045": 6680
+			"9045": 0
 		},
 		"stages": [
 			{
@@ -14468,25 +14695,7 @@
 				"kind": "interact",
 				"node_ids": [
 					"C1-01-C.D01",
-					"C1-01-C.D02K",
-					"C1-01-C.D02L",
-					"C1-01-C.D02M"
-				],
-				"objective_ids": [],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false,
-				"start_ms": 0,
-				"end_ms": 15520
-			},
-			{
-				"id": "C1-01-C-S02",
-				"title": "交付",
-				"order": 2,
-				"kind": "complete",
-				"node_ids": [
+					"C1-01-C.D02",
 					"C1-01-C.D03"
 				],
 				"objective_ids": [],
@@ -14495,8 +14704,51 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 15920,
-				"end_ms": 18680
+				"start_ms": 0,
+				"end_ms": 9960
+			},
+			{
+				"id": "C1-01-C-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-C.D04K-1",
+					"C1-01-C.D04K-2",
+					"C1-01-C.D04K-3",
+					"C1-01-C.D04L-1",
+					"C1-01-C.D04L-2",
+					"C1-01-C.D04L-3",
+					"C1-01-C.D04M-1",
+					"C1-01-C.D04M-2",
+					"C1-01-C.D04M-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false,
+				"start_ms": 10360,
+				"end_ms": 35520
+			},
+			{
+				"id": "C1-01-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-01-C.D05",
+					"C1-01-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false,
+				"start_ms": 35920,
+				"end_ms": 41640
 			}
 		]
 	},
@@ -15449,10 +15701,24 @@
 				"questId": 21021
 			},
 			{
-				"id": "C1-02-B-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C1-02-B-S01_event_002",
+				"stageId": "C1-02-B-S01",
+				"nodeId": "C1-02-B.D01",
+				"questId": 21021
+			},
+			{
+				"id": "C1-02-B-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 1480,
 				"speaker": "伊莱",
 				"text": "箱子我接，手也给我看。",
@@ -15463,24 +15729,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 1480,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_003",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D01",
-				"questId": 21021
-			},
-			{
 				"id": "C1-02-B-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 1880,
+				"startMs": 2000,
 				"durationMs": 1480,
 				"speaker": "莱昂",
 				"text": "只是勒痕，不影响握盾。",
@@ -15499,31 +15751,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 3360,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_005",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02K-1",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_006",
+				"id": "C1-02-B-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3760,
+				"startMs": 3880,
 				"durationMs": 2120,
 				"speaker": "伊莱",
 				"text": "我问的是要不要处理，不是能不能继续忍。",
@@ -15542,31 +15773,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 5880,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_007",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02K-2",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_008",
+				"id": "C1-02-B-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6280,
+				"startMs": 6400,
 				"durationMs": 1640,
 				"speaker": "莱昂",
 				"text": "那就处理。下一段路还要用。",
@@ -15585,31 +15795,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 7920,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_009",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02K-3",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_010",
+				"id": "C1-02-B-S01_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 8320,
+				"startMs": 8440,
 				"durationMs": 1480,
 				"speaker": "露娜",
 				"text": "先给发热的孩子开蓝箱。",
@@ -15628,31 +15817,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 9800,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_011",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02L-1",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_012",
+				"id": "C1-02-B-S01_008",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10200,
+				"startMs": 10320,
 				"durationMs": 2040,
 				"speaker": "伊莱",
 				"text": "已经有人开。现在轮到你别把伤口泡坏。",
@@ -15671,31 +15839,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 12240,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_013",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02L-2",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_014",
+				"id": "C1-02-B-S01_009",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12640,
+				"startMs": 12760,
 				"durationMs": 1080,
 				"speaker": "米娅",
 				"text": "我做过净化。",
@@ -15714,31 +15861,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 13720,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_015",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02M-1",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_016",
+				"id": "C1-02-B-S01_010",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 14120,
+				"startMs": 14240,
 				"durationMs": 1640,
 				"speaker": "伊莱",
 				"text": "水净化了，冻裂的指节没有。",
@@ -15757,31 +15883,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 15760,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_017",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02M-2",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"id": "C1-02-B-S01_018",
+				"id": "C1-02-B-S01_011",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 16160,
+				"startMs": 16280,
 				"durationMs": 1320,
 				"speaker": "米娅",
 				"text": "……这个判断成立。",
@@ -15802,33 +15907,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 17480,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-02-B-S01_event_019",
-				"stageId": "C1-02-B-S01",
-				"nodeId": "C1-02-B.D02M-3",
-				"questId": 21021,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 17480,
+				"startMs": 17600,
 				"durationMs": 0,
 				"text": "退出阶段：C1-02-B-S01",
 				"payload": "C1-02-B-S01",
-				"id": "C1-02-B-S01_event_020",
+				"id": "C1-02-B-S01_event_012",
 				"stageId": "C1-02-B-S01",
 				"nodeId": "C1-02-B.D02M-3",
 				"nextStageId": "C1-02-B-S02",
@@ -15838,7 +15922,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 17880,
+				"startMs": 18000,
 				"durationMs": 0,
 				"text": "进入阶段：C1-02-B-S02",
 				"payload": "C1-02-B-S02",
@@ -15851,7 +15935,7 @@
 				"id": "C1-02-B-S02_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 17880,
+				"startMs": 18000,
 				"durationMs": 3880,
 				"speaker": "搜救员",
 				"text": "下游的人找齐了，你捞回的药也正好赶上。昨晚背你回去的六个人里，有两个就在后面收绳。",
@@ -15865,7 +15949,7 @@
 				"id": "C1-02-B-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 22160,
+				"startMs": 22280,
 				"durationMs": 2360,
 				"speaker": "搜救员",
 				"text": "醒了就好。昨晚你一路不出声，我们还怕赶不及。",
@@ -15879,7 +15963,7 @@
 				"id": "C1-02-B-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 24920,
+				"startMs": 25040,
 				"durationMs": 2920,
 				"speaker": "主角",
 				"text": "我现在记不起自己从哪里来，但记得是谁把我带回来。昨夜多谢。",
@@ -15893,7 +15977,7 @@
 				"id": "C1-02-B-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 28240,
+				"startMs": 28360,
 				"durationMs": 1960,
 				"speaker": "搜救员",
 				"text": "谢意收下。下次见面，别再躺担架上。",
@@ -15907,7 +15991,7 @@
 				"id": "C1-02-B-S02_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 30600,
+				"startMs": 30720,
 				"durationMs": 3000,
 				"speaker": "伊莱",
 				"text": "这瓶是你的，不占伤员份额。先把自己照顾好，才有力气继续谢人。",
@@ -15921,7 +16005,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 33600,
+				"startMs": 33720,
 				"durationMs": 0,
 				"text": "退出阶段：C1-02-B-S02",
 				"payload": "C1-02-B-S02",
@@ -15939,8 +16023,8 @@
 			}
 		],
 		"entries": {
-			"9016": 17880,
-			"9020": 17880
+			"9016": 18000,
+			"9020": 18000
 		},
 		"stages": [
 			{
@@ -15966,7 +16050,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 17480
+				"end_ms": 17600
 			},
 			{
 				"id": "C1-02-B-S02",
@@ -15986,8 +16070,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 17880,
-				"end_ms": 33600
+				"start_ms": 18000,
+				"end_ms": 33720
 			}
 		]
 	},
@@ -16385,10 +16469,31 @@
 				"questId": 21030
 			},
 			{
-				"id": "C1-03-A-S03_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 49480,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C1-03-A-S03_event_002",
+				"stageId": "C1-03-A-S03",
+				"nodeId": "C1-03-A.D11K-1",
+				"questId": 21030,
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				]
+			},
+			{
+				"id": "C1-03-A-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 49480,
+				"startMs": 49600,
 				"durationMs": 2120,
 				"speaker": "莱昂",
 				"text": "第三袋外层湿了，里面还干。今晚要摊开。",
@@ -16407,31 +16512,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 51600,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_003",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11K-1",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
 				"id": "C1-03-A-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 52000,
+				"startMs": 52120,
 				"durationMs": 1080,
 				"speaker": "桑叔",
 				"text": "你还懂粮种？",
@@ -16450,31 +16534,10 @@
 				"speaker_id": 9021
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 53080,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_005",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11K-2",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_006",
+				"id": "C1-03-A-S03_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 53480,
+				"startMs": 53600,
 				"durationMs": 1880,
 				"speaker": "莱昂",
 				"text": "不懂，是刚才工匠喊的。我记住了。",
@@ -16493,31 +16556,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 55360,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_007",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11K-3",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_008",
+				"id": "C1-03-A-S03_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 55760,
+				"startMs": 55880,
 				"durationMs": 2760,
 				"speaker": "露娜",
 				"text": "西路多绕了半里，一袋没掉。你儿子要嫌慢，让他自己来赶。",
@@ -16536,31 +16578,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 58520,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_009",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11L-1",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_010",
+				"id": "C1-03-A-S03_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 58920,
+				"startMs": 59040,
 				"durationMs": 1880,
 				"speaker": "桑叔",
 				"text": "（笑，塞烤种子）这句我原样带到。",
@@ -16579,31 +16600,10 @@
 				"speaker_id": 9021
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 60800,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_011",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11L-2",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_012",
+				"id": "C1-03-A-S03_008",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 61200,
+				"startMs": 61320,
 				"durationMs": 2520,
 				"speaker": "米娅",
 				"text": "桥的第二块板需要换，别让下一辆车照我们的速度过。",
@@ -16622,31 +16622,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 63720,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_013",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11M-1",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_014",
+				"id": "C1-03-A-S03_009",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 64120,
+				"startMs": 64240,
 				"durationMs": 1400,
 				"speaker": "桑叔",
 				"text": "先吃点东西再写报告。",
@@ -16665,31 +16644,10 @@
 				"speaker_id": 9021
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 65520,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_015",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11M-2",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"id": "C1-03-A-S03_016",
+				"id": "C1-03-A-S03_010",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 65920,
+				"startMs": 66040,
 				"durationMs": 1160,
 				"speaker": "米娅",
 				"text": "我会边吃边写。",
@@ -16710,33 +16668,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 67080,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-03-A-S03_event_017",
-				"stageId": "C1-03-A-S03",
-				"nodeId": "C1-03-A.D11M-3",
-				"questId": 21030,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 67080,
+				"startMs": 67200,
 				"durationMs": 0,
 				"text": "退出阶段：C1-03-A-S03",
 				"payload": "C1-03-A-S03",
-				"id": "C1-03-A-S03_event_018",
+				"id": "C1-03-A-S03_event_011",
 				"stageId": "C1-03-A-S03",
 				"nodeId": "C1-03-A.D11M-3",
 				"questId": 21030,
@@ -16822,7 +16759,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 49480,
-				"end_ms": 67080
+				"end_ms": 67200
 			}
 		]
 	},
@@ -19813,7 +19750,7 @@
 				"text": "听见了，邮差今天排在医师后面。",
 				"channel": "public",
 				"stageId": "C1-06-B-S01",
-				"nodeId": "C1-06-B.D02",
+				"nodeId": "C1-06-B.D02-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9003
 			},
@@ -19822,6 +19759,20 @@
 				"trackId": "track_dialogue",
 				"kind": "line",
 				"startMs": 4640,
+				"durationMs": 2840,
+				"speaker": "主角",
+				"text": "药先走。一次过两人、各带一件，老人孩子优先，信随第二批。",
+				"channel": "public",
+				"stageId": "C1-06-B-S01",
+				"nodeId": "C1-06-B.D02-2",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
+			},
+			{
+				"id": "C1-06-B-S01_005",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 7880,
 				"durationMs": 1800,
 				"speaker": "旁述",
 				"text": "莱昂守住绳头，露娜先带药过河。",
@@ -19845,10 +19796,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-06-B-S01_005",
+				"id": "C1-06-B-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6840,
+				"startMs": 10080,
 				"durationMs": 2040,
 				"speaker": "旁述",
 				"text": "米娅维持绳桥稳定，露娜逐个报落脚点。",
@@ -19872,10 +19823,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-06-B-S01_006",
+				"id": "C1-06-B-S01_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 9280,
+				"startMs": 12520,
 				"durationMs": 2200,
 				"speaker": "旁述",
 				"text": "莱昂控制过桥人数，米娅在彼岸布置净水圈。",
@@ -19902,11 +19853,11 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 11480,
+				"startMs": 14720,
 				"durationMs": 0,
 				"text": "退出阶段：C1-06-B-S01",
 				"payload": "C1-06-B-S01",
-				"id": "C1-06-B-S01_event_007",
+				"id": "C1-06-B-S01_event_008",
 				"stageId": "C1-06-B-S01",
 				"nodeId": "C1-06-B.D03c",
 				"questId": 21061,
@@ -19931,7 +19882,8 @@
 				"kind": "travel",
 				"node_ids": [
 					"C1-06-B.D01",
-					"C1-06-B.D02",
+					"C1-06-B.D02-1",
+					"C1-06-B.D02-2",
 					"C1-06-B.D03a",
 					"C1-06-B.D03b",
 					"C1-06-B.D03c"
@@ -19943,7 +19895,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 11480
+				"end_ms": 14720
 			}
 		]
 	},
@@ -20072,10 +20024,31 @@
 				"questId": 21062
 			},
 			{
-				"id": "C1-06-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 10320,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C1-06-C-S02_event_002",
+				"stageId": "C1-06-C-S02",
+				"nodeId": "C1-06-C.D04K",
+				"questId": 21062,
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				]
+			},
+			{
+				"id": "C1-06-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10320,
+				"startMs": 10440,
 				"durationMs": 3800,
 				"speaker": "莱昂",
 				"text": "今天绳桥只能走人和小包，粮车等工匠验完桥墩。我不会拿一句「已经通了」让你们冒险。",
@@ -20094,31 +20067,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 14120,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-06-C-S02_event_003",
-				"stageId": "C1-06-C-S02",
-				"nodeId": "C1-06-C.D04K",
-				"questId": 21062,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
 				"id": "C1-06-C-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 14520,
+				"startMs": 14640,
 				"durationMs": 3320,
 				"speaker": "露娜",
 				"text": "我把高水位路线留在村口，水退前别走低滩。想赶路也等到看得见那根红箭。",
@@ -20137,31 +20089,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 17840,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-06-C-S02_event_005",
-				"stageId": "C1-06-C-S02",
-				"nodeId": "C1-06-C.D04L",
-				"questId": 21062,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C1-06-C-S02_006",
+				"id": "C1-06-C-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 18240,
+				"startMs": 18360,
 				"durationMs": 3560,
 				"speaker": "米娅",
 				"text": "井水三天内继续煮沸，净水圈只处理眼前这批，不是永久结界。我明天会回来复测。",
@@ -20182,33 +20113,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 21800,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-06-C-S02_event_007",
-				"stageId": "C1-06-C-S02",
-				"nodeId": "C1-06-C.D04M",
-				"questId": 21062,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 21800,
+				"startMs": 21920,
 				"durationMs": 0,
 				"text": "退出阶段：C1-06-C-S02",
 				"payload": "C1-06-C-S02",
-				"id": "C1-06-C-S02_event_008",
+				"id": "C1-06-C-S02_event_006",
 				"stageId": "C1-06-C-S02",
 				"nodeId": "C1-06-C.D04M",
 				"nextStageId": "C1-06-C-S03",
@@ -20218,7 +20128,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 22200,
+				"startMs": 22320,
 				"durationMs": 0,
 				"text": "进入阶段：C1-06-C-S03",
 				"payload": "C1-06-C-S03",
@@ -20231,7 +20141,7 @@
 				"id": "C1-06-C-S03_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 22200,
+				"startMs": 22320,
 				"durationMs": 3080,
 				"speaker": "旁述",
 				"text": "洛伯解开邮袋上一根细绳，把女儿退件收进口袋，不再回封锁线空等。",
@@ -20245,7 +20155,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 25280,
+				"startMs": 25400,
 				"durationMs": 0,
 				"text": "退出阶段：C1-06-C-S03",
 				"payload": "C1-06-C-S03",
@@ -20263,7 +20173,7 @@
 			}
 		],
 		"entries": {
-			"9003": 22200
+			"9003": 22320
 		},
 		"stages": [
 			{
@@ -20303,7 +20213,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 10320,
-				"end_ms": 21800
+				"end_ms": 21920
 			},
 			{
 				"id": "C1-06-C-S03",
@@ -20319,8 +20229,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 22200,
-				"end_ms": 25280
+				"start_ms": 22320,
+				"end_ms": 25400
 			}
 		]
 	},
@@ -21916,10 +21826,24 @@
 				"questId": 21072
 			},
 			{
-				"id": "C1-07-C-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C1-07-C-S01_event_002",
+				"stageId": "C1-07-C-S01",
+				"nodeId": "C1-07-C.D01",
+				"questId": 21072
+			},
+			{
+				"id": "C1-07-C-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 3080,
 				"speaker": "霍雷克",
 				"text": "三份记录都指向同一个坐标。原件是一起入库，还是由你们各自保管？",
@@ -21930,24 +21854,10 @@
 				"speaker_id": 9001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 3080,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-07-C-S01_event_003",
-				"stageId": "C1-07-C-S01",
-				"nodeId": "C1-07-C.D01",
-				"questId": 21072
-			},
-			{
 				"id": "C1-07-C-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3480,
+				"startMs": 3600,
 				"durationMs": 3000,
 				"speaker": "米娅",
 				"text": "分开。不是不信任谁，是不该让一次失火或一次扣押拿走全部记录。",
@@ -21958,24 +21868,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 6480,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-07-C-S01_event_005",
-				"stageId": "C1-07-C-S01",
-				"nodeId": "C1-07-C.D02",
-				"questId": 21072
-			},
-			{
-				"id": "C1-07-C-S01_006",
+				"id": "C1-07-C-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6880,
+				"startMs": 7000,
 				"durationMs": 2440,
 				"speaker": "莱昂",
 				"text": "一人保管一份。谁被要求交原件，先通知另外两人。",
@@ -21986,24 +21882,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 9320,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-07-C-S01_event_007",
-				"stageId": "C1-07-C-S01",
-				"nodeId": "C1-07-C.D03",
-				"questId": 21072
-			},
-			{
-				"id": "C1-07-C-S01_008",
+				"id": "C1-07-C-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 9720,
+				"startMs": 9840,
 				"durationMs": 2920,
 				"speaker": "露娜",
 				"text": "那就说定了。真遇上事，别为了显得客气，自己一个人先交出去。",
@@ -22016,26 +21898,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 12640,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-07-C-S01_event_009",
-				"stageId": "C1-07-C-S01",
-				"nodeId": "C1-07-C.D04",
-				"questId": 21072
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 12640,
+				"startMs": 12760,
 				"durationMs": 0,
 				"text": "退出阶段：C1-07-C-S01",
 				"payload": "C1-07-C-S01",
-				"id": "C1-07-C-S01_event_010",
+				"id": "C1-07-C-S01_event_007",
 				"stageId": "C1-07-C-S01",
 				"nodeId": "C1-07-C.D04",
 				"questId": 21072
@@ -22063,7 +21931,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 12640
+				"end_ms": 12760
 			}
 		]
 	},
@@ -23332,10 +23200,24 @@
 				"questId": 21083
 			},
 			{
-				"id": "C1-08-D-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C1-08-D-S01_event_002",
+				"stageId": "C1-08-D-S01",
+				"nodeId": "C1-08-D.D01",
+				"questId": 21083
+			},
+			{
+				"id": "C1-08-D-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 2280,
 				"speaker": "联络官",
 				"text": "敌对势力导致星楔异动，月影遗迹已获准复定。",
@@ -23346,24 +23228,10 @@
 				"speaker_id": 9027
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 2280,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-08-D-S01_event_003",
-				"stageId": "C1-08-D-S01",
-				"nodeId": "C1-08-D.D01",
-				"questId": 21083
-			},
-			{
 				"id": "C1-08-D-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 2680,
+				"startMs": 2800,
 				"durationMs": 3160,
 				"speaker": "露娜",
 				"text": "前半句没有证据，后半句写着遗迹里还有人受困。人得救，理由要另查。",
@@ -23374,24 +23242,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 5840,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-08-D-S01_event_005",
-				"stageId": "C1-08-D-S01",
-				"nodeId": "C1-08-D.D02",
-				"questId": 21083
-			},
-			{
-				"id": "C1-08-D-S01_006",
+				"id": "C1-08-D-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6240,
+				"startMs": 6360,
 				"durationMs": 2520,
 				"speaker": "米娅",
 				"text": "刚说过分存。霍雷克，先各复一份，再把原件分开封。",
@@ -23402,24 +23256,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 8760,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-08-D-S01_event_007",
-				"stageId": "C1-08-D-S01",
-				"nodeId": "C1-08-D.D03",
-				"questId": 21083
-			},
-			{
-				"id": "C1-08-D-S01_008",
+				"id": "C1-08-D-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 9160,
+				"startMs": 9280,
 				"durationMs": 4200,
 				"speaker": "莱昂",
 				"text": "我们用这张令进去救人，但不替公文里那句「敌对势力导致」作证。到了现场，再看它说的是真是假。",
@@ -23432,26 +23272,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 13360,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C1-08-D-S01_event_009",
-				"stageId": "C1-08-D-S01",
-				"nodeId": "C1-08-D.D04",
-				"questId": 21083
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 13360,
+				"startMs": 13480,
 				"durationMs": 0,
 				"text": "退出阶段：C1-08-D-S01",
 				"payload": "C1-08-D-S01",
-				"id": "C1-08-D-S01_event_010",
+				"id": "C1-08-D-S01_event_007",
 				"stageId": "C1-08-D-S01",
 				"nodeId": "C1-08-D.D04",
 				"nextStageId": "C1-08-D-S02",
@@ -23461,7 +23287,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 13760,
+				"startMs": 13880,
 				"durationMs": 0,
 				"text": "进入阶段：C1-08-D-S02",
 				"payload": "C1-08-D-S02",
@@ -23474,7 +23300,7 @@
 				"id": "C1-08-D-S02_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 13760,
+				"startMs": 13880,
 				"durationMs": 6520,
 				"speaker": "旁述",
 				"text": "柏婶照旧摆出四只杯垫。三人落座时都避开同一位置：莱昂把杯子挪到右侧，露娜半途改变落杯方向，米娅准备把文件放上空垫又收回膝上。彼此都看见，却没人开口。",
@@ -23488,7 +23314,7 @@
 				"id": "C1-08-D-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 20680,
+				"startMs": 20800,
 				"durationMs": 1320,
 				"speaker": "莱昂",
 				"text": "明早再对一次记录。",
@@ -23502,7 +23328,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 22000,
+				"startMs": 22120,
 				"durationMs": 0,
 				"text": "退出阶段：C1-08-D-S02",
 				"payload": "C1-08-D-S02",
@@ -23520,7 +23346,7 @@
 			}
 		],
 		"entries": {
-			"9027": 13760
+			"9027": 13880
 		},
 		"stages": [
 			{
@@ -23541,7 +23367,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 13360
+				"end_ms": 13480
 			},
 			{
 				"id": "C1-08-D-S02",
@@ -23558,8 +23384,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 13760,
-				"end_ms": 22000
+				"start_ms": 13880,
+				"end_ms": 22120
 			}
 		]
 	},
@@ -24395,10 +24221,24 @@
 				"questId": 22012
 			},
 			{
-				"id": "C2-01-C-S04_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 34200,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C2-01-C-S04_event_002",
+				"stageId": "C2-01-C-S04",
+				"nodeId": "C2-01-C.D09",
+				"questId": 22012
+			},
+			{
+				"id": "C2-01-C-S04_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 34200,
+				"startMs": 34320,
 				"durationMs": 3080,
 				"speaker": "米娅",
 				"text": "不是少零件，像是启动条件没满足。我先不拆，免得丢掉现在的状态。",
@@ -24409,24 +24249,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 37280,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-01-C-S04_event_003",
-				"stageId": "C2-01-C-S04",
-				"nodeId": "C2-01-C.D09",
-				"questId": 22012
-			},
-			{
 				"id": "C2-01-C-S04_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 37680,
+				"startMs": 37800,
 				"durationMs": 3400,
 				"speaker": "露娜",
 				"text": "鞋印一直到外侧小门，那里有风。把整座风车带过去，别在这里重新装第二次。",
@@ -24437,24 +24263,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 41080,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-01-C-S04_event_005",
-				"stageId": "C2-01-C-S04",
-				"nodeId": "C2-01-C.D10",
-				"questId": 22012
-			},
-			{
-				"id": "C2-01-C-S04_006",
+				"id": "C2-01-C-S04_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 41480,
+				"startMs": 41600,
 				"durationMs": 3080,
 				"speaker": "莱昂",
 				"text": "我来搬。露娜带路，米娅盯住钟响；谁发现时间开始回退，立刻叫停。",
@@ -24467,26 +24279,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 44560,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-01-C-S04_event_007",
-				"stageId": "C2-01-C-S04",
-				"nodeId": "C2-01-C.D11",
-				"questId": 22012
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 44560,
+				"startMs": 44680,
 				"durationMs": 0,
 				"text": "退出阶段：C2-01-C-S04",
 				"payload": "C2-01-C-S04",
-				"id": "C2-01-C-S04_event_008",
+				"id": "C2-01-C-S04_event_006",
 				"stageId": "C2-01-C-S04",
 				"nodeId": "C2-01-C.D11",
 				"questId": 22012,
@@ -24579,7 +24377,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 34200,
-				"end_ms": 44560
+				"end_ms": 44680
 			}
 		]
 	},
@@ -25403,10 +25201,24 @@
 				"questId": 22022
 			},
 			{
-				"id": "C2-02-C-S03_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 12880,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C2-02-C-S03_event_002",
+				"stageId": "C2-02-C-S03",
+				"nodeId": "C2-02-C.D05",
+				"questId": 22022
+			},
+			{
+				"id": "C2-02-C-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12880,
+				"startMs": 13000,
 				"durationMs": 3480,
 				"speaker": "米娅",
 				"text": "我们能证明公示版没有前置条件，暂时证明不了是谁删的，也证明不了删改时间。",
@@ -25417,24 +25229,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 16360,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-02-C-S03_event_003",
-				"stageId": "C2-02-C-S03",
-				"nodeId": "C2-02-C.D05",
-				"questId": 22022
-			},
-			{
 				"id": "C2-02-C-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 16760,
+				"startMs": 16880,
 				"durationMs": 5320,
 				"speaker": "莱昂",
 				"text": "那就只写能站得住的。每件证物做三份副本，分别走军方、游侠会和学院的渠道；原件继续分存。谁收到追缴要求，先通知另外两人。",
@@ -25447,26 +25245,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 22080,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-02-C-S03_event_005",
-				"stageId": "C2-02-C-S03",
-				"nodeId": "C2-02-C.D06",
-				"questId": 22022
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 22080,
+				"startMs": 22200,
 				"durationMs": 0,
 				"text": "退出阶段：C2-02-C-S03",
 				"payload": "C2-02-C-S03",
-				"id": "C2-02-C-S03_event_006",
+				"id": "C2-02-C-S03_event_005",
 				"stageId": "C2-02-C-S03",
 				"nodeId": "C2-02-C.D06",
 				"questId": 22022,
@@ -25540,7 +25324,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 12880,
-				"end_ms": 22080
+				"end_ms": 22200
 			}
 		]
 	},
@@ -26179,10 +25963,31 @@
 				"questId": 22032
 			},
 			{
-				"id": "C2-03-C-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C2-03-C-S01_event_002",
+				"stageId": "C2-03-C-S01",
+				"nodeId": "C2-03-C.D01K-1",
+				"questId": 22032,
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				]
+			},
+			{
+				"id": "C2-03-C-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 3720,
 				"speaker": "莱昂",
 				"text": "位置一样，空了三次。这不是一次手滑，但在找到原始名册前，我不会说这里原本是谁。",
@@ -26201,31 +26006,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 3720,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-03-C-S01_event_003",
-				"stageId": "C2-03-C-S01",
-				"nodeId": "C2-03-C.D01K-1",
-				"questId": 22032,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
 				"id": "C2-03-C-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 4120,
+				"startMs": 4240,
 				"durationMs": 2440,
 				"speaker": "露娜",
 				"text": "那就先把空格留下，别让后来的人替它编一个答案。",
@@ -26244,31 +26028,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 6560,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-03-C-S01_event_005",
-				"stageId": "C2-03-C-S01",
-				"nodeId": "C2-03-C.D01K-2",
-				"questId": 22032,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C2-03-C-S01_006",
+				"id": "C2-03-C-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6960,
+				"startMs": 7080,
 				"durationMs": 3160,
 				"speaker": "露娜",
 				"text": "这一头是我系的，另一头被人接过；我只能确认手法不同，想不起是谁。",
@@ -26287,31 +26050,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 10120,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-03-C-S01_event_007",
-				"stageId": "C2-03-C-S01",
-				"nodeId": "C2-03-C.D01L",
-				"questId": 22032,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C2-03-C-S01_008",
+				"id": "C2-03-C-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10520,
+				"startMs": 10640,
 				"durationMs": 3320,
 				"speaker": "米娅",
 				"text": "这不是自然脱页。能确认的是有人取走了整页，取走的内容和原因仍然未知。",
@@ -26332,33 +26074,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 13840,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-03-C-S01_event_009",
-				"stageId": "C2-03-C-S01",
-				"nodeId": "C2-03-C.D01M",
-				"questId": 22032,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 13840,
+				"startMs": 13960,
 				"durationMs": 0,
 				"text": "退出阶段：C2-03-C-S01",
 				"payload": "C2-03-C-S01",
-				"id": "C2-03-C-S01_event_010",
+				"id": "C2-03-C-S01_event_007",
 				"stageId": "C2-03-C-S01",
 				"nodeId": "C2-03-C.D01M",
 				"nextStageId": "C2-03-C-S02",
@@ -26368,7 +26089,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 14240,
+				"startMs": 14360,
 				"durationMs": 0,
 				"text": "进入阶段：C2-03-C-S02",
 				"payload": "C2-03-C-S02",
@@ -26381,7 +26102,7 @@
 				"id": "C2-03-C-S02_002",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 14240,
+				"startMs": 14360,
 				"durationMs": 2520,
 				"speaker": "旁白",
 				"text": "另外两件主契遗装从本存档掉落池排除；两名非主角保留普通装备成长。",
@@ -26394,7 +26115,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 16760,
+				"startMs": 16880,
 				"durationMs": 0,
 				"text": "退出阶段：C2-03-C-S02",
 				"payload": "C2-03-C-S02",
@@ -26431,7 +26152,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 13840
+				"end_ms": 13960
 			},
 			{
 				"id": "C2-03-C-S02",
@@ -26447,8 +26168,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 14240,
-				"end_ms": 16760
+				"start_ms": 14360,
+				"end_ms": 16880
 			}
 		]
 	},
@@ -27326,10 +27047,24 @@
 				"questId": 22042
 			},
 			{
-				"id": "C2-04-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 16480,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C2-04-C-S02_event_002",
+				"stageId": "C2-04-C-S02",
+				"nodeId": "C2-04-C.D05",
+				"questId": 22042
+			},
+			{
+				"id": "C2-04-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 16480,
+				"startMs": 16600,
 				"durationMs": 6840,
 				"speaker": "霍雷克",
 				"text": "装备牌拓印由我收，命令两个版本的副本交米娅编号，巡逻原图先留在露娜手里；钟楼时间印再各复一份。现在能确定的是，现场人数比公示名册多，公开命令也缺了前置条件。",
@@ -27340,24 +27075,10 @@
 				"speaker_id": 9001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 23320,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-04-C-S02_event_003",
-				"stageId": "C2-04-C-S02",
-				"nodeId": "C2-04-C.D05",
-				"questId": 22042
-			},
-			{
 				"id": "C2-04-C-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 23720,
+				"startMs": 23840,
 				"durationMs": 3720,
 				"speaker": "霍雷克",
 				"text": "但谁改了名册、谁截了命令，我们还没有能落到具体人的证据。别让猜测跑到证据前面。",
@@ -27368,24 +27089,10 @@
 				"speaker_id": 9001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 27440,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-04-C-S02_event_005",
-				"stageId": "C2-04-C-S02",
-				"nodeId": "C2-04-C.D06",
-				"questId": 22042
-			},
-			{
-				"id": "C2-04-C-S02_006",
+				"id": "C2-04-C-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 27840,
+				"startMs": 27960,
 				"durationMs": 3160,
 				"speaker": "莱昂",
 				"text": "足够决定下一步了。先把原件带回去，再查是谁希望它们只剩一个版本。",
@@ -27398,26 +27105,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 31000,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C2-04-C-S02_event_007",
-				"stageId": "C2-04-C-S02",
-				"nodeId": "C2-04-C.D07",
-				"questId": 22042
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 31000,
+				"startMs": 31120,
 				"durationMs": 0,
 				"text": "退出阶段：C2-04-C-S02",
 				"payload": "C2-04-C-S02",
-				"id": "C2-04-C-S02_event_008",
+				"id": "C2-04-C-S02_event_006",
 				"stageId": "C2-04-C-S02",
 				"nodeId": "C2-04-C.D07",
 				"questId": 22042,
@@ -27431,7 +27124,7 @@
 			}
 		],
 		"entries": {
-			"9001": 16480,
+			"9001": 16600,
 			"9027": 0
 		},
 		"stages": [
@@ -27472,7 +27165,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 16480,
-				"end_ms": 31000
+				"end_ms": 31120
 			}
 		]
 	},
@@ -27959,10 +27652,24 @@
 				"questId": 23011
 			},
 			{
-				"id": "C3-01-B-S03_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 12240,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C3-01-B-S03_event_002",
+				"stageId": "C3-01-B-S03",
+				"nodeId": "C3-01-B.D06",
+				"questId": 23011
+			},
+			{
+				"id": "C3-01-B-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12240,
+				"startMs": 12360,
 				"durationMs": 1160,
 				"speaker": "记录员遗响",
 				"text": "离题。不及格。",
@@ -27973,24 +27680,10 @@
 				"speaker_id": 9029
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 13400,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-01-B-S03_event_003",
-				"stageId": "C3-01-B-S03",
-				"nodeId": "C3-01-B.D06",
-				"questId": 23011
-			},
-			{
 				"id": "C3-01-B-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 13800,
+				"startMs": 13920,
 				"durationMs": 5560,
 				"speaker": "莱昂",
 				"text": "它没答对你的题，却把我们带到了你们想藏的东西前。判它离题之前，先看看柜子里装的是什么。让它参加最后一场，结果由最后一场再判。",
@@ -28009,31 +27702,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 19360,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-01-B-S03_event_005",
-				"stageId": "C3-01-B-S03",
-				"nodeId": "C3-01-B.D07K",
-				"questId": 23011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
-				"id": "C3-01-B-S03_006",
+				"id": "C3-01-B-S03_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 19760,
+				"startMs": 19880,
 				"durationMs": 3880,
 				"speaker": "露娜",
 				"text": "同一道题问了这么久，也该轮到出题的人接受复核。不合格的是题，不是它。先给它下一题。",
@@ -28052,31 +27724,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 23640,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-01-B-S03_event_007",
-				"stageId": "C3-01-B-S03",
-				"nodeId": "C3-01-B.D07L",
-				"questId": 23011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C3-01-B-S03_008",
+				"id": "C3-01-B-S03_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 24040,
+				"startMs": 24160,
 				"durationMs": 2200,
 				"speaker": "米娅",
 				"text": "我不改它的答案，只申请让它完成剩余考试。",
@@ -28095,31 +27746,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 26240,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-01-B-S03_event_009",
-				"stageId": "C3-01-B-S03",
-				"nodeId": "C3-01-B.D07M",
-				"questId": 23011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"id": "C3-01-B-S03_010",
+				"id": "C3-01-B-S03_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 26640,
+				"startMs": 26760,
 				"durationMs": 1080,
 				"speaker": "十七号",
 				"text": "等待下一题。",
@@ -28132,26 +27762,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 27720,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-01-B-S03_event_011",
-				"stageId": "C3-01-B-S03",
-				"nodeId": "C3-01-B.D10",
-				"questId": 23011
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 27720,
+				"startMs": 27840,
 				"durationMs": 0,
 				"text": "退出阶段：C3-01-B-S03",
 				"payload": "C3-01-B-S03",
-				"id": "C3-01-B-S03_event_012",
+				"id": "C3-01-B-S03_event_008",
 				"stageId": "C3-01-B-S03",
 				"nodeId": "C3-01-B.D10",
 				"questId": 23011,
@@ -28171,7 +27787,7 @@
 		],
 		"entries": {
 			"9005": 12240,
-			"9029": 12240
+			"9029": 12360
 		},
 		"stages": [
 			{
@@ -28230,7 +27846,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 12240,
-				"end_ms": 27720
+				"end_ms": 27840
 			}
 		]
 	},
@@ -28788,10 +28404,24 @@
 				"questId": 23021
 			},
 			{
-				"id": "C3-02-B-S04_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 15640,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C3-02-B-S04_event_002",
+				"stageId": "C3-02-B-S04",
+				"nodeId": "C3-02-B.D09",
+				"questId": 23021
+			},
+			{
+				"id": "C3-02-B-S04_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 15640,
+				"startMs": 15760,
 				"durationMs": 3560,
 				"speaker": "米娅",
 				"text": "记录已经转存。现在关主回路，礼堂会开，但循环也少一道支撑。都看过退路了吗？",
@@ -28802,24 +28432,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 19200,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-02-B-S04_event_003",
-				"stageId": "C3-02-B-S04",
-				"nodeId": "C3-02-B.D09",
-				"questId": 23021
-			},
-			{
 				"id": "C3-02-B-S04_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 19600,
+				"startMs": 19720,
 				"durationMs": 1720,
 				"speaker": "莱昂",
 				"text": "人和十七号都在这边，可以关。",
@@ -28830,24 +28446,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 21320,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-02-B-S04_event_005",
-				"stageId": "C3-02-B-S04",
-				"nodeId": "C3-02-B.D10",
-				"questId": 23021
-			},
-			{
-				"id": "C3-02-B-S04_006",
+				"id": "C3-02-B-S04_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 21720,
+				"startMs": 21840,
 				"durationMs": 1960,
 				"speaker": "露娜",
 				"text": "那就先送考生进场，别让它又等一天。",
@@ -28860,26 +28462,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 23680,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-02-B-S04_event_007",
-				"stageId": "C3-02-B-S04",
-				"nodeId": "C3-02-B.D11",
-				"questId": 23021
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 23680,
+				"startMs": 23800,
 				"durationMs": 0,
 				"text": "退出阶段：C3-02-B-S04",
 				"payload": "C3-02-B-S04",
-				"id": "C3-02-B-S04_event_008",
+				"id": "C3-02-B-S04_event_006",
 				"stageId": "C3-02-B-S04",
 				"nodeId": "C3-02-B.D11",
 				"questId": 23021,
@@ -28969,7 +28557,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 15640,
-				"end_ms": 23680
+				"end_ms": 23800
 			}
 		]
 	},
@@ -29448,76 +29036,90 @@
 				"payload": "C3-03-C-S02",
 				"id": "C3-03-C-S02_event_001",
 				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D04",
+				"nodeId": "C3-03-C.D04-1",
 				"questId": 23032
 			},
 			{
-				"id": "C3-03-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 16360,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C3-03-C-S02_event_002",
+				"stageId": "C3-03-C-S02",
+				"nodeId": "C3-03-C.D04-1",
+				"questId": 23032
+			},
+			{
+				"id": "C3-03-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 16360,
+				"startMs": 16480,
 				"durationMs": 1640,
 				"speaker": "露米娜",
 				"text": "站位错误。杂役物件在侧列。",
 				"channel": "public",
 				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D04",
+				"nodeId": "C3-03-C.D04-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9030
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 18000,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-03-C-S02_event_003",
-				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D04",
-				"questId": 23032
 			},
 			{
 				"id": "C3-03-C-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 18400,
+				"startMs": 18520,
+				"durationMs": 1880,
+				"speaker": "十七号",
+				"text": "十七号不属于杂役物件。请求归类。",
+				"channel": "public",
+				"stageId": "C3-03-C-S02",
+				"nodeId": "C3-03-C.D04-2",
+				"speaker_kind": "npc",
+				"speaker_id": 9005
+			},
+			{
+				"id": "C3-03-C-S02_005",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 20800,
 				"durationMs": 2120,
 				"speaker": "露米娜",
 				"text": "……回到末尾。经见证离校者，允许入列。",
 				"channel": "public",
 				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D05",
+				"nodeId": "C3-03-C.D05-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9030
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 20520,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C3-03-C-S02_event_005",
+				"id": "C3-03-C-S02_006",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 23320,
+				"durationMs": 2360,
+				"speaker": "十七号",
+				"text": "归类完成：经见证离校者。位置：末尾。已站定。",
+				"channel": "public",
 				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D05",
-				"questId": 23032
+				"nodeId": "C3-03-C.D05-2",
+				"speaker_kind": "npc",
+				"speaker_id": 9005
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 20520,
+				"startMs": 25680,
 				"durationMs": 0,
 				"text": "退出阶段：C3-03-C-S02",
 				"payload": "C3-03-C-S02",
-				"id": "C3-03-C-S02_event_006",
+				"id": "C3-03-C-S02_event_007",
 				"stageId": "C3-03-C-S02",
-				"nodeId": "C3-03-C.D05",
+				"nodeId": "C3-03-C.D05-2",
 				"questId": 23032,
 				"actions": [
 					{
@@ -29534,7 +29136,8 @@
 			}
 		],
 		"entries": {
-			"9030": 16360
+			"9005": 18520,
+			"9030": 2400
 		},
 		"stages": [
 			{
@@ -29562,8 +29165,10 @@
 				"order": 2,
 				"kind": "complete",
 				"node_ids": [
-					"C3-03-C.D04",
-					"C3-03-C.D05"
+					"C3-03-C.D04-1",
+					"C3-03-C.D04-2",
+					"C3-03-C.D05-1",
+					"C3-03-C.D05-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -29572,7 +29177,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 16360,
-				"end_ms": 20520
+				"end_ms": 25680
 			}
 		]
 	},
@@ -30865,7 +30470,7 @@
 				"payload": "C4-01-B-S01",
 				"id": "C4-01-B-S01_event_001",
 				"stageId": "C4-01-B-S01",
-				"nodeId": "C4-01-B.D01",
+				"nodeId": "C4-01-B.D01-1",
 				"questId": 24011
 			},
 			{
@@ -30878,21 +30483,35 @@
 				"text": "边缘这道白痕朝海，另外两片要按旧磨口接上。顺序错了，光会分成三条。",
 				"channel": "public",
 				"stageId": "C4-01-B-S01",
-				"nodeId": "C4-01-B.D01",
+				"nodeId": "C4-01-B.D01-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9031
+			},
+			{
+				"id": "C4-01-B-S01_003",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 3640,
+				"durationMs": 3000,
+				"speaker": "主角",
+				"text": "白痕朝海，磨口对磨口。三片收齐我按这个顺序装，装完对一次光。",
+				"channel": "public",
+				"stageId": "C4-01-B-S01",
+				"nodeId": "C4-01-B.D01-2",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 3240,
+				"startMs": 6640,
 				"durationMs": 0,
 				"text": "退出阶段：C4-01-B-S01",
 				"payload": "C4-01-B-S01",
-				"id": "C4-01-B-S01_event_003",
+				"id": "C4-01-B-S01_event_004",
 				"stageId": "C4-01-B-S01",
-				"nodeId": "C4-01-B.D01",
+				"nodeId": "C4-01-B.D01-2",
 				"questId": 24011
 			}
 		],
@@ -30906,7 +30525,8 @@
 				"order": 1,
 				"kind": "explore",
 				"node_ids": [
-					"C4-01-B.D01"
+					"C4-01-B.D01-1",
+					"C4-01-B.D01-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -30915,7 +30535,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 3240
+				"end_ms": 6640
 			}
 		]
 	},
@@ -30961,10 +30581,24 @@
 				"questId": 24012
 			},
 			{
-				"id": "C4-01-C-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C4-01-C-S01_event_002",
+				"stageId": "C4-01-C-S01",
+				"nodeId": "C4-01-C.D01",
+				"questId": 24012
+			},
+			{
+				"id": "C4-01-C-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 3400,
 				"speaker": "救援队长",
 				"text": "今晚我们守灯，明晚换修船组。你们去查旧码头，不用半夜赶回来替我们值班。",
@@ -30975,24 +30609,10 @@
 				"speaker_id": 9032
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 3400,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-01-C-S01_event_003",
-				"stageId": "C4-01-C-S01",
-				"nodeId": "C4-01-C.D01",
-				"questId": 24012
-			},
-			{
 				"id": "C4-01-C-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3800,
+				"startMs": 3920,
 				"durationMs": 2040,
 				"speaker": "露娜",
 				"text": "这才像个码头——英雄走了，灯还会亮。",
@@ -31003,24 +30623,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 5840,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-01-C-S01_event_005",
-				"stageId": "C4-01-C-S01",
-				"nodeId": "C4-01-C.D02",
-				"questId": 24012
-			},
-			{
-				"id": "C4-01-C-S01_006",
+				"id": "C4-01-C-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6240,
+				"startMs": 6360,
 				"durationMs": 2680,
 				"speaker": "救援队长",
 				"text": "少替我们加戏。回来时认准三短一长，我们给你们留泊位。",
@@ -31033,26 +30639,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 8920,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-01-C-S01_event_007",
-				"stageId": "C4-01-C-S01",
-				"nodeId": "C4-01-C.D03",
-				"questId": 24012
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 8920,
+				"startMs": 9040,
 				"durationMs": 0,
 				"text": "退出阶段：C4-01-C-S01",
 				"payload": "C4-01-C-S01",
-				"id": "C4-01-C-S01_event_008",
+				"id": "C4-01-C-S01_event_006",
 				"stageId": "C4-01-C-S01",
 				"nodeId": "C4-01-C.D03",
 				"questId": 24012,
@@ -31091,7 +30683,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 8920
+				"end_ms": 9040
 			}
 		]
 	},
@@ -31465,10 +31057,24 @@
 				"questId": 24022
 			},
 			{
-				"id": "C4-02-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 5800,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C4-02-C-S02_event_002",
+				"stageId": "C4-02-C-S02",
+				"nodeId": "C4-02-C.D02",
+				"questId": 24022
+			},
+			{
+				"id": "C4-02-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 5800,
+				"startMs": 5920,
 				"durationMs": 3720,
 				"speaker": "露娜",
 				"text": "铁壳蟹只会把附近的东西拖回窝。要是这颗扣真属于埃蒙，他的船可能比公图标得更近。",
@@ -31479,24 +31085,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 9520,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-02-C-S02_event_003",
-				"stageId": "C4-02-C-S02",
-				"nodeId": "C4-02-C.D02",
-				"questId": 24022
-			},
-			{
 				"id": "C4-02-C-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 9920,
+				"startMs": 10040,
 				"durationMs": 2040,
 				"speaker": "米娅",
 				"text": "位置和针脚分开记，别让推测盖住来源。",
@@ -31507,24 +31099,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 11960,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-02-C-S02_event_005",
-				"stageId": "C4-02-C-S02",
-				"nodeId": "C4-02-C.D03",
-				"questId": 24022
-			},
-			{
-				"id": "C4-02-C-S02_006",
+				"id": "C4-02-C-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12360,
+				"startMs": 12480,
 				"durationMs": 3080,
 				"speaker": "莱昂",
 				"text": "先去核对雨衣记录，再问沉船坐标。这里能证明的只有纽扣来自绞盘。",
@@ -31537,26 +31115,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 15440,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-02-C-S02_event_007",
-				"stageId": "C4-02-C-S02",
-				"nodeId": "C4-02-C.D04",
-				"questId": 24022
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 15440,
+				"startMs": 15560,
 				"durationMs": 0,
 				"text": "退出阶段：C4-02-C-S02",
 				"payload": "C4-02-C-S02",
-				"id": "C4-02-C-S02_event_008",
+				"id": "C4-02-C-S02_event_006",
 				"stageId": "C4-02-C-S02",
 				"nodeId": "C4-02-C.D04",
 				"questId": 24022,
@@ -31607,7 +31171,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 5800,
-				"end_ms": 15440
+				"end_ms": 15560
 			}
 		]
 	},
@@ -32117,10 +31681,24 @@
 				"questId": 24032
 			},
 			{
-				"id": "C4-03-C-S03_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 15600,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C4-03-C-S03_event_002",
+				"stageId": "C4-03-C-S03",
+				"nodeId": "C4-03-C.D05",
+				"questId": 24032
+			},
+			{
+				"id": "C4-03-C-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 15600,
+				"startMs": 15720,
 				"durationMs": 2440,
 				"speaker": "港口登记员",
 				"text": "以后这条线按救援船登记，不再当作一艘无名沉船。",
@@ -32131,24 +31709,10 @@
 				"speaker_id": 9035
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 18040,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-03-C-S03_event_003",
-				"stageId": "C4-03-C-S03",
-				"nodeId": "C4-03-C.D05",
-				"questId": 24032
-			},
-			{
 				"id": "C4-03-C-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 18440,
+				"startMs": 18560,
 				"durationMs": 1480,
 				"speaker": "露娜",
 				"text": "这次路名和人都留下了。",
@@ -32161,26 +31725,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 19920,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-03-C-S03_event_005",
-				"stageId": "C4-03-C-S03",
-				"nodeId": "C4-03-C.D06",
-				"questId": 24032
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 19920,
+				"startMs": 20040,
 				"durationMs": 0,
 				"text": "退出阶段：C4-03-C-S03",
 				"payload": "C4-03-C-S03",
-				"id": "C4-03-C-S03_event_006",
+				"id": "C4-03-C-S03_event_005",
 				"stageId": "C4-03-C-S03",
 				"nodeId": "C4-03-C.D06",
 				"questId": 24032,
@@ -32255,7 +31805,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 15600,
-				"end_ms": 19920
+				"end_ms": 20040
 			}
 		]
 	},
@@ -33084,10 +32634,24 @@
 				"questId": 24043
 			},
 			{
-				"id": "C4-04-D-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 14560,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C4-04-D-S02_event_002",
+				"stageId": "C4-04-D-S02",
+				"nodeId": "C4-04-D.D05",
+				"questId": 24043
+			},
+			{
+				"id": "C4-04-D-S02_003",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 14560,
+				"startMs": 14680,
 				"durationMs": 2040,
 				"speaker": "旁白",
 				"text": "三份回执同一附注：任何机构不得单独回收全部母本。",
@@ -33099,22 +32663,8 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 16600,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C4-04-D-S02_event_003",
-				"stageId": "C4-04-D-S02",
-				"nodeId": "C4-04-D.D05",
-				"questId": 24043
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 16600,
+				"startMs": 16720,
 				"durationMs": 0,
 				"text": "退出阶段：C4-04-D-S02",
 				"payload": "C4-04-D-S02",
@@ -33180,7 +32730,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 14560,
-				"end_ms": 16600
+				"end_ms": 16720
 			}
 		]
 	},
@@ -33762,10 +33312,24 @@
 				"questId": 25012
 			},
 			{
-				"id": "C5-01-C-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 0,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C5-01-C-S01_event_002",
+				"stageId": "C5-01-C-S01",
+				"nodeId": "C5-01-C.D01",
+				"questId": 25012
+			},
+			{
+				"id": "C5-01-C-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 3320,
 				"speaker": "修屋顶青年",
 				"text": "还有一件事。别在标题写「新发现住户」，我们不是今天才从灰里长出来的。",
@@ -33776,24 +33340,10 @@
 				"speaker_id": 9041
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 3320,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-01-C-S01_event_003",
-				"stageId": "C5-01-C-S01",
-				"nodeId": "C5-01-C.D01",
-				"questId": 25012
-			},
-			{
 				"id": "C5-01-C-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3720,
+				"startMs": 3840,
 				"durationMs": 2680,
 				"speaker": "米娅",
 				"text": "旧注销记录保留在附页，谁删过、何时删过，后面还能查。",
@@ -33804,24 +33354,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 6400,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-01-C-S01_event_005",
-				"stageId": "C5-01-C-S01",
-				"nodeId": "C5-01-C.D02",
-				"questId": 25012
-			},
-			{
-				"id": "C5-01-C-S01_006",
+				"id": "C5-01-C-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6800,
+				"startMs": 6920,
 				"durationMs": 2600,
 				"speaker": "修屋顶青年",
 				"text": "这次可以。维修队来的时候，让他们先看北边那排屋顶。",
@@ -33834,26 +33370,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 9400,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-01-C-S01_event_007",
-				"stageId": "C5-01-C-S01",
-				"nodeId": "C5-01-C.D03",
-				"questId": 25012
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 9400,
+				"startMs": 9520,
 				"durationMs": 0,
 				"text": "退出阶段：C5-01-C-S01",
 				"payload": "C5-01-C-S01",
-				"id": "C5-01-C-S01_event_008",
+				"id": "C5-01-C-S01_event_006",
 				"stageId": "C5-01-C-S01",
 				"nodeId": "C5-01-C.D03",
 				"questId": 25012,
@@ -33887,7 +33409,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 9400
+				"end_ms": 9520
 			}
 		]
 	},
@@ -33956,21 +33478,35 @@
 				"text": "多恩领过这根不合规格的红绳。钟楼上若还能找到同样的绳，至少能证明他回去过。",
 				"channel": "public",
 				"stageId": "C5-02-A-S01",
-				"nodeId": "C5-02-A.D02",
+				"nodeId": "C5-02-A.D02-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9042
+			},
+			{
+				"id": "C5-02-A-S01_004",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 9120,
+				"durationMs": 3080,
+				"speaker": "主角",
+				"text": "钟锤断口和名单缺页都在楼上。红绳若还在，我们一并带回来给您看。",
+				"channel": "public",
+				"stageId": "C5-02-A-S01",
+				"nodeId": "C5-02-A.D02-2",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 8720,
+				"startMs": 12200,
 				"durationMs": 0,
 				"text": "退出阶段：C5-02-A-S01",
 				"payload": "C5-02-A-S01",
-				"id": "C5-02-A-S01_event_004",
+				"id": "C5-02-A-S01_event_005",
 				"stageId": "C5-02-A-S01",
-				"nodeId": "C5-02-A.D02",
+				"nodeId": "C5-02-A.D02-2",
 				"questId": 25020
 			}
 		],
@@ -33985,7 +33521,8 @@
 				"kind": "interact",
 				"node_ids": [
 					"C5-02-A.D01",
-					"C5-02-A.D02"
+					"C5-02-A.D02-1",
+					"C5-02-A.D02-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -33994,7 +33531,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 8720
+				"end_ms": 12200
 			}
 		]
 	},
@@ -34079,7 +33616,7 @@
 				"startMs": 4680,
 				"durationMs": 800,
 				"stageId": "C5-02-B-S01",
-				"nodeId": "C5-02-B.D02"
+				"nodeId": "C5-02-B.D02-1"
 			},
 			{
 				"id": "C5-02-B-S01_006",
@@ -34089,7 +33626,7 @@
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C5-02-B-S01",
-				"nodeId": "C5-02-B.D02"
+				"nodeId": "C5-02-B.D02-1"
 			},
 			{
 				"id": "C5-02-B-S01_007",
@@ -34101,21 +33638,54 @@
 				"text": "绳结、领用日期、机械钟时一致。",
 				"channel": "mia",
 				"stageId": "C5-02-B-S01",
-				"nodeId": "C5-02-B.D02",
+				"nodeId": "C5-02-B.D02-1",
 				"speaker_kind": "hero",
 				"speaker_id": 7003
+			},
+			{
+				"id": "C5-02-B-S01_008",
+				"trackId": "track_screen",
+				"kind": "black_screen",
+				"startMs": 9280,
+				"durationMs": 800,
+				"stageId": "C5-02-B-S01",
+				"nodeId": "C5-02-B.D02-2"
+			},
+			{
+				"id": "C5-02-B-S01_009",
+				"trackId": "track_screen",
+				"kind": "subtitle",
+				"startMs": 10080,
+				"durationMs": 1600,
+				"text": "过场",
+				"stageId": "C5-02-B-S01",
+				"nodeId": "C5-02-B.D02-2"
+			},
+			{
+				"id": "C5-02-B-S01_010",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 11680,
+				"durationMs": 2360,
+				"speaker": "莱昂",
+				"text": "证据只到「他回去过」。名字我们来写——多恩。",
+				"channel": "leon",
+				"stageId": "C5-02-B-S01",
+				"nodeId": "C5-02-B.D02-2",
+				"speaker_kind": "hero",
+				"speaker_id": 7001
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 8880,
+				"startMs": 14040,
 				"durationMs": 0,
 				"text": "退出阶段：C5-02-B-S01",
 				"payload": "C5-02-B-S01",
-				"id": "C5-02-B-S01_event_008",
+				"id": "C5-02-B-S01_event_011",
 				"stageId": "C5-02-B-S01",
-				"nodeId": "C5-02-B.D02",
+				"nodeId": "C5-02-B.D02-2",
 				"questId": 25021
 			},
 			{
@@ -34125,7 +33695,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "objective",
-				"startMs": 8880,
+				"startMs": 14040,
 				"durationMs": 0,
 				"questId": 25021,
 				"objectiveKey": "kill_8017",
@@ -34154,7 +33724,8 @@
 				"kind": "cinematic",
 				"node_ids": [
 					"C5-02-B.D01",
-					"C5-02-B.D02"
+					"C5-02-B.D02-1",
+					"C5-02-B.D02-2"
 				],
 				"objective_ids": [
 					"kill_8017"
@@ -34165,7 +33736,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 8880
+				"end_ms": 14040
 			}
 		]
 	},
@@ -34266,10 +33837,24 @@
 				"questId": 25022
 			},
 			{
-				"id": "C5-02-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 7760,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C5-02-C-S02_event_002",
+				"stageId": "C5-02-C-S02",
+				"nodeId": "C5-02-C.D03",
+				"questId": 25022
+			},
+			{
+				"id": "C5-02-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 7760,
+				"startMs": 7880,
 				"durationMs": 3160,
 				"speaker": "莱昂",
 				"text": "名字回来了，人没有。更正不能当成补偿，但至少以后没人再替他逃跑。",
@@ -34282,22 +33867,8 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 10920,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-02-C-S02_event_003",
-				"stageId": "C5-02-C-S02",
-				"nodeId": "C5-02-C.D03",
-				"questId": 25022
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 10920,
+				"startMs": 11040,
 				"durationMs": 0,
 				"text": "退出阶段：C5-02-C-S02",
 				"payload": "C5-02-C-S02",
@@ -34344,7 +33915,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 7760,
-				"end_ms": 10920
+				"end_ms": 11040
 			}
 		]
 	},
@@ -34676,10 +34247,24 @@
 				"questId": 25032
 			},
 			{
-				"id": "C5-03-C-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 10680,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C5-03-C-S02_event_002",
+				"stageId": "C5-03-C-S02",
+				"nodeId": "C5-03-C.D04",
+				"questId": 25032
+			},
+			{
+				"id": "C5-03-C-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10680,
+				"startMs": 10800,
 				"durationMs": 1880,
 				"speaker": "记录员",
 				"text": "三份拓印可以合卷，后面调阅方便。",
@@ -34690,24 +34275,10 @@
 				"speaker_id": 9037
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 12560,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-03-C-S02_event_003",
-				"stageId": "C5-03-C-S02",
-				"nodeId": "C5-03-C.D04",
-				"questId": 25032
-			},
-			{
 				"id": "C5-03-C-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12960,
+				"startMs": 13080,
 				"durationMs": 1240,
 				"speaker": "露娜",
 				"text": "方便谁一次拿走？",
@@ -34718,24 +34289,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 14200,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-03-C-S02_event_005",
-				"stageId": "C5-03-C-S02",
-				"nodeId": "C5-03-C.D05",
-				"questId": 25032
-			},
-			{
-				"id": "C5-03-C-S02_006",
+				"id": "C5-03-C-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 14600,
+				"startMs": 14720,
 				"durationMs": 1080,
 				"speaker": "莱昂",
 				"text": "就按三个走。",
@@ -34746,24 +34303,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 15680,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-03-C-S02_event_007",
-				"stageId": "C5-03-C-S02",
-				"nodeId": "C5-03-C.D06",
-				"questId": 25032
-			},
-			{
-				"id": "C5-03-C-S02_008",
+				"id": "C5-03-C-S02_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 16080,
+				"startMs": 16200,
 				"durationMs": 2120,
 				"speaker": "米娅",
 				"text": "缺任何一袋，另外两袋都会留下缺失记录。",
@@ -34776,26 +34319,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 18200,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C5-03-C-S02_event_009",
-				"stageId": "C5-03-C-S02",
-				"nodeId": "C5-03-C.D07",
-				"questId": 25032
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 18200,
+				"startMs": 18320,
 				"durationMs": 0,
 				"text": "退出阶段：C5-03-C-S02",
 				"payload": "C5-03-C-S02",
-				"id": "C5-03-C-S02_event_010",
+				"id": "C5-03-C-S02_event_007",
 				"stageId": "C5-03-C-S02",
 				"nodeId": "C5-03-C.D07",
 				"questId": 25032
@@ -34842,7 +34371,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 10680,
-				"end_ms": 18200
+				"end_ms": 18320
 			}
 		]
 	},
@@ -35064,7 +34593,7 @@
 				"payload": "C5-04-A-S03",
 				"id": "C5-04-A-S03_event_001",
 				"stageId": "C5-04-A-S03",
-				"nodeId": "C5-04-A.D05",
+				"nodeId": "C5-04-A.D05-1",
 				"questId": 25040
 			},
 			{
@@ -35074,7 +34603,7 @@
 				"startMs": 19920,
 				"durationMs": 800,
 				"stageId": "C5-04-A-S03",
-				"nodeId": "C5-04-A.D05"
+				"nodeId": "C5-04-A.D05-1"
 			},
 			{
 				"id": "C5-04-A-S03_003",
@@ -35084,7 +34613,7 @@
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C5-04-A-S03",
-				"nodeId": "C5-04-A.D05"
+				"nodeId": "C5-04-A.D05-1"
 			},
 			{
 				"id": "C5-04-A-S03_004",
@@ -35096,21 +34625,54 @@
 				"text": "门外仍有人接收，档案可以交付。里面有被刮掉的姓名，也有互不相认的卷宗。空白留空；谁填，谁拿证据担责。",
 				"channel": "public",
 				"stageId": "C5-04-A-S03",
-				"nodeId": "C5-04-A.D05",
+				"nodeId": "C5-04-A.D05-1",
 				"speaker_kind": "npc",
 				"speaker_id": 9043
+			},
+			{
+				"id": "C5-04-A-S03_005",
+				"trackId": "track_screen",
+				"kind": "black_screen",
+				"startMs": 27320,
+				"durationMs": 800,
+				"stageId": "C5-04-A-S03",
+				"nodeId": "C5-04-A.D05-2"
+			},
+			{
+				"id": "C5-04-A-S03_006",
+				"trackId": "track_screen",
+				"kind": "subtitle",
+				"startMs": 28120,
+				"durationMs": 1600,
+				"text": "过场",
+				"stageId": "C5-04-A-S03",
+				"nodeId": "C5-04-A.D05-2"
+			},
+			{
+				"id": "C5-04-A-S03_007",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 29720,
+				"durationMs": 2120,
+				"speaker": "主角",
+				"text": "空白我们留着，证据我们来填。钥匙收下。",
+				"channel": "public",
+				"stageId": "C5-04-A-S03",
+				"nodeId": "C5-04-A.D05-2",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 26920,
+				"startMs": 31840,
 				"durationMs": 0,
 				"text": "退出阶段：C5-04-A-S03",
 				"payload": "C5-04-A-S03",
-				"id": "C5-04-A-S03_event_005",
+				"id": "C5-04-A-S03_event_008",
 				"stageId": "C5-04-A-S03",
-				"nodeId": "C5-04-A.D05",
+				"nodeId": "C5-04-A.D05-2",
 				"questId": 25040
 			}
 		],
@@ -35160,7 +34722,8 @@
 				"order": 3,
 				"kind": "cinematic",
 				"node_ids": [
-					"C5-04-A.D05"
+					"C5-04-A.D05-1",
+					"C5-04-A.D05-2"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -35169,7 +34732,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 19920,
-				"end_ms": 26920
+				"end_ms": 31840
 			}
 		]
 	},
@@ -36283,10 +35846,31 @@
 				"questId": 26011
 			},
 			{
-				"id": "C6-01-B-S02_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 8280,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C6-01-B-S02_event_002",
+				"stageId": "C6-01-B-S02",
+				"nodeId": "C6-01-B.D04K",
+				"questId": 26011,
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				]
+			},
+			{
+				"id": "C6-01-B-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 8280,
+				"startMs": 8400,
 				"durationMs": 2360,
 				"speaker": "莱昂",
 				"text": "进入人数三，返程状态待核。少一个都不算完成。",
@@ -36305,31 +35889,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 10640,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C6-01-B-S02_event_003",
-				"stageId": "C6-01-B-S02",
-				"nodeId": "C6-01-B.D04K",
-				"questId": 26011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7001
-					}
-				]
-			},
-			{
 				"id": "C6-01-B-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 11040,
+				"startMs": 11160,
 				"durationMs": 3080,
 				"speaker": "露娜",
 				"text": "三份图，三个人。谁先失去联络，另外两个照图接路，不等我回来领。",
@@ -36348,31 +35911,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 14120,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C6-01-B-S02_event_005",
-				"stageId": "C6-01-B-S02",
-				"nodeId": "C6-01-B.D04L",
-				"questId": 26011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7002
-					}
-				]
-			},
-			{
-				"id": "C6-01-B-S02_006",
+				"id": "C6-01-B-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 14520,
+				"startMs": 14640,
 				"durationMs": 3160,
 				"speaker": "米娅",
 				"text": "未确认返程、未确认前队结局。核心门开启，不代表这些问题已经解决。",
@@ -36393,33 +35935,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 17680,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C6-01-B-S02_event_007",
-				"stageId": "C6-01-B-S02",
-				"nodeId": "C6-01-B.D04M",
-				"questId": 26011,
-				"conditions": [
-					{
-						"type": "flag_equals",
-						"flag": "LeadHero",
-						"value": 7003
-					}
-				]
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 17680,
+				"startMs": 17800,
 				"durationMs": 0,
 				"text": "退出阶段：C6-01-B-S02",
 				"payload": "C6-01-B-S02",
-				"id": "C6-01-B-S02_event_008",
+				"id": "C6-01-B-S02_event_006",
 				"stageId": "C6-01-B-S02",
 				"nodeId": "C6-01-B.D04M",
 				"questId": 26011,
@@ -36475,7 +35996,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 8280,
-				"end_ms": 17680
+				"end_ms": 17800
 			}
 		]
 	},
@@ -37891,10 +37412,24 @@
 				"questId": 26041
 			},
 			{
-				"id": "C6-04-B-S03_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 21640,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C6-04-B-S03_event_002",
+				"stageId": "C6-04-B-S03",
+				"nodeId": "C6-04-B.D08",
+				"questId": 26041
+			},
+			{
+				"id": "C6-04-B-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 21640,
+				"startMs": 21760,
 				"durationMs": 4840,
 				"speaker": "旁述",
 				"text": "余晖城回传「邮筒灯未灭」，粮道信标确认车队可通行，苍蓝港湾打出三短一长安全灯号，难民街回报第一车粮已签收。",
@@ -37905,24 +37440,10 @@
 				"speaker_id": 0
 			},
 			{
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 26480,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C6-04-B-S03_event_003",
-				"stageId": "C6-04-B-S03",
-				"nodeId": "C6-04-B.D08",
-				"questId": 26041
-			},
-			{
 				"id": "C6-04-B-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 26880,
+				"startMs": 27000,
 				"durationMs": 3000,
 				"speaker": "米娅",
 				"text": "这是短期稳定，不是修复。我们只有一个可以安全处置核心的窗口。",
@@ -37935,26 +37456,12 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 29880,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C6-04-B-S03_event_005",
-				"stageId": "C6-04-B-S03",
-				"nodeId": "C6-04-B.D09",
-				"questId": 26041
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 29880,
+				"startMs": 30000,
 				"durationMs": 0,
 				"text": "退出阶段：C6-04-B-S03",
 				"payload": "C6-04-B-S03",
-				"id": "C6-04-B-S03_event_006",
+				"id": "C6-04-B-S03_event_005",
 				"stageId": "C6-04-B-S03",
 				"nodeId": "C6-04-B.D09",
 				"questId": 26041,
@@ -38031,7 +37538,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 21640,
-				"end_ms": 29880
+				"end_ms": 30000
 			}
 		]
 	},

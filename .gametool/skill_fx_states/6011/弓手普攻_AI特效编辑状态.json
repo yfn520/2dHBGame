@@ -10,9 +10,101 @@
   "includeSkillNodes": true,
   "allowImpact": false,
   "finalPlanPrompt": "",
-  "proposals": [],
-  "proposalId": "",
-  "actionHash": "",
+  "proposals": [
+    {
+      "id": "gong-sho-6011-unified",
+      "title": "弓手普攻 · 当前特效",
+      "summary": "网页统一技能工作台特效轨道",
+      "style": "",
+      "palette": [],
+      "tracks": [
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_spawn_projectile_3",
+          "phase": "projectile",
+          "title": "旧弹道 #3",
+          "trigger": {
+            "type": "hit_window_start",
+            "hit_window_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "preview_position",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 83.33333333333333,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -59,
+              "y": -88
+            },
+            "scale": 0.5,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 29.75,
+              "height": 4.5
+            },
+            "collision_offset": {
+              "x": 0.375,
+              "y": 0
+            },
+            "baked_sprite_flip_h": true,
+            "migrated_from_scene": "res://assets/effects/projectiles/effect-arrow.tscn",
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 119,
+              "height": 18
+            },
+            "collisionOffset": {
+              "x": 1.5,
+              "y": 0
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": false,
+            "autoCalcResult": {
+              "center": {
+                "x": 129.5,
+                "y": 128
+              },
+              "size": {
+                "width": 119,
+                "height": 18
+              },
+              "validFrameCount": 1,
+              "totalFrameCount": 1
+            }
+          },
+          "migrated_from": [
+            "res://assets/effects/projectiles/effect-arrow.tscn",
+            "res://assets/effects/projectiles/effect-arrow/effect-arrow_visual.tscn",
+            "res://assets/effects/projectiles/effect-arrow/effect-arrow_atlas.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "proposalId": "gong-sho-6011-unified",
+  "actionHash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
   "drawPrompts": {},
   "drawHistory": {},
   "fullscreenResolution": {
@@ -29,10 +121,40 @@
   },
   "proposalDrawMeta": {},
   "disabledTrackIds": [],
-  "trackSelectedFrames": {},
+  "trackSelectedFrames": {
+    "legacy_spawn_projectile_3": [
+      0
+    ]
+  },
   "trackFrameRotations": {},
-  "previewMirror": {},
+  "previewMirror": {
+    "legacy_spawn_projectile_3": true
+  },
   "previewFrame": {},
   "candidatePageOffsets": {},
-  "selectedAssets": []
+  "selectedAssets": [
+    {
+      "trackId": "legacy_spawn_projectile_3",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 256,
+        "height": 256
+      },
+      "frameCount": 1,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/projectiles/effect-arrow.tscn",
+        "migratedFrom": [
+          "res://assets/effects/projectiles/effect-arrow.tscn",
+          "res://assets/effects/projectiles/effect-arrow/effect-arrow_visual.tscn",
+          "res://assets/effects/projectiles/effect-arrow/effect-arrow_atlas.png"
+        ],
+        "bundleId": "gong-sho-6011",
+        "trackId": "legacy_spawn_projectile_3"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6011/assets/legacy_spawn_projectile_3.png"
+    }
+  ]
 }

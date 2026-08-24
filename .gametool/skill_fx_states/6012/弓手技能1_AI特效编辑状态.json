@@ -1,10 +1,15 @@
 {
   "version": 2,
-  "actorId": "",
+  "actorId": "assets/characters/gongshou",
+  "actorName": "gong'sho",
   "skillId": "6012",
   "skillName": "弓手技能1",
   "description": "",
   "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
   "proposals": [
     {
       "id": "6012_archer_shot-mrw2t81k",
@@ -114,11 +119,46 @@
   "actionHash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
   "drawPrompts": {},
   "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/gongshou:6012:skill": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {
+    "release_flash": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "projectile_trail": [
+      0
+    ]
+  },
+  "trackFrameRotations": {
+    "projectile_trail": {
+      "0": -160
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "projectile_trail": 0
+  },
+  "candidatePageOffsets": {},
   "selectedAssets": [
     {
       "trackId": "release_flash",
       "atlasDataUrl": "",
-      "atlasRef": ".gametool/skill_fx_states/6012/assets/release_flash.png",
       "frameSize": {
         "width": 256,
         "height": 256
@@ -141,12 +181,12 @@
         "kind": "bundle",
         "bundleId": "gong-sho-6012",
         "trackId": "release_flash"
-      }
+      },
+      "atlasRef": ".gametool/skill_fx_states/6012/assets/release_flash.png"
     },
     {
       "trackId": "projectile_trail",
       "atlasDataUrl": "",
-      "atlasRef": ".gametool/skill_fx_states/6012/assets/projectile_trail.png",
       "frameSize": {
         "width": 256,
         "height": 256
@@ -165,11 +205,8 @@
         "kind": "bundle",
         "bundleId": "gong-sho-6012",
         "trackId": "projectile_trail"
-      }
+      },
+      "atlasRef": ".gametool/skill_fx_states/6012/assets/projectile_trail.png"
     }
-  ],
-  "selectedActionFrames": {},
-  "proposalDrawMeta": {},
-  "disabledTrackIds": [],
-  "trackSelectedFrames": {}
+  ]
 }
