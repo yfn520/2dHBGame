@@ -109,7 +109,11 @@ func _resume_interrupted() -> bool:
 	return false
 
 
-func _on_dialogue_finished(_npc_id: int, completed: bool) -> void:
+func _on_dialogue_finished(npc_id: int, completed: bool) -> void:
+	# 手动任务的自动播放段（时间轴 autoplay_segments）：目标 NPC 对话收尾后接下一段过场，
+	# 与开场选角/自动链状态无关，延后到 finish 清理完成再尝试。
+	if completed:
+		call_deferred("_try_autoplay_segments", npc_id)
 	# 选角对话结束 → 进入自动链
 	if _opening_pending:
 		_opening_pending = false
@@ -133,6 +137,41 @@ func _on_dialogue_finished(_npc_id: int, completed: bool) -> void:
 	if bool(quest.get("auto_complete", false)) and quest_service.get_status(quest_id) == "ready":
 		# turn_in_quest 会发 quest_completed → _on_quest_completed 负责接续下一任务
 		quest_service.turn_in_quest(quest_id)
+
+
+## 时间轴 autoplay_segments：与指定 NPC 的对话收尾后，自动从段起点接过场播放。
+## C1-02-A 的芦苇滩途中对白（S02）没有任何目标/入口钩子，不自动接播会永久丢失。
+## 播前写旗标保证只触发一次；过场自身收尾（npc_id=0）不会命中任何段，无自触发环。
+func _try_autoplay_segments(npc_id: int) -> void:
+	if npc_id <= 0 or quest_service == null or quest_service.config == null or quest_service.state == null:
+		return
+	if dialogue_service == null or dialogue_service.is_active():
+		return
+	for id_value in quest_service.config.get_all_quests():
+		var quest_id := int(id_value)
+		if quest_service.get_status(quest_id) != "active":
+			continue
+		var quest: Dictionary = quest_service.config.get_quest(quest_id)
+		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
+		if dialogue_id.is_empty():
+			continue
+		var timeline: Dictionary = dialogue_service.dialogue_config.get_timeline(dialogue_id)
+		if timeline.is_empty():
+			continue
+		for segment_value in timeline.get("autoplay_segments", []):
+			if not segment_value is Dictionary:
+				continue
+			var segment: Dictionary = segment_value
+			if int(segment.get("npc_id", 0)) != npc_id:
+				continue
+			var entry_ms := int(segment.get("entry_ms", 0))
+			var flag_key := "autoplay_segment:%s:%d" % [dialogue_id, entry_ms]
+			if bool(quest_service.state.get_flag(flag_key, false)):
+				continue
+			quest_service.state.set_flag(flag_key, true)
+			GameRegistry.save_game()
+			dialogue_service.start_cutscene(dialogue_id, 0, false, entry_ms)
+			return
 
 
 ## 推进自动链。trigger_quest_id >= 0 时只接续"以该任务为前置"的自动任务；

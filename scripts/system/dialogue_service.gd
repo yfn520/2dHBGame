@@ -74,11 +74,12 @@ func start_dialogue(npc_id: int) -> bool:
 
 ## 过场播放：不依赖 NPC/任务钩子直接播对话图（npc_id 可为 0），进入自动推进模式。
 ## cinematic=true 时用纯黑背景（仅开局选角）；任务过场用半透背景保留场景画面。
-func start_cutscene(dialogue_id: String, npc_id: int = 0, cinematic: bool = false) -> bool:
+## entry_ms：从时间轴指定毫秒处入场（自动播放段，如 C1-02-A 途中对白从 S02 起点接播）。
+func start_cutscene(dialogue_id: String, npc_id: int = 0, cinematic: bool = false, entry_ms: int = 0) -> bool:
 	if _active:
 		return false
 	if not dialogue_config.get_timeline(dialogue_id).is_empty():
-		return _start_timeline(dialogue_id, npc_id, 0, true, cinematic)
+		return _start_timeline(dialogue_id, npc_id, entry_ms, true, cinematic)
 	push_warning("Cutscene dialogue is not timeline format: %s" % dialogue_id)
 	return false
 
@@ -103,27 +104,39 @@ func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
 			continue
 		var quest_id := int(quest_id_value)
 		# 交付优先：任务 ready 且本 NPC 是交付人。
+		# 用交付专用入口（turn_in_entries → 交付段），不重播追踪段（如仓库看守的领装备段）。
 		if int(quest.get("turn_in_npc_id", 0)) == npc_id and quest_service.get_status(quest_id) == "ready":
-			return {"quest_id": quest_id, "action": "turn_in_quest", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))}
+			return {"quest_id": quest_id, "action": "turn_in_quest", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_turn_in_entry_ms(dialogue_id, str(npc_id))}
 		# 进行中：本 NPC 是未完成的 talk 目标 → 播该 NPC 段（等待态的"事件通知"由对话收尾推进）
-		if quest_service.get_status(quest_id) == "active" and _has_pending_talk_objective(quest, npc_id):
+		if quest_service.get_status(quest_id) == "active" and _has_pending_talk_objective(quest, npc_id, quest_id):
 			return {"quest_id": quest_id, "action": "advance_talk", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))}
 		if int(quest.get("giver_npc_id", 0)) == npc_id and quest_service.get_status(quest_id) == "inactive" and quest_service.is_quest_unlocked(quest_id):
 			starters.append({"quest_id": quest_id, "action": "start_quest", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))})
 	return starters[0] if not starters.is_empty() else {}
 
 
-## 任务进行中，该 NPC 是否还有未完成的 talk 目标（用于 active 状态的目标对话钩子）
-func _has_pending_talk_objective(quest: Dictionary, npc_id: int) -> bool:
-	var quest_id := int(quest.get("id", 0))
+## 任务进行中，该 NPC 是否还有未完成的 talk 目标（用于 active 状态的目标对话钩子）。
+## 阶段引导：目标所在阶段的前置目标未全部完成时不可触发——玩家跳过霍雷克直接找
+## 仓库看守时不会误播后续段，感叹号（QuestService.has_active_quest 同规则）同步。
+## 注意不比较 current_stage_id：阶段指针只在时间轴播放时同步，手动任务接取后停在
+## 首阶段（如 C1-01-D 教学完成后仍停在 S01），按指针过滤会把柏婶的 talk 钩子
+## 一直拦下、落到个人对白上；按前置目标完成度判定则与对话播放进度解耦。
+func _has_pending_talk_objective(quest: Dictionary, npc_id: int, quest_id := 0) -> bool:
+	var resolved_id := quest_id if quest_id > 0 else int(quest.get("id", 0))
 	var objectives: Array = quest.get("objectives", [])
 	for index in range(objectives.size()):
 		if not objectives[index] is Dictionary:
 			continue
 		var objective: Dictionary = objectives[index]
-		if str(objective.get("type", "")) == "talk" and int(objective.get("npc_id", 0)) == npc_id:
-			if not bool(quest_service.get_objective_progress(quest_id, objective, index).get("complete", false)):
-				return true
+		if str(objective.get("type", "")) != "talk" or int(objective.get("npc_id", 0)) != npc_id:
+			continue
+		if bool(quest_service.get_objective_progress(resolved_id, objective, index).get("complete", false)):
+			continue
+		# 目标所在阶段的前置目标未全部完成 → 尚未解锁，跳过（无 stages 数据时不过滤）
+		if quest_service != null and not (quest.get("stages", []) as Array).is_empty() \
+			and not quest_service.is_objective_stage_reachable(quest, resolved_id, str(objective.get("id", ""))):
+			continue
+		return true
 	return false
 
 
@@ -221,14 +234,16 @@ func finish(completed: bool = false) -> void:
 	_tl_gate_gen += 1
 	_tl_segment_speaker_seen = false
 	if completed and quest_service != null:
+		var quest_id := int(_pending_quest_action.get("quest_id", 0))
+		var action := str(_pending_quest_action.get("action", ""))
+		# 先接取再记账：接取对话的收尾同样算作与接取 NPC 的一次对话
+		#（如 C1-02-A 的 talk_9020），否则玩家要对搜救员再说一遍话才记账
+		if action == "start_quest" and quest_service.get_status(quest_id) == "inactive":
+			quest_service.start_quest(quest_id)
 		quest_service.record_talk(npc_id)
-		# 任务剧情对话正常结束后执行接取/交付
+		# 任务剧情对话正常结束后执行交付
 		if not _pending_quest_action.is_empty():
-			var quest_id := int(_pending_quest_action.get("quest_id", 0))
-			match str(_pending_quest_action.get("action", "")):
-				"start_quest":
-					if quest_service.get_status(quest_id) == "inactive":
-						quest_service.start_quest(quest_id)
+			match action:
 				"turn_in_quest":
 					if quest_service.get_status(quest_id) == "ready":
 						quest_service.turn_in_quest(quest_id)
@@ -482,11 +497,17 @@ func _tl_gate_satisfied(clip: Dictionary) -> bool:
 				return false
 			var event_name := str(clip.get("eventName", clip.get("payload", "")))
 			return bool(quest_service.state.get_flag("event:%s" % event_name, false)) or bool(quest_service.state.get_flag(event_name, false))
-		"stage_enter":
-			return quest_service != null and quest_service.get_current_stage_id(int(clip.get("questId", 0))) == str(clip.get("stageId", ""))
-		"stage_exit":
-			# 阶段退出标记位于当前阶段末尾；下一阶段的 stage_enter 再负责切换当前阶段。
-			return quest_service != null and quest_service.get_current_stage_id(int(clip.get("questId", 0))) == str(clip.get("stageId", ""))
+		"stage_enter", "stage_exit":
+			# 阶段门只对进行中/可交付任务有意义：接取对话播放中任务尚未 active
+			#（start_quest 在对话收尾才执行，current_stage_id 未写入），已完成任务
+			# 的重播同理。此时硬等阶段匹配只会死锁（如 C1-01-D 接取段卡在 S01
+			# 退出标记——点继续无响应），直接放行。
+			if quest_service == null:
+				return false
+			var stage_quest_id := int(clip.get("questId", 0))
+			if quest_service.get_status(stage_quest_id) not in ["active", "ready"]:
+				return true
+			return quest_service.get_current_stage_id(stage_quest_id) == str(clip.get("stageId", ""))
 		"quest_state":
 			if quest_service == null or quest_service.config == null:
 				return false
@@ -522,6 +543,12 @@ func _tl_tick() -> void:
 		var kind := str(clip.get("kind", ""))
 		_sync_timeline_stage(clip)
 		_execute_actions(clip.get("actions", []))
+		# close_dialogue 在时间轴内即时收尾：延迟到帧末会让同帧后续片段继续过门/显示。
+		# C1-02-A 途中过场需要在等待目标门处收束，不能滑入战后段（该段留给交付入口播）。
+		for action_value in (clip.get("actions", []) as Array):
+			if action_value is Dictionary and str((action_value as Dictionary).get("type", "")) == "close_dialogue":
+				finish(true)
+				return
 		if _tl_is_empty_marker(clip):
 			_tl_idx += 1
 			continue

@@ -28,7 +28,9 @@
 					"C1-01-A.D02",
 					"C1-01-A.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9002"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -70,9 +72,7 @@
 					"C1-01-A.D15",
 					"C1-01-A.D16"
 				],
-				"objective_ids": [
-					"talk_9002"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -138,7 +138,9 @@
 					"C1-01-B.D07",
 					"C1-01-B.D08"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9001"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -161,9 +163,7 @@
 					"C1-01-B.D09M-2",
 					"C1-01-B.D09M-3"
 				],
-				"objective_ids": [
-					"talk_9001"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -233,7 +233,9 @@
 					"C1-01-C.D02",
 					"C1-01-C.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9001"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -256,7 +258,9 @@
 					"C1-01-C.D04M-2",
 					"C1-01-C.D04M-3"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9045"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -272,10 +276,7 @@
 					"C1-01-C.D05",
 					"C1-01-C.D06"
 				],
-				"objective_ids": [
-					"talk_9001",
-					"talk_9045"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -319,7 +320,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9001": 0,
-				"9045": 0
+				"9045": 10360
 			}
 		},
 		"required_quest_ids": [
@@ -339,6 +340,14 @@
 		"giver_npc_id": 9016,
 		"turn_in_npc_id": 9002,
 		"objectives": [
+			{
+				"id": "tutorial_c1_01_d",
+				"type": "named_event",
+				"event_name": "tutorial_c1_01_d",
+				"name": "完成基础战斗/技能教学（训练桩）",
+				"trigger": "basic_attack",
+				"count": 1
+			},
 			{
 				"id": "talk_9002",
 				"type": "talk",
@@ -362,7 +371,9 @@
 					"C1-01-D.D01M-1",
 					"C1-01-D.D01M-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"tutorial_c1_01_d"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -402,8 +413,8 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9002": 19120,
-				"9016": 3080
+				"9002": 19240,
+				"9016": 0
 			}
 		},
 		"required_quest_ids": [
@@ -451,7 +462,10 @@
 					"C1-02-A.D01",
 					"C1-02-A.D02"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9020",
+					"talk_9016"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -509,10 +523,7 @@
 					"C1-02-A.D07L",
 					"C1-02-A.D07M"
 				],
-				"objective_ids": [
-					"talk_9020",
-					"talk_9016"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -619,7 +630,7 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9016": 18000,
+				"9016": 0,
 				"9020": 18000
 			}
 		},
@@ -657,7 +668,9 @@
 					"C1-03-A.D02",
 					"C1-03-A.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9021"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -705,9 +718,7 @@
 					"C1-03-A.D11M-2",
 					"C1-03-A.D11M-3"
 				],
-				"objective_ids": [
-					"talk_9021"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -772,7 +783,10 @@
 					"C1-04-A.D01",
 					"C1-04-A.D02"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9022",
+					"talk_9001"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -807,10 +821,7 @@
 					"C1-04-A.D07",
 					"C1-04-A.D08"
 				],
-				"objective_ids": [
-					"talk_9022",
-					"talk_9001"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -834,7 +845,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9001": 10200,
-				"9022": 2400,
+				"9022": 0,
 				"9023": 18200
 			}
 		},
@@ -1369,7 +1380,7 @@
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {
-				"9003": 22320
+				"9003": 10320
 			}
 		},
 		"required_quest_ids": [
@@ -1649,9 +1660,10 @@
 		"turn_in_npc_id": 9003,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9003,
+				"id": "tutorial_c1_08_a",
+				"type": "named_event",
+				"event_name": "tutorial_c1_08_a",
+				"name": "响应同伴叫停（教学：即时停止攻击）",
 				"count": 1
 			}
 		],
@@ -1702,7 +1714,9 @@
 					"C1-08-A.D10-1",
 					"C1-08-A.D10-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"tutorial_c1_08_a"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1717,7 +1731,7 @@
 		"authoring": {
 			"task_script_id": "C1-08-A",
 			"dialogue_id": "task_c1_08_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
 				"9003": 28120,
@@ -1954,7 +1968,7 @@
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {
-				"9027": 13880
+				"9027": 0
 			}
 		},
 		"required_quest_ids": [
@@ -2916,7 +2930,9 @@
 					"C3-01-A.D03",
 					"C3-01-A.D04"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9005"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2933,9 +2949,7 @@
 					"C3-01-A.D06",
 					"C3-01-A.D07"
 				],
-				"objective_ids": [
-					"talk_9005"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3377,7 +3391,9 @@
 					"C3-03-C.D02",
 					"C3-03-C.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9030"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3395,9 +3411,7 @@
 					"C3-03-C.D05-1",
 					"C3-03-C.D05-2"
 				],
-				"objective_ids": [
-					"talk_9030"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3425,7 +3439,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9005": 18520,
-				"9030": 2400
+				"9030": 0
 			}
 		},
 		"required_quest_ids": [
@@ -4281,7 +4295,7 @@
 			"preview": true,
 			"npc_entries": {
 				"9006": 0,
-				"9035": 0
+				"9035": 15720
 			}
 		},
 		"required_quest_ids": [
@@ -5201,7 +5215,9 @@
 					"C5-04-A.D02",
 					"C5-04-A.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9043"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -5232,9 +5248,7 @@
 					"C5-04-A.D05-1",
 					"C5-04-A.D05-2"
 				],
-				"objective_ids": [
-					"talk_9043"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6646,7 +6660,9 @@
 					"C6-06-C.D02",
 					"C6-06-C.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9001"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6681,9 +6697,7 @@
 					"C6-06-C.D09",
 					"C6-06-C.D10"
 				],
-				"objective_ids": [
-					"talk_9001"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",

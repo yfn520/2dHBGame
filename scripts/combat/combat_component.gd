@@ -185,7 +185,12 @@ func set_manual_skill_input_enabled(enabled: bool) -> void:
 
 func _try_use_owner_skill(slot_name: String) -> bool:
 	var skill_id := int(_owner.get_skill_for_input(slot_name)) if _owner != null and _owner.has_method("get_skill_for_input") else 0
-	return try_use_skill(skill_id) if skill_id > 0 else false
+	var casted := try_use_skill(skill_id) if skill_id > 0 else false
+	# 教学目标（trigger=basic_attack）：玩家成功施放一次普攻即完成训练桩教学
+	if casted and slot_name == "normal" and GameRegistry.quest_service != null \
+		and GameRegistry.quest_service.has_method("record_tutorial_trigger"):
+		GameRegistry.quest_service.record_tutorial_trigger("basic_attack")
+	return casted
 
 
 func try_use_skill(skill_id: int) -> bool:

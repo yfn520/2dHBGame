@@ -78,6 +78,31 @@ func record_named_event(event_name: String) -> void:
 	_record_named_event("named_event", event_name)
 
 
+## 教学目标按玩法触发器记账：如 trigger=basic_attack 的训练桩教学，
+## 玩家施放一次普攻即完成（CombatComponent 调用）。返回是否有目标被完成。
+func record_tutorial_trigger(trigger: String) -> bool:
+	if config == null or state == null or trigger.is_empty():
+		return false
+	var completed_any := false
+	for id_value in config.get_all_quests():
+		var quest_id := int(id_value)
+		if state.get_status(quest_id) != "active":
+			continue
+		var quest := config.get_quest(quest_id)
+		var objectives: Array = quest.get("objectives", [])
+		for index in range(objectives.size()):
+			if not objectives[index] is Dictionary:
+				continue
+			var objective: Dictionary = objectives[index]
+			if str(objective.get("type", "")) != "named_event" or str(objective.get("trigger", "")) != trigger:
+				continue
+			if bool(get_objective_progress(quest_id, objective, index).get("complete", false)):
+				continue
+			record_named_event(str(objective.get("event_name", objective.get("id", ""))))
+			completed_any = true
+	return completed_any
+
+
 func get_current_stage_id(quest_id: int) -> String:
 	return state.get_current_stage_id(quest_id) if state != null else ""
 
@@ -219,6 +244,8 @@ func is_quest_unlocked(quest_id: int) -> bool:
 
 
 ## 该 NPC 是否关联进行中的任务。交付状态由 has_ready_quest 单独处理。
+## 按阶段过滤：多 NPC 任务只亮前置目标已完成的目标 NPC（与 DialogueService
+## _has_pending_talk_objective 同规则），避免霍雷克和仓库看守同时亮感叹号。
 func has_active_quest(npc_id: int) -> bool:
 	if config == null:
 		return false
@@ -228,17 +255,56 @@ func has_active_quest(npc_id: int) -> bool:
 		if state.get_status(quest_id) != "active":
 			continue
 		var objectives: Array = quest.get("objectives", [])
+		var has_stages := not (quest.get("stages", []) as Array).is_empty()
 		for index in range(objectives.size()):
 			if not objectives[index] is Dictionary:
 				continue
 			var objective: Dictionary = objectives[index]
-			if str(objective.get("type", "")) != "talk":
+			if str(objective.get("type", "")) != "talk" or int(objective.get("npc_id", 0)) != npc_id:
 				continue
-			if int(objective.get("npc_id", 0)) != npc_id:
+			if bool(get_objective_progress(quest_id, objective, index).get("complete", false)):
 				continue
-			if not bool(get_objective_progress(quest_id, objective, index).get("complete", false)):
-				return true
+			# 目标所在阶段的前置目标未全部完成 → 尚未解锁，不亮（无 stages 数据时不过滤）
+			if has_stages and not is_objective_stage_reachable(quest, quest_id, str(objective.get("id", ""))):
+				continue
+			return true
 	return false
+
+
+## 目标是否已完成（按 objective id 查找；未登记的目标视为已完成，保持宽松）。
+func _objective_complete_by_id(quest: Dictionary, quest_id: int, objective_id: String) -> bool:
+	var objectives: Array = quest.get("objectives", [])
+	for index in range(objectives.size()):
+		if objectives[index] is Dictionary and str((objectives[index] as Dictionary).get("id", "")) == objective_id:
+			return bool(get_objective_progress(quest_id, objectives[index], index).get("complete", false))
+	return true
+
+
+## 目标所在阶段是否已解锁：前置阶段的目标全部完成即可触发，不依赖阶段指针。
+## 阶段指针（current_stage_id）只在时间轴对话播放时同步——手动任务接取后停在
+## 首阶段（如 C1-01-D 教学完成后仍停在 S01），后续 NPC 的 talk 钩子与感叹号
+## 会被一直拦截，只能落到 NPC 个人对白上（用户反馈的“找柏婶却播旧台词”）。
+## 改按目标完成度判定：前置阶段全清 = 解锁，与对话播放进度解耦。
+func is_objective_stage_reachable(quest: Dictionary, quest_id: int, objective_id: String) -> bool:
+	var stages: Array = quest.get("stages", [])
+	if stages.is_empty():
+		return true
+	var target_order := -1
+	for index in range(stages.size()):
+		if not stages[index] is Dictionary:
+			continue
+		if ((stages[index] as Dictionary).get("objective_ids", []) as Array).has(objective_id):
+			target_order = index
+			break
+	if target_order <= 0:
+		return true
+	for index in range(target_order):
+		if not stages[index] is Dictionary:
+			continue
+		for prior_objective_id in (stages[index] as Dictionary).get("objective_ids", []):
+			if not _objective_complete_by_id(quest, quest_id, str(prior_objective_id)):
+				return false
+	return true
 
 
 ## 供 HUD / 任务抽屉共用的目标描述，避免向玩家暴露配置 ID。
@@ -266,6 +332,9 @@ func get_objective_text(objective: Dictionary) -> String:
 			return str(objective.get("name", "完成交互"))
 		"area_trigger":
 			return str(objective.get("name", "到达目标区域"))
+		"named_event":
+			# 教学等玩法目标（如“完成基础战斗/技能教学（训练桩）”），原文由编排台写入 name 字段。
+			return str(objective.get("name", "完成目标"))
 		_:
 			return "完成目标"
 

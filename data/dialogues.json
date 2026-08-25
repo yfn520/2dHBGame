@@ -13708,6 +13708,9 @@
 			"9002": 20200,
 			"9016": 20200
 		},
+		"turn_in_entries": {
+			"9002": 94920
+		},
 		"stages": [
 			{
 				"id": "C1-01-A-S01",
@@ -14202,6 +14205,9 @@
 			"9002": 0,
 			"9016": 38440
 		},
+		"turn_in_entries": {
+			"9001": 64200
+		},
 		"stages": [
 			{
 				"id": "C1-01-B-S01",
@@ -14579,7 +14585,14 @@
 					}
 				],
 				"speaker_kind": "npc",
-				"speaker_id": 9045
+				"speaker_id": 9045,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100012,
+						"count": 1
+					}
+				]
 			},
 			{
 				"trackId": "track_event",
@@ -14593,14 +14606,7 @@
 				"stageId": "C1-01-C-S02",
 				"nodeId": "C1-01-C.D04M-3",
 				"nextStageId": "C1-01-C-S03",
-				"questId": 21012,
-				"actions": [
-					{
-						"type": "give_item",
-						"item_id": 100012,
-						"count": 1
-					}
-				]
+				"questId": 21012
 			},
 			{
 				"trackId": "track_event",
@@ -14685,7 +14691,10 @@
 		],
 		"entries": {
 			"9001": 0,
-			"9045": 0
+			"9045": 10360
+		},
+		"turn_in_entries": {
+			"9045": 36040
 		},
 		"stages": [
 			{
@@ -14794,10 +14803,32 @@
 				"questId": 21013
 			},
 			{
-				"id": "C1-01-D-S01_002",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "optional",
+				"startMs": 0,
+				"durationMs": 0,
+				"objectiveKey": "tutorial_c1_01_d",
+				"text": "完成基础战斗/技能教学（训练桩）",
+				"payload": "tutorial_c1_01_d",
+				"id": "C1-01-D-S01_event_002",
+				"stageId": "C1-01-D-S01",
+				"nodeId": "C1-01-D.D01K-1",
+				"questId": 21013,
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				]
+			},
+			{
+				"id": "C1-01-D-S01_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 0,
+				"startMs": 120,
 				"durationMs": 2680,
 				"speaker": "莱昂",
 				"text": "重心比我预想的更靠外，但能用。走远前我会再检查绑带。",
@@ -14816,10 +14847,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"id": "C1-01-D-S01_003",
+				"id": "C1-01-D-S01_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3080,
+				"startMs": 3200,
 				"durationMs": 2600,
 				"speaker": "伊莱",
 				"text": "够了，动作没散，绑带也没松。别在木桩前把力气全用光",
@@ -14838,10 +14869,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"id": "C1-01-D-S01_004",
+				"id": "C1-01-D-S01_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 6080,
+				"startMs": 6200,
 				"durationMs": 1800,
 				"speaker": "莱昂",
 				"text": "芦苇滩等着药，你也得好好回来。",
@@ -14860,10 +14891,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"id": "C1-01-D-S01_005",
+				"id": "C1-01-D-S01_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 8280,
+				"startMs": 8400,
 				"durationMs": 1640,
 				"speaker": "伊莱",
 				"text": "明白。药带回来，我也回来。",
@@ -14882,10 +14913,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"id": "C1-01-D-S01_006",
+				"id": "C1-01-D-S01_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 10320,
+				"startMs": 10440,
 				"durationMs": 2040,
 				"speaker": "露娜",
 				"text": "准头还在，肩膀暂时只肯借我一半力气。",
@@ -14904,10 +14935,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"id": "C1-01-D-S01_007",
+				"id": "C1-01-D-S01_008",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 12760,
+				"startMs": 12880,
 				"durationMs": 1960,
 				"speaker": "伊莱",
 				"text": "那就只用这一半，剩下一半回来再还。",
@@ -14926,10 +14957,10 @@
 				"speaker_id": 9016
 			},
 			{
-				"id": "C1-01-D-S01_008",
+				"id": "C1-01-D-S01_009",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 15120,
+				"startMs": 15240,
 				"durationMs": 1720,
 				"speaker": "米娅",
 				"text": "基础术式可用，高阶叠加暂缓。",
@@ -14948,10 +14979,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"id": "C1-01-D-S01_009",
+				"id": "C1-01-D-S01_010",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 17240,
+				"startMs": 17360,
 				"durationMs": 1480,
 				"speaker": "伊莱",
 				"text": "这次不用我叫停，很好。",
@@ -14973,11 +15004,11 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 18720,
+				"startMs": 18840,
 				"durationMs": 0,
 				"text": "退出阶段：C1-01-D-S01",
 				"payload": "C1-01-D-S01",
-				"id": "C1-01-D-S01_event_010",
+				"id": "C1-01-D-S01_event_011",
 				"stageId": "C1-01-D-S01",
 				"nodeId": "C1-01-D.D01M-2",
 				"nextStageId": "C1-01-D-S02",
@@ -14987,7 +15018,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 19120,
+				"startMs": 19240,
 				"durationMs": 0,
 				"text": "进入阶段：C1-01-D-S02",
 				"payload": "C1-01-D-S02",
@@ -15000,7 +15031,7 @@
 				"id": "C1-01-D-S02_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 19120,
+				"startMs": 19240,
 				"durationMs": 2360,
 				"speaker": "柏婶",
 				"text": "路上别只顾别人。回来先喊一声，我给你留热汤。",
@@ -15014,7 +15045,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 21480,
+				"startMs": 21600,
 				"durationMs": 0,
 				"text": "退出阶段：C1-01-D-S02",
 				"payload": "C1-01-D-S02",
@@ -15032,8 +15063,11 @@
 			}
 		],
 		"entries": {
-			"9002": 19120,
-			"9016": 3080
+			"9002": 19240,
+			"9016": 0
+		},
+		"turn_in_entries": {
+			"9002": 21600
 		},
 		"stages": [
 			{
@@ -15051,14 +15085,16 @@
 					"C1-01-D.D01M-1",
 					"C1-01-D.D01M-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"tutorial_c1_01_d"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 18720
+				"end_ms": 18840
 			},
 			{
 				"id": "C1-01-D-S02",
@@ -15074,8 +15110,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 19120,
-				"end_ms": 21480
+				"start_ms": 19240,
+				"end_ms": 21600
 			}
 		]
 	},
@@ -15160,7 +15196,12 @@
 				"stageId": "C1-02-A-S01",
 				"nodeId": "C1-02-A.D02",
 				"nextStageId": "C1-02-A-S02",
-				"questId": 21020
+				"questId": 21020,
+				"actions": [
+					{
+						"type": "close_dialogue"
+					}
+				]
 			},
 			{
 				"trackId": "track_event",
@@ -15447,7 +15488,13 @@
 				"id": "C1-02-A-S03_event_003",
 				"stageId": "C1-02-A-S03",
 				"nodeId": "C1-02-A.D06",
-				"questId": 21020
+				"questId": 21020,
+				"objectiveKey": "kill_8001",
+				"actions": [
+					{
+						"type": "close_dialogue"
+					}
+				]
 			},
 			{
 				"trackId": "track_event",
@@ -15554,25 +15601,14 @@
 				"stageId": "C1-02-A-S04",
 				"nodeId": "C1-02-A.D07M",
 				"questId": 21020
-			},
-			{
-				"id": "C1-02-A-S03_objective_003",
-				"stageId": "C1-02-A-S03",
-				"nodeId": "C1-02-A.D06",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"startMs": 37320,
-				"durationMs": 0,
-				"questId": 21020,
-				"objectiveKey": "kill_8001",
-				"text": "等待目标：kill",
-				"payload": "8001"
 			}
 		],
 		"entries": {
 			"9016": 5640,
 			"9020": 0
+		},
+		"turn_in_entries": {
+			"9016": 37720
 		},
 		"stages": [
 			{
@@ -15656,6 +15692,12 @@
 				"inferred": false,
 				"start_ms": 37720,
 				"end_ms": 44800
+			}
+		],
+		"autoplay_segments": [
+			{
+				"npc_id": 9016,
+				"entry_ms": 9520
 			}
 		]
 	},
@@ -16023,8 +16065,11 @@
 			}
 		],
 		"entries": {
-			"9016": 18000,
+			"9016": 0,
 			"9020": 18000
+		},
+		"turn_in_entries": {
+			"9016": 120
 		},
 		"stages": [
 			{
@@ -16689,6 +16734,9 @@
 		"entries": {
 			"9021": 49480
 		},
+		"turn_in_entries": {
+			"9021": 52120
+		},
 		"stages": [
 			{
 				"id": "C1-03-A-S01",
@@ -17077,8 +17125,11 @@
 		],
 		"entries": {
 			"9001": 10200,
-			"9022": 2400,
+			"9022": 0,
 			"9023": 18200
+		},
+		"turn_in_entries": {
+			"9001": 42840
 		},
 		"stages": [
 			{
@@ -17461,6 +17512,9 @@
 		],
 		"entries": {
 			"9001": 0
+		},
+		"turn_in_entries": {
+			"9001": 22240
 		},
 		"stages": [
 			{
@@ -18914,6 +18968,9 @@
 		"entries": {
 			"9001": 46680
 		},
+		"turn_in_entries": {
+			"9001": 59560
+		},
 		"stages": [
 			{
 				"id": "C1-05-B-S01",
@@ -19618,6 +19675,9 @@
 		"entries": {
 			"9003": 26920
 		},
+		"turn_in_entries": {
+			"9003": 43720
+		},
 		"stages": [
 			{
 				"id": "C1-06-A-S01",
@@ -19873,6 +19933,9 @@
 		"entries": {
 			"9003": 2440,
 			"9024": 0
+		},
+		"turn_in_entries": {
+			"9024": 14720
 		},
 		"stages": [
 			{
@@ -20173,7 +20236,10 @@
 			}
 		],
 		"entries": {
-			"9003": 22320
+			"9003": 10320
+		},
+		"turn_in_entries": {
+			"9003": 10320
 		},
 		"stages": [
 			{
@@ -20591,6 +20657,9 @@
 		],
 		"entries": {
 			"9025": 11080
+		},
+		"turn_in_entries": {
+			"9025": 27000
 		},
 		"stages": [
 			{
@@ -21912,6 +21981,9 @@
 		"entries": {
 			"9001": 0
 		},
+		"turn_in_entries": {
+			"9001": 120
+		},
 		"stages": [
 			{
 				"id": "C1-07-C-S01",
@@ -22311,11 +22383,28 @@
 				"stageId": "C1-08-A-S03",
 				"nodeId": "C1-08-A.D10-2",
 				"questId": 21080
+			},
+			{
+				"id": "C1-08-A-S03_objective_001",
+				"stageId": "C1-08-A-S03",
+				"nodeId": "C1-08-A.D08",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"startMs": 36760,
+				"durationMs": 0,
+				"questId": 21080,
+				"objectiveKey": "tutorial_c1_08_a",
+				"text": "等待目标：响应同伴叫停（教学：即时停止攻击）",
+				"payload": ""
 			}
 		],
 		"entries": {
 			"9003": 28120,
 			"9026": 28120
+		},
+		"turn_in_entries": {
+			"9003": 36760
 		},
 		"stages": [
 			{
@@ -22368,7 +22457,9 @@
 					"C1-08-A.D10-1",
 					"C1-08-A.D10-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"tutorial_c1_08_a"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -23090,6 +23181,9 @@
 		"entries": {
 			"9027": 50400
 		},
+		"turn_in_entries": {
+			"9027": 59560
+		},
 		"stages": [
 			{
 				"id": "C1-08-C-S01",
@@ -23346,7 +23440,10 @@
 			}
 		],
 		"entries": {
-			"9027": 13880
+			"9027": 0
+		},
+		"turn_in_entries": {
+			"9027": 120
 		},
 		"stages": [
 			{
@@ -23661,6 +23758,9 @@
 		],
 		"entries": {
 			"9004": 23280
+		},
+		"turn_in_entries": {
+			"9004": 35760
 		},
 		"stages": [
 			{
@@ -24298,6 +24398,9 @@
 			}
 		],
 		"entries": {
+			"9013": 34200
+		},
+		"turn_in_entries": {
 			"9013": 34200
 		},
 		"stages": [
@@ -25269,6 +25372,9 @@
 			}
 		],
 		"entries": {
+			"9004": 12880
+		},
+		"turn_in_entries": {
 			"9004": 12880
 		},
 		"stages": [
@@ -26503,6 +26609,9 @@
 		"entries": {
 			"9028": 10640
 		},
+		"turn_in_entries": {
+			"9028": 28360
+		},
 		"stages": [
 			{
 				"id": "C2-04-A-S01",
@@ -26837,6 +26946,9 @@
 		"entries": {
 			"9028": 18280
 		},
+		"turn_in_entries": {
+			"9028": 28320
+		},
 		"stages": [
 			{
 				"id": "C2-04-B-S01",
@@ -27126,6 +27238,9 @@
 		"entries": {
 			"9001": 16600,
 			"9027": 0
+		},
+		"turn_in_entries": {
+			"9001": 16600
 		},
 		"stages": [
 			{
@@ -27428,6 +27543,9 @@
 		"entries": {
 			"9005": 18480,
 			"9029": 6600
+		},
+		"turn_in_entries": {
+			"9005": 24600
 		},
 		"stages": [
 			{
@@ -27788,6 +27906,9 @@
 		"entries": {
 			"9005": 12240,
 			"9029": 12360
+		},
+		"turn_in_entries": {
+			"9005": 26760
 		},
 		"stages": [
 			{
@@ -28483,6 +28604,9 @@
 		"entries": {
 			"9005": 15640
 		},
+		"turn_in_entries": {
+			"9005": 15640
+		},
 		"stages": [
 			{
 				"id": "C3-02-B-S01",
@@ -28688,6 +28812,9 @@
 		],
 		"entries": {
 			"9005": 0
+		},
+		"turn_in_entries": {
+			"9005": 12440
 		},
 		"stages": [
 			{
@@ -29137,7 +29264,10 @@
 		],
 		"entries": {
 			"9005": 18520,
-			"9030": 2400
+			"9030": 0
+		},
+		"turn_in_entries": {
+			"9005": 18520
 		},
 		"stages": [
 			{
@@ -29678,6 +29808,9 @@
 			"9005": 31960,
 			"9030": 25280
 		},
+		"turn_in_entries": {
+			"9030": 37160
+		},
 		"stages": [
 			{
 				"id": "C3-04-A-S01",
@@ -30191,6 +30324,9 @@
 			"9005": 14080,
 			"9027": 14080
 		},
+		"turn_in_entries": {
+			"9027": 22360
+		},
 		"stages": [
 			{
 				"id": "C3-04-C-S01",
@@ -30393,6 +30529,9 @@
 		"entries": {
 			"9031": 7720
 		},
+		"turn_in_entries": {
+			"9031": 16720
+		},
 		"stages": [
 			{
 				"id": "C4-01-A-S01",
@@ -30517,6 +30656,9 @@
 		],
 		"entries": {
 			"9031": 0
+		},
+		"turn_in_entries": {
+			"9031": 6640
 		},
 		"stages": [
 			{
@@ -30664,6 +30806,9 @@
 		],
 		"entries": {
 			"9032": 0
+		},
+		"turn_in_entries": {
+			"9032": 120
 		},
 		"stages": [
 			{
@@ -30898,6 +31043,9 @@
 		"entries": {
 			"9033": 10560,
 			"9034": 2840
+		},
+		"turn_in_entries": {
+			"9033": 20160
 		},
 		"stages": [
 			{
@@ -31136,6 +31284,9 @@
 		"entries": {
 			"9033": 5800
 		},
+		"turn_in_entries": {
+			"9033": 5800
+		},
 		"stages": [
 			{
 				"id": "C4-02-C-S01",
@@ -31260,6 +31411,9 @@
 		],
 		"entries": {
 			"9035": 0
+		},
+		"turn_in_entries": {
+			"9035": 8800
 		},
 		"stages": [
 			{
@@ -31750,7 +31904,10 @@
 		],
 		"entries": {
 			"9006": 0,
-			"9035": 0
+			"9035": 15720
+		},
+		"turn_in_entries": {
+			"9035": 15720
 		},
 		"stages": [
 			{
@@ -32229,6 +32386,9 @@
 		"entries": {
 			"9027": 8040
 		},
+		"turn_in_entries": {
+			"9027": 23080
+		},
 		"stages": [
 			{
 				"id": "C4-04-B-S01",
@@ -32470,6 +32630,9 @@
 			"9032": 2920,
 			"9036": 5320
 		},
+		"turn_in_entries": {
+			"9032": 15680
+		},
 		"stages": [
 			{
 				"id": "C4-04-C-S01",
@@ -32692,6 +32855,9 @@
 			}
 		],
 		"entries": {
+			"9001": 14560
+		},
+		"turn_in_entries": {
 			"9001": 14560
 		},
 		"stages": [
@@ -32964,6 +33130,9 @@
 			"9040": 21200,
 			"9041": 24280
 		},
+		"turn_in_entries": {
+			"9037": 27120
+		},
 		"stages": [
 			{
 				"id": "C5-01-A-S01",
@@ -33227,6 +33396,9 @@
 			"9017": 15680,
 			"9037": 15680
 		},
+		"turn_in_entries": {
+			"9037": 32480
+		},
 		"stages": [
 			{
 				"id": "C5-01-B-S01",
@@ -33391,6 +33563,9 @@
 		"entries": {
 			"9041": 0
 		},
+		"turn_in_entries": {
+			"9041": 120
+		},
 		"stages": [
 			{
 				"id": "C5-01-C-S01",
@@ -33512,6 +33687,9 @@
 		],
 		"entries": {
 			"9042": 0
+		},
+		"turn_in_entries": {
+			"9042": 12200
 		},
 		"stages": [
 			{
@@ -33879,6 +34057,9 @@
 			}
 		],
 		"entries": {
+			"9042": 7760
+		},
+		"turn_in_entries": {
 			"9042": 7760
 		},
 		"stages": [
@@ -34333,6 +34514,9 @@
 		"entries": {
 			"9037": 10680
 		},
+		"turn_in_entries": {
+			"9037": 10800
+		},
 		"stages": [
 			{
 				"id": "C5-03-C-S01",
@@ -34679,6 +34863,9 @@
 		"entries": {
 			"9043": 19920
 		},
+		"turn_in_entries": {
+			"9043": 31840
+		},
 		"stages": [
 			{
 				"id": "C5-04-A-S01",
@@ -34880,6 +35067,9 @@
 		],
 		"entries": {
 			"9027": 0
+		},
+		"turn_in_entries": {
+			"9027": 17360
 		},
 		"stages": [
 			{
@@ -35419,6 +35609,9 @@
 			"9001": 26520,
 			"9036": 40280
 		},
+		"turn_in_entries": {
+			"9036": 42860
+		},
 		"stages": [
 			{
 				"id": "C5-04-D-S01",
@@ -35690,6 +35883,9 @@
 		],
 		"entries": {
 			"9044": 9720
+		},
+		"turn_in_entries": {
+			"9044": 26200
 		},
 		"stages": [
 			{
@@ -36516,6 +36712,9 @@
 		"entries": {
 			"9044": 0
 		},
+		"turn_in_entries": {
+			"9044": 11680
+		},
 		"stages": [
 			{
 				"id": "C6-03-A-S01",
@@ -36798,6 +36997,9 @@
 		"entries": {
 			"9044": 20320
 		},
+		"turn_in_entries": {
+			"9044": 34080
+		},
 		"stages": [
 			{
 				"id": "C6-03-B-S01",
@@ -37055,6 +37257,9 @@
 		],
 		"entries": {
 			"9044": 8000
+		},
+		"turn_in_entries": {
+			"9044": 19480
 		},
 		"stages": [
 			{
@@ -37734,6 +37939,9 @@
 		],
 		"entries": {
 			"9044": 9760
+		},
+		"turn_in_entries": {
+			"9044": 15400
 		},
 		"stages": [
 			{
@@ -38818,6 +39026,9 @@
 		"entries": {
 			"9014": 12440
 		},
+		"turn_in_entries": {
+			"9014": 27200
+		},
 		"stages": [
 			{
 				"id": "C6-05-D-S01",
@@ -39135,6 +39346,9 @@
 		"entries": {
 			"9044": 26480
 		},
+		"turn_in_entries": {
+			"9044": 27920
+		},
 		"stages": [
 			{
 				"id": "C6-06-A-S01",
@@ -39396,6 +39610,9 @@
 		"entries": {
 			"9014": 13920,
 			"9036": 0
+		},
+		"turn_in_entries": {
+			"9014": 16920
 		},
 		"stages": [
 			{
@@ -39878,6 +40095,9 @@
 		"entries": {
 			"9001": 26160,
 			"9002": 28560
+		},
+		"turn_in_entries": {
+			"9001": 49120
 		},
 		"stages": [
 			{

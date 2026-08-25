@@ -3,7 +3,7 @@
 	"runtime_version": "0.3.0",
 	"task_script_format": "timeline",
 	"task_script_schema_version": 2,
-	"quest_objectives": ["talk", "kill", "collect", "interact", "pickup", "area_trigger"],
+	"quest_objectives": ["talk", "kill", "collect", "interact", "pickup", "area_trigger", "named_event"],
 	"dialogue_actions": ["set_flag", "start_quest", "give_item", "set_protagonist", "set_second_hero", "recruit_hero", "complete_chapter", "close_dialogue", "actor_move", "actor_animation", "actor_visibility"],
 	"timeline_events": ["wait", "quest_state", "objective", "area_event", "named_event", "stage_enter", "stage_exit"],
 	"stage_persistence": {

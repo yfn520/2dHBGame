@@ -36,6 +36,19 @@ func get_timeline_entry_ms(dialogue_id: String, key: String) -> int:
 	return int(timeline.get("entry_ms", 0))
 
 
+## 时间轴格式：某 NPC 的交付专用入口（毫秒）——任务 ready 后 turn_in 从交付段开始，
+## 不重播该 NPC 首句台词所在的追踪段（如仓库看守的领装备段）。
+## 无 turn_in_entries 时回退普通入口（行为与旧版一致）。
+func get_timeline_turn_in_entry_ms(dialogue_id: String, key: String) -> int:
+	var timeline := get_timeline(dialogue_id)
+	if timeline.is_empty():
+		return 0
+	var entries: Dictionary = timeline.get("turn_in_entries", {})
+	if entries.has(key):
+		return int(entries.get(key, 0))
+	return get_timeline_entry_ms(dialogue_id, key)
+
+
 func get_dialogue_chapter_id(dialogue_id: String) -> String:
 	var dialogue := get_dialogue(dialogue_id)
 	return str(dialogue.get("chapter_id", ""))
