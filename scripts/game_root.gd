@@ -64,6 +64,7 @@ func _ready() -> void:
 		GameRegistry.quest_service.quest_updated.connect(_on_quest_updated)
 		GameRegistry.quest_service.quest_started.connect(_on_quest_world_state_changed)
 		GameRegistry.quest_service.quest_completed.connect(_on_quest_world_state_changed)
+		GameRegistry.quest_service.stage_changed.connect(_on_quest_stage_changed)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -225,6 +226,12 @@ func _on_quest_world_state_changed(_quest_id: int) -> void:
 		return
 	_quest_world_refresh_pending = true
 	call_deferred("_refresh_world_after_quest_update")
+
+
+func _on_quest_stage_changed(_quest_id: int, _stage_id: String) -> void:
+	# 阶段进入也会改变世界内容（例如战斗阶段的任务刷怪），
+	# 不能只在接取/交付时刷新。
+	_on_quest_world_state_changed(_quest_id)
 
 
 func _refresh_world_after_quest_update() -> void:

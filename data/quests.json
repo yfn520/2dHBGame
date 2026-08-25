@@ -420,7 +420,8 @@
 		"required_quest_ids": [
 			21012
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_start": true
 	},
 	"21020": {
 		"id": 21020,

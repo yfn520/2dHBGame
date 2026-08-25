@@ -6443,7 +6443,8 @@
 				"townChangeIds": [],
 				"giverNpcId": 9016,
 				"turnInNpcId": 9002,
-				"levelId": 1
+				"levelId": 1,
+				"autoStart": true
 			}
 		},
 		{

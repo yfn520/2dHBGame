@@ -57,6 +57,7 @@
           "y": 680,
           "count": 6,
           "scatter_x": 130,
+          "required_stage_id": "C1-02-A-S03",
           "required_quest_id": 21020,
           "required_quest_states": ["active"]
         }

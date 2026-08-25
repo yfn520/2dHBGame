@@ -69,7 +69,16 @@ func _conditions_pass(data: Dictionary) -> bool:
 	if GameRegistry.quest_service == null:
 		return false
 	var allowed: Array = data.get("required_quest_states", ["active", "ready", "completed"])
-	return allowed.has(GameRegistry.quest_service.get_status(quest_id))
+	var status := GameRegistry.quest_service.get_status(quest_id)
+	if not allowed.has(status):
+		return false
+	# 世界内容可以绑定到任务阶段，而不是只绑定任务 active 状态。
+	# 例如 C1-02-A 的史莱姆必须等到 S03 战斗阶段进入后才出现，
+	# 否则玩家刚接任务就会看到战斗目标，且跳过前置对话。
+	var required_stage_id := str(data.get("required_stage_id", ""))
+	if not required_stage_id.is_empty():
+		return GameRegistry.quest_service.get_current_stage_id(quest_id) == required_stage_id
+	return true
 
 
 func _load_config() -> void:
