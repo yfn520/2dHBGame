@@ -28,6 +28,9 @@ var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
 var _interaction_prompt: Label
 var _interaction_target: Node2D
+# 过场播放前主 HUD 的显隐状态，结束后恢复
+var _hud_visible_before_cutscene := false
+var _in_cutscene := false
 var _notification_label: Label
 var _dialogue_previous_pause := false
 
@@ -434,6 +437,14 @@ func _connect_npc_services() -> void:
 
 func _on_dialogue_started(_npc_id: int) -> void:
 	set_interaction_target(null)
+	# 过场（开局选角）用纯黑背景；任务过场保持半透保留场景画面
+	var cinematic: bool = GameRegistry.dialogue_service.is_cutscene()
+	_dialogue_panel.set_cinematic(cinematic)
+	# 过场（含任务过场）隐藏主 HUD（角色栏/技能栏/图标），避免画面错乱；普通对话保留
+	_in_cutscene = GameRegistry.dialogue_service.is_auto_cutscene()
+	if _in_cutscene and _main_ui != null and _main_ui.visible:
+		_hud_visible_before_cutscene = true
+		_main_ui.visible = false
 	_dialogue_previous_pause = get_tree().paused
 	show_popup(_dialogue_panel)
 	get_tree().paused = true
@@ -441,11 +452,101 @@ func _on_dialogue_started(_npc_id: int) -> void:
 
 func _on_dialogue_node_changed(node: Dictionary) -> void:
 	var npc: Dictionary = GameRegistry.npc_config.get_npc(GameRegistry.dialogue_service.current_npc_id) as Dictionary
+	# 头像由落表时就确定的 speaker_kind/speaker_id 直接决定；
+	# 仅没有身份字段的旧数据才回退按名字解析
+	node["portrait"] = _resolve_speaker_portrait(node, npc)
 	_dialogue_panel.show_node(node, npc)
+
+
+const _HERO_SPEAKER_PORTRAIT_IDS := {"莱昂": 7001, "露娜": 7002, "米娅": 7003}
+
+
+func _resolve_speaker_portrait(node: Dictionary, npc: Dictionary) -> String:
+	match str(node.get("speaker_kind", "")):
+		"protagonist":
+			return _protagonist_portrait(npc)
+		"hero":
+			var hero_portrait := _character_portrait_path(int(node.get("speaker_id", 0)))
+			return hero_portrait if not hero_portrait.is_empty() else str(npc.get("portrait", ""))
+		"npc":
+			# speaker_id=0 是未登记的群像角色，沿用当前交互 NPC 头像
+			var speaker_npc: Dictionary = GameRegistry.npc_config.get_npc(int(node.get("speaker_id", 0))) as Dictionary
+			var speaker_portrait := str(speaker_npc.get("portrait", ""))
+			return speaker_portrait if not speaker_portrait.is_empty() else str(npc.get("portrait", ""))
+		"narrator":
+			return str(npc.get("portrait", ""))
+	return _legacy_resolve_speaker_portrait(str(node.get("speaker", "")).strip_edges(), npc)
+
+
+func _protagonist_portrait(npc: Dictionary) -> String:
+	var hero_id := 0
+	if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:
+		var roster: CharacterRosterData = GameRegistry.quest_service.roster as CharacterRosterData
+		hero_id = roster.get_protagonist_hero_id()
+		# 存档尚未写入主角标记（如序章选角前）时，用当前操控角色兜底，
+		# 否则会一路回退到当前 NPC 头像，出现主角说话却显示 NPC 脸的错位。
+		if hero_id <= 0:
+			hero_id = roster.active_character_id
+		if hero_id <= 0:
+			hero_id = CharacterRosterData.DEFAULT_CHARACTER_ID
+	if hero_id > 0:
+		var hero_portrait := _character_portrait_path(hero_id)
+		if not hero_portrait.is_empty():
+			return hero_portrait
+	return str(npc.get("portrait", ""))
+
+
+## 旧数据（无 speaker_kind 字段）兜底：按说话者名字解析。
+## 主角/三英雄用角色头像，具名 NPC 用各自头像，旁白回退当前 NPC。
+func _legacy_resolve_speaker_portrait(speaker: String, npc: Dictionary) -> String:
+	if speaker.is_empty() or speaker == "旁白":
+		return str(npc.get("portrait", ""))
+	var hero_id := 0
+	if speaker == "主角":
+		if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:
+			var roster: CharacterRosterData = GameRegistry.quest_service.roster as CharacterRosterData
+			hero_id = roster.get_protagonist_hero_id()
+			# 存档尚未写入主角标记（如序章选角前）时，用当前操控角色兜底，
+			# 否则会一路回退到当前 NPC 头像，出现主角说话却显示 NPC 脸的错位。
+			if hero_id <= 0:
+				hero_id = roster.active_character_id
+			if hero_id <= 0:
+				hero_id = CharacterRosterData.DEFAULT_CHARACTER_ID
+	elif _HERO_SPEAKER_PORTRAIT_IDS.has(speaker):
+		hero_id = int(_HERO_SPEAKER_PORTRAIT_IDS[speaker])
+	if hero_id > 0:
+		var hero_portrait := _character_portrait_path(hero_id)
+		if not hero_portrait.is_empty():
+			return hero_portrait
+	if GameRegistry.npc_config != null:
+		for npc_id in GameRegistry.npc_config.get_all_npcs():
+			var entry: Dictionary = GameRegistry.npc_config.get_all_npcs()[npc_id]
+			if str(entry.get("name", "")) == speaker and not str(entry.get("portrait", "")).is_empty():
+				return str(entry.get("portrait", ""))
+	return str(npc.get("portrait", ""))
+
+
+func _character_portrait_path(character_id: int) -> String:
+	if GameRegistry.character_config == null:
+		return ""
+	var config: Dictionary = GameRegistry.character_config.get_character(character_id)
+	var cc_path := str(config.get("character_config", ""))
+	if cc_path.is_empty() or not FileAccess.file_exists(cc_path):
+		return ""
+	var json := JSON.new()
+	if json.parse(FileAccess.get_file_as_string(cc_path)) == OK and json.data is Dictionary:
+		return str(json.data.get("portrait", ""))
+	return ""
 
 
 func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:
 	close_popup(_dialogue_panel)
+	# 过场结束后恢复主 HUD 与电影遮罩状态
+	if _in_cutscene:
+		_in_cutscene = false
+		if _hud_visible_before_cutscene and _main_ui != null:
+			_main_ui.visible = true
+		_hud_visible_before_cutscene = false
 	get_tree().paused = _dialogue_previous_pause
 
 

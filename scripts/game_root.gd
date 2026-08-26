@@ -15,6 +15,7 @@ var _interaction_manager: InteractionManager
 var _world_content_spawner: WorldContentSpawner
 var _party_retry_pending := false
 var _quest_world_refresh_pending := false
+var _story_bootstrap_pending := false
 
 
 
@@ -63,6 +64,7 @@ func _ready() -> void:
 		GameRegistry.quest_service.quest_updated.connect(_on_quest_updated)
 		GameRegistry.quest_service.quest_started.connect(_on_quest_world_state_changed)
 		GameRegistry.quest_service.quest_completed.connect(_on_quest_world_state_changed)
+		GameRegistry.quest_service.stage_changed.connect(_on_quest_stage_changed)
 
 	# 监听关卡加载信号
 	_level_manager.level_loaded.connect(_on_level_loaded)
@@ -154,6 +156,19 @@ func _on_level_loaded(level_id: int, level_name: String) -> void:
 	_spawn_level_enemies(level_id)
 	_spawn_level_npcs(level_id)
 	_world_content_spawner.spawn_for_level(level_id)
+	# 首个关卡就绪后触发开局选角/过场自动链（内部保证只执行一次）
+	if not _story_bootstrap_pending:
+		_story_bootstrap_pending = true
+		call_deferred("_bootstrap_story")
+	# 进入关卡时尝试恢复属于该关卡的自动链（排在 bootstrap 之后执行）
+	if GameRegistry.story_auto_play != null:
+		GameRegistry.story_auto_play.on_level_loaded(level_id)
+
+
+func _bootstrap_story() -> void:
+	_story_bootstrap_pending = false
+	if GameRegistry.story_auto_play != null:
+		GameRegistry.story_auto_play.bootstrap()
 
 
 func _on_level_unloaded(_level_id: int) -> void:
@@ -211,6 +226,12 @@ func _on_quest_world_state_changed(_quest_id: int) -> void:
 		return
 	_quest_world_refresh_pending = true
 	call_deferred("_refresh_world_after_quest_update")
+
+
+func _on_quest_stage_changed(_quest_id: int, _stage_id: String) -> void:
+	# 阶段进入也会改变世界内容（例如战斗阶段的任务刷怪），
+	# 不能只在接取/交付时刷新。
+	_on_quest_world_state_changed(_quest_id)
 
 
 func _refresh_world_after_quest_update() -> void:

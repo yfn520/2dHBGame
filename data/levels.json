@@ -1,9 +1,9 @@
 {
 	"0": {
 		"bgm": "",
-		"description": "余灰城",
+		"description": "余晖城",
 		"enemies": [],
-		"name": "余灰城",
+		"name": "余晖城",
 		"npcs": [],
 		"scene_path": "res://scenes/yuhuicheng.tscn",
 		"spawn_x": 133,
@@ -31,9 +31,9 @@
 	},
 	"3": {
 		"bgm": "",
-		"description": " 烛塔学院",
+		"description": "烛塔学院",
 		"enemies": [],
-		"name": " 烛塔学院",
+		"name": "烛塔学院",
 		"npcs": [],
 		"scene_path": "res://scenes/zhutaxueyuan.tscn",
 		"spawn_x": 72,

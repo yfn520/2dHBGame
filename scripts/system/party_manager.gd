@@ -9,9 +9,14 @@ signal party_changed()
 @export var lineup_character_ids: Array[int] = [7001]
 @export_range(0, 8, 1) var initial_active_index := 0
 
+const ASSIST_TARGET_DURATION := 6.0
+
 var active_character: CharacterBody2D
 var active_index := -1
 var active_character_id := 0
+
+var _assist_target: Node2D = null
+var _assist_target_timer := 0.0
 
 var _party_members: Array[CharacterBody2D] = []
 var _member_by_id: Dictionary = {}
@@ -35,12 +40,31 @@ func _ready() -> void:
 		GameRegistry.roster_data.roster_changed.connect(_on_roster_changed)
 
 
-func _process(_delta: float) -> void:
-	if not Engine.is_editor_hint():
+func _process(delta: float) -> void:
+	if Engine.is_editor_hint():
+		var signature := _get_preview_signature()
+		if signature != _preview_signature:
+			_refresh_editor_preview()
 		return
-	var signature := _get_preview_signature()
-	if signature != _preview_signature:
-		_refresh_editor_preview()
+	if _assist_target_timer > 0.0:
+		_assist_target_timer -= delta
+		if _assist_target_timer <= 0.0:
+			_assist_target = null
+
+
+## 记录队伍集火目标（主控角色最近命中的敌人），并刷新有效期。
+func set_assist_target(enemy: Node2D) -> void:
+	if enemy == null or not is_instance_valid(enemy):
+		return
+	_assist_target = enemy
+	_assist_target_timer = ASSIST_TARGET_DURATION
+
+
+## 队伍集火目标；无效或不存在时返回 null。
+func get_assist_target() -> Node2D:
+	if _assist_target != null and is_instance_valid(_assist_target):
+		return _assist_target
+	return null
 
 
 func get_active_character() -> CharacterBody2D:

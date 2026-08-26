@@ -1,0 +1,137 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/new_fashi",
+  "actorName": "newfs",
+  "skillId": "6021",
+  "skillName": "attack",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "newfs-6021-unified",
+      "title": "attack · 当前特效",
+      "summary": "网页统一技能工作台特效轨道",
+      "style": "",
+      "palette": [],
+      "tracks": [
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_spawn_projectile_3",
+          "phase": "projectile",
+          "title": "旧弹道 #3",
+          "trigger": {
+            "type": "hit_window_start",
+            "hit_window_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "hit_window",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 666.6666666666666,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -60,
+              "y": -61
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 9.25,
+              "height": 4.5
+            },
+            "collision_offset": {
+              "x": -2,
+              "y": -0.375
+            },
+            "baked_sprite_flip_h": false,
+            "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn"
+          },
+          "migrated_from": [
+            "res://assets/effects/projectiles/effect-huoqiu.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "proposalId": "newfs-6021-unified",
+  "actionHash": "",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/new_fashi:6021:attack": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {
+    "legacy_spawn_projectile_3": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {},
+  "candidatePageOffsets": {},
+  "selectedAssets": [
+    {
+      "trackId": "legacy_spawn_projectile_3",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 64,
+        "height": 64
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+        "migratedFrom": [
+          "res://assets/effects/projectiles/effect-huoqiu.tscn",
+          "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+          "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+        ],
+        "bundleId": "newfs-6021",
+        "trackId": "legacy_spawn_projectile_3"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6021/assets/legacy_spawn_projectile_3.png"
+    }
+  ]
+}

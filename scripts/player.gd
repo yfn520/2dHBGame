@@ -7,14 +7,14 @@ const LADDER_SNAP_SPEED := 1400.0
 const LEVEL_SIZE := Vector2i(1536, 864)
 const ALLY_ENGAGE_RANGE := 260.0
 const ALLY_DISENGAGE_RANGE := 360.0
-const ALLY_FOLLOW_LEASH := 260.0
+const ALLY_LEADER_ENGAGE_RANGE := 320.0
+const ALLY_FOLLOW_LEASH := 420.0
 const ALLY_FOLLOW_RESUME_DISTANCE := 180.0
 const ALLY_ATTACK_STOP_RATIO := 0.85
 const ALLY_ATTACK_RESUME_RATIO := 1.15
 const ALLY_ATTACK_HOLD_TIME := 0.35
 const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
-const ALLY_FOLLOW_SIDE_SWITCH_DISTANCE := 96.0
 const CAMERA_VERTICAL_OFFSET := -173.0
 var was_jump_pressed := false
 var is_climbing_ladder := false
@@ -117,9 +117,10 @@ func set_follow_target(target: Node2D, slot_index: int = 0) -> void:
 	_follow_target = target
 	_party_slot_index = slot_index
 	if _follow_target != null and is_instance_valid(_follow_target):
-		var dx: float = global_position.x - _follow_target.global_position.x
-		if absf(dx) > ALLY_FOLLOW_STOP_DISTANCE:
-			_ally_follow_side = signf(dx)
+		if _follow_target.has_method("get_facing_sign"):
+			_ally_follow_side = -float(_follow_target.get_facing_sign())
+		else:
+			_ally_follow_side = -1.0
 
 
 func get_combat_stats() -> BaseCombatStats:
@@ -403,11 +404,7 @@ func _update_ally_follow(delta: float) -> void:
 	elif _follow_target.has_node("CharacterActionSet/AnimatedSprite2D"):
 		var leader_sprite: AnimatedSprite2D = _follow_target.get_node("CharacterActionSet/AnimatedSprite2D")
 		leader_facing = 1.0 if leader_sprite.flip_h else -1.0
-	var leader_dist: float = absf(_follow_target.global_position.x - global_position.x)
-	if leader_dist > ALLY_FOLLOW_SIDE_SWITCH_DISTANCE:
-		_ally_follow_side = -leader_facing
-	elif _ally_follow_side == 0.0:
-		_ally_follow_side = -leader_facing
+	_ally_follow_side = -leader_facing
 	var desired_x := _follow_target.global_position.x + _ally_follow_side * (42.0 + float(_party_slot_index) * 30.0)
 	var dx := desired_x - global_position.x
 	if absf(dx) <= ALLY_FOLLOW_STOP_DISTANCE:
@@ -493,7 +490,12 @@ func _get_ally_ai_cache(skill_id: int) -> Dictionary:
 	return AIRangeCompiler.compile(skill_id, asset_path)
 
 
-func _find_nearest_enemy(max_range: float) -> Node2D:
+## 两个节点之间的 x 方向边距（各自扣除半宽）。
+func _edge_distance_x_between(a: Node2D, b: Node2D) -> float:
+	return maxf(0.0, absf(a.global_position.x - b.global_position.x) - _combat_half_width(a) - _combat_half_width(b))
+
+
+func _find_nearest_enemy(max_range: float, anchor: Node2D = null, anchor_max_range: float = INF) -> Node2D:
 	var best: Node2D = null
 	var best_dist := max_range
 	for node in get_tree().get_nodes_in_group("enemies"):
@@ -510,9 +512,13 @@ func _find_nearest_enemy(max_range: float) -> Node2D:
 			continue
 		var enemy := node as Node2D
 		var dist := _edge_distance_x_to(enemy)
-		if dist < best_dist:
-			best_dist = dist
-			best = enemy
+		if dist >= best_dist:
+			continue
+		if anchor != null and is_instance_valid(anchor):
+			if _edge_distance_x_between(anchor, enemy) > anchor_max_range:
+				continue
+		best_dist = dist
+		best = enemy
 	return best
 
 
@@ -534,11 +540,10 @@ func _get_ally_attack_target() -> Node2D:
 			return null
 		_ally_returning_to_follow = false
 	if _is_valid_enemy_target(_ally_attack_target):
-		var target_dist := _edge_distance_x_to(_ally_attack_target)
-		if target_dist <= ALLY_DISENGAGE_RANGE:
+		if _edge_distance_x_between(_follow_target, _ally_attack_target) <= ALLY_DISENGAGE_RANGE:
 			return _ally_attack_target
 	_clear_ally_attack_hold()
-	_ally_attack_target = _find_nearest_enemy(ALLY_ENGAGE_RANGE)
+	_ally_attack_target = _find_nearest_enemy(ALLY_ENGAGE_RANGE, _follow_target, ALLY_LEADER_ENGAGE_RANGE)
 	if _ally_attack_target == null:
 		_clear_ally_attack_hold()
 	return _ally_attack_target

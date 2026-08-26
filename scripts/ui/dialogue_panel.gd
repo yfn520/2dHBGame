@@ -9,6 +9,7 @@ var _choices: VBoxContainer
 var _choices_frame: PanelContainer
 var _continue_button: Button
 var _slot: Control
+var _shade: ColorRect
 
 
 func _ready() -> void:
@@ -19,6 +20,12 @@ func _ready() -> void:
 		if not viewport.size_changed.is_connected(_apply_viewport_layout):
 			viewport.size_changed.connect(_apply_viewport_layout)
 	call_deferred("_apply_viewport_layout")
+
+
+## 过场模式：遮罩改为纯黑不透明，遮住主界面避免选角/过场时画面杂乱；普通对话恢复半透。
+func set_cinematic(enabled: bool) -> void:
+	if _shade != null:
+		_shade.color = Color(0, 0, 0, 1.0) if enabled else Color(0, 0, 0, 0.4)
 
 
 func show_node(node: Dictionary, npc: Dictionary) -> void:
@@ -59,6 +66,7 @@ func _build_layout() -> void:
 	shade.color = Color(0, 0, 0, 0.4)
 	shade.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(shade)
+	_shade = shade
 
 	# Bottom dialogue strip: portrait left, dialogue in the centre and choices
 	# on the right. Keeping the content in a fixed-height, clipped strip prevents

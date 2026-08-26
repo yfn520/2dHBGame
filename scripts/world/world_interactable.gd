@@ -44,6 +44,12 @@ func _collect_pickup() -> bool:
 		return false
 	GameRegistry.quest_state.set_flag(state_key, true)
 	GameRegistry.inventory_provider.add_item(item_id, count)
+	if GameRegistry.quest_service != null:
+		GameRegistry.quest_service.record_collect(item_id)
+		GameRegistry.quest_service.record_interact(str(content.get("id", "")))
+		var event_name := str(content.get("event_name", ""))
+		if not event_name.is_empty():
+			GameRegistry.quest_service.record_area_event(event_name)
 	var ui_root := get_tree().get_first_node_in_group("ui_root")
 	if ui_root != null and ui_root.has_method("show_notification"):
 		ui_root.show_notification("获得 %s ×%d" % [get_display_name(), count])

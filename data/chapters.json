@@ -50,8 +50,7 @@
 		"mood": "怀疑、抉择、重压",
 		"required_previous_chapter_id": "chapter_1",
 		"dungeon_level_ids": [
-			2,
-			7
+			2
 		],
 		"normal_boss_enemy_id": 8028,
 		"echo_boss_enemy_id": 8028,
@@ -75,8 +74,7 @@
 		"mood": "求知、克制、轻哀",
 		"required_previous_chapter_id": "chapter_2",
 		"dungeon_level_ids": [
-			3,
-			9
+			3
 		],
 		"normal_boss_enemy_id": 8029,
 		"echo_boss_enemy_id": 8029,

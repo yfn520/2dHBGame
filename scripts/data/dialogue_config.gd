@@ -17,6 +17,38 @@ func get_all_dialogues() -> Dictionary:
 	return _dialogues.duplicate(true)
 
 
+## 读取时间轴格式对话（tracks + clips + entries；仅 timeline 格式返回，节点图格式返回空）。
+func get_timeline(dialogue_id: String) -> Dictionary:
+	var dialogue := get_dialogue(dialogue_id)
+	if str(dialogue.get("format", "")) != "timeline":
+		return {}
+	return dialogue
+
+
+## 时间轴格式：某 NPC 的入口时间点（毫秒）；无则回退 entry_ms/0。
+func get_timeline_entry_ms(dialogue_id: String, key: String) -> int:
+	var timeline := get_timeline(dialogue_id)
+	if timeline.is_empty():
+		return 0
+	var entries: Dictionary = timeline.get("entries", {})
+	if entries.has(key):
+		return int(entries.get(key, 0))
+	return int(timeline.get("entry_ms", 0))
+
+
+## 时间轴格式：某 NPC 的交付专用入口（毫秒）——任务 ready 后 turn_in 从交付段开始，
+## 不重播该 NPC 首句台词所在的追踪段（如仓库看守的领装备段）。
+## 无 turn_in_entries 时回退普通入口（行为与旧版一致）。
+func get_timeline_turn_in_entry_ms(dialogue_id: String, key: String) -> int:
+	var timeline := get_timeline(dialogue_id)
+	if timeline.is_empty():
+		return 0
+	var entries: Dictionary = timeline.get("turn_in_entries", {})
+	if entries.has(key):
+		return int(entries.get(key, 0))
+	return get_timeline_entry_ms(dialogue_id, key)
+
+
 func get_dialogue_chapter_id(dialogue_id: String) -> String:
 	var dialogue := get_dialogue(dialogue_id)
 	return str(dialogue.get("chapter_id", ""))
@@ -25,34 +57,6 @@ func get_dialogue_chapter_id(dialogue_id: String) -> String:
 func get_dialogue_story_node_id(dialogue_id: String) -> String:
 	var dialogue := get_dialogue(dialogue_id)
 	return str(dialogue.get("story_node_id", ""))
-
-
-func get_node_story_layer(dialogue_id: String, node_id: String) -> String:
-	var dialogue := get_dialogue(dialogue_id)
-	var nodes: Dictionary = dialogue.get("nodes", {})
-	var node: Dictionary = nodes.get(node_id, {})
-	return str(node.get("story_layer", "COMMON"))
-
-
-func get_node_required_lead(dialogue_id: String, node_id: String) -> int:
-	var dialogue := get_dialogue(dialogue_id)
-	var nodes: Dictionary = dialogue.get("nodes", {})
-	var node: Dictionary = nodes.get(node_id, {})
-	return int(node.get("required_lead_hero_id", 0))
-
-
-func get_node_required_hero(dialogue_id: String, node_id: String) -> int:
-	var dialogue := get_dialogue(dialogue_id)
-	var nodes: Dictionary = dialogue.get("nodes", {})
-	var node: Dictionary = nodes.get(node_id, {})
-	return int(node.get("required_hero_id", 0))
-
-
-func get_node_required_event_state(dialogue_id: String, node_id: String) -> String:
-	var dialogue := get_dialogue(dialogue_id)
-	var nodes: Dictionary = dialogue.get("nodes", {})
-	var node: Dictionary = nodes.get(node_id, {})
-	return str(node.get("required_event_state", ""))
 
 
 func _read_json(path: String) -> Dictionary:

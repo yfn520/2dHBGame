@@ -1,40 +1,93 @@
 {
-	"version": 1,
-	"levels": {
-		"0": {
-			"interactables": [
-				{"id": "gate_ch1", "type": "portal", "name": "前往星露草原", "x": 900, "y": 744, "target_level_id": 1, "required_quest_id": 1001, "required_quest_states": ["completed"]}
-			]
-		},
-		"1": {
-			"interactables": [
-				{"id": "gate_town", "type": "portal", "name": "返回余晖城", "x": 220, "y": 744, "target_level_id": 0},
-				{"id": "pickup_first_aid", "type": "pickup", "name": "救援药箱", "x": 560, "y": 744, "item_id": 100246, "count": 1, "required_quest_id": 1002, "required_quest_states": ["active"]},
-				{"id": "pickup_seed", "type": "pickup", "name": "粮种", "x": 720, "y": 744, "item_id": 100247, "count": 1, "required_quest_id": 1003, "required_quest_states": ["active"]},
-				{"id": "pickup_last_letter", "type": "pickup", "name": "最后一袋信", "x": 1060, "y": 744, "item_id": 100248, "count": 1, "required_quest_id": 1006, "required_quest_states": ["active"]},
-				{"id": "gate_ch2", "type": "portal", "name": "前往月影遗迹", "x": 1420, "y": 744, "target_level_id": 2, "required_quest_id": 1008, "required_quest_states": ["completed"]}
-			],
-			"enemies": [
-				{"spawn_id": "ch1_beetles", "mode": "group", "enemy_id": 8001, "x": 820, "y": 680, "count": 6, "scatter_x": 130, "required_quest_id": 1004, "required_quest_states": ["active"]},
-				{"spawn_id": "ch1_boss", "mode": "point", "enemy_id": 8027, "x": 1260, "y": 680, "required_quest_id": 1008, "required_quest_states": ["active"]}
-			]
-		},
-		"2": {
-			"interactables": [
-				{"id": "gate_ch1_return", "type": "portal", "name": "返回星露草原", "x": 220, "y": 632, "target_level_id": 1},
-				{"id": "gate_ch3", "type": "portal", "name": "进入烛塔学院", "x": 1380, "y": 632, "target_level_id": 3, "required_quest_id": 1012, "required_quest_states": ["completed"]}
-			],
-			"enemies": [
-				{"spawn_id": "ch2_boss", "mode": "point", "enemy_id": 8028, "x": 1120, "y": 360, "required_quest_id": 1012, "required_quest_states": ["active"]}
-			]
-		},
-		"3": {
-			"interactables": [
-				{"id": "gate_ch2_return", "type": "portal", "name": "返回月影遗迹", "x": 220, "y": 731, "target_level_id": 2},
-			{"id": "pickup_answer_sheet_1", "type": "pickup", "name": "答卷页", "x": 760, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]},
-			{"id": "pickup_answer_sheet_2", "type": "pickup", "name": "答卷页", "x": 1020, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]},
-			{"id": "pickup_answer_sheet_3", "type": "pickup", "name": "答卷页", "x": 1300, "y": 731, "item_id": 100249, "count": 1, "required_quest_id": 1013, "required_quest_states": ["active"]}
-			]
-		}
-	}
+  "version": 2,
+  "format": "task-timeline-world-bindings",
+  "levels": {
+    "0": {
+      "interactables": [
+        {
+          "id": "gate_ch1",
+          "type": "portal",
+          "name": "前往星露草原",
+          "x": 900,
+          "y": 744,
+          "target_level_id": 1,
+          "required_quest_id": 21012,
+          "required_quest_states": ["completed"]
+        }
+      ]
+    },
+    "1": {
+      "interactables": [
+        {
+          "id": "gate_town",
+          "type": "portal",
+          "name": "返回余烬城",
+          "x": 220,
+          "y": 744,
+          "target_level_id": 0
+        },
+        {
+          "id": "pickup_first_aid",
+          "type": "pickup",
+          "name": "救援药箱",
+          "x": 560,
+          "y": 744,
+          "item_id": 100246,
+          "count": 1,
+          "required_quest_id": 21020,
+          "required_quest_states": ["active"]
+        },
+        {
+          "id": "gate_ch2",
+          "type": "portal",
+          "name": "前往月影遗迹",
+          "x": 1420,
+          "y": 744,
+          "target_level_id": 2,
+          "required_quest_id": 21021,
+          "required_quest_states": ["completed"]
+        }
+      ],
+      "enemies": [
+        {
+          "spawn_id": "c1_02_a_beetles",
+          "mode": "group",
+          "enemy_id": 8001,
+          "x": 820,
+          "y": 680,
+          "count": 6,
+          "scatter_x": 130,
+          "required_stage_id": "C1-02-A-S03",
+          "required_quest_id": 21020,
+          "required_quest_states": ["active"]
+        }
+      ]
+    },
+    "2": {
+      "interactables": [],
+      "enemies": []
+    },
+    "3": {
+      "interactables": [],
+      "enemies": []
+    },
+    "4": {
+      "interactables": [],
+      "enemies": []
+    },
+    "5": {
+      "interactables": [],
+      "enemies": []
+    },
+    "6": {
+      "interactables": [],
+      "enemies": []
+    }
+  },
+  "task_chain": [
+    { "from_quest_id": 21010, "to_quest_id": 21011 },
+    { "from_quest_id": 21011, "to_quest_id": 21012 },
+    { "from_quest_id": 21012, "to_quest_id": 21020 },
+    { "from_quest_id": 21020, "to_quest_id": 21021 }
+  ]
 }

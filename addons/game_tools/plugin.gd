@@ -80,6 +80,8 @@ func _enter_tree() -> void:
 	_submenu.add_separator()
 	# PC 调试触屏：勾选后写入 application/run/force_touch_controls=true
 	_submenu.add_check_item("PC 调试显示触屏控件", 16)
+	# 删档重开：删除游戏存档 savegame.json，下次运行即全新存档开局
+	_submenu.add_item("删档重开", 20)
 	_submenu.id_pressed.connect(_on_menu_pressed)
 
 	# 挂到顶部菜单栏（和"场景/项目"同级）；找不到 MenuBar 时退回到"工具"子菜单。
@@ -188,6 +190,8 @@ func _on_menu_pressed(id: int) -> void:
 			_pack_skill_data()
 		19:
 			_open_portrait_importer()
+		20:
+			_confirm_wipe_save()
 
 
 func _open_combat_action_editor() -> void:
@@ -283,6 +287,42 @@ func _sync_force_touch_menu_check() -> void:
 		return
 	var enabled: bool = bool(ProjectSettings.get_setting(FORCE_TOUCH_SETTING, false))
 	_submenu.set_item_checked(idx, enabled)
+
+
+# ---- 删档重开 ----
+
+var _wipe_confirm_dialog: ConfirmationDialog
+var _wipe_info_dialog: AcceptDialog
+
+## 删档二次确认：删除游戏用户目录下的 savegame.json，下次运行游戏即全新存档开局。
+func _confirm_wipe_save() -> void:
+	if not is_instance_valid(_wipe_confirm_dialog):
+		_wipe_confirm_dialog = ConfirmationDialog.new()
+		_wipe_confirm_dialog.title = "删档重开"
+		_wipe_confirm_dialog.dialog_text = "确定删除游戏存档 savegame.json 吗？\n下次运行游戏将以全新存档开局（重新选角/过场）。"
+		_wipe_confirm_dialog.confirmed.connect(_do_wipe_save)
+		EditorInterface.get_base_control().add_child(_wipe_confirm_dialog)
+	_wipe_confirm_dialog.popup_centered()
+
+
+func _do_wipe_save() -> void:
+	var save_path := OS.get_user_data_dir().path_join("savegame.json")
+	var msg := ""
+	if not FileAccess.file_exists(save_path):
+		msg = "当前没有存档（文件不存在）：\n%s\n下次运行游戏即为全新开局。" % save_path
+	else:
+		var err := DirAccess.remove_absolute(save_path)
+		if err == OK:
+			msg = "已删除存档：\n%s\n下次运行游戏将以全新存档开局。" % save_path
+		else:
+			msg = "删除存档失败 (err=%d)：\n%s" % [err, save_path]
+	print("[GameTools] %s" % msg.replace("\n", " "))
+	if not is_instance_valid(_wipe_info_dialog):
+		_wipe_info_dialog = AcceptDialog.new()
+		_wipe_info_dialog.title = "删档重开"
+		EditorInterface.get_base_control().add_child(_wipe_info_dialog)
+	_wipe_info_dialog.dialog_text = msg
+	_wipe_info_dialog.popup_centered()
 
 
 # ---- UI 场景 Zip 导入 ----

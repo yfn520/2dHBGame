@@ -63,8 +63,134 @@
 				"interaction_radius": 96.0,
 				"npc_id": 9003.0,
 				"scale": 0.5,
-				"x": 753.859436035156,
-				"y": 735.0
+				"x": 745.809631347656,
+				"y": 669.571472167969
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9002_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9002.0,
+				"scale": 0.5,
+				"x": 200.087051391602,
+				"y": 678.304321289063
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9001_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9001.0,
+				"scale": 0.5,
+				"x": 397.478363037109,
+				"y": 691.347839355469
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9016_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9016.0,
+				"scale": 0.5,
+				"x": 954.869689941406,
+				"y": 674.826110839844
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9020_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9020.0,
+				"scale": 0.5,
+				"x": 1152.26098632813,
+				"y": 679.173889160156
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9045_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9045.0,
+				"scale": 0.5,
+				"x": 1380.08703613281,
+				"y": 682.652160644531
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9021_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9021.0,
+				"scale": 0.5,
+				"x": 1556.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9022_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9022.0,
+				"scale": 0.5,
+				"x": 1716.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9023_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9023.0,
+				"scale": 0.5,
+				"x": 1876.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9024_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9024.0,
+				"scale": 0.5,
+				"x": 2036.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9025_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9025.0,
+				"scale": 0.5,
+				"x": 2196.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9026_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9026.0,
+				"scale": 0.5,
+				"x": 2356.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9027_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9027.0,
+				"scale": 0.5,
+				"x": 2516.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9046_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9046.0,
+				"scale": 0.5,
+				"x": 2676.0,
+				"y": 651.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9047_1",
+				"interaction_radius": 96.0,
+				"npc_id": 9047.0,
+				"scale": 0.5,
+				"x": 2836.0,
+				"y": 651.0
 			}
 		],
 		"2": [
@@ -85,6 +211,15 @@
 				"scale": 0.5,
 				"x": 815.238159179688,
 				"y": 632.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9028_2",
+				"interaction_radius": 96.0,
+				"npc_id": 9028.0,
+				"scale": 0.5,
+				"x": 556.0,
+				"y": 525.0
 			}
 		],
 		"3": [
@@ -105,6 +240,24 @@
 				"scale": 0.5,
 				"x": 1007.41931152344,
 				"y": 727.708312988281
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9029_3",
+				"interaction_radius": 96.0,
+				"npc_id": 9029.0,
+				"scale": 0.5,
+				"x": 552.0,
+				"y": 627.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9030_3",
+				"interaction_radius": 96.0,
+				"npc_id": 9030.0,
+				"scale": 0.5,
+				"x": 712.0,
+				"y": 627.0
 			}
 		],
 		"4": [
@@ -134,6 +287,60 @@
 				"scale": 0.5,
 				"x": 692.574462890625,
 				"y": 629.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9031_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9031.0,
+				"scale": 0.5,
+				"x": 1129.0,
+				"y": 488.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9032_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9032.0,
+				"scale": 0.5,
+				"x": 1289.0,
+				"y": 488.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9033_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9033.0,
+				"scale": 0.5,
+				"x": 1449.0,
+				"y": 488.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9034_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9034.0,
+				"scale": 0.5,
+				"x": 1609.0,
+				"y": 488.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9035_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9035.0,
+				"scale": 0.5,
+				"x": 1769.0,
+				"y": 488.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9036_4",
+				"interaction_radius": 96.0,
+				"npc_id": 9036.0,
+				"scale": 0.5,
+				"x": 1929.0,
+				"y": 488.0
 			}
 		],
 		"5": [
@@ -145,6 +352,69 @@
 				"scale": 0.5,
 				"x": 684.89794921875,
 				"y": 680.612243652344
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9037_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9037.0,
+				"scale": 0.5,
+				"x": 425.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9038_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9038.0,
+				"scale": 0.5,
+				"x": 585.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9039_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9039.0,
+				"scale": 0.5,
+				"x": 745.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9040_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9040.0,
+				"scale": 0.5,
+				"x": 905.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9041_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9041.0,
+				"scale": 0.5,
+				"x": 1065.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9042_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9042.0,
+				"scale": 0.5,
+				"x": 1225.0,
+				"y": 563.0
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9043_5",
+				"interaction_radius": 96.0,
+				"npc_id": 9043.0,
+				"scale": 0.5,
+				"x": 1385.0,
+				"y": 563.0
 			}
 		],
 		"6": [
@@ -156,6 +426,15 @@
 				"scale": 0.5,
 				"x": 650.0,
 				"y": 625.370361328125
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9044_6",
+				"interaction_radius": 96.0,
+				"npc_id": 9044.0,
+				"scale": 0.5,
+				"x": 404.0,
+				"y": 552.0
 			}
 		]
 	},

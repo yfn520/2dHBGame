@@ -12,6 +12,11 @@ var _visual: Node2D
 var _sprite: AnimatedSprite2D
 var _name_label: Label
 var _quest_label: Label
+var _story_move_tween: Tween
+
+
+func _ready() -> void:
+	add_to_group("npc_actor")
 
 
 func setup(config: Dictionary, placement: Dictionary) -> bool:
@@ -42,6 +47,36 @@ func setup(config: Dictionary, placement: Dictionary) -> bool:
 
 func get_display_name() -> String:
 	return _name_label.text if _name_label != null else "NPC"
+
+
+## 动作轨道调用：把 NPC 移动到场景坐标。坐标来自任务编排，不改交互半径。
+func move_story_to(target: Vector2, duration_ms: int) -> void:
+	if _story_move_tween != null and _story_move_tween.is_valid():
+		_story_move_tween.kill()
+	if duration_ms <= 0:
+		global_position = target
+		return
+	_story_move_tween = create_tween()
+	_story_move_tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_story_move_tween.tween_property(self, "global_position", target, float(duration_ms) / 1000.0)
+
+
+## 动作轨道调用：播放由 NPC 资源提供的 AnimatedSprite2D 动画。
+func play_story_animation(animation_name: String, loop: bool = false, speed_scale: float = 1.0) -> void:
+	if _sprite == null or _sprite.sprite_frames == null:
+		return
+	if not _sprite.sprite_frames.has_animation(animation_name):
+		push_warning("NPC %d 没有动作动画: %s" % [npc_id, animation_name])
+		return
+	_sprite.speed_scale = maxf(0.05, speed_scale)
+	# SpriteFrames 可能被多个 NPC 共享；复制后再改循环属性，避免一个动作片段影响全场 NPC。
+	_sprite.sprite_frames = _sprite.sprite_frames.duplicate() as SpriteFrames
+	_sprite.sprite_frames.set_animation_loop(animation_name, loop)
+	_sprite.play(animation_name)
+
+
+func set_story_visible(value: bool) -> void:
+	visible = value
 
 
 func refresh_quest_indicator() -> void:

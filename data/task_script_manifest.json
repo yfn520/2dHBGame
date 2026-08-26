@@ -1,0 +1,18 @@
+{
+	"format": "rose.task-script-runtime-manifest",
+	"version": 2,
+	"source": "E:\\g_selfcustom\\FrameRonin-main\\正式剧情\\六章落地任务转译.md",
+	"schemaVersion": 2,
+	"taskCount": 85,
+	"dialogueCount": 106,
+	"stageCount": 177,
+	"clipCount": 1326,
+	"pilotChain": [
+		21010,
+		21011,
+		21012,
+		21020,
+		21021
+	],
+	"legacyGraphReader": false
+}
