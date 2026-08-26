@@ -46,6 +46,94 @@
           "target_level_id": 2,
           "required_quest_id": 21021,
           "required_quest_states": ["completed"]
+        },
+        {
+          "id": "c1_03_a_route_entered",
+          "type": "area_event",
+          "name": "进入塌方农路",
+          "x": 700,
+          "y": 700,
+          "width": 220,
+          "height": 260,
+          "event_name": "c1_03_a_route_entered",
+          "required_quest_id": 21030,
+          "required_quest_states": ["active"],
+          "required_stage_ids": ["C1-03-A-S02", "C1-03-A-S03"],
+          "debug_visible": true
+        },
+        {
+          "id": "c1_03_a_nursery_arrived",
+          "type": "area_event",
+          "name": "抵达育苗棚",
+          "x": 1550,
+          "y": 690,
+          "width": 180,
+          "height": 240,
+          "event_name": "c1_03_a_nursery_arrived",
+          "required_quest_id": 21030,
+          "required_quest_states": ["active"],
+          "required_stage_ids": ["C1-03-A-S03", "C1-03-A-S04"],
+          "debug_visible": true
+        },
+        {
+          "id": "c1_04_a_beacon_arrived",
+          "type": "area_event",
+          "name": "进入外围信标塔",
+          "x": 1810,
+          "y": 590,
+          "width": 180,
+          "height": 240,
+          "event_name": "c1_04_a_beacon_arrived",
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"],
+          "required_stage_id": "C1-04-A-S02",
+          "debug_visible": true
+        },
+        {
+          "id": "c1_04_a_beacon_part_1",
+          "type": "pickup",
+          "name": "信标导片（1/2）",
+          "x": 2010,
+          "y": 665,
+          "item_id": 100254,
+          "count": 1,
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"],
+          "required_stage_id": "C1-04-A-S04"
+        },
+        {
+          "id": "c1_04_a_beacon_part_2",
+          "type": "pickup",
+          "name": "信标导片（2/2）",
+          "x": 2160,
+          "y": 665,
+          "item_id": 100254,
+          "count": 1,
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"],
+          "required_stage_id": "C1-04-A-S04"
+        },
+        {
+          "id": "c1_04_a_beacon_calibrate",
+          "type": "named_event",
+          "name": "三拍校准控制环",
+          "x": 2310,
+          "y": 665,
+          "event_name": "pending_c1_04_a_6",
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"],
+          "required_stage_id": "C1-04-A-S05"
+        },
+        {
+          "id": "c1_04_a_rescue_response",
+          "type": "named_event",
+          "name": "确认两处救援回应",
+          "x": 2450,
+          "y": 665,
+          "event_name": "pending_c1_04_a_7",
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"],
+          "required_stage_id": "C1-04-A-S05"
         }
       ],
       "enemies": [
@@ -59,6 +147,53 @@
           "scatter_x": 130,
           "required_stage_id": "C1-02-A-S03",
           "required_quest_id": 21020,
+          "required_quest_states": ["active"]
+        },
+        {
+          "spawn_id": "c1_03_a_wolves_west",
+          "mode": "group",
+          "enemy_id": 8003,
+          "x": 930,
+          "y": 680,
+          "count": 3,
+          "scatter_x": 90,
+          "required_stage_id": "C1-03-A-S03",
+          "required_quest_id": 21030,
+          "required_quest_states": ["active"]
+        },
+        {
+          "spawn_id": "c1_03_a_wolves_bridge",
+          "mode": "group",
+          "enemy_id": 8003,
+          "x": 1100,
+          "y": 680,
+          "count": 3,
+          "scatter_x": 90,
+          "required_stage_id": "C1-03-A-S03",
+          "required_quest_id": 21030,
+          "required_quest_states": ["active"]
+        },
+        {
+          "spawn_id": "c1_04_a_beetles",
+          "mode": "group",
+          "enemy_id": 8019,
+          "x": 1970,
+          "y": 680,
+          "count": 4,
+          "scatter_x": 120,
+          "required_stage_id": "C1-04-A-S03",
+          "required_quest_id": 21040,
+          "required_quest_states": ["active"]
+        },
+        {
+          "spawn_id": "c1_04_a_elite_beetle",
+          "mode": "point",
+          "enemy_id": 8021,
+          "x": 2110,
+          "y": 680,
+          "count": 1,
+          "required_stage_id": "C1-04-A-S03",
+          "required_quest_id": 21040,
           "required_quest_states": ["active"]
         }
       ]

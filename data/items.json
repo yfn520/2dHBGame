@@ -4411,5 +4411,21 @@
 		"heal_amount": 0,
 		"stats": {},
 		"icon": "res://assets/icons/items/100253.png"
+	},
+	"100254": {
+		"name": "信标导片",
+		"type": "quest_item",
+		"gear_category": "normal",
+		"quality": "普通",
+		"class_id": "",
+		"chapter_id": "chapter_1",
+		"is_tradable": false,
+		"is_droppable": false,
+		"description": "从外围信标塔甲虫巢中取回的控制环导片，任务完成后移除。",
+		"stackable": true,
+		"max_count": 2,
+		"heal_amount": 0,
+		"stats": {},
+		"icon": "res://assets/icons/items/100254.png"
 	}
 }
