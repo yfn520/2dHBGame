@@ -31,7 +31,7 @@
             "offset_ms": 0
           },
           "space": "world",
-          "anchor": "caster",
+          "anchor": "hit_window",
           "direction": "facing",
           "mirror": true,
           "duration_ms": 666.6666666666666,
@@ -40,8 +40,8 @@
           "loop": false,
           "transform": {
             "offset": {
-              "x": -45,
-              "y": -102
+              "x": 34,
+              "y": 2
             },
             "scale": 3,
             "rotation_degrees": 0,

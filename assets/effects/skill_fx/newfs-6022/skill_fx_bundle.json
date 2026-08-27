@@ -15,55 +15,64 @@
       "title": "旧特效 #3",
       "trigger": {
         "type": "hit_window_start",
+        "event": "",
         "hit_window_index": 0,
+        "node_index": 0,
         "offset_ms": 0
       },
-      "space": "character_local",
-      "anchor": "caster",
+      "space": "world",
+      "anchor": "hit_window",
       "direction": "facing",
-      "mirror": true,
-      "duration_ms": 666.6666666666666,
+      "mirror": false,
+      "duration_ms": 667,
       "blend_mode": "normal",
       "layer": 1,
       "loop": false,
       "transform": {
         "offset": {
-          "x": -63.6086956521739,
-          "y": -109.217391304348
+          "x": 34,
+          "y": 2
         },
-        "scale": 1,
+        "scale": 3,
         "rotation_degrees": 0,
         "opacity": 1,
         "tint": "#ffffff"
       },
       "is_projectile": false,
       "projectile_config": null,
+      "target_buff_node_index": 0,
       "asset": {
         "track_id": "legacy_play_effect_3",
-        "atlas_path": "assets/effects/skill_fx/newfs-6022/legacy/9cc71ea0/attachments/effect-newfs-skill1/effect_atlas.png",
-        "preview_atlas_path": "assets/effects/attachments/effect-newfs-skill1/effect_atlas.png",
-        "scene_path": "assets/effects/skill_fx/newfs-6022/legacy/b3f471f9/attachments/effect-newfs-skill1/effect.tscn",
+        "atlas_path": "assets/effects/skill_fx/newfs-6022/visual/legacy_play_effect_3/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_play_effect_3/effect.tscn",
         "frame_size": {
           "width": 64,
           "height": 64
         },
-        "frame_count": 8,
-        "fps": 12,
-        "baked_scale": 1.875,
+        "frame_count": 5,
+        "fps": 7.5,
+        "baked_scale": 1,
         "loop": false,
         "source": {
-          "kind": "legacy_scene",
-          "scenePath": "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
-          "migratedFrom": [
-            "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
-            "res://assets/effects/attachments/effect-newfs-skill1/effect_atlas.png"
-          ]
+          "kind": "generated",
+          "description": "旧特效 #3",
+          "selected_source_frames": [
+            0,
+            2,
+            3,
+            5,
+            7
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "2": 0,
+            "3": 0,
+            "5": 0,
+            "7": 0
+          },
+          "selected_frame_rotation_mirror_compensated": true
         }
-      },
-      "migrated_from": [
-        "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
-        "res://assets/effects/attachments/effect-newfs-skill1/effect_atlas.png"
-      ]
+      }
     },
     {
       "id": "legacy_spawn_projectile_4",
@@ -71,14 +80,16 @@
       "title": "旧弹道 #4",
       "trigger": {
         "type": "hit_window_start",
+        "event": "",
         "hit_window_index": 0,
+        "node_index": 0,
         "offset_ms": 0
       },
       "space": "world",
       "anchor": "hit_window",
       "direction": "facing",
       "mirror": false,
-      "duration_ms": 83.33333333333333,
+      "duration_ms": 83,
       "blend_mode": "normal",
       "layer": 1,
       "loop": false,
@@ -100,42 +111,51 @@
         },
         "collision_shape": "rectangle",
         "collision_size": {
-          "width": 24,
-          "height": 24
+          "width": 171,
+          "height": 178
         },
         "collision_offset": {
-          "x": 0,
-          "y": 0
+          "x": -7,
+          "y": -2
         },
-        "baked_sprite_flip_h": false,
-        "migrated_from_scene": "res://assets/effects/projectiles/fireball.tscn"
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": true,
+        "faces_by_default": "right",
+        "rotation": 0,
+        "flip_h": false
       },
+      "target_buff_node_index": 0,
       "asset": {
         "track_id": "legacy_spawn_projectile_4",
-        "atlas_path": "",
-        "preview_atlas_path": "",
-        "scene_path": "assets/effects/skill_fx/newfs-6022/legacy/cc4d798c/projectiles/fireball.tscn",
+        "atlas_path": "assets/effects/skill_fx/newfs-6022/visual/legacy_spawn_projectile_4/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_spawn_projectile_4/effect.tscn",
         "frame_size": {
-          "width": 256,
-          "height": 256
+          "width": 125,
+          "height": 125
         },
-        "frame_count": 1,
-        "fps": 12,
+        "frame_count": 4,
+        "fps": 48,
         "baked_scale": 0.25,
         "loop": false,
         "source": {
-          "kind": "legacy_scene",
-          "scenePath": "res://assets/effects/projectiles/fireball.tscn",
-          "migratedFrom": [
-            "res://assets/effects/projectiles/fireball.tscn",
-            "res://assets/effects/skill/fireball/fireball_visual.tscn"
-          ]
+          "kind": "generated",
+          "description": "旧弹道 #4",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
         }
-      },
-      "migrated_from": [
-        "res://assets/effects/projectiles/fireball.tscn",
-        "res://assets/effects/skill/fireball/fireball_visual.tscn"
-      ]
+      }
     }
   ]
 }
