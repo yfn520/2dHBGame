@@ -3,157 +3,153 @@
   "version": 1,
   "bundle_id": "gong-sho-6012",
   "skill_id": "6012",
-  "skill_hash": "42557f0481486cac03a2c3e3e5e274e944c8e9360f55d33fb89cd7e62d2cd30f",
-  "action_hash": "aebe6395be818683b3088e875921a76b775ddbd7ea665ca7bfa689c0c18cde2b",
   "proposal": {
-	"id": "6012_archer_shot-mrw2t81k",
-	"title": "精灵弓手箭矢射击",
-	"summary": "配合弓箭手拉弓动作，在释放瞬间产生风压特效，并伴随箭矢飞行轨迹。",
-	"style": "2D像素幻想风格，强调打击感与速度感",
-	"palette": [
-	  "#FFFFFF",
-	  "#A0E0FF",
-      "#40A0FF"
-	]
+    "id": "gong-sho-6012-unified",
+    "title": "精灵弓手箭矢射击",
+    "summary": "网页统一技能工作台特效轨道"
   },
   "tracks": [
-	{
-	  "id": "release_flash",
-	  "phase": "release",
-	  "title": "释放闪光",
-	  "description": "带毒的箭矢离弦瞬间产生的弓箭特效",
-	  "trigger": {
-		"type": "action_event",
-		"event": "release",
-		"hit_window_index": 0,
-		"node_index": 0,
-		"offset_ms": 0
-	  },
-	  "space": "character_local",
-	  "anchor": "body_center",
-	  "direction": "none",
-	  "mirror": true,
-	  "duration_ms": 140,
-	  "blend_mode": "add",
-	  "layer": 2,
-	  "loop": false,
-	  "transform": {
-		"offset": {
-		  "x": -45.0,
-		  "y": -29.0
-		},
-		"scale": 1.16,
-		"rotation_degrees": 0.0,
-		"opacity": 1.0,
-		"tint": "#ffffff"
-	  },
-	  "library_query": "muzzle flash energy burst",
-	  "generation_prompt": "isolated 2D sprite animation of a bright white and blue energy flash, pixel art style, sharp edges, black background, no character, no text",
-	  "is_projectile": false,
-	  "projectile_config": null,
-	  "asset": {
-		"track_id": "release_flash",
-		"atlas_path": "assets/effects/skill_fx/gong-sho-6012/visual/release_flash/atlas.png",
-		"scene_path": "assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/release_flash/effect.tscn",
-		"frame_size": {
-		  "width": 256,
-		  "height": 256
-		},
-		"frame_count": 5,
-		"fps": 35.71428571428571,
-		"loop": false,
-		"source": {
-		  "type": "ai",
-		  "prompt": "isolated 2D sprite animation of a bright white and green energy flash, pixel art style, sharp edges, black background, no character, no text\n带毒的箭矢离弦瞬间产生的弓箭特效",
-		  "reference_mode": "full_action_storyboard_single_draw",
-		  "anchors": 3,
-		  "selected_source_frames": [
-			2,
-			3,
-			1,
-			4,
-			0
-		  ]
-		},
-		"projectile_config": null
-	  }
-	},
-	{
-	  "id": "projectile_trail",
-	  "phase": "projectile",
-	  "title": "箭矢拖尾",
-	  "description": "箭矢飞行过程中拖尾。arrow green",
-	  "trigger": {
-		"type": "hit_window_start",
-		"event": "",
-		"hit_window_index": 0,
-		"node_index": 0,
-		"offset_ms": 0
-	  },
-	  "space": "world",
-	  "anchor": "origin",
-	  "direction": "none",
-	  "mirror": false,
-	  "duration_ms": 500,
-	  "blend_mode": "add",
-	  "layer": 1,
-	  "loop": true,
-	  "transform": {
-		"offset": {
-		  "x": -61.0,
-		  "y": -99.0
-		},
-		"scale": 0.3,
-		"rotation_degrees": -160.0,
-		"opacity": 1.0,
-		"tint": "#ffffff"
-	  },
-	  "library_query": "arrow projectile trail",
-	  "generation_prompt": "isolated 2D sprite animation of a straight blue light trail, pixel art style, motion blur, black background, no character, no text",
-	  "is_projectile": true,
-	  "projectile_config": {
-		"visual_scale": {
-		  "x": 0.25,
-		  "y": 0.25
-		},
-		"collision_shape": "rectangle",
-		"collision_size": {
-		  "width": 129,
-		  "height": 20
-		},
-		"collision_offset": {
-		  "x": -7.0,
-		  "y": 2.0
-		},
-		"inset_ratio": 0.15,
-		"auto_calc_source": "alpha_bbox_median",
-		"manual_override": true,
-		"faces_by_default": "right",
-		"rotation": -160.0,
-		"flip_h": false
-	  },
-	  "asset": {
-		"track_id": "projectile_trail",
-		"atlas_path": "assets/effects/skill_fx/gong-sho-6012/visual/projectile_trail/atlas.png",
-		"scene_path": "assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect.tscn",
-		"frame_size": {
-		  "width": 256,
-		  "height": 256
-		},
-		"frame_count": 1,
-		"fps": 2.0,
-		"loop": true,
-		"source": {
-		  "type": "ai",
-		  "prompt": "isolated 2D sprite animation of a straight greem light trail, pixel art style, motion blur, black background, no character, no text\n带毒的箭矢",
-		  "reference_mode": "full_action_storyboard_single_draw",
-		  "anchors": 3,
-		  "selected_source_frames": [
-			1
-		  ]
-		},
-		"projectile_config": null
-	  }
-	}
+    {
+      "id": "release_flash",
+      "phase": "release",
+      "title": "释放闪光",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "body_center",
+      "direction": "none",
+      "mirror": false,
+      "duration_ms": 140,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -45,
+          "y": -97.5
+        },
+        "scale": 0.55,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "release_flash",
+        "atlas_path": "assets/effects/skill_fx/gong-sho-6012/visual/release_flash/atlas.png",
+        "scene_path": "assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/release_flash/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 5,
+        "fps": 35.71428571428571,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "isolated 2D sprite animation of a bright white and green energy flash, pixel art style, sharp edges, black background, no character, no text\n带毒的箭矢离弦瞬间产生的弓箭特效",
+          "selected_source_frames": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 0,
+            "4": 0
+          },
+          "selected_frame_rotation_mirror_compensated": true
+        }
+      }
+    },
+    {
+      "id": "projectile_trail",
+      "phase": "projectile",
+      "title": "箭矢拖尾",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "preview_position",
+      "direction": "none",
+      "mirror": false,
+      "duration_ms": 500,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": true,
+      "transform": {
+        "offset": {
+          "x": -61,
+          "y": -99
+        },
+        "scale": 0.3,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffffff"
+      },
+      "is_projectile": true,
+      "projectile_config": {
+        "visual_scale": {
+          "x": 0.25,
+          "y": 0.25
+        },
+        "collision_shape": "rectangle",
+        "collision_size": {
+          "width": 148,
+          "height": 29
+        },
+        "collision_offset": {
+          "x": -6,
+          "y": 1
+        },
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": true,
+        "faces_by_default": "right",
+        "rotation": 0,
+        "flip_h": false
+      },
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "projectile_trail",
+        "atlas_path": "assets/effects/skill_fx/gong-sho-6012/visual/projectile_trail/atlas.png",
+        "scene_path": "assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 1,
+        "fps": 2,
+        "baked_scale": 0.25,
+        "loop": true,
+        "source": {
+          "kind": "generated",
+          "description": "isolated 2D sprite animation of a straight greem light trail, pixel art style, motion blur, black background, no character, no text\n带毒的箭矢",
+          "selected_source_frames": [
+            0
+          ],
+          "selected_frame_rotations": {
+            "0": -160
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
   ]
 }
