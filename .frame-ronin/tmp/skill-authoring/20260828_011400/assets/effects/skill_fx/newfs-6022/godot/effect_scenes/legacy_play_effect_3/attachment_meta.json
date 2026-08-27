@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -63.6086956521739,
+    "y": -109.217391304348
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 3.0,
+  "effectMirror": false,
+  "mirrorWithFacing": false,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 64,
+    "height": 64
+  },
+  "layer": "front",
+  "blendMode": "normal",
+  "coordinateSpace": "world",
+  "scenePath": "res://assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_play_effect_3/effect.tscn",
+  "fps": 7.5,
+  "frameCount": 5
+}

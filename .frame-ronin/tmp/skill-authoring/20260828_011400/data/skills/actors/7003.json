@@ -96,19 +96,24 @@
         "attachment_box_height": 120,
         "attachment_box_width": 120,
         "attachment_layer": "front",
-        "coordinate_space": "character_local",
-        "effect_scale": 1,
-        "mirror": true,
-        "mirror_with_facing": true,
+        "coordinate_space": "world",
+        "effect_scale": 3,
+        "mirror": false,
+        "mirror_with_facing": false,
         "offset_x": -63.6086956521739,
         "offset_y": -109.217391304348,
-        "origin": "caster",
+        "origin": "hit_window",
         "rotation_degrees": 0,
-        "scene": "res://assets/effects/skill_fx/newfs-6022/legacy/b3f471f9/attachments/effect-newfs-skill1/effect.tscn",
+        "scene": "res://assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_play_effect_3/effect.tscn",
         "source_bundle_id": "newfs-6022",
         "source_track_id": "legacy_play_effect_3",
         "target": "origin",
-        "type": "play_effect"
+        "type": "play_effect",
+        "anchor": "origin",
+        "follow_target": false,
+        "lifetime_ms": 667,
+        "opacity": 1,
+        "tint": "#ffffff"
       },
       {
         "ai_max_range": 280,
@@ -121,7 +126,7 @@
         "emission": "fan",
         "lifetime": 5,
         "max_pierce": 20,
-        "origin": "socket",
+        "origin": "hit_window",
         "result_key": "projectile_hit",
         "scale": 2.01,
         "scene": "res://assets/effects/skill_fx/newfs-6022/legacy/cc4d798c/projectiles/fireball.tscn",
@@ -136,8 +141,7 @@
         "mirror": false,
         "tint": "#ffffff",
         "opacity": 1,
-        "attachment_blend_mode": "normal",
-        "socket": "hit_window"
+        "attachment_blend_mode": "normal"
       },
       {
         "type": "wait_animation_end"
