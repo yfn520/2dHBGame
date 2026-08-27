@@ -26,6 +26,8 @@ func interact() -> bool:
 	match str(content.get("type", "")):
 		"pickup":
 			return _collect_pickup()
+		"named_event":
+			return _trigger_named_event()
 		"portal":
 			return _use_portal()
 		_:
@@ -58,6 +60,21 @@ func _collect_pickup() -> bool:
 	return true
 
 
+func _trigger_named_event() -> bool:
+	if GameRegistry.quest_service == null or GameRegistry.quest_state == null:
+		return false
+	var event_name := str(content.get("event_name", "")).strip_edges()
+	if event_name.is_empty() or bool(GameRegistry.quest_state.get_flag("event:%s" % event_name, false)):
+		return false
+	GameRegistry.quest_service.record_named_event(event_name)
+	var ui_root := get_tree().get_first_node_in_group("ui_root")
+	if ui_root != null and ui_root.has_method("show_notification"):
+		ui_root.show_notification("已完成：%s" % get_display_name())
+	GameRegistry.save_game()
+	queue_free()
+	return true
+
+
 func _use_portal() -> bool:
 	var target_level_id := int(content.get("target_level_id", -1))
 	if target_level_id < 0 or GameRegistry.level_manager == null:
@@ -69,7 +86,8 @@ func _use_portal() -> bool:
 func _build_visual() -> void:
 	var marker := Polygon2D.new()
 	marker.polygon = PackedVector2Array([Vector2(-18, 0), Vector2(0, -34), Vector2(18, 0), Vector2(0, 10)])
-	marker.color = Color("7ee8fa") if str(content.get("type", "")) == "portal" else Color("ffd166")
+	var content_type := str(content.get("type", ""))
+	marker.color = Color("7ee8fa") if content_type == "portal" else Color("8ee38e") if content_type == "named_event" else Color("ffd166")
 	add_child(marker)
 	_label = Label.new()
 	_label.text = get_display_name()

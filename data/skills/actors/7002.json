@@ -78,18 +78,18 @@
   },
   "6012": {
     "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "74c1514cb18c82f2",
       "entries": [
         {
-          "detail": "ai_min=0 ai_max=300",
-          "kind": "projectile",
-          "max_edge_distance": 300,
-          "min_edge_distance": 0,
           "node_index": 4,
-          "source": "projectile"
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 300,
+          "detail": "ai_min=0 ai_max=300"
         }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "74c1514cb18c82f2"
+      ]
     },
     "cooldown": 1,
     "description": "",
@@ -126,7 +126,7 @@
         "effect_scale": 0.55,
         "follow_target": true,
         "lifetime_ms": 0,
-        "mirror": true,
+        "mirror": false,
         "mirror_with_facing": true,
         "offset_x": -45,
         "offset_y": -97.5,
@@ -152,7 +152,7 @@
         "interval": 0.1,
         "lifetime": 5,
         "max_pierce": 10,
-        "mirror": true,
+        "mirror": false,
         "mirror_with_facing": true,
         "offset_follows_visual_scale": true,
         "offset_mirror_with_facing": true,
@@ -161,7 +161,7 @@
         "origin": "preview_position",
         "result_key": "projectile_hit",
         "rotate_to_velocity": false,
-        "rotation_degrees": -160,
+        "rotation_degrees": 0,
         "scale": 1.2,
         "scene": "res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect.tscn",
         "source_bundle_id": "gong-sho-6012",

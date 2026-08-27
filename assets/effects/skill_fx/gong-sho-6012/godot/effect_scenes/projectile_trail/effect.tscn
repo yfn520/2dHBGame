@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://assets/effects/skill_fx/gong-sho-6012/godot/effect_scenes/projectile_trail/effect_visual.tscn" id="2_visual"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_collision"]
-size = Vector2(32.25, 5.0)
+size = Vector2(37.0, 7.25)
 
 [node name="projectile_trail" type="Area2D"]
 collision_layer = 4
@@ -13,7 +13,7 @@ script = ExtResource("1_projectile")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_collision")
-position = Vector2(-1.75, 0.5)
+position = Vector2(-1.5, 0.25)
 
 [node name="Visual" type="Node2D" parent="."]
 scale = Vector2(0.25, 0.25)

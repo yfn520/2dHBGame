@@ -81,11 +81,11 @@
           "loop": true,
           "transform": {
             "offset": {
-              "x": -61,
-              "y": -99
+              "x": -62,
+              "y": -98
             },
             "scale": 0.3,
-            "rotation_degrees": -160,
+            "rotation_degrees": 0,
             "opacity": 1,
             "tint": "#ffffff"
           },
@@ -109,7 +109,35 @@
             "manual_override": true,
             "faces_by_default": "right",
             "rotation": -160,
-            "flip_h": false
+            "flip_h": false,
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 148,
+              "height": 29
+            },
+            "collisionOffset": {
+              "x": -6,
+              "y": 1
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": true,
+            "autoCalcResult": {
+              "center": {
+                "x": 127.5,
+                "y": 127.5
+              },
+              "size": {
+                "width": 218,
+                "height": 218
+              },
+              "validFrameCount": 1,
+              "totalFrameCount": 1
+            }
           }
         }
       ]
@@ -150,7 +178,10 @@
       "0": -160
     }
   },
-  "previewMirror": {},
+  "previewMirror": {
+    "release_flash": true,
+    "projectile_trail": false
+  },
   "previewFrame": {
     "projectile_trail": 0
   },
