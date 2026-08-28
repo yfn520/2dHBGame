@@ -5,8 +5,10 @@ extends Control
 
 var _party_manager: PartyManager
 var _enemy_spawner: Node
+var _quest_service: QuestService
 var _label: Label
 var _panel: PanelContainer
+var _task_debug_list: VBoxContainer
 
 
 func _ready() -> void:
@@ -16,6 +18,10 @@ func _ready() -> void:
 func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 	_party_manager = party_manager
 	_enemy_spawner = enemy_spawner
+	_quest_service = GameRegistry.quest_service
+	if _quest_service != null and not _quest_service.quest_updated.is_connected(_on_quest_updated):
+		_quest_service.quest_updated.connect(_on_quest_updated)
+	_refresh_task_debug()
 
 
 func toggle_visible() -> void:
@@ -36,7 +42,7 @@ func _build_layout() -> void:
 	_panel.name = "DebugContent"
 	_panel.visible = false
 	_panel.position = Vector2(10, 10)
-	_panel.custom_minimum_size = Vector2(420, 480)
+	_panel.custom_minimum_size = Vector2(520, 680)
 	_panel.theme_type_variation = &"Tooltip"
 	add_child(_panel)
 
@@ -50,7 +56,30 @@ func _build_layout() -> void:
 	_label = Label.new()
 	_label.theme_type_variation = &"HUDValue"
 	_label.add_theme_font_size_override("font_size", 13)
-	margin.add_child(_label)
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 6)
+	margin.add_child(content)
+	content.add_child(_label)
+
+	var separator := HSeparator.new()
+	content.add_child(separator)
+	var task_title := Label.new()
+	task_title.text = "=== 任务卡点 ==="
+	task_title.add_theme_font_size_override("font_size", 15)
+	content.add_child(task_title)
+	var task_hint := Label.new()
+	task_hint.text = "仅开发调试：完成目标后仍走正常 ready / 交付流程"
+	task_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	task_hint.add_theme_color_override("font_color", Color("f0c978"))
+	content.add_child(task_hint)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(0, 260)
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(scroll)
+	_task_debug_list = VBoxContainer.new()
+	_task_debug_list.add_theme_constant_override("separation", 5)
+	_task_debug_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_task_debug_list)
 
 
 func _update_content() -> void:
@@ -122,6 +151,84 @@ func _update_content() -> void:
 					lines.append(enemy.get_ai_debug_text())
 
 	_label.text = "\n".join(lines)
+
+
+func _refresh_task_debug() -> void:
+	if _task_debug_list == null:
+		return
+	for child in _task_debug_list.get_children():
+		child.queue_free()
+	if _quest_service == null:
+		return
+	var has_visible_task := false
+	for quest_value in _quest_service.get_visible_tasks():
+		if not quest_value is Dictionary:
+			continue
+		var quest: Dictionary = quest_value
+		var status := str(quest.get("status", "inactive"))
+		if status not in ["active", "ready"]:
+			continue
+		has_visible_task = true
+		var quest_id := int(quest.get("id", 0))
+		var quest_box := VBoxContainer.new()
+		var quest_title := Label.new()
+		quest_title.text = "%d  %s  [%s]" % [quest_id, str(quest.get("title", "任务")), "可交付" if status == "ready" else "进行中"]
+		quest_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		quest_title.add_theme_color_override("font_color", Color("ffd84d") if status == "active" else Color("6fc7ff"))
+		quest_box.add_child(quest_title)
+		var objectives: Array = quest.get("objectives", [])
+		for index in range(objectives.size()):
+			if not objectives[index] is Dictionary:
+				continue
+			var objective: Dictionary = objectives[index]
+			var objective_id := str(objective.get("id", ""))
+			if objective_id.is_empty():
+				continue
+			var progress := _quest_service.get_objective_progress(quest_id, objective, index)
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 4)
+			var text := Label.new()
+			text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			text.text = "  %s  %d/%d" % [
+				_quest_service.get_objective_text(objective),
+				int(progress.get("current", 0)),
+				int(progress.get("required", 1)),
+			]
+			row.add_child(text)
+			var complete_button := Button.new()
+			complete_button.text = "已完成" if bool(progress.get("complete", false)) else "完成本项"
+			complete_button.disabled = bool(progress.get("complete", false))
+			complete_button.custom_minimum_size.x = 82
+			complete_button.pressed.connect(_on_debug_complete_pressed.bind(quest_id, objective_id))
+			row.add_child(complete_button)
+			if bool(progress.get("debug_completed", false)):
+				var clear_button := Button.new()
+				clear_button.text = "撤销"
+				clear_button.custom_minimum_size.x = 52
+				clear_button.pressed.connect(_on_debug_clear_pressed.bind(quest_id, objective_id))
+				row.add_child(clear_button)
+			quest_box.add_child(row)
+		_task_debug_list.add_child(quest_box)
+	if not has_visible_task:
+		var empty := Label.new()
+		empty.text = "当前没有进行中/可交付任务"
+		empty.add_theme_color_override("font_color", Color("aaa18f"))
+		_task_debug_list.add_child(empty)
+
+
+func _on_debug_complete_pressed(quest_id: int, objective_id: String) -> void:
+	if _quest_service != null and _quest_service.debug_complete_objective(quest_id, objective_id):
+		_refresh_task_debug()
+
+
+func _on_debug_clear_pressed(quest_id: int, objective_id: String) -> void:
+	if _quest_service != null and _quest_service.debug_clear_objective(quest_id, objective_id):
+		_refresh_task_debug()
+
+
+func _on_quest_updated(_quest_id: int) -> void:
+	_refresh_task_debug()
 
 
 func _state_name(state) -> String:

@@ -13931,24 +13931,10 @@
 				"speaker_id": 9002
 			},
 			{
-				"id": "C1-01-B-S01_objective_001",
-				"stageId": "C1-01-B-S01",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 31840,
-				"durationMs": 0,
-				"questId": 21011,
-				"objectiveKey": "pending_c1_01_b_2",
-				"text": "等待目标：待绑定玩法：【选择】是否接受「捞药箱」委托",
-				"payload": "pending_c1_01_b_2"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 31960,
+				"startMs": 31840,
 				"durationMs": 0,
 				"text": "退出阶段：C1-01-B-S01",
 				"payload": "C1-01-B-S01",
@@ -13962,7 +13948,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 32360,
+				"startMs": 32240,
 				"durationMs": 0,
 				"text": "进入阶段：C1-01-B-S02",
 				"payload": "C1-01-B-S02",
@@ -13977,7 +13963,7 @@
 				"nodeId": "C1-01-B.D09K-1",
 				"trackId": "track_choice",
 				"kind": "choice",
-				"startMs": 32360,
+				"startMs": 32240,
 				"durationMs": 400,
 				"text": "玩家选择",
 				"branchId": "player_choice",
@@ -13999,7 +13985,7 @@
 				"id": "C1-01-B-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 32760,
+				"startMs": 32640,
 				"durationMs": 5000,
 				"speaker": "莱昂",
 				"text": "他们把一个不认识的人从裂口里背回来，我不能当作没发生。药箱这一段我接，回来后如果身体撑得住，再去看粮种和信标。",
@@ -14021,7 +14007,7 @@
 				"id": "C1-01-B-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 38560,
+				"startMs": 38440,
 				"durationMs": 3000,
 				"speaker": "伊莱",
 				"text": "要是头晕、伤口又渗血，或者手忽然使不上力，别硬撑，马上回来。",
@@ -14043,7 +14029,7 @@
 				"id": "C1-01-B-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 42360,
+				"startMs": 42240,
 				"durationMs": 2440,
 				"speaker": "莱昂",
 				"text": "我记住了。只要出现一项，我就回来，不往前硬撑。",
@@ -14065,7 +14051,7 @@
 				"id": "C1-01-B-S02_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 45600,
+				"startMs": 45480,
 				"durationMs": 3400,
 				"speaker": "露娜",
 				"text": "一条命我现在还不起，先替他们捞回一车药。后面的路，等我走完这一段再看。",
@@ -14087,7 +14073,7 @@
 				"id": "C1-01-B-S02_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 49800,
+				"startMs": 49680,
 				"durationMs": 2280,
 				"speaker": "柏婶",
 				"text": "救命不记利息，粥得趁热。吃完再逞你的能耐。",
@@ -14109,7 +14095,7 @@
 				"id": "C1-01-B-S02_008",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 52880,
+				"startMs": 52760,
 				"durationMs": 1480,
 				"speaker": "露娜",
 				"text": "听老板的，先还一只碗。",
@@ -14131,7 +14117,7 @@
 				"id": "C1-01-B-S02_009",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 55160,
+				"startMs": 55040,
 				"durationMs": 4520,
 				"speaker": "米娅",
 				"text": "我无法证明过去的身份，但可以完成基础术式和物资回收。药品等待的风险高于继续观察的收益——我愿意接。",
@@ -14153,7 +14139,7 @@
 				"id": "C1-01-B-S02_010",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 60480,
+				"startMs": 60360,
 				"durationMs": 1880,
 				"speaker": "伊莱",
 				"text": "可以。别把自己也算成可接受损耗。",
@@ -14175,7 +14161,7 @@
 				"id": "C1-01-B-S02_011",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 63160,
+				"startMs": 63040,
 				"durationMs": 1160,
 				"speaker": "米娅",
 				"text": "这条我会记住。",
@@ -14197,7 +14183,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 64320,
+				"startMs": 64200,
 				"durationMs": 0,
 				"text": "退出阶段：C1-01-B-S02",
 				"payload": "C1-01-B-S02",
@@ -14217,10 +14203,10 @@
 		"entries": {
 			"9001": 0,
 			"9002": 0,
-			"9016": 38560
+			"9016": 38440
 		},
 		"turn_in_entries": {
-			"9001": 64320
+			"9001": 64200
 		},
 		"stages": [
 			{
@@ -14238,16 +14224,14 @@
 					"C1-01-B.D07",
 					"C1-01-B.D08"
 				],
-				"objective_ids": [
-					"pending_c1_01_b_2"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 31960
+				"end_ms": 31840
 			},
 			{
 				"id": "C1-01-B-S02",
@@ -14271,8 +14255,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 32360,
-				"end_ms": 64320
+				"start_ms": 32240,
+				"end_ms": 64200
 			}
 		]
 	},
@@ -14680,24 +14664,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-01-C-S03_objective_001",
-				"stageId": "C1-01-C-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 41640,
-				"durationMs": 0,
-				"questId": 21012,
-				"objectiveKey": "pending_c1_01_c_3",
-				"text": "等待目标：待绑定玩法：领完装备后交付，任务完成",
-				"payload": "pending_c1_01_c_3"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 41760,
+				"startMs": 41640,
 				"durationMs": 0,
 				"text": "退出阶段：C1-01-C-S03",
 				"payload": "C1-01-C-S03",
@@ -14780,16 +14750,14 @@
 					"C1-01-C.D05",
 					"C1-01-C.D06"
 				],
-				"objective_ids": [
-					"pending_c1_01_c_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 35920,
-				"end_ms": 41760
+				"end_ms": 41640
 			}
 		]
 	},

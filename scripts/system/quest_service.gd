@@ -145,18 +145,25 @@ func turn_in_quest(quest_id: int) -> bool:
 	if state.get_status(quest_id) != "ready" or not _all_objectives_complete(quest_id):
 		return false
 	var quest := config.get_quest(quest_id)
-	for objective_value in quest.get("objectives", []):
+	var quest_objectives: Array = quest.get("objectives", [])
+	for objective_index in range(quest_objectives.size()):
+		var objective_value = quest_objectives[objective_index]
 		if not objective_value is Dictionary:
 			continue
 		var objective: Dictionary = objective_value
 		if str(objective.get("type", "")) == "collect" and bool(objective.get("consume_on_turn_in", false)):
+			if _is_debug_objective_completed(quest_id, objective, objective_index):
+				continue
 			var item_id := int(objective.get("item_id", 0))
 			var count := maxi(1, int(objective.get("count", 1)))
 			if inventory == null or not inventory.has_item(item_id, count):
 				_refresh_ready_state(quest_id)
 				return false
-	for objective_value in quest.get("objectives", []):
+	for objective_index in range(quest_objectives.size()):
+		var objective_value = quest_objectives[objective_index]
 		if objective_value is Dictionary and str(objective_value.get("type", "")) == "collect" and bool(objective_value.get("consume_on_turn_in", false)):
+			if _is_debug_objective_completed(quest_id, objective_value, objective_index):
+				continue
 			inventory.remove_item_by_id(int(objective_value.get("item_id", 0)), maxi(1, int(objective_value.get("count", 1))))
 	var entry := state.get_entry(quest_id)
 	entry["status"] = "completed"
@@ -175,6 +182,8 @@ func get_status(quest_id: int) -> String:
 
 func get_objective_progress(quest_id: int, objective: Dictionary, index: int) -> Dictionary:
 	var required := maxi(1, int(objective.get("count", 1)))
+	if _is_debug_objective_completed(quest_id, objective, index):
+		return {"current": required, "required": required, "complete": true, "debug_completed": true}
 	var current := 0
 	if str(objective.get("type", "")) == "collect":
 		current = inventory.get_count_by_id(int(objective.get("item_id", 0))) if inventory != null else 0
@@ -182,6 +191,59 @@ func get_objective_progress(quest_id: int, objective: Dictionary, index: int) ->
 		var counters: Dictionary = state.get_entry(quest_id).get("counters", {})
 		current = int(counters.get(_objective_key(objective, index), 0))
 	return {"current": mini(current, required), "required": required, "complete": current >= required}
+
+
+## 调试工具：只标记目标进度，不伪造区域/战斗/物品事件；后续仍沿用正常 ready/交付流程。
+func debug_complete_objective(quest_id: int, objective_id: String) -> bool:
+	if config == null or state == null or objective_id.is_empty():
+		return false
+	if state.get_status(quest_id) not in ["active", "ready"]:
+		return false
+	var quest := config.get_quest(quest_id)
+	var found := false
+	for objective_value in quest.get("objectives", []):
+		if objective_value is Dictionary and str(objective_value.get("id", "")) == objective_id:
+			found = true
+			break
+	if not found or _is_debug_objective_completed_by_id(quest_id, objective_id):
+		return false
+	var entry := state.get_entry(quest_id)
+	var completed: Array = entry.get("debug_completed_objectives", []) as Array
+	completed.append(objective_id)
+	entry["debug_completed_objectives"] = completed
+	state.set_entry(quest_id, entry)
+	objective_completed.emit(quest_id, objective_id)
+	_refresh_ready_state(quest_id)
+	quest_updated.emit(quest_id)
+	GameRegistry.save_game()
+	return true
+
+
+func debug_clear_objective(quest_id: int, objective_id: String) -> bool:
+	if state == null or objective_id.is_empty():
+		return false
+	var entry := state.get_entry(quest_id)
+	var completed: Array = entry.get("debug_completed_objectives", []) as Array
+	if not completed.has(objective_id):
+		return false
+	completed.erase(objective_id)
+	entry["debug_completed_objectives"] = completed
+	state.set_entry(quest_id, entry)
+	_refresh_ready_state(quest_id)
+	quest_updated.emit(quest_id)
+	GameRegistry.save_game()
+	return true
+
+
+func _is_debug_objective_completed(quest_id: int, objective: Dictionary, index: int) -> bool:
+	return _is_debug_objective_completed_by_id(quest_id, _objective_key(objective, index))
+
+
+func _is_debug_objective_completed_by_id(quest_id: int, objective_id: String) -> bool:
+	if state == null:
+		return false
+	var completed: Array = state.get_entry(quest_id).get("debug_completed_objectives", []) as Array
+	return completed.has(objective_id)
 
 
 func get_visible_tasks() -> Array[Dictionary]:

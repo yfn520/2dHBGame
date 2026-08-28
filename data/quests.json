@@ -100,7 +100,9 @@
 			}
 		},
 		"required_quest_ids": [],
-		"level_id": 1
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"21011": {
 		"id": 21011,
@@ -117,13 +119,6 @@
 				"id": "talk_9001",
 				"type": "talk",
 				"npc_id": 9001,
-				"count": 1
-			},
-			{
-				"id": "pending_c1_01_b_2",
-				"type": "named_event",
-				"event_name": "pending_c1_01_b_2",
-				"name": "待绑定玩法：【选择】是否接受「捞药箱」委托",
 				"count": 1
 			}
 		],
@@ -144,8 +139,7 @@
 					"C1-01-B.D08"
 				],
 				"objective_ids": [
-					"talk_9001",
-					"pending_c1_01_b_2"
+					"talk_9001"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -194,13 +188,15 @@
 			"npc_entries": {
 				"9001": 0,
 				"9002": 0,
-				"9016": 38560
+				"9016": 38440
 			}
 		},
 		"required_quest_ids": [
 			21010
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"21012": {
 		"id": 21012,
@@ -223,13 +219,6 @@
 				"id": "talk_9045",
 				"type": "talk",
 				"npc_id": 9045,
-				"count": 1
-			},
-			{
-				"id": "pending_c1_01_c_3",
-				"type": "named_event",
-				"event_name": "pending_c1_01_c_3",
-				"name": "待绑定玩法：领完装备后交付，任务完成",
 				"count": 1
 			}
 		],
@@ -287,9 +276,7 @@
 					"C1-01-C.D05",
 					"C1-01-C.D06"
 				],
-				"objective_ids": [
-					"pending_c1_01_c_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
