@@ -473,7 +473,7 @@
 				"id": "pending_c1_02_a_4",
 				"type": "named_event",
 				"event_name": "pending_c1_02_a_4",
-				"name": "待绑定玩法：采集可用星露草 ×3（高处未浸污水处）",
+				"name": "采集可用星露草 ×3（高处未浸污水处）",
 				"count": 1
 			}
 		],
@@ -700,7 +700,7 @@
 				"id": "area_c1_03_a_route_entered",
 				"type": "area_trigger",
 				"event_name": "c1_03_a_route_entered",
-				"name": "进入塌方农路（区域事件：c1_03_a_route_entered）",
+				"name": "进入塌方农路",
 				"count": 1
 			},
 			{
@@ -714,7 +714,7 @@
 				"id": "area_c1_03_a_nursery_arrived",
 				"type": "area_trigger",
 				"event_name": "c1_03_a_nursery_arrived",
-				"name": "抵达育苗棚（区域事件：c1_03_a_nursery_arrived）并与桑叔交付粮种",
+				"name": "抵达育苗棚并与桑叔交付粮种",
 				"count": 1
 			}
 		],
@@ -868,7 +868,7 @@
 				"id": "area_c1_04_a_beacon_arrived",
 				"type": "area_trigger",
 				"event_name": "c1_04_a_beacon_arrived",
-				"name": "进入外围信标塔（区域事件：c1_04_a_beacon_arrived）",
+				"name": "进入外围信标塔",
 				"count": 1
 			},
 			{
@@ -897,14 +897,14 @@
 				"id": "pending_c1_04_a_6",
 				"type": "named_event",
 				"event_name": "pending_c1_04_a_6",
-				"name": "待绑定玩法：按三拍节奏装回控制环（QTE/节奏解谜）",
+				"name": "按三拍节奏装回控制环（QTE/节奏解谜）",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_04_a_7",
 				"type": "named_event",
 				"event_name": "pending_c1_04_a_7",
-				"name": "待绑定玩法：信标亮起，收到两处救援点回应",
+				"name": "信标亮起，收到两处救援点回应",
 				"count": 1
 			}
 		],
@@ -1049,7 +1049,7 @@
 				"id": "pending_c1_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_04_b_1",
-				"name": "待绑定玩法：【玩家选择】`SecondHero`（决定下一段会合对象）",
+				"name": "`SecondHero`（决定下一段会合对象）",
 				"count": 1
 			}
 		],
@@ -1110,21 +1110,21 @@
 				"id": "pending_c1_05_a_1",
 				"type": "named_event",
 				"event_name": "pending_c1_05_a_1",
-				"name": "待绑定玩法：调查救援痕迹 3/3（追踪进度）",
+				"name": "调查救援痕迹 3/3（追踪进度）",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_05_a_2",
 				"type": "named_event",
 				"event_name": "pending_c1_05_a_2",
-				"name": "待绑定玩法：与第二名主角会合并合力突围",
+				"name": "与第二名主角会合并合力突围",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_05_a_3",
 				"type": "named_event",
 				"event_name": "pending_c1_05_a_3",
-				"name": "待绑定玩法：击败渊蚀兽 ×5、精英 ×1，掩护最后两名居民撤离",
+				"name": "击败渊蚀兽 ×5、精英 ×1，掩护最后两名居民撤离",
 				"count": 1
 			}
 		],
@@ -1234,7 +1234,7 @@
 				"id": "pending_c1_05_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_05_b_2",
-				"name": "待绑定玩法：在霍雷克的临时同行契约上登记第二名主角身份",
+				"name": "在霍雷克的临时同行契约上登记第二名主角身份",
 				"count": 1
 			}
 		],
@@ -1356,11 +1356,12 @@
 		"turn_in_npc_id": 9003,
 		"objectives": [
 			{
-				"id": "pending_c1_06_a_2",
-				"type": "named_event",
-				"event_name": "pending_c1_06_a_2",
-				"name": "待绑定玩法：从三处漂流物堆找回信件束（战斗：轻量史莱姆群）",
-				"count": 1
+				"id": "collect_100248",
+				"type": "collect",
+				"item_id": 100248,
+				"count": 1,
+				"name": "从三处漂流物堆找回信件束（战斗：轻量史莱姆群）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -1394,9 +1395,7 @@
 					"C1-06-A.D04b-2",
 					"C1-06-A.D04c-1"
 				],
-				"objective_ids": [
-					"pending_c1_06_a_2"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1416,7 +1415,9 @@
 					"C1-06-A.D07c-1",
 					"C1-06-A.D07c-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"collect_100248"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1457,14 +1458,14 @@
 				"id": "pending_c1_06_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_06_b_1",
-				"name": "待绑定玩法：护送退热药与第一捆信过绳桥",
+				"name": "护送退热药与第一捆信过绳桥",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_06_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_06_b_2",
-				"name": "待绑定玩法：完成过河顺序管理（限人/限包）",
+				"name": "完成过河顺序管理（限人/限包）",
 				"count": 1
 			}
 		],
@@ -1625,21 +1626,21 @@
 				"id": "pending_c1_07_a_1",
 				"type": "named_event",
 				"event_name": "pending_c1_07_a_1",
-				"name": "待绑定玩法：护送补给队把灯油送到第二座灯",
+				"name": "护送补给队把灯油送到第二座灯",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_07_a_2",
 				"type": "named_event",
 				"event_name": "pending_c1_07_a_2",
-				"name": "待绑定玩法：双人分工守点与校准，取得星火芯 ×2",
+				"name": "双人分工守点与校准，取得星火芯 ×2",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_07_a_3",
 				"type": "named_event",
 				"event_name": "pending_c1_07_a_3",
-				"name": "待绑定玩法：点亮第二信标",
+				"name": "点亮第二信标",
 				"count": 1
 			}
 		],
@@ -1722,7 +1723,7 @@
 				"id": "pending_c1_07_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_07_b_2",
-				"name": "待绑定玩法：会合并完成入队对白",
+				"name": "会合并完成入队对白",
 				"count": 1
 			}
 		],
@@ -2007,7 +2008,7 @@
 				"id": "pending_c1_08_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_08_b_1",
-				"name": "待绑定玩法：三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
+				"name": "三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
 				"count": 1
 			}
 		],
@@ -2070,14 +2071,14 @@
 				"id": "pending_c1_08_c_3",
 				"type": "named_event",
 				"event_name": "pending_c1_08_c_3",
-				"name": "待绑定玩法：护送补给队过桥后开打",
+				"name": "护送补给队过桥后开打",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_08_c_4",
 				"type": "named_event",
 				"event_name": "pending_c1_08_c_4",
-				"name": "待绑定玩法：战后调查残甲、盾步与封令",
+				"name": "战后调查残甲、盾步与封令",
 				"count": 1
 			}
 		],
@@ -2261,7 +2262,7 @@
 				"id": "pending_c2_01_a_2",
 				"type": "named_event",
 				"event_name": "pending_c2_01_a_2",
-				"name": "待绑定玩法：调查守门兵遗响与墙上刻痕",
+				"name": "调查守门兵遗响与墙上刻痕",
 				"count": 1
 			}
 		],
@@ -2338,7 +2339,7 @@
 				"id": "pending_c2_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_01_b_1",
-				"name": "待绑定玩法：沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
+				"name": "沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
 				"count": 1
 			}
 		],
@@ -2401,14 +2402,14 @@
 				"id": "pending_c2_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_01_c_1",
-				"name": "待绑定玩法：击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
+				"name": "击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_01_c_5",
 				"type": "named_event",
 				"event_name": "pending_c2_01_c_5",
-				"name": "待绑定玩法：完成风车试装（装好但未启动）",
+				"name": "完成风车试装（装好但未启动）",
 				"count": 1
 			}
 		],
@@ -2526,7 +2527,7 @@
 				"id": "pending_c2_02_a_1",
 				"type": "named_event",
 				"event_name": "pending_c2_02_a_1",
-				"name": "待绑定玩法：三人协作开门引风，启动风车，恢复旧录音",
+				"name": "三人协作开门引风，启动风车，恢复旧录音",
 				"count": 1
 			}
 		],
@@ -2605,14 +2606,14 @@
 				"id": "pending_c2_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_02_b_1",
-				"name": "待绑定玩法：露娜引导孩子跨过门槛（路线选择权归孩子）",
+				"name": "露娜引导孩子跨过门槛（路线选择权归孩子）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c2_02_b_2",
-				"name": "待绑定玩法：护送孩子走完全程，击退守门魔偶 ×6（两波）",
+				"name": "护送孩子走完全程，击退守门魔偶 ×6（两波）",
 				"count": 1
 			}
 		],
@@ -2689,21 +2690,21 @@
 				"id": "pending_c2_02_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_1",
-				"name": "待绑定玩法：【关键操作】玩家手动拉下门闩（按 LeadHero 分支演出）",
+				"name": "玩家手动拉下门闩（按 LeadHero 分支演出）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_2",
-				"name": "待绑定玩法：守门兵遗响完成最后一次计数，循环结束",
+				"name": "守门兵遗响完成最后一次计数，循环结束",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_c_3",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_3",
-				"name": "待绑定玩法：封存两版命令与全部证物",
+				"name": "封存两版命令与全部证物",
 				"count": 1
 			}
 		],
@@ -2804,7 +2805,7 @@
 				"id": "pending_c2_03_a_2",
 				"type": "named_event",
 				"event_name": "pending_c2_03_a_2",
-				"name": "待绑定玩法：【主角机关】`LeadHero` 独自通过房间考验（按职业三选一）",
+				"name": "`LeadHero` 独自通过房间考验（按职业三选一）",
 				"count": 1
 			}
 		],
@@ -2885,7 +2886,7 @@
 				"id": "pending_c2_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_03_b_1",
-				"name": "待绑定玩法：击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
+				"name": "击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
 				"count": 1
 			}
 		],
@@ -2942,14 +2943,14 @@
 				"id": "pending_c2_03_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_03_c_1",
-				"name": "待绑定玩法：取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
+				"name": "取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_03_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_03_c_2",
-				"name": "待绑定玩法：交付检查（按 LeadHero 分支）",
+				"name": "交付检查（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -3029,14 +3030,14 @@
 				"id": "pending_c2_04_a_1",
 				"type": "named_event",
 				"event_name": "pending_c2_04_a_1",
-				"name": "待绑定玩法：依次关闭钟楼三层齿轮锁（机关）",
+				"name": "依次关闭钟楼三层齿轮锁（机关）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_04_a_3",
 				"type": "named_event",
 				"event_name": "pending_c2_04_a_3",
-				"name": "待绑定玩法：Boss 战·阿尔戈（战斗目标是接班而非摧毁）：莱昂引开重锤、露娜偏钟半拍、米娅报窗口",
+				"name": "Boss 战·阿尔戈（战斗目标是接班而非摧毁）：莱昂引开重锤、露娜偏钟半拍、米娅报窗口",
 				"count": 1
 			}
 		],
@@ -3118,14 +3119,14 @@
 				"id": "pending_c2_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_04_b_1",
-				"name": "待绑定玩法：确认四座副钟连续接拍（机关验证）",
+				"name": "确认四座副钟连续接拍（机关验证）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_04_b_3",
 				"type": "named_event",
 				"event_name": "pending_c2_04_b_3",
-				"name": "待绑定玩法：调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
+				"name": "调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
 				"count": 1
 			}
 		],
@@ -3229,7 +3230,7 @@
 				"id": "pending_c2_04_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_04_c_2",
-				"name": "待绑定玩法：霍雷克远程见证封存，章节结算",
+				"name": "霍雷克远程见证封存，章节结算",
 				"count": 1
 			}
 		],
@@ -3308,10 +3309,18 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
+				"id": "collect_100249",
+				"type": "collect",
+				"item_id": 100249,
+				"count": 5,
+				"name": "穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
+				"consume_on_turn_in": true
+			},
+			{
 				"id": "pending_c3_01_a_2",
 				"type": "named_event",
 				"event_name": "pending_c3_01_a_2",
-				"name": "待绑定玩法：穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
+				"name": "穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
 				"count": 1
 			},
 			{
@@ -3353,6 +3362,7 @@
 					"C3-01-A.D07"
 				],
 				"objective_ids": [
+					"collect_100249",
 					"pending_c3_01_a_2"
 				],
 				"failure_policy": "retry_stage",
@@ -3396,7 +3406,7 @@
 				"id": "pending_c3_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_01_b_1",
-				"name": "待绑定玩法：把三组「错误答案」标回平面图，连成通往封存区的路线",
+				"name": "把三组「错误答案」标回平面图，连成通往封存区的路线",
 				"count": 1
 			}
 		],
@@ -3499,14 +3509,14 @@
 				"id": "pending_c3_02_a_1",
 				"type": "named_event",
 				"event_name": "pending_c3_02_a_1",
-				"name": "待绑定玩法：处理首塔点亮的负载危机（过场）",
+				"name": "处理首塔点亮的负载危机（过场）",
 				"count": 1
 			},
 			{
 				"id": "pending_c3_02_a_2",
 				"type": "named_event",
 				"event_name": "pending_c3_02_a_2",
-				"name": "待绑定玩法：击败四类元素体共 8 只，取得火、水、风、土烛芯",
+				"name": "击败四类元素体共 8 只，取得火、水、风、土烛芯",
 				"count": 1
 			}
 		],
@@ -3582,14 +3592,14 @@
 				"id": "pending_c3_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_02_b_1",
-				"name": "待绑定玩法：【玩家选择】点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
+				"name": "点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
 				"count": 1
 			},
 			{
 				"id": "pending_c3_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c3_02_b_2",
-				"name": "待绑定玩法：主角完成最后一塔（按 LeadHero 分支）",
+				"name": "主角完成最后一塔（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -3602,9 +3612,7 @@
 				"node_ids": [
 					"C3-02-B.D01"
 				],
-				"objective_ids": [
-					"pending_c3_02_b_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3657,6 +3665,7 @@
 					"C3-02-B.D11"
 				],
 				"objective_ids": [
+					"pending_c3_02_b_1",
 					"pending_c3_02_b_2"
 				],
 				"failure_policy": "retry_stage",
@@ -3701,11 +3710,12 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "pending_c3_03_a_1",
-				"type": "named_event",
-				"event_name": "pending_c3_03_a_1",
-				"name": "待绑定玩法：从书灵长廊找回点名册缺页 ×3（每页同时保留正式学生与杂役物件编号）",
-				"count": 1
+				"id": "collect_100250",
+				"type": "collect",
+				"item_id": 100250,
+				"count": 3,
+				"name": "从书灵长廊找回点名册缺页 ×3（每页同时保留正式学生与杂役物件编号）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -3722,7 +3732,7 @@
 					"C3-03-A.D05"
 				],
 				"objective_ids": [
-					"pending_c3_03_a_1"
+					"collect_100250"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3764,7 +3774,7 @@
 				"id": "pending_c3_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_03_b_1",
-				"name": "待绑定玩法：护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
+				"name": "护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
 				"count": 1
 			}
 		],
@@ -3906,21 +3916,21 @@
 				"id": "pending_c3_04_a_2",
 				"type": "named_event",
 				"event_name": "pending_c3_04_a_2",
-				"name": "待绑定玩法：Boss 战·露米娜：打断召唤魔偶、保护点名册；每熔一灯报一次「记录已转移」",
+				"name": "Boss 战·露米娜：打断召唤魔偶、保护点名册；每熔一灯报一次「记录已转移」",
 				"count": 1
 			},
 			{
 				"id": "pending_c3_04_a_3",
 				"type": "named_event",
 				"event_name": "pending_c3_04_a_3",
-				"name": "待绑定玩法：主角完成最终失衡（按 LeadHero 分支）",
+				"name": "主角完成最终失衡（按 LeadHero 分支）",
 				"count": 1
 			},
 			{
 				"id": "pending_c3_04_a_4",
 				"type": "named_event",
 				"event_name": "pending_c3_04_a_4",
-				"name": "待绑定玩法：十七号完成最终考试：答案「回家」，离校手续完成",
+				"name": "十七号完成最终考试：答案「回家」，离校手续完成",
 				"count": 1
 			}
 		],
@@ -4018,7 +4028,7 @@
 				"id": "pending_c3_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_04_b_1",
-				"name": "待绑定玩法：调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
+				"name": "调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
 				"count": 1
 			}
 		],
@@ -4182,7 +4192,7 @@
 				"id": "pending_c4_01_a_2",
 				"type": "named_event",
 				"event_name": "pending_c4_01_a_2",
-				"name": "待绑定玩法：听守塔人说明求助，三人定修复方案：莱昂卸反向力、米娅用磨痕校正潮汐钟、露娜定照射方向",
+				"name": "听守塔人说明求助，三人定修复方案：莱昂卸反向力、米娅用磨痕校正潮汐钟、露娜定照射方向",
 				"count": 1
 			}
 		],
@@ -4255,14 +4265,14 @@
 				"id": "pending_c4_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c4_01_b_1",
-				"name": "待绑定玩法：击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
+				"name": "击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_01_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_01_b_2",
-				"name": "待绑定玩法：由守塔人说明安装依据（白痕朝海，按旧磨口接）",
+				"name": "由守塔人说明安装依据（白痕朝海，按旧磨口接）",
 				"count": 1
 			}
 		],
@@ -4320,7 +4330,7 @@
 				"id": "pending_c4_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c4_01_c_1",
-				"name": "待绑定玩法：清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
+				"name": "清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
 				"count": 1
 			}
 		],
@@ -4473,14 +4483,14 @@
 				"id": "pending_c4_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c4_02_b_1",
-				"name": "待绑定玩法：击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
+				"name": "击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_02_b_2",
-				"name": "待绑定玩法：两段回音锚链落位，开启左右绞盘",
+				"name": "两段回音锚链落位，开启左右绞盘",
 				"count": 1
 			}
 		],
@@ -4540,7 +4550,7 @@
 				"id": "pending_c4_02_c_1",
 				"type": "named_event",
 				"event_name": "pending_c4_02_c_1",
-				"name": "待绑定玩法：辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
+				"name": "辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
 				"count": 1
 			}
 		],
@@ -4618,7 +4628,7 @@
 				"id": "pending_c4_03_a_1",
 				"type": "named_event",
 				"event_name": "pending_c4_03_a_1",
-				"name": "待绑定玩法：纽扣与雨衣维修拓片逐针比对，取得旧船名与最后报位坐标",
+				"name": "纽扣与雨衣维修拓片逐针比对，取得旧船名与最后报位坐标",
 				"count": 1
 			}
 		],
@@ -4675,14 +4685,14 @@
 				"id": "pending_c4_03_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_03_b_2",
-				"name": "待绑定玩法：击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
+				"name": "击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_03_b_3",
 				"type": "named_event",
 				"event_name": "pending_c4_03_b_3",
-				"name": "待绑定玩法：驾驶舱内取得未寄出的家书与日志录音",
+				"name": "驾驶舱内取得未寄出的家书与日志录音",
 				"count": 1
 			}
 		],
@@ -4758,14 +4768,14 @@
 				"id": "pending_c4_03_c_2",
 				"type": "named_event",
 				"event_name": "pending_c4_03_c_2",
-				"name": "待绑定玩法：主角回应（按 LeadHero 分支）",
+				"name": "主角回应（按 LeadHero 分支）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_03_c_3",
 				"type": "named_event",
 				"event_name": "pending_c4_03_c_3",
-				"name": "待绑定玩法：登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
+				"name": "登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
 				"count": 1
 			}
 		],
@@ -4865,7 +4875,7 @@
 				"id": "pending_c4_04_a_3",
 				"type": "named_event",
 				"event_name": "pending_c4_04_a_3",
-				"name": "待绑定玩法：关闭最后一枚贝壳，赛壬退为低强度残响",
+				"name": "关闭最后一枚贝壳，赛壬退为低强度残响",
 				"count": 1
 			}
 		],
@@ -4938,7 +4948,7 @@
 				"id": "pending_c4_04_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_04_b_2",
-				"name": "待绑定玩法：先完成三份原件备份，再通讯对质",
+				"name": "先完成三份原件备份，再通讯对质",
 				"count": 1
 			},
 			{
@@ -5184,28 +5194,28 @@
 				"id": "pending_c5_01_a_1",
 				"type": "named_event",
 				"event_name": "pending_c5_01_a_1",
-				"name": "待绑定玩法：见证登记困境（过场）：系统标为全员撤离，粮票无法签收",
+				"name": "见证登记困境（过场）：系统标为全员撤离，粮票无法签收",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_01_a_2",
 				"type": "named_event",
 				"event_name": "pending_c5_01_a_2",
-				"name": "待绑定玩法：与记数老人约定逐户登记方式",
+				"name": "与记数老人约定逐户登记方式",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_01_a_3",
 				"type": "named_event",
 				"event_name": "pending_c5_01_a_3",
-				"name": "待绑定玩法：走访药铺、面摊、修械棚，收集三户证据 3/3",
+				"name": "走访药铺、面摊、修械棚，收集三户证据 3/3",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_01_a_4",
 				"type": "named_event",
 				"event_name": "pending_c5_01_a_4",
-				"name": "待绑定玩法：清理阻断登记路线的灰烬亡灵 ×6",
+				"name": "清理阻断登记路线的灰烬亡灵 ×6",
 				"count": 1
 			}
 		],
@@ -5287,7 +5297,7 @@
 				"id": "pending_c5_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_01_b_1",
-				"name": "待绑定玩法：记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
+				"name": "记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
 				"count": 1
 			}
 		],
@@ -5365,7 +5375,7 @@
 				"id": "pending_c5_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c5_01_c_1",
-				"name": "待绑定玩法：三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
+				"name": "三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
 				"count": 1
 			}
 		],
@@ -5428,7 +5438,7 @@
 				"id": "pending_c5_02_a_2",
 				"type": "named_event",
 				"event_name": "pending_c5_02_a_2",
-				"name": "待绑定玩法：找回断裂钟锤两段与撤离名单缺页 ×2（三源：焦黑脚印/撤离队形/机械时间）",
+				"name": "找回断裂钟锤两段与撤离名单缺页 ×2（三源：焦黑脚印/撤离队形/机械时间）",
 				"count": 1
 			}
 		],
@@ -5493,14 +5503,14 @@
 				"id": "pending_c5_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_02_b_1",
-				"name": "待绑定玩法：击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
+				"name": "击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_02_b_3",
 				"type": "named_event",
 				"event_name": "pending_c5_02_b_3",
-				"name": "待绑定玩法：备用门三道机关按名单顺序开启；多恩遗响消散",
+				"name": "备用门三道机关按名单顺序开启；多恩遗响消散",
 				"count": 1
 			}
 		],
@@ -5637,14 +5647,14 @@
 				"id": "pending_c5_03_a_2",
 				"type": "named_event",
 				"event_name": "pending_c5_03_a_2",
-				"name": "待绑定玩法：军务锁读取誓印：「直属盾卫队长：有效；直属统领栏：已刮除」，拓纸记录刮痕",
+				"name": "军务锁读取誓印：「直属盾卫队长：有效；直属统领栏：已刮除」，拓纸记录刮痕",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_03_a_4",
 				"type": "named_event",
 				"event_name": "pending_c5_03_a_4",
-				"name": "待绑定玩法：米娅关闭焚毁术式，发现复核签名被削与津贴编号缺失，主动分开装袋",
+				"name": "米娅关闭焚毁术式，发现复核签名被削与津贴编号缺失，主动分开装袋",
 				"count": 1
 			}
 		],
@@ -5712,7 +5722,7 @@
 				"id": "pending_c5_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_03_b_1",
-				"name": "待绑定玩法：击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
+				"name": "击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
 				"count": 1
 			}
 		],
@@ -5843,7 +5853,7 @@
 				"id": "pending_c5_04_a_2",
 				"type": "named_event",
 				"event_name": "pending_c5_04_a_2",
-				"name": "待绑定玩法：Boss 战·雷欧哈特：战斗围绕档案封条与火线，证据区不得燃尽",
+				"name": "Boss 战·雷欧哈特：战斗围绕档案封条与火线，证据区不得燃尽",
 				"count": 1
 			},
 			{
@@ -5940,7 +5950,7 @@
 				"id": "pending_c5_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_04_b_1",
-				"name": "待绑定玩法：取得岗位名册、星楔转换记录、永曜预算残页",
+				"name": "取得岗位名册、星楔转换记录、永曜预算残页",
 				"count": 1
 			},
 			{
@@ -6073,7 +6083,7 @@
 				"id": "pending_c5_04_d_3",
 				"type": "named_event",
 				"event_name": "pending_c5_04_d_3",
-				"name": "待绑定玩法：主契遗装写入三名当前调查成员（系统）",
+				"name": "主契遗装写入三名当前调查成员（系统）",
 				"count": 1
 			}
 		],
@@ -6253,21 +6263,21 @@
 				"id": "pending_c6_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_1",
-				"name": "待绑定玩法：防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
+				"name": "防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_01_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_2",
-				"name": "待绑定玩法：调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
+				"name": "调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_01_b_3",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_3",
-				"name": "待绑定玩法：交付：三人带着返程约定进入内环（按 LeadHero 分支）",
+				"name": "交付：三人带着返程约定进入内环（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -6353,7 +6363,7 @@
 				"id": "pending_c6_02_a_1",
 				"type": "named_event",
 				"event_name": "pending_c6_02_a_1",
-				"name": "待绑定玩法：四处调查（餐具/轮值板/旧图/双头笔与环境物件），只记录可见事实",
+				"name": "四处调查（餐具/轮值板/旧图/双头笔与环境物件），只记录可见事实",
 				"count": 1
 			}
 		],
@@ -6427,14 +6437,14 @@
 				"id": "pending_c6_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_02_b_1",
-				"name": "待绑定玩法：【拉锯】是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
+				"name": "是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_02_b_2",
-				"name": "待绑定玩法：三人围第四空位完成一次免费配装（空位保持无人坐下）",
+				"name": "三人围第四空位完成一次免费配装（空位保持无人坐下）",
 				"count": 1
 			}
 		],
@@ -6497,7 +6507,7 @@
 				"id": "pending_c6_03_a_2",
 				"type": "named_event",
 				"event_name": "pending_c6_03_a_2",
-				"name": "待绑定玩法：击败王室构造体 ×4、灌注守卫精英 ×1（战斗目标含保全证据：护铭印/截焚档/冻清除术式）",
+				"name": "击败王室构造体 ×4、灌注守卫精英 ×1（战斗目标含保全证据：护铭印/截焚档/冻清除术式）",
 				"count": 1
 			}
 		],
@@ -6554,21 +6564,21 @@
 				"id": "pending_c6_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_1",
-				"name": "待绑定玩法：调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
+				"name": "调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_03_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_2",
-				"name": "待绑定玩法：调查二：内层参数无创伤闭合/失血恢复/战伤评估",
+				"name": "调查二：内层参数无创伤闭合/失血恢复/战伤评估",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_03_b_3",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_3",
-				"name": "待绑定玩法：调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
+				"name": "调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
 				"count": 1
 			}
 		],
@@ -6658,7 +6668,7 @@
 				"id": "pending_c6_03_c_1",
 				"type": "named_event",
 				"event_name": "pending_c6_03_c_1",
-				"name": "待绑定玩法：【玩家选择】剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
+				"name": "剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
 				"count": 1
 			}
 		],
@@ -6711,7 +6721,7 @@
 				"id": "pending_c6_04_a_3",
 				"type": "named_event",
 				"event_name": "pending_c6_04_a_3",
-				"name": "待绑定玩法：【玩家操作】按邮路、粮道、救援航线顺序重排六楔，设置记忆吞噬阈值自动停机",
+				"name": "按邮路、粮道、救援航线顺序重排六楔，设置记忆吞噬阈值自动停机",
 				"count": 1
 			}
 		],
@@ -6787,7 +6797,7 @@
 				"id": "pending_c6_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_04_b_1",
-				"name": "待绑定玩法：两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
+				"name": "两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
 				"count": 1
 			}
 		],
@@ -6959,7 +6969,7 @@
 				"id": "pending_c6_05_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_05_b_2",
-				"name": "待绑定玩法：第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
+				"name": "第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
 				"count": 1
 			}
 		],
@@ -7221,7 +7231,7 @@
 				"id": "pending_c6_06_a_1",
 				"type": "named_event",
 				"event_name": "pending_c6_06_a_1",
-				"name": "待绑定玩法：三份证据依次读取（军令附页/被削薄返程图/预写公报与隔离密令）；通讯拒绝「保护性隔离」；主出口被远程封闭",
+				"name": "三份证据依次读取（军令附页/被削薄返程图/预写公报与隔离密令）；通讯拒绝「保护性隔离」；主出口被远程封闭",
 				"count": 1
 			}
 		],

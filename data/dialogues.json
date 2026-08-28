@@ -15554,7 +15554,7 @@
 				"durationMs": 0,
 				"questId": 21020,
 				"objectiveKey": "pending_c1_02_a_4",
-				"text": "等待目标：待绑定玩法：采集可用星露草 ×3（高处未浸污水处）",
+				"text": "等待目标：采集可用星露草 ×3（高处未浸污水处）",
 				"payload": "pending_c1_02_a_4"
 			},
 			{
@@ -17484,7 +17484,7 @@
 				"durationMs": 0,
 				"questId": 21040,
 				"objectiveKey": "pending_c1_04_a_6",
-				"text": "等待目标：待绑定玩法：按三拍节奏装回控制环（QTE/节奏解谜）",
+				"text": "等待目标：按三拍节奏装回控制环（QTE/节奏解谜）",
 				"payload": "pending_c1_04_a_6"
 			},
 			{
@@ -17498,7 +17498,7 @@
 				"durationMs": 0,
 				"questId": 21040,
 				"objectiveKey": "pending_c1_04_a_7",
-				"text": "等待目标：待绑定玩法：信标亮起，收到两处救援点回应",
+				"text": "等待目标：信标亮起，收到两处救援点回应",
 				"payload": "pending_c1_04_a_7"
 			},
 			{
@@ -17955,7 +17955,7 @@
 				"durationMs": 0,
 				"questId": 21041,
 				"objectiveKey": "pending_c1_04_b_1",
-				"text": "等待目标：待绑定玩法：【玩家选择】`SecondHero`（决定下一段会合对象）",
+				"text": "等待目标：`SecondHero`（决定下一段会合对象）",
 				"payload": "pending_c1_04_b_1"
 			},
 			{
@@ -18071,7 +18071,7 @@
 				"durationMs": 0,
 				"questId": 21050,
 				"objectiveKey": "pending_c1_05_a_1",
-				"text": "等待目标：待绑定玩法：调查救援痕迹 3/3（追踪进度）",
+				"text": "等待目标：调查救援痕迹 3/3（追踪进度）",
 				"payload": "pending_c1_05_a_1"
 			},
 			{
@@ -18748,7 +18748,7 @@
 				"durationMs": 0,
 				"questId": 21050,
 				"objectiveKey": "pending_c1_05_a_2",
-				"text": "等待目标：待绑定玩法：与第二名主角会合并合力突围",
+				"text": "等待目标：与第二名主角会合并合力突围",
 				"payload": "pending_c1_05_a_2"
 			},
 			{
@@ -18762,7 +18762,7 @@
 				"durationMs": 0,
 				"questId": 21050,
 				"objectiveKey": "pending_c1_05_a_3",
-				"text": "等待目标：待绑定玩法：击败渊蚀兽 ×5、精英 ×1，掩护最后两名居民撤离",
+				"text": "等待目标：击败渊蚀兽 ×5、精英 ×1，掩护最后两名居民撤离",
 				"payload": "pending_c1_05_a_3"
 			},
 			{
@@ -19422,7 +19422,7 @@
 				"durationMs": 0,
 				"questId": 21051,
 				"objectiveKey": "pending_c1_05_b_2",
-				"text": "等待目标：待绑定玩法：在霍雷克的临时同行契约上登记第二名主角身份",
+				"text": "等待目标：在霍雷克的临时同行契约上登记第二名主角身份",
 				"payload": "pending_c1_05_b_2"
 			},
 			{
@@ -19833,24 +19833,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"id": "C1-06-A-S02_objective_001",
-				"stageId": "C1-06-A-S02",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 26520,
-				"durationMs": 0,
-				"questId": 21060,
-				"objectiveKey": "pending_c1_06_a_2",
-				"text": "等待目标：待绑定玩法：从三处漂流物堆找回信件束（战斗：轻量史莱姆群）",
-				"payload": "pending_c1_06_a_2"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 26640,
+				"startMs": 26520,
 				"durationMs": 0,
 				"text": "退出阶段：C1-06-A-S02",
 				"payload": "C1-06-A-S02",
@@ -19864,7 +19850,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 27040,
+				"startMs": 26920,
 				"durationMs": 0,
 				"text": "进入阶段：C1-06-A-S03",
 				"payload": "C1-06-A-S03",
@@ -19877,7 +19863,7 @@
 				"id": "C1-06-A-S03_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 27040,
+				"startMs": 26920,
 				"durationMs": 2760,
 				"speaker": "露娜",
 				"text": "人能过，药车不能。先架绳送药，再让工匠决定新桥落哪儿。",
@@ -19904,7 +19890,7 @@
 				"id": "C1-06-A-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 30200,
+				"startMs": 30080,
 				"durationMs": 2200,
 				"speaker": "莱昂",
 				"text": "我守绳头，你定过河顺序。地图留给下一班。",
@@ -19931,7 +19917,7 @@
 				"id": "C1-06-A-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 32800,
+				"startMs": 32680,
 				"durationMs": 2920,
 				"speaker": "米娅",
 				"text": "桥墩还在，但地层每隔一阵会震。先测周期，不能把绳钉进松土。",
@@ -19958,7 +19944,7 @@
 				"id": "C1-06-A-S03_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 36120,
+				"startMs": 36000,
 				"durationMs": 2040,
 				"speaker": "莱昂",
 				"text": "你报安全窗，我负责让人只在窗口里过。",
@@ -19985,7 +19971,7 @@
 				"id": "C1-06-A-S03_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 38560,
+				"startMs": 38440,
 				"durationMs": 2680,
 				"speaker": "露娜",
 				"text": "数据告诉我什么时候过，水面告诉我从哪里过。两份都要。",
@@ -20012,7 +19998,7 @@
 				"id": "C1-06-A-S03_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 41640,
+				"startMs": 41520,
 				"durationMs": 2200,
 				"speaker": "米娅",
 				"text": "（把间隔写在路线旁）这次我不把问号擦掉。",
@@ -20036,6 +20022,20 @@
 				"speaker_id": 7003
 			},
 			{
+				"id": "C1-06-A-S03_objective_001",
+				"stageId": "C1-06-A-S03",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
+				"startMs": 43720,
+				"durationMs": 0,
+				"questId": 21060,
+				"objectiveKey": "collect_100248",
+				"text": "等待目标：从三处漂流物堆找回信件束（战斗：轻量史莱姆群）",
+				"payload": "100248"
+			},
+			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
@@ -20053,7 +20053,7 @@
 			"9003": 0
 		},
 		"turn_in_entries": {
-			"9003": 27040
+			"9003": 26920
 		},
 		"stages": [
 			{
@@ -20088,16 +20088,14 @@
 					"C1-06-A.D04b-2",
 					"C1-06-A.D04c-1"
 				],
-				"objective_ids": [
-					"pending_c1_06_a_2"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 13040,
-				"end_ms": 26640
+				"end_ms": 26520
 			},
 			{
 				"id": "C1-06-A-S03",
@@ -20112,13 +20110,15 @@
 					"C1-06-A.D07c-1",
 					"C1-06-A.D07c-2"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"collect_100248"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 27040,
+				"start_ms": 26920,
 				"end_ms": 43840
 			}
 		]
@@ -20299,7 +20299,7 @@
 				"durationMs": 0,
 				"questId": 21061,
 				"objectiveKey": "pending_c1_06_b_1",
-				"text": "等待目标：待绑定玩法：护送退热药与第一捆信过绳桥",
+				"text": "等待目标：护送退热药与第一捆信过绳桥",
 				"payload": "pending_c1_06_b_1"
 			},
 			{
@@ -20313,7 +20313,7 @@
 				"durationMs": 0,
 				"questId": 21061,
 				"objectiveKey": "pending_c1_06_b_2",
-				"text": "等待目标：待绑定玩法：完成过河顺序管理（限人/限包）",
+				"text": "等待目标：完成过河顺序管理（限人/限包）",
 				"payload": "pending_c1_06_b_2"
 			},
 			{
@@ -20819,7 +20819,7 @@
 				"durationMs": 0,
 				"questId": 21070,
 				"objectiveKey": "pending_c1_07_a_1",
-				"text": "等待目标：待绑定玩法：护送补给队把灯油送到第二座灯",
+				"text": "等待目标：护送补给队把灯油送到第二座灯",
 				"payload": "pending_c1_07_a_1"
 			},
 			{
@@ -21076,7 +21076,7 @@
 				"durationMs": 0,
 				"questId": 21070,
 				"objectiveKey": "pending_c1_07_a_2",
-				"text": "等待目标：待绑定玩法：双人分工守点与校准，取得星火芯 ×2",
+				"text": "等待目标：双人分工守点与校准，取得星火芯 ×2",
 				"payload": "pending_c1_07_a_2"
 			},
 			{
@@ -21090,7 +21090,7 @@
 				"durationMs": 0,
 				"questId": 21070,
 				"objectiveKey": "pending_c1_07_a_3",
-				"text": "等待目标：待绑定玩法：点亮第二信标",
+				"text": "等待目标：点亮第二信标",
 				"payload": "pending_c1_07_a_3"
 			},
 			{
@@ -22160,7 +22160,7 @@
 				"durationMs": 0,
 				"questId": 21071,
 				"objectiveKey": "pending_c1_07_b_2",
-				"text": "等待目标：待绑定玩法：会合并完成入队对白",
+				"text": "等待目标：会合并完成入队对白",
 				"payload": "pending_c1_07_b_2"
 			},
 			{
@@ -22959,7 +22959,7 @@
 				"durationMs": 0,
 				"questId": 21081,
 				"objectiveKey": "pending_c1_08_b_1",
-				"text": "等待目标：待绑定玩法：三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
+				"text": "等待目标：三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
 				"payload": "pending_c1_08_b_1"
 			},
 			{
@@ -23379,7 +23379,7 @@
 				"durationMs": 0,
 				"questId": 21082,
 				"objectiveKey": "pending_c1_08_c_3",
-				"text": "等待目标：待绑定玩法：护送补给队过桥后开打",
+				"text": "等待目标：护送补给队过桥后开打",
 				"payload": "pending_c1_08_c_3"
 			},
 			{
@@ -23462,7 +23462,7 @@
 				"durationMs": 0,
 				"questId": 21082,
 				"objectiveKey": "pending_c1_08_c_4",
-				"text": "等待目标：待绑定玩法：战后调查残甲、盾步与封令",
+				"text": "等待目标：战后调查残甲、盾步与封令",
 				"payload": "pending_c1_08_c_4"
 			},
 			{
@@ -24051,7 +24051,7 @@
 				"durationMs": 0,
 				"questId": 22010,
 				"objectiveKey": "pending_c2_01_a_2",
-				"text": "等待目标：待绑定玩法：调查守门兵遗响与墙上刻痕",
+				"text": "等待目标：调查守门兵遗响与墙上刻痕",
 				"payload": "pending_c2_01_a_2"
 			},
 			{
@@ -24227,7 +24227,7 @@
 				"durationMs": 0,
 				"questId": 22011,
 				"objectiveKey": "pending_c2_01_b_1",
-				"text": "等待目标：待绑定玩法：沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
+				"text": "等待目标：沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
 				"payload": "pending_c2_01_b_1"
 			},
 			{
@@ -24385,7 +24385,7 @@
 				"durationMs": 0,
 				"questId": 22012,
 				"objectiveKey": "pending_c2_01_c_1",
-				"text": "等待目标：待绑定玩法：击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
+				"text": "等待目标：击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
 				"payload": "pending_c2_01_c_1"
 			},
 			{
@@ -24527,7 +24527,7 @@
 				"durationMs": 0,
 				"questId": 22012,
 				"objectiveKey": "pending_c2_01_c_5",
-				"text": "等待目标：待绑定玩法：完成风车试装（装好但未启动）",
+				"text": "等待目标：完成风车试装（装好但未启动）",
 				"payload": "pending_c2_01_c_5"
 			},
 			{
@@ -24902,7 +24902,7 @@
 				"durationMs": 0,
 				"questId": 22020,
 				"objectiveKey": "pending_c2_02_a_1",
-				"text": "等待目标：待绑定玩法：三人协作开门引风，启动风车，恢复旧录音",
+				"text": "等待目标：三人协作开门引风，启动风车，恢复旧录音",
 				"payload": "pending_c2_02_a_1"
 			},
 			{
@@ -25254,7 +25254,7 @@
 				"durationMs": 0,
 				"questId": 22021,
 				"objectiveKey": "pending_c2_02_b_1",
-				"text": "等待目标：待绑定玩法：露娜引导孩子跨过门槛（路线选择权归孩子）",
+				"text": "等待目标：露娜引导孩子跨过门槛（路线选择权归孩子）",
 				"payload": "pending_c2_02_b_1"
 			},
 			{
@@ -25351,7 +25351,7 @@
 				"durationMs": 0,
 				"questId": 22021,
 				"objectiveKey": "pending_c2_02_b_2",
-				"text": "等待目标：待绑定玩法：护送孩子走完全程，击退守门魔偶 ×6（两波）",
+				"text": "等待目标：护送孩子走完全程，击退守门魔偶 ×6（两波）",
 				"payload": "pending_c2_02_b_2"
 			},
 			{
@@ -25533,7 +25533,7 @@
 				"durationMs": 0,
 				"questId": 22022,
 				"objectiveKey": "pending_c2_02_c_1",
-				"text": "等待目标：待绑定玩法：【关键操作】玩家手动拉下门闩（按 LeadHero 分支演出）",
+				"text": "等待目标：玩家手动拉下门闩（按 LeadHero 分支演出）",
 				"payload": "pending_c2_02_c_1"
 			},
 			{
@@ -25676,7 +25676,7 @@
 				"durationMs": 0,
 				"questId": 22022,
 				"objectiveKey": "pending_c2_02_c_2",
-				"text": "等待目标：待绑定玩法：守门兵遗响完成最后一次计数，循环结束",
+				"text": "等待目标：守门兵遗响完成最后一次计数，循环结束",
 				"payload": "pending_c2_02_c_2"
 			},
 			{
@@ -25690,7 +25690,7 @@
 				"durationMs": 0,
 				"questId": 22022,
 				"objectiveKey": "pending_c2_02_c_3",
-				"text": "等待目标：待绑定玩法：封存两版命令与全部证物",
+				"text": "等待目标：封存两版命令与全部证物",
 				"payload": "pending_c2_02_c_3"
 			},
 			{
@@ -26169,7 +26169,7 @@
 				"durationMs": 0,
 				"questId": 22030,
 				"objectiveKey": "pending_c2_03_a_2",
-				"text": "等待目标：待绑定玩法：【主角机关】`LeadHero` 独自通过房间考验（按职业三选一）",
+				"text": "等待目标：`LeadHero` 独自通过房间考验（按职业三选一）",
 				"payload": "pending_c2_03_a_2"
 			},
 			{
@@ -26331,7 +26331,7 @@
 				"durationMs": 0,
 				"questId": 22031,
 				"objectiveKey": "pending_c2_03_b_1",
-				"text": "等待目标：待绑定玩法：击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
+				"text": "等待目标：击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
 				"payload": "pending_c2_03_b_1"
 			},
 			{
@@ -26553,7 +26553,7 @@
 				"durationMs": 0,
 				"questId": 22032,
 				"objectiveKey": "pending_c2_03_c_1",
-				"text": "等待目标：待绑定玩法：取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
+				"text": "等待目标：取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
 				"payload": "pending_c2_03_c_1"
 			},
 			{
@@ -26567,7 +26567,7 @@
 				"durationMs": 0,
 				"questId": 22032,
 				"objectiveKey": "pending_c2_03_c_2",
-				"text": "等待目标：待绑定玩法：交付检查（按 LeadHero 分支）",
+				"text": "等待目标：交付检查（按 LeadHero 分支）",
 				"payload": "pending_c2_03_c_2"
 			},
 			{
@@ -26743,7 +26743,7 @@
 				"durationMs": 0,
 				"questId": 22040,
 				"objectiveKey": "pending_c2_04_a_1",
-				"text": "等待目标：待绑定玩法：依次关闭钟楼三层齿轮锁（机关）",
+				"text": "等待目标：依次关闭钟楼三层齿轮锁（机关）",
 				"payload": "pending_c2_04_a_1"
 			},
 			{
@@ -26882,7 +26882,7 @@
 				"durationMs": 0,
 				"questId": 22040,
 				"objectiveKey": "pending_c2_04_a_3",
-				"text": "等待目标：待绑定玩法：Boss 战·阿尔戈（战斗目标是接班而非摧毁）：莱昂引开重锤、露娜偏钟半拍、米娅报窗口",
+				"text": "等待目标：Boss 战·阿尔戈（战斗目标是接班而非摧毁）：莱昂引开重锤、露娜偏钟半拍、米娅报窗口",
 				"payload": "pending_c2_04_a_3"
 			},
 			{
@@ -27132,7 +27132,7 @@
 				"durationMs": 0,
 				"questId": 22041,
 				"objectiveKey": "pending_c2_04_b_3",
-				"text": "等待目标：待绑定玩法：调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
+				"text": "等待目标：调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
 				"payload": "pending_c2_04_b_3"
 			},
 			{
@@ -27239,7 +27239,7 @@
 				"durationMs": 0,
 				"questId": 22041,
 				"objectiveKey": "pending_c2_04_b_1",
-				"text": "等待目标：待绑定玩法：确认四座副钟连续接拍（机关验证）",
+				"text": "等待目标：确认四座副钟连续接拍（机关验证）",
 				"payload": "pending_c2_04_b_1"
 			},
 			{
@@ -27554,7 +27554,7 @@
 				"durationMs": 0,
 				"questId": 22042,
 				"objectiveKey": "pending_c2_04_c_2",
-				"text": "等待目标：待绑定玩法：霍雷克远程见证封存，章节结算",
+				"text": "等待目标：霍雷克远程见证封存，章节结算",
 				"payload": "pending_c2_04_c_2"
 			},
 			{
@@ -27881,15 +27881,29 @@
 				"startMs": 24600,
 				"durationMs": 0,
 				"questId": 23010,
+				"objectiveKey": "collect_100249",
+				"text": "等待目标：穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
+				"payload": "100249"
+			},
+			{
+				"id": "C3-01-A-S02_objective_002",
+				"stageId": "C3-01-A-S02",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
+				"startMs": 24720,
+				"durationMs": 0,
+				"questId": 23010,
 				"objectiveKey": "pending_c3_01_a_2",
-				"text": "等待目标：待绑定玩法：穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
+				"text": "等待目标：穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
 				"payload": "pending_c3_01_a_2"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 24720,
+				"startMs": 24840,
 				"durationMs": 0,
 				"text": "退出阶段：C3-01-A-S02",
 				"payload": "C3-01-A-S02",
@@ -27904,7 +27918,7 @@
 			"9029": 6600
 		},
 		"turn_in_entries": {
-			"9005": 24720
+			"9005": 24840
 		},
 		"stages": [
 			{
@@ -27938,6 +27952,7 @@
 					"C3-01-A.D07"
 				],
 				"objective_ids": [
+					"collect_100249",
 					"pending_c3_01_a_2"
 				],
 				"failure_policy": "retry_stage",
@@ -27946,7 +27961,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 18480,
-				"end_ms": 24720
+				"end_ms": 24840
 			}
 		]
 	},
@@ -28249,7 +28264,7 @@
 				"durationMs": 0,
 				"questId": 23011,
 				"objectiveKey": "pending_c3_01_b_1",
-				"text": "等待目标：待绑定玩法：把三组「错误答案」标回平面图，连成通往封存区的路线",
+				"text": "等待目标：把三组「错误答案」标回平面图，连成通往封存区的路线",
 				"payload": "pending_c3_01_b_1"
 			},
 			{
@@ -28442,7 +28457,7 @@
 				"durationMs": 0,
 				"questId": 23020,
 				"objectiveKey": "pending_c3_02_a_1",
-				"text": "等待目标：待绑定玩法：处理首塔点亮的负载危机（过场）",
+				"text": "等待目标：处理首塔点亮的负载危机（过场）",
 				"payload": "pending_c3_02_a_1"
 			},
 			{
@@ -28564,7 +28579,7 @@
 				"durationMs": 0,
 				"questId": 23020,
 				"objectiveKey": "pending_c3_02_a_2",
-				"text": "等待目标：待绑定玩法：击败四类元素体共 8 只，取得火、水、风、土烛芯",
+				"text": "等待目标：击败四类元素体共 8 只，取得火、水、风、土烛芯",
 				"payload": "pending_c3_02_a_2"
 			},
 			{
@@ -28683,24 +28698,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"id": "C3-02-B-S01_objective_001",
-				"stageId": "C3-02-B-S01",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 2760,
-				"durationMs": 0,
-				"questId": 23021,
-				"objectiveKey": "pending_c3_02_b_1",
-				"text": "等待目标：待绑定玩法：【玩家选择】点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
-				"payload": "pending_c3_02_b_1"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 2880,
+				"startMs": 2760,
 				"durationMs": 0,
 				"text": "退出阶段：C3-02-B-S01",
 				"payload": "C3-02-B-S01",
@@ -28714,7 +28715,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 3280,
+				"startMs": 3160,
 				"durationMs": 0,
 				"text": "进入阶段：C3-02-B-S02",
 				"payload": "C3-02-B-S02",
@@ -28727,7 +28728,7 @@
 				"id": "C3-02-B-S02_002",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 3280,
+				"startMs": 3160,
 				"durationMs": 1240,
 				"speaker": "十七号",
 				"text": "垃圾分类：昨日。",
@@ -28741,7 +28742,7 @@
 				"id": "C3-02-B-S02_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 4920,
+				"startMs": 4800,
 				"durationMs": 1720,
 				"speaker": "露娜",
 				"text": "比「异常蜡质残留」好听多了。",
@@ -28755,7 +28756,7 @@
 				"id": "C3-02-B-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 7040,
+				"startMs": 6920,
 				"durationMs": 1160,
 				"speaker": "十七号",
 				"text": "昨日。待清扫。",
@@ -28769,7 +28770,7 @@
 				"id": "C3-02-B-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 8600,
+				"startMs": 8480,
 				"durationMs": 1960,
 				"speaker": "莱昂",
 				"text": "昨天的可以扫，正在烧的先留给今天。",
@@ -28783,7 +28784,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 10560,
+				"startMs": 10440,
 				"durationMs": 0,
 				"text": "退出阶段：C3-02-B-S02",
 				"payload": "C3-02-B-S02",
@@ -28797,7 +28798,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 10960,
+				"startMs": 10840,
 				"durationMs": 0,
 				"text": "进入阶段：C3-02-B-S03",
 				"payload": "C3-02-B-S03",
@@ -28810,7 +28811,7 @@
 				"id": "C3-02-B-S03_002",
 				"trackId": "track_action",
 				"kind": "stage_action",
-				"startMs": 10960,
+				"startMs": 10840,
 				"durationMs": 1200,
 				"speaker": "莱昂",
 				"text": "我能稳住十秒。米娅报停，露娜只点那根新烛芯。",
@@ -28829,7 +28830,7 @@
 				"id": "C3-02-B-S03_003",
 				"trackId": "track_action",
 				"kind": "stage_action",
-				"startMs": 12560,
+				"startMs": 12440,
 				"durationMs": 1200,
 				"speaker": "露娜",
 				"text": "正面火太密。我从上面点，你们别追着我的箭看。",
@@ -28848,7 +28849,7 @@
 				"id": "C3-02-B-S03_004",
 				"trackId": "track_action",
 				"kind": "stage_action",
-				"startMs": 14160,
+				"startMs": 14040,
 				"durationMs": 1200,
 				"speaker": "米娅",
 				"text": "这条线能亮，但会把下一座烧掉。我要的是四座都活着，不是眼前这一盏好看。",
@@ -28867,7 +28868,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 15360,
+				"startMs": 15240,
 				"durationMs": 0,
 				"text": "退出阶段：C3-02-B-S03",
 				"payload": "C3-02-B-S03",
@@ -28881,7 +28882,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 15760,
+				"startMs": 15640,
 				"durationMs": 0,
 				"text": "进入阶段：C3-02-B-S04",
 				"payload": "C3-02-B-S04",
@@ -28895,7 +28896,7 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 15760,
+				"startMs": 15640,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
@@ -28908,7 +28909,7 @@
 				"id": "C3-02-B-S04_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 15880,
+				"startMs": 15760,
 				"durationMs": 3560,
 				"speaker": "米娅",
 				"text": "记录已经转存。现在关主回路，礼堂会开，但循环也少一道支撑。都看过退路了吗？",
@@ -28922,7 +28923,7 @@
 				"id": "C3-02-B-S04_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 19840,
+				"startMs": 19720,
 				"durationMs": 1720,
 				"speaker": "莱昂",
 				"text": "人和十七号都在这边，可以关。",
@@ -28936,7 +28937,7 @@
 				"id": "C3-02-B-S04_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 21960,
+				"startMs": 21840,
 				"durationMs": 1960,
 				"speaker": "露娜",
 				"text": "那就先送考生进场，别让它又等一天。",
@@ -28953,11 +28954,25 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
+				"startMs": 23800,
+				"durationMs": 0,
+				"questId": 23021,
+				"objectiveKey": "pending_c3_02_b_1",
+				"text": "等待目标：点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
+				"payload": "pending_c3_02_b_1"
+			},
+			{
+				"id": "C3-02-B-S04_objective_002",
+				"stageId": "C3-02-B-S04",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
 				"startMs": 23920,
 				"durationMs": 0,
 				"questId": 23021,
 				"objectiveKey": "pending_c3_02_b_2",
-				"text": "等待目标：待绑定玩法：主角完成最后一塔（按 LeadHero 分支）",
+				"text": "等待目标：主角完成最后一塔（按 LeadHero 分支）",
 				"payload": "pending_c3_02_b_2"
 			},
 			{
@@ -28985,7 +29000,7 @@
 			"9005": 0
 		},
 		"turn_in_entries": {
-			"9005": 15760
+			"9005": 15640
 		},
 		"stages": [
 			{
@@ -28996,16 +29011,14 @@
 				"node_ids": [
 					"C3-02-B.D01"
 				],
-				"objective_ids": [
-					"pending_c3_02_b_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 2880
+				"end_ms": 2760
 			},
 			{
 				"id": "C3-02-B-S02",
@@ -29024,8 +29037,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 3280,
-				"end_ms": 10560
+				"start_ms": 3160,
+				"end_ms": 10440
 			},
 			{
 				"id": "C3-02-B-S03",
@@ -29043,8 +29056,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 10960,
-				"end_ms": 15360
+				"start_ms": 10840,
+				"end_ms": 15240
 			},
 			{
 				"id": "C3-02-B-S04",
@@ -29057,6 +29070,7 @@
 					"C3-02-B.D11"
 				],
 				"objective_ids": [
+					"pending_c3_02_b_1",
 					"pending_c3_02_b_2"
 				],
 				"failure_policy": "retry_stage",
@@ -29064,7 +29078,7 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 15760,
+				"start_ms": 15640,
 				"end_ms": 24040
 			}
 		]
@@ -29190,9 +29204,9 @@
 				"startMs": 12440,
 				"durationMs": 0,
 				"questId": 23030,
-				"objectiveKey": "pending_c3_03_a_1",
-				"text": "等待目标：待绑定玩法：从书灵长廊找回点名册缺页 ×3（每页同时保留正式学生与杂役物件编号）",
-				"payload": "pending_c3_03_a_1"
+				"objectiveKey": "collect_100250",
+				"text": "等待目标：从书灵长廊找回点名册缺页 ×3（每页同时保留正式学生与杂役物件编号）",
+				"payload": "100250"
 			},
 			{
 				"trackId": "track_event",
@@ -29228,7 +29242,7 @@
 					"C3-03-A.D05"
 				],
 				"objective_ids": [
-					"pending_c3_03_a_1"
+					"collect_100250"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -29334,7 +29348,7 @@
 				"durationMs": 0,
 				"questId": 23031,
 				"objectiveKey": "pending_c3_03_b_1",
-				"text": "等待目标：待绑定玩法：护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
+				"text": "等待目标：护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
 				"payload": "pending_c3_03_b_1"
 			},
 			{
@@ -29979,7 +29993,7 @@
 				"durationMs": 0,
 				"questId": 23040,
 				"objectiveKey": "pending_c3_04_a_2",
-				"text": "等待目标：待绑定玩法：Boss 战·露米娜：打断召唤魔偶、保护点名册；每熔一灯报一次「记录已转移」",
+				"text": "等待目标：Boss 战·露米娜：打断召唤魔偶、保护点名册；每熔一灯报一次「记录已转移」",
 				"payload": "pending_c3_04_a_2"
 			},
 			{
@@ -30119,7 +30133,7 @@
 				"durationMs": 0,
 				"questId": 23040,
 				"objectiveKey": "pending_c3_04_a_3",
-				"text": "等待目标：待绑定玩法：主角完成最终失衡（按 LeadHero 分支）",
+				"text": "等待目标：主角完成最终失衡（按 LeadHero 分支）",
 				"payload": "pending_c3_04_a_3"
 			},
 			{
@@ -30133,7 +30147,7 @@
 				"durationMs": 0,
 				"questId": 23040,
 				"objectiveKey": "pending_c3_04_a_4",
-				"text": "等待目标：待绑定玩法：十七号完成最终考试：答案「回家」，离校手续完成",
+				"text": "等待目标：十七号完成最终考试：答案「回家」，离校手续完成",
 				"payload": "pending_c3_04_a_4"
 			},
 			{
@@ -30318,7 +30332,7 @@
 				"durationMs": 0,
 				"questId": 23041,
 				"objectiveKey": "pending_c3_04_b_1",
-				"text": "等待目标：待绑定玩法：调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
+				"text": "等待目标：调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
 				"payload": "pending_c3_04_b_1"
 			},
 			{
@@ -30890,7 +30904,7 @@
 				"durationMs": 0,
 				"questId": 24010,
 				"objectiveKey": "pending_c4_01_a_2",
-				"text": "等待目标：待绑定玩法：听守塔人说明求助，三人定修复方案：莱昂卸反向力、米娅用磨痕校正潮汐钟、露娜定照射方向",
+				"text": "等待目标：听守塔人说明求助，三人定修复方案：莱昂卸反向力、米娅用磨痕校正潮汐钟、露娜定照射方向",
 				"payload": "pending_c4_01_a_2"
 			},
 			{
@@ -31034,7 +31048,7 @@
 				"durationMs": 0,
 				"questId": 24011,
 				"objectiveKey": "pending_c4_01_b_1",
-				"text": "等待目标：待绑定玩法：击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
+				"text": "等待目标：击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
 				"payload": "pending_c4_01_b_1"
 			},
 			{
@@ -31048,7 +31062,7 @@
 				"durationMs": 0,
 				"questId": 24011,
 				"objectiveKey": "pending_c4_01_b_2",
-				"text": "等待目标：待绑定玩法：由守塔人说明安装依据（白痕朝海，按旧磨口接）",
+				"text": "等待目标：由守塔人说明安装依据（白痕朝海，按旧磨口接）",
 				"payload": "pending_c4_01_b_2"
 			},
 			{
@@ -31189,7 +31203,7 @@
 				"durationMs": 0,
 				"questId": 24012,
 				"objectiveKey": "pending_c4_01_c_1",
-				"text": "等待目标：待绑定玩法：清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
+				"text": "等待目标：清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
 				"payload": "pending_c4_01_c_1"
 			},
 			{
@@ -31573,7 +31587,7 @@
 				"durationMs": 0,
 				"questId": 24021,
 				"objectiveKey": "pending_c4_02_b_1",
-				"text": "等待目标：待绑定玩法：击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
+				"text": "等待目标：击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
 				"payload": "pending_c4_02_b_1"
 			},
 			{
@@ -31587,7 +31601,7 @@
 				"durationMs": 0,
 				"questId": 24021,
 				"objectiveKey": "pending_c4_02_b_2",
-				"text": "等待目标：待绑定玩法：两段回音锚链落位，开启左右绞盘",
+				"text": "等待目标：两段回音锚链落位，开启左右绞盘",
 				"payload": "pending_c4_02_b_2"
 			},
 			{
@@ -31782,7 +31796,7 @@
 				"durationMs": 0,
 				"questId": 24022,
 				"objectiveKey": "pending_c4_02_c_1",
-				"text": "等待目标：待绑定玩法：辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
+				"text": "等待目标：辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
 				"payload": "pending_c4_02_c_1"
 			},
 			{
@@ -31933,7 +31947,7 @@
 				"durationMs": 0,
 				"questId": 24030,
 				"objectiveKey": "pending_c4_03_a_1",
-				"text": "等待目标：待绑定玩法：纽扣与雨衣维修拓片逐针比对，取得旧船名与最后报位坐标",
+				"text": "等待目标：纽扣与雨衣维修拓片逐针比对，取得旧船名与最后报位坐标",
 				"payload": "pending_c4_03_a_1"
 			},
 			{
@@ -32156,7 +32170,7 @@
 				"durationMs": 0,
 				"questId": 24031,
 				"objectiveKey": "pending_c4_03_b_2",
-				"text": "等待目标：待绑定玩法：击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
+				"text": "等待目标：击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
 				"payload": "pending_c4_03_b_2"
 			},
 			{
@@ -32170,7 +32184,7 @@
 				"durationMs": 0,
 				"questId": 24031,
 				"objectiveKey": "pending_c4_03_b_3",
-				"text": "等待目标：待绑定玩法：驾驶舱内取得未寄出的家书与日志录音",
+				"text": "等待目标：驾驶舱内取得未寄出的家书与日志录音",
 				"payload": "pending_c4_03_b_3"
 			},
 			{
@@ -32461,7 +32475,7 @@
 				"durationMs": 0,
 				"questId": 24032,
 				"objectiveKey": "pending_c4_03_c_2",
-				"text": "等待目标：待绑定玩法：主角回应（按 LeadHero 分支）",
+				"text": "等待目标：主角回应（按 LeadHero 分支）",
 				"payload": "pending_c4_03_c_2"
 			},
 			{
@@ -32475,7 +32489,7 @@
 				"durationMs": 0,
 				"questId": 24032,
 				"objectiveKey": "pending_c4_03_c_3",
-				"text": "等待目标：待绑定玩法：登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
+				"text": "等待目标：登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
 				"payload": "pending_c4_03_c_3"
 			},
 			{
@@ -32679,7 +32693,7 @@
 				"durationMs": 0,
 				"questId": 24040,
 				"objectiveKey": "pending_c4_04_a_3",
-				"text": "等待目标：待绑定玩法：关闭最后一枚贝壳，赛壬退为低强度残响",
+				"text": "等待目标：关闭最后一枚贝壳，赛壬退为低强度残响",
 				"payload": "pending_c4_04_a_3"
 			},
 			{
@@ -32981,7 +32995,7 @@
 				"durationMs": 0,
 				"questId": 24041,
 				"objectiveKey": "pending_c4_04_b_2",
-				"text": "等待目标：待绑定玩法：先完成三份原件备份，再通讯对质",
+				"text": "等待目标：先完成三份原件备份，再通讯对质",
 				"payload": "pending_c4_04_b_2"
 			},
 			{
@@ -33744,7 +33758,7 @@
 				"durationMs": 0,
 				"questId": 25010,
 				"objectiveKey": "pending_c5_01_a_1",
-				"text": "等待目标：待绑定玩法：见证登记困境（过场）：系统标为全员撤离，粮票无法签收",
+				"text": "等待目标：见证登记困境（过场）：系统标为全员撤离，粮票无法签收",
 				"payload": "pending_c5_01_a_1"
 			},
 			{
@@ -33758,7 +33772,7 @@
 				"durationMs": 0,
 				"questId": 25010,
 				"objectiveKey": "pending_c5_01_a_2",
-				"text": "等待目标：待绑定玩法：与记数老人约定逐户登记方式",
+				"text": "等待目标：与记数老人约定逐户登记方式",
 				"payload": "pending_c5_01_a_2"
 			},
 			{
@@ -33772,7 +33786,7 @@
 				"durationMs": 0,
 				"questId": 25010,
 				"objectiveKey": "pending_c5_01_a_3",
-				"text": "等待目标：待绑定玩法：走访药铺、面摊、修械棚，收集三户证据 3/3",
+				"text": "等待目标：走访药铺、面摊、修械棚，收集三户证据 3/3",
 				"payload": "pending_c5_01_a_3"
 			},
 			{
@@ -33786,7 +33800,7 @@
 				"durationMs": 0,
 				"questId": 25010,
 				"objectiveKey": "pending_c5_01_a_4",
-				"text": "等待目标：待绑定玩法：清理阻断登记路线的灰烬亡灵 ×6",
+				"text": "等待目标：清理阻断登记路线的灰烬亡灵 ×6",
 				"payload": "pending_c5_01_a_4"
 			},
 			{
@@ -34074,7 +34088,7 @@
 				"durationMs": 0,
 				"questId": 25011,
 				"objectiveKey": "pending_c5_01_b_1",
-				"text": "等待目标：待绑定玩法：记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
+				"text": "等待目标：记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
 				"payload": "pending_c5_01_b_1"
 			},
 			{
@@ -34237,7 +34251,7 @@
 				"durationMs": 0,
 				"questId": 25012,
 				"objectiveKey": "pending_c5_01_c_1",
-				"text": "等待目标：待绑定玩法：三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
+				"text": "等待目标：三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
 				"payload": "pending_c5_01_c_1"
 			},
 			{
@@ -34385,7 +34399,7 @@
 				"durationMs": 0,
 				"questId": 25020,
 				"objectiveKey": "pending_c5_02_a_2",
-				"text": "等待目标：待绑定玩法：找回断裂钟锤两段与撤离名单缺页 ×2（三源：焦黑脚印/撤离队形/机械时间）",
+				"text": "等待目标：找回断裂钟锤两段与撤离名单缺页 ×2（三源：焦黑脚印/撤离队形/机械时间）",
 				"payload": "pending_c5_02_a_2"
 			},
 			{
@@ -34597,7 +34611,7 @@
 				"durationMs": 0,
 				"questId": 25021,
 				"objectiveKey": "pending_c5_02_b_1",
-				"text": "等待目标：待绑定玩法：击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
+				"text": "等待目标：击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
 				"payload": "pending_c5_02_b_1"
 			},
 			{
@@ -34611,7 +34625,7 @@
 				"durationMs": 0,
 				"questId": 25021,
 				"objectiveKey": "pending_c5_02_b_3",
-				"text": "等待目标：待绑定玩法：备用门三道机关按名单顺序开启；多恩遗响消散",
+				"text": "等待目标：备用门三道机关按名单顺序开启；多恩遗响消散",
 				"payload": "pending_c5_02_b_3"
 			},
 			{
@@ -34999,7 +35013,7 @@
 				"durationMs": 0,
 				"questId": 25030,
 				"objectiveKey": "pending_c5_03_a_2",
-				"text": "等待目标：待绑定玩法：军务锁读取誓印：「直属盾卫队长：有效；直属统领栏：已刮除」，拓纸记录刮痕",
+				"text": "等待目标：军务锁读取誓印：「直属盾卫队长：有效；直属统领栏：已刮除」，拓纸记录刮痕",
 				"payload": "pending_c5_03_a_2"
 			},
 			{
@@ -35013,7 +35027,7 @@
 				"durationMs": 0,
 				"questId": 25030,
 				"objectiveKey": "pending_c5_03_a_4",
-				"text": "等待目标：待绑定玩法：米娅关闭焚毁术式，发现复核签名被削与津贴编号缺失，主动分开装袋",
+				"text": "等待目标：米娅关闭焚毁术式，发现复核签名被削与津贴编号缺失，主动分开装袋",
 				"payload": "pending_c5_03_a_4"
 			},
 			{
@@ -35118,7 +35132,7 @@
 				"durationMs": 0,
 				"questId": 25031,
 				"objectiveKey": "pending_c5_03_b_1",
-				"text": "等待目标：待绑定玩法：击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
+				"text": "等待目标：击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
 				"payload": "pending_c5_03_b_1"
 			},
 			{
@@ -35596,7 +35610,7 @@
 				"durationMs": 0,
 				"questId": 25040,
 				"objectiveKey": "pending_c5_04_a_2",
-				"text": "等待目标：待绑定玩法：Boss 战·雷欧哈特：战斗围绕档案封条与火线，证据区不得燃尽",
+				"text": "等待目标：Boss 战·雷欧哈特：战斗围绕档案封条与火线，证据区不得燃尽",
 				"payload": "pending_c5_04_a_2"
 			},
 			{
@@ -35903,7 +35917,7 @@
 				"durationMs": 0,
 				"questId": 25041,
 				"objectiveKey": "pending_c5_04_b_1",
-				"text": "等待目标：待绑定玩法：取得岗位名册、星楔转换记录、永曜预算残页",
+				"text": "等待目标：取得岗位名册、星楔转换记录、永曜预算残页",
 				"payload": "pending_c5_04_b_1"
 			},
 			{
@@ -36454,7 +36468,7 @@
 				"durationMs": 0,
 				"questId": 25043,
 				"objectiveKey": "pending_c5_04_d_3",
-				"text": "等待目标：待绑定玩法：主契遗装写入三名当前调查成员（系统）",
+				"text": "等待目标：主契遗装写入三名当前调查成员（系统）",
 				"payload": "pending_c5_04_d_3"
 			},
 			{
@@ -36905,7 +36919,7 @@
 				"durationMs": 0,
 				"questId": 26011,
 				"objectiveKey": "pending_c6_01_b_2",
-				"text": "等待目标：待绑定玩法：调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
+				"text": "等待目标：调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
 				"payload": "pending_c6_01_b_2"
 			},
 			{
@@ -37033,7 +37047,7 @@
 				"durationMs": 0,
 				"questId": 26011,
 				"objectiveKey": "pending_c6_01_b_1",
-				"text": "等待目标：待绑定玩法：防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
+				"text": "等待目标：防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
 				"payload": "pending_c6_01_b_1"
 			},
 			{
@@ -37047,7 +37061,7 @@
 				"durationMs": 0,
 				"questId": 26011,
 				"objectiveKey": "pending_c6_01_b_3",
-				"text": "等待目标：待绑定玩法：交付：三人带着返程约定进入内环（按 LeadHero 分支）",
+				"text": "等待目标：交付：三人带着返程约定进入内环（按 LeadHero 分支）",
 				"payload": "pending_c6_01_b_3"
 			},
 			{
@@ -37343,7 +37357,7 @@
 				"durationMs": 0,
 				"questId": 26020,
 				"objectiveKey": "pending_c6_02_a_1",
-				"text": "等待目标：待绑定玩法：四处调查（餐具/轮值板/旧图/双头笔与环境物件），只记录可见事实",
+				"text": "等待目标：四处调查（餐具/轮值板/旧图/双头笔与环境物件），只记录可见事实",
 				"payload": "pending_c6_02_a_1"
 			},
 			{
@@ -37498,7 +37512,7 @@
 				"durationMs": 0,
 				"questId": 26021,
 				"objectiveKey": "pending_c6_02_b_1",
-				"text": "等待目标：待绑定玩法：【拉锯】是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
+				"text": "等待目标：是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
 				"payload": "pending_c6_02_b_1"
 			},
 			{
@@ -37512,7 +37526,7 @@
 				"durationMs": 0,
 				"questId": 26021,
 				"objectiveKey": "pending_c6_02_b_2",
-				"text": "等待目标：待绑定玩法：三人围第四空位完成一次免费配装（空位保持无人坐下）",
+				"text": "等待目标：三人围第四空位完成一次免费配装（空位保持无人坐下）",
 				"payload": "pending_c6_02_b_2"
 			},
 			{
@@ -37680,7 +37694,7 @@
 				"durationMs": 0,
 				"questId": 26030,
 				"objectiveKey": "pending_c6_03_a_2",
-				"text": "等待目标：待绑定玩法：击败王室构造体 ×4、灌注守卫精英 ×1（战斗目标含保全证据：护铭印/截焚档/冻清除术式）",
+				"text": "等待目标：击败王室构造体 ×4、灌注守卫精英 ×1（战斗目标含保全证据：护铭印/截焚档/冻清除术式）",
 				"payload": "pending_c6_03_a_2"
 			},
 			{
@@ -37862,7 +37876,7 @@
 				"durationMs": 0,
 				"questId": 26031,
 				"objectiveKey": "pending_c6_03_b_1",
-				"text": "等待目标：待绑定玩法：调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
+				"text": "等待目标：调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
 				"payload": "pending_c6_03_b_1"
 			},
 			{
@@ -37876,7 +37890,7 @@
 				"durationMs": 0,
 				"questId": 26031,
 				"objectiveKey": "pending_c6_03_b_2",
-				"text": "等待目标：待绑定玩法：调查二：内层参数无创伤闭合/失血恢复/战伤评估",
+				"text": "等待目标：调查二：内层参数无创伤闭合/失血恢复/战伤评估",
 				"payload": "pending_c6_03_b_2"
 			},
 			{
@@ -37890,7 +37904,7 @@
 				"durationMs": 0,
 				"questId": 26031,
 				"objectiveKey": "pending_c6_03_b_3",
-				"text": "等待目标：待绑定玩法：调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
+				"text": "等待目标：调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
 				"payload": "pending_c6_03_b_3"
 			},
 			{
@@ -38132,7 +38146,7 @@
 				"durationMs": 0,
 				"questId": 26032,
 				"objectiveKey": "pending_c6_03_c_1",
-				"text": "等待目标：待绑定玩法：【玩家选择】剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
+				"text": "等待目标：剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
 				"payload": "pending_c6_03_c_1"
 			},
 			{
@@ -38249,7 +38263,7 @@
 				"durationMs": 0,
 				"questId": 26040,
 				"objectiveKey": "pending_c6_04_a_3",
-				"text": "等待目标：待绑定玩法：【玩家操作】按邮路、粮道、救援航线顺序重排六楔，设置记忆吞噬阈值自动停机",
+				"text": "等待目标：按邮路、粮道、救援航线顺序重排六楔，设置记忆吞噬阈值自动停机",
 				"payload": "pending_c6_04_a_3"
 			},
 			{
@@ -38653,7 +38667,7 @@
 				"durationMs": 0,
 				"questId": 26041,
 				"objectiveKey": "pending_c6_04_b_1",
-				"text": "等待目标：待绑定玩法：两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
+				"text": "等待目标：两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
 				"payload": "pending_c6_04_b_1"
 			},
 			{
@@ -39298,7 +39312,7 @@
 				"durationMs": 0,
 				"questId": 26051,
 				"objectiveKey": "pending_c6_05_b_2",
-				"text": "等待目标：待绑定玩法：第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
+				"text": "等待目标：第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
 				"payload": "pending_c6_05_b_2"
 			},
 			{
@@ -40186,7 +40200,7 @@
 				"durationMs": 0,
 				"questId": 26060,
 				"objectiveKey": "pending_c6_06_a_1",
-				"text": "等待目标：待绑定玩法：三份证据依次读取（军令附页/被削薄返程图/预写公报与隔离密令）；通讯拒绝「保护性隔离」；主出口被远程封闭",
+				"text": "等待目标：三份证据依次读取（军令附页/被削薄返程图/预写公报与隔离密令）；通讯拒绝「保护性隔离」；主出口被远程封闭",
 				"payload": "pending_c6_06_a_1"
 			},
 			{
