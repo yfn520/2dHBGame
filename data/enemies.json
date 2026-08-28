@@ -86,7 +86,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "xiao'huei'heu'i",
+		"name": "小灰狼",
 		"normal_skill": 50021,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -111,7 +111,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "kulou",
+		"name": "骷髅",
 		"normal_skill": 50031,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -136,7 +136,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "ge'bu'ling",
+		"name": "哥布林",
 		"normal_skill": 50041,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -162,7 +162,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "huei'jingju'xiang",
+		"name": "灰晶巨像",
 		"normal_skill": 50051,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -188,7 +188,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "huei'jing'qi'shi2",
+		"name": "灰晶骑士",
 		"normal_skill": 50061,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -240,7 +240,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "d'j's2",
+		"name": "地精Ⅱ",
 		"normal_skill": 50081,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -262,7 +262,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "shu'ren",
+		"name": "树人",
 		"normal_skill": 50091,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -284,7 +284,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "huo'hu",
+		"name": "火狐",
 		"normal_skill": 50101,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -306,7 +306,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "shang'hu'guai",
+		"name": "伤魂怪",
 		"normal_skill": 50111,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -328,7 +328,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "wang'huen",
+		"name": "亡魂",
 		"normal_skill": 50121,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -350,7 +350,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "shu'ju'shi'lai'mu",
+		"name": "数据史莱姆",
 		"normal_skill": 50131,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -372,7 +372,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "shuei'mu",
+		"name": "水母",
 		"normal_skill": 50141,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -394,7 +394,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "huei'jingju'xiang",
+		"name": "灰晶巨像Ⅱ",
 		"normal_skill": 50151,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -438,7 +438,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "xong'da",
+		"name": "熊大",
 		"normal_skill": 50171,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -460,7 +460,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "jia'chong",
+		"name": "甲虫",
 		"normal_skill": 50181,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -482,7 +482,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "shi'to'ren",
+		"name": "石头人",
 		"normal_skill": 50191,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -504,7 +504,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "jing'yingjia'chong",
+		"name": "精英甲虫",
 		"normal_skill": 50201,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -548,7 +548,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "xu'kong'guai",
+		"name": "虚空怪",
 		"normal_skill": 50221,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -570,7 +570,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "m'fengy",
+		"name": "魔蜂",
 		"normal_skill": 50231,
 		"patrol_range": 120,
 		"skill_weights": [
@@ -592,7 +592,7 @@
 		"exp": 10,
 		"max_hp": 50,
 		"move_speed": 80,
-		"name": "mo'o1",
+		"name": "魔偶",
 		"normal_skill": 50241,
 		"patrol_range": 120,
 		"skill_weights": [
