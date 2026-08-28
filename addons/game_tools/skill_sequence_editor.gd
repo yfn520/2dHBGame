@@ -36,6 +36,7 @@ const CONTROL_TYPES := {
 const ORIGIN_OPTIONS := [
 	{"value": "hit_window", "label": "当前有效区间中心"},
 	{"value": "caster", "label": "施法者中心"},
+	{"value": "actor_root", "label": "角色脚底（根节点）"},
 	{"value": "socket", "label": "指定 Socket"},
 	{"value": "nearest_enemy", "label": "最近敌人"},
 ]
@@ -2311,10 +2312,9 @@ func _refresh_effect_preview() -> void:
 	if type_name == "play_effect":
 		var offset := Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
 		var coord_space := String(node.get("coordinate_space", "world"))
-		# character_local: 挂角色根，position = offset * mirror_x * visual_scale
-		# world: 挂场景根，global_position = origin(角色根) + offset
-		# Imported offsets are relative to the selected GameTool anchor. Match
-		# CombatComponent by applying that root-local anchor before scale/facing.
+		# character_local: 挂角色根，position = anchor(node.anchor) + offset * mirror_x * visual_scale
+		# world: 挂场景根，global_position = _resolve_origin(node)（hit_window=攻击框生效位置、
+		# caster=身体中心） + offset * visual_scale —— 对齐 CombatComponent._spawn_effect_at
 		var anchor_offset := _resolve_preview_effect_anchor_offset(node)
 		var uses_preview_position := String(node.get("origin", "")) == "preview_position"
 		var effect_offset := offset
@@ -2322,6 +2322,11 @@ func _refresh_effect_preview() -> void:
 			effect_offset = Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
 		elif coord_space == "character_local":
 			effect_offset = anchor_offset + Vector2(offset.x * mirror_x * visual_scale, offset.y * visual_scale)
+		else:
+			# world 分支此前漏加了 origin 锚点、也没乘 visual_scale，
+			# 导致预览位置比运行时偏高/偏近（攻击框锚点的特效整体向脚底偏）。
+			var window_index := _effective_hit_window_index(_selected_node_index())
+			effect_offset = (_resolve_preview_origin(node, window_index) + Vector2(offset.x * mirror_x, offset.y)) * visual_scale
 		# Runtime first applies node.effect_scale, then the character visual scale.
 		# Omitting effect_scale here made imported VFX appear too large and shifted
 		# their apparent centre relative to the GameTool preview.
@@ -2354,7 +2359,7 @@ func _refresh_effect_preview() -> void:
 		# 预览中统一用 hit_window 偏移（若有）否则用角色根（origin）
 		# origin 偏移乘 visual_scale：角色缩放时 hit_window/forward 位置也等比缩放
 		# 弹道缩放 = 角色视觉缩放 × 节点 scale 字段（与运行时 skill_executor._instantiate_projectile 一致）
-		var origin_offset := _resolve_preview_origin(node)
+		var origin_offset := _resolve_preview_origin(node, _effective_hit_window_index(_selected_node_index()))
 		# offset_x/offset_y 是节点自身的发射点偏移，所有 spawn_projectile 节点都生效，
 		# 不受 source_bundle_id 限制（用户手填的偏移也需要在预览中显示）。
 		origin_offset += Vector2(float(node.get("offset_x", 0.0)), float(node.get("offset_y", 0.0)))
@@ -2475,14 +2480,20 @@ func _on_effect_offset_changed(effect_offset: Vector2) -> void:
 ## 预览中解析 spawn_projectile 的 origin 偏移（相对角色根）。
 ## hit_window: 取第一个 hit_window 的 forward/y（与预览绘制的命中框一致）
 ## caster/socket/nearest_enemy: 用角色根（零偏移）
-func _resolve_preview_origin(node: Dictionary) -> Vector2:
+func _resolve_preview_origin(node: Dictionary, window_index: int = 0) -> Vector2:
 	var origin_type := String(node.get("origin", "hit_window"))
 	if origin_type == "preview_position":
 		return Vector2.ZERO
 	if origin_type == "hit_window":
 		var windows: Array = _action_data.get("hit_windows", [])
-		if not windows.is_empty() and windows[0] is Dictionary:
-			var w: Dictionary = windows[0]
+		var w: Dictionary = {}
+		if window_index >= 0 and window_index < windows.size() and windows[window_index] is Dictionary:
+			# 运行时 current_anchor 来自节点前面最近的 wait_hit_window（攻击框生效位置），
+			# 不能固定取第一个攻击框，否则多段攻击的预览会偏。
+			w = windows[window_index]
+		elif not windows.is_empty() and windows[0] is Dictionary:
+			w = windows[0]
+		if not w.is_empty():
 			var forward := float(w.get("forward", 0.0))
 			var y := float(w.get("y", 0.0))
 			# 预览固定朝左，forward 正方向即 -X（命中框在角色左侧）
@@ -2493,6 +2504,18 @@ func _resolve_preview_origin(node: Dictionary) -> Vector2:
 		return Vector2(0.0, body_center_y)
 	# socket / nearest_enemy 在预览中用角色根（零偏移）
 	return Vector2.ZERO
+
+
+## 运行时 current_anchor 取的是该节点之前最近的 wait_hit_window 攻击框，
+## 预览必须用同一个窗口序号（找不到时回退 0）。
+func _effective_hit_window_index(node_index: int) -> int:
+	var nodes: Array = _current_skill().get("nodes", [])
+	var upper := mini(node_index, nodes.size()) - 1
+	for i in range(upper, -1, -1):
+		var entry: Dictionary = nodes[i] if nodes[i] is Dictionary else {}
+		if String(entry.get("type", "")) == "wait_hit_window":
+			return maxi(0, int(entry.get("hit_window_index", 0)))
+	return 0
 
 
 func _selected_node() -> Dictionary:

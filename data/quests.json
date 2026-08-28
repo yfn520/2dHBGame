@@ -1,10 +1,10 @@
 {
-	"21010": {
-		"id": 21010,
+	"20010": {
+		"id": 20010,
 		"title": "醒来的人",
-		"description": "无",
+		"description": "完成角色选择（系统写入 `LeadHero`）",
 		"quest_kind": "story_task_script",
-		"chapter_id": "chapter_1",
+		"chapter_id": "chapter_0",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9002,
@@ -15,18 +15,25 @@
 				"type": "talk",
 				"npc_id": 9002,
 				"count": 1
+			},
+			{
+				"id": "event_prologue_warm_meal",
+				"type": "named_event",
+				"event_name": "prologue_warm_meal",
+				"name": "喝下热粥",
+				"count": 1
 			}
 		],
 		"stages": [
 			{
-				"id": "C1-01-A-S01",
+				"id": "C0-01-A-S01",
 				"title": "过场",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
-					"C1-01-A.D01",
-					"C1-01-A.D02",
-					"C1-01-A.D03"
+					"C0-01-A.D01",
+					"C0-01-A.D02",
+					"C0-01-A.D03"
 				],
 				"objective_ids": [
 					"talk_9002"
@@ -38,39 +45,128 @@
 				"inferred": false
 			},
 			{
-				"id": "C1-01-A-S02",
+				"id": "C0-01-A-S02",
 				"title": "交互",
 				"order": 2,
 				"kind": "interact",
 				"node_ids": [
-					"C1-01-A.D04",
-					"C1-01-A.D05K-1",
-					"C1-01-A.D05K-2",
-					"C1-01-A.D05K-3",
-					"C1-01-A.D05K-4",
-					"C1-01-A.D05K-5",
-					"C1-01-A.D05K-6",
-					"C1-01-A.D05K-7",
-					"C1-01-A.D05L-1",
-					"C1-01-A.D05L-2",
-					"C1-01-A.D05L-3",
-					"C1-01-A.D05L-4",
-					"C1-01-A.D05L-5",
-					"C1-01-A.D05L-6",
-					"C1-01-A.D05L-7",
-					"C1-01-A.D05L-8",
-					"C1-01-A.D05M-1",
-					"C1-01-A.D05M-2",
-					"C1-01-A.D05M-3",
-					"C1-01-A.D05M-4",
-					"C1-01-A.D05M-5",
-					"C1-01-A.D05M-6",
-					"C1-01-A.D05M-7",
-					"C1-01-A.D12",
-					"C1-01-A.D13",
-					"C1-01-A.D14",
-					"C1-01-A.D15",
-					"C1-01-A.D16"
+					"C0-01-A.D04K-1",
+					"C0-01-A.D04L-1",
+					"C0-01-A.D04M-1",
+					"C0-01-A.D05",
+					"C0-01-A.D06",
+					"C0-01-A.D07",
+					"C0-01-A.D08"
+				],
+				"objective_ids": [
+					"event_prologue_warm_meal"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PrologueAwakened",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-01-A",
+			"dialogue_id": "task_c0_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 0
+			}
+		},
+		"required_quest_ids": [],
+		"level_id": 0
+	},
+	"20020": {
+		"id": 20020,
+		"title": "柏婶的名单",
+		"description": "完成 C0-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "area_hub_street_walk",
+				"type": "area_trigger",
+				"event_name": "hub_street_walk",
+				"name": "沿大街走一圈，确认城中现状（喷泉广场）",
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-02-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-02-A.D01"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-02-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C0-02-A.D02",
+					"C0-02-A.D03",
+					"C0-02-A.D04K-1",
+					"C0-02-A.D04L-1",
+					"C0-02-A.D04M-1"
+				],
+				"objective_ids": [
+					"area_hub_street_walk"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "hub_street_walk"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C0-02-A.D05",
+					"C0-02-A.D06",
+					"C0-02-A.D07",
+					"C0-02-A.D08"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -84,8 +180,626 @@
 			"items": [],
 			"flags": [
 				{
+					"flag": "HubStreetSeen",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-02-A",
+			"dialogue_id": "task_c0_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 0
+			}
+		},
+		"required_quest_ids": [
+			20010
+		],
+		"level_id": 0
+	},
+	"20030": {
+		"id": 20030,
+		"title": "伊莱的检查",
+		"description": "完成 C0-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{
+				"id": "talk_9016",
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_body_check",
+				"type": "named_event",
+				"event_name": "prologue_body_check",
+				"name": "按伊莱要求试着活动手脚",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-03-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-03-A.D01",
+					"C0-03-A.D02K-1",
+					"C0-03-A.D02L-1",
+					"C0-03-A.D02M-1",
+					"C0-03-A.D03",
+					"C0-03-A.D04",
+					"C0-03-A.D05K-1",
+					"C0-03-A.D05L-1",
+					"C0-03-A.D05M-1",
+					"C0-03-A.D06",
+					"C0-03-A.D07"
+				],
+				"objective_ids": [
+					"talk_9016"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-03-A-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C0-03-A.D08",
+					"C0-03-A.D09"
+				],
+				"objective_ids": [
+					"event_prologue_body_check"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MemoryGapConfirmed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-03-A",
+			"dialogue_id": "task_c0_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9016": 0
+			}
+		},
+		"required_quest_ids": [
+			20020
+		],
+		"level_id": 0
+	},
+	"20040": {
+		"id": 20040,
+		"title": "霍雷克的委托",
+		"description": "完成 C0-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_aid_signed",
+				"type": "named_event",
+				"event_name": "prologue_aid_signed",
+				"name": "自愿签下灾后协助登记",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-04-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-04-A.D01",
+					"C0-04-A.D02",
+					"C0-04-A.D03",
+					"C0-04-A.D04K-1",
+					"C0-04-A.D04L-1",
+					"C0-04-A.D04M-1",
+					"C0-04-A.D05",
+					"C0-04-A.D06"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-04-A-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
+				"node_ids": [
+					"C0-04-A.D07",
+					"C0-04-A.D08",
+					"C0-04-A.D09"
+				],
+				"objective_ids": [
+					"event_prologue_aid_signed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
 					"flag": "VoluntaryAidAccepted",
-					"value": false
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-04-A",
+			"dialogue_id": "task_c0_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			20030
+		],
+		"level_id": 0
+	},
+	"20050": {
+		"id": 20050,
+		"title": "铁匠铺的借装",
+		"description": "完成 C0-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9012,
+		"turn_in_npc_id": 9012,
+		"objectives": [
+			{
+				"id": "talk_9012",
+				"type": "talk",
+				"npc_id": 9012,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_gear_equipped",
+				"type": "named_event",
+				"event_name": "prologue_gear_equipped",
+				"name": "领取并穿戴借出装备",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-05-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-05-A.D01",
+					"C0-05-A.D02K-1",
+					"C0-05-A.D02L-1",
+					"C0-05-A.D02M-1",
+					"C0-05-A.D03K-1",
+					"C0-05-A.D03L-1",
+					"C0-05-A.D03M-1",
+					"C0-05-A.D04",
+					"C0-05-A.D05",
+					"C0-05-A.D06"
+				],
+				"objective_ids": [
+					"talk_9012"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-05-A-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C0-05-A.D07",
+					"C0-05-A.D08"
+				],
+				"objective_ids": [
+					"event_prologue_gear_equipped"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "BorrowedGearEquipped",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-05-A",
+			"dialogue_id": "task_c0_05_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9012": 0
+			}
+		},
+		"required_quest_ids": [
+			20040
+		],
+		"level_id": 0
+	},
+	"20060": {
+		"id": 20060,
+		"title": "旅团会馆",
+		"description": "完成 C0-05-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "event_hub_expedition_registered",
+				"type": "named_event",
+				"event_name": "hub_expedition_registered",
+				"name": "完成临时远征资质登记",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-06-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-06-A.D01",
+					"C0-06-A.D02",
+					"C0-06-A.D03",
+					"C0-06-A.D04",
+					"C0-06-A.D05",
+					"C0-06-A.D06",
+					"C0-06-A.D07"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-06-A-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C0-06-A.D08"
+				],
+				"objective_ids": [
+					"event_hub_expedition_registered"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GuildHallIntroduced",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-06-A",
+			"dialogue_id": "task_c0_06_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			20050
+		],
+		"level_id": 0
+	},
+	"20070": {
+		"id": 20070,
+		"title": "出发前的整备",
+		"description": "完成 C0-06-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9010,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "talk_9010",
+				"type": "talk",
+				"npc_id": 9010,
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			},
+			{
+				"id": "area_hub_to_forest",
+				"type": "area_trigger",
+				"event_name": "hub_to_forest",
+				"name": "前往星露草原（城门方向）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-07-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-07-A.D01",
+					"C0-07-A.D02",
+					"C0-07-A.D03",
+					"C0-07-A.D04K-1",
+					"C0-07-A.D04L-1",
+					"C0-07-A.D04M-1"
+				],
+				"objective_ids": [
+					"talk_9010",
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-07-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C0-07-A.D05"
+				],
+				"objective_ids": [
+					"area_hub_to_forest"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "hub_to_forest"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-07-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C0-07-A.D06",
+					"C0-07-A.D07",
+					"C0-07-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PrologueComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-07-A",
+			"dialogue_id": "task_c0_07_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 5120,
+				"9010": 0,
+				"9011": 2360
+			}
+		},
+		"required_quest_ids": [
+			20060
+		],
+		"level_id": 0
+	},
+	"21010": {
+		"id": 21010,
+		"title": "林洼里的药箱",
+		"description": "完成 C0-07-A 且 `PartyStage=Solo`",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9020,
+		"turn_in_npc_id": 9020,
+		"objectives": [
+			{
+				"id": "area_c1_medicine_hollow",
+				"type": "area_trigger",
+				"event_name": "c1_medicine_hollow",
+				"name": "前往林间低洼处",
+				"count": 1
+			},
+			{
+				"id": "kill_8001",
+				"type": "kill",
+				"enemy_id": 8001,
+				"count": 3,
+				"name": "击败守着药箱的史莱姆（击杀 史莱姆 enemy_8001 ×3）"
+			},
+			{
+				"id": "collect_100246",
+				"type": "collect",
+				"item_id": 100246,
+				"count": 1,
+				"name": "取回「救援药箱」(item_100246)",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "talk_9020",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-A.D01",
+					"C1-01-A.D02",
+					"C1-01-A.D03K-1",
+					"C1-01-A.D03L-1",
+					"C1-01-A.D03M-1"
+				],
+				"objective_ids": [
+					"collect_100246",
+					"talk_9020"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-01-A.D04",
+					"C1-01-A.D05",
+					"C1-01-A.D06"
+				],
+				"objective_ids": [
+					"area_c1_medicine_hollow",
+					"kill_8001"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_medicine_hollow"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-01-A.D07",
+					"C1-01-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RescueMedicineRecovered",
+					"value": true
 				}
 			]
 		},
@@ -95,12 +809,14 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9002": 0,
-				"9016": 20200
+				"9020": 0
 			}
 		},
-		"required_quest_ids": [],
-		"level_id": 1
+		"required_quest_ids": [
+			20070
+		],
+		"level_id": 1,
+		"auto_start": true
 	},
 	"21011": {
 		"id": 21011,
@@ -117,13 +833,6 @@
 				"id": "talk_9001",
 				"type": "talk",
 				"npc_id": 9001,
-				"count": 1
-			},
-			{
-				"id": "pending_c1_01_b_2",
-				"type": "named_event",
-				"event_name": "pending_c1_01_b_2",
-				"name": "待绑定玩法：【选择】是否接受「捞药箱」委托",
 				"count": 1
 			}
 		],
@@ -144,8 +853,7 @@
 					"C1-01-B.D08"
 				],
 				"objective_ids": [
-					"talk_9001",
-					"pending_c1_01_b_2"
+					"talk_9001"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -194,13 +902,15 @@
 			"npc_entries": {
 				"9001": 0,
 				"9002": 0,
-				"9016": 38560
+				"9016": 38440
 			}
 		},
 		"required_quest_ids": [
 			21010
 		],
-		"level_id": 1
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
 	},
 	"21012": {
 		"id": 21012,
@@ -223,13 +933,6 @@
 				"id": "talk_9045",
 				"type": "talk",
 				"npc_id": 9045,
-				"count": 1
-			},
-			{
-				"id": "pending_c1_01_c_3",
-				"type": "named_event",
-				"event_name": "pending_c1_01_c_3",
-				"name": "待绑定玩法：领完装备后交付，任务完成",
 				"count": 1
 			}
 		],
@@ -287,9 +990,7 @@
 					"C1-01-C.D05",
 					"C1-01-C.D06"
 				],
-				"objective_ids": [
-					"pending_c1_01_c_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -454,55 +1155,51 @@
 	},
 	"21020": {
 		"id": 21020,
-		"title": "芦苇滩捞药箱",
-		"description": "教学完成，伊莱交接",
+		"title": "塌方林道的粮种车",
+		"description": "完成 C1-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9020,
-		"turn_in_npc_id": 9016,
+		"giver_npc_id": 9023,
+		"turn_in_npc_id": 9023,
 		"objectives": [
 			{
-				"id": "talk_9020",
+				"id": "talk_9023",
 				"type": "talk",
-				"npc_id": 9020,
+				"npc_id": 9023,
 				"count": 1
 			},
 			{
-				"id": "talk_9016",
-				"type": "talk",
-				"npc_id": 9016,
-				"count": 1
-			},
-			{
-				"id": "kill_8001",
+				"id": "kill_8002",
 				"type": "kill",
-				"enemy_id": 8001,
-				"count": 1,
-				"name": "清理钩索路线上的史莱姆与渊蚀藤"
+				"enemy_id": 8002,
+				"count": 4,
+				"name": "清理塌方段的怪物（击杀 傀儡 enemy_8002 ×4）"
 			},
 			{
-				"id": "pending_c1_02_a_4",
-				"type": "named_event",
-				"event_name": "pending_c1_02_a_4",
-				"name": "待绑定玩法：采集可用星露草 ×3（高处未浸污水处）",
+				"id": "area_c1_grain_cart_passed",
+				"type": "area_trigger",
+				"event_name": "c1_grain_cart_passed",
+				"name": "护送粮种车通过塌方段",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C1-02-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C1-02-A.D01",
-					"C1-02-A.D02"
+					"C1-02-A.D02",
+					"C1-02-A.D03K-1",
+					"C1-02-A.D03L-1",
+					"C1-02-A.D03M-1"
 				],
 				"objective_ids": [
-					"talk_9020",
-					"talk_9016"
+					"talk_9023"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -512,23 +1209,15 @@
 			},
 			{
 				"id": "C1-02-A-S02",
-				"title": "途中",
+				"title": "战斗",
 				"order": 2,
-				"kind": "travel",
+				"kind": "combat",
 				"node_ids": [
-					"C1-02-A.D03K-1",
-					"C1-02-A.D03K-2",
-					"C1-02-A.D03K-3",
-					"C1-02-A.D03L-1",
-					"C1-02-A.D03L-2",
-					"C1-02-A.D03L-3",
-					"C1-02-A.D03M-1",
-					"C1-02-A.D03M-2",
-					"C1-02-A.D03M-3",
-					"C1-02-A.D03M-4"
+					"C1-02-A.D04",
+					"C1-02-A.D05"
 				],
 				"objective_ids": [
-					"pending_c1_02_a_4"
+					"kill_8002"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -538,15 +1227,20 @@
 			},
 			{
 				"id": "C1-02-A-S03",
-				"title": "战斗",
+				"title": "途中",
 				"order": 3,
-				"kind": "combat",
+				"kind": "travel",
 				"node_ids": [
-					"C1-02-A.D06"
+					"C1-02-A.D06",
+					"C1-02-A.D07"
 				],
 				"objective_ids": [
-					"kill_8001"
+					"area_c1_grain_cart_passed"
 				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_grain_cart_passed"
+				},
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -555,13 +1249,11 @@
 			},
 			{
 				"id": "C1-02-A-S04",
-				"title": "交互",
+				"title": "交付",
 				"order": 4,
-				"kind": "interact",
+				"kind": "complete",
 				"node_ids": [
-					"C1-02-A.D07K",
-					"C1-02-A.D07L",
-					"C1-02-A.D07M"
+					"C1-02-A.D08"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -573,7 +1265,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "GrainCartEscorted",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C1-02-A",
@@ -581,12 +1278,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9016": 5640,
-				"9020": 0
+				"9023": 0
 			}
 		},
 		"required_quest_ids": [
-			21013
+			21010
 		],
 		"level_id": 1
 	},
@@ -688,46 +1384,35 @@
 	},
 	"21030": {
 		"id": 21030,
-		"title": "护送粮种过塌方路",
-		"description": "与霍雷克对话，接取第二项护送委托",
+		"title": "第一座救援信标",
+		"description": "完成 C1-02-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9021,
+		"giver_npc_id": 9022,
+		"turn_in_npc_id": 9022,
 		"objectives": [
 			{
-				"id": "talk_9001",
-				"type": "talk",
-				"npc_id": 9001,
-				"count": 1
-			},
-			{
-				"id": "talk_9021",
-				"type": "talk",
-				"npc_id": 9021,
-				"count": 1
-			},
-			{
-				"id": "area_c1_03_a_route_entered",
+				"id": "area_c1_beacon_1_check",
 				"type": "area_trigger",
-				"event_name": "c1_03_a_route_entered",
-				"name": "进入塌方农路（区域事件：c1_03_a_route_entered）",
+				"event_name": "c1_beacon_1_check",
+				"name": "检查失效的信标",
 				"count": 1
 			},
 			{
-				"id": "kill_8003",
-				"type": "kill",
-				"enemy_id": 8003,
-				"count": 6,
-				"name": "护送途中清理两处狼群（敌人 ID：8003，共 6 只）"
+				"id": "collect_100254",
+				"type": "collect",
+				"item_id": 100254,
+				"count": 1,
+				"name": "从甲虫巢里取回「信标导片」(item_100254)",
+				"consume_on_turn_in": true
 			},
 			{
-				"id": "area_c1_03_a_nursery_arrived",
-				"type": "area_trigger",
-				"event_name": "c1_03_a_nursery_arrived",
-				"name": "抵达育苗棚（区域事件：c1_03_a_nursery_arrived）并与桑叔交付粮种",
+				"id": "event_c1_beacon_1_lit",
+				"type": "named_event",
+				"event_name": "c1_beacon_1_lit",
+				"name": "修复信标",
 				"count": 1
 			}
 		],
@@ -736,13 +1421,17 @@
 				"id": "C1-03-A-S01",
 				"title": "接取",
 				"order": 1,
-				"kind": "opening",
+				"kind": "interact",
 				"node_ids": [
-					"C1-03-A.D00",
-					"C1-03-A.D00-2"
+					"C1-03-A.D01",
+					"C1-03-A.D02",
+					"C1-03-A.D03K-1",
+					"C1-03-A.D03L-1",
+					"C1-03-A.D03M-1"
 				],
 				"objective_ids": [
-					"talk_9001"
+					"collect_100254",
+					"event_c1_beacon_1_lit"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -752,17 +1441,15 @@
 			},
 			{
 				"id": "C1-03-A-S02",
-				"title": "路线确认",
+				"title": "收集",
 				"order": 2,
-				"kind": "interact",
+				"kind": "combat",
 				"node_ids": [
-					"C1-03-A.D01",
-					"C1-03-A.D02",
-					"C1-03-A.D03"
+					"C1-03-A.D04",
+					"C1-03-A.D05",
+					"C1-03-A.D06"
 				],
-				"objective_ids": [
-					"talk_9021"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -771,36 +1458,86 @@
 			},
 			{
 				"id": "C1-03-A-S03",
-				"title": "护送途中·清理狼群",
+				"title": "交付",
 				"order": 3,
-				"kind": "travel",
+				"kind": "complete",
 				"node_ids": [
-					"C1-03-A.D04K-1",
-					"C1-03-A.D04K-2",
-					"C1-03-A.D04K-3",
-					"C1-03-A.D04L-1",
-					"C1-03-A.D04L-2",
-					"C1-03-A.D04M-1",
-					"C1-03-A.D04M-2",
-					"C1-03-A.D04M-3",
-					"C1-03-A.D07K",
-					"C1-03-A.D07L",
-					"C1-03-A.D07M",
-					"C1-03-A.D10"
+					"C1-03-A.D07",
+					"C1-03-A.D08",
+					"C1-03-A.D09"
 				],
 				"objective_ids": [
-					"area_c1_03_a_route_entered",
-					"kill_8003",
-					"area_c1_03_a_nursery_arrived"
+					"area_c1_beacon_1_check"
 				],
-				"enter_when": {
-					"type": "area_event",
-					"event_name": "c1_03_a_route_entered"
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FirstBeaconLit",
+					"value": true
 				},
-				"exit_when": {
-					"type": "area_event",
-					"event_name": "c1_03_a_nursery_arrived"
-				},
+				{
+					"flag": "OpeningSoloTasksComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-03-A",
+			"dialogue_id": "task_c1_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9022": 0
+			}
+		},
+		"required_quest_ids": [
+			21020
+		],
+		"level_id": 1
+	},
+	"21040": {
+		"id": 21040,
+		"title": "两条救援线索",
+		"description": "完成 C1-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9020,
+		"turn_in_npc_id": 9020,
+		"objectives": [
+			{
+				"id": "talk_9020",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-04-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-04-A.D01",
+					"C1-04-A.D02K-1",
+					"C1-04-A.D02L-1",
+					"C1-04-A.D02M-1",
+					"C1-04-A.D03",
+					"C1-04-A.D04"
+				],
+				"objective_ids": [
+					"talk_9020"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -808,19 +1545,21 @@
 				"inferred": false
 			},
 			{
-				"id": "C1-03-A-S04",
-				"title": "抵达交付",
-				"order": 4,
-				"kind": "complete",
+				"id": "C1-04-A-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
 				"node_ids": [
-					"C1-03-A.D11K-1",
-					"C1-03-A.D11K-2",
-					"C1-03-A.D11K-3",
-					"C1-03-A.D11L-1",
-					"C1-03-A.D11L-2",
-					"C1-03-A.D11M-1",
-					"C1-03-A.D11M-2",
-					"C1-03-A.D11M-3"
+					"C1-04-A.D05K",
+					"C1-04-A.D05L",
+					"C1-04-A.D05M",
+					"C1-04-A.D06a",
+					"C1-04-A.D06b",
+					"C1-04-A.D06c",
+					"C1-04-A.D07a",
+					"C1-04-A.D07b",
+					"C1-04-A.D07c",
+					"C1-04-A.D08"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -834,200 +1573,12 @@
 			"items": [],
 			"flags": [
 				{
-					"flag": "SeedConvoyDelivered",
+					"flag": "SecondHeroChosen",
 					"value": true
-				}
-			]
-		},
-		"authoring": {
-			"task_script_id": "C1-03-A",
-			"dialogue_id": "task_c1_03_a",
-			"compile_status": "mapped",
-			"preview": true,
-			"npc_entries": {
-				"9001": 0,
-				"9021": 6880
-			}
-		},
-		"required_quest_ids": [
-			21021
-		],
-		"level_id": 1
-	},
-	"21040": {
-		"id": 21040,
-		"title": "修复第一座救援信标",
-		"description": "单人三项委托前两项已完成（C1-02、C1-03）",
-		"quest_kind": "story_task_script",
-		"chapter_id": "chapter_1",
-		"required_lead_hero_id": 0,
-		"required_hero_id": 0,
-		"giver_npc_id": 9001,
-		"turn_in_npc_id": 9001,
-		"objectives": [
-			{
-				"id": "talk_9022",
-				"type": "talk",
-				"npc_id": 9022,
-				"count": 1
-			},
-			{
-				"id": "talk_9001",
-				"type": "talk",
-				"npc_id": 9001,
-				"count": 1
-			},
-			{
-				"id": "area_c1_04_a_beacon_arrived",
-				"type": "area_trigger",
-				"event_name": "c1_04_a_beacon_arrived",
-				"name": "进入外围信标塔（区域事件：c1_04_a_beacon_arrived）",
-				"count": 1
-			},
-			{
-				"id": "kill_8019",
-				"type": "kill",
-				"enemy_id": 8019,
-				"count": 4,
-				"name": "清理甲虫 ×4（敌人 ID：8019）"
-			},
-			{
-				"id": "kill_8021",
-				"type": "kill",
-				"enemy_id": 8021,
-				"count": 1,
-				"name": "清理精英甲虫 ×1（敌人 ID：8021）"
-			},
-			{
-				"id": "collect_100254",
-				"type": "collect",
-				"item_id": 100254,
-				"count": 2,
-				"name": "取回导片 ×2（物品 ID：100254）",
-				"consume_on_turn_in": true
-			},
-			{
-				"id": "pending_c1_04_a_6",
-				"type": "named_event",
-				"event_name": "pending_c1_04_a_6",
-				"name": "待绑定玩法：按三拍节奏装回控制环（QTE/节奏解谜）",
-				"count": 1
-			},
-			{
-				"id": "pending_c1_04_a_7",
-				"type": "named_event",
-				"event_name": "pending_c1_04_a_7",
-				"name": "待绑定玩法：信标亮起，收到两处救援点回应",
-				"count": 1
-			}
-		],
-		"stages": [
-			{
-				"id": "C1-04-A-S01",
-				"title": "过场",
-				"order": 1,
-				"kind": "cinematic",
-				"node_ids": [
-					"C1-04-A.D01",
-					"C1-04-A.D02"
-				],
-				"objective_ids": [
-					"talk_9022",
-					"talk_9001"
-				],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			},
-			{
-				"id": "C1-04-A-S02",
-				"title": "抵达信标塔",
-				"order": 2,
-				"kind": "interact",
-				"node_ids": [
-					"C1-04-A.D03K-1",
-					"C1-04-A.D03K-2",
-					"C1-04-A.D03L",
-					"C1-04-A.D03M"
-				],
-				"objective_ids": [
-					"area_c1_04_a_beacon_arrived"
-				],
-				"enter_when": {
-					"type": "area_event",
-					"event_name": "c1_04_a_beacon_arrived"
 				},
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			},
-			{
-				"id": "C1-04-A-S03",
-				"title": "清理甲虫",
-				"order": 3,
-				"kind": "combat",
-				"node_ids": [
-					"C1-04-A.D04",
-					"C1-04-A.D05"
-				],
-				"objective_ids": [
-					"kill_8019",
-					"kill_8021"
-				],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			},
-			{
-				"id": "C1-04-A-S04",
-				"title": "取回导片",
-				"order": 4,
-				"kind": "explore",
-				"node_ids": [
-					"C1-04-A.D06"
-				],
-				"objective_ids": [
-					"collect_100254"
-				],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			},
-			{
-				"id": "C1-04-A-S05",
-				"title": "修复信标并确认救援方向",
-				"order": 5,
-				"kind": "interact",
-				"node_ids": [
-					"C1-04-A.D07",
-					"C1-04-A.D08",
-					"C1-04-A.D09"
-				],
-				"objective_ids": [
-					"pending_c1_04_a_6",
-					"pending_c1_04_a_7"
-				],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			}
-		],
-		"rewards": {
-			"items": [],
-			"flags": [
 				{
-					"flag": "OuterBeaconRestored",
-					"value": true
+					"flag": "PartyStage",
+					"value": "Duo"
 				}
 			]
 		},
@@ -1037,9 +1588,7 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9001": 0,
-				"9022": 2400,
-				"9023": 18200
+				"9020": 0
 			}
 		},
 		"required_quest_ids": [
@@ -1062,7 +1611,7 @@
 				"id": "pending_c1_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_04_b_1",
-				"name": "待绑定玩法：【玩家选择】`SecondHero`（决定下一段会合对象）",
+				"name": "`SecondHero`（决定下一段会合对象）",
 				"count": 1
 			}
 		],
@@ -1110,48 +1659,61 @@
 	},
 	"21050": {
 		"id": 21050,
-		"title": "循迹会合",
-		"description": "选择完成",
+		"title": "最后一袋信",
+		"description": "完成 C1-04-A 且 `PartyStage=Duo`",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
 		"objectives": [
 			{
-				"id": "pending_c1_05_a_1",
-				"type": "named_event",
-				"event_name": "pending_c1_05_a_1",
-				"name": "待绑定玩法：调查救援痕迹 3/3（追踪进度）",
+				"id": "talk_9046",
+				"type": "talk",
+				"npc_id": 9046,
 				"count": 1
 			},
 			{
-				"id": "pending_c1_05_a_2",
-				"type": "named_event",
-				"event_name": "pending_c1_05_a_2",
-				"name": "待绑定玩法：与第二名主角会合并合力突围",
+				"id": "talk_9047",
+				"type": "talk",
+				"npc_id": 9047,
 				"count": 1
 			},
 			{
-				"id": "pending_c1_05_a_3",
-				"type": "named_event",
-				"event_name": "pending_c1_05_a_3",
-				"name": "待绑定玩法：击败渊蚀兽 ×5、精英 ×1，掩护最后两名居民撤离",
-				"count": 1
+				"id": "collect_100248",
+				"type": "collect",
+				"item_id": 100248,
+				"count": 3,
+				"name": "从史莱姆藏纸点找回「信件束」(item_100248)×3",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "collect_100235",
+				"type": "collect",
+				"item_id": 100235,
+				"count": 1,
+				"name": "找回「旧邮袋」(item_100235)",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
 			{
 				"id": "C1-05-A-S01",
-				"title": "途中",
+				"title": "接取",
 				"order": 1,
-				"kind": "travel",
+				"kind": "interact",
 				"node_ids": [
-					"C1-05-A.D01"
+					"C1-05-A.D01",
+					"C1-05-A.D02",
+					"C1-05-A.D03a-1",
+					"C1-05-A.D03b-1",
+					"C1-05-A.D03c-1",
+					"C1-05-A.D04"
 				],
 				"objective_ids": [
-					"pending_c1_05_a_1"
+					"collect_100248",
+					"collect_100235"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1161,31 +1723,13 @@
 			},
 			{
 				"id": "C1-05-A-S02",
-				"title": "交互",
+				"title": "收集",
 				"order": 2,
-				"kind": "interact",
+				"kind": "combat",
 				"node_ids": [
-					"C1-05-A.D02a-1",
-					"C1-05-A.D02a-2",
-					"C1-05-A.D02a-3",
-					"C1-05-A.D02a-4",
-					"C1-05-A.D02b-1",
-					"C1-05-A.D02b-2",
-					"C1-05-A.D02b-3",
-					"C1-05-A.D02b-4",
-					"C1-05-A.D02c-1",
-					"C1-05-A.D02c-2",
-					"C1-05-A.D02c-3",
-					"C1-05-A.D02d-1",
-					"C1-05-A.D02d-2",
-					"C1-05-A.D02d-3",
-					"C1-05-A.D02d-4",
-					"C1-05-A.D02e-1",
-					"C1-05-A.D02e-2",
-					"C1-05-A.D02e-3",
-					"C1-05-A.D02f-1",
-					"C1-05-A.D02f-2",
-					"C1-05-A.D02f-3"
+					"C1-05-A.D05",
+					"C1-05-A.D06",
+					"C1-05-A.D07"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -1196,17 +1740,17 @@
 			},
 			{
 				"id": "C1-05-A-S03",
-				"title": "战斗",
+				"title": "交付",
 				"order": 3,
-				"kind": "combat",
+				"kind": "complete",
 				"node_ids": [
 					"C1-05-A.D08",
 					"C1-05-A.D09",
 					"C1-05-A.D10"
 				],
 				"objective_ids": [
-					"pending_c1_05_a_2",
-					"pending_c1_05_a_3"
+					"talk_9046",
+					"talk_9047"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1217,20 +1761,26 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "LastMailbagRecovered",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C1-05-A",
 			"dialogue_id": "task_c1_05_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"9003": 0
+			}
 		},
 		"required_quest_ids": [
-			21041
+			21040
 		],
-		"level_id": 1,
-		"auto_start": true
+		"level_id": 1
 	},
 	"21051": {
 		"id": 21051,
@@ -1247,7 +1797,7 @@
 				"id": "pending_c1_05_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_05_b_2",
-				"name": "待绑定玩法：在霍雷克的临时同行契约上登记第二名主角身份",
+				"name": "在霍雷克的临时同行契约上登记第二名主角身份",
 				"count": 1
 			}
 		],
@@ -1359,33 +1909,47 @@
 	},
 	"21060": {
 		"id": 21060,
-		"title": "打捞沉河邮袋",
-		"description": "双人队抵达旧邮车棚，洛伯接洽",
+		"title": "退热药与林道投递",
+		"description": "完成 C1-05-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9003,
-		"turn_in_npc_id": 9003,
+		"turn_in_npc_id": 9025,
 		"objectives": [
 			{
-				"id": "pending_c1_06_a_2",
-				"type": "named_event",
-				"event_name": "pending_c1_06_a_2",
-				"name": "待绑定玩法：从三处漂流物堆找回信件束（战斗：轻量史莱姆群）",
+				"id": "area_c1_mail_route_2",
+				"type": "area_trigger",
+				"event_name": "c1_mail_route_2",
+				"name": "替洛伯押送药包与信件",
+				"count": 1
+			},
+			{
+				"id": "kill_8021",
+				"type": "kill",
+				"enemy_id": 8021,
+				"count": 2,
+				"name": "击退沿途抢东西的甲虫（击杀 精英甲虫 enemy_8021 ×2）"
+			},
+			{
+				"id": "talk_9025",
+				"type": "talk",
+				"npc_id": 9025,
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C1-06-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C1-06-A.D01",
-					"C1-06-A.D02-1",
-					"C1-06-A.D02-2",
+					"C1-06-A.D02a-1",
+					"C1-06-A.D02b-1",
+					"C1-06-A.D02c-1",
 					"C1-06-A.D03"
 				],
 				"objective_ids": [],
@@ -1397,18 +1961,17 @@
 			},
 			{
 				"id": "C1-06-A-S02",
-				"title": "战斗",
+				"title": "护送",
 				"order": 2,
 				"kind": "combat",
 				"node_ids": [
-					"C1-06-A.D04a-1",
-					"C1-06-A.D04a-2",
-					"C1-06-A.D04b-1",
-					"C1-06-A.D04b-2",
-					"C1-06-A.D04c-1"
+					"C1-06-A.D04",
+					"C1-06-A.D05a-1",
+					"C1-06-A.D05b-1",
+					"C1-06-A.D05c-1"
 				],
 				"objective_ids": [
-					"pending_c1_06_a_2"
+					"kill_8021"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1418,18 +1981,38 @@
 			},
 			{
 				"id": "C1-06-A-S03",
-				"title": "调查",
+				"title": "途中",
 				"order": 3,
-				"kind": "explore",
+				"kind": "travel",
 				"node_ids": [
-					"C1-06-A.D07a-1",
-					"C1-06-A.D07a-2",
-					"C1-06-A.D07b-1",
-					"C1-06-A.D07b-2",
-					"C1-06-A.D07c-1",
-					"C1-06-A.D07c-2"
+					"C1-06-A.D06"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"area_c1_mail_route_2"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_mail_route_2"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C1-06-A.D07",
+					"C1-06-A.D08",
+					"C1-06-A.D09"
+				],
+				"objective_ids": [
+					"talk_9025"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1439,7 +2022,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "MailRoutePartiallyRestored",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C1-06-A",
@@ -1447,11 +2035,12 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9003": 0
+				"9003": 0,
+				"9025": 24880
 			}
 		},
 		"required_quest_ids": [
-			21051
+			21050
 		],
 		"level_id": 1
 	},
@@ -1470,14 +2059,14 @@
 				"id": "pending_c1_06_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_06_b_1",
-				"name": "待绑定玩法：护送退热药与第一捆信过绳桥",
+				"name": "护送退热药与第一捆信过绳桥",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_06_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_06_b_2",
-				"name": "待绑定玩法：完成过河顺序管理（限人/限包）",
+				"name": "完成过河顺序管理（限人/限包）",
 				"count": 1
 			}
 		],
@@ -1625,51 +2214,55 @@
 	},
 	"21070": {
 		"id": 21070,
-		"title": "护送灯油点亮第二信标",
-		"description": "补给队交接灯油",
+		"title": "第三座信标前的会合",
+		"description": "完成 C1-06-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9025,
-		"turn_in_npc_id": 9025,
+		"giver_npc_id": 9022,
+		"turn_in_npc_id": 9022,
 		"objectives": [
 			{
-				"id": "pending_c1_07_a_1",
-				"type": "named_event",
-				"event_name": "pending_c1_07_a_1",
-				"name": "待绑定玩法：护送补给队把灯油送到第二座灯",
+				"id": "area_c1_beacon_3_arrive",
+				"type": "area_trigger",
+				"event_name": "c1_beacon_3_arrive",
+				"name": "抵达第三座信标",
 				"count": 1
 			},
 			{
-				"id": "pending_c1_07_a_2",
+				"id": "event_c1_beacon_3_lit",
 				"type": "named_event",
-				"event_name": "pending_c1_07_a_2",
-				"name": "待绑定玩法：双人分工守点与校准，取得星火芯 ×2",
+				"event_name": "c1_beacon_3_lit",
+				"name": "合力修复信标",
 				"count": 1
 			},
 			{
-				"id": "pending_c1_07_a_3",
+				"id": "event_c1_third_hero_joined",
 				"type": "named_event",
-				"event_name": "pending_c1_07_a_3",
-				"name": "待绑定玩法：点亮第二信标",
+				"event_name": "c1_third_hero_joined",
+				"name": "与最后一名主角会合",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C1-07-A-S01",
-				"title": "护送",
+				"title": "途中",
 				"order": 1,
 				"kind": "travel",
 				"node_ids": [
 					"C1-07-A.D01",
-					"C1-07-A.D02a",
-					"C1-07-A.D02b"
+					"C1-07-A.D02",
+					"C1-07-A.D03"
 				],
 				"objective_ids": [
-					"pending_c1_07_a_1"
+					"area_c1_beacon_3_arrive"
 				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_beacon_3_arrive"
+				},
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1678,22 +2271,38 @@
 			},
 			{
 				"id": "C1-07-A-S02",
-				"title": "机关",
+				"title": "过场",
 				"order": 2,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
-					"C1-07-A.D04a-1",
-					"C1-07-A.D04a-2",
-					"C1-07-A.D04a-3",
-					"C1-07-A.D04b-1",
-					"C1-07-A.D04b-2",
-					"C1-07-A.D04c-1",
-					"C1-07-A.D04c-2",
-					"C1-07-A.D04c-3"
+					"C1-07-A.D04a",
+					"C1-07-A.D04b",
+					"C1-07-A.D04c",
+					"C1-07-A.D05a-1",
+					"C1-07-A.D05b-1",
+					"C1-07-A.D05c-1",
+					"C1-07-A.D06",
+					"C1-07-A.D07",
+					"C1-07-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C1-07-A.D09"
 				],
 				"objective_ids": [
-					"pending_c1_07_a_2",
-					"pending_c1_07_a_3"
+					"event_c1_beacon_3_lit",
+					"event_c1_third_hero_joined"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1704,7 +2313,16 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "ThreeMainHeroesAssembled",
+					"value": true
+				},
+				{
+					"flag": "PartyStage",
+					"value": "Trio"
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C1-07-A",
@@ -1712,11 +2330,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9025": 0
+				"9022": 0
 			}
 		},
 		"required_quest_ids": [
-			21062
+			21060
 		],
 		"level_id": 1
 	},
@@ -1735,7 +2353,7 @@
 				"id": "pending_c1_07_b_2",
 				"type": "named_event",
 				"event_name": "pending_c1_07_b_2",
-				"name": "待绑定玩法：会合并完成入队对白",
+				"name": "会合并完成入队对白",
 				"count": 1
 			}
 		],
@@ -1912,33 +2530,55 @@
 	},
 	"21080": {
 		"id": 21080,
-		"title": "邮站保卫战",
-		"description": "三人齐聚后，洛伯发现咕噜姆体内的干燥旧信",
+		"title": "咕噜姆与失路哨兵",
+		"description": "完成 C1-07-A 且 `PartyStage=Trio`",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_1",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
 		"giver_npc_id": 9003,
-		"turn_in_npc_id": 9003,
+		"turn_in_npc_id": 9001,
 		"objectives": [
 			{
-				"id": "tutorial_c1_08_a",
+				"id": "kill_8027",
+				"type": "kill",
+				"enemy_id": 8027,
+				"count": 1,
+				"name": "击败咕噜姆（击杀 咕噜姆 enemy_8027 ×1，先分离受污染黑核）"
+			},
+			{
+				"id": "event_c1_starwedge_1_calibrated",
 				"type": "named_event",
-				"event_name": "tutorial_c1_08_a",
-				"name": "响应同伴叫停（教学：即时停止攻击）",
+				"event_name": "c1_starwedge_1_calibrated",
+				"name": "校准第一枚星楔",
+				"count": 1
+			},
+			{
+				"id": "event_c1_stray_sentinel_repelled",
+				"type": "named_event",
+				"event_name": "c1_stray_sentinel_repelled",
+				"name": "驱退失路哨兵（剧情战）",
+				"count": 1
+			},
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C1-08-A-S01",
-				"title": "过场",
+				"title": "战斗",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
 					"C1-08-A.D01",
 					"C1-08-A.D02",
-					"C1-08-A.D03",
+					"C1-08-A.D03K-1",
+					"C1-08-A.D03L-1",
+					"C1-08-A.D03M-1",
 					"C1-08-A.D04"
 				],
 				"objective_ids": [],
@@ -1950,13 +2590,16 @@
 			},
 			{
 				"id": "C1-08-A-S02",
-				"title": "战斗",
+				"title": "过场",
 				"order": 2,
-				"kind": "combat",
+				"kind": "cinematic",
 				"node_ids": [
 					"C1-08-A.D05",
-					"C1-08-A.D06",
-					"C1-08-A.D07"
+					"C1-08-A.D06K-1",
+					"C1-08-A.D06L-1",
+					"C1-08-A.D06M-1",
+					"C1-08-A.D07",
+					"C1-08-A.D08"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -1967,17 +2610,58 @@
 			},
 			{
 				"id": "C1-08-A-S03",
-				"title": "交互",
+				"title": "战斗",
 				"order": 3,
-				"kind": "interact",
+				"kind": "combat",
 				"node_ids": [
-					"C1-08-A.D08",
 					"C1-08-A.D09",
-					"C1-08-A.D10-1",
-					"C1-08-A.D10-2"
+					"C1-08-A.D10",
+					"C1-08-A.D11"
 				],
 				"objective_ids": [
-					"tutorial_c1_08_a"
+					"kill_8027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S04",
+				"title": "过场",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-A.D12",
+					"C1-08-A.D13",
+					"C1-08-A.D14",
+					"C1-08-A.D15K-1",
+					"C1-08-A.D15L-1",
+					"C1-08-A.D15M-1",
+					"C1-08-A.D16"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S05",
+				"title": "交付",
+				"order": 5,
+				"kind": "complete",
+				"node_ids": [
+					"C1-08-A.D17",
+					"C1-08-A.D18",
+					"C1-08-A.D19"
+				],
+				"objective_ids": [
+					"event_c1_starwedge_1_calibrated",
+					"event_c1_stray_sentinel_repelled",
+					"talk_9001"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1988,7 +2672,20 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "Chapter1Complete",
+					"value": true
+				},
+				{
+					"flag": "RoyalLeyRestorationOperation",
+					"value": true
+				},
+				{
+					"flag": "GulumBefriended",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C1-08-A",
@@ -1996,14 +2693,14 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9003": 0,
-				"9026": 28120
+				"9001": 102060,
+				"9003": 0
 			}
 		},
 		"required_quest_ids": [
-			21072
+			21070
 		],
-		"level_id": 1
+		"level_id": 0
 	},
 	"21081": {
 		"id": 21081,
@@ -2020,7 +2717,7 @@
 				"id": "pending_c1_08_b_1",
 				"type": "named_event",
 				"event_name": "pending_c1_08_b_1",
-				"name": "待绑定玩法：三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
+				"name": "三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
 				"count": 1
 			}
 		],
@@ -2083,14 +2780,14 @@
 				"id": "pending_c1_08_c_3",
 				"type": "named_event",
 				"event_name": "pending_c1_08_c_3",
-				"name": "待绑定玩法：护送补给队过桥后开打",
+				"name": "护送补给队过桥后开打",
 				"count": 1
 			},
 			{
 				"id": "pending_c1_08_c_4",
 				"type": "named_event",
 				"event_name": "pending_c1_08_c_4",
-				"name": "待绑定玩法：战后调查残甲、盾步与封令",
+				"name": "战后调查残甲、盾步与封令",
 				"count": 1
 			}
 		],
@@ -2261,8 +2958,8 @@
 	},
 	"22010": {
 		"id": 22010,
-		"title": "回到原点的粮车",
-		"description": "三人随运粮车进入遗迹范围",
+		"title": "重复关门的遗响",
+		"description": "完成 C1-08-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
@@ -2271,26 +2968,48 @@
 		"turn_in_npc_id": 9004,
 		"objectives": [
 			{
-				"id": "pending_c2_01_a_2",
-				"type": "named_event",
-				"event_name": "pending_c2_01_a_2",
-				"name": "待绑定玩法：调查守门兵遗响与墙上刻痕",
+				"id": "area_c2_gate_arch",
+				"type": "area_trigger",
+				"event_name": "c2_gate_arch",
+				"name": "接近遗迹深处残拱门",
 				"count": 1
+			},
+			{
+				"id": "collect_100238",
+				"type": "collect",
+				"item_id": 100238,
+				"count": 1,
+				"name": "在碎石堆里找到木风车的三个部件（收集 「风车叶片」「风车轴」「风车底座」各1【占位 item】）",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "kill_8013",
+				"type": "kill",
+				"enemy_id": 8013,
+				"count": 3,
+				"name": "击退被惊动的亡灵守卫（击杀 亡魂 enemy_8013 ×3）"
 			}
 		],
 		"stages": [
 			{
 				"id": "C2-01-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
 					"C2-01-A.D01",
 					"C2-01-A.D02",
-					"C2-01-A.D03",
-					"C2-01-A.D04"
+					"C2-01-A.D03K-1",
+					"C2-01-A.D03L-1",
+					"C2-01-A.D03M-1"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"area_c2_gate_arch"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c2_gate_arch"
+				},
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2299,18 +3018,33 @@
 			},
 			{
 				"id": "C2-01-A-S02",
-				"title": "交互",
+				"title": "收集",
 				"order": 2,
-				"kind": "interact",
+				"kind": "travel",
 				"node_ids": [
+					"C2-01-A.D04",
 					"C2-01-A.D05",
-					"C2-01-A.D06",
-					"C2-01-A.D07",
-					"C2-01-A.D08"
+					"C2-01-A.D06"
 				],
 				"objective_ids": [
-					"pending_c2_01_a_2"
+					"collect_100238",
+					"kill_8013"
 				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-01-A.D07"
+				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2320,7 +3054,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "WindmillPartsFound",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C2-01-A",
@@ -2332,9 +3071,10 @@
 			}
 		},
 		"required_quest_ids": [
-			21083
+			21080
 		],
-		"level_id": 2
+		"level_id": 2,
+		"auto_start": true
 	},
 	"22011": {
 		"id": 22011,
@@ -2351,7 +3091,7 @@
 				"id": "pending_c2_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_01_b_1",
-				"name": "待绑定玩法：沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
+				"name": "沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
 				"count": 1
 			}
 		],
@@ -2414,14 +3154,14 @@
 				"id": "pending_c2_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_01_c_1",
-				"name": "待绑定玩法：击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
+				"name": "击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_01_c_5",
 				"type": "named_event",
 				"event_name": "pending_c2_01_c_5",
-				"name": "待绑定玩法：完成风车试装（装好但未启动）",
+				"name": "完成风车试装（装好但未启动）",
 				"count": 1
 			}
 		],
@@ -2526,20 +3266,34 @@
 	},
 	"22020": {
 		"id": 22020,
-		"title": "风车转动",
-		"description": "三人带着装好的风车抵达外侧小门",
+		"title": "等最后一个孩子过去",
+		"description": "完成 C2-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
 		"objectives": [
 			{
-				"id": "pending_c2_02_a_1",
+				"id": "event_c2_windmill_set",
 				"type": "named_event",
-				"event_name": "pending_c2_02_a_1",
-				"name": "待绑定玩法：三人协作开门引风，启动风车，恢复旧录音",
+				"event_name": "c2_windmill_set",
+				"name": "把木风车装回残拱边的旧轴座",
+				"count": 1
+			},
+			{
+				"id": "event_c2_last_child_passed",
+				"type": "named_event",
+				"event_name": "c2_last_child_passed",
+				"name": "护送最后一段孩子遗响通过残拱",
+				"count": 1
+			},
+			{
+				"id": "event_c2_gate_closed",
+				"type": "named_event",
+				"event_name": "c2_gate_closed",
+				"name": "看守门兵关上门",
 				"count": 1
 			}
 		],
@@ -2553,11 +3307,11 @@
 					"C2-02-A.D01",
 					"C2-02-A.D02",
 					"C2-02-A.D03",
-					"C2-02-A.D04"
+					"C2-02-A.D04K-1",
+					"C2-02-A.D04L-1",
+					"C2-02-A.D04M-1"
 				],
-				"objective_ids": [
-					"pending_c2_02_a_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2570,8 +3324,7 @@
 				"order": 2,
 				"kind": "cinematic",
 				"node_ids": [
-					"C2-02-A.D05-1",
-					"C2-02-A.D05-2",
+					"C2-02-A.D05",
 					"C2-02-A.D06",
 					"C2-02-A.D07",
 					"C2-02-A.D08"
@@ -2582,11 +3335,35 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false
+			},
+			{
+				"id": "C2-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-02-A.D09"
+				],
+				"objective_ids": [
+					"event_c2_windmill_set",
+					"event_c2_last_child_passed",
+					"event_c2_gate_closed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
 			}
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "GatekeeperStoryComplete",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C2-02-A",
@@ -2594,14 +3371,13 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9004": 22120
+				"9004": 0
 			}
 		},
 		"required_quest_ids": [
-			22012
+			22010
 		],
-		"level_id": 2,
-		"auto_start": true
+		"level_id": 2
 	},
 	"22021": {
 		"id": 22021,
@@ -2618,14 +3394,14 @@
 				"id": "pending_c2_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_02_b_1",
-				"name": "待绑定玩法：露娜引导孩子跨过门槛（路线选择权归孩子）",
+				"name": "露娜引导孩子跨过门槛（路线选择权归孩子）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c2_02_b_2",
-				"name": "待绑定玩法：护送孩子走完全程，击退守门魔偶 ×6（两波）",
+				"name": "护送孩子走完全程，击退守门魔偶 ×6（两波）",
 				"count": 1
 			}
 		],
@@ -2702,21 +3478,21 @@
 				"id": "pending_c2_02_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_1",
-				"name": "待绑定玩法：【关键操作】玩家手动拉下门闩（按 LeadHero 分支演出）",
+				"name": "玩家手动拉下门闩（按 LeadHero 分支演出）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_2",
-				"name": "待绑定玩法：守门兵遗响完成最后一次计数，循环结束",
+				"name": "守门兵遗响完成最后一次计数，循环结束",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_02_c_3",
 				"type": "named_event",
 				"event_name": "pending_c2_02_c_3",
-				"name": "待绑定玩法：封存两版命令与全部证物",
+				"name": "封存两版命令与全部证物",
 				"count": 1
 			}
 		],
@@ -2804,8 +3580,8 @@
 	},
 	"22030": {
 		"id": 22030,
-		"title": "膜选择的门",
-		"description": "持有凝胶记忆膜，抵达职业房",
+		"title": "主角的职业房间",
+		"description": "完成 C2-02-A 且持有 item_100237",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
@@ -2814,24 +3590,63 @@
 		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "pending_c2_03_a_2",
+				"id": "event_c2_legacy_room_opened",
 				"type": "named_event",
-				"event_name": "pending_c2_03_a_2",
-				"name": "待绑定玩法：【主角机关】`LeadHero` 独自通过房间考验（按职业三选一）",
+				"event_name": "c2_legacy_room_opened",
+				"name": "用凝胶记忆膜开启与主角共鸣的旧门",
+				"count": 1
+			},
+			{
+				"id": "kill_8020",
+				"type": "kill",
+				"enemy_id": 8020,
+				"count": 2,
+				"name": "完成房间内的回响试炼（击杀 石人 enemy_8020 ×2）"
+			},
+			{
+				"id": "event_c2_pact_legacy_acquired",
+				"type": "named_event",
+				"event_name": "c2_pact_legacy_acquired",
+				"name": "取得主契遗装",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C2-03-A-S01",
-				"title": "过场",
+				"title": "机关",
 				"order": 1,
-				"kind": "cinematic",
+				"kind": "interact",
 				"node_ids": [
 					"C2-03-A.D01",
-					"C2-03-A.D02",
-					"C2-03-A.D03",
-					"C2-03-A.D04"
+					"C2-03-A.D02"
+				],
+				"objective_ids": [
+					"event_c2_legacy_room_opened"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-03-A.D03K-1",
+					"C2-03-A.D03L-1",
+					"C2-03-A.D03M-1",
+					"C2-03-A.D04K-1",
+					"C2-03-A.D04L-1",
+					"C2-03-A.D04M-1",
+					"C2-03-A.D05",
+					"C2-03-A.D06K-1",
+					"C2-03-A.D06L-1",
+					"C2-03-A.D06M-1",
+					"C2-03-A.D07"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -2841,23 +3656,16 @@
 				"inferred": false
 			},
 			{
-				"id": "C2-03-A-S02",
-				"title": "主角机关",
-				"order": 2,
-				"kind": "interact",
+				"id": "C2-03-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
 				"node_ids": [
-					"C2-03-A.D05K-1",
-					"C2-03-A.D05K-2",
-					"C2-03-A.D05K-3",
-					"C2-03-A.D05L-1",
-					"C2-03-A.D05L-2",
-					"C2-03-A.D05L-3",
-					"C2-03-A.D05M-1",
-					"C2-03-A.D05M-2",
-					"C2-03-A.D05M-3"
+					"C2-03-A.D08"
 				],
 				"objective_ids": [
-					"pending_c2_03_a_2"
+					"kill_8020",
+					"event_c2_pact_legacy_acquired"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -2868,7 +3676,24 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "PactLegacyAcquired",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Knight",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Archer",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Mage",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C2-03-A",
@@ -2878,10 +3703,11 @@
 			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			22022
+			22020
 		],
 		"level_id": 2,
-		"auto_start": true
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"22031": {
 		"id": 22031,
@@ -2898,7 +3724,7 @@
 				"id": "pending_c2_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_03_b_1",
-				"name": "待绑定玩法：击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
+				"name": "击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
 				"count": 1
 			}
 		],
@@ -2955,14 +3781,14 @@
 				"id": "pending_c2_03_c_1",
 				"type": "named_event",
 				"event_name": "pending_c2_03_c_1",
-				"name": "待绑定玩法：取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
+				"name": "取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_03_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_03_c_2",
-				"name": "待绑定玩法：交付检查（按 LeadHero 分支）",
+				"name": "交付检查（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -3029,44 +3855,50 @@
 	},
 	"22040": {
 		"id": 22040,
-		"title": "接班印与阿尔戈",
-		"description": "三人进入钟楼，主钟仍牵动地下封锁",
+		"title": "阿尔戈的钟",
+		"description": "完成 C2-03-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_2",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9028,
-		"turn_in_npc_id": 9028,
+		"giver_npc_id": 9013,
+		"turn_in_npc_id": 9013,
 		"objectives": [
 			{
-				"id": "pending_c2_04_a_1",
-				"type": "named_event",
-				"event_name": "pending_c2_04_a_1",
-				"name": "待绑定玩法：依次关闭钟楼三层齿轮锁（机关）",
+				"id": "talk_9013",
+				"type": "talk",
+				"npc_id": 9013,
 				"count": 1
 			},
 			{
-				"id": "pending_c2_04_a_3",
+				"id": "event_c2_bell_mechanism_down",
 				"type": "named_event",
-				"event_name": "pending_c2_04_a_3",
-				"name": "待绑定玩法：Boss 战·阿尔戈（战斗目标是接班而非摧毁）：莱昂引开重锤、露娜偏钟半拍、米娅报窗口",
+				"event_name": "c2_bell_mechanism_down",
+				"name": "击破钟楼机关",
 				"count": 1
+			},
+			{
+				"id": "kill_8028",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1,
+				"name": "击败阿尔戈（击杀 阿尔戈 enemy_8028 ×1）"
 			}
 		],
 		"stages": [
 			{
 				"id": "C2-04-A-S01",
-				"title": "机关",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C2-04-A.D01",
 					"C2-04-A.D02",
-					"C2-04-A.D03",
-					"C2-04-A.D04"
+					"C2-04-A.D03"
 				],
 				"objective_ids": [
-					"pending_c2_04_a_1"
+					"talk_9013",
+					"event_c2_bell_mechanism_down"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3080,17 +3912,51 @@
 				"order": 2,
 				"kind": "combat",
 				"node_ids": [
+					"C2-04-A.D04",
 					"C2-04-A.D05",
-					"C2-04-A.D06",
+					"C2-04-A.D06"
+				],
+				"objective_ids": [
+					"kill_8028"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
 					"C2-04-A.D07",
 					"C2-04-A.D08",
-					"C2-04-A.D09",
+					"C2-04-A.D09K-1",
+					"C2-04-A.D09L-1",
+					"C2-04-A.D09M-1",
 					"C2-04-A.D10",
 					"C2-04-A.D11"
 				],
-				"objective_ids": [
-					"pending_c2_04_a_3"
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C2-04-A.D12",
+					"C2-04-A.D13",
+					"C2-04-A.D14"
 				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3100,7 +3966,16 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "Chapter2Complete",
+					"value": true
+				},
+				{
+					"flag": "OzRecruitUnlocked",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C2-04-A",
@@ -3108,11 +3983,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9028": 0
+				"9013": 0
 			}
 		},
 		"required_quest_ids": [
-			22032
+			22030
 		],
 		"level_id": 2
 	},
@@ -3131,14 +4006,14 @@
 				"id": "pending_c2_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c2_04_b_1",
-				"name": "待绑定玩法：确认四座副钟连续接拍（机关验证）",
+				"name": "确认四座副钟连续接拍（机关验证）",
 				"count": 1
 			},
 			{
 				"id": "pending_c2_04_b_3",
 				"type": "named_event",
 				"event_name": "pending_c2_04_b_3",
-				"name": "待绑定玩法：调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
+				"name": "调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
 				"count": 1
 			}
 		],
@@ -3242,7 +4117,7 @@
 				"id": "pending_c2_04_c_2",
 				"type": "named_event",
 				"event_name": "pending_c2_04_c_2",
-				"name": "待绑定玩法：霍雷克远程见证封存，章节结算",
+				"name": "霍雷克远程见证封存，章节结算",
 				"count": 1
 			}
 		],
@@ -3311,8 +4186,8 @@
 	},
 	"23010": {
 		"id": 23010,
-		"title": "答案：储物柜四十七",
-		"description": "三人取得学院外围通行权限，进入重复教室",
+		"title": "停办的毕业考试",
+		"description": "完成 C2-04-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
@@ -3321,30 +4196,39 @@
 		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "pending_c3_01_a_2",
-				"type": "named_event",
-				"event_name": "pending_c3_01_a_2",
-				"name": "待绑定玩法：穿过三间重复教室，击败书灵 ×5，找回答卷页 ×3",
-				"count": 1
-			},
-			{
 				"id": "talk_9005",
 				"type": "talk",
 				"npc_id": 9005,
+				"count": 1
+			},
+			{
+				"id": "event_c3_quiz_answered",
+				"type": "named_event",
+				"event_name": "c3_quiz_answered",
+				"name": "陪它答完今天的三道考题",
+				"count": 1
+			},
+			{
+				"id": "pending_c3_01_a_3",
+				"type": "named_event",
+				"event_name": "pending_c3_01_a_3",
+				"name": "弄清考题数字的含义（收集 「考卷残页」×1）",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C3-01-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
 					"C3-01-A.D01",
 					"C3-01-A.D02",
 					"C3-01-A.D03",
-					"C3-01-A.D04"
+					"C3-01-A.D04K-1",
+					"C3-01-A.D04L-1",
+					"C3-01-A.D04M-1"
 				],
 				"objective_ids": [
 					"talk_9005"
@@ -3357,16 +4241,32 @@
 			},
 			{
 				"id": "C3-01-A-S02",
-				"title": "途中",
+				"title": "交互",
 				"order": 2,
-				"kind": "travel",
+				"kind": "interact",
 				"node_ids": [
 					"C3-01-A.D05",
 					"C3-01-A.D06",
 					"C3-01-A.D07"
 				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-01-A.D08"
+				],
 				"objective_ids": [
-					"pending_c3_01_a_2"
+					"event_c3_quiz_answered",
+					"pending_c3_01_a_3"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3377,7 +4277,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "SeventeenMet",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C3-01-A",
@@ -3385,14 +4290,14 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9005": 0,
-				"9029": 6600
+				"9005": 0
 			}
 		},
 		"required_quest_ids": [
-			22042
+			22040
 		],
-		"level_id": 3
+		"level_id": 3,
+		"auto_start": true
 	},
 	"23011": {
 		"id": 23011,
@@ -3409,7 +4314,7 @@
 				"id": "pending_c3_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_01_b_1",
-				"name": "待绑定玩法：把三组「错误答案」标回平面图，连成通往封存区的路线",
+				"name": "把三组「错误答案」标回平面图，连成通往封存区的路线",
 				"count": 1
 			}
 		],
@@ -3499,27 +4404,33 @@
 	},
 	"23020": {
 		"id": 23020,
-		"title": "四色烛芯",
-		"description": "档案柜定位后，毕业礼堂仍封闭，需点亮四座烛塔",
+		"title": "十七号的答案",
+		"description": "完成 C3-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
 		"objectives": [
 			{
-				"id": "pending_c3_02_a_1",
-				"type": "named_event",
-				"event_name": "pending_c3_02_a_1",
-				"name": "待绑定玩法：处理首塔点亮的负载危机（过场）",
+				"id": "area_c3_last_question",
+				"type": "area_trigger",
+				"event_name": "c3_last_question",
+				"name": "帮十七号找到最后一题的作答场所（石栏平台）",
 				"count": 1
 			},
 			{
-				"id": "pending_c3_02_a_2",
+				"id": "talk_9005",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			},
+			{
+				"id": "event_c3_seventeen_graduated",
 				"type": "named_event",
-				"event_name": "pending_c3_02_a_2",
-				"name": "待绑定玩法：击败四类元素体共 8 只，取得火、水、风、土烛芯",
+				"event_name": "c3_seventeen_graduated",
+				"name": "看它交卷",
 				"count": 1
 			}
 		],
@@ -3530,12 +4441,10 @@
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
-					"C3-02-A.D01",
-					"C3-02-A.D02",
-					"C3-02-A.D03"
+					"C3-02-A.D01"
 				],
 				"objective_ids": [
-					"pending_c3_02_a_1"
+					"talk_9005"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3545,16 +4454,57 @@
 			},
 			{
 				"id": "C3-02-A-S02",
-				"title": "战斗",
+				"title": "途中",
 				"order": 2,
-				"kind": "combat",
+				"kind": "travel",
 				"node_ids": [
-					"C3-02-A.D04",
-					"C3-02-A.D05",
-					"C3-02-A.D06"
+					"C3-02-A.D02",
+					"C3-02-A.D03",
+					"C3-02-A.D04L-1",
+					"C3-02-A.D04K-1",
+					"C3-02-A.D04M-1"
 				],
 				"objective_ids": [
-					"pending_c3_02_a_2"
+					"area_c3_last_question"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c3_last_question"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-02-A.D05",
+					"C3-02-A.D06",
+					"C3-02-A.D07",
+					"C3-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S04",
+				"title": "系统",
+				"order": 4,
+				"kind": "system",
+				"node_ids": [
+					"C3-02-A.D09"
+				],
+				"objective_ids": [
+					"event_c3_seventeen_graduated"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3565,20 +4515,26 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "SeventeenGraduated",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C3-02-A",
 			"dialogue_id": "task_c3_02_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"9005": 0
+			}
 		},
 		"required_quest_ids": [
-			23011
+			23010
 		],
-		"level_id": 3,
-		"auto_start": true
+		"level_id": 3
 	},
 	"23021": {
 		"id": 23021,
@@ -3595,14 +4551,14 @@
 				"id": "pending_c3_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_02_b_1",
-				"name": "待绑定玩法：【玩家选择】点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
+				"name": "点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
 				"count": 1
 			},
 			{
 				"id": "pending_c3_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c3_02_b_2",
-				"name": "待绑定玩法：主角完成最后一塔（按 LeadHero 分支）",
+				"name": "主角完成最后一塔（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -3615,9 +4571,7 @@
 				"node_ids": [
 					"C3-02-B.D01"
 				],
-				"objective_ids": [
-					"pending_c3_02_b_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3670,6 +4624,7 @@
 					"C3-02-B.D11"
 				],
 				"objective_ids": [
+					"pending_c3_02_b_1",
 					"pending_c3_02_b_2"
 				],
 				"failure_policy": "retry_stage",
@@ -3704,38 +4659,112 @@
 	},
 	"23030": {
 		"id": 23030,
-		"title": "点名册缺页与第十七个名字",
-		"description": "四塔稳定，准备送名册进礼堂",
+		"title": "四座烛塔",
+		"description": "完成 C3-02-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9005,
-		"turn_in_npc_id": 9005,
+		"giver_npc_id": 9029,
+		"turn_in_npc_id": 9029,
 		"objectives": [
 			{
-				"id": "pending_c3_03_a_1",
+				"id": "area_c3_tower_1",
+				"type": "area_trigger",
+				"event_name": "c3_tower_1",
+				"name": "重启第一座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_2",
+				"type": "area_trigger",
+				"event_name": "c3_tower_2",
+				"name": "重启第二座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_3",
+				"type": "area_trigger",
+				"event_name": "c3_tower_3",
+				"name": "重启第三座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_4",
+				"type": "area_trigger",
+				"event_name": "c3_tower_4",
+				"name": "重启第四座烛塔",
+				"count": 1
+			},
+			{
+				"id": "kill_8002",
+				"type": "kill",
+				"enemy_id": 8002,
+				"count": 6,
+				"name": "打断看守烛塔的学院魔偶（击杀 傀儡 enemy_8002 ×6）"
+			},
+			{
+				"id": "event_c3_roster_escorted",
 				"type": "named_event",
-				"event_name": "pending_c3_03_a_1",
-				"name": "待绑定玩法：从书灵长廊找回点名册缺页 ×3（每页同时保留正式学生与杂役物件编号）",
+				"event_name": "c3_roster_escorted",
+				"name": "护送点名册通过烛塔回路",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C3-03-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C3-03-A.D01",
 					"C3-03-A.D02",
-					"C3-03-A.D03",
+					"C3-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
 					"C3-03-A.D04",
-					"C3-03-A.D05"
+					"C3-03-A.D05M-1",
+					"C3-03-A.D05K-1",
+					"C3-03-A.D05L-1",
+					"C3-03-A.D06",
+					"C3-03-A.D07"
 				],
 				"objective_ids": [
-					"pending_c3_03_a_1"
+					"kill_8002",
+					"event_c3_roster_escorted"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-03-A.D08"
+				],
+				"objective_ids": [
+					"area_c3_tower_1",
+					"area_c3_tower_2",
+					"area_c3_tower_3",
+					"area_c3_tower_4"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3746,7 +4775,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "FourTowersLit",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C3-03-A",
@@ -3754,11 +4788,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9005": 0
+				"9029": 0
 			}
 		},
 		"required_quest_ids": [
-			23021
+			23020
 		],
 		"level_id": 3
 	},
@@ -3777,7 +4811,7 @@
 				"id": "pending_c3_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_03_b_1",
-				"name": "待绑定玩法：护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
+				"name": "护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
 				"count": 1
 			}
 		],
@@ -3906,8 +4940,8 @@
 	},
 	"23040": {
 		"id": 23040,
-		"title": "毕业战",
-		"description": "名册上讲台，礼堂主灯仍不肯熄灭",
+		"title": "露米娜与原始账页",
+		"description": "完成 C3-03-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
@@ -3916,24 +4950,25 @@
 		"turn_in_npc_id": 9030,
 		"objectives": [
 			{
-				"id": "pending_c3_04_a_2",
-				"type": "named_event",
-				"event_name": "pending_c3_04_a_2",
-				"name": "待绑定玩法：Boss 战·露米娜：打断召唤魔偶、保护点名册；每熔一灯报一次「记录已转移」",
-				"count": 1
+				"id": "kill_8029",
+				"type": "kill",
+				"enemy_id": 8029,
+				"count": 1,
+				"name": "击败露米娜（击杀 露米娜 enemy_8029 ×1）"
 			},
 			{
-				"id": "pending_c3_04_a_3",
-				"type": "named_event",
-				"event_name": "pending_c3_04_a_3",
-				"name": "待绑定玩法：主角完成最终失衡（按 LeadHero 分支）",
-				"count": 1
+				"id": "collect_100239",
+				"type": "collect",
+				"item_id": 100239,
+				"count": 1,
+				"name": "从封存处取回「记忆损耗账页」(item_100239)",
+				"consume_on_turn_in": true
 			},
 			{
-				"id": "pending_c3_04_a_4",
+				"id": "event_c3_evidence_copied",
 				"type": "named_event",
-				"event_name": "pending_c3_04_a_4",
-				"name": "待绑定玩法：十七号完成最终考试：答案「回家」，离校手续完成",
+				"event_name": "c3_evidence_copied",
+				"name": "建立多份互校的证据副本",
 				"count": 1
 			}
 		],
@@ -3946,8 +4981,9 @@
 				"node_ids": [
 					"C3-04-A.D01",
 					"C3-04-A.D02",
-					"C3-04-A.D03",
-					"C3-04-A.D04"
+					"C3-04-A.D03K-1",
+					"C3-04-A.D03L-1",
+					"C3-04-A.D03M-1"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -3962,13 +4998,12 @@
 				"order": 2,
 				"kind": "combat",
 				"node_ids": [
+					"C3-04-A.D04",
 					"C3-04-A.D05",
-					"C3-04-A.D06K",
-					"C3-04-A.D06L",
-					"C3-04-A.D06M"
+					"C3-04-A.D06"
 				],
 				"objective_ids": [
-					"pending_c3_04_a_2"
+					"kill_8029"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3982,13 +5017,33 @@
 				"order": 3,
 				"kind": "cinematic",
 				"node_ids": [
+					"C3-04-A.D07",
+					"C3-04-A.D08",
 					"C3-04-A.D09",
-					"C3-04-A.D10",
+					"C3-04-A.D10K-1",
+					"C3-04-A.D10L-1",
+					"C3-04-A.D10M-1",
 					"C3-04-A.D11"
 				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C3-04-A.D12",
+					"C3-04-A.D13"
+				],
 				"objective_ids": [
-					"pending_c3_04_a_3",
-					"pending_c3_04_a_4"
+					"collect_100239",
+					"event_c3_evidence_copied"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3999,7 +5054,20 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "Chapter3Complete",
+					"value": true
+				},
+				{
+					"flag": "OriginalLossLedgerSecured",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyStage2",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C3-04-A",
@@ -4007,12 +5075,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9005": 32080,
 				"9030": 0
 			}
 		},
 		"required_quest_ids": [
-			23032
+			23030
 		],
 		"level_id": 3
 	},
@@ -4031,7 +5098,7 @@
 				"id": "pending_c3_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c3_04_b_1",
-				"name": "待绑定玩法：调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
+				"name": "调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
 				"count": 1
 			}
 		],
@@ -4182,8 +5249,8 @@
 	},
 	"24010": {
 		"id": 24010,
-		"title": "倒退的船",
-		"description": "三人抵达港湾，暴雨刚停",
+		"title": "走不了的船",
+		"description": "完成 C3-04-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
@@ -4192,23 +5259,57 @@
 		"turn_in_npc_id": 9031,
 		"objectives": [
 			{
-				"id": "pending_c4_01_a_2",
-				"type": "named_event",
-				"event_name": "pending_c4_01_a_2",
-				"name": "待绑定玩法：听守塔人说明求助，三人定修复方案：莱昂卸反向力、米娅用磨痕校正潮汐钟、露娜定照射方向",
+				"id": "talk_9031",
+				"type": "talk",
+				"npc_id": 9031,
 				"count": 1
+			},
+			{
+				"id": "area_c4_pier_node",
+				"type": "area_trigger",
+				"event_name": "c4_pier_node",
+				"name": "解除栈桥回音节点",
+				"count": 1
+			},
+			{
+				"id": "area_c4_chain_node",
+				"type": "area_trigger",
+				"event_name": "c4_chain_node",
+				"name": "解除锚链回音节点",
+				"count": 1
+			},
+			{
+				"id": "area_c4_lane_node",
+				"type": "area_trigger",
+				"event_name": "c4_lane_node",
+				"name": "解除航道回音节点",
+				"count": 1
+			},
+			{
+				"id": "kill_8026",
+				"type": "kill",
+				"enemy_id": 8026,
+				"count": 4,
+				"name": "击退被回音引来的鱼人（击杀 鱼人 enemy_8026 ×4）"
 			}
 		],
 		"stages": [
 			{
 				"id": "C4-01-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
-				"kind": "cinematic",
+				"kind": "interact",
 				"node_ids": [
-					"C4-01-A.D01"
+					"C4-01-A.D01",
+					"C4-01-A.D02",
+					"C4-01-A.D03L-1",
+					"C4-01-A.D03K-1",
+					"C4-01-A.D03M-1",
+					"C4-01-A.D04"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9031"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4217,16 +5318,35 @@
 			},
 			{
 				"id": "C4-01-A-S02",
-				"title": "交互",
+				"title": "区域",
 				"order": 2,
-				"kind": "interact",
+				"kind": "combat",
 				"node_ids": [
-					"C4-01-A.D02",
-					"C4-01-A.D03",
-					"C4-01-A.D04"
+					"C4-01-A.D05",
+					"C4-01-A.D06",
+					"C4-01-A.D07"
 				],
 				"objective_ids": [
-					"pending_c4_01_a_2"
+					"kill_8026"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-01-A.D08"
+				],
+				"objective_ids": [
+					"area_c4_pier_node",
+					"area_c4_chain_node",
+					"area_c4_lane_node"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -4237,7 +5357,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "HarborEchoNodesCleared",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C4-01-A",
@@ -4249,9 +5374,10 @@
 			}
 		},
 		"required_quest_ids": [
-			23042
+			23040
 		],
-		"level_id": 4
+		"level_id": 4,
+		"auto_start": true
 	},
 	"24011": {
 		"id": 24011,
@@ -4268,14 +5394,14 @@
 				"id": "pending_c4_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c4_01_b_1",
-				"name": "待绑定玩法：击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
+				"name": "击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_01_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_01_b_2",
-				"name": "待绑定玩法：由守塔人说明安装依据（白痕朝海，按旧磨口接）",
+				"name": "由守塔人说明安装依据（白痕朝海，按旧磨口接）",
 				"count": 1
 			}
 		],
@@ -4333,7 +5459,7 @@
 				"id": "pending_c4_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c4_01_c_1",
-				"name": "待绑定玩法：清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
+				"name": "清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
 				"count": 1
 			}
 		],
@@ -4387,37 +5513,44 @@
 	},
 	"24020": {
 		"id": 24020,
-		"title": "追踪铁壳蟹",
-		"description": "灯塔恢复后，码头工求助：绞盘钥匙被偷",
+		"title": "两封信",
+		"description": "完成 C4-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9033,
-		"turn_in_npc_id": 9033,
+		"giver_npc_id": 9035,
+		"turn_in_npc_id": 9035,
 		"objectives": [
 			{
-				"id": "collect_100252",
+				"id": "collect_100240",
 				"type": "collect",
-				"item_id": 100252,
+				"item_id": 100240,
 				"count": 1,
-				"name": "三次追踪铁壳蟹，依次取回绞盘钥匙、鱼篓、露娜的鞋带（只能靠亮片与盐味引开）",
+				"name": "寻回「黄色雨衣纽扣」(item_100240)",
 				"consume_on_turn_in": true
+			},
+			{
+				"id": "talk_9035",
+				"type": "talk",
+				"npc_id": 9035,
+				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C4-02-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C4-02-A.D01",
 					"C4-02-A.D02",
-					"C4-02-A.D03",
-					"C4-02-A.D04"
+					"C4-02-A.D03"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9035"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4426,18 +5559,37 @@
 			},
 			{
 				"id": "C4-02-A-S02",
-				"title": "途中",
+				"title": "收集",
 				"order": 2,
 				"kind": "travel",
 				"node_ids": [
+					"C4-02-A.D04",
 					"C4-02-A.D05",
-					"C4-02-A.D06",
-					"C4-02-A.D07",
-					"C4-02-A.D08"
+					"C4-02-A.D06"
 				],
 				"objective_ids": [
-					"collect_100252"
+					"collect_100240"
 				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-02-A.D07",
+					"C4-02-A.D08L-1",
+					"C4-02-A.D08K-1",
+					"C4-02-A.D08M-1",
+					"C4-02-A.D09",
+					"C4-02-A.D10"
+				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4447,7 +5599,16 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "TwoLettersComplete",
+					"value": true
+				},
+				{
+					"flag": "RescueLaneRenamed",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C4-02-A",
@@ -4455,12 +5616,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9033": 0,
-				"9034": 2840
+				"9035": 0
 			}
 		},
 		"required_quest_ids": [
-			24012
+			24010
 		],
 		"level_id": 4
 	},
@@ -4486,14 +5646,14 @@
 				"id": "pending_c4_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c4_02_b_1",
-				"name": "待绑定玩法：击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
+				"name": "击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_02_b_2",
-				"name": "待绑定玩法：两段回音锚链落位，开启左右绞盘",
+				"name": "两段回音锚链落位，开启左右绞盘",
 				"count": 1
 			}
 		],
@@ -4553,7 +5713,7 @@
 				"id": "pending_c4_02_c_1",
 				"type": "named_event",
 				"event_name": "pending_c4_02_c_1",
-				"name": "待绑定玩法：辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
+				"name": "辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
 				"count": 1
 			}
 		],
@@ -4618,35 +5778,89 @@
 	},
 	"24030": {
 		"id": 24030,
-		"title": "雨衣上的针脚",
-		"description": "持纽扣找登记员",
+		"title": "凯的旧契约",
+		"description": "完成 C4-02-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9035,
-		"turn_in_npc_id": 9035,
+		"giver_npc_id": 9015,
+		"turn_in_npc_id": 9015,
 		"objectives": [
 			{
-				"id": "pending_c4_03_a_1",
+				"id": "area_c4_kai_ambush",
+				"type": "area_trigger",
+				"event_name": "c4_kai_ambush",
+				"name": "撞破凯的埋伏",
+				"count": 1
+			},
+			{
+				"id": "event_c4_kai_stopped",
 				"type": "named_event",
-				"event_name": "pending_c4_03_a_1",
-				"name": "待绑定玩法：纽扣与雨衣维修拓片逐针比对，取得旧船名与最后报位坐标",
+				"event_name": "c4_kai_stopped",
+				"name": "击退凯（切磋战，不击杀）",
+				"count": 1
+			},
+			{
+				"id": "event_c4_kai_truth",
+				"type": "named_event",
+				"event_name": "c4_kai_truth",
+				"name": "与凯对话，问清他的雇主与旧契约",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C4-03-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
 					"C4-03-A.D01",
-					"C4-03-A.D02"
+					"C4-03-A.D02",
+					"C4-03-A.D03L-1",
+					"C4-03-A.D03K-1",
+					"C4-03-A.D03M-1",
+					"C4-03-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C4-03-A.D05",
+					"C4-03-A.D06"
 				],
 				"objective_ids": [
-					"pending_c4_03_a_1"
+					"event_c4_kai_stopped"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-03-A.D07",
+					"C4-03-A.D08",
+					"C4-03-A.D09"
+				],
+				"objective_ids": [
+					"area_c4_kai_ambush",
+					"event_c4_kai_truth"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -4657,7 +5871,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "KaiRecruitUnlocked",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C4-03-A",
@@ -4665,11 +5884,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9035": 0
+				"9015": 0
 			}
 		},
 		"required_quest_ids": [
-			24022
+			24020
 		],
 		"level_id": 4
 	},
@@ -4688,14 +5907,14 @@
 				"id": "pending_c4_03_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_03_b_2",
-				"name": "待绑定玩法：击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
+				"name": "击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_03_b_3",
 				"type": "named_event",
 				"event_name": "pending_c4_03_b_3",
-				"name": "待绑定玩法：驾驶舱内取得未寄出的家书与日志录音",
+				"name": "驾驶舱内取得未寄出的家书与日志录音",
 				"count": 1
 			}
 		],
@@ -4771,14 +5990,14 @@
 				"id": "pending_c4_03_c_2",
 				"type": "named_event",
 				"event_name": "pending_c4_03_c_2",
-				"name": "待绑定玩法：主角回应（按 LeadHero 分支）",
+				"name": "主角回应（按 LeadHero 分支）",
 				"count": 1
 			},
 			{
 				"id": "pending_c4_03_c_3",
 				"type": "named_event",
 				"event_name": "pending_c4_03_c_3",
-				"name": "待绑定玩法：登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
+				"name": "登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
 				"count": 1
 			}
 		],
@@ -4865,38 +6084,51 @@
 	},
 	"24040": {
 		"id": 24040,
-		"title": "回音与赛壬",
-		"description": "失踪运输船坐标恢复，需解除回航循环",
+		"title": "赛壬与三源时间证据",
+		"description": "完成 C4-03-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_4",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9032,
 		"objectives": [
 			{
-				"id": "pending_c4_04_a_3",
+				"id": "kill_8030",
+				"type": "kill",
+				"enemy_id": 8030,
+				"count": 1,
+				"name": "击败赛壬（击杀 赛壬 enemy_8030 ×1）"
+			},
+			{
+				"id": "pending_c4_04_a_2",
 				"type": "named_event",
-				"event_name": "pending_c4_04_a_3",
-				"name": "待绑定玩法：关闭最后一枚贝壳，赛壬退为低强度残响",
+				"event_name": "pending_c4_04_a_2",
+				"name": "取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」×3）",
+				"count": 1
+			},
+			{
+				"id": "event_c4_evidence_evacuated",
+				"type": "named_event",
+				"event_name": "c4_evidence_evacuated",
+				"name": "在栈桥坍塌前完成撤离",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C4-04-A-S01",
-				"title": "机关",
+				"title": "过场",
 				"order": 1,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
-					"C4-04-A.D01-1",
-					"C4-04-A.D01-2",
-					"C4-04-A.D01-3",
-					"C4-04-A.D02"
+					"C4-04-A.D01",
+					"C4-04-A.D02",
+					"C4-04-A.D03K-1",
+					"C4-04-A.D03L-1",
+					"C4-04-A.D03M-1"
 				],
-				"objective_ids": [
-					"pending_c4_04_a_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4909,9 +6141,69 @@
 				"order": 2,
 				"kind": "combat",
 				"node_ids": [
-					"C4-04-A.D03"
+					"C4-04-A.D04",
+					"C4-04-A.D05"
+				],
+				"objective_ids": [
+					"kill_8030"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-A.D06",
+					"C4-04-A.D07",
+					"C4-04-A.D08K-1",
+					"C4-04-A.D08L-1",
+					"C4-04-A.D08M-1",
+					"C4-04-A.D09",
+					"C4-04-A.D10"
 				],
 				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S04",
+				"title": "过场",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-A.D11",
+					"C4-04-A.D12",
+					"C4-04-A.D13"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S05",
+				"title": "交付",
+				"order": 5,
+				"kind": "complete",
+				"node_ids": [
+					"C4-04-A.D14",
+					"C4-04-A.D15"
+				],
+				"objective_ids": [
+					"pending_c4_04_a_2",
+					"event_c4_evidence_evacuated"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4921,20 +6213,39 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "Chapter4Complete",
+					"value": true
+				},
+				{
+					"flag": "ThreeSourceTimelineSecured",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyStage3",
+					"value": true
+				},
+				{
+					"flag": "GreyKnightHarbor",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C4-04-A",
 			"dialogue_id": "task_c4_04_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"9031": 0,
+				"9032": 88280
+			}
 		},
 		"required_quest_ids": [
-			24032
+			24030
 		],
-		"level_id": 4,
-		"auto_start": true
+		"level_id": 4
 	},
 	"24041": {
 		"id": 24041,
@@ -4951,7 +6262,7 @@
 				"id": "pending_c4_04_b_2",
 				"type": "named_event",
 				"event_name": "pending_c4_04_b_2",
-				"name": "待绑定玩法：先完成三份原件备份，再通讯对质",
+				"name": "先完成三份原件备份，再通讯对质",
 				"count": 1
 			},
 			{
@@ -5184,8 +6495,8 @@
 	},
 	"25010": {
 		"id": 25010,
-		"title": "数活人",
-		"description": "三人持王城外围通行权抵达难民街，登记受阻",
+		"title": "焦土上的登记",
+		"description": "完成 C4-04-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
@@ -5194,46 +6505,43 @@
 		"turn_in_npc_id": 9037,
 		"objectives": [
 			{
-				"id": "pending_c5_01_a_1",
-				"type": "named_event",
-				"event_name": "pending_c5_01_a_1",
-				"name": "待绑定玩法：见证登记困境（过场）：系统标为全员撤离，粮票无法签收",
+				"id": "talk_9037",
+				"type": "talk",
+				"npc_id": 9037,
 				"count": 1
 			},
 			{
 				"id": "pending_c5_01_a_2",
 				"type": "named_event",
 				"event_name": "pending_c5_01_a_2",
-				"name": "待绑定玩法：与记数老人约定逐户登记方式",
+				"name": "在断墙间找回散落的「撤离名册残页」×3",
 				"count": 1
 			},
 			{
-				"id": "pending_c5_01_a_3",
-				"type": "named_event",
-				"event_name": "pending_c5_01_a_3",
-				"name": "待绑定玩法：走访药铺、面摊、修械棚，收集三户证据 3/3",
-				"count": 1
-			},
-			{
-				"id": "pending_c5_01_a_4",
-				"type": "named_event",
-				"event_name": "pending_c5_01_a_4",
-				"name": "待绑定玩法：清理阻断登记路线的灰烬亡灵 ×6",
-				"count": 1
+				"id": "kill_8007",
+				"type": "kill",
+				"enemy_id": 8007,
+				"count": 4,
+				"name": "击退游荡的灰烬骑士（击杀 灰烬骑士 enemy_8007 ×4）"
 			}
 		],
 		"stages": [
 			{
 				"id": "C5-01-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
-				"kind": "cinematic",
+				"kind": "interact",
 				"node_ids": [
 					"C5-01-A.D01",
 					"C5-01-A.D02",
-					"C5-01-A.D03"
+					"C5-01-A.D03K-1",
+					"C5-01-A.D03L-1",
+					"C5-01-A.D03M-1",
+					"C5-01-A.D04"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9037"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -5242,19 +6550,33 @@
 			},
 			{
 				"id": "C5-01-A-S02",
-				"title": "走访",
+				"title": "收集",
 				"order": 2,
-				"kind": "explore",
+				"kind": "combat",
 				"node_ids": [
-					"C5-01-A.D04",
 					"C5-01-A.D05",
 					"C5-01-A.D06"
 				],
 				"objective_ids": [
-					"pending_c5_01_a_1",
-					"pending_c5_01_a_2",
-					"pending_c5_01_a_3",
-					"pending_c5_01_a_4"
+					"kill_8007"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C5-01-A.D07",
+					"C5-01-A.D08"
+				],
+				"objective_ids": [
+					"pending_c5_01_a_2"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -5265,7 +6587,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "EvacueeRosterRestored",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C5-01-A",
@@ -5273,17 +6600,14 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9037": 0,
-				"9038": 9480,
-				"9039": 18120,
-				"9040": 21200,
-				"9041": 24280
+				"9037": 0
 			}
 		},
 		"required_quest_ids": [
-			24043
+			24040
 		],
-		"level_id": 5
+		"level_id": 5,
+		"auto_start": true
 	},
 	"25011": {
 		"id": 25011,
@@ -5300,7 +6624,7 @@
 				"id": "pending_c5_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_01_b_1",
-				"name": "待绑定玩法：记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
+				"name": "记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
 				"count": 1
 			}
 		],
@@ -5378,7 +6702,7 @@
 				"id": "pending_c5_01_c_1",
 				"type": "named_event",
 				"event_name": "pending_c5_01_c_1",
-				"name": "待绑定玩法：三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
+				"name": "三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
 				"count": 1
 			}
 		],
@@ -5428,36 +6752,96 @@
 	},
 	"25020": {
 		"id": 25020,
-		"title": "红绳与第二声号",
-		"description": "难民街地址恢复，老人持维修签收簿来访",
+		"title": "被写成逃兵的号手",
+		"description": "完成 C5-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9042,
-		"turn_in_npc_id": 9042,
+		"giver_npc_id": 9038,
+		"turn_in_npc_id": 9038,
 		"objectives": [
 			{
-				"id": "pending_c5_02_a_2",
+				"id": "talk_9038",
+				"type": "talk",
+				"npc_id": 9038,
+				"count": 1
+			},
+			{
+				"id": "event_c5_bellhammer_fixed",
 				"type": "named_event",
-				"event_name": "pending_c5_02_a_2",
-				"name": "待绑定玩法：找回断裂钟锤两段与撤离名单缺页 ×2（三源：焦黑脚印/撤离队形/机械时间）",
+				"event_name": "c5_bellhammer_fixed",
+				"name": "修复钟锤",
+				"count": 1
+			},
+			{
+				"id": "event_c5_backgate_fixed",
+				"type": "named_event",
+				"event_name": "c5_backgate_fixed",
+				"name": "修复备用门机关",
+				"count": 1
+			},
+			{
+				"id": "event_c5_bell_rang",
+				"type": "named_event",
+				"event_name": "c5_bell_rang",
+				"name": "让钟再响一次",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C5-02-A-S01",
-				"title": "交互",
+				"title": "接取",
 				"order": 1,
 				"kind": "interact",
 				"node_ids": [
 					"C5-02-A.D01",
-					"C5-02-A.D02-1",
-					"C5-02-A.D02-2"
+					"C5-02-A.D02",
+					"C5-02-A.D03"
 				],
 				"objective_ids": [
-					"pending_c5_02_a_2"
+					"talk_9038"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-A.D04",
+					"C5-02-A.D05",
+					"C5-02-A.D06",
+					"C5-02-A.D07"
+				],
+				"objective_ids": [
+					"event_c5_bellhammer_fixed",
+					"event_c5_backgate_fixed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C5-02-A.D08",
+					"C5-02-A.D09",
+					"C5-02-A.D10"
+				],
+				"objective_ids": [
+					"event_c5_bell_rang"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -5468,7 +6852,16 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "TrumpeterVindicated",
+					"value": true
+				},
+				{
+					"flag": "MeritWallUpdated",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C5-02-A",
@@ -5476,11 +6869,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9042": 0
+				"9038": 0
 			}
 		},
 		"required_quest_ids": [
-			25012
+			25010
 		],
 		"level_id": 5
 	},
@@ -5506,14 +6899,14 @@
 				"id": "pending_c5_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_02_b_1",
-				"name": "待绑定玩法：击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
+				"name": "击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
 				"count": 1
 			},
 			{
 				"id": "pending_c5_02_b_3",
 				"type": "named_event",
 				"event_name": "pending_c5_02_b_3",
-				"name": "待绑定玩法：备用门三道机关按名单顺序开启；多恩遗响消散",
+				"name": "备用门三道机关按名单顺序开启；多恩遗响消散",
 				"count": 1
 			}
 		],
@@ -5637,48 +7030,105 @@
 	},
 	"25030": {
 		"id": 25030,
-		"title": "三把锁",
-		"description": "备用门开启，抵达档案门",
+		"title": "雷欧哈特与封档",
+		"description": "完成 C5-02-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 0,
-		"turn_in_npc_id": 0,
+		"giver_npc_id": 9043,
+		"turn_in_npc_id": 9043,
 		"objectives": [
 			{
-				"id": "pending_c5_03_a_2",
+				"id": "kill_8031",
+				"type": "kill",
+				"enemy_id": 8031,
+				"count": 1,
+				"name": "击败雷欧哈特（击杀 雷欧哈特 enemy_8031 ×1）"
+			},
+			{
+				"id": "event_c5_archive_verified",
 				"type": "named_event",
-				"event_name": "pending_c5_03_a_2",
-				"name": "待绑定玩法：军务锁读取誓印：「直属盾卫队长：有效；直属统领栏：已刮除」，拓纸记录刮痕",
+				"event_name": "c5_archive_verified",
+				"name": "用三人当前身份验证镇脉行动封档",
 				"count": 1
 			},
 			{
-				"id": "pending_c5_03_a_4",
+				"id": "pending_c5_03_a_3",
 				"type": "named_event",
-				"event_name": "pending_c5_03_a_4",
-				"name": "待绑定玩法：米娅关闭焚毁术式，发现复核签名被削与津贴编号缺失，主动分开装袋",
+				"event_name": "pending_c5_03_a_3",
+				"name": "抄录封档关键页（收集 「封档抄件」×1）",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C5-03-A-S01",
-				"title": "机关",
+				"title": "过场",
 				"order": 1,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
 					"C5-03-A.D01",
 					"C5-03-A.D02",
-					"C5-03-A.D03",
+					"C5-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
 					"C5-03-A.D04",
-					"C5-03-A.D05",
-					"C5-03-A.D06",
-					"C5-03-A.D07"
+					"C5-03-A.D05"
 				],
 				"objective_ids": [
-					"pending_c5_03_a_2",
-					"pending_c5_03_a_4"
+					"kill_8031"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-03-A.D06",
+					"C5-03-A.D07",
+					"C5-03-A.D08",
+					"C5-03-A.D09",
+					"C5-03-A.D10",
+					"C5-03-A.D11",
+					"C5-03-A.D12"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C5-03-A.D13"
+				],
+				"objective_ids": [
+					"event_c5_archive_verified",
+					"pending_c5_03_a_3"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -5691,7 +7141,11 @@
 			"items": [],
 			"flags": [
 				{
-					"flag": "ThreeOldRolesVerified",
+					"flag": "ArchiveTruthRevealed",
+					"value": true
+				},
+				{
+					"flag": "LeadRolesConfirmed",
 					"value": true
 				}
 			]
@@ -5701,14 +7155,14 @@
 			"dialogue_id": "task_c5_03_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"9043": 0
+			}
 		},
 		"required_quest_ids": [
-			25022
+			25020
 		],
-		"level_id": 5,
-		"auto_start": true,
-		"auto_complete": true
+		"level_id": 5
 	},
 	"25031": {
 		"id": 25031,
@@ -5725,7 +7179,7 @@
 				"id": "pending_c5_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_03_b_1",
-				"name": "待绑定玩法：击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
+				"name": "击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
 				"count": 1
 			}
 		],
@@ -5843,42 +7297,50 @@
 	},
 	"25040": {
 		"id": 25040,
-		"title": "雷欧哈特的剑",
-		"description": "三种身份验证完成，面对看守者雷欧哈特",
+		"title": "最终清除令与主契重铸",
+		"description": "完成 C5-03-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_5",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9043,
-		"turn_in_npc_id": 9043,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
 		"objectives": [
 			{
-				"id": "pending_c5_04_a_2",
-				"type": "named_event",
-				"event_name": "pending_c5_04_a_2",
-				"name": "待绑定玩法：Boss 战·雷欧哈特：战斗围绕档案封条与火线，证据区不得燃尽",
+				"id": "talk_9044",
+				"type": "talk",
+				"npc_id": 9044,
 				"count": 1
 			},
 			{
-				"id": "talk_9043",
-				"type": "talk",
-				"npc_id": 9043,
+				"id": "event_c5_purge_terms_set",
+				"type": "named_event",
+				"event_name": "c5_purge_terms_set",
+				"name": "三人约定行动次序",
+				"count": 1
+			},
+			{
+				"id": "event_c5_pact_reforged",
+				"type": "named_event",
+				"event_name": "c5_pact_reforged",
+				"name": "完成主契遗装重铸",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C5-04-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
-				"kind": "cinematic",
+				"kind": "interact",
 				"node_ids": [
 					"C5-04-A.D01",
 					"C5-04-A.D02",
-					"C5-04-A.D03"
+					"C5-04-A.D03",
+					"C5-04-A.D04"
 				],
 				"objective_ids": [
-					"talk_9043"
+					"talk_9044"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -5888,15 +7350,21 @@
 			},
 			{
 				"id": "C5-04-A-S02",
-				"title": "战斗",
+				"title": "过场",
 				"order": 2,
-				"kind": "combat",
+				"kind": "cinematic",
 				"node_ids": [
-					"C5-04-A.D04"
+					"C5-04-A.D05K-1",
+					"C5-04-A.D05L-1",
+					"C5-04-A.D05M-1",
+					"C5-04-A.D06K-1",
+					"C5-04-A.D06L-1",
+					"C5-04-A.D06M-1",
+					"C5-04-A.D07",
+					"C5-04-A.D08",
+					"C5-04-A.D09"
 				],
-				"objective_ids": [
-					"pending_c5_04_a_2"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -5905,14 +7373,16 @@
 			},
 			{
 				"id": "C5-04-A-S03",
-				"title": "过场",
+				"title": "系统",
 				"order": 3,
-				"kind": "cinematic",
+				"kind": "system",
 				"node_ids": [
-					"C5-04-A.D05-1",
-					"C5-04-A.D05-2"
+					"C5-04-A.D10"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"event_c5_purge_terms_set",
+					"event_c5_pact_reforged"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -5922,7 +7392,32 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "Chapter5Complete",
+					"value": true
+				},
+				{
+					"flag": "FinalPurgeOrderAccepted",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyComplete",
+					"value": true
+				},
+				{
+					"flag": "KnightTruthComplete",
+					"value": true
+				},
+				{
+					"flag": "ArcherTruthComplete",
+					"value": true
+				},
+				{
+					"flag": "MageTruthComplete",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C5-04-A",
@@ -5930,11 +7425,11 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9043": 0
+				"9044": 0
 			}
 		},
 		"required_quest_ids": [
-			25032
+			25030
 		],
 		"level_id": 5
 	},
@@ -5953,7 +7448,7 @@
 				"id": "pending_c5_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c5_04_b_1",
-				"name": "待绑定玩法：取得岗位名册、星楔转换记录、永曜预算残页",
+				"name": "取得岗位名册、星楔转换记录、永曜预算残页",
 				"count": 1
 			},
 			{
@@ -6086,7 +7581,7 @@
 				"id": "pending_c5_04_d_3",
 				"type": "named_event",
 				"event_name": "pending_c5_04_d_3",
-				"name": "待绑定玩法：主契遗装写入三名当前调查成员（系统）",
+				"name": "主契遗装写入三名当前调查成员（系统）",
 				"count": 1
 			}
 		],
@@ -6178,34 +7673,60 @@
 	},
 	"26010": {
 		"id": 26010,
-		"title": "空的返程栏",
-		"description": "持前五枚星楔权限、三份现职凭证与最终清除令抵达核心门",
+		"title": "失落营地与第四套餐具",
+		"description": "完成 C5-04-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9044,
-		"turn_in_npc_id": 9044,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9044,
+				"id": "area_c6_lost_camp",
+				"type": "area_trigger",
+				"event_name": "c6_lost_camp",
+				"name": "调查旧营地",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_01_a_2",
+				"type": "named_event",
+				"event_name": "pending_c6_01_a_2",
+				"name": "记录营地的四处生活痕迹（收集 「营地痕迹记录」×4：烧黑的锅、四人份餐具、少一根的帐篷钉、补过的毯子）",
+				"count": 1
+			},
+			{
+				"id": "area_c6_failed_entry",
+				"type": "area_trigger",
+				"event_name": "c6_failed_entry",
+				"name": "调查旧封锁外的失败进入痕迹",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-01-A-S01",
-				"title": "通讯",
+				"title": "途中",
 				"order": 1,
-				"kind": "interact",
+				"kind": "travel",
 				"node_ids": [
 					"C6-01-A.D01",
-					"C6-01-A.D02-1",
-					"C6-01-A.D02-2"
+					"C6-01-A.D02",
+					"C6-01-A.D03K-1",
+					"C6-01-A.D03L-1",
+					"C6-01-A.D03M-1",
+					"C6-01-A.D04",
+					"C6-01-A.D05"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"area_c6_lost_camp",
+					"pending_c6_01_a_2"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_lost_camp"
+				},
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6214,16 +7735,34 @@
 			},
 			{
 				"id": "C6-01-A-S02",
-				"title": "机关",
+				"title": "过场",
 				"order": 2,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
-					"C6-01-A.D03",
-					"C6-01-A.D04",
-					"C6-01-A.D05",
 					"C6-01-A.D06",
 					"C6-01-A.D07",
 					"C6-01-A.D08"
+				],
+				"objective_ids": [
+					"area_c6_failed_entry"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_failed_entry"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-01-A.D09"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -6235,21 +7774,29 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "FourthPersonGap",
+					"value": true
+				},
+				{
+					"flag": "LostCampDocumented",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C6-01-A",
 			"dialogue_id": "task_c6_01_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {
-				"9044": 0
-			}
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			25043
+			25040
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_start": true
 	},
 	"26011": {
 		"id": 26011,
@@ -6266,21 +7813,21 @@
 				"id": "pending_c6_01_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_1",
-				"name": "待绑定玩法：防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
+				"name": "防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_01_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_2",
-				"name": "待绑定玩法：调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
+				"name": "调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_01_b_3",
 				"type": "named_event",
 				"event_name": "pending_c6_01_b_3",
-				"name": "待绑定玩法：交付：三人带着返程约定进入内环（按 LeadHero 分支）",
+				"name": "交付：三人带着返程约定进入内环（按 LeadHero 分支）",
 				"count": 1
 			}
 		],
@@ -6353,8 +7900,8 @@
 	},
 	"26020": {
 		"id": 26020,
-		"title": "第四套餐具",
-		"description": "核心门开启，营地重现",
+		"title": "内环取证",
+		"description": "完成 C6-01-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
@@ -6363,23 +7910,82 @@
 		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "pending_c6_02_a_1",
+				"id": "area_c6_core_gate",
+				"type": "area_trigger",
+				"event_name": "c6_core_gate",
+				"name": "进入核心门前区",
+				"count": 1
+			},
+			{
+				"id": "kill_8023",
+				"type": "kill",
+				"enemy_id": 8023,
+				"count": 4,
+				"name": "击溃脉化守卫（击杀 虚空怪 enemy_8023 ×4）"
+			},
+			{
+				"id": "pending_c6_02_a_3",
 				"type": "named_event",
-				"event_name": "pending_c6_02_a_1",
-				"name": "待绑定玩法：四处调查（餐具/轮值板/旧图/双头笔与环境物件），只记录可见事实",
+				"event_name": "pending_c6_02_a_3",
+				"name": "读取永曜灌注庭疗程记录（收集 「疗程记录抄件」×1）",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-02-A-S01",
-				"title": "过场",
+				"title": "区域",
 				"order": 1,
-				"kind": "cinematic",
+				"kind": "travel",
 				"node_ids": [
 					"C6-02-A.D01",
 					"C6-02-A.D02",
-					"C6-02-A.D03"
+					"C6-02-A.D03L-1",
+					"C6-02-A.D03K-1",
+					"C6-02-A.D03M-1"
+				],
+				"objective_ids": [
+					"area_c6_core_gate",
+					"pending_c6_02_a_3"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_core_gate"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C6-02-A.D04",
+					"C6-02-A.D05"
+				],
+				"objective_ids": [
+					"kill_8023"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-02-A.D06",
+					"C6-02-A.D07",
+					"C6-02-A.D08",
+					"C6-02-A.D09"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -6389,18 +7995,14 @@
 				"inferred": false
 			},
 			{
-				"id": "C6-02-A-S02",
-				"title": "调查",
-				"order": 2,
-				"kind": "explore",
+				"id": "C6-02-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
 				"node_ids": [
-					"C6-02-A.D04",
-					"C6-02-A.D05",
-					"C6-02-A.D06"
+					"C6-02-A.D10"
 				],
-				"objective_ids": [
-					"pending_c6_02_a_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6410,7 +8012,12 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "EverlightRecordsSecured",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C6-02-A",
@@ -6420,7 +8027,7 @@
 			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			26011
+			26010
 		],
 		"level_id": 6,
 		"auto_start": true
@@ -6440,14 +8047,14 @@
 				"id": "pending_c6_02_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_02_b_1",
-				"name": "待绑定玩法：【拉锯】是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
+				"name": "是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_02_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_02_b_2",
-				"name": "待绑定玩法：三人围第四空位完成一次免费配装（空位保持无人坐下）",
+				"name": "三人围第四空位完成一次免费配装（空位保持无人坐下）",
 				"count": 1
 			}
 		],
@@ -6497,35 +8104,85 @@
 	},
 	"26030": {
 		"id": 26030,
-		"title": "六张椅子",
-		"description": "穿过失落营地，进入灌注庭",
+		"title": "六楔地方维稳",
+		"description": "完成 C6-02-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9044,
-		"turn_in_npc_id": 9044,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "pending_c6_03_a_2",
+				"id": "event_c6_gate_held",
 				"type": "named_event",
-				"event_name": "pending_c6_03_a_2",
-				"name": "待绑定玩法：击败王室构造体 ×4、灌注守卫精英 ×1（战斗目标含保全证据：护铭印/截焚档/冻清除术式）",
+				"event_name": "c6_gate_held",
+				"name": "守住核心门与撤离线",
+				"count": 1
+			},
+			{
+				"id": "event_c6_safe_route_set",
+				"type": "named_event",
+				"event_name": "c6_safe_route_set",
+				"name": "标出不回冲地表的安全路线",
+				"count": 1
+			},
+			{
+				"id": "event_c6_wedges_stabilized",
+				"type": "named_event",
+				"event_name": "c6_wedges_stabilized",
+				"name": "把六枚星楔同步切换到地方低负载维稳",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-03-A-S01",
-				"title": "过场",
+				"title": "接取",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
 					"C6-03-A.D01",
-					"C6-03-A.D02"
+					"C6-03-A.D02",
+					"C6-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-03-A.D04",
+					"C6-03-A.D05",
+					"C6-03-A.D06",
+					"C6-03-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-03-A.D08"
 				],
 				"objective_ids": [
-					"pending_c6_03_a_2"
+					"event_c6_gate_held",
+					"event_c6_safe_route_set",
+					"event_c6_wedges_stabilized"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -6536,21 +8193,26 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "WedgesLocallyStabilized",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C6-03-A",
 			"dialogue_id": "task_c6_03_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {
-				"9044": 0
-			}
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			26021
+			26020
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"26031": {
 		"id": 26031,
@@ -6567,21 +8229,21 @@
 				"id": "pending_c6_03_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_1",
-				"name": "待绑定玩法：调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
+				"name": "调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_03_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_2",
-				"name": "待绑定玩法：调查二：内层参数无创伤闭合/失血恢复/战伤评估",
+				"name": "调查二：内层参数无创伤闭合/失血恢复/战伤评估",
 				"count": 1
 			},
 			{
 				"id": "pending_c6_03_b_3",
 				"type": "named_event",
 				"event_name": "pending_c6_03_b_3",
-				"name": "待绑定玩法：调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
+				"name": "调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
 				"count": 1
 			}
 		],
@@ -6671,7 +8333,7 @@
 				"id": "pending_c6_03_c_1",
 				"type": "named_event",
 				"event_name": "pending_c6_03_c_1",
-				"name": "待绑定玩法：【玩家选择】剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
+				"name": "剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
 				"count": 1
 			}
 		],
@@ -6711,36 +8373,45 @@
 	},
 	"26040": {
 		"id": 26040,
-		"title": "重排六楔",
-		"description": "永曜目的确认，第六枚星楔仍与核心目标连接",
+		"title": "第六号脉化体",
+		"description": "完成 C6-03-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9044,
-		"turn_in_npc_id": 9044,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "pending_c6_04_a_3",
-				"type": "named_event",
-				"event_name": "pending_c6_04_a_3",
-				"name": "待绑定玩法：【玩家操作】按邮路、粮道、救援航线顺序重排六楔，设置记忆吞噬阈值自动停机",
+				"id": "area_c6_core_entered",
+				"type": "area_trigger",
+				"event_name": "c6_core_entered",
+				"name": "进入核心门",
 				"count": 1
+			},
+			{
+				"id": "kill_8032",
+				"type": "kill",
+				"enemy_id": 8032,
+				"count": 1,
+				"name": "击败第六号脉化体（击杀 诺瓦 enemy_8032 ×1）"
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-04-A-S01",
-				"title": "机关",
+				"title": "过场",
 				"order": 1,
-				"kind": "interact",
+				"kind": "cinematic",
 				"node_ids": [
 					"C6-04-A.D01",
-					"C6-04-A.D02"
+					"C6-04-A.D02K-1",
+					"C6-04-A.D02L-1",
+					"C6-04-A.D02M-1",
+					"C6-04-A.D03",
+					"C6-04-A.D04"
 				],
-				"objective_ids": [
-					"pending_c6_04_a_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6749,17 +8420,44 @@
 			},
 			{
 				"id": "C6-04-A-S02",
-				"title": "拉锯",
+				"title": "战斗",
 				"order": 2,
-				"kind": "other",
+				"kind": "combat",
 				"node_ids": [
-					"C6-04-A.D03",
-					"C6-04-A.D04-1",
-					"C6-04-A.D04-2",
-					"C6-04-A.D04-3",
-					"C6-04-A.D05"
+					"C6-04-A.D05",
+					"C6-04-A.D06K-1",
+					"C6-04-A.D06L-1",
+					"C6-04-A.D06M-1",
+					"C6-04-A.D07",
+					"C6-04-A.D08K-1",
+					"C6-04-A.D08L-1",
+					"C6-04-A.D08M-1"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"kill_8032"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-04-A.D09",
+					"C6-04-A.D10",
+					"C6-04-A.D11K-1",
+					"C6-04-A.D11L-1",
+					"C6-04-A.D11M-1",
+					"C6-04-A.D12"
+				],
+				"objective_ids": [
+					"area_c6_core_entered"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -6769,21 +8467,38 @@
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "NovaDead_MemoryReturned",
+					"value": true
+				},
+				{
+					"flag": "FinalKnight",
+					"value": true
+				},
+				{
+					"flag": "FinalArcher",
+					"value": true
+				},
+				{
+					"flag": "FinalMage",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C6-04-A",
 			"dialogue_id": "task_c6_04_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {
-				"9044": 0
-			}
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			26032
+			26030
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"26041": {
 		"id": 26041,
@@ -6800,7 +8515,7 @@
 				"id": "pending_c6_04_b_1",
 				"type": "named_event",
 				"event_name": "pending_c6_04_b_1",
-				"name": "待绑定玩法：两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
+				"name": "两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
 				"count": 1
 			}
 		],
@@ -6888,45 +8603,39 @@
 	},
 	"26050": {
 		"id": 26050,
-		"title": "无名目标",
-		"description": "地方低负载确认完成，裂隙张开",
+		"title": "返忆与灭口证据",
+		"description": "完成 C6-04-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9044,
-		"turn_in_npc_id": 9044,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "obj_1",
-				"type": "talk",
-				"npc_id": 9044,
+				"id": "event_c6_memory_returned",
+				"type": "named_event",
+				"event_name": "c6_memory_returned",
+				"name": "三人互相补全返忆",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_05_a_2",
+				"type": "named_event",
+				"event_name": "pending_c6_05_a_2",
+				"name": "从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」×3）",
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-05-A-S01",
-				"title": "登场",
+				"title": "过场",
 				"order": 1,
 				"kind": "cinematic",
 				"node_ids": [
 					"C6-05-A.D01",
-					"C6-05-A.D02"
-				],
-				"objective_ids": [],
-				"failure_policy": "retry_stage",
-				"interrupt_policy": "resume_stage",
-				"save_policy": "checkpoint_on_exit",
-				"runtime_binding": {},
-				"inferred": false
-			},
-			{
-				"id": "C6-05-A-S02",
-				"title": "第一阶段",
-				"order": 2,
-				"kind": "other",
-				"node_ids": [
+					"C6-05-A.D02",
 					"C6-05-A.D03",
 					"C6-05-A.D04",
 					"C6-05-A.D05"
@@ -6937,25 +8646,65 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false
+			},
+			{
+				"id": "C6-05-A-S02",
+				"title": "区域",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-A.D06",
+					"C6-05-A.D07",
+					"C6-05-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-05-A.D09",
+					"C6-05-A.D10"
+				],
+				"objective_ids": [
+					"event_c6_memory_returned",
+					"pending_c6_05_a_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
 			}
 		],
 		"rewards": {
 			"items": [],
-			"flags": []
+			"flags": [
+				{
+					"flag": "RegicideEvidenceSecured",
+					"value": true
+				}
+			]
 		},
 		"authoring": {
 			"task_script_id": "C6-05-A",
 			"dialogue_id": "task_c6_05_a",
-			"compile_status": "missing_runtime_target_ids",
+			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {
-				"9044": 0
-			}
+			"npc_entries": {}
 		},
 		"required_quest_ids": [
-			26041
+			26040
 		],
-		"level_id": 6
+		"level_id": 6,
+		"auto_start": true
 	},
 	"26051": {
 		"id": 26051,
@@ -6972,7 +8721,7 @@
 				"id": "pending_c6_05_b_2",
 				"type": "named_event",
 				"event_name": "pending_c6_05_b_2",
-				"name": "待绑定玩法：第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
+				"name": "第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
 				"count": 1
 			}
 		],
@@ -7221,40 +8970,49 @@
 	},
 	"26060": {
 		"id": 26060,
-		"title": "灭口令",
-		"description": "返忆完成，主出口尚未完全封闭",
+		"title": "九十秒与归城",
+		"description": "完成 C6-05-A",
 		"quest_kind": "story_task_script",
 		"chapter_id": "chapter_6",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9044,
-		"turn_in_npc_id": 9044,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9002,
 		"objectives": [
 			{
-				"id": "pending_c6_06_a_1",
+				"id": "area_c6_escape_route",
+				"type": "area_trigger",
+				"event_name": "c6_escape_route",
+				"name": "在核心坍塌中沿撤离路线撤离",
+				"count": 1
+			},
+			{
+				"id": "event_c6_ninety_seconds_escape",
 				"type": "named_event",
-				"event_name": "pending_c6_06_a_1",
-				"name": "待绑定玩法：三份证据依次读取（军令附页/被削薄返程图/预写公报与隔离密令）；通讯拒绝「保护性隔离」；主出口被远程封闭",
+				"event_name": "c6_ninety_seconds_escape",
+				"name": "在九十秒窗口内通过最后一扇门",
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
 				"count": 1
 			}
 		],
 		"stages": [
 			{
 				"id": "C6-06-A-S01",
-				"title": "调查",
+				"title": "过场",
 				"order": 1,
-				"kind": "explore",
+				"kind": "cinematic",
 				"node_ids": [
 					"C6-06-A.D01",
-					"C6-06-A.D02-1",
-					"C6-06-A.D02-2",
+					"C6-06-A.D02",
 					"C6-06-A.D03",
-					"C6-06-A.D04",
-					"C6-06-A.D05"
+					"C6-06-A.D04"
 				],
-				"objective_ids": [
-					"pending_c6_06_a_1"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -7263,12 +9021,40 @@
 			},
 			{
 				"id": "C6-06-A-S02",
-				"title": "通讯",
+				"title": "途中",
 				"order": 2,
-				"kind": "interact",
+				"kind": "travel",
 				"node_ids": [
-					"C6-06-A.D06",
-					"C6-06-A.D07"
+					"C6-06-A.D05",
+					"C6-06-A.D06K-1",
+					"C6-06-A.D06L-1",
+					"C6-06-A.D06M-1"
+				],
+				"objective_ids": [
+					"area_c6_escape_route"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_escape_route"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-A.D07",
+					"C6-06-A.D08",
+					"C6-06-A.D09",
+					"C6-06-A.D10",
+					"C6-06-A.D11",
+					"C6-06-A.D12"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -7278,14 +9064,19 @@
 				"inferred": false
 			},
 			{
-				"id": "C6-06-A-S03",
-				"title": "系统",
-				"order": 3,
-				"kind": "system",
+				"id": "C6-06-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
 				"node_ids": [
-					"C6-06-A.D08"
+					"C6-06-A.D13",
+					"C6-06-A.D14",
+					"C6-06-A.D15"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"event_c6_ninety_seconds_escape",
+					"talk_9002"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -7297,7 +9088,11 @@
 			"items": [],
 			"flags": [
 				{
-					"flag": "RoyalExterminationIntentProved",
+					"flag": "Chapter6Complete",
+					"value": true
+				},
+				{
+					"flag": "Epilogue",
 					"value": true
 				}
 			]
@@ -7308,13 +9103,14 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9044": 0
+				"9002": 73240,
+				"9036": 0
 			}
 		},
 		"required_quest_ids": [
-			26053
+			26050
 		],
-		"level_id": 6
+		"level_id": 0
 	},
 	"26061": {
 		"id": 26061,

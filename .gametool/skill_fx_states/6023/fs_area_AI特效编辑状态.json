@@ -1,0 +1,88 @@
+{
+  "version": 2,
+  "actorId": "",
+  "skillId": "6023",
+  "skillName": "fs_area",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "proposals": [
+    {
+      "id": "newfs-6023-unified",
+      "title": "fs_area · 当前特效",
+      "summary": "网页统一技能工作台特效轨道",
+      "style": "",
+      "palette": [],
+      "tracks": [
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_play_effect_2",
+          "phase": "release",
+          "title": "旧特效 #2",
+          "trigger": {
+            "type": "after_skill_node",
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "caster",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 666.6666666666666,
+          "blend_mode": "multiply",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 6.45341614906833,
+              "y": -131.356366459627
+            },
+            "scale": 2,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "migrated_from": [
+            "res://assets/effects/attachments/effect-newfs-skill2/effect.tscn",
+            "res://assets/effects/attachments/effect-newfs-skill2/effect_atlas.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "proposalId": "newfs-6023-unified",
+  "actionHash": "",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "selectedAssets": [
+    {
+      "trackId": "legacy_play_effect_2",
+      "atlasDataUrl": "",
+      "atlasRef": ".gametool/skill_fx_states/6023/assets/legacy_play_effect_2.png",
+      "frameSize": {
+        "width": 64,
+        "height": 64
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/attachments/effect-newfs-skill2/effect.tscn",
+        "migratedFrom": [
+          "res://assets/effects/attachments/effect-newfs-skill2/effect.tscn",
+          "res://assets/effects/attachments/effect-newfs-skill2/effect_atlas.png"
+        ],
+        "bundleId": "newfs-6023",
+        "trackId": "legacy_play_effect_2"
+      }
+    }
+  ],
+  "selectedActionFrames": {},
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {}
+}

@@ -33,7 +33,7 @@ func load_config() -> void:
 				_errors.append("Level %s contains a non-object NPC placement" % level_id)
 				continue
 			var entry := value as Dictionary
-			var allowed_fields := ["instance_id", "npc_id", "x", "y", "facing", "scale", "interaction_radius"]
+			var allowed_fields := ["instance_id", "npc_id", "x", "y", "facing", "scale", "interaction_radius", "name", "spawn_condition"]
 			var unsupported := false
 			for field in entry:
 				if str(field) not in allowed_fields:
@@ -54,7 +54,12 @@ func load_config() -> void:
 				_errors.append("关卡 %s 存在无效 NPC 摆放: %s" % [level_id, instance_id])
 				continue
 			seen[instance_id] = true
-			normalized.append({"instance_id": instance_id, "npc_id": npc_id, "x": float(entry.get("x", 0.0)), "y": float(entry.get("y", 0.0)), "facing": facing, "scale": scale_value, "interaction_radius": radius})
+			var normalized_entry := {"instance_id": instance_id, "npc_id": npc_id, "x": float(entry.get("x", 0.0)), "y": float(entry.get("y", 0.0)), "facing": facing, "scale": scale_value, "interaction_radius": radius}
+			if entry.get("name") is String:
+				normalized_entry["name"] = str(entry["name"])
+			if entry.get("spawn_condition") is Dictionary:
+				normalized_entry["spawn_condition"] = (entry["spawn_condition"] as Dictionary).duplicate(true)
+			normalized.append(normalized_entry)
 		_levels[int(level_id)] = normalized
 	for error in _errors:
 		push_error(error)

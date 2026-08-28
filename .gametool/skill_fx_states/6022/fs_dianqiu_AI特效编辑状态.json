@@ -1,0 +1,233 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/new_fashi",
+  "actorName": "newfs",
+  "skillId": "6022",
+  "skillName": "fs_dianqiu",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "newfs-6022-unified",
+      "title": "fs_dianqiu · 当前特效",
+      "summary": "网页统一技能工作台特效轨道",
+      "style": "",
+      "palette": [],
+      "tracks": [
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_play_effect_3",
+          "phase": "release",
+          "title": "旧特效 #3",
+          "trigger": {
+            "type": "hit_window_start",
+            "hit_window_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "hit_window",
+          "direction": "facing",
+          "mirror": true,
+          "duration_ms": 666.6666666666666,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 34,
+              "y": 2
+            },
+            "scale": 3,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "migrated_from": [
+            "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
+            "res://assets/effects/attachments/effect-newfs-skill1/effect_atlas.png"
+          ]
+        },
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_spawn_projectile_4",
+          "phase": "projectile",
+          "title": "旧弹道 #4",
+          "trigger": {
+            "type": "hit_window_start",
+            "hit_window_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "hit_window",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 83.33333333333333,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -98,
+              "y": -109
+            },
+            "scale": 0.5025,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 24,
+              "height": 24
+            },
+            "collision_offset": {
+              "x": 0,
+              "y": 0
+            },
+            "baked_sprite_flip_h": false,
+            "migrated_from_scene": "res://assets/effects/projectiles/fireball.tscn",
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 171,
+              "height": 178
+            },
+            "collisionOffset": {
+              "x": -7,
+              "y": -2
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": true,
+            "autoCalcResult": {
+              "center": {
+                "x": 56.75,
+                "y": 59.5
+              },
+              "size": {
+                "width": 97,
+                "height": 100
+              },
+              "validFrameCount": 4,
+              "totalFrameCount": 4
+            }
+          },
+          "migrated_from": [
+            "res://assets/effects/projectiles/fireball.tscn",
+            "res://assets/effects/skill/fireball/fireball_visual.tscn"
+          ]
+        }
+      ]
+    }
+  ],
+  "proposalId": "newfs-6022-unified",
+  "actionHash": "919940b463835fb68f3df8217d282f4f615fa307c1abff61ce435608d75e5d4d",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/new_fashi:6022:skill1": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {
+    "legacy_play_effect_3": [
+      0,
+      2,
+      3,
+      5,
+      7
+    ],
+    "legacy_spawn_projectile_4": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {
+    "legacy_play_effect_3": true
+  },
+  "previewFrame": {
+    "legacy_spawn_projectile_4": 1,
+    "legacy_play_effect_3": 1
+  },
+  "candidatePageOffsets": {
+    "legacy_spawn_projectile_4": 0,
+    "legacy_play_effect_3": 0
+  },
+  "selectedAssets": [
+    {
+      "trackId": "legacy_play_effect_3",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 64,
+        "height": 64
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
+        "migratedFrom": [
+          "res://assets/effects/attachments/effect-newfs-skill1/effect.tscn",
+          "res://assets/effects/attachments/effect-newfs-skill1/effect_atlas.png"
+        ],
+        "bundleId": "newfs-6022",
+        "trackId": "legacy_play_effect_3"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6022/assets/legacy_play_effect_3.png"
+    },
+    {
+      "trackId": "legacy_spawn_projectile_4",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 125,
+        "height": 125
+      },
+      "frameCount": 4,
+      "fps": 15,
+      "loop": true,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/projectiles/fireball.tscn",
+        "migratedFrom": [
+          "res://assets/effects/projectiles/fireball.tscn",
+          "res://assets/effects/skill/fireball/fireball_visual.tscn"
+        ],
+        "bundleId": "newfs-6022",
+        "trackId": "legacy_spawn_projectile_4"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6022/assets/legacy_spawn_projectile_4.png"
+    }
+  ]
+}
