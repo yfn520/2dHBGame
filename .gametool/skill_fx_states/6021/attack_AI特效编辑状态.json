@@ -40,10 +40,10 @@
           "loop": false,
           "transform": {
             "offset": {
-              "x": -60,
-              "y": -61
+              "x": 11,
+              "y": -5
             },
-            "scale": 1,
+            "scale": 1.6275,
             "rotation_degrees": 0,
             "opacity": 1,
             "tint": "#ffffff"
@@ -64,7 +64,35 @@
               "y": -0.375
             },
             "baked_sprite_flip_h": false,
-            "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn"
+            "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 101,
+              "height": 54
+            },
+            "collisionOffset": {
+              "x": 39,
+              "y": -13
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": true,
+            "autoCalcResult": {
+              "center": {
+                "x": 39,
+                "y": 30.5
+              },
+              "size": {
+                "width": 37,
+                "height": 18
+              },
+              "validFrameCount": 8,
+              "totalFrameCount": 8
+            }
           },
           "migrated_from": [
             "res://assets/effects/projectiles/effect-huoqiu.tscn",
@@ -76,7 +104,7 @@
     }
   ],
   "proposalId": "newfs-6021-unified",
-  "actionHash": "",
+  "actionHash": "919940b463835fb68f3df8217d282f4f615fa307c1abff61ce435608d75e5d4d",
   "drawPrompts": {},
   "drawHistory": {},
   "fullscreenResolution": {
@@ -96,18 +124,19 @@
   "trackSelectedFrames": {
     "legacy_spawn_projectile_3": [
       0,
-      1,
       2,
-      3,
       4,
       5,
-      6,
-      7
+      6
     ]
   },
   "trackFrameRotations": {},
-  "previewMirror": {},
-  "previewFrame": {},
+  "previewMirror": {
+    "legacy_spawn_projectile_3": true
+  },
+  "previewFrame": {
+    "legacy_spawn_projectile_3": 1
+  },
   "candidatePageOffsets": {},
   "selectedAssets": [
     {

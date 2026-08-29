@@ -15,21 +15,23 @@
       "title": "旧弹道 #3",
       "trigger": {
         "type": "hit_window_start",
+        "event": "",
         "hit_window_index": 0,
+        "node_index": 0,
         "offset_ms": 0
       },
       "space": "world",
       "anchor": "hit_window",
       "direction": "facing",
       "mirror": false,
-      "duration_ms": 666.6666666666666,
+      "duration_ms": 667,
       "blend_mode": "normal",
       "layer": 1,
       "loop": false,
       "transform": {
         "offset": {
-          "x": 0,
-          "y": 0
+          "x": 11,
+          "y": -5
         },
         "scale": 1.6275,
         "rotation_degrees": 0,
@@ -44,44 +46,53 @@
         },
         "collision_shape": "rectangle",
         "collision_size": {
-          "width": 9.25,
-          "height": 4.5
+          "width": 101,
+          "height": 54
         },
         "collision_offset": {
-          "x": -2,
-          "y": -0.375
+          "x": 39,
+          "y": -13
         },
-        "baked_sprite_flip_h": false,
-        "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn"
+        "inset_ratio": 0.15,
+        "auto_calc_source": "alpha_bbox_median",
+        "manual_override": true,
+        "faces_by_default": "left",
+        "rotation": 0,
+        "flip_h": false
       },
+      "target_buff_node_index": 0,
       "asset": {
         "track_id": "legacy_spawn_projectile_3",
-        "atlas_path": "assets/effects/skill_fx/newfs-6021/legacy/0f2008cf/projectiles/effect-huoqiu/effect-huoqiu_atlas.png",
-        "preview_atlas_path": "assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png",
-        "scene_path": "assets/effects/skill_fx/newfs-6021/legacy/0203bdf2/projectiles/effect-huoqiu.tscn",
+        "atlas_path": "assets/effects/skill_fx/newfs-6021/visual/legacy_spawn_projectile_3/atlas.png",
+        "scene_path": "assets/effects/skill_fx/newfs-6021/godot/effect_scenes/legacy_spawn_projectile_3/effect.tscn",
         "frame_size": {
           "width": 64,
           "height": 64
         },
-        "frame_count": 8,
-        "fps": 12,
+        "frame_count": 5,
+        "fps": 7.5,
         "baked_scale": 0.25,
         "loop": false,
         "source": {
-          "kind": "legacy_scene",
-          "scenePath": "res://assets/effects/projectiles/effect-huoqiu.tscn",
-          "migratedFrom": [
-            "res://assets/effects/projectiles/effect-huoqiu.tscn",
-            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
-            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
-          ]
+          "kind": "generated",
+          "description": "旧弹道 #3",
+          "selected_source_frames": [
+            0,
+            2,
+            4,
+            5,
+            6
+          ],
+          "selected_frame_rotations": {
+            "0": 0,
+            "2": 0,
+            "4": 0,
+            "5": 0,
+            "6": 0
+          },
+          "selected_frame_rotation_mirror_compensated": true
         }
-      },
-      "migrated_from": [
-        "res://assets/effects/projectiles/effect-huoqiu.tscn",
-        "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
-        "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
-      ]
+      }
     }
   ]
 }

@@ -173,9 +173,13 @@ func _update_projectile_transform(delta: float, advance_motion: bool) -> void:
 	else:
 		rotation = deg_to_rad(visual_rotation_degrees)
 		if mirror_with_source_facing:
-			# visual_mirror=true 表示弹道已镜像（朝左），source_flip=true 表示角色朝右
-			# 当两者状态一致（source_flip == visual_mirror）时，朝向相反 → 需镜像
-			extra_mirror = _locked_source_flip == visual_mirror
+			# 对齐 BattleAuthoringWorkbench 的 mirrorVisual XOR facingMirror 公式：
+			# 总镜像 = 烘焙翻转位 XOR（朝向 == mirror）。sign_x 的抵消逻辑恰好把
+			# tscn flip_h 消掉（最终镜像次数 == extra_mirror），所以这里要把烘焙位
+			# 补回：有烘焙翻转的弹道（flip_h=true，朝左素材规范层）朝左时原样渲染；
+			# 无烘焙翻转的弹道朝左时镜像。visual_mirror=true 表示节点声明素材已镜像，
+			# 与朝向不同时才再镜像。
+			extra_mirror = _visual_sprite_base_flip != (_locked_source_flip == visual_mirror)
 		elif flip_to_velocity:
 			var auto_flip := velocity.length_squared() > 0.001 and velocity.x < 0.0
 			extra_mirror = auto_flip != visual_mirror

@@ -1883,7 +1883,7 @@ func _convert_to_preview_position_offset(node: Dictionary) -> void:
 			var coord_space := String(node.get("coordinate_space", "world"))
 			var current_preview_offset := offset
 			if coord_space == "character_local":
-				current_preview_offset = _resolve_preview_effect_anchor_offset(node) + offset * visual_scale
+				current_preview_offset = _resolve_preview_effect_anchor_offset(node, _effective_hit_window_index(_selected_node_index())) + offset * visual_scale
 			# preview_position always stores an unscaled root-relative position.
 			direct_offset = current_preview_offset / visual_scale
 		_:
@@ -2315,7 +2315,7 @@ func _refresh_effect_preview() -> void:
 		# character_local: 挂角色根，position = anchor(node.anchor) + offset * mirror_x * visual_scale
 		# world: 挂场景根，global_position = _resolve_origin(node)（hit_window=攻击框生效位置、
 		# caster=身体中心） + offset * visual_scale —— 对齐 CombatComponent._spawn_effect_at
-		var anchor_offset := _resolve_preview_effect_anchor_offset(node)
+		var anchor_offset := _resolve_preview_effect_anchor_offset(node, _effective_hit_window_index(_selected_node_index()))
 		var uses_preview_position := String(node.get("origin", "")) == "preview_position"
 		var effect_offset := offset
 		if uses_preview_position:
@@ -2376,7 +2376,7 @@ func _refresh_effect_preview() -> void:
 ## 圆心 = 角色根 + origin 偏移（caster→0, hit_window→forward/y），半径/尺寸来自节点字段。
 ## 半径/尺寸在运行时角色坐标系下生效；预览中乘 visual_scale 后再由 preview 乘 zoom 绘制。
 ## Keep play_effect preview anchors in sync with CombatComponent._resolve_effect_anchor_offset().
-func _resolve_preview_effect_anchor_offset(node: Dictionary) -> Vector2:
+func _resolve_preview_effect_anchor_offset(node: Dictionary, window_index: int = -1) -> Vector2:
 	if String(node.get("origin", "")) == "preview_position":
 		return Vector2.ZERO
 	var anchor := String(node.get("anchor", "origin"))
@@ -2384,6 +2384,22 @@ func _resolve_preview_effect_anchor_offset(node: Dictionary) -> Vector2:
 		return Vector2.ZERO
 	if anchor == "body_center":
 		return Vector2(0.0, float(_visual_transform.get("body_center_y", -50.0)))
+	if anchor == "hit_window":
+		# GameTool 的 hit_window 挂点 = 攻击框中心。攻击框数据在 hit_windows 里，
+		# sockets 没有该条目，漏解析会静默落回角色脚底（与 CombatComponent 同款缺口）。
+		# 窗口序号与运行时 current_anchor 同源：该节点之前最近的 wait_hit_window，缺省 0。
+		# 预览固定朝左：authored_x 为朝左素材有符号 X 直接使用，缺省取 -forward；
+		# 与节点 offset 一致乘 visual_scale，对齐 CombatComponent 的锚点换算。
+		var windows: Array = _action_data.get("hit_windows", [])
+		var w: Dictionary = {}
+		if window_index >= 0 and window_index < windows.size() and windows[window_index] is Dictionary:
+			w = windows[window_index]
+		elif not windows.is_empty() and windows[0] is Dictionary:
+			w = windows[0]
+		if w.is_empty():
+			return Vector2.ZERO
+		var hit_x := float(w.get("authored_x", -absf(float(w.get("forward", 0.0)))))
+		return Vector2(hit_x, float(w.get("y", 0.0))) * float(_visual_transform.get("visual_scale", 1.0))
 	# Socket anchors retain the existing root fallback until this preview exposes
 	# socket-frame data; this avoids guessing a different coordinate system.
 	return Vector2.ZERO
@@ -3363,8 +3379,9 @@ func _show_skill_fx_confirmation(manifest: Dictionary, build_result: Dictionary)
 			var coord_space := String(first.get("space", "world"))
 			var preview_offset := Vector2(float(offset.get("x", 0.0)), float(offset.get("y", 0.0)))
 			if coord_space == "character_local":
-				preview_offset += _resolve_preview_effect_anchor_offset(first)
-				preview_offset *= float(_visual_transform.get("visual_scale", 1.0))
+				# 对齐 _refresh_effect_preview：offset = 挂点锚点（函数内已乘 visual_scale）+ 轨道 offset × visual_scale，
+				# 锚点不能再整体乘一次 visual_scale（否则 hit_window/body_center 双重缩放）。
+				preview_offset = _resolve_preview_effect_anchor_offset(first) + preview_offset * float(_visual_transform.get("visual_scale", 1.0))
 			var preview_scale := float(transform.get("scale", 1.0)) * float(_visual_transform.get("visual_scale", 1.0))
 			var is_fullscreen := coord_space == "fullscreen"
 			_preview.set_effect(

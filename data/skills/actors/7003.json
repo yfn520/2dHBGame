@@ -1,18 +1,18 @@
 {
   "6021": {
     "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "ead5ad769ee8009c",
       "entries": [
         {
-          "detail": "ai_min=0 ai_max=280",
-          "kind": "projectile",
-          "max_edge_distance": 280,
-          "min_edge_distance": 0,
           "node_index": 2,
-          "source": "projectile"
+          "source": "projectile",
+          "kind": "projectile",
+          "min_edge_distance": 0,
+          "max_edge_distance": 280,
+          "detail": "ai_min=0 ai_max=280"
         }
-      ],
-      "policy": "any_damage_node",
-      "source_hash": "ead5ad769ee8009c"
+      ]
     },
     "cooldown": 1,
     "description": "",
@@ -42,19 +42,22 @@
         "mirror_with_facing": true,
         "offset_follows_visual_scale": true,
         "offset_mirror_with_facing": true,
-        "offset_x": 0,
-        "offset_y": 0,
+        "offset_x": 11,
+        "offset_y": -5,
         "origin": "hit_window",
         "result_key": "projectile_hit",
         "rotate_to_velocity": true,
         "rotation_degrees": 0,
         "scale": 6.51,
-        "scene": "res://assets/effects/skill_fx/newfs-6021/legacy/0203bdf2/projectiles/effect-huoqiu.tscn",
+        "scene": "res://assets/effects/skill_fx/newfs-6021/godot/effect_scenes/legacy_spawn_projectile_3/effect.tscn",
         "source_bundle_id": "newfs-6021",
         "source_track_id": "legacy_spawn_projectile_3",
         "speed": 300,
         "trajectory": "straight",
-        "type": "spawn_projectile"
+        "type": "spawn_projectile",
+        "tint": "#ffffff",
+        "opacity": 1,
+        "attachment_blend_mode": "normal"
       },
       {
         "type": "wait_animation_end"
@@ -66,18 +69,18 @@
   },
   "6022": {
     "ai_range_cache": {
-      "policy": "any_damage_node",
-      "source_hash": "225e0e96c322966e",
       "entries": [
         {
-          "node_index": 3,
-          "source": "projectile",
+          "detail": "ai_min=0 ai_max=280",
           "kind": "projectile",
-          "min_edge_distance": 0,
           "max_edge_distance": 280,
-          "detail": "ai_min=0 ai_max=280"
+          "min_edge_distance": 0,
+          "node_index": 3,
+          "source": "projectile"
         }
-      ]
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "225e0e96c322966e"
     },
     "cooldown": 3,
     "description": "",

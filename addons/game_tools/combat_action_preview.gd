@@ -331,14 +331,16 @@ func _draw() -> void:
 		var hit_x := direction * absf(float(window_data.get("forward", 0.0)))
 		if window_data.has("authored_x"):
 			hit_x = float(window_data.get("authored_x", 0.0)) * -direction
+		# 框与精灵同乘 sprite_scale（draw_scale = zoom * sprite_scale）：
+		# 角色带缩放时框仍贴合素材，并与 hit_window 挂点的特效锚点（×visual_scale）一致。
 		var center := origin + Vector2(
 			hit_x,
 			float(window_data.get("y", 0.0))
-		) * zoom
+		) * sprite_scale * zoom
 		var hit_size := Vector2(
 			float(window_data.get("width", 1.0)),
 			float(window_data.get("height", 1.0))
-		) * zoom
+		) * sprite_scale * zoom
 		draw_rect(Rect2(center - hit_size * 0.5, hit_size), Color(1.0, 0.2, 0.2, 0.22), true)
 		draw_rect(Rect2(center - hit_size * 0.5, hit_size), Color("ff5252"), false, 2.0)
 	# 命中范围指示器：apply_target_buff(area) / area_damage 节点的可视化

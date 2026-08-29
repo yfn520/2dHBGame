@@ -37,7 +37,7 @@
             "offset_ms": 0
           },
           "space": "character_local",
-          "anchor": "body_center",
+          "anchor": "hit_window",
           "direction": "none",
           "mirror": true,
           "duration_ms": 140,
@@ -46,10 +46,10 @@
           "loop": false,
           "transform": {
             "offset": {
-              "x": -45,
-              "y": -29
+              "x": -9,
+              "y": -2
             },
-            "scale": 1.16,
+            "scale": 0.55,
             "rotation_degrees": 0,
             "opacity": 1,
             "tint": "#ffffff"
@@ -72,7 +72,7 @@
             "offset_ms": 0
           },
           "space": "world",
-          "anchor": "origin",
+          "anchor": "hit_window",
           "direction": "none",
           "mirror": false,
           "duration_ms": 500,
@@ -81,8 +81,8 @@
           "loop": true,
           "transform": {
             "offset": {
-              "x": -62,
-              "y": -98
+              "x": -7,
+              "y": 0
             },
             "scale": 0.3,
             "rotation_degrees": 0,

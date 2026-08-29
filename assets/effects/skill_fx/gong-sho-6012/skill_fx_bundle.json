@@ -21,7 +21,7 @@
         "offset_ms": 0
       },
       "space": "character_local",
-      "anchor": "body_center",
+      "anchor": "hit_window",
       "direction": "none",
       "mirror": false,
       "duration_ms": 140,
@@ -30,8 +30,8 @@
       "loop": false,
       "transform": {
         "offset": {
-          "x": -45,
-          "y": -97.5
+          "x": -9,
+          "y": -2
         },
         "scale": 0.55,
         "rotation_degrees": 0,
@@ -86,7 +86,7 @@
         "offset_ms": 0
       },
       "space": "world",
-      "anchor": "preview_position",
+      "anchor": "hit_window",
       "direction": "none",
       "mirror": false,
       "duration_ms": 500,
@@ -95,8 +95,8 @@
       "loop": true,
       "transform": {
         "offset": {
-          "x": -61,
-          "y": -99
+          "x": -7,
+          "y": 0
         },
         "scale": 0.3,
         "rotation_degrees": 0,

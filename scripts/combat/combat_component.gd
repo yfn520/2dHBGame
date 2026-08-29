@@ -700,6 +700,15 @@ func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vec
 		return Vector2.ZERO
 	if anchor == "body_center" and attach_root.has_method("get_body_center_y"):
 		return Vector2(0.0, float(attach_root.get_body_center_y()))
+	if anchor == "hit_window":
+		# GameTool 编辑器把 hit_window 挂点解析为攻击框中心（hit_windows 数据），
+		# 而 sockets 里通常没有名为 hit_window 的条目——若继续走 socket 查找会
+		# 静默落回 ZERO，特效贴在角色脚底，与摆放预览偏差一整个攻击框距离。
+		if attach_root == _owner:
+			var hit_window_offset: Variant = _resolve_hit_window_anchor_offset(node)
+			if hit_window_offset != null:
+				return hit_window_offset
+		return Vector2.ZERO
 	if attach_root != _owner:
 		return Vector2.ZERO
 	var socket_name := str(node.get("socket", anchor))
@@ -707,6 +716,39 @@ func _resolve_effect_anchor_offset(node: Dictionary, attach_root: Node2D) -> Vec
 	if socket_position is Vector2:
 		return (socket_position as Vector2) - attach_root.global_position
 	return Vector2.ZERO
+
+
+## hit_window 挂点 → 施法者根节点局部偏移（攻击框中心）。
+## 窗口选择：节点显式 hit_window_index > 本次施法已进入的窗口（与弹道
+## origin=hit_window 的 current_anchor 一致）> 第一个窗口（与编辑器预览一致）。
+## 坐标换算与 HitBox.configure 完全相同：authored_x 是朝左素材的有符号 X，
+## 默认朝左（facing=-1）直接使用、翻到右侧取反；y 不随朝向翻转。
+func _resolve_hit_window_anchor_offset(node: Dictionary) -> Variant:
+	if _owner == null or not _owner.has_method("get_combat_actions"):
+		return null
+	var actions: Dictionary = _owner.get_combat_actions()
+	var action: Dictionary = actions.get(_current_action, {})
+	var windows: Array = action.get("hit_windows", [])
+	if windows.is_empty():
+		return null
+	var index := int(node.get("hit_window_index", -1))
+	if index < 0 or index >= windows.size():
+		index = _cast_context.active_window_index if _cast_context != null else -1
+	if index < 0 or index >= windows.size() or not windows[index] is Dictionary:
+		index = 0
+	if not windows[index] is Dictionary:
+		return null
+	var window: Dictionary = windows[index]
+	var facing := _get_facing_sign()
+	var position_x: float
+	if window.has("authored_x"):
+		position_x = float(window.get("authored_x", 0.0)) * -facing
+	else:
+		position_x = facing * absf(float(window.get("forward", 0.0)))
+	var actor_scale := 1.0
+	if _owner.has_method("get_actor_scale"):
+		actor_scale = maxf(0.01, float(_owner.get_actor_scale()))
+	return Vector2(position_x, float(window.get("y", 0.0))) * actor_scale
 
 
 func _schedule_imported_effect_lifetime(effect: Node2D, node: Dictionary) -> void:

@@ -41,10 +41,10 @@
           "loop": false,
           "transform": {
             "offset": {
-              "x": -37,
-              "y": -888
+              "x": 4,
+              "y": -713
             },
-            "scale": 11.45,
+            "scale": 9.6,
             "rotation_degrees": 0,
             "opacity": 1,
             "tint": "#ff2600"
@@ -64,7 +64,7 @@
             "node_index": 0,
             "offset_ms": 0
           },
-          "space": "character_local",
+          "space": "world",
           "anchor": "origin",
           "direction": "facing",
           "duration_ms": 500,
@@ -73,10 +73,10 @@
           "loop": false,
           "transform": {
             "offset": {
-              "x": 91,
-              "y": -449
+              "x": -21,
+              "y": -158
             },
-            "scale": 5.75,
+            "scale": 4.45,
             "rotation_degrees": 0,
             "opacity": 1,
             "tint": "#ff5900"
