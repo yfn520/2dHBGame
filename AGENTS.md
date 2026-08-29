@@ -1,0 +1,1 @@
+技能特效/弹道朝向与挂点是高危区（5 个实现点共享契约）。改 combat/projectile.gd、combat_component.gd、hit_box.gd、addons/game_tools 预览前，必读 G:\game\pro\docs\skill-fx-facing-conventions.md（工作区根 AGENTS.md 亦有指引），改后按其 Checklist 同步全部消费方。
