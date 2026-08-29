@@ -1,0 +1,18 @@
+{
+	"version": 1,
+	"id": "npc_9018",
+	"display_name": "兰恩",
+	"default_animation": "idle",
+	"spriteframes": "res://assets/npcs/npc_9018/godot/spriteframes.tres",
+	"visual_scene": "res://assets/npcs/npc_9018/godot/npc_visual.tscn",
+	"portrait": "res://assets/npcs/npc_9018/portrait.png",
+	"frame_size": {
+		"width": 256,
+		"height": 256
+	},
+	"foot_center": {
+		"x": 128,
+		"y": 243
+	},
+	"display_scale": 1
+}

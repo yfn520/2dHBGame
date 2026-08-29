@@ -191,7 +191,7 @@
 	},
 	"9020": {
 		"name": "搜救员",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9020",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -201,7 +201,7 @@
 	},
 	"9021": {
 		"name": "桑叔",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9021",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -211,7 +211,7 @@
 	},
 	"9022": {
 		"name": "维修员",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9022",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -221,7 +221,7 @@
 	},
 	"9023": {
 		"name": "工匠",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9023",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -231,7 +231,7 @@
 	},
 	"9024": {
 		"name": "村民",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9024",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -241,7 +241,7 @@
 	},
 	"9025": {
 		"name": "补给队队长",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9025",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -251,7 +251,7 @@
 	},
 	"9026": {
 		"name": "咕噜姆",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9026",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -261,7 +261,7 @@
 	},
 	"9027": {
 		"name": "联络官",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9027",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -271,7 +271,7 @@
 	},
 	"9028": {
 		"name": "阿尔戈",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9028",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -281,7 +281,7 @@
 	},
 	"9029": {
 		"name": "记录员遗响",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9029",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -291,7 +291,7 @@
 	},
 	"9030": {
 		"name": "露米娜",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9030",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -301,7 +301,7 @@
 	},
 	"9031": {
 		"name": "守塔人",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9031",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -311,7 +311,7 @@
 	},
 	"9032": {
 		"name": "救援队长",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9032",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -321,7 +321,7 @@
 	},
 	"9033": {
 		"name": "码头工",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9033",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -331,7 +331,7 @@
 	},
 	"9034": {
 		"name": "鱼贩",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9034",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -341,7 +341,7 @@
 	},
 	"9035": {
 		"name": "港口登记员",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9035",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -351,7 +351,7 @@
 	},
 	"9036": {
 		"name": "灰面骑士",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9036",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -361,7 +361,7 @@
 	},
 	"9037": {
 		"name": "记录员",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9037",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -371,7 +371,7 @@
 	},
 	"9038": {
 		"name": "记数老人",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9038",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -381,7 +381,7 @@
 	},
 	"9039": {
 		"name": "药铺居民",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9039",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -391,7 +391,7 @@
 	},
 	"9040": {
 		"name": "面摊居民",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9040",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -401,7 +401,7 @@
 	},
 	"9041": {
 		"name": "修屋顶青年",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9041",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -411,7 +411,7 @@
 	},
 	"9042": {
 		"name": "难民街老人",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9042",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -421,7 +421,7 @@
 	},
 	"9043": {
 		"name": "雷欧哈特",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9043",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -431,7 +431,7 @@
 	},
 	"9044": {
 		"name": "通讯员",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9044",
 		"dialogue_id": "npc_9002",
 		"default_facing": "right",
 		"interaction_radius": 96,
@@ -441,7 +441,7 @@
 	},
 	"9045": {
 		"name": "仓库看守",
-		"asset": "res://assets/npcs/npc_9002",
+		"asset": "res://assets/npcs/npc_9045",
 		"dialogue_id": "npc_9045",
 		"default_facing": "right",
 		"interaction_radius": 96,

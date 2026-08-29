@@ -1,0 +1,18 @@
+{
+	"version": 1,
+	"id": "npc_9017",
+	"display_name": "维恩",
+	"default_animation": "idle",
+	"spriteframes": "res://assets/npcs/npc_9017/godot/spriteframes.tres",
+	"visual_scene": "res://assets/npcs/npc_9017/godot/npc_visual.tscn",
+	"portrait": "res://assets/npcs/npc_9017/portrait.png",
+	"frame_size": {
+		"width": 256,
+		"height": 256
+	},
+	"foot_center": {
+		"x": 128,
+		"y": 243
+	},
+	"display_scale": 1
+}
