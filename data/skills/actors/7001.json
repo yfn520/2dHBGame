@@ -47,7 +47,7 @@
 		"name": "new_kivin 技能1",
 		"nodes": [
 			{
-				"action": "skill1",
+				"action": "skill3",
 				"type": "play_animation"
 			},
 			{
@@ -74,7 +74,7 @@
 		"name": "new_kivin 技能2",
 		"nodes": [
 			{
-				"action": "skill2",
+				"action": "skill1",
 				"type": "play_animation"
 			},
 			{
@@ -110,7 +110,7 @@
 		"name": "new_kivin 技能3",
 		"nodes": [
 			{
-				"action": "skill3",
+				"action": "skill2",
 				"type": "play_animation"
 			},
 			{

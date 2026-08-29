@@ -2,6 +2,7 @@
 
 ## Findings
 
+- Skill FX / projectile facing, mirror, and anchor math is a cross-repo contract spanning five implementations (projectile.gd, combat_component.gd, Godot skill editor preview, web live canvas, web placement preview). The authoritative formulas, truth tables, and sync checklist live in `../docs/skill-fx-facing-conventions.md` (workspace root AGENTS.md links it). Web-side single source of truth: `GameTool/frontend/src/lib/skillFxFacing.ts` with truth-table tests `skillFxFacing.test.ts`. Read it before touching any of those files; run the vitest truth tables after.
 - The project started nearly empty and only contained the Godot project file and the imported map scene.
 - `map_stitch_godot.tscn` already provides three collision polygons, so the prototype can use it directly as the level.
 - The level canvas size from `map_stitch_godot.json` is `1376 x 768`, which is used for the initial camera limits.
