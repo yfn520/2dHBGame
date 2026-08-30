@@ -5,28 +5,24 @@
 			"cancel_windows": [],
 			"events": [
 				{
-					"frame": 1,
-					"id": "evt-1783931699245-mdg8u",
-					"name": "effect"
-				},
-				{
+					"fallback": true,
 					"frame": 3,
-					"id": "evt-1783931695165-f05vp",
+					"id": "compat-release",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": 9.0,
+					"authored_x": -90.0,
 					"end_frame": 3,
-					"forward": 9.0,
-					"height": 36.0,
-					"id": "hitbox-1783931683853-n5f42:region-1783931683853-jmbpv",
-					"source_attack_id": "hitbox-1783931683853-n5f42",
-					"source_region_id": "region-1783931683853-jmbpv",
+					"forward": 90.0,
+					"height": 56.0,
+					"id": "hitbox-1784815904374-vaddw:region-1784815904374-wk5rc",
+					"source_attack_id": "hitbox-1784815904374-vaddw",
+					"source_region_id": "region-1784815904374-wk5rc",
 					"start_frame": 3,
-					"width": 28.0,
-					"y": -95.0
+					"width": 47.0,
+					"y": -63.0
 				}
 			],
 			"movement_windows": [],
@@ -69,28 +65,24 @@
 			"cancel_windows": [],
 			"events": [
 				{
+					"fallback": true,
 					"frame": 2,
-					"id": "evt-1783931727157-q2a8o",
-					"name": "effect"
-				},
-				{
-					"frame": 3,
-					"id": "evt-1783931720981-l4263",
+					"id": "compat-release",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": 27.0,
-					"end_frame": 3,
-					"forward": 27.0,
-					"height": 32.0,
-					"id": "hitbox-1783931716437-jm3jy:region-1783931716437-bw2vv",
-					"source_attack_id": "hitbox-1783931716437-jm3jy",
-					"source_region_id": "region-1783931716437-bw2vv",
-					"start_frame": 3,
-					"width": 23.0,
-					"y": -93.0
+					"authored_x": -81.0,
+					"end_frame": 2,
+					"forward": 81.0,
+					"height": 95.0,
+					"id": "hitbox-1784815915365-aze6m:region-1784815915365-51usf",
+					"source_attack_id": "hitbox-1784815915365-aze6m",
+					"source_region_id": "region-1784815915365-51usf",
+					"start_frame": 2,
+					"width": 71.0,
+					"y": -81.0
 				}
 			],
 			"movement_windows": [],

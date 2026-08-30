@@ -13,42 +13,42 @@
 	],
 	"body_box": {
 		"exportRect": {
-			"height": 93.0,
-			"width": 77.0,
-			"x": 79.0,
-			"y": 50.0
+			"height": 84.0,
+			"width": 70.0,
+			"x": 89.0,
+			"y": 52.0
 		},
-		"forwardDistance": -5.0,
-		"height": 93.0,
+		"forwardDistance": 4.0,
+		"height": 84.0,
 		"usage": [
 			"collision",
 			"hurt"
 		],
-		"width": 77.0,
-		"yOffset": -127.0
+		"width": 70.0,
+		"yOffset": -123.0
 	},
 	"body_position": {
-		"x": -5.0,
-		"y": -127.0
+		"x": 4.0,
+		"y": -123.0
 	},
 	"body_size": {
-		"x": 77.0,
-		"y": 93.0
+		"x": 70.0,
+		"y": 84.0
 	},
 	"centered": true,
 	"character_name": "m'fengy",
-	"collision_bottom": -80.5,
+	"collision_bottom": -81.0,
 	"combat_actions": "res://assets/enemies/m'fengy/combat_actions.json",
 	"combat_source": "res://assets/enemies/m'fengy/combat/attack_frames.json",
 	"default_animation": "idle",
 	"display_offset": {
-		"x": -3.0,
-		"y": -103.0
+		"x": 0.0,
+		"y": -97.0
 	},
 	"display_scale": 1.0,
 	"foot_center": {
-		"x": 123.0,
-		"y": 223.0
+		"x": 120.0,
+		"y": 217.0
 	},
 	"frame_cell_height": 144.0,
 	"production_format": true,
