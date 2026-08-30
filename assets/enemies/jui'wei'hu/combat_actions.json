@@ -1,0 +1,97 @@
+{
+	"actions": {
+		"attack": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 3,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -90.0,
+					"end_frame": 3,
+					"forward": 90.0,
+					"height": 33.0,
+					"id": "hitbox-1784905249687-bp4o3:region-1784905249687-emxmn",
+					"source_attack_id": "hitbox-1784905249687-bp4o3",
+					"source_region_id": "region-1784905249687-emxmn",
+					"start_frame": 3,
+					"width": 39.0,
+					"y": -48.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"dead": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"hurt": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"idle": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"run": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [],
+			"hit_windows": [],
+			"movement_windows": [],
+			"sockets": {}
+		},
+		"skill": {
+			"armor_windows": [],
+			"cancel_windows": [],
+			"events": [
+				{
+					"fallback": true,
+					"frame": 3,
+					"id": "compat-release",
+					"name": "release"
+				}
+			],
+			"hit_windows": [
+				{
+					"authored_x": -88.0,
+					"end_frame": 3,
+					"forward": 88.0,
+					"height": 21.0,
+					"id": "hitbox-1784905256109-qtea0:region-1784905256109-jhe8h",
+					"source_attack_id": "hitbox-1784905256109-qtea0",
+					"source_region_id": "region-1784905256109-jhe8h",
+					"start_frame": 3,
+					"width": 19.0,
+					"y": -61.0
+				}
+			],
+			"movement_windows": [],
+			"sockets": {}
+		}
+	},
+	"coordinate_space": "actor_root_pixels",
+	"source": "combat/attack_frames.json",
+	"source_schema_version": 3,
+	"sprite_scale": 1.0,
+	"version": 3
+}
