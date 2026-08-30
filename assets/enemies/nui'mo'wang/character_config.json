@@ -1,0 +1,62 @@
+{
+	"actions_scene": "res://assets/enemies/nui'mo'wang/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/nui'mo'wang/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"skill2",
+		"skill3",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 153.0,
+			"width": 104.0,
+			"x": 78.0,
+			"y": 59.0
+		},
+		"forwardDistance": -3.0,
+		"height": 153.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 104.0,
+		"yOffset": -76.0
+	},
+	"body_position": {
+		"x": -3.0,
+		"y": -76.5
+	},
+	"body_size": {
+		"x": 104.0,
+		"y": 153.0
+	},
+	"centered": true,
+	"character_name": "nui'mo'wang",
+	"collision_bottom": 0.0,
+	"combat_actions": "res://assets/enemies/nui'mo'wang/combat_actions.json",
+	"combat_source": "res://assets/enemies/nui'mo'wang/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -14.0,
+		"y": -91.5
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 134.0,
+		"y": 211.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "nui'mo'wang",
+	"spriteframes": "res://assets/enemies/nui'mo'wang/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

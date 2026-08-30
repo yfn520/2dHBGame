@@ -7,13 +7,13 @@
 [ext_resource type="Script" path="res://scripts/combat/hit_box.gd" id="4_hit"]
 
 [sub_resource type="RectangleShape2D" id="1_shape"]
-size = Vector2(65.0, 59.0)
+size = Vector2(131.0, 117.0)
 
 [sub_resource type="RectangleShape2D" id="2_hit_shape"]
 size = Vector2(30, 30)
 
 [sub_resource type="RectangleShape2D" id="3_hurt_shape"]
-size = Vector2(65.0, 59.0)
+size = Vector2(131.0, 117.0)
 
 [node name="kuilei4" type="CharacterBody2D"]
 groups = ["enemies"]
@@ -22,11 +22,11 @@ collision_mask = 1
 script = ExtResource("0_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.0, -29.5)
+position = Vector2(3.0, -58.5)
 shape = SubResource("1_shape")
 
 [node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
-position = Vector2(-2.0, -45.5)
+position = Vector2(0.0, -123.5)
 scale = Vector2(1.0, 1.0)
 
 [node name="HitBox" type="Area2D" parent="."]
@@ -45,7 +45,7 @@ collision_mask = 4
 script = ExtResource("3_hurt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(1.0, -29.5)
+position = Vector2(3.0, -58.5)
 shape = SubResource("3_hurt_shape")
 
 [node name="CombatComponent" type="Node" parent="."]

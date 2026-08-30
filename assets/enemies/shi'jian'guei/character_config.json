@@ -1,0 +1,60 @@
+{
+	"actions_scene": "res://assets/enemies/shi'jian'guei/godot/character_actions.tscn",
+	"alignment": "json_foot_origin",
+	"anchor_mode": "foot_origin",
+	"atlas": "res://assets/enemies/shi'jian'guei/godot/all_actions_atlas.png",
+	"available_actions": [
+		"idle",
+		"run",
+		"attack",
+		"skill",
+		"hurt",
+		"dead"
+	],
+	"body_box": {
+		"exportRect": {
+			"height": 160.0,
+			"width": 124.0,
+			"x": 69.0,
+			"y": 46.0
+		},
+		"forwardDistance": -4.0,
+		"height": 160.0,
+		"usage": [
+			"collision",
+			"hurt"
+		],
+		"width": 124.0,
+		"yOffset": -82.0
+	},
+	"body_position": {
+		"x": -4.0,
+		"y": -82.0
+	},
+	"body_size": {
+		"x": 124.0,
+		"y": 160.0
+	},
+	"centered": true,
+	"character_name": "shi'jian'guei",
+	"collision_bottom": -2.0,
+	"combat_actions": "res://assets/enemies/shi'jian'guei/combat_actions.json",
+	"combat_source": "res://assets/enemies/shi'jian'guei/combat/attack_frames.json",
+	"default_animation": "idle",
+	"display_offset": {
+		"x": -15.0,
+		"y": -88.0
+	},
+	"display_scale": 1.0,
+	"foot_center": {
+		"x": 135.0,
+		"y": 208.0
+	},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"resource_type": "enemy",
+	"scene_name": "shi'jian'guei",
+	"spriteframes": "res://assets/enemies/shi'jian'guei/godot/spriteframes.tres",
+	"target_display_height": 52.0,
+	"unified_box": {}
+}

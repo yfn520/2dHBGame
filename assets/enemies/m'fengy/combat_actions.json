@@ -5,24 +5,28 @@
 			"cancel_windows": [],
 			"events": [
 				{
-					"fallback": true,
+					"frame": 1,
+					"id": "evt-1783931699245-mdg8u",
+					"name": "effect"
+				},
+				{
 					"frame": 3,
-					"id": "compat-release",
+					"id": "evt-1783931695165-f05vp",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": -3.0,
+					"authored_x": 9.0,
 					"end_frame": 3,
-					"forward": 3.0,
-					"height": 30.0,
-					"id": "hitbox-1783780884332-oifg8:region-1783780884332-vb40t",
-					"source_attack_id": "hitbox-1783780884332-oifg8",
-					"source_region_id": "region-1783780884332-vb40t",
+					"forward": 9.0,
+					"height": 36.0,
+					"id": "hitbox-1783931683853-n5f42:region-1783931683853-jmbpv",
+					"source_attack_id": "hitbox-1783931683853-n5f42",
+					"source_region_id": "region-1783931683853-jmbpv",
 					"start_frame": 3,
-					"width": 36.0,
-					"y": -89.0
+					"width": 28.0,
+					"y": -95.0
 				}
 			],
 			"movement_windows": [],
@@ -65,24 +69,28 @@
 			"cancel_windows": [],
 			"events": [
 				{
-					"fallback": true,
 					"frame": 2,
-					"id": "compat-release",
+					"id": "evt-1783931727157-q2a8o",
+					"name": "effect"
+				},
+				{
+					"frame": 3,
+					"id": "evt-1783931720981-l4263",
 					"name": "release"
 				}
 			],
 			"hit_windows": [
 				{
-					"authored_x": -52.0,
-					"end_frame": 2,
-					"forward": 52.0,
-					"height": 20.0,
-					"id": "hitbox-1783780901464-660wg:region-1783780901464-83fig",
-					"source_attack_id": "hitbox-1783780901464-660wg",
-					"source_region_id": "region-1783780901464-83fig",
-					"start_frame": 2,
-					"width": 24.0,
-					"y": -100.0
+					"authored_x": 27.0,
+					"end_frame": 3,
+					"forward": 27.0,
+					"height": 32.0,
+					"id": "hitbox-1783931716437-jm3jy:region-1783931716437-bw2vv",
+					"source_attack_id": "hitbox-1783931716437-jm3jy",
+					"source_region_id": "region-1783931716437-bw2vv",
+					"start_frame": 3,
+					"width": 23.0,
+					"y": -93.0
 				}
 			],
 			"movement_windows": [],

@@ -1,8 +1,19 @@
 {
+	"resource_type": "enemy",
+	"character_name": "傀儡4",
+	"scene_name": "kuilei4",
+	"default_animation": "idle",
 	"actions_scene": "res://assets/enemies/kuilei4/godot/character_actions.tscn",
-	"alignment": "json_foot_origin",
-	"anchor_mode": "foot_origin",
+	"spriteframes": "res://assets/enemies/kuilei4/godot/spriteframes.tres",
+	"combat_actions": "res://assets/enemies/kuilei4/combat_actions.json",
 	"atlas": "res://assets/enemies/kuilei4/godot/all_actions_atlas.png",
+	"display_scale": 1.0,
+	"display_offset": {
+			"x": 0.0,
+			"y": -123.5
+		},
+	"centered": true,
+	"target_display_height": 52.0,
 	"available_actions": [
 		"idle",
 		"run",
@@ -11,50 +22,39 @@
 		"hurt",
 		"dead"
 	],
+	"unified_box": {},
+	"frame_cell_height": 144.0,
+	"production_format": true,
+	"foot_center": {
+		"x": 120.0,
+		"y": 240.0
+	},
+	"anchor_mode": "foot_origin",
+	"alignment": "json_foot_origin",
+	"collision_bottom": 0.0,
 	"body_box": {
 		"exportRect": {
-			"height": 59.0,
-			"width": 65.0,
-			"x": 31.0,
-			"y": 47.0
+			"x": 57,
+			"y": 126,
+			"width": 131,
+			"height": 117
 		},
-		"forwardDistance": 1.0,
-		"height": 59.0,
+		"forwardDistance": 3,
+		"height": 117,
 		"usage": [
 			"collision",
 			"hurt"
 		],
-		"width": 65.0,
-		"yOffset": -28.0
+		"width": 131,
+		"yOffset": -55
 	},
 	"body_position": {
-		"x": 1.0,
-		"y": -29.5
+		"x": 3.0,
+		"y": -58.5
 	},
 	"body_size": {
-		"x": 65.0,
-		"y": 59.0
+		"x": 131.0,
+		"y": 117.0
 	},
-	"centered": true,
-	"character_name": "傀儡4",
-	"collision_bottom": 0.0,
-	"combat_actions": "res://assets/enemies/kuilei4/combat_actions.json",
-	"combat_source": "res://assets/enemies/kuilei4/combat/attack_frames.json",
-	"default_animation": "idle",
-	"display_offset": {
-		"x": -2.0,
-		"y": -45.5
-	},
-	"display_scale": 1.0,
-	"foot_center": {
-		"x": 62.0,
-		"y": 104.0
-	},
-	"frame_cell_height": 144.0,
-	"production_format": true,
-	"resource_type": "enemy",
-	"scene_name": "kuilei4",
-	"spriteframes": "res://assets/enemies/kuilei4/godot/spriteframes.tres",
-	"target_display_height": 52.0,
-	"unified_box": {}
+	"combat_source": "res://assets/enemies/kuilei4/combat/attack_frames.json"
 }
