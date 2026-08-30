@@ -22,27 +22,61 @@ func load_config() -> void:
 	for item_id_str in data:
 		var item_id := int(item_id_str)
 		var raw: Dictionary = data[item_id_str]
-		_items[item_id] = {
-			"id": item_id,
-			"name": raw.get("name", ""),
-			"type": raw.get("type", ""),
-			"gear_category": str(raw.get("gear_category", "normal")),
-			"quality": str(raw.get("quality", "普通")),
-			"class_id": str(raw.get("class_id", "")),
-			"chapter_id": str(raw.get("chapter_id", "")),
-			"is_tradable": raw.get("is_tradable", true),
-			"is_droppable": raw.get("is_droppable", true),
-			"description": raw.get("description", ""),
-			"stackable": raw.get("stackable", false),
-			"max_count": raw.get("max_count", 1),
-			"stats": raw.get("stats", {}),
-			"heal_amount": raw.get("heal_amount", 0),
-			"icon": raw.get("icon", ""),
-			"pact_legacy_id": str(raw.get("pact_legacy_id", "")),
-			"owner_lead_hero_id": int(raw.get("owner_lead_hero_id", 0)),
-			"upgrade_stage": int(raw.get("upgrade_stage", 0)),
-		}
+		_items[item_id] = _normalize_item(item_id, raw)
 	_loaded = true
+
+
+static func _normalize_item(item_id: int, raw: Dictionary) -> Dictionary:
+	var normalized := {
+		"id": item_id,
+		"name": "",
+		"type": "",
+		"gear_category": "normal",
+		"quality": "普通",
+		"class_id": "",
+		"chapter_id": "",
+		"is_tradable": true,
+		"is_droppable": true,
+		"description": "",
+		"stackable": false,
+		"max_count": 1,
+		"stats": {},
+		"heal_amount": 0,
+		"icon": "",
+		"pact_legacy_id": "",
+		"owner_lead_hero_id": 0,
+		"upgrade_stage": 0,
+	}
+	normalized.merge(raw, true)
+	var compat_fields := {
+		"element_damage_bonus_sources": ["element_damage_bonus_sources", "elementDamageBonusSources"],
+		"element_resist_rating": ["element_resist_rating", "elementResistRating"],
+		"element_penetration_rating": ["element_penetration_rating", "elementPenetrationRating"],
+	}
+	for canonical_field in compat_fields:
+		for source_field in compat_fields[canonical_field]:
+			if raw.has(source_field):
+				normalized[canonical_field] = raw[source_field]
+				break
+	normalized["id"] = item_id
+	normalized["name"] = str(raw.get("name", ""))
+	normalized["type"] = str(raw.get("type", ""))
+	normalized["gear_category"] = str(raw.get("gear_category", "normal"))
+	normalized["quality"] = str(raw.get("quality", "普通"))
+	normalized["class_id"] = str(raw.get("class_id", ""))
+	normalized["chapter_id"] = str(raw.get("chapter_id", ""))
+	normalized["description"] = str(raw.get("description", ""))
+	normalized["max_count"] = int(raw.get("max_count", 1))
+	normalized["heal_amount"] = int(raw.get("heal_amount", 0))
+	normalized["icon"] = str(raw.get("icon", ""))
+	normalized["pact_legacy_id"] = str(raw.get("pact_legacy_id", ""))
+	normalized["owner_lead_hero_id"] = int(raw.get("owner_lead_hero_id", 0))
+	normalized["upgrade_stage"] = int(raw.get("upgrade_stage", 0))
+	var stats_value: Variant = raw.get("stats", {})
+	if not stats_value is Dictionary or (stats_value as Dictionary).is_empty():
+		stats_value = raw.get("compiled_stats", {})
+	normalized["stats"] = (stats_value as Dictionary).duplicate(true) if stats_value is Dictionary else {}
+	return normalized
 
 
 func get_item(item_id: int) -> Dictionary:

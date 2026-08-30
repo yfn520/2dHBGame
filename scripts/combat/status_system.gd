@@ -1,25 +1,30 @@
 class_name StatusSystem
 extends RefCounted
 
-## @deprecated 异常状态积累系统（设计案第8章原方案）。
-## 已被 buff_manager.apply_buff_with_pity 的保底累积机制取代（设计案重构）：
-##   异常 buff 现在通过技能节点 buff_ids + chance 概率施加，
-##   失败时按 buff_id 累积保底概率（每次 +20%，成功清零，每秒 -0.1 衰减），
-##   不再使用独立的 status_buildup 积累值。
-## 本文件保留 STATUS_BUFF_ID / STATUS_TYPES 常量供映射查询和元素反应系统使用，
-## apply_status_buildup / calculate_buildup / get_threshold / get_unit_type 不再被主链路调用。
-##
-## 历史方案（已废弃）：
-## 异常不采用单次固定概率，而采用积累制：
+## V0.2 异常状态积累系统（设计案第9章）。
+## 新伤害节点使用 status_type + status_buildup：
 ##   实际积累 = 基础积累 × (1 + 异常强度) ÷ (1 + 目标异常抗性)
 ## 积累达到阈值后触发对应异常 buff。
+## 旧 buff_ids + chance 仍由 BuffManager 保底概率链路兼容，但不是新数据真值。
 ##
 ## P0 实现 7 种异常：燃烧/寒冷/冻结/感电/中毒/标记/重伤
 ## P1 新增：侵蚀（设计案 8.2）、潮湿（设计案 9.1 元素反应前置）
 
 const STATUS_TYPES := ["burn", "chill", "freeze", "shock", "poison", "mark", "grievous", "erosion", "wet"]
+const STATUS_ALIASES := {
+	"burn": "burn", "燃烧": "burn",
+	"chill": "chill", "寒冷": "chill",
+	"freeze": "freeze", "冻结": "freeze",
+	"shock": "shock", "感电": "shock",
+	"poison": "poison", "中毒": "poison",
+	"mark": "mark", "标记": "mark",
+	"grievous": "grievous", "重伤": "grievous",
+	"erosion": "erosion", "侵蚀": "erosion",
+	"wet": "wet", "潮湿": "wet",
+	"none": "", "无": "",
+}
 
-## 触发阈值（设计案 8.1）。按单位类型区分。
+## 触发阈值（设计案 9.1）。按单位类型区分。
 const THRESHOLDS := {
 	"normal": 100,
 	"elite": 150,
@@ -45,7 +50,20 @@ const STATUS_BUFF_ID := {
 const BUILDUP_DECAY_PER_SEC := 10.0
 
 
-## 计算实际积累值（设计案 8.1）
+static func normalize_status_type(value: Variant) -> String:
+	return str(STATUS_ALIASES.get(str(value).strip_edges().to_lower(), ""))
+
+
+static func normalize_unit_type(value: Variant) -> String:
+	var normalized := str(value).strip_edges().to_lower()
+	if normalized in ["boss", "章节boss"]:
+		return "boss"
+	if normalized in ["elite", "精英"]:
+		return "elite"
+	return "normal"
+
+
+## 计算实际积累值（设计案 9.1）
 ## base: 基础积累值（来自技能节点 status_buildup 字段）
 ## intensity: 异常强度（攻击方属性，0.3 表示 30%）
 ## resist: 异常抗性（目标属性，0.3 表示 30%）
@@ -54,16 +72,21 @@ static func calculate_buildup(base: float, intensity: float, resist: float) -> f
 
 
 ## 根据单位类型返回触发阈值
-static func get_threshold(unit_type: String) -> int:
-	return int(THRESHOLDS.get(unit_type, THRESHOLDS["normal"]))
+static func get_threshold(unit_type: String, status_type: String = "") -> int:
+	var normalized_unit := normalize_unit_type(unit_type)
+	if normalized_unit == "normal" and normalize_status_type(status_type) == "wet":
+		return int(THRESHOLDS["wet_normal"])
+	return int(THRESHOLDS.get(normalized_unit, THRESHOLDS["normal"]))
 
 
-## 判断单位类型：boss / elite / normal
-## P0 阶段简化判断：有 is_boss 方法返回 true 则 boss，否则 normal。
-## 后续可扩展 elite 判定（如 max_hp > 阈值 或 配置 enemy_class）。
+## 判断单位类型：优先读取属性对象显式 status_unit_type，再兼容旧 is_boss 方法。
 static func get_unit_type(target: Node) -> String:
 	if target == null:
 		return "normal"
+	if target.has_method("get_combat_stats"):
+		var stats = target.get_combat_stats()
+		if stats != null and "status_unit_type" in stats:
+			return normalize_unit_type(stats.status_unit_type)
 	if target.has_method("is_boss") and target.is_boss():
 		return "boss"
 	return "normal"

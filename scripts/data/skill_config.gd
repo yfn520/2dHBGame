@@ -15,6 +15,12 @@ const ACTORS_DIR := "res://data/skills/actors"
 const BIN_DIR := "res://data/skills/bin"
 const BIN_MAGIC := "FRSP"
 const BIN_VERSION := 1
+const DAMAGE_ACTION_TYPES := ["melee_damage", "area_damage", "fullscreen_damage", "spawn_projectile"]
+const LEGACY_SINGLE_DAMAGE_FIELDS := [
+	"damage_channel", "damage_tag", "physical_tag", "element_override",
+	"attack_coefficient", "damage_ratio", "flat_damage", "hit_count",
+	"status_type", "status_buildup", "status",
+]
 
 # 技能 ID → 所属 actor（角色/怪物配置 ID）
 var _skill_to_actor: Dictionary = {}
@@ -260,19 +266,68 @@ func _normalize_actor_data(data: Dictionary, source_path: String) -> Dictionary:
 			continue
 		var raw: Dictionary = raw_value
 		var nodes_value: Variant = raw.get("nodes", [])
-		if not nodes_value is Array or (nodes_value as Array).is_empty():
-			push_error("技能 %s 缺少 nodes；新技能系统不再提供旧格式回退 (%s)" % [id_value, source_path])
+		var runtime_nodes: Array = (nodes_value as Array).duplicate(true) if nodes_value is Array and not (nodes_value as Array).is_empty() else _build_compat_damage_nodes(raw)
+		if runtime_nodes.is_empty():
+			push_error("技能 %s 缺少可执行 nodes 或兼容伤害字段 (%s)" % [id_value, source_path])
 			continue
 		var cache_value: Variant = raw.get("ai_range_cache", {})
 		var ai_cache: Dictionary = cache_value if cache_value is Dictionary else {}
 		var skill_id := int(id_value)
-		skills[skill_id] = {
-			"id": skill_id,
-			"name": str(raw.get("name", "")),
-			"description": str(raw.get("description", "")),
-			"cooldown": float(raw.get("cooldown", 0.0)),
-			"cast_range": float(raw.get("cast_range", 0.0)),
-			"nodes": (nodes_value as Array).duplicate(true),
-			"ai_range_cache": ai_cache.duplicate(true),
-		}
+		var normalized: Dictionary = raw.duplicate(true)
+		normalized["id"] = skill_id
+		normalized["name"] = str(raw.get("name", ""))
+		normalized["description"] = str(raw.get("description", ""))
+		normalized["cooldown"] = float(raw.get("cooldown", 0.0))
+		normalized["cast_range"] = float(raw.get("cast_range", 0.0))
+		normalized["nodes"] = runtime_nodes
+		normalized["ai_range_cache"] = ai_cache.duplicate(true)
+		skills[skill_id] = normalized
 	return skills
+
+
+## 兼容设计案 16.1：仅在现有 action nodes 缺失/为空时，将 damage_nodes 或旧顶层
+## 单段伤害字段转换为 SkillExecutor 可直接执行的 action nodes。
+func _build_compat_damage_nodes(raw: Dictionary) -> Array:
+	var result: Array = []
+	var damage_nodes_value: Variant = raw.get("damage_nodes", [])
+	if damage_nodes_value is Array:
+		for node_value in damage_nodes_value:
+			if node_value is Dictionary:
+				result.append(_to_damage_action_node(node_value, raw))
+	if not result.is_empty():
+		return result
+	if not _has_legacy_single_damage(raw):
+		return result
+	var legacy_node := raw.duplicate(true)
+	legacy_node.erase("nodes")
+	legacy_node.erase("damage_nodes")
+	legacy_node.erase("ai_range_cache")
+	result.append(_to_damage_action_node(legacy_node, raw))
+	return result
+
+
+func _to_damage_action_node(raw_node: Dictionary, skill: Dictionary) -> Dictionary:
+	var node := raw_node.duplicate(true)
+	if not node.has("damage_ratio"):
+		if node.has("attack_coefficient"):
+			node["damage_ratio"] = float(node.get("attack_coefficient", 1.0))
+		elif node.has("attackCoefficient"):
+			node["damage_ratio"] = float(node.get("attackCoefficient", 1.0))
+	var node_type := str(node.get("type", ""))
+	if node_type not in DAMAGE_ACTION_TYPES:
+		# 抽象 damage_nodes 没有动画/命中窗口信息；area_damage 可在施法时直接执行。
+		node["type"] = "area_damage"
+	if str(node.get("type", "")) == "area_damage" and not node.has("radius"):
+		var cast_range := float(skill.get("cast_range", 0.0))
+		if cast_range > 0.0:
+			node["radius"] = cast_range
+	return node
+
+
+func _has_legacy_single_damage(raw: Dictionary) -> bool:
+	for field in LEGACY_SINGLE_DAMAGE_FIELDS:
+		if not raw.has(field):
+			continue
+		if field != "damage_channel" or str(raw.get(field, "")) in ["physical", "magic", "true"]:
+			return true
+	return false

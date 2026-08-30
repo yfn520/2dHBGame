@@ -113,11 +113,11 @@ func get_stats_at_level(character_id: int, level: int) -> Dictionary:
 	var max_level := int(config.get("max_level", 1))
 	var safe_level := clampi(level, 1, max_level)
 	var step := safe_level - 1
-	return {
+	var stats := {
 		# 原有 4 项 + attack_speed/crit_rate/crit_damage
 		"max_hp": int(base.get("max_hp", 100)) + int(growth.get("max_hp", 0)) * step,
 		"attack": int(base.get("attack", 1)) + int(growth.get("attack", 0)) * step,
-		"defense": int(base.get("defense", 0)) + int(growth.get("defense", 0)) * step,
+		"defense": int(base.get("defense", base.get("armor", 0))) + int(growth.get("defense", growth.get("armor", 0))) * step,
 		"move_speed": float(base.get("move_speed", 220.0)) + float(growth.get("move_speed", 0.0)) * float(step),
 		"attack_speed": float(base.get("attack_speed", 1.0)) + float(growth.get("attack_speed", 0.0)) * float(step),
 		"crit_rate": float(base.get("crit_rate", 0.05)) + float(growth.get("crit_rate", 0.0)) * float(step),
@@ -127,19 +127,45 @@ func get_stats_at_level(character_id: int, level: int) -> Dictionary:
 		"block_rate": float(base.get("block_rate", 0.0)) + float(growth.get("block_rate", 0.0)) * float(step),
 		"dodge_rate": float(base.get("dodge_rate", 0.0)) + float(growth.get("dodge_rate", 0.0)) * float(step),
 		"status_resist": float(base.get("status_resist", 0.0)) + float(growth.get("status_resist", 0.0)) * float(step),
-		"status_intensity": float(base.get("status_intensity", 0.0)) + float(growth.get("status_intensity", 0.0)) * float(step),
+		"status_intensity": float(base.get("status_intensity", base.get("statusPower", 0.0))) + float(growth.get("status_intensity", 0.0)) * float(step),
 		"skill_haste": float(base.get("skill_haste", 0.0)) + float(growth.get("skill_haste", 0.0)) * float(step),
 		"armor_pen_percent": float(base.get("armor_pen_percent", 0.0)) + float(growth.get("armor_pen_percent", 0.0)) * float(step),
 		"armor_pen_flat": int(base.get("armor_pen_flat", 0)) + int(growth.get("armor_pen_flat", 0)) * step,
 		"magic_pen_percent": float(base.get("magic_pen_percent", 0.0)) + float(growth.get("magic_pen_percent", 0.0)) * float(step),
 		"magic_pen_flat": int(base.get("magic_pen_flat", 0)) + int(growth.get("magic_pen_flat", 0)) * step,
-		"heal_bonus": float(base.get("heal_bonus", 0.0)) + float(growth.get("heal_bonus", 0.0)) * float(step),
-		"shield_bonus": float(base.get("shield_bonus", 0.0)) + float(growth.get("shield_bonus", 0.0)) * float(step),
-		"heal_received": float(base.get("heal_received", 0.0)) + float(growth.get("heal_received", 0.0)) * float(step),
+		"heal_bonus": float(base.get("heal_bonus", base.get("healingPower", 0.0))) + float(growth.get("heal_bonus", 0.0)) * float(step),
+		"shield_bonus": float(base.get("shield_bonus", base.get("shieldPower", 0.0))) + float(growth.get("shield_bonus", 0.0)) * float(step),
+		"heal_received": float(base.get("heal_received", base.get("receivedHealing", 0.0))) + float(growth.get("heal_received", 0.0)) * float(step),
 		"lifesteal": float(base.get("lifesteal", 0.0)) + float(growth.get("lifesteal", 0.0)) * float(step),
 		"reflect_rate": float(base.get("reflect_rate", 0.0)) + float(growth.get("reflect_rate", 0.0)) * float(step),
 		"abyss_cost": float(base.get("abyss_cost", 0.0)) + float(growth.get("abyss_cost", 0.0)) * float(step),
 	}
+	var passthrough_fields := {
+		"primary_element": ["primary_element", "primaryElement"],
+		"element_damage_bonus_sources": ["element_damage_bonus_sources", "elementDamageBonusSources"],
+		"element_resist_rating": ["element_resist_rating", "elementResistRating"],
+		"element_penetration_rating": ["element_penetration_rating", "elementPenetrationRating"],
+		"tag_vulnerability": ["tag_vulnerability", "tagVulnerability"],
+		"element_resist_rating_modifiers": ["element_resist_rating_modifiers", "elementResistRatingModifiers"],
+		"phase_rules": ["phase_rules", "phaseRules"],
+		"active_phase_rule_id": ["active_phase_rule_id", "activePhaseRuleId"],
+		"active_condition_ids": ["active_condition_ids", "activeConditionIds"],
+		"element_relation_matrix": ["element_relation_matrix", "elementRelationMatrix"],
+	}
+	for canonical_field in passthrough_fields:
+		var found := false
+		for source_field in passthrough_fields[canonical_field]:
+			if base.has(source_field):
+				stats[canonical_field] = base[source_field]
+				found = true
+				break
+		if found:
+			continue
+		for source_field in passthrough_fields[canonical_field]:
+			if config.has(source_field):
+				stats[canonical_field] = config[source_field]
+				break
+	return stats
 
 
 func get_all() -> Dictionary:

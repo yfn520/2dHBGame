@@ -1,30 +1,28 @@
 class_name DamageTags
 extends RefCounted
 
-## 伤害标签与防御通道定义（设计案第4章）。
-## 物理标签：斩击/穿刺/钝击（走护甲）
-## 魔法标签：火焰/冰霜/雷电/神圣/毒素/深渊（走魔抗）
-## 真实：无标签（无防御结算）
+## V0.2 中 damage_channel 决定防御通道，physical_tag 只描述物理形态。
+## 旧元素 damage_tag 继续作为兼容读取入口，新数据使用 primary_element / element_override。
 
 const CHANNELS := ["physical", "magic", "true"]
 
 const TAGS := [
 	"slash", "pierce", "blunt",          # 物理
-	"fire", "frost", "thunder", "holy",  # 魔法
+	"fire", "frost", "thunder", "lightning", "holy",  # 旧元素标签
 	"poison", "abyss"                    # 魔法（特殊）
 ]
 
 ## 标签 → 防御通道映射
 const CHANNEL_OF_TAG := {
 	"slash": "physical", "pierce": "physical", "blunt": "physical",
-	"fire": "magic", "frost": "magic", "thunder": "magic", "holy": "magic",
+	"fire": "magic", "frost": "magic", "thunder": "magic", "lightning": "magic", "holy": "magic",
 	"poison": "magic", "abyss": "magic",
 }
 
 ## 中文注解（供编辑器 UI 显示）
 const OPTION_LABELS := {
 	"slash": "斩击", "pierce": "穿刺", "blunt": "钝击",
-	"fire": "火焰", "frost": "冰霜", "thunder": "雷电", "holy": "神圣",
+	"fire": "火焰", "frost": "冰霜", "thunder": "雷电", "lightning": "雷电", "holy": "神圣",
 	"poison": "毒素", "abyss": "深渊",
 }
 

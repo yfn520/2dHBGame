@@ -81,6 +81,9 @@ func _resolve_stats() -> void:
 		_stats = GameRegistry.character_stats
 	_skill_executor._stats = _stats
 	_skill_executor._buff_manager = _buff_manager
+	if _buff_manager != null:
+		var status_unit_type := str(_stats.status_unit_type) if _stats != null and "status_unit_type" in _stats else StatusSystem.get_unit_type(_owner)
+		_buff_manager.set_status_unit_type(status_unit_type)
 	# 异步预热该英雄所有技能的特效资源，避免首次释放技能时同步 load 卡顿一帧
 	_preload_skill_effect_scenes()
 
@@ -221,12 +224,7 @@ func try_use_skill(skill_id: int) -> bool:
 		push_error("技能 %d 没有节点，无法施放" % skill_id)
 		return false
 	_last_skill_attempt = "cast:%d" % skill_id
-	var base_cooldown := float(skill.get("cooldown", 0.0))
-	var atk_speed := _get_attack_speed()
-	# 技能急速：实际冷却 = 基础 / 攻速 × 100/(100+急速)（设计案 6.2 递减收益）
-	var haste := _get_skill_haste()
-	var haste_mult := 100.0 / (100.0 + haste) if haste > -100.0 else 1.0
-	_cooldowns[skill_id] = base_cooldown / atk_speed * haste_mult if atk_speed > 0.0 else base_cooldown * haste_mult
+	_cooldowns[skill_id] = _get_effective_skill_cooldown(skill_id, skill)
 	combat_state = CombatState.SKILL
 	attack_started.emit(skill_id)
 	_cast_serial += 1
@@ -1236,6 +1234,44 @@ func _get_skill_haste() -> float:
 	return _buff_manager.get_modified_stat("skill_haste", base_haste)
 
 
+## 设计案第 7 章：普攻间隔只由攻速决定；技能冷却只由技能急速决定。
+## 仅 affected_by_attack_speed=true 的非普攻技能额外除以实际攻速。
+func _get_effective_skill_cooldown(skill_id: int, skill: Dictionary = {}) -> float:
+	var config := skill
+	if config.is_empty() and GameRegistry.skill_config != null:
+		config = GameRegistry.skill_config.get_skill(skill_id)
+	var is_basic_attack := _is_basic_attack_skill(skill_id, config)
+	return calculate_cooldown_duration(
+		float(config.get("cooldown", 0.0)),
+		_get_attack_speed(),
+		_get_skill_haste(),
+		is_basic_attack,
+		bool(config.get("affected_by_attack_speed", false))
+	)
+
+
+func _is_basic_attack_skill(skill_id: int, skill: Dictionary) -> bool:
+	if bool(skill.get("is_basic_attack", false)):
+		return true
+	if _owner != null and _owner.has_method("get_skill_for_input"):
+		return skill_id == int(_owner.get_skill_for_input("normal"))
+	if _owner != null and "_config" in _owner:
+		var owner_config: Variant = _owner.get("_config")
+		if owner_config is Dictionary:
+			return skill_id == int((owner_config as Dictionary).get("normal_skill", 0))
+	return false
+
+
+static func calculate_cooldown_duration(base_cooldown: float, attack_speed: float, skill_haste: float, is_basic_attack: bool, affected_by_attack_speed: bool = false) -> float:
+	var safe_attack_speed := maxf(0.01, attack_speed)
+	if is_basic_attack:
+		return 1.0 / safe_attack_speed
+	var result := maxf(0.0, base_cooldown) * 100.0 / maxf(1.0, 100.0 + skill_haste)
+	if affected_by_attack_speed:
+		result /= safe_attack_speed
+	return result
+
+
 func _get_defense() -> float:
 	if _stats == null or not ("defense" in _stats):
 		return 0.0
@@ -1244,6 +1280,10 @@ func _get_defense() -> float:
 
 func get_cooldowns_dict() -> Dictionary:
 	return _cooldowns.duplicate()
+
+
+func get_skill_cooldown_duration(skill_id: int) -> float:
+	return _get_effective_skill_cooldown(skill_id)
 
 
 func get_debug_state() -> String:

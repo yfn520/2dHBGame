@@ -50,14 +50,21 @@ func execute_fullscreen_damage(node: Dictionary, context: SkillCastContext) -> A
 ## hurt_box: 受击方 HurtBox
 ## skip_buildup: 反应附加伤害调用时为 true，跳过异常积累和反应触发（避免无限循环）
 func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false) -> void:
+	for _hit_index in range(maxi(1, int(node.get("hit_count", 1)))):
+		if hurt_box == null or not is_instance_valid(hurt_box):
+			break
+		_apply_damage_node_once(node, hurt_box, skip_buildup)
+
+
+func _apply_damage_node_once(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false) -> void:
 	if hurt_box == null or not is_instance_valid(hurt_box):
 		return
 	var target: Node = hurt_box._owner_entity if "_owner_entity" in hurt_box else null
 	# 元素反应（设计案 9.2）：同次最多一种，按 REACTIONS 顺序匹配。反应附加伤害不再触发反应。
-	var damage_tag := str(node.get("damage_tag", "slash"))
+	var reaction_tags := _get_reaction_tags(node)
 	var reaction := {"triggered": false}
 	if not skip_buildup:
-		reaction = ElementReaction.try_reaction(target, damage_tag)
+		reaction = ElementReaction.try_reaction(target, reaction_tags)
 	var reaction_triggered := bool(reaction.get("triggered", false))
 	var reaction_effect: Dictionary = reaction.get("effect", {}) if reaction_triggered else {}
 	var reaction_type := str(reaction_effect.get("type", ""))
@@ -84,6 +91,9 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 		result["damage"] = int(roundi(float(result.get("damage", 0)) * (1.0 + reaction_shield_mult)))
 	if hurt_box.has_method("take_hit"):
 		hurt_box.take_hit(result, _owner)
+	# 闪避不触发反应消耗、异常积累、吸血或命中音效。
+	if bool(result.get("dodged", false)):
+		return
 	# 反应消耗类：在伤害结算后消耗前置 buff + 施加 debuff / 附加伤害
 	if reaction_triggered and (reaction_type == "consume_both" or reaction_type == "consume_stacks"):
 		if reaction_type == "consume_stacks":
@@ -94,7 +104,8 @@ func apply_damage_node(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 		else:  # consume_both
 			ElementReaction.consume_pre_buff(target, reaction)
 			_apply_reaction_debuff(reaction_effect, target)
-	# 应用节点配置的异常积累 / buff（反应附加伤害跳过异常积累，但保留 buildup_boost 放大）
+	# 应用节点配置的异常积累 / 旧 buff（反应附加伤害跳过异常积累）。
+	_apply_optional_status_buildup(node, target, skip_buildup, buildup_boost)
 	_apply_optional_buff(node, hurt_box, skip_buildup, buildup_boost)
 	# 吸血（设计案 7.3）：按伤害来源效率结算回血
 	_apply_lifesteal(result, node)
@@ -109,15 +120,54 @@ func _calculate_damage_with_reaction(node: Dictionary, target: Node, reaction_vu
 	var ctx := _build_damage_context(node, target)
 	var defense := _build_defense_context(target)
 	if reaction_vuln > 0.0:
-		var tag_vuln: Dictionary = defense.tag_vulnerability
-		tag_vuln[ctx.damage_tag] = float(tag_vuln.get(ctx.damage_tag, 0.0)) + reaction_vuln
-		defense.tag_vulnerability = tag_vuln
+		defense.vulnerability += reaction_vuln
 	if reaction_armor_pen > 0.0:
 		var tag_pen: Dictionary = defense.tag_armor_pen
-		tag_pen[ctx.damage_tag] = float(tag_pen.get(ctx.damage_tag, 0.0)) + reaction_armor_pen
+		var tag_key := ctx.physical_tag if ctx.physical_tag in ["slash", "pierce", "blunt"] else ctx.damage_tag
+		tag_pen[tag_key] = float(tag_pen.get(tag_key, 0.0)) + reaction_armor_pen
 		defense.tag_armor_pen = tag_pen
 	var calc := DamageCalculator.new()
 	return calc.calculate(ctx, defense)
+
+
+func _get_reaction_tags(node: Dictionary) -> Array:
+	var ctx := _build_damage_context(node, null)
+	var tags: Array = []
+	var element_tag := DamageCalculator.reaction_element_tag(ctx.resolved_element)
+	if element_tag != "none":
+		tags.append(element_tag)
+	if ctx.damage_channel == "physical" and ctx.physical_tag in ["slash", "pierce", "blunt"] and not tags.has(ctx.physical_tag):
+		tags.append(ctx.physical_tag)
+	if tags.is_empty() and ctx.use_legacy_damage_tag and ctx.damage_channel != "true":
+		var legacy_element := DamageCalculator.reaction_element_tag(DamageCalculator.normalize_element(ctx.damage_tag))
+		if legacy_element != "none":
+			tags.append(legacy_element)
+		elif ctx.damage_channel == "physical" and ctx.damage_tag in ["slash", "pierce", "blunt"]:
+			tags.append(ctx.damage_tag)
+	return tags
+
+
+func _get_target_combat(target: Node) -> Node:
+	if target == null:
+		return null
+	if target.has_method("get_buff_manager"):
+		return target
+	if "combat" in target:
+		var combat_node: Variant = target.get("combat")
+		if combat_node is Node and is_instance_valid(combat_node):
+			return combat_node
+	return target.get_node_or_null("CombatComponent")
+
+
+func _get_target_buff_manager(target: Node):
+	var combat_node := _get_target_combat(target)
+	return combat_node.get_buff_manager() if combat_node != null and combat_node.has_method("get_buff_manager") else null
+
+
+func _apply_buff_to_target(target: Node, config: Dictionary, source_id: int) -> void:
+	var combat_node := _get_target_combat(target)
+	if combat_node != null and combat_node.has_method("apply_buff_from_config"):
+		combat_node.apply_buff_from_config(config, source_id)
 
 
 ## 读取前置 buff 的当前层数（consume_stacks 用，在 consume_pre_buff 移除前调用）。
@@ -127,9 +177,9 @@ func _get_pre_buff_stacks(target: Node, reaction: Dictionary) -> int:
 	if pre.is_empty() or pre == "shield":
 		return 1
 	var pre_buff_id: int = ElementReaction.PRE_STATUS_BUFF_ID.get(pre, 0)
-	if pre_buff_id == 0 or target == null or not target.has_method("get_buff_manager"):
+	if pre_buff_id == 0 or target == null:
 		return 1
-	var bm = target.get_buff_manager()
+	var bm = _get_target_buff_manager(target)
 	if bm == null or not bm.has_method("get_active_buffs"):
 		return 1
 	for buff in bm.get_active_buffs():
@@ -143,18 +193,16 @@ func _apply_reaction_debuff(reaction_effect: Dictionary, target: Node) -> void:
 	var debuff_id := int(reaction_effect.get("debuff_id", 0))
 	if debuff_id <= 0 or target == null:
 		return
-	if not target.has_method("apply_buff_from_config"):
-		return
 	var config: Dictionary = GameRegistry.buff_config.get_buff(debuff_id)
 	if config.is_empty():
 		return
 	var source_id := _owner.get_instance_id() if _owner != null else 0
-	target.apply_buff_from_config(config, source_id)
+	_apply_buff_to_target(target, config, source_id)
 
 
 ## 反应消耗层数附加伤害（consume_stacks 用，例如侵蚀+神圣 → 每层 60% 攻击力神圣伤害）。
 ## actual_stacks: 前置 buff 被消耗前的实际层数；按 min(actual, max_stacks) 结算。
-## 附加伤害为真实通道，不触发反伤/异常积累/反应（source=null + play_hit_reaction=false）。
+## 附加伤害按反应节点的魔法/神圣口径完整结算元素层，且不触发反伤、异常积累或二次反应。
 func _apply_consume_stacks_damage(reaction_effect: Dictionary, target: Node, actual_stacks: int) -> void:
 	if target == null or not target.has_method("take_damage"):
 		return
@@ -165,17 +213,22 @@ func _apply_consume_stacks_damage(reaction_effect: Dictionary, target: Node, act
 	var effective_stacks := mini(actual_stacks, max_stacks)
 	if effective_stacks <= 0:
 		return
-	var base_attack := 1.0
-	if _stats != null and "attack" in _stats:
-		base_attack = float(_stats.attack)
-	if _buff_manager != null:
-		base_attack = _buff_manager.get_modified_stat("attack", base_attack)
-	var bonus_damage := int(roundi(base_attack * per_stack_ratio * float(effective_stacks)))
+	var reaction_node := {
+		"damage_channel": str(reaction_effect.get("damage_channel", "magic")),
+		"physical_tag": "none",
+		"element_override": str(reaction_effect.get("element_override", "holy")),
+		"damage_ratio": per_stack_ratio * float(effective_stacks),
+		"damage_scope": "reaction",
+		"can_crit": false,
+		"can_dodge": false,
+		"can_block": false,
+	}
+	var result := calculate_damage_full(reaction_node, target)
+	var bonus_damage := int(result.get("damage", 0))
 	if bonus_damage <= 0:
 		return
-	# 附加伤害：真实通道（不被防御减免），source=null 避免反伤循环，play_hit_reaction=false 避免受击动画
-	# damage_result 标记 channel=true 让 take_damage 走新链路跳过 defense 减法
-	target.take_damage(bonus_damage, null, false, {"damage": bonus_damage, "channel": "true"})
+	# source=null 避免反伤循环，play_hit_reaction=false 避免受击动画；不再触发完整反应链。
+	target.take_damage(bonus_damage, null, false, result)
 
 
 ## 吸血结算（设计案 7.3）。
@@ -261,13 +314,13 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 	# 反应附加伤害跳过概率判定（设计案 9.2：避免无限循环），直接施加
 	if skip_buildup:
 		var skip_buff_ids := _read_buff_ids(node)
-		if skip_buff_ids.is_empty() or not target.has_method("apply_buff_from_config"):
+		if skip_buff_ids.is_empty():
 			return
 		var skip_source_id := _owner.get_instance_id() if _owner != null else 0
 		for buff_id in skip_buff_ids:
 			var skip_config: Dictionary = GameRegistry.buff_config.get_buff(int(buff_id))
 			if not skip_config.is_empty():
-				target.apply_buff_from_config(skip_config, skip_source_id)
+				_apply_buff_to_target(target, skip_config, skip_source_id)
 		return
 	# 统一走保底累积：异常 buff（config 配了 status_type）失败累积 pity，非异常 buff 纯概率
 	var chance := float(node.get("chance", node.get("buff_chance", 1.0)))
@@ -277,13 +330,7 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 	if buff_ids.is_empty():
 		return
 	# target 是角色节点（Player/Enemy），buff_manager 在其 combat 子节点（CombatComponent）上
-	var target_bm = null
-	if "combat" in target:
-		var combat_node = target.get("combat")
-		if combat_node != null and combat_node.has_method("get_buff_manager"):
-			target_bm = combat_node.get_buff_manager()
-	if target_bm == null and target.has_method("get_buff_manager"):
-		target_bm = target.get_buff_manager()
+	var target_bm = _get_target_buff_manager(target)
 	if target_bm == null:
 		return
 	var source_id := _owner.get_instance_id() if _owner != null else 0
@@ -292,13 +339,13 @@ func apply_target_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = 
 		if not config.is_empty():
 			if target_bm.has_method("apply_buff_with_pity"):
 				target_bm.apply_buff_with_pity(config, chance, source_id, buildup_boost, pity_increment)
-			elif randf() <= chance and target.has_method("apply_buff_from_config"):
+			elif randf() <= chance:
 				# fallback：无保底累积方法时走旧概率链路
-				target.apply_buff_from_config(config, source_id)
+				_apply_buff_to_target(target, config, source_id)
 
 
 func apply_self_buff(node: Dictionary) -> void:
-	if _owner == null or not _owner.has_method("apply_buff_from_config"):
+	if _owner == null:
 		return
 	var buff_ids := _read_buff_ids(node)
 	var source_id := _owner.get_instance_id() if _owner != null else 0
@@ -316,7 +363,7 @@ func apply_self_buff(node: Dictionary) -> void:
 					config["effect_offset_y"] = float(node.get("effect_offset_y", 0.0))
 				if has_scale:
 					config["effect_scale"] = maxf(0.01, float(node.get("effect_scale", 1.0)))
-			_owner.apply_buff_from_config(config, source_id)
+			_apply_buff_to_target(_owner, config, source_id)
 
 
 ## 读取节点的 buff_ids 数组，兼容旧 buff_id 单值字段。
@@ -332,6 +379,48 @@ func _read_buff_ids(node: Dictionary) -> Array:
 		if legacy > 0:
 			result.append(legacy)
 	return result
+
+
+## 读取 V0.2 异常积累字段，兼容顶层字段和旧 status 子字典。
+func _read_status_payload(node: Dictionary) -> Dictionary:
+	var nested = node.get("status", {})
+	var status_type := StatusSystem.normalize_status_type(node.get("status_type", ""))
+	var buildup := float(node.get("status_buildup", 0.0))
+	if nested is Dictionary:
+		if status_type.is_empty():
+			status_type = StatusSystem.normalize_status_type((nested as Dictionary).get("type", (nested as Dictionary).get("status_type", "")))
+		if not node.has("status_buildup"):
+			buildup = float((nested as Dictionary).get("buildup", (nested as Dictionary).get("status_buildup", 0.0)))
+	return {"type": status_type, "buildup": maxf(0.0, buildup)}
+
+
+func _get_attacker_status_intensity() -> float:
+	var intensity := 0.0
+	if _stats != null and "status_intensity" in _stats:
+		intensity = float(_stats.status_intensity)
+	if _buff_manager != null:
+		intensity = _buff_manager.get_modified_stat("status_intensity", intensity)
+	return clampf(intensity, 0.0, 2.0)
+
+
+## V0.2 异常积累主链。元素抗性不参与此公式；潮湿+冰霜等反应只放大本次基础积累。
+func _apply_optional_status_buildup(node: Dictionary, target: Node, skip_buildup: bool = false, buildup_boost: float = 0.0) -> void:
+	if skip_buildup or target == null:
+		return
+	var status := _read_status_payload(node)
+	var status_type := str(status.get("type", ""))
+	var base_buildup := float(status.get("buildup", 0.0))
+	if status_type.is_empty() or base_buildup <= 0.0:
+		return
+	var target_bm = _get_target_buff_manager(target)
+	if target_bm == null or not target_bm.has_method("apply_status_buildup"):
+		return
+	target_bm.apply_status_buildup(
+		status_type,
+		base_buildup * (1.0 + maxf(0.0, buildup_boost)),
+		_get_attacker_status_intensity(),
+		_owner
+	)
 
 
 func spawn_projectiles(node: Dictionary, origin: Vector2, context: SkillCastContext) -> void:
@@ -439,9 +528,20 @@ func _build_damage_context(node: Dictionary, _target: Node) -> DamageCalculator.
 	ctx.crit_rate = clampf(crit_rate, 0.0, 0.75)
 	ctx.crit_damage = clampf(crit_damage, 1.0, 2.5)
 	ctx.can_crit = bool(node.get("can_crit", true))
-	# 伤害通道与标签（缺省兼容旧技能：物理/斩击）
+	# 伤害通道、物理形态与元素覆盖。缺少 V0.2 字段的旧节点由 damage_tag 一次性映射。
 	ctx.damage_channel = str(node.get("damage_channel", "physical"))
 	ctx.damage_tag = str(node.get("damage_tag", "slash"))
+	ctx.use_legacy_damage_tag = not node.has("physical_tag") and not node.has("element_override")
+	ctx.physical_tag = str(node.get("physical_tag", _legacy_physical_tag(ctx.damage_tag)))
+	ctx.element_override = str(node.get("element_override", _legacy_element_override(ctx.damage_tag)))
+	ctx.damage_scope = str(node.get("damage_scope", "direct"))
+	if _stats != null:
+		ctx.primary_element = str(_stats.primary_element) if "primary_element" in _stats else "none"
+		ctx.element_damage_bonus_sources = (_stats.element_damage_bonus_sources as Array).duplicate(true) if "element_damage_bonus_sources" in _stats and _stats.element_damage_bonus_sources is Array else []
+		ctx.element_penetration_rating = (_stats.element_penetration_rating as Dictionary).duplicate(true) if "element_penetration_rating" in _stats and _stats.element_penetration_rating is Dictionary else {}
+		ctx.active_condition_ids = (_stats.active_condition_ids as Array).duplicate() if "active_condition_ids" in _stats and _stats.active_condition_ids is Array else []
+		ctx.element_relation_matrix = (_stats.element_relation_matrix as Dictionary).duplicate(true) if "element_relation_matrix" in _stats and _stats.element_relation_matrix is Dictionary else {}
+	ctx.resolved_element = DamageCalculator.resolve_element(ctx.damage_channel, ctx.primary_element, ctx.element_override, ctx.damage_tag if ctx.use_legacy_damage_tag else "")
 	# 攻击侧增伤（暂无独立字段，预留 buff 注入）
 	ctx.attacker_damage_bonus = 0.0
 	# 穿透（buff 修饰）
@@ -469,11 +569,9 @@ func _build_defense_context(target: Node) -> DamageCalculator.DefenseContext:
 		return defense
 	# 读取目标的 combat_component stats + buff_manager
 	var target_stats = null
-	var target_buff_manager = null
+	var target_buff_manager = _get_target_buff_manager(target)
 	if target.has_method("get_combat_stats"):
 		target_stats = target.get_combat_stats()
-	if target.has_method("get_buff_manager"):
-		target_buff_manager = target.get_buff_manager()
 	# 护甲/魔抗（buff 修饰）
 	var armor := 0
 	var magic_resist := 0
@@ -499,15 +597,26 @@ func _build_defense_context(target: Node) -> DamageCalculator.DefenseContext:
 	# 目标等级（若目标无 level 字段，默认 1）
 	if target_stats != null and "level" in target_stats:
 		defense.target_level = int(target_stats.level)
-	# 目标易伤（预留，buff 可施加 vulnerability stat_modifier；P0 暂无独立字段）
+	# 目标易伤（buff 可施加 vulnerability stat_modifier）
 	defense.vulnerability = 0.0
+	if target_stats != null:
+		defense.primary_element = str(target_stats.primary_element) if "primary_element" in target_stats else "none"
+		if "effective_element_resist_rating" in target_stats and target_stats.effective_element_resist_rating is Dictionary:
+			defense.element_resist_rating = (target_stats.effective_element_resist_rating as Dictionary).duplicate(true)
+		elif "element_resist_rating" in target_stats and target_stats.element_resist_rating is Dictionary:
+			defense.element_resist_rating = (target_stats.element_resist_rating as Dictionary).duplicate(true)
+			if "element_resist_rating_modifiers" in target_stats and target_stats.element_resist_rating_modifiers is Dictionary:
+				_add_element_map(defense.element_resist_rating, target_stats.element_resist_rating_modifiers)
+		defense.element_resist_cap = float(target_stats.element_resist_cap) if "element_resist_cap" in target_stats else 0.35
 	# 标签抗性：由敌人特征提供（设计案 10.1）
 	if target_stats != null and "traits" in target_stats:
 		var target_traits: Array = target_stats.traits
 		defense.tag_resistance = EnemyTraits.get_combined_tag_multipliers(target_traits)
 	# 标签级修正（设计案 8.2 感电/标记）+ 全标签易伤（设计案 8.2 侵蚀）：从目标 active buffs 聚合
+	var tag_vuln: Dictionary = {}
+	if target_stats != null and "tag_vulnerability" in target_stats and target_stats.tag_vulnerability is Dictionary:
+		tag_vuln = (target_stats.tag_vulnerability as Dictionary).duplicate(true)
 	if target_buff_manager != null and target_buff_manager.has_method("get_active_buffs"):
-		var tag_vuln: Dictionary = {}
 		var tag_pen: Dictionary = {}
 		var global_vuln := 0.0
 		for buff in target_buff_manager.get_active_buffs():
@@ -530,7 +639,25 @@ func _build_defense_context(target: Node) -> DamageCalculator.DefenseContext:
 		defense.tag_vulnerability = tag_vuln
 		defense.tag_armor_pen = tag_pen
 		defense.global_vulnerability = global_vuln
+	else:
+		defense.tag_vulnerability = tag_vuln
 	return defense
+
+
+static func _legacy_physical_tag(damage_tag: String) -> String:
+	return damage_tag if damage_tag in ["slash", "pierce", "blunt"] else "none"
+
+
+static func _legacy_element_override(damage_tag: String) -> String:
+	var element := DamageCalculator.normalize_element(damage_tag)
+	return element if element != "none" else "inherit"
+
+
+static func _add_element_map(target: Dictionary, additions: Dictionary) -> void:
+	for key in additions:
+		var element := DamageCalculator.normalize_element(key)
+		if element != "none":
+			target[element] = float(target.get(element, 0.0)) + float(additions[key])
 
 
 
@@ -728,13 +855,23 @@ func _hurt_box_center(hurt_box: Area2D) -> Vector2:
 	return pos
 
 
-## 伤害节点附加 buff（设计案 7.3 + 9.2，重构后统一走保底累积）。
-## skip_buildup: 反应附加伤害调用时为 true，跳过概率判定直接施加
-## buildup_boost: 元素反应临时命中率加成（如潮湿+冰霜 +50%），透传到 apply_buff_with_pity
+## 伤害节点附加旧 buff。新 status_type/status_buildup 由异常积累主链处理；
+## 若旧 buff_ids 同时包含该异常对应 buff，则过滤掉它，避免一次命中重复施加。
 func _apply_optional_buff(node: Dictionary, hurt_box: Area2D, skip_buildup: bool = false, buildup_boost: float = 0.0) -> void:
-	# 读取伤害节点配置的 buff_chance 和 buff_ids，复用 apply_target_buff 的保底累积链路
-	var buff_chance := float(node.get("buff_chance", 0.0))
+	var buff_chance := float(node.get("buff_chance", node.get("chance", 0.0)))
 	var buff_ids := _read_buff_ids(node)
+	var status := _read_status_payload(node)
+	var status_type := str(status.get("type", ""))
+	if not status_type.is_empty() and float(status.get("buildup", 0.0)) > 0.0:
+		var filtered_ids: Array = []
+		for value in buff_ids:
+			var buff_id := int(value)
+			var config: Dictionary = GameRegistry.buff_config.get_buff(buff_id)
+			var config_status := StatusSystem.normalize_status_type(config.get("status_type", ""))
+			if config_status == status_type or buff_id == int(StatusSystem.STATUS_BUFF_ID.get(status_type, 0)):
+				continue
+			filtered_ids.append(buff_id)
+		buff_ids = filtered_ids
 	if buff_ids.is_empty():
 		return
 	# 透传节点配置的 pity_increment（失败时累积概率增量）

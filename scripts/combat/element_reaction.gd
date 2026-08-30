@@ -66,19 +66,18 @@ const PRE_STATUS_BUFF_ID := {
 
 ## 尝试触发元素反应。
 ## target: 目标节点（用于查询 active buff）
-## attack_tag: 当前攻击的伤害标签
+## attack_tag: 当前攻击的标签，V0.2 可同时传入 [resolved_element, physical_tag]
 ## 返回反应结果 Dictionary：
 ##   {"triggered": bool, "effect": {...}, "pre_status": "...", "consumed_buff_id": int}
 ## 调用方根据 effect.type 决定如何应用（伤害修正/消耗 buff/附加伤害）
-static func try_reaction(target: Node, attack_tag: String) -> Dictionary:
-	if target == null or not target.has_method("get_buff_manager"):
-		return {"triggered": false}
-	var bm = target.get_buff_manager()
+static func try_reaction(target: Node, attack_tag: Variant) -> Dictionary:
+	var bm = _resolve_buff_manager(target)
 	if bm == null or not bm.has_method("get_active_buffs"):
 		return {"triggered": false}
 	# 构建 target 的 buff_id → buff 映射
 	var buff_map: Dictionary = {}
 	var has_shield := false
+	var attack_tags: Array = attack_tag if attack_tag is Array else [str(attack_tag)]
 	for buff in bm.get_active_buffs():
 		buff_map[int(buff.buff_id)] = buff
 		if buff.get_shield_effects().size() > 0:
@@ -87,7 +86,7 @@ static func try_reaction(target: Node, attack_tag: String) -> Dictionary:
 	for reaction in REACTIONS:
 		var pre := str(reaction["pre_status"])
 		var atk := str(reaction["attack_tag"])
-		if atk != attack_tag:
+		if not attack_tags.has(atk):
 			continue
 		# 检查前置状态
 		if pre == "shield":
@@ -122,9 +121,7 @@ static func consume_pre_buff(target: Node, reaction_result: Dictionary) -> void:
 	var pre_buff_id: int = PRE_STATUS_BUFF_ID.get(pre, 0)
 	if pre_buff_id == 0:
 		return
-	if target == null or not target.has_method("get_buff_manager"):
-		return
-	var bm = target.get_buff_manager()
+	var bm = _resolve_buff_manager(target)
 	if bm == null:
 		return
 	if etype == "consume_both":
@@ -132,9 +129,21 @@ static func consume_pre_buff(target: Node, reaction_result: Dictionary) -> void:
 		if bm.has_method("remove_buff_by_id"):
 			bm.remove_buff_by_id(pre_buff_id)
 	elif etype == "consume_stacks":
-		# 消耗最多 max_stacks 层
 		var max_consume := int(effect.get("max_stacks", 1))
-		# BuffInstance 的 stacks 是只读的，需通过 remove_buff_by_id 移除整个 buff
-		# P1 简化：直接移除整个 buff（不做部分减层，避免引入复杂的减层 API）
-		if bm.has_method("remove_buff_by_id"):
+		if bm.has_method("remove_buff_stacks"):
+			bm.remove_buff_stacks(pre_buff_id, max_consume)
+		elif bm.has_method("remove_buff_by_id"):
 			bm.remove_buff_by_id(pre_buff_id)
+
+
+static func _resolve_buff_manager(target: Node):
+	if target == null:
+		return null
+	if target.has_method("get_buff_manager"):
+		return target.get_buff_manager()
+	if "combat" in target:
+		var combat_node: Variant = target.get("combat")
+		if combat_node is Node and is_instance_valid(combat_node) and combat_node.has_method("get_buff_manager"):
+			return combat_node.get_buff_manager()
+	var combat_node := target.get_node_or_null("CombatComponent")
+	return combat_node.get_buff_manager() if combat_node != null and combat_node.has_method("get_buff_manager") else null

@@ -942,10 +942,11 @@ func _refresh_skills_page() -> void:
 		level = GameRegistry.roster_data.get_level(character_id)
 	var active_char := _party_manager.get_active_character() if _party_manager != null else null
 	var cooldowns := {}
+	var active_combat: Node = null
 	if active_char != null:
-		var combat := active_char.get_node_or_null("CombatComponent")
-		if combat != null and combat.has_method("get_cooldowns_dict"):
-			cooldowns = combat.get_cooldowns_dict()
+		active_combat = active_char.get_node_or_null("CombatComponent")
+		if active_combat != null and active_combat.has_method("get_cooldowns_dict"):
+			cooldowns = active_combat.get_cooldowns_dict()
 
 	for row_data in _skill_rows:
 		var slot_name: String = row_data["slot"]
@@ -970,7 +971,7 @@ func _refresh_skills_page() -> void:
 			else:
 				name_label.text = "%s · %s" % [key_label, sname]
 			var desc := str(skill.get("description", ""))
-			var cd_max := float(skill.get("cooldown", 0.0))
+			var cd_max := float(active_combat.get_skill_cooldown_duration(skill_id)) if active_combat != null and active_combat.has_method("get_skill_cooldown_duration") else float(skill.get("cooldown", 0.0))
 			desc_label.text = "%s  冷却:%.1fs" % [desc, cd_max] if not desc.is_empty() else "冷却:%.1fs" % cd_max
 
 

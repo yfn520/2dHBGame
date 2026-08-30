@@ -36,6 +36,7 @@ func load_config() -> void:
 			"duration": float(raw.get("duration", 0.0)),
 			"max_stacks": int(raw.get("max_stacks", 1)),
 			"stack_behavior": str(raw.get("stack_behavior", "refresh")),
+			"status_type": StatusSystem.normalize_status_type(raw.get("status_type", "")),
 			"icon": str(raw.get("icon", "")),
 			"effect_scene": str(raw.get("effect_scene", "")),
 			"effects": effects,

@@ -7,10 +7,11 @@ signal buff_ticked(buff: BuffInstance, damage: int)
 
 var _buffs: Array[BuffInstance] = []
 var _owner: Node  # 角色节点，需要有 take_damage 方法
-# 异常积累制（设计案第8章）：status_type → 当前积累值
+# 异常积累制（设计案第9章）：status_type → 当前积累值
 var _status_buildups: Dictionary = {}
 # 触发阈值，按单位类型设置（normal/elite/boss）
 var _status_threshold: int = StatusSystem.THRESHOLDS["normal"]
+var _status_unit_type: String = "normal"
 # 保底累积（异常 buff 概率失败时累积概率补偿，设计案重构）
 # 按 buff_id 索引的累积概率增量（0.0~1.0），仅异常 buff 累积
 var _pity_chances: Dictionary = {}
@@ -38,9 +39,9 @@ func _process(delta: float) -> void:
 				var dmg_result := _calculate_dot_damage(effect, buff)
 				var dmg := int(dmg_result.get("damage", 0))
 				if dmg > 0 and _owner.has_method("take_damage"):
-					# dmg_result 非空时 take_damage 走新链路，跳过 defense 减法（dmg 已是最终伤害）
 					# source=null 使反伤不触发（DoT 不应触发反伤循环）
-					_owner.take_damage(dmg, null, false, dmg_result)
+					var finalized := bool(dmg_result.get("finalized", true))
+					_owner.take_damage(dmg, null, false, dmg_result if finalized else {})
 				# DoT 吸血（设计案 7.3：25% 效率），回给施毒者
 				_apply_dot_lifesteal(buff, dmg)
 				buff_ticked.emit(buff, dmg)
@@ -68,10 +69,11 @@ func _process(delta: float) -> void:
 
 ## 设置异常触发阈值（按单位类型）
 func set_status_unit_type(unit_type: String) -> void:
-	_status_threshold = StatusSystem.get_threshold(unit_type)
+	_status_unit_type = StatusSystem.normalize_unit_type(unit_type)
+	_status_threshold = StatusSystem.get_threshold(_status_unit_type)
 
 
-## 异常积累施加（设计案 8.1）。
+## 异常积累施加（设计案 9.1）。元素抗性不参与此公式。
 ## status_type: 见 StatusSystem.STATUS_TYPES
 ## base: 基础积累值（来自技能节点 status_buildup）
 ## intensity: 攻击方异常强度
@@ -79,6 +81,9 @@ func set_status_unit_type(unit_type: String) -> void:
 ## 特征免疫（设计案 10.1）：目标有对应异常免疫时直接 return。
 ## 阈值修正（设计案 10.1/15.4）：特征可放大阈值（如深渊 ×2）。
 func apply_status_buildup(status_type: String, base: float, intensity: float, source: Node) -> void:
+	status_type = StatusSystem.normalize_status_type(status_type)
+	if status_type.is_empty() or base <= 0.0:
+		return
 	# 特征免疫检查
 	var traits: Array = []
 	if _owner.has_method("get_combat_stats"):
@@ -98,7 +103,7 @@ func apply_status_buildup(status_type: String, base: float, intensity: float, so
 	var buildup := StatusSystem.calculate_buildup(base, intensity, resist)
 	_status_buildups[status_type] = float(_status_buildups.get(status_type, 0.0)) + buildup
 	# 应用特征阈值修正
-	var threshold := float(_status_threshold)
+	var threshold := float(StatusSystem.get_threshold(_status_unit_type, status_type))
 	if not traits.is_empty():
 		threshold *= EnemyTraits.get_combined_status_threshold_modifier(traits)
 	# 达到阈值则触发对应 buff
@@ -119,8 +124,8 @@ func get_status_buildup(status_type: String) -> float:
 
 
 ## 查询异常触发阈值
-func get_status_threshold() -> int:
-	return _status_threshold
+func get_status_threshold(status_type: String = "") -> int:
+	return StatusSystem.get_threshold(_status_unit_type, status_type) if not status_type.is_empty() else _status_threshold
 
 
 ## 保底累积施加 buff（异常 buff 概率失败时累积概率补偿）。
@@ -134,7 +139,7 @@ func get_status_threshold() -> int:
 ## - 非异常 buff：纯概率判定，失败不累积
 func apply_buff_with_pity(config: Dictionary, base_chance: float, source: int = 0, buildup_boost: float = 0.0, pity_increment: float = -1.0) -> bool:
 	var buff_id := int(config.get("id", 0))
-	var status_type := str(config.get("status_type", ""))
+	var status_type := StatusSystem.normalize_status_type(config.get("status_type", ""))
 	var is_status_buff := not status_type.is_empty()
 	var actual_chance := clampf(base_chance, 0.0, 1.0)
 	# 未传 pity_increment（<=0）时回落到默认常量
@@ -194,13 +199,21 @@ func apply_buff(config: Dictionary, source: int = 0) -> void:
 
 ## 构建攻击方快照（设计案 8.3）：攻击力 + 增伤 + 穿透，供 DoT 每跳使用。
 func _build_attacker_snapshot(source: int) -> Dictionary:
-	var snap := {"attack": 0.0, "damage_bonus": 0.0, "armor_pen_percent": 0.0, "armor_pen_flat": 0, "magic_pen_percent": 0.0, "magic_pen_flat": 0}
+	var snap := {
+		"attack": 0.0, "damage_bonus": 0.0,
+		"armor_pen_percent": 0.0, "armor_pen_flat": 0,
+		"magic_pen_percent": 0.0, "magic_pen_flat": 0,
+		"primary_element": "none", "element_damage_bonus_sources": [],
+		"element_penetration_rating": {}, "active_condition_ids": [],
+		"element_relation_matrix": {},
+	}
+	var source_node: Node = _owner if source == 0 else null
 	var source_stats = null
 	if source == 0:
 		if _owner.has_method("get_combat_stats"):
 			source_stats = _owner.get_combat_stats()
 	else:
-		var source_node := instance_from_id(source)
+		source_node = instance_from_id(source) as Node
 		if source_node != null and is_instance_valid(source_node) and source_node.has_method("get_combat_stats"):
 			source_stats = source_node.get_combat_stats()
 	if source_stats == null:
@@ -215,7 +228,36 @@ func _build_attacker_snapshot(source: int) -> Dictionary:
 		snap["magic_pen_percent"] = clampf(float(source_stats.magic_pen_percent), 0.0, 0.5)
 	if "magic_pen_flat" in source_stats:
 		snap["magic_pen_flat"] = int(source_stats.magic_pen_flat)
+	if "primary_element" in source_stats:
+		snap["primary_element"] = str(source_stats.primary_element)
+	if "element_damage_bonus_sources" in source_stats and source_stats.element_damage_bonus_sources is Array:
+		snap["element_damage_bonus_sources"] = (source_stats.element_damage_bonus_sources as Array).duplicate(true)
+	if "element_penetration_rating" in source_stats and source_stats.element_penetration_rating is Dictionary:
+		snap["element_penetration_rating"] = (source_stats.element_penetration_rating as Dictionary).duplicate(true)
+	if "active_condition_ids" in source_stats and source_stats.active_condition_ids is Array:
+		snap["active_condition_ids"] = (source_stats.active_condition_ids as Array).duplicate()
+	if "element_relation_matrix" in source_stats and source_stats.element_relation_matrix is Dictionary:
+		snap["element_relation_matrix"] = (source_stats.element_relation_matrix as Dictionary).duplicate(true)
+	var source_bm = _resolve_node_buff_manager(source_node)
+	if source_bm != null and source_bm.has_method("get_modified_stat"):
+		snap["attack"] = source_bm.get_modified_stat("attack", float(snap["attack"]))
+		snap["damage_bonus"] = source_bm.get_modified_stat("damage_bonus", float(snap["damage_bonus"]))
+		snap["armor_pen_percent"] = clampf(source_bm.get_modified_stat("armor_pen_percent", float(snap["armor_pen_percent"])), 0.0, 0.5)
+		snap["magic_pen_percent"] = clampf(source_bm.get_modified_stat("magic_pen_percent", float(snap["magic_pen_percent"])), 0.0, 0.5)
 	return snap
+
+
+func _resolve_node_buff_manager(node: Node):
+	if node == null or not is_instance_valid(node):
+		return null
+	if node.has_method("get_buff_manager"):
+		return node.get_buff_manager()
+	if "combat" in node:
+		var combat_node: Variant = node.get("combat")
+		if combat_node is Node and is_instance_valid(combat_node) and combat_node.has_method("get_buff_manager"):
+			return combat_node.get_buff_manager()
+	var combat_node := node.get_node_or_null("CombatComponent")
+	return combat_node.get_buff_manager() if combat_node != null and combat_node.has_method("get_buff_manager") else null
 
 
 ## 将攻击方快照注入到 buff 的 DoT effects（设计案 8.3）。
@@ -227,14 +269,18 @@ func _inject_dot_snapshot(buff: BuffInstance, snap: Dictionary) -> void:
 		if str(effect.get("type", "")) != "dot":
 			continue
 		var ratio := float(effect.get("attack_ratio", 0.0))
-		if ratio <= 0.0:
-			continue  # 纯固定值 DoT，跳过快照
-		effect["snapshot_attack"] = float(snap.get("attack", 0.0))
-		effect["snapshot_bonus"] = float(snap.get("damage_bonus", 0.0))
-		effect["snapshot_armor_pen_percent"] = float(snap.get("armor_pen_percent", 0.0))
-		effect["snapshot_armor_pen_flat"] = int(snap.get("armor_pen_flat", 0))
-		effect["snapshot_magic_pen_percent"] = float(snap.get("magic_pen_percent", 0.0))
-		effect["snapshot_magic_pen_flat"] = int(snap.get("magic_pen_flat", 0))
+		if ratio > 0.0:
+			effect["snapshot_attack"] = float(snap.get("attack", 0.0))
+			effect["snapshot_bonus"] = float(snap.get("damage_bonus", 0.0))
+			effect["snapshot_armor_pen_percent"] = float(snap.get("armor_pen_percent", 0.0))
+			effect["snapshot_armor_pen_flat"] = int(snap.get("armor_pen_flat", 0))
+			effect["snapshot_magic_pen_percent"] = float(snap.get("magic_pen_percent", 0.0))
+			effect["snapshot_magic_pen_flat"] = int(snap.get("magic_pen_flat", 0))
+		effect["snapshot_primary_element"] = str(snap.get("primary_element", "none"))
+		effect["snapshot_element_damage_bonus_sources"] = (snap.get("element_damage_bonus_sources", []) as Array).duplicate(true)
+		effect["snapshot_element_penetration_rating"] = (snap.get("element_penetration_rating", {}) as Dictionary).duplicate(true)
+		effect["snapshot_active_condition_ids"] = (snap.get("active_condition_ids", []) as Array).duplicate()
+		effect["snapshot_element_relation_matrix"] = (snap.get("element_relation_matrix", {}) as Dictionary).duplicate(true)
 
 
 ## 从施盾者 stats 读取 shield_bonus（施盾者侧乘区，设计案 7.2）。
@@ -302,6 +348,21 @@ func remove_buff_by_id(buff_id: int) -> void:
 		if buff.buff_id == buff_id:
 			_remove_buff(buff)
 			return
+
+
+func remove_buff_stacks(buff_id: int, count: int) -> int:
+	var requested := maxi(0, count)
+	if requested == 0:
+		return 0
+	for buff in _buffs:
+		if buff.buff_id != buff_id:
+			continue
+		var removed := mini(buff.stacks, requested)
+		buff.stacks -= removed
+		if buff.stacks <= 0:
+			_remove_buff(buff)
+		return removed
+	return 0
 
 
 func remove_buff_by_type(buff_type: String) -> void:
@@ -537,8 +598,9 @@ func _calculate_dot_damage(effect: Dictionary, buff: BuffInstance) -> Dictionary
 	# 无标签：直接返回（兼容旧 dot，take_damage 旧链路做 defense 减法）
 	var damage_tag := str(effect.get("damage_tag", ""))
 	var damage_channel := str(effect.get("damage_channel", ""))
-	if damage_tag.is_empty() and damage_channel.is_empty():
-		return {"damage": base_damage * buff.stacks, "dodged": false, "blocked": false, "crit": false}
+	var has_v02_damage_fields := effect.has("physical_tag") or effect.has("element_override")
+	if damage_tag.is_empty() and damage_channel.is_empty() and not has_v02_damage_fields:
+		return {"damage": base_damage * buff.stacks, "dodged": false, "blocked": false, "crit": false, "finalized": false}
 	# 有标签：走 DamageCalculator 完整链路
 	var ctx := DamageCalculator.DamageContext.new()
 	ctx.attacker_attack = float(effect.get("snapshot_attack", 0.0)) if has_snapshot else 0.0
@@ -549,6 +611,17 @@ func _calculate_dot_damage(effect: Dictionary, buff: BuffInstance) -> Dictionary
 	ctx.crit_damage = 1.0
 	ctx.damage_channel = damage_channel if not damage_channel.is_empty() else "physical"
 	ctx.damage_tag = damage_tag if not damage_tag.is_empty() else "slash"
+	ctx.use_legacy_damage_tag = not effect.has("physical_tag") and not effect.has("element_override")
+	ctx.physical_tag = str(effect.get("physical_tag", ctx.damage_tag if ctx.damage_tag in ["slash", "pierce", "blunt"] else "none"))
+	var legacy_element := DamageCalculator.normalize_element(ctx.damage_tag)
+	ctx.element_override = str(effect.get("element_override", legacy_element if legacy_element != "none" else "inherit"))
+	ctx.primary_element = str(effect.get("snapshot_primary_element", "none"))
+	ctx.resolved_element = DamageCalculator.resolve_element(ctx.damage_channel, ctx.primary_element, ctx.element_override, ctx.damage_tag if ctx.use_legacy_damage_tag else "")
+	ctx.damage_scope = "dot"
+	ctx.element_damage_bonus_sources = (effect.get("snapshot_element_damage_bonus_sources", []) as Array).duplicate(true)
+	ctx.element_penetration_rating = (effect.get("snapshot_element_penetration_rating", {}) as Dictionary).duplicate(true)
+	ctx.active_condition_ids = (effect.get("snapshot_active_condition_ids", []) as Array).duplicate()
+	ctx.element_relation_matrix = (effect.get("snapshot_element_relation_matrix", {}) as Dictionary).duplicate(true)
 	ctx.attacker_damage_bonus = float(effect.get("snapshot_bonus", 0.0))
 	ctx.armor_pen_percent = float(effect.get("snapshot_armor_pen_percent", 0.0))
 	ctx.armor_pen_flat = int(effect.get("snapshot_armor_pen_flat", 0))
@@ -574,32 +647,43 @@ func _build_dot_defense_context() -> DamageCalculator.DefenseContext:
 		return defense
 	defense.armor = int(stats.defense) if "defense" in stats else 0
 	defense.magic_resist = int(stats.magic_resist) if "magic_resist" in stats else 0
+	defense.armor = int(get_modified_stat("defense", float(defense.armor)))
+	defense.magic_resist = int(get_modified_stat("magic_resist", float(defense.magic_resist)))
 	defense.block_rate = 0.0  # DoT 不可格挡
 	defense.dodge_rate = 0.0  # DoT 不可闪避
 	defense.target_level = int(stats.level) if "level" in stats else 1
+	defense.primary_element = str(stats.primary_element) if "primary_element" in stats else "none"
+	if "effective_element_resist_rating" in stats and stats.effective_element_resist_rating is Dictionary:
+		defense.element_resist_rating = (stats.effective_element_resist_rating as Dictionary).duplicate(true)
+	elif "element_resist_rating" in stats and stats.element_resist_rating is Dictionary:
+		defense.element_resist_rating = (stats.element_resist_rating as Dictionary).duplicate(true)
+		if "element_resist_rating_modifiers" in stats and stats.element_resist_rating_modifiers is Dictionary:
+			for key in stats.element_resist_rating_modifiers:
+				var element := DamageCalculator.normalize_element(key)
+				if element != "none":
+					defense.element_resist_rating[element] = float(defense.element_resist_rating.get(element, 0.0)) + float(stats.element_resist_rating_modifiers[key])
+	defense.element_resist_cap = float(stats.element_resist_cap) if "element_resist_cap" in stats else 0.35
 	if "traits" in stats:
 		defense.tag_resistance = EnemyTraits.get_combined_tag_multipliers(stats.traits)
+	defense.tag_vulnerability = (stats.tag_vulnerability as Dictionary).duplicate(true) if "tag_vulnerability" in stats and stats.tag_vulnerability is Dictionary else {}
 	# DoT 也应读取目标 active buff 的 tag_modifier（感电/标记）+ vulnerability_modifier（侵蚀）
-	if _owner.has_method("get_buff_manager"):
-		var bm = _owner.get_buff_manager()
-		if bm != null and bm.has_method("get_active_buffs"):
-			var tag_vuln: Dictionary = {}
-			var tag_pen: Dictionary = {}
-			var global_vuln := 0.0
-			for buff in bm.get_active_buffs():
-				for eff in buff.effects:
-					if not (eff is Dictionary):
-						continue
-					var etype := str(eff.get("type", ""))
-					if etype == "tag_modifier":
-						var etag := str(eff.get("tag", ""))
-						if etag.is_empty():
-							continue
-						tag_vuln[etag] = float(tag_vuln.get(etag, 0.0)) + float(eff.get("vuln_bonus", 0.0))
-						tag_pen[etag] = float(tag_pen.get(etag, 0.0)) + float(eff.get("armor_pen_bonus", 0.0))
-					elif etype == "vulnerability_modifier":
-						global_vuln += float(eff.get("value", 0.0)) * float(buff.stacks)
-			defense.tag_vulnerability = tag_vuln
-			defense.tag_armor_pen = tag_pen
-			defense.global_vulnerability = global_vuln
+	var tag_vuln: Dictionary = defense.tag_vulnerability.duplicate(true)
+	var tag_pen: Dictionary = {}
+	var global_vuln := 0.0
+	for buff in _buffs:
+		for eff in buff.effects:
+			if not (eff is Dictionary):
+				continue
+			var etype := str(eff.get("type", ""))
+			if etype == "tag_modifier":
+				var etag := str(eff.get("tag", ""))
+				if etag.is_empty():
+					continue
+				tag_vuln[etag] = float(tag_vuln.get(etag, 0.0)) + float(eff.get("vuln_bonus", 0.0))
+				tag_pen[etag] = float(tag_pen.get(etag, 0.0)) + float(eff.get("armor_pen_bonus", 0.0))
+			elif etype == "vulnerability_modifier":
+				global_vuln += float(eff.get("value", 0.0)) * float(buff.stacks)
+	defense.tag_vulnerability = tag_vuln
+	defense.tag_armor_pen = tag_pen
+	defense.global_vulnerability = global_vuln
 	return defense

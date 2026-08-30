@@ -70,6 +70,7 @@ func recalculate(preserve_current_hp: bool = true) -> void:
 	block_rate = 0.0
 	dodge_rate = 0.0
 	status_resist = 0.0
+	status_intensity = 0.0
 	skill_haste = 0.0
 	armor_pen_percent = 0.0
 	armor_pen_flat = 0
@@ -80,6 +81,7 @@ func recalculate(preserve_current_hp: bool = true) -> void:
 	heal_received = 0.0
 	lifesteal = 0.0
 	reflect_rate = 0.0
+	abyss_cost = 0.0
 	super.recalculate(preserve_current_hp)
 	stats_changed.emit()
 
