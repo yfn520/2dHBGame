@@ -37,7 +37,6 @@
 		]
 	},
 	"8002": {
-		"actor_scale": 1.5,
 		"asset": "res://assets/enemies/kuilei4",
 		"attack": 2,
 		"attack_range": 80,

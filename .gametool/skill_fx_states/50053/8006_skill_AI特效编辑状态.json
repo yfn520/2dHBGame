@@ -1,7 +1,7 @@
 {
   "version": 2,
   "actorId": "assets/enemies/hjjx",
-  "actorName": "huei'jingju'xiang",
+  "actorName": "灰晶巨像",
   "skillId": "50053",
   "skillName": "8006_skill",
   "description": "",
@@ -10,9 +10,116 @@
   "includeSkillNodes": true,
   "allowImpact": false,
   "finalPlanPrompt": "",
-  "proposals": [],
-  "proposalId": "",
-  "actionHash": "",
+  "proposals": [
+    {
+      "id": "huei-jingju-xiang-50053-unified",
+      "title": "8006_skill · 当前特效",
+      "summary": "网页统一技能工作台特效轨道",
+      "style": "",
+      "palette": [],
+      "tracks": [
+        {
+          "description": "",
+          "library_query": "",
+          "generation_prompt": "",
+          "id": "legacy_spawn_projectile_3",
+          "phase": "projectile",
+          "title": "旧弹道 #3",
+          "trigger": {
+            "type": "hit_window_start",
+            "hit_window_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "hit_window",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 666.6666666666666,
+          "blend_mode": "normal",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 2.35,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffffff"
+          },
+          "is_projectile": true,
+          "projectile_config": {
+            "visual_scale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collision_shape": "rectangle",
+            "collision_size": {
+              "width": 25.8,
+              "height": 28.94
+            },
+            "collision_offset": {
+              "x": 34.65,
+              "y": -6.28
+            },
+            "baked_sprite_flip_h": false,
+            "migrated_from_scene": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+            "inset_ratio": 0.15,
+            "auto_calc_source": "alpha_bbox_median",
+            "auto_calc_result": {
+              "center": {
+                "x": 24,
+                "y": 30.5
+              },
+              "size": {
+                "width": 37,
+                "height": 18
+              },
+              "validFrameCount": 8,
+              "totalFrameCount": 8
+            },
+            "manual_override": true,
+            "visualScale": {
+              "x": 0.25,
+              "y": 0.25
+            },
+            "collisionShape": "rectangle",
+            "collisionSize": {
+              "width": 76,
+              "height": 59
+            },
+            "collisionOffset": {
+              "x": 54,
+              "y": -1
+            },
+            "insetRatio": 0.15,
+            "autoCalcSource": "alpha_bbox_median",
+            "manualOverride": true,
+            "autoCalcResult": {
+              "center": {
+                "x": 39,
+                "y": 30.5
+              },
+              "size": {
+                "width": 37,
+                "height": 18
+              },
+              "validFrameCount": 8,
+              "totalFrameCount": 8
+            }
+          },
+          "migrated_from": [
+            "res://assets/effects/projectiles/effect-huoqiu.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+            "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "proposalId": "huei-jingju-xiang-50053-unified",
+  "actionHash": "af03677b314e2eb7a09e54e2d688729669856d24ff8c733ed92433d598249e12",
   "drawPrompts": {},
   "drawHistory": {},
   "fullscreenResolution": {
@@ -29,10 +136,46 @@
   },
   "proposalDrawMeta": {},
   "disabledTrackIds": [],
-  "trackSelectedFrames": {},
+  "trackSelectedFrames": {
+    "legacy_spawn_projectile_3": [
+      2,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
   "trackFrameRotations": {},
-  "previewMirror": {},
-  "previewFrame": {},
+  "previewMirror": {
+    "legacy_spawn_projectile_3": true
+  },
+  "previewFrame": {
+    "legacy_spawn_projectile_3": 0
+  },
   "candidatePageOffsets": {},
-  "selectedAssets": []
+  "selectedAssets": [
+    {
+      "trackId": "legacy_spawn_projectile_3",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 64,
+        "height": 64
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "kind": "bundle",
+        "scenePath": "res://assets/effects/projectiles/effect-huoqiu.tscn",
+        "migratedFrom": [
+          "res://assets/effects/projectiles/effect-huoqiu.tscn",
+          "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_visual.tscn",
+          "res://assets/effects/projectiles/effect-huoqiu/effect-huoqiu_atlas.png"
+        ],
+        "bundleId": "huei-jingju-xiang-50053",
+        "trackId": "legacy_spawn_projectile_3"
+      },
+      "atlasRef": ".gametool/skill_fx_states/50053/assets/legacy_spawn_projectile_3.png"
+    }
+  ]
 }

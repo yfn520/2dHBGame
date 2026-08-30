@@ -1,7 +1,7 @@
 {
   "version": 2,
   "actorId": "assets/enemies/kuilei4",
-  "actorName": "傀儡4",
+  "actorName": "傀儡",
   "skillId": "50012",
   "skillName": "傀儡技能",
   "description": "",
@@ -47,7 +47,7 @@
           "transform": {
             "offset": {
               "x": -8,
-              "y": -34
+              "y": -15
             },
             "scale": 0.3,
             "rotation_degrees": 0,
@@ -111,17 +111,17 @@
             "offset_ms": 0
           },
           "space": "world",
-          "anchor": "foot",
+          "anchor": "hit_window",
           "direction": "facing",
           "mirror": false,
           "duration_ms": 286,
-          "blend_mode": "screen",
+          "blend_mode": "add",
           "layer": 1,
           "loop": false,
           "transform": {
             "offset": {
-              "x": -32,
-              "y": -2
+              "x": -2,
+              "y": 25
             },
             "scale": 1.25,
             "rotation_degrees": 0,
@@ -236,7 +236,7 @@
   "previewMirror": {},
   "previewFrame": {
     "charge_chest_energy_glow": 0,
-    "area_energy_shockwave": 0
+    "area_energy_shockwave": 2
   },
   "candidatePageOffsets": {
     "charge_chest_energy_glow": 0,
