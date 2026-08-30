@@ -83,7 +83,7 @@ func _base_context():
 
 
 func _test_legacy_damage(failures: Array[String]) -> void:
-	var ctx := _base_context()
+	var ctx = _base_context()
 	ctx.damage_tag = "slash"
 	var defense := DamageCalculatorScript.DefenseContext.new()
 	defense.tag_resistance = {"slash": 1.15}
@@ -93,7 +93,7 @@ func _test_legacy_damage(failures: Array[String]) -> void:
 
 
 func _test_element_bonus_and_caps(failures: Array[String]) -> void:
-	var ctx := _base_context()
+	var ctx = _base_context()
 	ctx.use_legacy_damage_tag = false
 	ctx.physical_tag = "slash"
 	ctx.primary_element = "fire"
@@ -118,7 +118,7 @@ func _test_element_bonus_and_caps(failures: Array[String]) -> void:
 
 
 func _test_element_relation_and_resistance(failures: Array[String]) -> void:
-	var ctx := _base_context()
+	var ctx = _base_context()
 	ctx.use_legacy_damage_tag = false
 	ctx.damage_channel = "magic"
 	ctx.resolved_element = "fire"
@@ -138,7 +138,7 @@ func _test_element_relation_and_resistance(failures: Array[String]) -> void:
 
 
 func _test_true_damage_bypass(failures: Array[String]) -> void:
-	var ctx := _base_context()
+	var ctx = _base_context()
 	ctx.damage_channel = "true"
 	ctx.primary_element = "fire"
 	ctx.element_override = "fire"

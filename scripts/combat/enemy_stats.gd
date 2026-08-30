@@ -6,6 +6,8 @@ extends BaseCombatStats
 var _config: Dictionary = {}
 ## 目标等级用于 DamageCalculator 的 K = 100 + 20 × level。
 var level: int = 1
+## 异常触发阈值类型：normal / elite / boss。
+var status_unit_type: String = "normal"
 ## 敌人特征列表（设计案第10章），由 enemies.json 的 traits 字段提供
 var traits: Array = []
 ## 基础元素抗性 + 特征/常驻修正 + 当前活动阶段修正。
