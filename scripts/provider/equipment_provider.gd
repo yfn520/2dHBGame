@@ -16,12 +16,20 @@ func _init(p_equipment: EquipmentData, p_inventory: InventoryData, p_stats: Char
 	item_config = p_config
 
 
-func equip_item(item_uid: int) -> bool:
+func equip_item(item_uid: int, preferred_slot: String = "") -> bool:
 	var item := inventory.get_item_by_uid(item_uid)
 	if item == null:
 		return false
-	var slot := item_config.get_equip_slot(item.item_id)
+	var item_type := item_config.get_equip_slot(item.item_id)
+	if item_type.is_empty():
+		return false
+	var slot := preferred_slot
 	if slot.is_empty():
+		if item_type == "ring":
+			slot = "ring_left" if equipment.get_equipped_uid("ring_left") == 0 else "ring_right"
+		else:
+			slot = item_type
+	if not item_config.can_equip_in_slot(item.item_id, slot):
 		return false
 
 	var old_uid := equipment.get_equipped_uid(slot)

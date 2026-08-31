@@ -111,9 +111,13 @@ func get_max_count(item_id: int) -> int:
 
 func get_equip_slot(item_id: int) -> String:
 	var item_type := get_item_type(item_id)
-	if item_type == "accessory":
-		return "ring"
-	# type 直接就是装备槽位名: weapon, armor, boots, accessory
-	if item_type in EquipmentData.SLOTS:
+	if item_type in EquipmentData.ITEM_TYPES:
 		return item_type
 	return ""
+
+
+func can_equip_in_slot(item_id: int, slot: String) -> bool:
+	var item_type := get_equip_slot(item_id)
+	if item_type == "ring":
+		return slot == "ring_left" or slot == "ring_right"
+	return item_type == slot

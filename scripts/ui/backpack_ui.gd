@@ -24,16 +24,20 @@ const QUALITY_FRAMES := {
 }
 const DEFAULT_FRAME_KEY := "普通"
 
-# 10 个装备槽 UI 节点名 → 装备类型映射（前 8 个有效，后 2 个预留）
+# 12 个装备槽 UI 节点名 → 装备类型映射
 const EQUIP_SLOT_MAP := [
-	{slot = "weapon", texture = "dynamic_image_001", button = "dynamic_image_001_click"},
-	{slot = "armor", texture = "dynamic_image_001_2", button = "dynamic_image_001_2_click"},
-	{slot = "necklace", texture = "dynamic_image_001_2_2", button = "dynamic_image_001_2_2_click"},
-	{slot = "ring", texture = "dynamic_image_001_2_2_2", button = "dynamic_image_001_2_2_2_click"},
-	{slot = "boots", texture = "dynamic_image_001_2_2_2_2", button = "dynamic_image_001_2_2_2_2_click"},
-	{slot = "relic", texture = "dynamic_image_001_3", button = "dynamic_image_001_3_click"},
-	{slot = "mount", texture = "dynamic_image_001_2_3", button = "dynamic_image_001_2_3_click"},
-	{slot = "artifact", texture = "dynamic_image_001_2_2_3", button = "dynamic_image_001_2_2_3_click"},
+	{slot = "hands", texture = "dynamic_image_001", button = "dynamic_image_001_click"},
+	{slot = "waist", texture = "dynamic_image_001_2", button = "dynamic_image_001_2_click"},
+	{slot = "ring_left", texture = "dynamic_image_001_2_2", button = "dynamic_image_001_2_2_click"},
+	{slot = "ring_right", texture = "dynamic_image_001_2_2_2", button = "dynamic_image_001_2_2_2_click"},
+	{slot = "accessory", texture = "dynamic_image_001_2_2_2_2", button = "dynamic_image_001_2_2_2_2_click"},
+	{slot = "head", texture = "dynamic_image_001_3", button = "dynamic_image_001_3_click"},
+	{slot = "necklace", texture = "dynamic_image_001_2_3", button = "dynamic_image_001_2_3_click"},
+	{slot = "body", texture = "dynamic_image_001_2_2_3", button = "dynamic_image_001_2_2_3_click"},
+	{slot = "legs", texture = "dynamic_image_001_2_2_2_3", button = "dynamic_image_001_2_2_2_3_click"},
+	{slot = "boots", texture = "dynamic_image_001_2_2_2_2_2", button = "dynamic_image_001_2_2_2_2_2_click"},
+	{slot = "weapon", texture = "equipment_weapon", button = "equipment_weapon_click"},
+	{slot = "offhand", texture = "equipment_offhand", button = "equipment_offhand_click"},
 ]
 
 var _scene_root: Control = null

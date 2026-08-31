@@ -3,7 +3,8 @@ class_name EquipmentData
 signal equipped(slot: String, item_uid: int, item_id: int)
 signal unequipped(slot: String, item_uid: int, item_id: int)
 
-const SLOTS := ["weapon", "armor", "necklace", "ring", "boots", "relic", "mount", "artifact"]
+const SLOTS := ["head", "necklace", "body", "legs", "boots", "hands", "waist", "ring_left", "ring_right", "accessory", "weapon", "offhand"]
+const ITEM_TYPES := ["head", "necklace", "body", "legs", "boots", "hands", "waist", "ring", "accessory", "weapon", "offhand"]
 
 var _equipped_by_character: Dictionary = {}
 
@@ -62,14 +63,15 @@ func unequip(slot: String, character_id: int = 0) -> Dictionary:
 
 
 func get_slot_for_type(item_type: String) -> String:
-	item_type = normalize_slot(item_type)
-	if item_type in SLOTS:
+	if item_type == "ring":
+		return "ring_left"
+	if item_type in ITEM_TYPES:
 		return item_type
 	return ""
 
 
 static func normalize_slot(slot: String) -> String:
-	return "ring" if slot == "accessory" else slot
+	return slot
 
 
 func to_dict() -> Dictionary:
@@ -104,8 +106,10 @@ func _normalize_equipped(raw_value) -> Dictionary:
 	if not raw_value is Dictionary:
 		return result
 	for slot in raw_value:
+		if not str(slot) in SLOTS:
+			continue
 		var entry: Dictionary = raw_value[slot]
-		result[normalize_slot(str(slot))] = {
+		result[str(slot)] = {
 			"uid": int(entry.get("uid", 0)),
 			"item_id": int(entry.get("item_id", 0)),
 		}
