@@ -11,14 +11,14 @@ const SLOT_SIZE := Vector2(58, 58)
 const WINDOW_MAX_SIZE := Vector2(1020, 620)
 
 const SLOT_LABELS := {
-	"head": "头部", "necklace": "项链", "body": "衣服", "legs": "裤子", "boots": "鞋子",
+	"head": "头部", "necklace": "项链", "body": "衣服", "legs": "护腿", "boots": "鞋子",
 	"hands": "手部", "waist": "腰带", "ring": "戒指", "ring_left": "戒指", "ring_right": "戒指", "accessory": "饰品",
 	"weapon": "主武器", "offhand": "副手",
 }
 
 const TYPE_LABELS := {
 	"all": "全部", "weapon": "主武器", "offhand": "副手", "head": "头部", "necklace": "项链",
-	"body": "衣服", "legs": "裤子", "hands": "手部", "waist": "腰带", "ring": "戒指",
+	"body": "衣服", "legs": "护腿", "hands": "手部", "waist": "腰带", "ring": "戒指",
 	"accessory": "饰品", "boots": "鞋子", "consumable": "药水", "material": "材料",
 }
 
