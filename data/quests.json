@@ -87,7 +87,8 @@
 			}
 		},
 		"required_quest_ids": [],
-		"level_id": 0
+		"level_id": 0,
+		"auto_play": true
 	},
 	"20020": {
 		"id": 20020,

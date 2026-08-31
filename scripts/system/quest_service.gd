@@ -538,7 +538,10 @@ func _refresh_ready_state(quest_id: int) -> void:
 	state.set_entry(quest_id, entry)
 	if next_status == "ready":
 		quest_ready.emit(quest_id)
-		notification_requested.emit("任务目标已完成，可回去交付")
+		# 自动续播/自动结算任务没有“回 NPC 交付”这一步，避免在最后一段
+		# 剧情对白播放前给玩家错误提示。
+		if not bool(config.get_quest(quest_id).get("auto_complete", false)):
+			notification_requested.emit("任务目标已完成，可回去交付")
 	quest_updated.emit(quest_id)
 
 

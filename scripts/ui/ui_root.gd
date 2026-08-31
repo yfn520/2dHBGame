@@ -431,6 +431,8 @@ func _connect_npc_services() -> void:
 			GameRegistry.dialogue_service.node_changed.connect(_on_dialogue_node_changed)
 		if not GameRegistry.dialogue_service.dialogue_finished.is_connected(_on_dialogue_finished):
 			GameRegistry.dialogue_service.dialogue_finished.connect(_on_dialogue_finished)
+		if not GameRegistry.dialogue_service.world_event_gate_changed.is_connected(_on_world_event_gate_changed):
+			GameRegistry.dialogue_service.world_event_gate_changed.connect(_on_world_event_gate_changed)
 	if GameRegistry.quest_service != null and not GameRegistry.quest_service.notification_requested.is_connected(_show_notification):
 		GameRegistry.quest_service.notification_requested.connect(_show_notification)
 
@@ -456,6 +458,28 @@ func _on_dialogue_node_changed(node: Dictionary) -> void:
 	# 仅没有身份字段的旧数据才回退按名字解析
 	node["portrait"] = _resolve_speaker_portrait(node, npc)
 	_dialogue_panel.show_node(node, npc)
+
+
+func _on_world_event_gate_changed(available: bool) -> void:
+	if available:
+		# 时间轴仍保持 active，但玩家需要回到场景中移动/战斗；对白框必须退出，不能挡住交互点。
+		if _dialogue_panel != null:
+			_dialogue_panel.set_waiting_for_world_event(true, "")
+			if _popup_stack.has(_dialogue_panel):
+				close_popup(_dialogue_panel)
+			else:
+				_dialogue_panel.visible = false
+		if _in_cutscene and _main_ui != null:
+			_main_ui.visible = true
+		get_tree().paused = false
+	elif GameRegistry.dialogue_service != null and GameRegistry.dialogue_service.is_active():
+		# 事件完成后重新打开对白框，暂停场景并继续播放后续时间轴对白。
+		if _dialogue_panel != null:
+			show_popup(_dialogue_panel)
+			_dialogue_panel.set_waiting_for_world_event(false, "")
+		if _in_cutscene and _main_ui != null:
+			_main_ui.visible = false
+		get_tree().paused = true
 
 
 const _HERO_SPEAKER_PORTRAIT_IDS := {"莱昂": 7001, "露娜": 7002, "米娅": 7003}

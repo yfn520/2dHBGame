@@ -49,6 +49,24 @@ func get_timeline_turn_in_entry_ms(dialogue_id: String, key: String) -> int:
 	return get_timeline_entry_ms(dialogue_id, key)
 
 
+## 时间轴格式：某阶段第一个片段的时间点（毫秒）；阶段不存在返回 -1。
+## 用于对话中断后从任务当前阶段接播，而不是重播接取台词。
+func get_timeline_stage_entry_ms(dialogue_id: String, stage_id: String) -> int:
+	var timeline := get_timeline(dialogue_id)
+	if timeline.is_empty() or stage_id.is_empty():
+		return -1
+	var first_ms := -1
+	for clip_value in (timeline.get("clips", []) as Array):
+		if not clip_value is Dictionary:
+			continue
+		if str((clip_value as Dictionary).get("stageId", "")) != stage_id:
+			continue
+		var clip_ms := int((clip_value as Dictionary).get("startMs", 0))
+		if first_ms < 0 or clip_ms < first_ms:
+			first_ms = clip_ms
+	return first_ms
+
+
 func get_dialogue_chapter_id(dialogue_id: String) -> String:
 	var dialogue := get_dialogue(dialogue_id)
 	return str(dialogue.get("chapter_id", ""))

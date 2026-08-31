@@ -3,11 +3,13 @@ extends Control
 
 var _speaker: Label
 var _body: Label
+var _system_hint: Label
 var _portrait: TextureRect
 var _portrait_frame: PanelContainer
 var _choices: VBoxContainer
 var _choices_frame: PanelContainer
 var _continue_button: Button
+var _close_button: Button
 var _slot: Control
 var _shade: ColorRect
 
@@ -28,8 +30,24 @@ func set_cinematic(enabled: bool) -> void:
 		_shade.color = Color(0, 0, 0, 1.0) if enabled else Color(0, 0, 0, 0.4)
 
 
+## 时间轴等待场景事件时，显示置灰的等待状态，避免 E 被对白框抢走；操作提示属于系统 UI，不伪装成 NPC 台词。
+func set_waiting_for_world_event(enabled: bool, prompt: String = "") -> void:
+	if _continue_button != null:
+		_continue_button.visible = true
+		_continue_button.disabled = enabled
+		_continue_button.text = "等待操作…" if enabled else "继续 ▶"
+	if _system_hint != null:
+		_system_hint.visible = enabled
+		_system_hint.text = "系统提示：" + (prompt if not prompt.strip_edges().is_empty() else "请完成场景交互。")
+
+
 func show_node(node: Dictionary, npc: Dictionary) -> void:
 	visible = true
+	if _system_hint != null:
+		_system_hint.visible = false
+	if _continue_button != null:
+		_continue_button.disabled = false
+		_continue_button.text = "继续 ▶"
 	var speaker := str(node.get("speaker", "")).strip_edges()
 	_speaker.text = speaker if not speaker.is_empty() else str(npc.get("name", "NPC"))
 	_body.text = str(node.get("text", ""))
@@ -120,12 +138,24 @@ func _build_layout() -> void:
 	_body.clip_text = true
 	_body.custom_minimum_size = Vector2(0, 0)
 	content.add_child(_body)
+	_system_hint = Label.new()
+	_system_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_system_hint.add_theme_font_size_override("font_size", 16)
+	_system_hint.add_theme_color_override("font_color", Color(1.0, 0.84, 0.34))
+	_system_hint.visible = false
+	content.add_child(_system_hint)
 	_continue_button = Button.new()
 	_continue_button.text = "继续 ▶"
 	_continue_button.custom_minimum_size = Vector2(112, 40)
 	_continue_button.size_flags_horizontal = Control.SIZE_SHRINK_END
 	_continue_button.pressed.connect(GameRegistry.dialogue_service.advance)
 	content.add_child(_continue_button)
+	_close_button = Button.new()
+	_close_button.text = "关闭对话（Esc）"
+	_close_button.custom_minimum_size = Vector2(150, 36)
+	_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_close_button.pressed.connect(_close_dialogue)
+	content.add_child(_close_button)
 	# Right: a dedicated response card instead of bare buttons on the backdrop.
 	_choices_frame = PanelContainer.new()
 	_choices_frame.custom_minimum_size = Vector2(330, 0)
@@ -194,6 +224,11 @@ func _make_choice_style(background: Color, border: Color, border_width := 1) -> 
 	return style
 
 
+func _close_dialogue() -> void:
+	if GameRegistry.dialogue_service != null:
+		GameRegistry.dialogue_service.finish(false)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or not event.is_pressed() or event.is_echo():
 		return
@@ -203,6 +238,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(InputActions.CANCEL):
 		GameRegistry.dialogue_service.finish(false)
 		viewport.set_input_as_handled()
-	elif event.is_action_pressed(InputActions.INTERACT) and _continue_button.visible:
+	elif event.is_action_pressed(InputActions.INTERACT) and _continue_button.visible \
+		and (GameRegistry.dialogue_service == null or not GameRegistry.dialogue_service.is_waiting_for_world_event()):
 		GameRegistry.dialogue_service.advance()
 		viewport.set_input_as_handled()

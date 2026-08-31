@@ -1,228 +1,602 @@
 {
-  "version": 2,
-  "format": "task-timeline-world-bindings",
-  "levels": {
-    "0": {
-      "interactables": [
-        {
-          "id": "gate_ch1",
-          "type": "portal",
-          "name": "前往星露草原",
-          "x": 900,
-          "y": 744,
-          "target_level_id": 1,
-          "required_quest_id": 21012,
-          "required_quest_states": ["completed"]
-        }
-      ]
-    },
-    "1": {
-      "interactables": [
-        {
-          "id": "gate_town",
-          "type": "portal",
-          "name": "返回余烬城",
-          "x": 220,
-          "y": 744,
-          "target_level_id": 0
-        },
-        {
-          "id": "pickup_first_aid",
-          "type": "pickup",
-          "name": "救援药箱",
-          "x": 560,
-          "y": 744,
-          "item_id": 100246,
-          "count": 1,
-          "required_quest_id": 21020,
-          "required_quest_states": ["active"]
-        },
-        {
-          "id": "gate_ch2",
-          "type": "portal",
-          "name": "前往月影遗迹",
-          "x": 1420,
-          "y": 744,
-          "target_level_id": 2,
-          "required_quest_id": 21021,
-          "required_quest_states": ["completed"]
-        },
-        {
-          "id": "c1_03_a_route_entered",
-          "type": "area_event",
-          "name": "进入塌方农路",
-          "x": 700,
-          "y": 700,
-          "width": 220,
-          "height": 260,
-          "event_name": "c1_03_a_route_entered",
-          "required_quest_id": 21030,
-          "required_quest_states": ["active"],
-          "required_stage_ids": ["C1-03-A-S02", "C1-03-A-S03"],
-          "debug_visible": true
-        },
-        {
-          "id": "c1_03_a_nursery_arrived",
-          "type": "area_event",
-          "name": "抵达育苗棚",
-          "x": 1550,
-          "y": 690,
-          "width": 180,
-          "height": 240,
-          "event_name": "c1_03_a_nursery_arrived",
-          "required_quest_id": 21030,
-          "required_quest_states": ["active"],
-          "required_stage_ids": ["C1-03-A-S03", "C1-03-A-S04"],
-          "debug_visible": true
-        },
-        {
-          "id": "c1_04_a_beacon_arrived",
-          "type": "area_event",
-          "name": "进入外围信标塔",
-          "x": 1810,
-          "y": 590,
-          "width": 180,
-          "height": 240,
-          "event_name": "c1_04_a_beacon_arrived",
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"],
-          "required_stage_id": "C1-04-A-S02",
-          "debug_visible": true
-        },
-        {
-          "id": "c1_04_a_beacon_part_1",
-          "type": "pickup",
-          "name": "信标导片（1/2）",
-          "x": 2010,
-          "y": 665,
-          "item_id": 100254,
-          "count": 1,
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"],
-          "required_stage_id": "C1-04-A-S04"
-        },
-        {
-          "id": "c1_04_a_beacon_part_2",
-          "type": "pickup",
-          "name": "信标导片（2/2）",
-          "x": 2160,
-          "y": 665,
-          "item_id": 100254,
-          "count": 1,
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"],
-          "required_stage_id": "C1-04-A-S04"
-        },
-        {
-          "id": "c1_04_a_beacon_calibrate",
-          "type": "named_event",
-          "name": "三拍校准控制环",
-          "x": 2310,
-          "y": 665,
-          "event_name": "pending_c1_04_a_6",
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"],
-          "required_stage_id": "C1-04-A-S05"
-        },
-        {
-          "id": "c1_04_a_rescue_response",
-          "type": "named_event",
-          "name": "确认两处救援回应",
-          "x": 2450,
-          "y": 665,
-          "event_name": "pending_c1_04_a_7",
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"],
-          "required_stage_id": "C1-04-A-S05"
-        }
-      ],
-      "enemies": [
-        {
-          "spawn_id": "c1_02_a_beetles",
-          "mode": "group",
-          "enemy_id": 8001,
-          "x": 820,
-          "y": 680,
-          "count": 6,
-          "scatter_x": 130,
-          "required_stage_id": "C1-02-A-S03",
-          "required_quest_id": 21020,
-          "required_quest_states": ["active"]
-        },
-        {
-          "spawn_id": "c1_03_a_wolves_west",
-          "mode": "group",
-          "enemy_id": 8003,
-          "x": 930,
-          "y": 680,
-          "count": 3,
-          "scatter_x": 90,
-          "required_stage_id": "C1-03-A-S03",
-          "required_quest_id": 21030,
-          "required_quest_states": ["active"]
-        },
-        {
-          "spawn_id": "c1_03_a_wolves_bridge",
-          "mode": "group",
-          "enemy_id": 8003,
-          "x": 1100,
-          "y": 680,
-          "count": 3,
-          "scatter_x": 90,
-          "required_stage_id": "C1-03-A-S03",
-          "required_quest_id": 21030,
-          "required_quest_states": ["active"]
-        },
-        {
-          "spawn_id": "c1_04_a_beetles",
-          "mode": "group",
-          "enemy_id": 8019,
-          "x": 1970,
-          "y": 680,
-          "count": 4,
-          "scatter_x": 120,
-          "required_stage_id": "C1-04-A-S03",
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"]
-        },
-        {
-          "spawn_id": "c1_04_a_elite_beetle",
-          "mode": "point",
-          "enemy_id": 8021,
-          "x": 2110,
-          "y": 680,
-          "count": 1,
-          "required_stage_id": "C1-04-A-S03",
-          "required_quest_id": 21040,
-          "required_quest_states": ["active"]
-        }
-      ]
-    },
-    "2": {
-      "interactables": [],
-      "enemies": []
-    },
-    "3": {
-      "interactables": [],
-      "enemies": []
-    },
-    "4": {
-      "interactables": [],
-      "enemies": []
-    },
-    "5": {
-      "interactables": [],
-      "enemies": []
-    },
-    "6": {
-      "interactables": [],
-      "enemies": []
-    }
-  },
-  "task_chain": [
-    { "from_quest_id": 21010, "to_quest_id": 21011 },
-    { "from_quest_id": 21011, "to_quest_id": 21012 },
-    { "from_quest_id": 21012, "to_quest_id": 21020 },
-    { "from_quest_id": 21020, "to_quest_id": 21021 }
-  ]
+	"version": 2,
+	"format": "task-timeline-world-bindings",
+	"levels": {
+		"0": {
+			"interactables": [
+				{
+					"id": "c0_01_a_warm_meal",
+					"type": "named_event",
+					"name": "热粥",
+					"x": 1480,
+					"y": 743,
+					"interaction_radius": 96,
+					"event_name": "prologue_warm_meal",
+					"required_quest_id": 20010,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C0-01-A-S02"
+				},
+				{
+					"id": "gate_ch1",
+					"type": "portal",
+					"name": "前往星露草原",
+					"x": 900,
+					"y": 744,
+					"target_level_id": 1,
+					"required_quest_id": 21012,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "hub_street_walk",
+					"type": "area_event",
+					"name": "喷泉广场",
+					"x": 2076,
+					"y": 743,
+					"width": 240,
+					"height": 280,
+					"event_name": "hub_street_walk",
+					"required_quest_id": 20020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "hub_to_forest",
+					"type": "area_event",
+					"name": "城门方向",
+					"x": 133,
+					"y": 743,
+					"width": 240,
+					"height": 280,
+					"event_name": "hub_to_forest",
+					"required_quest_id": 20070,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c6_escape_route",
+					"type": "area_event",
+					"name": "在核心坍塌中沿撤离路线撤离",
+					"x": 2500,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"event_name": "c6_escape_route",
+					"required_quest_id": 26060,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
+		},
+		"1": {
+			"interactables": [
+				{
+					"id": "gate_town",
+					"type": "portal",
+					"name": "返回余烬城",
+					"x": 220,
+					"y": 744,
+					"target_level_id": 0
+				},
+				{
+					"id": "pickup_first_aid",
+					"type": "pickup",
+					"name": "救援药箱",
+					"x": 560,
+					"y": 744,
+					"item_id": 100246,
+					"count": 1,
+					"required_quest_id": 21020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "gate_ch2",
+					"type": "portal",
+					"name": "前往月影遗迹",
+					"x": 1420,
+					"y": 744,
+					"target_level_id": 2,
+					"required_quest_id": 21021,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "c1_03_a_route_entered",
+					"type": "area_event",
+					"name": "进入塌方农路",
+					"x": 700,
+					"y": 700,
+					"width": 220,
+					"height": 260,
+					"event_name": "c1_03_a_route_entered",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_ids": [
+						"C1-03-A-S02",
+						"C1-03-A-S03"
+					],
+					"debug_visible": true
+				},
+				{
+					"id": "c1_03_a_nursery_arrived",
+					"type": "area_event",
+					"name": "抵达育苗棚",
+					"x": 1550,
+					"y": 690,
+					"width": 180,
+					"height": 240,
+					"event_name": "c1_03_a_nursery_arrived",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_ids": [
+						"C1-03-A-S03",
+						"C1-03-A-S04"
+					],
+					"debug_visible": true
+				},
+				{
+					"id": "c1_04_a_beacon_arrived",
+					"type": "area_event",
+					"name": "进入外围信标塔",
+					"x": 1810,
+					"y": 590,
+					"width": 180,
+					"height": 240,
+					"event_name": "c1_04_a_beacon_arrived",
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C1-04-A-S02",
+					"debug_visible": true
+				},
+				{
+					"id": "c1_04_a_beacon_part_1",
+					"type": "pickup",
+					"name": "信标导片（1/2）",
+					"x": 2010,
+					"y": 665,
+					"item_id": 100254,
+					"count": 1,
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C1-04-A-S04"
+				},
+				{
+					"id": "c1_04_a_beacon_part_2",
+					"type": "pickup",
+					"name": "信标导片（2/2）",
+					"x": 2160,
+					"y": 665,
+					"item_id": 100254,
+					"count": 1,
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C1-04-A-S04"
+				},
+				{
+					"id": "c1_04_a_beacon_calibrate",
+					"type": "named_event",
+					"name": "三拍校准控制环",
+					"x": 2310,
+					"y": 665,
+					"event_name": "pending_c1_04_a_6",
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C1-04-A-S05"
+				},
+				{
+					"id": "c1_04_a_rescue_response",
+					"type": "named_event",
+					"name": "确认两处救援回应",
+					"x": 2450,
+					"y": 665,
+					"event_name": "pending_c1_04_a_7",
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					],
+					"required_stage_id": "C1-04-A-S05"
+				},
+				{
+					"id": "c1_medicine_hollow",
+					"type": "area_event",
+					"name": "前往林间低洼处",
+					"x": 3400,
+					"y": 1309,
+					"width": 240,
+					"height": 280,
+					"event_name": "c1_medicine_hollow",
+					"required_quest_id": 21010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_grain_cart_passed",
+					"type": "area_event",
+					"name": "护送粮种车通过塌方段",
+					"x": 4300,
+					"y": 1309,
+					"width": 240,
+					"height": 280,
+					"event_name": "c1_grain_cart_passed",
+					"required_quest_id": 21020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_beacon_1_check",
+					"type": "area_event",
+					"name": "检查失效的信标",
+					"x": 2800,
+					"y": 1309,
+					"width": 240,
+					"height": 280,
+					"event_name": "c1_beacon_1_check",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_mail_route_2",
+					"type": "area_event",
+					"name": "替洛伯押送药包与信件",
+					"x": 5000,
+					"y": 1309,
+					"width": 240,
+					"height": 280,
+					"event_name": "c1_mail_route_2",
+					"required_quest_id": 21060,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_beacon_3_arrive",
+					"type": "area_event",
+					"name": "抵达第三座信标",
+					"x": 5600,
+					"y": 1309,
+					"width": 240,
+					"height": 280,
+					"event_name": "c1_beacon_3_arrive",
+					"required_quest_id": 21070,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": [
+				{
+					"spawn_id": "c1_02_a_beetles",
+					"mode": "group",
+					"enemy_id": 8001,
+					"x": 820,
+					"y": 680,
+					"count": 6,
+					"scatter_x": 130,
+					"required_stage_id": "C1-02-A-S03",
+					"required_quest_id": 21020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "c1_03_a_wolves_west",
+					"mode": "group",
+					"enemy_id": 8003,
+					"x": 930,
+					"y": 680,
+					"count": 3,
+					"scatter_x": 90,
+					"required_stage_id": "C1-03-A-S03",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "c1_03_a_wolves_bridge",
+					"mode": "group",
+					"enemy_id": 8003,
+					"x": 1100,
+					"y": 680,
+					"count": 3,
+					"scatter_x": 90,
+					"required_stage_id": "C1-03-A-S03",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "c1_04_a_beetles",
+					"mode": "group",
+					"enemy_id": 8019,
+					"x": 1970,
+					"y": 680,
+					"count": 4,
+					"scatter_x": 120,
+					"required_stage_id": "C1-04-A-S03",
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "c1_04_a_elite_beetle",
+					"mode": "point",
+					"enemy_id": 8021,
+					"x": 2110,
+					"y": 680,
+					"count": 1,
+					"required_stage_id": "C1-04-A-S03",
+					"required_quest_id": 21040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
+		},
+		"2": {
+			"interactables": [
+				{
+					"id": "c2_gate_arch",
+					"type": "area_event",
+					"name": "接近遗迹深处残拱门",
+					"x": 2000,
+					"y": 632,
+					"width": 240,
+					"height": 280,
+					"event_name": "c2_gate_arch",
+					"required_quest_id": 22010,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": []
+		},
+		"3": {
+			"interactables": [
+				{
+					"id": "c3_last_question",
+					"type": "area_event",
+					"name": "石栏平台",
+					"x": 2400,
+					"y": 731,
+					"width": 240,
+					"height": 280,
+					"event_name": "c3_last_question",
+					"required_quest_id": 23020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c3_tower_1",
+					"type": "area_event",
+					"name": "重启第一座烛塔",
+					"x": 1700,
+					"y": 731,
+					"width": 240,
+					"height": 280,
+					"event_name": "c3_tower_1",
+					"required_quest_id": 23030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c3_tower_2",
+					"type": "area_event",
+					"name": "重启第二座烛塔",
+					"x": 2100,
+					"y": 731,
+					"width": 240,
+					"height": 280,
+					"event_name": "c3_tower_2",
+					"required_quest_id": 23030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c3_tower_3",
+					"type": "area_event",
+					"name": "重启第三座烛塔",
+					"x": 2500,
+					"y": 731,
+					"width": 240,
+					"height": 280,
+					"event_name": "c3_tower_3",
+					"required_quest_id": 23030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c3_tower_4",
+					"type": "area_event",
+					"name": "重启第四座烛塔",
+					"x": 2900,
+					"y": 731,
+					"width": 240,
+					"height": 280,
+					"event_name": "c3_tower_4",
+					"required_quest_id": 23030,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": []
+		},
+		"4": {
+			"interactables": [
+				{
+					"id": "c4_pier_node",
+					"type": "area_event",
+					"name": "解除栈桥回音节点",
+					"x": 1900,
+					"y": 629,
+					"width": 240,
+					"height": 280,
+					"event_name": "c4_pier_node",
+					"required_quest_id": 24010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c4_chain_node",
+					"type": "area_event",
+					"name": "解除锚链回音节点",
+					"x": 2300,
+					"y": 629,
+					"width": 240,
+					"height": 280,
+					"event_name": "c4_chain_node",
+					"required_quest_id": 24010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c4_lane_node",
+					"type": "area_event",
+					"name": "解除航道回音节点",
+					"x": 2700,
+					"y": 629,
+					"width": 240,
+					"height": 280,
+					"event_name": "c4_lane_node",
+					"required_quest_id": 24010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c4_kai_ambush",
+					"type": "area_event",
+					"name": "撞破凯的埋伏",
+					"x": 2900,
+					"y": 629,
+					"width": 240,
+					"height": 280,
+					"event_name": "c4_kai_ambush",
+					"required_quest_id": 24030,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": []
+		},
+		"5": {
+			"interactables": [],
+			"enemies": []
+		},
+		"6": {
+			"interactables": [
+				{
+					"id": "c6_lost_camp",
+					"type": "area_event",
+					"name": "调查旧营地",
+					"x": 2000,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"event_name": "c6_lost_camp",
+					"required_quest_id": 26010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c6_failed_entry",
+					"type": "area_event",
+					"name": "调查旧封锁外的失败进入痕迹",
+					"x": 2400,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"event_name": "c6_failed_entry",
+					"required_quest_id": 26010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c6_core_gate",
+					"type": "area_event",
+					"name": "进入核心门前区",
+					"x": 2700,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"event_name": "c6_core_gate",
+					"required_quest_id": 26020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c6_core_entered",
+					"type": "area_event",
+					"name": "进入核心门",
+					"x": 3000,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"event_name": "c6_core_entered",
+					"required_quest_id": 26040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": []
+		}
+	},
+	"task_chain": [
+		{
+			"from_quest_id": 21010,
+			"to_quest_id": 21011
+		},
+		{
+			"from_quest_id": 21011,
+			"to_quest_id": 21012
+		},
+		{
+			"from_quest_id": 21012,
+			"to_quest_id": 21020
+		},
+		{
+			"from_quest_id": 21020,
+			"to_quest_id": 21021
+		}
+	]
 }

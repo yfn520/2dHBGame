@@ -30,7 +30,10 @@ func _process(_delta: float) -> void:
 	if _party_manager == null or _npc_spawner == null or GameRegistry.dialogue_service == null:
 		_set_target(null)
 		return
-	if GameRegistry.dialogue_service.is_active() or (_ui_root != null and _ui_root.is_modal_open()):
+	var waiting_for_world_event: bool = GameRegistry.dialogue_service.has_method("is_waiting_for_world_event") \
+		and GameRegistry.dialogue_service.is_waiting_for_world_event()
+	if (GameRegistry.dialogue_service.is_active() and not waiting_for_world_event) \
+		or ((_ui_root != null and _ui_root.is_modal_open()) and not waiting_for_world_event):
 		_set_target(null)
 		return
 	var player := _party_manager.get_active_character()
@@ -39,11 +42,12 @@ func _process(_delta: float) -> void:
 		return
 	var nearest: Node2D = null
 	var nearest_distance := INF
-	for npc in _npc_spawner.get_active_npcs():
-		var distance := player.global_position.distance_to(npc.global_position)
-		if distance <= npc.interaction_radius and distance < nearest_distance:
-			nearest = npc
-			nearest_distance = distance
+	if not waiting_for_world_event:
+		for npc in _npc_spawner.get_active_npcs():
+			var distance := player.global_position.distance_to(npc.global_position)
+			if distance <= npc.interaction_radius and distance < nearest_distance:
+				nearest = npc
+				nearest_distance = distance
 	if _world_spawner != null:
 		for interactable in _world_spawner.get_active_interactables():
 			var distance := player.global_position.distance_to(interactable.global_position)

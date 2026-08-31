@@ -81,10 +81,26 @@ func bootstrap() -> void:
 func _chain_entry() -> void:
 	if _resume_interrupted():
 		return
+	_complete_ready_auto_tasks()
 	_advance_chain()
 
 
-## 重新播放卡在 active 的自动任务过场（退出游戏时对话被中断的情况）。
+## 兼容旧存档：旧版 C0-01-A 可能已经把热粥目标记成 ready，
+## 但因旧时间轴还有交付段而没有真正完成。现在这类任务明确 auto_complete，
+## 读档时直接结算，避免玩家再次回柏婶重播对白。
+func _complete_ready_auto_tasks() -> void:
+	if quest_service == null or quest_service.config == null:
+		return
+	for id_value in quest_service.config.get_all_quests():
+		var quest_id := int(id_value)
+		var quest: Dictionary = quest_service.config.get_quest(quest_id)
+		if not bool(quest.get("auto_complete", false)):
+			continue
+		if quest_service.get_status(quest_id) == "ready":
+			quest_service.turn_in_quest(quest_id)
+
+
+## 重新播放卡在 active/ready 的自动任务过场（退出游戏时对话被中断的情况）。
 func _resume_interrupted() -> bool:
 	if dialogue_service.is_active() or quest_service == null or quest_service.config == null:
 		return false
@@ -97,16 +113,102 @@ func _resume_interrupted() -> bool:
 		var quest: Dictionary = quest_service.config.get_quest(quest_id)
 		if not bool(quest.get("auto_play", false)):
 			continue
-		if quest_service.get_status(quest_id) != "active":
+		if quest_service.get_status(quest_id) not in ["active", "ready"]:
 			continue
 		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
 		if dialogue_id.is_empty():
 			continue
+		_backfill_completed_auto_stage_talk(quest, quest_id)
 		_playing_quest_id = quest_id
-		if not dialogue_service.start_cutscene(dialogue_id, int(quest.get("giver_npc_id", 0))):
+		var entry_ms := _resume_entry_ms(quest, quest_id, dialogue_id)
+		if not dialogue_service.start_cutscene(dialogue_id, int(quest.get("giver_npc_id", 0)), false, entry_ms):
 			_playing_quest_id = 0
 		return true
 	return false
+
+
+## 兼容旧存档：旧版时间轴已经进入后续阶段，但阶段切换时没有把上一阶段的
+## talk 目标记账。补回当前阶段之前的 talk 目标后，恢复点才会落在热粥阶段。
+func _backfill_completed_auto_stage_talk(quest: Dictionary, quest_id: int) -> void:
+	var current_stage_id := quest_service.get_current_stage_id(quest_id)
+	if current_stage_id.is_empty():
+		return
+	var reached_current := false
+	for stage_value in quest.get("stages", []):
+		if not stage_value is Dictionary:
+			continue
+		var stage: Dictionary = stage_value
+		if str(stage.get("id", "")) == current_stage_id:
+			reached_current = true
+			break
+		for objective_id_value in stage.get("objective_ids", []):
+			var objective_id := str(objective_id_value)
+			var index := 0
+			for objective_value in quest.get("objectives", []):
+				if objective_value is Dictionary and str((objective_value as Dictionary).get("id", "")) == objective_id:
+					var objective := objective_value as Dictionary
+					if str(objective.get("type", "")) == "talk" and not _objective_complete_by_id(quest, quest_id, objective_id):
+						quest_service.record_talk(int(objective.get("npc_id", 0)))
+					break
+				index += 1
+		if reached_current:
+			break
+
+
+## 从存档恢复自动任务时，跳到当前未完成阶段，而不是把已经完成的对白重新播放一遍。
+## 例如 C0-01-A 的 talk_9002 已完成时，直接从 S02 的热粥交互阶段恢复。
+func _resume_entry_ms(quest: Dictionary, quest_id: int, dialogue_id: String) -> int:
+	var timeline := dialogue_service.dialogue_config.get_timeline(dialogue_id)
+	if timeline.is_empty():
+		return 0
+	var stages: Array = quest.get("stages", []) as Array
+	var stage_id := quest_service.get_current_stage_id(quest_id)
+	if stage_id.is_empty() or not _stage_has_pending_objective(quest, quest_id, stage_id):
+		var pending_stage_id := _first_stage_with_pending_objective(quest, quest_id)
+		if not pending_stage_id.is_empty():
+			stage_id = pending_stage_id
+	if stage_id.is_empty():
+		return 0
+	var first_ms := -1
+	for clip_value in timeline.get("clips", []):
+		if not clip_value is Dictionary or str((clip_value as Dictionary).get("stageId", "")) != stage_id:
+			continue
+		var clip_ms := int((clip_value as Dictionary).get("startMs", 0))
+		if first_ms < 0 or clip_ms < first_ms:
+			first_ms = clip_ms
+	return maxi(0, first_ms)
+
+
+func _first_stage_with_pending_objective(quest: Dictionary, quest_id: int) -> String:
+	for stage_value in quest.get("stages", []):
+		if not stage_value is Dictionary:
+			continue
+		var stage: Dictionary = stage_value
+		if _stage_has_pending_objective(quest, quest_id, str(stage.get("id", ""))):
+			return str(stage.get("id", ""))
+	return ""
+
+
+func _stage_has_pending_objective(quest: Dictionary, quest_id: int, stage_id: String) -> bool:
+	if stage_id.is_empty():
+		return false
+	for stage_value in quest.get("stages", []):
+		if not stage_value is Dictionary or str((stage_value as Dictionary).get("id", "")) != stage_id:
+			continue
+		for objective_id_value in (stage_value as Dictionary).get("objective_ids", []):
+			if not _objective_complete_by_id(quest, quest_id, str(objective_id_value)):
+				return true
+		return false
+	return false
+
+
+func _objective_complete_by_id(quest: Dictionary, quest_id: int, objective_id: String) -> bool:
+	var index := 0
+	for objective_value in quest.get("objectives", []):
+		if objective_value is Dictionary and str((objective_value as Dictionary).get("id", "")) == objective_id:
+			return bool(quest_service.get_objective_progress(quest_id, objective_value, index).get("complete", false))
+		index += 1
+	return true
 
 
 func _on_dialogue_finished(npc_id: int, completed: bool) -> void:

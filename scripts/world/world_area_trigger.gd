@@ -13,8 +13,10 @@ func setup(data: Dictionary) -> void:
 	name = "AreaEvent_%s" % str(content.get("id", "trigger"))
 	global_position = Vector2(float(content.get("x", 0.0)), float(content.get("y", 0.0)))
 	collision_layer = 0
-	# 角色场景的 CharacterBody2D 位于第 2 层；区域只监听玩家/角色身体，不阻挡移动。
-	collision_mask = 2
+	# 玩家 CharacterBody2D 未显式设置 collision_layer，默认在第 1 层
+	#（第 2 层是梯子，见 LadderDetector）；掩码必须覆盖第 1 层才会触发，
+	# 只写 2 的话 body_entered 永远不会命中玩家（hub_street_walk 曾因此全图走完也不触发）。
+	collision_mask = 1 | 2
 	monitoring = true
 	monitorable = false
 	var shape_node := CollisionShape2D.new()

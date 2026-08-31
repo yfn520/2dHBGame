@@ -5,6 +5,8 @@ signal dialogue_started(npc_id: int)
 signal node_changed(node: Dictionary)
 signal dialogue_finished(npc_id: int, completed: bool)
 signal intent_selected(npc_id: int, dialogue_id: String, choice_id: String, intent_key: String)
+## 时间轴等待区域/命名事件时，允许玩家回到场景中完成外部交互。
+signal world_event_gate_changed(available: bool)
 
 var npc_config: NpcConfig
 var dialogue_config: DialogueConfig
@@ -30,9 +32,42 @@ var _tl_idx := 0
 var _tl_current: Dictionary = {}
 var _tl_gate: Dictionary = {}
 var _tl_gate_gen := 0
+var _world_event_gate_open := false
 # 手动任务对白已经播过当前交互 NPC 后，遇到下一位 NPC 时收束本次对话。
 # 过场不启用，避免 C1-01-B 的公共开场把柏婶/霍雷克对白截断。
 var _tl_segment_speaker_seen := false
+# 自动续播（世界事件目标完成触发）的停止线：到达该毫秒的第一个台词片段前收束对话，
+# 把后续内容留给玩家主动与 NPC 对话（-1 = 不限，播到自然结束）。
+var _tl_stop_before_ms := -1
+
+
+## 当前时间轴是否在等待玩家通过场景交互或区域触发完成事件。
+func is_waiting_for_world_event() -> bool:
+	if not _active or not _timeline_mode or _tl_gate.is_empty():
+		return false
+	return str(_tl_gate.get("eventType", "")) in ["area_event", "named_event", "objective"]
+
+
+## 给系统 UI 的玩家操作提示；技术事件名仍保留在时间轴/调试信息中，不直接冒充 NPC 台词。
+func get_world_event_prompt() -> String:
+	if _tl_gate.is_empty():
+		return "请完成场景交互。"
+	var event_type := str(_tl_gate.get("eventType", ""))
+	var event_name := str(_tl_gate.get("eventName", ""))
+	if event_name == "prologue_warm_meal":
+		return "请靠近热粥并按 E。"
+	if event_type == "area_event":
+		return "请前往目标区域。"
+	if event_type == "objective":
+		return "请完成当前任务目标。"
+	return "请完成场景交互。"
+
+
+func _set_world_event_gate_open(available: bool) -> void:
+	if _world_event_gate_open == available:
+		return
+	_world_event_gate_open = available
+	world_event_gate_changed.emit(available)
 
 
 func setup(p_npc_config: NpcConfig, p_dialogue_config: DialogueConfig, p_quest_service: QuestService, p_inventory: InventoryProvider) -> void:
@@ -60,9 +95,10 @@ func start_dialogue(npc_id: int) -> bool:
 	var quest_hook := _find_quest_dialogue_hook(npc_id)
 	if not quest_hook.is_empty():
 		var quest_dialogue_id := str(quest_hook.get("dialogue_id", ""))
-		# 时间轴格式任务对话：从该 NPC 的时间入口进入
+		# 时间轴格式任务对话：用钩子解析好的入口（ready 交付段用 turn_in_entries，
+		# 不能回退普通入口，否则喝粥后交付会从开场旁白重播）。
 		if not dialogue_config.get_timeline(quest_dialogue_id).is_empty():
-			return _start_timeline(quest_dialogue_id, npc_id, dialogue_config.get_timeline_entry_ms(quest_dialogue_id, str(npc_id)), false, false, quest_hook)
+			return _start_timeline(quest_dialogue_id, npc_id, int(quest_hook.get("entry_ms", 0)), false, false, quest_hook)
 		push_warning("TaskScript dialogue is not timeline format: %s" % quest_dialogue_id)
 		return false
 	var dialogue_id := str(npc.get("dialogue_id", ""))
@@ -109,7 +145,30 @@ func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
 			return {"quest_id": quest_id, "action": "turn_in_quest", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_turn_in_entry_ms(dialogue_id, str(npc_id))}
 		# 进行中：本 NPC 是未完成的 talk 目标 → 播该 NPC 段（等待态的"事件通知"由对话收尾推进）
 		if quest_service.get_status(quest_id) == "active" and _has_pending_talk_objective(quest, npc_id, quest_id):
-			return {"quest_id": quest_id, "action": "advance_talk", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))}
+			# 中断续播：从任务当前阶段的起点接播，不重播已听过的接取台词
+			#（阶段指针由上次播放的 _sync_timeline_stage 写入）。
+			var talk_entry_ms := dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))
+			var stage_entry_ms := dialogue_config.get_timeline_stage_entry_ms(dialogue_id, quest_service.get_current_stage_id(quest_id))
+			if stage_entry_ms >= 0:
+				talk_entry_ms = stage_entry_ms
+			# 本阶段的世界事件门已完成（旗标已置）→ 旁白已由自动续播过：
+			# 跳过门后的旁白，从第一句台词接播，直接进入与该 NPC 的对话内容。
+			var fired_gate_ms := -1
+			for clip_value in (dialogue_config.get_timeline(dialogue_id).get("clips", []) as Array):
+				if not clip_value is Dictionary:
+					continue
+				var clip := clip_value as Dictionary
+				var clip_ms := int(clip.get("startMs", 0))
+				if clip_ms < talk_entry_ms:
+					continue
+				if str(clip.get("kind", "")) == "event" and str(clip.get("eventType", "")) in ["area_event", "named_event"] \
+						and quest_service.state != null \
+						and bool(quest_service.state.get_flag("event:%s" % str(clip.get("eventName", "")), false)):
+					fired_gate_ms = clip_ms
+				elif fired_gate_ms >= 0 and str(clip.get("kind", "")) == "line":
+					talk_entry_ms = clip_ms
+					break
+			return {"quest_id": quest_id, "action": "advance_talk", "dialogue_id": dialogue_id, "entry_ms": talk_entry_ms}
 		if int(quest.get("giver_npc_id", 0)) == npc_id and quest_service.get_status(quest_id) == "inactive" and quest_service.is_quest_unlocked(quest_id):
 			starters.append({"quest_id": quest_id, "action": "start_quest", "dialogue_id": dialogue_id, "entry_ms": dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))})
 	return starters[0] if not starters.is_empty() else {}
@@ -220,6 +279,7 @@ func is_active() -> bool:
 func finish(completed: bool = false) -> void:
 	if not _active:
 		return
+	_set_world_event_gate_open(false)
 	var npc_id := current_npc_id
 	_active = false
 	_auto_advance = false
@@ -233,6 +293,7 @@ func finish(completed: bool = false) -> void:
 	_tl_gate = {}
 	_tl_gate_gen += 1
 	_tl_segment_speaker_seen = false
+	_tl_stop_before_ms = -1
 	if completed and quest_service != null:
 		var quest_id := int(_pending_quest_action.get("quest_id", 0))
 		var action := str(_pending_quest_action.get("action", ""))
@@ -247,12 +308,15 @@ func finish(completed: bool = false) -> void:
 				"turn_in_quest":
 					if quest_service.get_status(quest_id) == "ready":
 						quest_service.turn_in_quest(quest_id)
-				"advance_talk":
+				"advance_talk", "start_quest":
 					# 目标对话收尾：talk 已在上面 record_talk 推进；若任务因此刚 ready
-					# 且本 NPC 就是交付人（如仓库看守领取+交付连播），当场交付完成
-					var quest := quest_service.config.get_quest(quest_id)
-					if quest_service.get_status(quest_id) == "ready" and int(quest.get("turn_in_npc_id", 0)) == npc_id:
-						quest_service.turn_in_quest(quest_id)
+					# 且本 NPC 就是交付人（如仓库看守领取+交付连播），当场交付完成。
+					# start_quest 同理：接取对话当场走到可交付（如 C0-02-A 认门到喷泉
+					# 广场后名单段已在对话里播过），直接结算，不让玩家再点一次重播。
+					if quest_service.config != null:
+						var quest := quest_service.config.get_quest(quest_id)
+						if quest_service.get_status(quest_id) == "ready" and int(quest.get("turn_in_npc_id", 0)) == npc_id:
+							quest_service.turn_in_quest(quest_id)
 	_pending_quest_action = {}
 	current_node_id = ""
 	dialogue_finished.emit(npc_id, completed)
@@ -427,9 +491,19 @@ func _start_timeline(dialogue_id: String, npc_id: int, entry_ms: int, auto_advan
 	_auto_advance = auto_advance
 	_cutscene = cutscene
 	_pending_quest_action = quest_action
+	_tl_stop_before_ms = int(quest_action.get("stop_before_ms", -1))
+	# 接取对话开场即生效：start_quest 立刻执行，任务面板马上出现目标指引。
+	# 原来拖到对话收尾才接取——接取对话中途要在世界门（如“走到喷泉广场”）停留，
+	# 期间任务还是 inactive，面板空白，玩家不知道该干嘛。
+	if not quest_action.is_empty() and str(quest_action.get("action", "")) == "start_quest" \
+			and quest_service != null:
+		var start_quest_id := int(quest_action.get("quest_id", 0))
+		if start_quest_id > 0 and quest_service.get_status(start_quest_id) == "inactive":
+			quest_service.start_quest(start_quest_id)
 	_tl_idx = 0
 	_tl_current = {}
 	_tl_gate = {}
+	_set_world_event_gate_open(false)
 	_tl_gate_gen += 1
 	_tl_segment_speaker_seen = false
 	while _tl_idx < _tl_clips.size() and int((_tl_clips[_tl_idx] as Dictionary).get("startMs", 0)) < entry_ms:
@@ -540,6 +614,11 @@ func _tl_tick() -> void:
 		if _tl_is_manual_npc_boundary(clip):
 			finish(true)
 			return
+		if _tl_stop_before_ms >= 0 and int(clip.get("startMs", 0)) >= _tl_stop_before_ms:
+			# 自动续播只覆盖世界门后的旁白：到第一句台词为止收束（不记账），
+			# 玩家主动与 NPC 对话后从该片段继续（advance_talk 入口同样跳过旁白）。
+			finish(false)
+			return
 		var kind := str(clip.get("kind", ""))
 		_sync_timeline_stage(clip)
 		_execute_actions(clip.get("actions", []))
@@ -578,8 +657,15 @@ func _tl_tick() -> void:
 				_:
 					if _tl_gate_satisfied(clip):
 						continue
+					# 任务状态门（如「等待可交付」）不满足时直接收束对话：状态要靠玩家
+					# 回场景推进（喝粥/战斗/收集）。挂在对话框里等会被点击/自动推进跳过
+					#（门后内容提前播出）；关框后记账 talk，状态达标由 turn_in 入口重新触发。
+					if str(clip.get("eventType", "")) == "quest_state":
+						finish(true)
+						return
 					_tl_current = {}
 					_tl_gate = clip
+					_set_world_event_gate_open(is_waiting_for_world_event())
 					return
 		_tl_current = clip
 		current_node_id = str(clip.get("id", ""))
@@ -600,8 +686,36 @@ func _sync_timeline_stage(clip: Dictionary) -> void:
 	var stage_id := str(clip.get("stageId", ""))
 	if quest_id <= 0 or stage_id.is_empty():
 		return
-	if quest_service.get_status(quest_id) in ["active", "ready"] and quest_service.get_current_stage_id(quest_id) != stage_id:
+	var current_stage_id := quest_service.get_current_stage_id(quest_id)
+	if quest_service.get_status(quest_id) in ["active", "ready"] and current_stage_id != stage_id:
+		# 自动开场对白按阶段完成目标：进入下一阶段时，上一阶段的 NPC 对话
+		# 已经在画面上播放完，不能等整条时间轴（后面的世界事件）结束才记账。
+		# 否则玩家看到对白已结束，但 HUD 仍显示“与柏婶对话 0/1”，
+		# 重新进入时还会从旧入口重播。
+		if _auto_advance and not current_stage_id.is_empty():
+			_record_stage_talk_objectives(quest_id, current_stage_id)
 		quest_service.set_current_stage(quest_id, stage_id)
+
+
+func _record_stage_talk_objectives(quest_id: int, stage_id: String) -> void:
+	if quest_service == null or quest_service.config == null:
+		return
+	var quest := quest_service.config.get_quest(quest_id)
+	if quest.is_empty():
+		return
+	var objective_ids: Array = []
+	for stage_value in quest.get("stages", []):
+		if stage_value is Dictionary and str((stage_value as Dictionary).get("id", "")) == stage_id:
+			objective_ids = (stage_value as Dictionary).get("objective_ids", []) as Array
+			break
+	for objective_value in quest.get("objectives", []):
+		if not objective_value is Dictionary:
+			continue
+		var objective := objective_value as Dictionary
+		if str(objective.get("id", "")) not in objective_ids:
+			continue
+		if str(objective.get("type", "")) == "talk":
+			quest_service.record_talk(int(objective.get("npc_id", 0)))
 
 
 func _prepare_turn_in_gate(event_type: String, clip: Dictionary) -> void:
@@ -632,8 +746,73 @@ func _tl_auto_step(gen: int) -> void:
 	_tl_tick()
 
 
-func _on_objective_completed(_quest_id: int, _objective_key: String) -> void:
-	_tl_resume_if_gate_satisfied()
+func _on_objective_completed(quest_id: int, objective_key: String) -> void:
+	if _active:
+		_tl_resume_if_gate_satisfied()
+		return
+	# 对话没在播（玩家此前点掉了）：目标在世界中完成后自动以过场形式
+	# 从对应事件门续播后续对白（如 C0-02-A 走到喷泉广场 → 途中旁白 → 交付段），
+	# 不让玩家再点一次 NPC 从接取台词重看。
+	_try_autoplay_objective_segment(quest_id, objective_key)
+
+
+## 世界事件类目标完成时，从时间轴中该事件的门位置自动续播。
+## 以 advance_talk 身份播放：ready 门放行前记账 talk，收尾当场结算交付。
+func _try_autoplay_objective_segment(quest_id: int, objective_key: String) -> void:
+	if quest_service == null or quest_service.config == null or dialogue_config == null:
+		return
+	if quest_service.get_status(quest_id) != "active":
+		return
+	var quest := quest_service.config.get_quest(quest_id)
+	if quest.is_empty():
+		return
+	var event_type := ""
+	var event_name := ""
+	for objective_value in (quest.get("objectives", []) as Array):
+		if not objective_value is Dictionary:
+			continue
+		var objective := objective_value as Dictionary
+		if str(objective.get("id", "")) != objective_key:
+			continue
+		match str(objective.get("type", "")):
+			"area_trigger":
+				event_type = "area_event"
+			"named_event":
+				event_type = "named_event"
+		event_name = str(objective.get("event_name", ""))
+		break
+	if event_type.is_empty() or event_name.is_empty():
+		return
+	var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
+	if dialogue_id.is_empty():
+		return
+	var timeline := dialogue_config.get_timeline(dialogue_id)
+	if timeline.is_empty():
+		return
+	for clip_value in (timeline.get("clips", []) as Array):
+		if not clip_value is Dictionary:
+			continue
+		var clip := clip_value as Dictionary
+		if str(clip.get("kind", "")) != "event" or str(clip.get("eventType", "")) != event_type:
+			continue
+		if str(clip.get("eventName", clip.get("payload", ""))) != event_name:
+			continue
+		var npc_id := int(quest.get("turn_in_npc_id", 0))
+		if npc_id <= 0:
+			npc_id = int(quest.get("giver_npc_id", 0))
+		# 自动续播只播门后的旁白氛围段：到第一句台词（主角/NPC 对话内容）为止收束，
+		# 之后由玩家主动与 NPC 对话继续（advance_talk 入口会跳过这段旁白）。
+		var gate_start_ms := int(clip.get("startMs", 0))
+		var stop_before_ms := -1
+		for line_value in (timeline.get("clips", []) as Array):
+			if not line_value is Dictionary:
+				continue
+			var line_ms := int((line_value as Dictionary).get("startMs", 0))
+			if line_ms >= gate_start_ms and str((line_value as Dictionary).get("kind", "")) == "line":
+				stop_before_ms = line_ms
+				break
+		_start_timeline(dialogue_id, npc_id, gate_start_ms, true, false, {"action": "advance_talk", "quest_id": quest_id, "stop_before_ms": stop_before_ms})
+		return
 
 
 func _on_tl_quest_signal(_quest_id: int) -> void:
@@ -644,5 +823,23 @@ func _tl_resume_if_gate_satisfied() -> void:
 	if not _active or not _timeline_mode or _tl_gate.is_empty():
 		return
 	if _tl_gate_satisfied(_tl_gate):
+		var gate_clip := _tl_gate
 		_tl_gate = {}
+		_set_world_event_gate_open(false)
+		_apply_world_gate_narration_limit(gate_clip)
 		_tl_tick()
+
+
+## 世界门（区域/命名事件）放行后只自动播门后的旁白氛围段：
+## 到第一句台词为止收束对话，主角观察/交付段留给玩家主动与 NPC 对话继续。
+func _apply_world_gate_narration_limit(gate_clip: Dictionary) -> void:
+	if str(gate_clip.get("eventType", "")) not in ["area_event", "named_event"]:
+		return
+	var gate_ms := int(gate_clip.get("startMs", 0))
+	for clip_value in _tl_clips:
+		if not clip_value is Dictionary:
+			continue
+		var clip := clip_value as Dictionary
+		if int(clip.get("startMs", 0)) >= gate_ms and str(clip.get("kind", "")) == "line":
+			_tl_stop_before_ms = int(clip.get("startMs", 0))
+			return
