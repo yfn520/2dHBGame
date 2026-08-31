@@ -15915,7 +15915,7 @@
 				"durationMs": 0,
 				"questId": 21030,
 				"objectiveKey": "event_c1_beacon_1_lit",
-				"text": "等待目标：修复信标",
+				"text": "等待目标：修复信标（交互触发，触发点 2800, 1309 第一座信标）",
 				"payload": "c1_beacon_1_lit"
 			},
 			{
@@ -20209,7 +20209,7 @@
 				"durationMs": 0,
 				"questId": 21070,
 				"objectiveKey": "event_c1_beacon_3_lit",
-				"text": "等待目标：合力修复信标",
+				"text": "等待目标：合力修复信标（交互触发，触发点 5600, 1309 第三座信标）",
 				"payload": "c1_beacon_3_lit"
 			},
 			{
@@ -22684,7 +22684,7 @@
 				"durationMs": 0,
 				"questId": 21080,
 				"objectiveKey": "event_c1_starwedge_1_calibrated",
-				"text": "等待目标：校准第一枚星楔",
+				"text": "等待目标：校准第一枚星楔（交互触发，触发点 6200, 1309 星楔）",
 				"payload": "c1_starwedge_1_calibrated"
 			},
 			{
@@ -22698,7 +22698,7 @@
 				"durationMs": 0,
 				"questId": 21080,
 				"objectiveKey": "event_c1_stray_sentinel_repelled",
-				"text": "等待目标：驱退失路哨兵（剧情战）",
+				"text": "等待目标：驱退失路哨兵（剧情战，玩法触发）",
 				"payload": "c1_stray_sentinel_repelled"
 			},
 			{
@@ -25589,7 +25589,7 @@
 				"durationMs": 0,
 				"questId": 22020,
 				"objectiveKey": "event_c2_windmill_set",
-				"text": "等待目标：把木风车装回残拱边的旧轴座",
+				"text": "等待目标：把木风车装回残拱边的旧轴座（交互触发，触发点 2050, 632 旧轴座）",
 				"payload": "c2_windmill_set"
 			},
 			{
@@ -26446,7 +26446,7 @@
 				"durationMs": 0,
 				"questId": 22030,
 				"objectiveKey": "event_c2_legacy_room_opened",
-				"text": "等待目标：用凝胶记忆膜开启与主角共鸣的旧门",
+				"text": "等待目标：用凝胶记忆膜开启与主角共鸣的旧门（交互触发，触发点 2600, 632 旧门）",
 				"payload": "c2_legacy_room_opened"
 			},
 			{
@@ -27735,7 +27735,7 @@
 				"durationMs": 0,
 				"questId": 22040,
 				"objectiveKey": "event_c2_bell_mechanism_down",
-				"text": "等待目标：击破钟楼机关",
+				"text": "等待目标：击破钟楼机关（玩法触发）",
 				"payload": "c2_bell_mechanism_down"
 			},
 			{
@@ -35328,7 +35328,7 @@
 				"durationMs": 0,
 				"questId": 24030,
 				"objectiveKey": "event_c4_kai_stopped",
-				"text": "等待目标：击退凯（切磋战，不击杀）",
+				"text": "等待目标：击退凯（切磋战，不击杀，玩法触发）",
 				"payload": "c4_kai_stopped"
 			},
 			{
@@ -39075,7 +39075,7 @@
 				"durationMs": 0,
 				"questId": 25020,
 				"objectiveKey": "event_c5_bellhammer_fixed",
-				"text": "等待目标：修复钟锤",
+				"text": "等待目标：修复钟锤（交互触发，触发点 2100, 683 钟楼断墙）",
 				"payload": "c5_bellhammer_fixed"
 			},
 			{
@@ -39089,7 +39089,7 @@
 				"durationMs": 0,
 				"questId": 25020,
 				"objectiveKey": "event_c5_backgate_fixed",
-				"text": "等待目标：修复备用门机关",
+				"text": "等待目标：修复备用门机关（交互触发，触发点 2250, 683 备用门）",
 				"payload": "c5_backgate_fixed"
 			},
 			{
@@ -39185,7 +39185,7 @@
 				"durationMs": 0,
 				"questId": 25020,
 				"objectiveKey": "event_c5_bell_rang",
-				"text": "等待目标：让钟再响一次",
+				"text": "等待目标：让钟再响一次（交互触发，触发点 2100, 683 钟锤）",
 				"payload": "c5_bell_rang"
 			},
 			{
@@ -50863,9 +50863,9 @@
 				"startMs": 36200,
 				"durationMs": 0,
 				"questId": 20030,
-				"objectiveKey": "event_prologue_body_check",
-				"text": "等待目标：按伊莱要求试着活动手脚",
-				"payload": "prologue_body_check"
+				"objectiveKey": "input_c0_03_a",
+				"text": "等待目标：按伊莱要求试着活动手脚（按攻击键）",
+				"payload": "input_c0_03_a"
 			},
 			{
 				"trackId": "track_event",
@@ -50932,7 +50932,7 @@
 					"C0-03-A.D09"
 				],
 				"objective_ids": [
-					"event_prologue_body_check"
+					"input_c0_03_a"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
