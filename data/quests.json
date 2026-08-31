@@ -312,13 +312,6 @@
 				"type": "talk",
 				"npc_id": 9001,
 				"count": 1
-			},
-			{
-				"id": "event_prologue_aid_signed",
-				"type": "named_event",
-				"event_name": "prologue_aid_signed",
-				"name": "自愿签下灾后协助登记",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -330,12 +323,7 @@
 				"node_ids": [
 					"C0-04-A.D01",
 					"C0-04-A.D02",
-					"C0-04-A.D03",
-					"C0-04-A.D04K-1",
-					"C0-04-A.D04L-1",
-					"C0-04-A.D04M-1",
-					"C0-04-A.D05",
-					"C0-04-A.D06"
+					"C0-04-A.D03"
 				],
 				"objective_ids": [
 					"talk_9001"
@@ -352,13 +340,30 @@
 				"order": 2,
 				"kind": "choice",
 				"node_ids": [
+					"C0-04-A.D04",
+					"C0-04-A.D05K-1",
+					"C0-04-A.D05L-1",
+					"C0-04-A.D05M-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-04-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C0-04-A.D06",
 					"C0-04-A.D07",
 					"C0-04-A.D08",
 					"C0-04-A.D09"
 				],
-				"objective_ids": [
-					"event_prologue_aid_signed"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1521,6 +1526,13 @@
 				"type": "talk",
 				"npc_id": 9020,
 				"count": 1
+			},
+			{
+				"id": "pending_c1_04_a_2",
+				"type": "named_event",
+				"event_name": "pending_c1_04_a_2",
+				"name": "选择先追哪一条（玩家选择，写入 `SecondHero`）",
+				"count": 1
 			}
 		],
 		"stages": [
@@ -1538,7 +1550,8 @@
 					"C1-04-A.D04"
 				],
 				"objective_ids": [
-					"talk_9020"
+					"talk_9020",
+					"pending_c1_04_a_2"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",

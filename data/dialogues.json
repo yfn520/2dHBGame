@@ -16371,10 +16371,24 @@
 				"speaker_id": 0
 			},
 			{
+				"id": "C1-04-A-S01_objective_001",
+				"stageId": "C1-04-A-S01",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
+				"startMs": 21440,
+				"durationMs": 0,
+				"questId": 21040,
+				"objectiveKey": "pending_c1_04_a_2",
+				"text": "等待目标：选择先追哪一条（玩家选择，写入 `SecondHero`）",
+				"payload": "pending_c1_04_a_2"
+			},
+			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 21440,
+				"startMs": 21560,
 				"durationMs": 0,
 				"text": "退出阶段：C1-04-A-S01",
 				"payload": "C1-04-A-S01",
@@ -16388,7 +16402,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 21840,
+				"startMs": 21960,
 				"durationMs": 0,
 				"text": "进入阶段：C1-04-A-S02",
 				"payload": "C1-04-A-S02",
@@ -16403,35 +16417,137 @@
 				"nodeId": "C1-04-A.D05K",
 				"trackId": "track_choice",
 				"kind": "choice",
-				"startMs": 21840,
+				"startMs": 21960,
 				"durationMs": 400,
-				"text": "玩家选择",
-				"branchId": "player_choice",
+				"text": "选择同行者",
+				"branchId": "second_hero_choice",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7001
+					}
+				],
 				"options": [
 					{
-						"id": "player_choice_1",
-						"text": "去东坡塌方带（露娜）",
-						"branchId": "accept"
+						"id": "choose_luna",
+						"text": "先寻找露娜",
+						"branchId": "second_luna",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7002
+							}
+						]
 					},
 					{
-						"id": "player_choice_2",
-						"text": "去净水洼（米娅）",
-						"branchId": "wait",
-						"nextClipId": "C1-04-A-S02_002"
-					},
-					{
-						"id": "player_choice_3",
-						"text": "去军道旧标（莱昂）",
-						"branchId": "wait",
-						"nextClipId": "C1-04-A-S02_002"
+						"id": "choose_mia",
+						"text": "先寻找米娅",
+						"branchId": "second_mia",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7003
+							}
+						]
 					}
 				]
 			},
 			{
 				"id": "C1-04-A-S02_003",
+				"stageId": "C1-04-A-S02",
+				"nodeId": "C1-04-A.D05K",
+				"trackId": "track_choice",
+				"kind": "choice",
+				"startMs": 21960,
+				"durationMs": 400,
+				"text": "选择同行者",
+				"branchId": "second_hero_choice",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7002
+					}
+				],
+				"options": [
+					{
+						"id": "choose_leon",
+						"text": "先寻找莱昂",
+						"branchId": "second_leon",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7001
+							}
+						]
+					},
+					{
+						"id": "choose_mia",
+						"text": "先寻找米娅",
+						"branchId": "second_mia",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7003
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "C1-04-A-S02_004",
+				"stageId": "C1-04-A-S02",
+				"nodeId": "C1-04-A.D05K",
+				"trackId": "track_choice",
+				"kind": "choice",
+				"startMs": 21960,
+				"durationMs": 400,
+				"text": "选择同行者",
+				"branchId": "second_hero_choice",
+				"conditions": [
+					{
+						"type": "flag_equals",
+						"flag": "LeadHero",
+						"value": 7003
+					}
+				],
+				"options": [
+					{
+						"id": "choose_leon",
+						"text": "先寻找莱昂",
+						"branchId": "second_leon",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7001
+							}
+						]
+					},
+					{
+						"id": "choose_luna",
+						"text": "先寻找露娜",
+						"branchId": "second_luna",
+						"actions": [
+							{
+								"type": "set_flag",
+								"flag": "SecondHero",
+								"value": 7002
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "C1-04-A-S02_005",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 22240,
+				"startMs": 22360,
 				"durationMs": 2340,
 				"speaker": "旁白",
 				"text": "先追哪条线索？【去东坡塌方带（露娜）】【去净水洼（米娅）】",
@@ -16449,10 +16565,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_004",
+				"id": "C1-04-A-S02_006",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 25380,
+				"startMs": 25500,
 				"durationMs": 2280,
 				"speaker": "旁白",
 				"text": "先追哪条线索？【去军道旧标（莱昂）】【去净水洼（米娅）】",
@@ -16470,10 +16586,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_005",
+				"id": "C1-04-A-S02_007",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 28460,
+				"startMs": 28580,
 				"durationMs": 2400,
 				"speaker": "旁白",
 				"text": "先追哪条线索？【去东坡塌方带（露娜）】【去军道旧标（莱昂）】",
@@ -16491,10 +16607,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_006",
+				"id": "C1-04-A-S02_008",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 31260,
+				"startMs": 31380,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06a",
@@ -16507,10 +16623,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_007",
+				"id": "C1-04-A-S02_009",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 32060,
+				"startMs": 32180,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16524,10 +16640,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_008",
+				"id": "C1-04-A-S02_010",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 33660,
+				"startMs": 33780,
 				"durationMs": 3000,
 				"speaker": "旁白",
 				"text": "你循着盾击的节奏找过去。雾散开时，一个持盾的人正把最后一只傀儡从塌方边上推下去。",
@@ -16544,10 +16660,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_009",
+				"id": "C1-04-A-S02_011",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 37060,
+				"startMs": 37180,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06b",
@@ -16560,10 +16676,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_010",
+				"id": "C1-04-A-S02_012",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 37860,
+				"startMs": 37980,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16577,10 +16693,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_011",
+				"id": "C1-04-A-S02_013",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 39460,
+				"startMs": 39580,
 				"durationMs": 2640,
 				"speaker": "旁白",
 				"text": "箭羽记号在塌方带尽头断了。你抬头，岩架上蹲着一个正往下探身子的弓手。",
@@ -16597,10 +16713,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_012",
+				"id": "C1-04-A-S02_014",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 42500,
+				"startMs": 42620,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06c",
@@ -16613,10 +16729,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_013",
+				"id": "C1-04-A-S02_015",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 43300,
+				"startMs": 43420,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16630,10 +16746,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_014",
+				"id": "C1-04-A-S02_016",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 44900,
+				"startMs": 45020,
 				"durationMs": 2400,
 				"speaker": "旁白",
 				"text": "警示灯还亮着，三拍，一盏。灯旁的人正把净水圈的最后一段画完。",
@@ -16650,10 +16766,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C1-04-A-S02_015",
+				"id": "C1-04-A-S02_017",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 47700,
+				"startMs": 47820,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07a",
@@ -16666,10 +16782,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_016",
+				"id": "C1-04-A-S02_018",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 48500,
+				"startMs": 48620,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16683,10 +16799,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_017",
+				"id": "C1-04-A-S02_019",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 50100,
+				"startMs": 50220,
 				"durationMs": 2360,
 				"speaker": "莱昂",
 				"text": "报上名。……别紧张，我也是被搜救队背回来的。",
@@ -16704,10 +16820,10 @@
 				"speaker_id": 7001
 			},
 			{
-				"id": "C1-04-A-S02_018",
+				"id": "C1-04-A-S02_020",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 52860,
+				"startMs": 52980,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07b",
@@ -16720,10 +16836,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_019",
+				"id": "C1-04-A-S02_021",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 53660,
+				"startMs": 53780,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16737,10 +16853,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_020",
+				"id": "C1-04-A-S02_022",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 55260,
+				"startMs": 55380,
 				"durationMs": 2760,
 				"speaker": "露娜",
 				"text": "脚印新的，人往这边走了——咦？活人！你也是被捡回来的？",
@@ -16758,10 +16874,10 @@
 				"speaker_id": 7002
 			},
 			{
-				"id": "C1-04-A-S02_021",
+				"id": "C1-04-A-S02_023",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 58420,
+				"startMs": 58540,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07c",
@@ -16774,10 +16890,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_022",
+				"id": "C1-04-A-S02_024",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 59220,
+				"startMs": 59340,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -16791,10 +16907,10 @@
 				]
 			},
 			{
-				"id": "C1-04-A-S02_023",
+				"id": "C1-04-A-S02_025",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 60820,
+				"startMs": 60940,
 				"durationMs": 2760,
 				"speaker": "米娅",
 				"text": "请站在圈外。……抱歉，职业习惯。你也是搜救队救回来的？",
@@ -16812,10 +16928,10 @@
 				"speaker_id": 7003
 			},
 			{
-				"id": "C1-04-A-S02_024",
+				"id": "C1-04-A-S02_026",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 63980,
+				"startMs": 64100,
 				"durationMs": 1920,
 				"speaker": "旁白",
 				"text": "第二名英雄加入。开放：双人编队与前后排站位。",
@@ -16828,11 +16944,11 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 65900,
+				"startMs": 66020,
 				"durationMs": 0,
 				"text": "退出阶段：C1-04-A-S02",
 				"payload": "C1-04-A-S02",
-				"id": "C1-04-A-S02_event_025",
+				"id": "C1-04-A-S02_event_027",
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D08",
 				"questId": 21040,
@@ -16854,7 +16970,7 @@
 			"9020": 0
 		},
 		"turn_in_entries": {
-			"9020": 21840
+			"9020": 21960
 		},
 		"stages": [
 			{
@@ -16870,14 +16986,16 @@
 					"C1-04-A.D03",
 					"C1-04-A.D04"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"pending_c1_04_a_2"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 21440
+				"end_ms": 21560
 			},
 			{
 				"id": "C1-04-A-S02",
@@ -16902,8 +17020,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 21840,
-				"end_ms": 65900
+				"start_ms": 21960,
+				"end_ms": 66020
 			}
 		]
 	},
@@ -51028,17 +51146,81 @@
 				"speaker_id": 9001
 			},
 			{
-				"id": "C0-04-A-S01_005",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_exit",
+				"startMs": 8680,
+				"durationMs": 0,
+				"text": "退出阶段：C0-04-A-S01",
+				"payload": "C0-04-A-S01",
+				"id": "C0-04-A-S01_event_005",
+				"stageId": "C0-04-A-S01",
+				"nodeId": "C0-04-A.D03",
+				"nextStageId": "C0-04-A-S02",
+				"questId": 20040
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_enter",
+				"startMs": 9080,
+				"durationMs": 0,
+				"text": "进入阶段：C0-04-A-S02",
+				"payload": "C0-04-A-S02",
+				"id": "C0-04-A-S02_event_001",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D04",
+				"questId": 20040
+			},
+			{
+				"id": "C0-04-A-S02_002",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D04",
+				"trackId": "track_choice",
+				"kind": "choice",
+				"startMs": 9080,
+				"durationMs": 400,
+				"text": "玩家选择",
+				"branchId": "player_choice",
+				"options": [
+					{
+						"id": "player_choice_1",
+						"text": "自愿签下登记",
+						"branchId": "accept"
+					},
+					{
+						"id": "player_choice_2",
+						"text": "再想想",
+						"branchId": "wait",
+						"nextClipId": "C0-04-A-S02_002"
+					}
+				]
+			},
+			{
+				"id": "C0-04-A-S02_003",
+				"trackId": "track_narration",
+				"kind": "narration",
+				"startMs": 9480,
+				"durationMs": 1500,
+				"speaker": "旁白",
+				"text": "霍雷克把登记册和印泥推了过来。",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D04",
+				"speaker_kind": "narrator",
+				"speaker_id": 0
+			},
+			{
+				"id": "C0-04-A-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 9080,
+				"startMs": 11780,
 				"durationMs": 1880,
 				"speaker": "主角",
 				"text": "他们把我背出来的。这三件，我接。",
 				"routeHero": "leon",
 				"channel": "public",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D04K-1",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D05K-1",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -51050,17 +51232,17 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C0-04-A-S01_006",
+				"id": "C0-04-A-S02_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 11360,
+				"startMs": 14460,
 				"durationMs": 1720,
 				"speaker": "主角",
 				"text": "林子里的路我熟。算我还人情。",
 				"routeHero": "luna",
 				"channel": "public",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D04L-1",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D05L-1",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -51072,17 +51254,17 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C0-04-A-S01_007",
+				"id": "C0-04-A-S02_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 13480,
+				"startMs": 16980,
 				"durationMs": 2600,
 				"speaker": "主角",
 				"text": "受助后回馈，合理。我接受，但强度要按伊莱的医嘱来。",
 				"routeHero": "mia",
 				"channel": "public",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D04M-1",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D05M-1",
 				"conditions": [
 					{
 						"type": "flag_equals",
@@ -51094,105 +51276,42 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C0-04-A-S01_008",
-				"trackId": "track_dialogue",
-				"kind": "line",
-				"startMs": 16480,
-				"durationMs": 3080,
-				"speaker": "霍雷克",
-				"text": "行。登记上写\"自愿协助\"，不是征召。做不动就回来报，没人罚你。",
-				"channel": "public",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D05",
-				"speaker_kind": "npc",
-				"speaker_id": 9001
-			},
-			{
-				"id": "C0-04-A-S01_009",
-				"trackId": "track_dialogue",
-				"kind": "line",
-				"startMs": 19960,
-				"durationMs": 3320,
-				"speaker": "霍雷克",
-				"text": "还有，你身上除了一身伤什么都没有。先去铁匠铺，格雷会给你开张领料单。",
-				"channel": "public",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D06",
-				"speaker_kind": "npc",
-				"speaker_id": 9001
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 23280,
+				"startMs": 19580,
 				"durationMs": 0,
-				"text": "退出阶段：C0-04-A-S01",
-				"payload": "C0-04-A-S01",
-				"id": "C0-04-A-S01_event_010",
-				"stageId": "C0-04-A-S01",
-				"nodeId": "C0-04-A.D06",
-				"nextStageId": "C0-04-A-S02",
+				"text": "退出阶段：C0-04-A-S02",
+				"payload": "C0-04-A-S02",
+				"id": "C0-04-A-S02_event_007",
+				"stageId": "C0-04-A-S02",
+				"nodeId": "C0-04-A.D05M-1",
+				"nextStageId": "C0-04-A-S03",
 				"questId": 20040
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 23680,
+				"startMs": 19980,
 				"durationMs": 0,
-				"text": "进入阶段：C0-04-A-S02",
-				"payload": "C0-04-A-S02",
-				"id": "C0-04-A-S02_event_001",
-				"stageId": "C0-04-A-S02",
-				"nodeId": "C0-04-A.D07",
+				"text": "进入阶段：C0-04-A-S03",
+				"payload": "C0-04-A-S03",
+				"id": "C0-04-A-S03_event_001",
+				"stageId": "C0-04-A-S03",
+				"nodeId": "C0-04-A.D06",
 				"questId": 20040
 			},
 			{
-				"id": "C0-04-A-S02_002",
-				"trackId": "track_choice",
-				"kind": "choice",
-				"startMs": 23680,
-				"durationMs": 400,
-				"text": "玩家选择",
-				"options": [
-					{
-						"id": "opt_a",
-						"text": "选项 A",
-						"branchId": "branch_a"
-					},
-					{
-						"id": "opt_b",
-						"text": "选项 B",
-						"branchId": "branch_b"
-					}
-				],
-				"stageId": "C0-04-A-S02",
-				"nodeId": "C0-04-A.D07"
-			},
-			{
-				"id": "C0-04-A-S02_003",
+				"id": "C0-04-A-S03_002",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 24080,
-				"durationMs": 1200,
-				"speaker": "旁白",
-				"text": "在登记册上按下手印？",
-				"stageId": "C0-04-A-S02",
-				"nodeId": "C0-04-A.D07",
-				"speaker_kind": "narrator",
-				"speaker_id": 0
-			},
-			{
-				"id": "C0-04-A-S02_004",
-				"trackId": "track_narration",
-				"kind": "narration",
-				"startMs": 25680,
+				"startMs": 19980,
 				"durationMs": 1500,
 				"speaker": "旁白",
 				"text": "已登记：灾后临时协助（自愿）。",
-				"stageId": "C0-04-A-S02",
-				"nodeId": "C0-04-A.D08",
+				"stageId": "C0-04-A-S03",
+				"nodeId": "C0-04-A.D06",
 				"speaker_kind": "narrator",
 				"speaker_id": 0
 			},
@@ -51201,53 +51320,67 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 27580,
+				"startMs": 21880,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
-				"id": "C0-04-A-S02_event_005",
-				"stageId": "C0-04-A-S02",
-				"nodeId": "C0-04-A.D09",
+				"id": "C0-04-A-S03_event_003",
+				"stageId": "C0-04-A-S03",
+				"nodeId": "C0-04-A.D07",
 				"questId": 20040
 			},
 			{
-				"id": "C0-04-A-S02_006",
+				"id": "C0-04-A-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 27700,
+				"startMs": 22000,
+				"durationMs": 3080,
+				"speaker": "霍雷克",
+				"text": "行。登记上写\"自愿协助\"，不是征召。做不动就回来报，没人罚你。",
+				"channel": "public",
+				"stageId": "C0-04-A-S03",
+				"nodeId": "C0-04-A.D07",
+				"speaker_kind": "npc",
+				"speaker_id": 9001
+			},
+			{
+				"id": "C0-04-A-S03_005",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 25480,
+				"durationMs": 3320,
+				"speaker": "霍雷克",
+				"text": "还有，你身上除了一身伤什么都没有。先去铁匠铺，格雷会给你开张领料单。",
+				"channel": "public",
+				"stageId": "C0-04-A-S03",
+				"nodeId": "C0-04-A.D08",
+				"speaker_kind": "npc",
+				"speaker_id": 9001
+			},
+			{
+				"id": "C0-04-A-S03_006",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 29200,
 				"durationMs": 2680,
 				"speaker": "霍雷克",
 				"text": "授权拿着。装备是借的，人是自己的，都给我完好带回来。",
 				"channel": "public",
-				"stageId": "C0-04-A-S02",
+				"stageId": "C0-04-A-S03",
 				"nodeId": "C0-04-A.D09",
 				"speaker_kind": "npc",
 				"speaker_id": 9001
 			},
 			{
-				"id": "C0-04-A-S02_objective_001",
-				"stageId": "C0-04-A-S02",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 30380,
-				"durationMs": 0,
-				"questId": 20040,
-				"objectiveKey": "event_prologue_aid_signed",
-				"text": "等待目标：自愿签下灾后协助登记",
-				"payload": "prologue_aid_signed"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 30500,
+				"startMs": 31880,
 				"durationMs": 0,
-				"text": "退出阶段：C0-04-A-S02",
-				"payload": "C0-04-A-S02",
-				"id": "C0-04-A-S02_event_007",
-				"stageId": "C0-04-A-S02",
+				"text": "退出阶段：C0-04-A-S03",
+				"payload": "C0-04-A-S03",
+				"id": "C0-04-A-S03_event_007",
+				"stageId": "C0-04-A-S03",
 				"nodeId": "C0-04-A.D09",
 				"questId": 20040,
 				"actions": [
@@ -51263,7 +51396,7 @@
 			"9001": 0
 		},
 		"turn_in_entries": {
-			"9001": 27580
+			"9001": 21880
 		},
 		"stages": [
 			{
@@ -51274,12 +51407,7 @@
 				"node_ids": [
 					"C0-04-A.D01",
 					"C0-04-A.D02",
-					"C0-04-A.D03",
-					"C0-04-A.D04K-1",
-					"C0-04-A.D04L-1",
-					"C0-04-A.D04M-1",
-					"C0-04-A.D05",
-					"C0-04-A.D06"
+					"C0-04-A.D03"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -51288,7 +51416,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 23280
+				"end_ms": 8680
 			},
 			{
 				"id": "C0-04-A-S02",
@@ -51296,20 +51424,39 @@
 				"order": 2,
 				"kind": "choice",
 				"node_ids": [
-					"C0-04-A.D07",
-					"C0-04-A.D08",
-					"C0-04-A.D09"
+					"C0-04-A.D04",
+					"C0-04-A.D05K-1",
+					"C0-04-A.D05L-1",
+					"C0-04-A.D05M-1"
 				],
-				"objective_ids": [
-					"event_prologue_aid_signed"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 23680,
-				"end_ms": 30500
+				"start_ms": 9080,
+				"end_ms": 19580
+			},
+			{
+				"id": "C0-04-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C0-04-A.D06",
+					"C0-04-A.D07",
+					"C0-04-A.D08",
+					"C0-04-A.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false,
+				"start_ms": 19980,
+				"end_ms": 31880
 			}
 		]
 	},
