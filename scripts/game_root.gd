@@ -300,6 +300,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				# 地图切换测试面板
 				ui_root.toggle_map_panel()
 				get_viewport().set_input_as_handled()
+			KEY_F3:
+				# 玩家坐标显示开关（摆放/触发点调试）
+				ui_root.toggle_coord_display()
+				get_viewport().set_input_as_handled()
 			KEY_M:
 				# 主界面 UI 资源验证：切换显隐（按 M 键）
 				ui_root.toggle_main_ui()

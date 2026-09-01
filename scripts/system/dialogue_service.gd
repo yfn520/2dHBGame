@@ -149,8 +149,10 @@ func _find_quest_dialogue_hook(npc_id: int) -> Dictionary:
 			#（阶段指针由上次播放的 _sync_timeline_stage 写入）。
 			var talk_entry_ms := dialogue_config.get_timeline_entry_ms(dialogue_id, str(npc_id))
 			var stage_entry_ms := dialogue_config.get_timeline_stage_entry_ms(dialogue_id, quest_service.get_current_stage_id(quest_id))
+			# 阶段入口与 NPC 入口取较深者：同一阶段内有多个 NPC 时（如 C0-07-A 杂货商人→药水商人→柏婶），
+			# 与该 NPC 对话应从他自己的台词段接播，而不是把整个阶段从别人的台词重播一遍。
 			if stage_entry_ms >= 0:
-				talk_entry_ms = stage_entry_ms
+				talk_entry_ms = maxi(talk_entry_ms, stage_entry_ms)
 			# 本阶段的世界事件门已完成（旗标已置）→ 旁白已由自动续播过：
 			# 跳过门后的旁白，从第一句台词接播，直接进入与该 NPC 的对话内容。
 			var fired_gate_ms := -1

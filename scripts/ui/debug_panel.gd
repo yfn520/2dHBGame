@@ -1,6 +1,6 @@
 class_name DebugPanel
 extends Control
-## F3 调试面板，位于 DebugLayer。
+## F7 调试面板，位于 DebugLayer。
 ## 显示 DebugDraw 开关状态、玩家/队友/怪物运行时信息。
 
 var _party_manager: PartyManager
@@ -9,6 +9,8 @@ var _quest_service: QuestService
 var _label: Label
 var _panel: PanelContainer
 var _task_debug_list: VBoxContainer
+var _jump_select: OptionButton
+var _jump_quest_ids: Array[int] = []
 
 
 func _ready() -> void:
@@ -21,12 +23,43 @@ func setup(party_manager: PartyManager, enemy_spawner: Node) -> void:
 	_quest_service = GameRegistry.quest_service
 	if _quest_service != null and not _quest_service.quest_updated.is_connected(_on_quest_updated):
 		_quest_service.quest_updated.connect(_on_quest_updated)
+	_populate_jump_options()
+	_refresh_task_debug()
+
+
+## 跳转下拉：全部主线任务（按 ID 升序 = 主线顺序）
+func _populate_jump_options() -> void:
+	if _jump_select == null or _quest_service == null or _quest_service.config == null:
+		return
+	_jump_select.clear()
+	_jump_quest_ids.clear()
+	var story_ids: Array[int] = []
+	for id_value in _quest_service.config.get_all_quests():
+		var quest: Dictionary = _quest_service.config.get_quest(int(id_value))
+		if str(quest.get("quest_kind", "")) == "story_task_script":
+			story_ids.append(int(id_value))
+	story_ids.sort()
+	for quest_id in story_ids:
+		var quest: Dictionary = _quest_service.config.get_quest(quest_id)
+		_jump_select.add_item("%d  %s" % [quest_id, str(quest.get("title", "任务"))])
+		_jump_quest_ids.append(quest_id)
+
+
+func _on_jump_pressed() -> void:
+	if _quest_service == null or _jump_quest_ids.is_empty():
+		return
+	var selected := _jump_select.selected
+	if selected < 0 or selected >= _jump_quest_ids.size():
+		return
+	_quest_service.debug_jump_to_quest(_jump_quest_ids[selected])
 	_refresh_task_debug()
 
 
 func toggle_visible() -> void:
+	# 根节点创建时 visible=false，必须连根一起切；只翻内部 _panel 永远不会显示。
+	visible = not visible
 	if _panel != null:
-		_panel.visible = not _panel.visible
+		_panel.visible = visible
 
 
 func _process(_delta: float) -> void:
@@ -63,6 +96,22 @@ func _build_layout() -> void:
 
 	var separator := HSeparator.new()
 	content.add_child(separator)
+	# 任务跳转：跳到任意主线任务（前置强制完成 + 传送目标关卡）
+	var jump_title := Label.new()
+	jump_title.text = "=== 任务跳转（测试） ==="
+	jump_title.add_theme_font_size_override("font_size", 15)
+	content.add_child(jump_title)
+	var jump_row := HBoxContainer.new()
+	jump_row.add_theme_constant_override("separation", 6)
+	_jump_select = OptionButton.new()
+	_jump_select.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	jump_row.add_child(_jump_select)
+	var jump_button := Button.new()
+	jump_button.text = "跳转"
+	jump_button.custom_minimum_size.x = 64
+	jump_button.pressed.connect(_on_jump_pressed)
+	jump_row.add_child(jump_button)
+	content.add_child(jump_row)
 	var task_title := Label.new()
 	task_title.text = "=== 任务卡点 ==="
 	task_title.add_theme_font_size_override("font_size", 15)

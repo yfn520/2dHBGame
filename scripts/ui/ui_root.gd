@@ -27,6 +27,7 @@ var _main_ui: Control
 var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
 var _interaction_prompt: Label
+var _coord_label: Label
 var _interaction_target: Node2D
 # 过场播放前主 HUD 的显隐状态，结束后恢复
 var _hud_visible_before_cutscene := false
@@ -84,6 +85,10 @@ func set_interaction_target(target: Node2D) -> void:
 
 ## 交互提示跟随目标 NPC 头顶，而非固定在屏幕中央。
 func _process(_delta: float) -> void:
+	if _coord_label != null and _coord_label.visible and _party_manager != null:
+		var active := _party_manager.get_active_character()
+		if active != null and is_instance_valid(active):
+			_coord_label.text = "x: %.0f  y: %.0f" % [active.global_position.x, active.global_position.y]
 	if _interaction_prompt == null or not _interaction_prompt.visible or not is_instance_valid(_interaction_target):
 		return
 	var cam := get_viewport().get_camera_2d()
@@ -92,6 +97,12 @@ func _process(_delta: float) -> void:
 	var screen := cam.get_canvas_transform() * _interaction_target.global_position
 	_interaction_prompt.position.x = screen.x - _interaction_prompt.size.x * 0.5
 	_interaction_prompt.position.y = screen.y - 40.0
+
+
+## 坐标显示开关（F3）
+func toggle_coord_display() -> void:
+	if _coord_label != null:
+		_coord_label.visible = not _coord_label.visible
 
 
 # ---- 主菜单 ----
@@ -334,6 +345,24 @@ func _build_content() -> void:
 	_interaction_prompt.add_theme_constant_override("outline_size", 6)
 	_interaction_prompt.visible = false
 	_hud_layer.add_child(_interaction_prompt)
+
+	# 坐标显示（左下角，F3 切换）：供摆放/触发点调试核对
+	_coord_label = Label.new()
+	_coord_label.name = "CoordLabel"
+	_coord_label.anchor_left = 0.0
+	_coord_label.anchor_top = 1.0
+	_coord_label.anchor_right = 0.0
+	_coord_label.anchor_bottom = 1.0
+	_coord_label.offset_left = 12
+	_coord_label.offset_top = -32
+	_coord_label.offset_right = 280
+	_coord_label.offset_bottom = -8
+	_coord_label.add_theme_font_size_override("font_size", 14)
+	_coord_label.add_theme_color_override("font_color", Color("b8f3ff"))
+	_coord_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_coord_label.add_theme_constant_override("outline_size", 4)
+	_coord_label.visible = true
+	_hud_layer.add_child(_coord_label)
 
 	# 主菜单
 	_main_menu = preload("res://scripts/ui/main_menu.gd").new()

@@ -235,6 +235,51 @@ func debug_clear_objective(quest_id: int, objective_id: String) -> bool:
 	return true
 
 
+## 调试跳转：把目标任务之前的主线任务全部强制完成（含奖励旗标），
+## 清掉目标任务的进行状态，传送到目标关卡，并触发该关卡的链恢复/接取。
+## 仅开发调试用。
+func debug_jump_to_quest(target_quest_id: int) -> bool:
+	if config == null or state == null:
+		return false
+	var target := config.get_quest(target_quest_id)
+	if target.is_empty():
+		return false
+	# 主线按同 quest_kind 的 ID 升序串联，前置全部强制完成
+	var story_ids: Array[int] = []
+	for id_value in config.get_all_quests():
+		var quest := config.get_quest(int(id_value))
+		if str(quest.get("quest_kind", "")) == "story_task_script":
+			story_ids.append(int(id_value))
+	story_ids.sort()
+	for quest_id in story_ids:
+		if quest_id >= target_quest_id:
+			break
+		if state.get_status(quest_id) == "completed":
+			continue
+		var quest := config.get_quest(quest_id)
+		var rewards: Dictionary = quest.get("rewards", {})
+		for flag_value in rewards.get("flags", []):
+			if flag_value is Dictionary:
+				state.set_flag(str(flag_value.get("flag", "")), flag_value.get("value", true))
+			else:
+				state.set_flag(str(flag_value), true)
+		state.set_entry(quest_id, {"status": "completed", "counters": {}})
+		quest_updated.emit(quest_id)
+	# 目标任务回到未接取状态，由链恢复/接取流程重新拉起
+	if state.get_status(target_quest_id) != "inactive":
+		state.set_entry(target_quest_id, {"status": "inactive", "counters": {}})
+	# 传送到目标关卡
+	if GameRegistry.level_manager != null:
+		var level_id := int(target.get("level_id", -1))
+		if level_id >= 0 and GameRegistry.level_manager.get_current_level_id() != level_id:
+			GameRegistry.level_manager.load_level(level_id)
+	# 链恢复：auto_play/auto_start 任务由 story_auto_play 拉起；手动任务显示为可接取
+	if GameRegistry.story_auto_play != null and GameRegistry.level_manager != null:
+		GameRegistry.story_auto_play.on_level_loaded(GameRegistry.level_manager.get_current_level_id())
+	GameRegistry.save_game()
+	return true
+
+
 func _is_debug_objective_completed(quest_id: int, objective: Dictionary, index: int) -> bool:
 	return _is_debug_objective_completed_by_id(quest_id, _objective_key(objective, index))
 

@@ -1,0 +1,9324 @@
+{
+	"20010": {
+		"id": 20010,
+		"title": "醒来的人",
+		"description": "完成角色选择（系统写入 `LeadHero`）",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_warm_meal",
+				"type": "named_event",
+				"event_name": "prologue_warm_meal",
+				"name": "喝下热粥",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-01-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C0-01-A.D01",
+					"C0-01-A.D02",
+					"C0-01-A.D03"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-01-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C0-01-A.D04K-1",
+					"C0-01-A.D04L-1",
+					"C0-01-A.D04M-1",
+					"C0-01-A.D05",
+					"C0-01-A.D06"
+				],
+				"objective_ids": [
+					"event_prologue_warm_meal"
+				],
+				"exit_when": {
+					"type": "named_event",
+					"event_name": "prologue_warm_meal"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-01-A-S03",
+				"title": "自动续播",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C0-01-A.D07",
+					"C0-01-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PrologueAwakened",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-01-A",
+			"dialogue_id": "task_c0_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 0
+			}
+		},
+		"required_quest_ids": [],
+		"level_id": 0,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"20020": {
+		"id": 20020,
+		"title": "柏婶的名单",
+		"description": "完成 C0-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9002,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "area_hub_street_walk",
+				"type": "area_trigger",
+				"event_name": "hub_street_walk",
+				"name": "沿大街走一圈，确认城中现状（喷泉广场）",
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-02-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-02-A.D01"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-02-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C0-02-A.D02",
+					"C0-02-A.D03",
+					"C0-02-A.D04K-1",
+					"C0-02-A.D04L-1",
+					"C0-02-A.D04M-1"
+				],
+				"objective_ids": [
+					"area_hub_street_walk"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "hub_street_walk"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C0-02-A.D05",
+					"C0-02-A.D06",
+					"C0-02-A.D07",
+					"C0-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "HubStreetSeen",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-02-A",
+			"dialogue_id": "task_c0_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 0
+			}
+		},
+		"required_quest_ids": [
+			20010
+		],
+		"level_id": 0
+	},
+	"20030": {
+		"id": 20030,
+		"title": "伊莱的检查",
+		"description": "完成 C0-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{
+				"id": "talk_9016",
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_body_check",
+				"type": "named_event",
+				"event_name": "prologue_body_check",
+				"name": "按伊莱要求试着活动手脚",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-03-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-03-A.D01",
+					"C0-03-A.D02K-1",
+					"C0-03-A.D02L-1",
+					"C0-03-A.D02M-1",
+					"C0-03-A.D03",
+					"C0-03-A.D04",
+					"C0-03-A.D05K-1",
+					"C0-03-A.D05L-1",
+					"C0-03-A.D05M-1",
+					"C0-03-A.D06",
+					"C0-03-A.D07"
+				],
+				"objective_ids": [
+					"talk_9016"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-03-A-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C0-03-A.D08",
+					"C0-03-A.D09"
+				],
+				"objective_ids": [
+					"event_prologue_body_check"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MemoryGapConfirmed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-03-A",
+			"dialogue_id": "task_c0_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9016": 0
+			}
+		},
+		"required_quest_ids": [
+			20020
+		],
+		"level_id": 0
+	},
+	"20040": {
+		"id": 20040,
+		"title": "霍雷克的委托",
+		"description": "完成 C0-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_aid_signed",
+				"type": "named_event",
+				"event_name": "prologue_aid_signed",
+				"name": "自愿签下灾后协助登记",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-04-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-04-A.D01",
+					"C0-04-A.D02",
+					"C0-04-A.D03",
+					"C0-04-A.D04K-1",
+					"C0-04-A.D04L-1",
+					"C0-04-A.D04M-1",
+					"C0-04-A.D05",
+					"C0-04-A.D06"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-04-A-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
+				"node_ids": [
+					"C0-04-A.D07",
+					"C0-04-A.D08",
+					"C0-04-A.D09"
+				],
+				"objective_ids": [
+					"event_prologue_aid_signed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "VoluntaryAidAccepted",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-04-A",
+			"dialogue_id": "task_c0_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			20030
+		],
+		"level_id": 0
+	},
+	"20050": {
+		"id": 20050,
+		"title": "铁匠铺的借装",
+		"description": "完成 C0-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9012,
+		"turn_in_npc_id": 9012,
+		"objectives": [
+			{
+				"id": "talk_9012",
+				"type": "talk",
+				"npc_id": 9012,
+				"count": 1
+			},
+			{
+				"id": "event_prologue_gear_equipped",
+				"type": "named_event",
+				"event_name": "prologue_gear_equipped",
+				"name": "领取并穿戴借出装备",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-05-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-05-A.D01",
+					"C0-05-A.D02K-1",
+					"C0-05-A.D02L-1",
+					"C0-05-A.D02M-1",
+					"C0-05-A.D03K-1",
+					"C0-05-A.D03L-1",
+					"C0-05-A.D03M-1",
+					"C0-05-A.D04",
+					"C0-05-A.D05",
+					"C0-05-A.D06"
+				],
+				"objective_ids": [
+					"talk_9012"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-05-A-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C0-05-A.D07",
+					"C0-05-A.D08"
+				],
+				"objective_ids": [
+					"event_prologue_gear_equipped"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "BorrowedGearEquipped",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-05-A",
+			"dialogue_id": "task_c0_05_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9012": 0
+			}
+		},
+		"required_quest_ids": [
+			20040
+		],
+		"level_id": 0
+	},
+	"20060": {
+		"id": 20060,
+		"title": "旅团会馆",
+		"description": "完成 C0-05-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "event_hub_expedition_registered",
+				"type": "named_event",
+				"event_name": "hub_expedition_registered",
+				"name": "完成临时远征资质登记",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-06-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-06-A.D01",
+					"C0-06-A.D02",
+					"C0-06-A.D03",
+					"C0-06-A.D04",
+					"C0-06-A.D05",
+					"C0-06-A.D06",
+					"C0-06-A.D07"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-06-A-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C0-06-A.D08"
+				],
+				"objective_ids": [
+					"event_hub_expedition_registered"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GuildHallIntroduced",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-06-A",
+			"dialogue_id": "task_c0_06_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			20050
+		],
+		"level_id": 0
+	},
+	"20070": {
+		"id": 20070,
+		"title": "出发前的整备",
+		"description": "完成 C0-06-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_0",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9010,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "talk_9010",
+				"type": "talk",
+				"npc_id": 9010,
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			},
+			{
+				"id": "area_hub_to_forest",
+				"type": "area_trigger",
+				"event_name": "hub_to_forest",
+				"name": "前往星露草原（城门方向）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C0-07-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C0-07-A.D01",
+					"C0-07-A.D02",
+					"C0-07-A.D03",
+					"C0-07-A.D04K-1",
+					"C0-07-A.D04L-1",
+					"C0-07-A.D04M-1"
+				],
+				"objective_ids": [
+					"talk_9010",
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-07-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C0-07-A.D05"
+				],
+				"objective_ids": [
+					"area_hub_to_forest"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "hub_to_forest"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-07-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C0-07-A.D06",
+					"C0-07-A.D07",
+					"C0-07-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PrologueComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C0-07-A",
+			"dialogue_id": "task_c0_07_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 5120,
+				"9010": 0,
+				"9011": 2360
+			}
+		},
+		"required_quest_ids": [
+			20060
+		],
+		"level_id": 0
+	},
+	"21010": {
+		"id": 21010,
+		"title": "林洼里的药箱",
+		"description": "完成 C0-07-A 且 `PartyStage=Solo`",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9020,
+		"turn_in_npc_id": 9020,
+		"objectives": [
+			{
+				"id": "area_c1_medicine_hollow",
+				"type": "area_trigger",
+				"event_name": "c1_medicine_hollow",
+				"name": "前往林间低洼处",
+				"count": 1
+			},
+			{
+				"id": "kill_8001",
+				"type": "kill",
+				"enemy_id": 8001,
+				"count": 3,
+				"name": "击败守着药箱的史莱姆（击杀 史莱姆 enemy_8001 ×3）"
+			},
+			{
+				"id": "collect_100246",
+				"type": "collect",
+				"item_id": 100246,
+				"count": 1,
+				"name": "取回「救援药箱」(item_100246)",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "talk_9020",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-A.D01",
+					"C1-01-A.D02",
+					"C1-01-A.D03K-1",
+					"C1-01-A.D03L-1",
+					"C1-01-A.D03M-1"
+				],
+				"objective_ids": [
+					"collect_100246",
+					"talk_9020"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-01-A.D04",
+					"C1-01-A.D05",
+					"C1-01-A.D06"
+				],
+				"objective_ids": [
+					"area_c1_medicine_hollow",
+					"kill_8001"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_medicine_hollow"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-01-A.D07",
+					"C1-01-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RescueMedicineRecovered",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-A",
+			"dialogue_id": "task_c1_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9020": 0
+			}
+		},
+		"required_quest_ids": [
+			20070
+		],
+		"level_id": 1,
+		"auto_start": true
+	},
+	"21011": {
+		"id": 21011,
+		"title": "霍雷克的委托",
+		"description": "C1-01-A 完成后自动播放",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-B.D01",
+					"C1-01-B.D02",
+					"C1-01-B.D03",
+					"C1-01-B.D04",
+					"C1-01-B.D05",
+					"C1-01-B.D06",
+					"C1-01-B.D07",
+					"C1-01-B.D08"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-B-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
+				"node_ids": [
+					"C1-01-B.D09K-1",
+					"C1-01-B.D09K-2",
+					"C1-01-B.D09K-3",
+					"C1-01-B.D09L-1",
+					"C1-01-B.D09L-2",
+					"C1-01-B.D09L-3",
+					"C1-01-B.D09M-1",
+					"C1-01-B.D09M-2",
+					"C1-01-B.D09M-3"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "VoluntaryAidAccepted",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-B",
+			"dialogue_id": "task_c1_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0,
+				"9002": 0,
+				"9016": 38440
+			}
+		},
+		"required_quest_ids": [
+			21010
+		],
+		"level_id": 1,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"21012": {
+		"id": 21012,
+		"title": "仓库领取装备",
+		"description": "C1-01-B 完成后自动解锁",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9045,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			},
+			{
+				"id": "talk_9045",
+				"type": "talk",
+				"npc_id": 9045,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-C.D01",
+					"C1-01-C.D02",
+					"C1-01-C.D03"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-C-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-C.D04K-1",
+					"C1-01-C.D04K-2",
+					"C1-01-C.D04K-3",
+					"C1-01-C.D04L-1",
+					"C1-01-C.D04L-2",
+					"C1-01-C.D04L-3",
+					"C1-01-C.D04M-1",
+					"C1-01-C.D04M-2",
+					"C1-01-C.D04M-3"
+				],
+				"objective_ids": [
+					"talk_9045"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-01-C.D05",
+					"C1-01-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "SupplyAuthorizationIssued",
+					"value": true
+				},
+				{
+					"flag": "BorrowedGearIssued",
+					"value": true
+				},
+				{
+					"flag": "100001",
+					"value": 1
+				},
+				{
+					"flag": "100002",
+					"value": 1
+				},
+				{
+					"flag": "100049",
+					"value": 1
+				},
+				{
+					"flag": "100012",
+					"value": 1
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-C",
+			"dialogue_id": "task_c1_01_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0,
+				"9045": 10360
+			}
+		},
+		"required_quest_ids": [
+			21011
+		],
+		"level_id": 1,
+		"auto_start": true
+	},
+	"21013": {
+		"id": 21013,
+		"title": "出发前的安全测试",
+		"description": "装备领取完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "tutorial_c1_01_d",
+				"type": "named_event",
+				"event_name": "tutorial_c1_01_d",
+				"name": "完成基础战斗/技能教学（训练桩）",
+				"trigger": "basic_attack",
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-01-D-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-D.D00K-1",
+					"C1-01-D.D00L-1",
+					"C1-01-D.D00M-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-D-S02",
+				"title": "教学",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C1-01-D.D01K-1",
+					"C1-01-D.D01K-2",
+					"C1-01-D.D01K-3",
+					"C1-01-D.D01K-4",
+					"C1-01-D.D01L-1",
+					"C1-01-D.D01L-2",
+					"C1-01-D.D01M-1",
+					"C1-01-D.D01M-2"
+				],
+				"objective_ids": [
+					"tutorial_c1_01_d"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-01-D-S03",
+				"title": "交互",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C1-01-D.D05"
+				],
+				"objective_ids": [
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PartyStage",
+					"value": "Solo"
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-01-D",
+			"dialogue_id": "task_c1_01_d",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 32400,
+				"9016": 0
+			}
+		},
+		"required_quest_ids": [
+			21012
+		],
+		"level_id": 1
+	},
+	"21020": {
+		"id": 21020,
+		"title": "塌方林道的粮种车",
+		"description": "完成 C1-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9023,
+		"turn_in_npc_id": 9023,
+		"objectives": [
+			{
+				"id": "talk_9023",
+				"type": "talk",
+				"npc_id": 9023,
+				"count": 1
+			},
+			{
+				"id": "kill_8002",
+				"type": "kill",
+				"enemy_id": 8002,
+				"count": 4,
+				"name": "清理塌方段的怪物（击杀 傀儡 enemy_8002 ×4）"
+			},
+			{
+				"id": "area_c1_grain_cart_passed",
+				"type": "area_trigger",
+				"event_name": "c1_grain_cart_passed",
+				"name": "护送粮种车通过塌方段",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-02-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-02-A.D01",
+					"C1-02-A.D02",
+					"C1-02-A.D03K-1",
+					"C1-02-A.D03L-1",
+					"C1-02-A.D03M-1"
+				],
+				"objective_ids": [
+					"talk_9023"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-02-A.D04",
+					"C1-02-A.D05"
+				],
+				"objective_ids": [
+					"kill_8002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S03",
+				"title": "途中",
+				"order": 3,
+				"kind": "travel",
+				"node_ids": [
+					"C1-02-A.D06",
+					"C1-02-A.D07"
+				],
+				"objective_ids": [
+					"area_c1_grain_cart_passed"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_grain_cart_passed"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C1-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GrainCartEscorted",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-02-A",
+			"dialogue_id": "task_c1_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9023": 0
+			}
+		},
+		"required_quest_ids": [
+			21010
+		],
+		"level_id": 1
+	},
+	"21021": {
+		"id": 21021,
+		"title": "交药与当面道谢",
+		"description": "药箱归还",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9016,
+		"turn_in_npc_id": 9016,
+		"objectives": [
+			{
+				"id": "talk_9016",
+				"type": "talk",
+				"npc_id": 9016,
+				"count": 1
+			},
+			{
+				"id": "talk_9020",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-02-B-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-02-B.D01",
+					"C1-02-B.D02K-1",
+					"C1-02-B.D02K-2",
+					"C1-02-B.D02K-3",
+					"C1-02-B.D02L-1",
+					"C1-02-B.D02L-2",
+					"C1-02-B.D02M-1",
+					"C1-02-B.D02M-2",
+					"C1-02-B.D02M-3"
+				],
+				"objective_ids": [
+					"talk_9016"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-02-B-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C1-02-B.D05",
+					"C1-02-B.D06",
+					"C1-02-B.D07",
+					"C1-02-B.D08",
+					"C1-02-B.D09"
+				],
+				"objective_ids": [
+					"talk_9020"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RescueMedicineRecovered",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-02-B",
+			"dialogue_id": "task_c1_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9016": 0,
+				"9020": 17880
+			}
+		},
+		"required_quest_ids": [
+			21020
+		],
+		"level_id": 1
+	},
+	"21030": {
+		"id": 21030,
+		"title": "第一座救援信标",
+		"description": "完成 C1-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9022,
+		"turn_in_npc_id": 9022,
+		"objectives": [
+			{
+				"id": "area_c1_beacon_1_check",
+				"type": "area_trigger",
+				"event_name": "c1_beacon_1_check",
+				"name": "检查失效的信标",
+				"count": 1
+			},
+			{
+				"id": "collect_100254",
+				"type": "collect",
+				"item_id": 100254,
+				"count": 1,
+				"name": "从甲虫巢里取回「信标导片」(item_100254)",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "event_c1_beacon_1_lit",
+				"type": "named_event",
+				"event_name": "c1_beacon_1_lit",
+				"name": "修复信标",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-03-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-03-A.D01",
+					"C1-03-A.D02",
+					"C1-03-A.D03K-1",
+					"C1-03-A.D03L-1",
+					"C1-03-A.D03M-1"
+				],
+				"objective_ids": [
+					"collect_100254",
+					"event_c1_beacon_1_lit"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-03-A-S02",
+				"title": "收集",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-03-A.D04",
+					"C1-03-A.D05",
+					"C1-03-A.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-03-A.D07",
+					"C1-03-A.D08",
+					"C1-03-A.D09"
+				],
+				"objective_ids": [
+					"area_c1_beacon_1_check"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FirstBeaconLit",
+					"value": true
+				},
+				{
+					"flag": "OpeningSoloTasksComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-03-A",
+			"dialogue_id": "task_c1_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9022": 0
+			}
+		},
+		"required_quest_ids": [
+			21020
+		],
+		"level_id": 1
+	},
+	"21040": {
+		"id": 21040,
+		"title": "两条救援线索",
+		"description": "完成 C1-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9020,
+		"turn_in_npc_id": 9020,
+		"objectives": [
+			{
+				"id": "talk_9020",
+				"type": "talk",
+				"npc_id": 9020,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-04-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-04-A.D01",
+					"C1-04-A.D02K-1",
+					"C1-04-A.D02L-1",
+					"C1-04-A.D02M-1",
+					"C1-04-A.D03",
+					"C1-04-A.D04"
+				],
+				"objective_ids": [
+					"talk_9020"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-04-A-S02",
+				"title": "选择",
+				"order": 2,
+				"kind": "choice",
+				"node_ids": [
+					"C1-04-A.D05K",
+					"C1-04-A.D05L",
+					"C1-04-A.D05M",
+					"C1-04-A.D06a",
+					"C1-04-A.D06b",
+					"C1-04-A.D06c",
+					"C1-04-A.D07a",
+					"C1-04-A.D07b",
+					"C1-04-A.D07c",
+					"C1-04-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "SecondHeroChosen",
+					"value": true
+				},
+				{
+					"flag": "PartyStage",
+					"value": "Duo"
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-04-A",
+			"dialogue_id": "task_c1_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9020": 0
+			}
+		},
+		"required_quest_ids": [
+			21030
+		],
+		"level_id": 1
+	},
+	"21041": {
+		"id": 21041,
+		"title": "先救哪一边",
+		"description": "信标修复完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "pending_c1_04_b_1",
+				"type": "named_event",
+				"event_name": "pending_c1_04_b_1",
+				"name": "`SecondHero`（决定下一段会合对象）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-04-B-S01",
+				"title": "选择",
+				"order": 1,
+				"kind": "choice",
+				"node_ids": [
+					"C1-04-B.D01K-1",
+					"C1-04-B.D01K-2",
+					"C1-04-B.D01L-1",
+					"C1-04-B.D01L-2",
+					"C1-04-B.D01M-1",
+					"C1-04-B.D01M-2"
+				],
+				"objective_ids": [
+					"pending_c1_04_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-04-B",
+			"dialogue_id": "task_c1_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			21040
+		],
+		"level_id": 1
+	},
+	"21050": {
+		"id": 21050,
+		"title": "最后一袋信",
+		"description": "完成 C1-04-A 且 `PartyStage=Duo`",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
+		"objectives": [
+			{
+				"id": "talk_9046",
+				"type": "talk",
+				"npc_id": 9046,
+				"count": 1
+			},
+			{
+				"id": "talk_9047",
+				"type": "talk",
+				"npc_id": 9047,
+				"count": 1
+			},
+			{
+				"id": "collect_100248",
+				"type": "collect",
+				"item_id": 100248,
+				"count": 3,
+				"name": "从史莱姆藏纸点找回「信件束」(item_100248)×3",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "collect_100235",
+				"type": "collect",
+				"item_id": 100235,
+				"count": 1,
+				"name": "找回「旧邮袋」(item_100235)",
+				"consume_on_turn_in": true
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-05-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-05-A.D01",
+					"C1-05-A.D02",
+					"C1-05-A.D03a-1",
+					"C1-05-A.D03b-1",
+					"C1-05-A.D03c-1",
+					"C1-05-A.D04"
+				],
+				"objective_ids": [
+					"collect_100248",
+					"collect_100235"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-A-S02",
+				"title": "收集",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-05-A.D05",
+					"C1-05-A.D06",
+					"C1-05-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C1-05-A.D08",
+					"C1-05-A.D09",
+					"C1-05-A.D10"
+				],
+				"objective_ids": [
+					"talk_9046",
+					"talk_9047"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "LastMailbagRecovered",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-05-A",
+			"dialogue_id": "task_c1_05_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9003": 0
+			}
+		},
+		"required_quest_ids": [
+			21040
+		],
+		"level_id": 1
+	},
+	"21051": {
+		"id": 21051,
+		"title": "签下同行者",
+		"description": "突围战后",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "pending_c1_05_b_2",
+				"type": "named_event",
+				"event_name": "pending_c1_05_b_2",
+				"name": "在霍雷克的临时同行契约上登记第二名主角身份",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-05-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-05-B.D01a-1",
+					"C1-05-B.D01a-2",
+					"C1-05-B.D01b-1",
+					"C1-05-B.D01b-2",
+					"C1-05-B.D01b-3",
+					"C1-05-B.D01c-1",
+					"C1-05-B.D01c-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-05-B.D04",
+					"C1-05-B.D05a",
+					"C1-05-B.D05b-1",
+					"C1-05-B.D05b-2",
+					"C1-05-B.D05c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S03",
+				"title": "选择",
+				"order": 3,
+				"kind": "choice",
+				"node_ids": [
+					"C1-05-B.D08a",
+					"C1-05-B.D08b",
+					"C1-05-B.D08c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-05-B-S04",
+				"title": "系统",
+				"order": 4,
+				"kind": "system",
+				"node_ids": [
+					"C1-05-B.D11",
+					"C1-05-B.D12a",
+					"C1-05-B.D12b",
+					"C1-05-B.D12c"
+				],
+				"objective_ids": [
+					"pending_c1_05_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PartyStage",
+					"value": "Duo"
+				},
+				{
+					"flag": "SecondHeroJoined",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-05-B",
+			"dialogue_id": "task_c1_05_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			21050
+		],
+		"level_id": 1
+	},
+	"21060": {
+		"id": 21060,
+		"title": "退热药与林道投递",
+		"description": "完成 C1-05-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9025,
+		"objectives": [
+			{
+				"id": "area_c1_mail_route_2",
+				"type": "area_trigger",
+				"event_name": "c1_mail_route_2",
+				"name": "替洛伯押送药包与信件",
+				"count": 1
+			},
+			{
+				"id": "kill_8021",
+				"type": "kill",
+				"enemy_id": 8021,
+				"count": 2,
+				"name": "击退沿途抢东西的甲虫（击杀 精英甲虫 enemy_8021 ×2）"
+			},
+			{
+				"id": "talk_9025",
+				"type": "talk",
+				"npc_id": 9025,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-06-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-06-A.D01",
+					"C1-06-A.D02a-1",
+					"C1-06-A.D02b-1",
+					"C1-06-A.D02c-1",
+					"C1-06-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S02",
+				"title": "护送",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-06-A.D04",
+					"C1-06-A.D05a-1",
+					"C1-06-A.D05b-1",
+					"C1-06-A.D05c-1"
+				],
+				"objective_ids": [
+					"kill_8021"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S03",
+				"title": "途中",
+				"order": 3,
+				"kind": "travel",
+				"node_ids": [
+					"C1-06-A.D06"
+				],
+				"objective_ids": [
+					"area_c1_mail_route_2"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_mail_route_2"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C1-06-A.D07",
+					"C1-06-A.D08",
+					"C1-06-A.D09"
+				],
+				"objective_ids": [
+					"talk_9025"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MailRoutePartiallyRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-06-A",
+			"dialogue_id": "task_c1_06_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9003": 0,
+				"9025": 24880
+			}
+		},
+		"required_quest_ids": [
+			21050
+		],
+		"level_id": 1
+	},
+	"21061": {
+		"id": 21061,
+		"title": "架绳桥送药",
+		"description": "工匠架起绳桥",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9024,
+		"turn_in_npc_id": 9024,
+		"objectives": [
+			{
+				"id": "pending_c1_06_b_1",
+				"type": "named_event",
+				"event_name": "pending_c1_06_b_1",
+				"name": "护送退热药与第一捆信过绳桥",
+				"count": 1
+			},
+			{
+				"id": "pending_c1_06_b_2",
+				"type": "named_event",
+				"event_name": "pending_c1_06_b_2",
+				"name": "完成过河顺序管理（限人/限包）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-06-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-06-B.D01",
+					"C1-06-B.D02-1",
+					"C1-06-B.D02-2",
+					"C1-06-B.D03a",
+					"C1-06-B.D03b",
+					"C1-06-B.D03c"
+				],
+				"objective_ids": [
+					"pending_c1_06_b_1",
+					"pending_c1_06_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RiverVillageReached",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-06-B",
+			"dialogue_id": "task_c1_06_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9003": 2440,
+				"9024": 0
+			}
+		},
+		"required_quest_ids": [
+			21060
+		],
+		"level_id": 1
+	},
+	"21062": {
+		"id": 21062,
+		"title": "投递剩下的信",
+		"description": "药品送达",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9003,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9003,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-06-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-06-C.D01",
+					"C1-06-C.D02",
+					"C1-06-C.D03-1",
+					"C1-06-C.D03-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C1-06-C.D04K",
+					"C1-06-C.D04L",
+					"C1-06-C.D04M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-06-C-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C1-06-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "LastMailbagResolved",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-06-C",
+			"dialogue_id": "task_c1_06_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9003": 0
+			}
+		},
+		"required_quest_ids": [
+			21061
+		],
+		"level_id": 1
+	},
+	"21070": {
+		"id": 21070,
+		"title": "第三座信标前的会合",
+		"description": "完成 C1-06-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9022,
+		"turn_in_npc_id": 9022,
+		"objectives": [
+			{
+				"id": "area_c1_beacon_3_arrive",
+				"type": "area_trigger",
+				"event_name": "c1_beacon_3_arrive",
+				"name": "抵达第三座信标",
+				"count": 1
+			},
+			{
+				"id": "event_c1_beacon_3_lit",
+				"type": "named_event",
+				"event_name": "c1_beacon_3_lit",
+				"name": "合力修复信标",
+				"count": 1
+			},
+			{
+				"id": "event_c1_third_hero_joined",
+				"type": "named_event",
+				"event_name": "c1_third_hero_joined",
+				"name": "与最后一名主角会合",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-07-A-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-07-A.D01",
+					"C1-07-A.D02",
+					"C1-07-A.D03"
+				],
+				"objective_ids": [
+					"area_c1_beacon_3_arrive"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c1_beacon_3_arrive"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-07-A.D04a",
+					"C1-07-A.D04b",
+					"C1-07-A.D04c",
+					"C1-07-A.D05a-1",
+					"C1-07-A.D05b-1",
+					"C1-07-A.D05c-1",
+					"C1-07-A.D06",
+					"C1-07-A.D07",
+					"C1-07-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C1-07-A.D09"
+				],
+				"objective_ids": [
+					"event_c1_beacon_3_lit",
+					"event_c1_third_hero_joined"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "ThreeMainHeroesAssembled",
+					"value": true
+				},
+				{
+					"flag": "PartyStage",
+					"value": "Trio"
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-07-A",
+			"dialogue_id": "task_c1_07_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9022": 0
+			}
+		},
+		"required_quest_ids": [
+			21060
+		],
+		"level_id": 1
+	},
+	"21071": {
+		"id": 21071,
+		"title": "第三信标前的会合",
+		"description": "第二信标亮起，发现第三名主角的独立信号",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c1_07_b_2",
+				"type": "named_event",
+				"event_name": "pending_c1_07_b_2",
+				"name": "会合并完成入队对白",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-07-B-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C1-07-B.D01a",
+					"C1-07-B.D01b",
+					"C1-07-B.D01c"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-07-B.D04a-1",
+					"C1-07-B.D04a-2",
+					"C1-07-B.D04a-3",
+					"C1-07-B.D04a-4",
+					"C1-07-B.D04b-1",
+					"C1-07-B.D04b-2",
+					"C1-07-B.D04b-3",
+					"C1-07-B.D04b-4",
+					"C1-07-B.D04b-5",
+					"C1-07-B.D04c-1",
+					"C1-07-B.D04c-2",
+					"C1-07-B.D04c-3",
+					"C1-07-B.D04c-4"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S03",
+				"title": "战斗",
+				"order": 3,
+				"kind": "combat",
+				"node_ids": [
+					"C1-07-B.D07",
+					"C1-07-B.D08",
+					"C1-07-B.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-07-B-S04",
+				"title": "交互",
+				"order": 4,
+				"kind": "interact",
+				"node_ids": [
+					"C1-07-B.D10",
+					"C1-07-B.D11",
+					"C1-07-B.D12",
+					"C1-07-B.D13"
+				],
+				"objective_ids": [
+					"pending_c1_07_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PartyStage",
+					"value": "Trio"
+				},
+				{
+					"flag": "ThirdHeroJoined",
+					"value": true
+				},
+				{
+					"flag": "AllBeaconsRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-07-B",
+			"dialogue_id": "task_c1_07_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			21070
+		],
+		"level_id": 1,
+		"auto_start": true
+	},
+	"21072": {
+		"id": 21072,
+		"title": "三份档案盒",
+		"description": "碎片记录完成",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-07-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-07-C.D01",
+					"C1-07-C.D02",
+					"C1-07-C.D03",
+					"C1-07-C.D04"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C1-07-C",
+			"dialogue_id": "task_c1_07_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0
+			}
+		},
+		"required_quest_ids": [
+			21071
+		],
+		"level_id": 1
+	},
+	"21080": {
+		"id": 21080,
+		"title": "咕噜姆与失路哨兵",
+		"description": "完成 C1-07-A 且 `PartyStage=Trio`",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9003,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "kill_8027",
+				"type": "kill",
+				"enemy_id": 8027,
+				"count": 1,
+				"name": "击败咕噜姆（击杀 咕噜姆 enemy_8027 ×1，先分离受污染黑核）"
+			},
+			{
+				"id": "event_c1_starwedge_1_calibrated",
+				"type": "named_event",
+				"event_name": "c1_starwedge_1_calibrated",
+				"name": "校准第一枚星楔",
+				"count": 1
+			},
+			{
+				"id": "event_c1_stray_sentinel_repelled",
+				"type": "named_event",
+				"event_name": "c1_stray_sentinel_repelled",
+				"name": "驱退失路哨兵（剧情战）",
+				"count": 1
+			},
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-08-A-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-A.D01",
+					"C1-08-A.D02",
+					"C1-08-A.D03K-1",
+					"C1-08-A.D03L-1",
+					"C1-08-A.D03M-1",
+					"C1-08-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-A.D05",
+					"C1-08-A.D06K-1",
+					"C1-08-A.D06L-1",
+					"C1-08-A.D06M-1",
+					"C1-08-A.D07",
+					"C1-08-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S03",
+				"title": "战斗",
+				"order": 3,
+				"kind": "combat",
+				"node_ids": [
+					"C1-08-A.D09",
+					"C1-08-A.D10",
+					"C1-08-A.D11"
+				],
+				"objective_ids": [
+					"kill_8027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S04",
+				"title": "过场",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-A.D12",
+					"C1-08-A.D13",
+					"C1-08-A.D14",
+					"C1-08-A.D15K-1",
+					"C1-08-A.D15L-1",
+					"C1-08-A.D15M-1",
+					"C1-08-A.D16"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-A-S05",
+				"title": "交付",
+				"order": 5,
+				"kind": "complete",
+				"node_ids": [
+					"C1-08-A.D17",
+					"C1-08-A.D18",
+					"C1-08-A.D19"
+				],
+				"objective_ids": [
+					"event_c1_starwedge_1_calibrated",
+					"event_c1_stray_sentinel_repelled",
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter1Complete",
+					"value": true
+				},
+				{
+					"flag": "RoyalLeyRestorationOperation",
+					"value": true
+				},
+				{
+					"flag": "GulumBefriended",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-A",
+			"dialogue_id": "task_c1_08_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 102060,
+				"9003": 0
+			}
+		},
+		"required_quest_ids": [
+			21070
+		],
+		"level_id": 0
+	},
+	"21081": {
+		"id": 21081,
+		"title": "校准第一枚星楔",
+		"description": "邮站事件后，霍雷克给出星楔坐标",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c1_08_b_1",
+				"type": "named_event",
+				"event_name": "pending_c1_08_b_1",
+				"name": "三人协作校准第一枚星楔（三人机关：报拍、固定、盯水位）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-08-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C1-08-B.D01",
+					"C1-08-B.D02",
+					"C1-08-B.D03",
+					"C1-08-B.D04"
+				],
+				"objective_ids": [
+					"pending_c1_08_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge01Calibrated",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-B",
+			"dialogue_id": "task_c1_08_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			21080
+		],
+		"level_id": 1,
+		"auto_start": true
+	},
+	"21082": {
+		"id": 21082,
+		"title": "失路哨兵",
+		"description": "校准返程遭遇",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "pending_c1_08_c_3",
+				"type": "named_event",
+				"event_name": "pending_c1_08_c_3",
+				"name": "护送补给队过桥后开打",
+				"count": 1
+			},
+			{
+				"id": "pending_c1_08_c_4",
+				"type": "named_event",
+				"event_name": "pending_c1_08_c_4",
+				"name": "战后调查残甲、盾步与封令",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-08-C-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C1-08-C.D01-1",
+					"C1-08-C.D01-2",
+					"C1-08-C.D02",
+					"C1-08-C.D03",
+					"C1-08-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-C-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C1-08-C.D05",
+					"C1-08-C.D06",
+					"C1-08-C.D07",
+					"C1-08-C.D08",
+					"C1-08-C.D09",
+					"C1-08-C.D10-1",
+					"C1-08-C.D10-2",
+					"C1-08-C.D10-3",
+					"C1-08-C.D11"
+				],
+				"objective_ids": [
+					"pending_c1_08_c_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-C-S03",
+				"title": "调查",
+				"order": 3,
+				"kind": "explore",
+				"node_ids": [
+					"C1-08-C.D12",
+					"C1-08-C.D13",
+					"C1-08-C.D14"
+				],
+				"objective_ids": [
+					"pending_c1_08_c_4"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MemoryFragmentStage",
+					"value": 1
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-C",
+			"dialogue_id": "task_c1_08_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			21081
+		],
+		"level_id": 1
+	},
+	"21083": {
+		"id": 21083,
+		"title": "善后院的通行令",
+		"description": "哨兵调查完成，联络官通讯接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_1",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C1-08-D-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C1-08-D.D01",
+					"C1-08-D.D02",
+					"C1-08-D.D03",
+					"C1-08-D.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C1-08-D-S02",
+				"title": "城镇",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C1-08-D.D05",
+					"C1-08-D.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter01Complete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C1-08-D",
+			"dialogue_id": "task_c1_08_d",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			21082
+		],
+		"level_id": 0
+	},
+	"22010": {
+		"id": 22010,
+		"title": "重复关门的遗响",
+		"description": "完成 C1-08-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "area_c2_gate_arch",
+				"type": "area_trigger",
+				"event_name": "c2_gate_arch",
+				"name": "接近遗迹深处残拱门",
+				"count": 1
+			},
+			{
+				"id": "collect_100238",
+				"type": "collect",
+				"item_id": 100238,
+				"count": 1,
+				"name": "在碎石堆里找到木风车的三个部件（收集 「风车叶片」「风车轴」「风车底座」各1【占位 item】）",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "kill_8013",
+				"type": "kill",
+				"enemy_id": 8013,
+				"count": 3,
+				"name": "击退被惊动的亡灵守卫（击杀 亡魂 enemy_8013 ×3）"
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-01-A.D01",
+					"C2-01-A.D02",
+					"C2-01-A.D03K-1",
+					"C2-01-A.D03L-1",
+					"C2-01-A.D03M-1"
+				],
+				"objective_ids": [
+					"area_c2_gate_arch"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c2_gate_arch"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-A-S02",
+				"title": "收集",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C2-01-A.D04",
+					"C2-01-A.D05",
+					"C2-01-A.D06"
+				],
+				"objective_ids": [
+					"collect_100238",
+					"kill_8013"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-01-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "WindmillPartsFound",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-01-A",
+			"dialogue_id": "task_c2_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9004": 0
+			}
+		},
+		"required_quest_ids": [
+			21080
+		],
+		"level_id": 2,
+		"auto_start": true
+	},
+	"22011": {
+		"id": 22011,
+		"title": "木风车的三个部件",
+		"description": "确认目标：寻找木风车部件",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c2_01_b_1",
+				"type": "named_event",
+				"event_name": "pending_c2_01_b_1",
+				"name": "沿三条支路取回叶片、风车轴、底座（探索 3/3，各含一段小型协作解谜）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-01-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C2-01-B.D01",
+					"C2-01-B.D02",
+					"C2-01-B.D03",
+					"C2-01-B.D04"
+				],
+				"objective_ids": [
+					"pending_c2_01_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "WindmillParts",
+					"value": 3
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-01-B",
+			"dialogue_id": "task_c2_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			22010
+		],
+		"level_id": 2,
+		"auto_start": true
+	},
+	"22012": {
+		"id": 22012,
+		"title": "守门所攻防",
+		"description": "部件收齐返回守门所，钟声唤醒守卫",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9013,
+		"turn_in_npc_id": 9013,
+		"objectives": [
+			{
+				"id": "pending_c2_01_c_1",
+				"type": "named_event",
+				"event_name": "pending_c2_01_c_1",
+				"name": "击败亡灵守卫 ×4、石像 ×2（保护运粮车与守门兵遗响）",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_01_c_5",
+				"type": "named_event",
+				"event_name": "pending_c2_01_c_5",
+				"name": "完成风车试装（装好但未启动）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-01-C-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C2-01-C.D01",
+					"C2-01-C.D02-1",
+					"C2-01-C.D02-2",
+					"C2-01-C.D03"
+				],
+				"objective_ids": [
+					"pending_c2_01_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S02",
+				"title": "条件对白",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C2-01-C.D04",
+					"C2-01-C.D05-1",
+					"C2-01-C.D05-2",
+					"C2-01-C.D05-3"
+				],
+				"objective_ids": [
+					"pending_c2_01_c_5"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S03",
+				"title": "途中",
+				"order": 3,
+				"kind": "travel",
+				"node_ids": [
+					"C2-01-C.D06",
+					"C2-01-C.D07",
+					"C2-01-C.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-01-C-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C2-01-C.D09",
+					"C2-01-C.D10",
+					"C2-01-C.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GateOrderTraceFound",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-01-C",
+			"dialogue_id": "task_c2_01_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9013": 0
+			}
+		},
+		"required_quest_ids": [
+			22011
+		],
+		"level_id": 2
+	},
+	"22020": {
+		"id": 22020,
+		"title": "等最后一个孩子过去",
+		"description": "完成 C2-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "event_c2_windmill_set",
+				"type": "named_event",
+				"event_name": "c2_windmill_set",
+				"name": "把木风车装回残拱边的旧轴座",
+				"count": 1
+			},
+			{
+				"id": "event_c2_last_child_passed",
+				"type": "named_event",
+				"event_name": "c2_last_child_passed",
+				"name": "护送最后一段孩子遗响通过残拱",
+				"count": 1
+			},
+			{
+				"id": "event_c2_gate_closed",
+				"type": "named_event",
+				"event_name": "c2_gate_closed",
+				"name": "看守门兵关上门",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-02-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-A.D01",
+					"C2-02-A.D02",
+					"C2-02-A.D03",
+					"C2-02-A.D04K-1",
+					"C2-02-A.D04L-1",
+					"C2-02-A.D04M-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-02-A.D05",
+					"C2-02-A.D06",
+					"C2-02-A.D07",
+					"C2-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-02-A.D09"
+				],
+				"objective_ids": [
+					"event_c2_windmill_set",
+					"event_c2_last_child_passed",
+					"event_c2_gate_closed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GatekeeperStoryComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-02-A",
+			"dialogue_id": "task_c2_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9004": 0
+			}
+		},
+		"required_quest_ids": [
+			22010
+		],
+		"level_id": 2
+	},
+	"22021": {
+		"id": 22021,
+		"title": "护送孩子过门",
+		"description": "孩子遗响出现，抱住风车不肯过门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c2_02_b_1",
+				"type": "named_event",
+				"event_name": "pending_c2_02_b_1",
+				"name": "露娜引导孩子跨过门槛（路线选择权归孩子）",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_02_b_2",
+				"type": "named_event",
+				"event_name": "pending_c2_02_b_2",
+				"name": "护送孩子走完全程，击退守门魔偶 ×6（两波）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-02-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-B.D01",
+					"C2-02-B.D02",
+					"C2-02-B.D03"
+				],
+				"objective_ids": [
+					"pending_c2_02_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-B-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C2-02-B.D04",
+					"C2-02-B.D05",
+					"C2-02-B.D06",
+					"C2-02-B.D07"
+				],
+				"objective_ids": [
+					"pending_c2_02_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-02-B",
+			"dialogue_id": "task_c2_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			22020
+		],
+		"level_id": 2,
+		"auto_start": true
+	},
+	"22022": {
+		"id": 22022,
+		"title": "十七，闭门",
+		"description": "孩子越过最后一道月纹线",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9004,
+		"turn_in_npc_id": 9004,
+		"objectives": [
+			{
+				"id": "pending_c2_02_c_1",
+				"type": "named_event",
+				"event_name": "pending_c2_02_c_1",
+				"name": "玩家手动拉下门闩（按 LeadHero 分支演出）",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_02_c_2",
+				"type": "named_event",
+				"event_name": "pending_c2_02_c_2",
+				"name": "守门兵遗响完成最后一次计数，循环结束",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_02_c_3",
+				"type": "named_event",
+				"event_name": "pending_c2_02_c_3",
+				"name": "封存两版命令与全部证物",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-02-C-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-02-C.D01K",
+					"C2-02-C.D01L",
+					"C2-02-C.D01M"
+				],
+				"objective_ids": [
+					"pending_c2_02_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-C-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-02-C.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-02-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C2-02-C.D05",
+					"C2-02-C.D06"
+				],
+				"objective_ids": [
+					"pending_c2_02_c_2",
+					"pending_c2_02_c_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "LastChildEchoEscorted",
+					"value": true
+				},
+				{
+					"flag": "CurfewGateResolved",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-02-C",
+			"dialogue_id": "task_c2_02_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9004": 0
+			}
+		},
+		"required_quest_ids": [
+			22021
+		],
+		"level_id": 2
+	},
+	"22030": {
+		"id": 22030,
+		"title": "主角的职业房间",
+		"description": "完成 C2-02-A 且持有 item_100237",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "event_c2_legacy_room_opened",
+				"type": "named_event",
+				"event_name": "c2_legacy_room_opened",
+				"name": "用凝胶记忆膜开启与主角共鸣的旧门",
+				"count": 1
+			},
+			{
+				"id": "kill_8020",
+				"type": "kill",
+				"enemy_id": 8020,
+				"count": 2,
+				"name": "完成房间内的回响试炼（击杀 石人 enemy_8020 ×2）"
+			},
+			{
+				"id": "event_c2_pact_legacy_acquired",
+				"type": "named_event",
+				"event_name": "c2_pact_legacy_acquired",
+				"name": "取得主契遗装",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-03-A-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-03-A.D01",
+					"C2-03-A.D02"
+				],
+				"objective_ids": [
+					"event_c2_legacy_room_opened"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-03-A.D03K-1",
+					"C2-03-A.D03L-1",
+					"C2-03-A.D03M-1",
+					"C2-03-A.D04K-1",
+					"C2-03-A.D04L-1",
+					"C2-03-A.D04M-1",
+					"C2-03-A.D05",
+					"C2-03-A.D06K-1",
+					"C2-03-A.D06L-1",
+					"C2-03-A.D06M-1",
+					"C2-03-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C2-03-A.D08"
+				],
+				"objective_ids": [
+					"kill_8020",
+					"event_c2_pact_legacy_acquired"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PactLegacyAcquired",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Knight",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Archer",
+					"value": true
+				},
+				{
+					"flag": "PactLegacy_Mage",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-03-A",
+			"dialogue_id": "task_c2_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			22020
+		],
+		"level_id": 2,
+		"auto_start": true,
+		"auto_complete": true
+	},
+	"22031": {
+		"id": 22031,
+		"title": "职业房试炼",
+		"description": "主角机关通过，房间唤醒守卫",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c2_03_b_1",
+				"type": "named_event",
+				"event_name": "pending_c2_03_b_1",
+				"name": "击败职业机关怪 ×3、守卫精英 ×1；门外两名同伴各提供一次不可替代援助（报位/锁门）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-03-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C2-03-B.D01",
+					"C2-03-B.D02",
+					"C2-03-B.D03"
+				],
+				"objective_ids": [
+					"pending_c2_03_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C2-03-B",
+			"dialogue_id": "task_c2_03_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			22030
+		],
+		"level_id": 2,
+		"auto_start": true
+	},
+	"22032": {
+		"id": 22032,
+		"title": "主契遗装",
+		"description": "守卫停机，房间记录与遗装残片绑定",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c2_03_c_1",
+				"type": "named_event",
+				"event_name": "pending_c2_03_c_1",
+				"name": "取得当前存档唯一主契遗装（莱昂：归城残盾／露娜：无路之弦／米娅：缺页星典）",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_03_c_2",
+				"type": "named_event",
+				"event_name": "pending_c2_03_c_2",
+				"name": "交付检查（按 LeadHero 分支）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-03-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C2-03-C.D01K-1",
+					"C2-03-C.D01K-2",
+					"C2-03-C.D01L",
+					"C2-03-C.D01M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-03-C-S02",
+				"title": "系统",
+				"order": 2,
+				"kind": "system",
+				"node_ids": [
+					"C2-03-C.D05"
+				],
+				"objective_ids": [
+					"pending_c2_03_c_1",
+					"pending_c2_03_c_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "PactLegacyAcquired",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-03-C",
+			"dialogue_id": "task_c2_03_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			22031
+		],
+		"level_id": 2,
+		"auto_start": true,
+		"auto_complete": true
+	},
+	"22040": {
+		"id": 22040,
+		"title": "阿尔戈的钟",
+		"description": "完成 C2-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9013,
+		"turn_in_npc_id": 9013,
+		"objectives": [
+			{
+				"id": "talk_9013",
+				"type": "talk",
+				"npc_id": 9013,
+				"count": 1
+			},
+			{
+				"id": "event_c2_bell_mechanism_down",
+				"type": "named_event",
+				"event_name": "c2_bell_mechanism_down",
+				"name": "击破钟楼机关",
+				"count": 1
+			},
+			{
+				"id": "kill_8028",
+				"type": "kill",
+				"enemy_id": 8028,
+				"count": 1,
+				"name": "击败阿尔戈（击杀 阿尔戈 enemy_8028 ×1）"
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-04-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-A.D01",
+					"C2-04-A.D02",
+					"C2-04-A.D03"
+				],
+				"objective_ids": [
+					"talk_9013",
+					"event_c2_bell_mechanism_down"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C2-04-A.D04",
+					"C2-04-A.D05",
+					"C2-04-A.D06"
+				],
+				"objective_ids": [
+					"kill_8028"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C2-04-A.D07",
+					"C2-04-A.D08",
+					"C2-04-A.D09K-1",
+					"C2-04-A.D09L-1",
+					"C2-04-A.D09M-1",
+					"C2-04-A.D10",
+					"C2-04-A.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C2-04-A.D12",
+					"C2-04-A.D13",
+					"C2-04-A.D14"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter2Complete",
+					"value": true
+				},
+				{
+					"flag": "OzRecruitUnlocked",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-04-A",
+			"dialogue_id": "task_c2_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9013": 0
+			}
+		},
+		"required_quest_ids": [
+			22030
+		],
+		"level_id": 2
+	},
+	"22041": {
+		"id": 22041,
+		"title": "月影钟停",
+		"description": "四枚接班印全部落位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9028,
+		"turn_in_npc_id": 9028,
+		"objectives": [
+			{
+				"id": "pending_c2_04_b_1",
+				"type": "named_event",
+				"event_name": "pending_c2_04_b_1",
+				"name": "确认四座副钟连续接拍（机关验证）",
+				"count": 1
+			},
+			{
+				"id": "pending_c2_04_b_3",
+				"type": "named_event",
+				"event_name": "pending_c2_04_b_3",
+				"name": "调查取楔台：脉化编队装备牌 ×3、撤离后令、巡逻线矛盾",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-04-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-B.D01",
+					"C2-04-B.D02",
+					"C2-04-B.D03",
+					"C2-04-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-B-S02",
+				"title": "调查",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C2-04-B.D05",
+					"C2-04-B.D06",
+					"C2-04-B.D07"
+				],
+				"objective_ids": [
+					"pending_c2_04_b_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-B-S03",
+				"title": "主角反应",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-B.D08K",
+					"C2-04-B.D08L",
+					"C2-04-B.D08M"
+				],
+				"objective_ids": [
+					"pending_c2_04_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge02Calibrated",
+					"value": true
+				},
+				{
+					"flag": "ArmyRosterContradiction",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-04-B",
+			"dialogue_id": "task_c2_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9028": 0
+			}
+		},
+		"required_quest_ids": [
+			22040
+		],
+		"level_id": 2
+	},
+	"22042": {
+		"id": 22042,
+		"title": "善后院的解释",
+		"description": "证物封存完成，联络官接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_2",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "pending_c2_04_c_2",
+				"type": "named_event",
+				"event_name": "pending_c2_04_c_2",
+				"name": "霍雷克远程见证封存，章节结算",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C2-04-C-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C2-04-C.D01",
+					"C2-04-C.D02K",
+					"C2-04-C.D02L",
+					"C2-04-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C2-04-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C2-04-C.D05",
+					"C2-04-C.D06",
+					"C2-04-C.D07"
+				],
+				"objective_ids": [
+					"pending_c2_04_c_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter02Complete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C2-04-C",
+			"dialogue_id": "task_c2_04_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 16600,
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			22041
+		],
+		"level_id": 2
+	},
+	"23010": {
+		"id": 23010,
+		"title": "停办的毕业考试",
+		"description": "完成 C2-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "talk_9005",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			},
+			{
+				"id": "event_c3_quiz_answered",
+				"type": "named_event",
+				"event_name": "c3_quiz_answered",
+				"name": "陪它答完今天的三道考题",
+				"count": 1
+			},
+			{
+				"id": "pending_c3_01_a_3",
+				"type": "named_event",
+				"event_name": "pending_c3_01_a_3",
+				"name": "弄清考题数字的含义（收集 「考卷残页」×1）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-01-A.D01",
+					"C3-01-A.D02",
+					"C3-01-A.D03",
+					"C3-01-A.D04K-1",
+					"C3-01-A.D04L-1",
+					"C3-01-A.D04M-1"
+				],
+				"objective_ids": [
+					"talk_9005"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-A-S02",
+				"title": "交互",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C3-01-A.D05",
+					"C3-01-A.D06",
+					"C3-01-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-01-A.D08"
+				],
+				"objective_ids": [
+					"event_c3_quiz_answered",
+					"pending_c3_01_a_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "SeventeenMet",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-01-A",
+			"dialogue_id": "task_c3_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9005": 0
+			}
+		},
+		"required_quest_ids": [
+			22040
+		],
+		"level_id": 3,
+		"auto_start": true
+	},
+	"23011": {
+		"id": 23011,
+		"title": "最后一场考试资格",
+		"description": "答卷页收齐",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "pending_c3_01_b_1",
+				"type": "named_event",
+				"event_name": "pending_c3_01_b_1",
+				"name": "把三组「错误答案」标回平面图，连成通往封存区的路线",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-01-B.D01",
+					"C3-01-B.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-B-S02",
+				"title": "主角动作",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C3-01-B.D03K-1",
+					"C3-01-B.D03L",
+					"C3-01-B.D03M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-01-B-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-01-B.D06",
+					"C3-01-B.D07K",
+					"C3-01-B.D07L",
+					"C3-01-B.D07M",
+					"C3-01-B.D10"
+				],
+				"objective_ids": [
+					"pending_c3_01_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "ArchiveCabinetLocated",
+					"value": true
+				},
+				{
+					"flag": "No17ExamEligible",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-01-B",
+			"dialogue_id": "task_c3_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9005": 0,
+				"9029": 12360
+			}
+		},
+		"required_quest_ids": [
+			23010
+		],
+		"level_id": 3
+	},
+	"23020": {
+		"id": 23020,
+		"title": "十七号的答案",
+		"description": "完成 C3-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "area_c3_last_question",
+				"type": "area_trigger",
+				"event_name": "c3_last_question",
+				"name": "帮十七号找到最后一题的作答场所（石栏平台）",
+				"count": 1
+			},
+			{
+				"id": "talk_9005",
+				"type": "talk",
+				"npc_id": 9005,
+				"count": 1
+			},
+			{
+				"id": "event_c3_seventeen_graduated",
+				"type": "named_event",
+				"event_name": "c3_seventeen_graduated",
+				"name": "看它交卷",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-02-A-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-A.D01"
+				],
+				"objective_ids": [
+					"talk_9005"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C3-02-A.D02",
+					"C3-02-A.D03",
+					"C3-02-A.D04L-1",
+					"C3-02-A.D04K-1",
+					"C3-02-A.D04M-1"
+				],
+				"objective_ids": [
+					"area_c3_last_question"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c3_last_question"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-02-A.D05",
+					"C3-02-A.D06",
+					"C3-02-A.D07",
+					"C3-02-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-A-S04",
+				"title": "系统",
+				"order": 4,
+				"kind": "system",
+				"node_ids": [
+					"C3-02-A.D09"
+				],
+				"objective_ids": [
+					"event_c3_seventeen_graduated"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "SeventeenGraduated",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-02-A",
+			"dialogue_id": "task_c3_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9005": 0
+			}
+		},
+		"required_quest_ids": [
+			23010
+		],
+		"level_id": 3
+	},
+	"23021": {
+		"id": 23021,
+		"title": "点塔顺序",
+		"description": "烛芯收齐",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9005,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "pending_c3_02_b_1",
+				"type": "named_event",
+				"event_name": "pending_c3_02_b_1",
+				"name": "点塔顺序（错误则首塔熄灭并放出追加元素体，失败记录写在塔基）",
+				"count": 1
+			},
+			{
+				"id": "pending_c3_02_b_2",
+				"type": "named_event",
+				"event_name": "pending_c3_02_b_2",
+				"name": "主角完成最后一塔（按 LeadHero 分支）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-02-B-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-B.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C3-02-B.D02",
+					"C3-02-B.D03",
+					"C3-02-B.D04",
+					"C3-02-B.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S03",
+				"title": "主角动作",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C3-02-B.D06K",
+					"C3-02-B.D06L",
+					"C3-02-B.D06M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-02-B-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C3-02-B.D09",
+					"C3-02-B.D10",
+					"C3-02-B.D11"
+				],
+				"objective_ids": [
+					"pending_c3_02_b_1",
+					"pending_c3_02_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FourCandleTowersStable",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-02-B",
+			"dialogue_id": "task_c3_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9005": 0
+			}
+		},
+		"required_quest_ids": [
+			23020
+		],
+		"level_id": 3
+	},
+	"23030": {
+		"id": 23030,
+		"title": "四座烛塔",
+		"description": "完成 C3-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9029,
+		"turn_in_npc_id": 9029,
+		"objectives": [
+			{
+				"id": "area_c3_tower_1",
+				"type": "area_trigger",
+				"event_name": "c3_tower_1",
+				"name": "重启第一座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_2",
+				"type": "area_trigger",
+				"event_name": "c3_tower_2",
+				"name": "重启第二座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_3",
+				"type": "area_trigger",
+				"event_name": "c3_tower_3",
+				"name": "重启第三座烛塔",
+				"count": 1
+			},
+			{
+				"id": "area_c3_tower_4",
+				"type": "area_trigger",
+				"event_name": "c3_tower_4",
+				"name": "重启第四座烛塔",
+				"count": 1
+			},
+			{
+				"id": "kill_8002",
+				"type": "kill",
+				"enemy_id": 8002,
+				"count": 6,
+				"name": "打断看守烛塔的学院魔偶（击杀 傀儡 enemy_8002 ×6）"
+			},
+			{
+				"id": "event_c3_roster_escorted",
+				"type": "named_event",
+				"event_name": "c3_roster_escorted",
+				"name": "护送点名册通过烛塔回路",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-03-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-03-A.D01",
+					"C3-03-A.D02",
+					"C3-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C3-03-A.D04",
+					"C3-03-A.D05M-1",
+					"C3-03-A.D05K-1",
+					"C3-03-A.D05L-1",
+					"C3-03-A.D06",
+					"C3-03-A.D07"
+				],
+				"objective_ids": [
+					"kill_8002",
+					"event_c3_roster_escorted"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C3-03-A.D08"
+				],
+				"objective_ids": [
+					"area_c3_tower_1",
+					"area_c3_tower_2",
+					"area_c3_tower_3",
+					"area_c3_tower_4"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FourTowersLit",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-03-A",
+			"dialogue_id": "task_c3_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9029": 0
+			}
+		},
+		"required_quest_ids": [
+			23020
+		],
+		"level_id": 3
+	},
+	"23031": {
+		"id": 23031,
+		"title": "护送名册过三道门",
+		"description": "名册补齐，十七号取得随行资格",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c3_03_b_1",
+				"type": "named_event",
+				"event_name": "pending_c3_03_b_1",
+				"name": "护送十七号与名册通过三道点名门，每道门放入一页名册并击退学院魔偶（三段战斗）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-03-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C3-03-B.D01",
+					"C3-03-B.D02",
+					"C3-03-B.D03"
+				],
+				"objective_ids": [
+					"pending_c3_03_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C3-03-B",
+			"dialogue_id": "task_c3_03_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			23030
+		],
+		"level_id": 3,
+		"auto_start": true
+	},
+	"23032": {
+		"id": 23032,
+		"title": "名册上讲台",
+		"description": "完整名册抵达礼堂",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9030,
+		"turn_in_npc_id": 9005,
+		"objectives": [
+			{
+				"id": "talk_9030",
+				"type": "talk",
+				"npc_id": 9030,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-03-C-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-03-C.D01",
+					"C3-03-C.D02",
+					"C3-03-C.D03"
+				],
+				"objective_ids": [
+					"talk_9030"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-03-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C3-03-C.D04-1",
+					"C3-03-C.D04-2",
+					"C3-03-C.D05-1",
+					"C3-03-C.D05-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "GraduationRosterComplete",
+					"value": true
+				},
+				{
+					"flag": "No17EnteredHall",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-03-C",
+			"dialogue_id": "task_c3_03_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9005": 18520,
+				"9030": 0
+			}
+		},
+		"required_quest_ids": [
+			23031
+		],
+		"level_id": 3
+	},
+	"23040": {
+		"id": 23040,
+		"title": "露米娜与原始账页",
+		"description": "完成 C3-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9030,
+		"turn_in_npc_id": 9030,
+		"objectives": [
+			{
+				"id": "kill_8029",
+				"type": "kill",
+				"enemy_id": 8029,
+				"count": 1,
+				"name": "击败露米娜（击杀 露米娜 enemy_8029 ×1）"
+			},
+			{
+				"id": "collect_100239",
+				"type": "collect",
+				"item_id": 100239,
+				"count": 1,
+				"name": "从封存处取回「记忆损耗账页」(item_100239)",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "event_c3_evidence_copied",
+				"type": "named_event",
+				"event_name": "c3_evidence_copied",
+				"name": "建立多份互校的证据副本",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-04-A.D01",
+					"C3-04-A.D02",
+					"C3-04-A.D03K-1",
+					"C3-04-A.D03L-1",
+					"C3-04-A.D03M-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C3-04-A.D04",
+					"C3-04-A.D05",
+					"C3-04-A.D06"
+				],
+				"objective_ids": [
+					"kill_8029"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C3-04-A.D07",
+					"C3-04-A.D08",
+					"C3-04-A.D09",
+					"C3-04-A.D10K-1",
+					"C3-04-A.D10L-1",
+					"C3-04-A.D10M-1",
+					"C3-04-A.D11"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C3-04-A.D12",
+					"C3-04-A.D13"
+				],
+				"objective_ids": [
+					"collect_100239",
+					"event_c3_evidence_copied"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter3Complete",
+					"value": true
+				},
+				{
+					"flag": "OriginalLossLedgerSecured",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyStage2",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-04-A",
+			"dialogue_id": "task_c3_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9030": 0
+			}
+		},
+		"required_quest_ids": [
+			23030
+		],
+		"level_id": 3
+	},
+	"23041": {
+		"id": 23041,
+		"title": "损耗账页",
+		"description": "循环停止，坐标柜露出账页",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c3_04_b_1",
+				"type": "named_event",
+				"event_name": "pending_c3_04_b_1",
+				"name": "调查记忆损耗账页与王族疗程批次残页（本章核心揭露）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-04-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C3-04-B.D01",
+					"C3-04-B.D02",
+					"C3-04-B.D03"
+				],
+				"objective_ids": [
+					"pending_c3_04_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-B-S02",
+				"title": "拉锯",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C3-04-B.D04",
+					"C3-04-B.D05",
+					"C3-04-B.D06",
+					"C3-04-B.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "MemoryConsumptionPredatesAttack",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-04-B",
+			"dialogue_id": "task_c3_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			23040
+		],
+		"level_id": 3,
+		"auto_start": true
+	},
+	"23042": {
+		"id": 23042,
+		"title": "三条路与一盏灯",
+		"description": "账页封存完成，联络官接入",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_3",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C3-04-C-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C3-04-C.D01",
+					"C3-04-C.D02K",
+					"C3-04-C.D02L",
+					"C3-04-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C3-04-C-S02",
+				"title": "城镇",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C3-04-C.D05",
+					"C3-04-C.D06",
+					"C3-04-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge03Calibrated",
+					"value": true
+				},
+				{
+					"flag": "Chapter03Complete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C3-04-C",
+			"dialogue_id": "task_c3_04_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9002": 15800,
+				"9005": 14080,
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			23041
+		],
+		"level_id": 0
+	},
+	"24010": {
+		"id": 24010,
+		"title": "走不了的船",
+		"description": "完成 C3-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9031,
+		"objectives": [
+			{
+				"id": "talk_9031",
+				"type": "talk",
+				"npc_id": 9031,
+				"count": 1
+			},
+			{
+				"id": "area_c4_pier_node",
+				"type": "area_trigger",
+				"event_name": "c4_pier_node",
+				"name": "解除栈桥回音节点",
+				"count": 1
+			},
+			{
+				"id": "area_c4_chain_node",
+				"type": "area_trigger",
+				"event_name": "c4_chain_node",
+				"name": "解除锚链回音节点",
+				"count": 1
+			},
+			{
+				"id": "area_c4_lane_node",
+				"type": "area_trigger",
+				"event_name": "c4_lane_node",
+				"name": "解除航道回音节点",
+				"count": 1
+			},
+			{
+				"id": "kill_8026",
+				"type": "kill",
+				"enemy_id": 8026,
+				"count": 4,
+				"name": "击退被回音引来的鱼人（击杀 鱼人 enemy_8026 ×4）"
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-01-A.D01",
+					"C4-01-A.D02",
+					"C4-01-A.D03L-1",
+					"C4-01-A.D03K-1",
+					"C4-01-A.D03M-1",
+					"C4-01-A.D04"
+				],
+				"objective_ids": [
+					"talk_9031"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-01-A-S02",
+				"title": "区域",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C4-01-A.D05",
+					"C4-01-A.D06",
+					"C4-01-A.D07"
+				],
+				"objective_ids": [
+					"kill_8026"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-01-A.D08"
+				],
+				"objective_ids": [
+					"area_c4_pier_node",
+					"area_c4_chain_node",
+					"area_c4_lane_node"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "HarborEchoNodesCleared",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-01-A",
+			"dialogue_id": "task_c4_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9031": 0
+			}
+		},
+		"required_quest_ids": [
+			23040
+		],
+		"level_id": 4,
+		"auto_start": true
+	},
+	"24011": {
+		"id": 24011,
+		"title": "夺回灯塔镜片",
+		"description": "修复方案确定，需镜片 ×3",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9031,
+		"objectives": [
+			{
+				"id": "pending_c4_01_b_1",
+				"type": "named_event",
+				"event_name": "pending_c4_01_b_1",
+				"name": "击败水母 ×5、珊瑚怪 ×3，收回灯塔镜片 ×3",
+				"count": 1
+			},
+			{
+				"id": "pending_c4_01_b_2",
+				"type": "named_event",
+				"event_name": "pending_c4_01_b_2",
+				"name": "由守塔人说明安装依据（白痕朝海，按旧磨口接）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-01-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-01-B.D01-1",
+					"C4-01-B.D01-2"
+				],
+				"objective_ids": [
+					"pending_c4_01_b_1",
+					"pending_c4_01_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-01-B",
+			"dialogue_id": "task_c4_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9031": 0
+			}
+		},
+		"required_quest_ids": [
+			24010
+		],
+		"level_id": 4
+	},
+	"24012": {
+		"id": 24012,
+		"title": "灯塔复明",
+		"description": "镜片带回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9032,
+		"turn_in_npc_id": 9032,
+		"objectives": [
+			{
+				"id": "pending_c4_01_c_1",
+				"type": "named_event",
+				"event_name": "pending_c4_01_c_1",
+				"name": "清理底层积水，安装镜片（主角动作按 LeadHero 分支：固定镜架/校正航向/同步潮汐钟）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-01-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C4-01-C.D01",
+					"C4-01-C.D02",
+					"C4-01-C.D03"
+				],
+				"objective_ids": [
+					"pending_c4_01_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "HarborLighthouseOnline",
+					"value": true
+				},
+				{
+					"flag": "RescueRouteAvailable",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-01-C",
+			"dialogue_id": "task_c4_01_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9032": 0
+			}
+		},
+		"required_quest_ids": [
+			24011
+		],
+		"level_id": 4
+	},
+	"24020": {
+		"id": 24020,
+		"title": "两封信",
+		"description": "完成 C4-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9035,
+		"turn_in_npc_id": 9035,
+		"objectives": [
+			{
+				"id": "collect_100240",
+				"type": "collect",
+				"item_id": 100240,
+				"count": 1,
+				"name": "寻回「黄色雨衣纽扣」(item_100240)",
+				"consume_on_turn_in": true
+			},
+			{
+				"id": "talk_9035",
+				"type": "talk",
+				"npc_id": 9035,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-02-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-02-A.D01",
+					"C4-02-A.D02",
+					"C4-02-A.D03"
+				],
+				"objective_ids": [
+					"talk_9035"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-A-S02",
+				"title": "收集",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C4-02-A.D04",
+					"C4-02-A.D05",
+					"C4-02-A.D06"
+				],
+				"objective_ids": [
+					"collect_100240"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-02-A.D07",
+					"C4-02-A.D08L-1",
+					"C4-02-A.D08K-1",
+					"C4-02-A.D08M-1",
+					"C4-02-A.D09",
+					"C4-02-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "TwoLettersComplete",
+					"value": true
+				},
+				{
+					"flag": "RescueLaneRenamed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-02-A",
+			"dialogue_id": "task_c4_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9035": 0
+			}
+		},
+		"required_quest_ids": [
+			24010
+		],
+		"level_id": 4
+	},
+	"24021": {
+		"id": 24021,
+		"title": "解开锚链",
+		"description": "钥匙取回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "kill_8026",
+				"type": "kill",
+				"enemy_id": 8026,
+				"count": 4,
+				"name": "击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）"
+			},
+			{
+				"id": "pending_c4_02_b_1",
+				"type": "named_event",
+				"event_name": "pending_c4_02_b_1",
+				"name": "击败鱼人 ×4、珊瑚怪 ×4（莱昂守绞盘、露娜打断投矛、米娅清盐蚀锁）",
+				"count": 1
+			},
+			{
+				"id": "pending_c4_02_b_2",
+				"type": "named_event",
+				"event_name": "pending_c4_02_b_2",
+				"name": "两段回音锚链落位，开启左右绞盘",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-02-B-S01",
+				"title": "阶段 1",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [],
+				"objective_ids": [
+					"kill_8026",
+					"pending_c4_02_b_1",
+					"pending_c4_02_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": true
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "AnchorChainRouteOpen",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-02-B",
+			"dialogue_id": "task_c4_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			24020
+		],
+		"level_id": 4,
+		"auto_start": true
+	},
+	"24022": {
+		"id": 24022,
+		"title": "黄色纽扣",
+		"description": "锚链落位，绞盘缝滚出纽扣",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9033,
+		"turn_in_npc_id": 9033,
+		"objectives": [
+			{
+				"id": "pending_c4_02_c_1",
+				"type": "named_event",
+				"event_name": "pending_c4_02_c_1",
+				"name": "辨认黄色纽扣与埃蒙线索，封存证物，决定去登记处核对",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-02-C-S01",
+				"title": "机关",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-02-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-02-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C4-02-C.D02",
+					"C4-02-C.D03",
+					"C4-02-C.D04"
+				],
+				"objective_ids": [
+					"pending_c4_02_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "YellowButtonFound",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-02-C",
+			"dialogue_id": "task_c4_02_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9033": 0
+			}
+		},
+		"required_quest_ids": [
+			24021
+		],
+		"level_id": 4
+	},
+	"24030": {
+		"id": 24030,
+		"title": "凯的旧契约",
+		"description": "完成 C4-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9015,
+		"turn_in_npc_id": 9015,
+		"objectives": [
+			{
+				"id": "area_c4_kai_ambush",
+				"type": "area_trigger",
+				"event_name": "c4_kai_ambush",
+				"name": "撞破凯的埋伏",
+				"count": 1
+			},
+			{
+				"id": "event_c4_kai_stopped",
+				"type": "named_event",
+				"event_name": "c4_kai_stopped",
+				"name": "击退凯（切磋战，不击杀）",
+				"count": 1
+			},
+			{
+				"id": "event_c4_kai_truth",
+				"type": "named_event",
+				"event_name": "c4_kai_truth",
+				"name": "与凯对话，问清他的雇主与旧契约",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-03-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-03-A.D01",
+					"C4-03-A.D02",
+					"C4-03-A.D03L-1",
+					"C4-03-A.D03K-1",
+					"C4-03-A.D03M-1",
+					"C4-03-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C4-03-A.D05",
+					"C4-03-A.D06"
+				],
+				"objective_ids": [
+					"event_c4_kai_stopped"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-03-A.D07",
+					"C4-03-A.D08",
+					"C4-03-A.D09"
+				],
+				"objective_ids": [
+					"area_c4_kai_ambush",
+					"event_c4_kai_truth"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "KaiRecruitUnlocked",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-03-A",
+			"dialogue_id": "task_c4_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9015": 0
+			}
+		},
+		"required_quest_ids": [
+			24020
+		],
+		"level_id": 4
+	},
+	"24031": {
+		"id": 24031,
+		"title": "沉船驾驶舱",
+		"description": "取得航向坐标",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c4_03_b_2",
+				"type": "named_event",
+				"event_name": "pending_c4_03_b_2",
+				"name": "击败海盗遗响 ×3（只重复抢救货箱动作，无遗言）",
+				"count": 1
+			},
+			{
+				"id": "pending_c4_03_b_3",
+				"type": "named_event",
+				"event_name": "pending_c4_03_b_3",
+				"name": "驾驶舱内取得未寄出的家书与日志录音",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-03-B-S01",
+				"title": "探索",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-03-B.D01",
+					"C4-03-B.D02",
+					"C4-03-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-B-S02",
+				"title": "调查",
+				"order": 2,
+				"kind": "explore",
+				"node_ids": [
+					"C4-03-B.D04",
+					"C4-03-B.D05",
+					"C4-03-B.D06",
+					"C4-03-B.D07"
+				],
+				"objective_ids": [
+					"pending_c4_03_b_2",
+					"pending_c4_03_b_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-03-B",
+			"dialogue_id": "task_c4_03_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			24030
+		],
+		"level_id": 4,
+		"auto_start": true
+	},
+	"24032": {
+		"id": 24032,
+		"title": "埃蒙的航线",
+		"description": "携证物回港，埃蒙家属代表到场",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9006,
+		"turn_in_npc_id": 9035,
+		"objectives": [
+			{
+				"id": "pending_c4_03_c_2",
+				"type": "named_event",
+				"event_name": "pending_c4_03_c_2",
+				"name": "主角回应（按 LeadHero 分支）",
+				"count": 1
+			},
+			{
+				"id": "pending_c4_03_c_3",
+				"type": "named_event",
+				"event_name": "pending_c4_03_c_3",
+				"name": "登记处在「失踪」旁新增「改航救援」，旧船名重新挂回救援航线",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-03-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C4-03-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-C-S02",
+				"title": "主角回应",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C4-03-C.D02K",
+					"C4-03-C.D02L",
+					"C4-03-C.D02M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-03-C-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C4-03-C.D05",
+					"C4-03-C.D06"
+				],
+				"objective_ids": [
+					"pending_c4_03_c_2",
+					"pending_c4_03_c_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "CaptainEamonCleared",
+					"value": true
+				},
+				{
+					"flag": "RescueShipRouteRegistered",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-03-C",
+			"dialogue_id": "task_c4_03_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9006": 0,
+				"9035": 15720
+			}
+		},
+		"required_quest_ids": [
+			24031
+		],
+		"level_id": 4
+	},
+	"24040": {
+		"id": 24040,
+		"title": "赛壬与三源时间证据",
+		"description": "完成 C4-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9031,
+		"turn_in_npc_id": 9032,
+		"objectives": [
+			{
+				"id": "kill_8030",
+				"type": "kill",
+				"enemy_id": 8030,
+				"count": 1,
+				"name": "击败赛壬（击杀 赛壬 enemy_8030 ×1）"
+			},
+			{
+				"id": "pending_c4_04_a_2",
+				"type": "named_event",
+				"event_name": "pending_c4_04_a_2",
+				"name": "取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」×3）",
+				"count": 1
+			},
+			{
+				"id": "event_c4_evidence_evacuated",
+				"type": "named_event",
+				"event_name": "c4_evidence_evacuated",
+				"name": "在栈桥坍塌前完成撤离",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-A.D01",
+					"C4-04-A.D02",
+					"C4-04-A.D03K-1",
+					"C4-04-A.D03L-1",
+					"C4-04-A.D03M-1"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C4-04-A.D04",
+					"C4-04-A.D05"
+				],
+				"objective_ids": [
+					"kill_8030"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-A.D06",
+					"C4-04-A.D07",
+					"C4-04-A.D08K-1",
+					"C4-04-A.D08L-1",
+					"C4-04-A.D08M-1",
+					"C4-04-A.D09",
+					"C4-04-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S04",
+				"title": "过场",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-A.D11",
+					"C4-04-A.D12",
+					"C4-04-A.D13"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-A-S05",
+				"title": "交付",
+				"order": 5,
+				"kind": "complete",
+				"node_ids": [
+					"C4-04-A.D14",
+					"C4-04-A.D15"
+				],
+				"objective_ids": [
+					"pending_c4_04_a_2",
+					"event_c4_evidence_evacuated"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter4Complete",
+					"value": true
+				},
+				{
+					"flag": "ThreeSourceTimelineSecured",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyStage3",
+					"value": true
+				},
+				{
+					"flag": "GreyKnightHarbor",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-04-A",
+			"dialogue_id": "task_c4_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9031": 0,
+				"9032": 88280
+			}
+		},
+		"required_quest_ids": [
+			24030
+		],
+		"level_id": 4
+	},
+	"24041": {
+		"id": 24041,
+		"title": "时序闭环",
+		"description": "赛壬退为残响，运输船可登",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "pending_c4_04_b_2",
+				"type": "named_event",
+				"event_name": "pending_c4_04_b_2",
+				"name": "先完成三份原件备份，再通讯对质",
+				"count": 1
+			},
+			{
+				"id": "talk_9027",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-04-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C4-04-B.D01",
+					"C4-04-B.D02",
+					"C4-04-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C4-04-B.D04",
+					"C4-04-B.D05K",
+					"C4-04-B.D05L",
+					"C4-04-B.D05M"
+				],
+				"objective_ids": [
+					"pending_c4_04_b_2",
+					"talk_9027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RoyalTimelineContradicted",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-04-B",
+			"dialogue_id": "task_c4_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			24040
+		],
+		"level_id": 4
+	},
+	"24042": {
+		"id": 24042,
+		"title": "断桥九十秒前",
+		"description": "通讯未了，撤离开始",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9032,
+		"turn_in_npc_id": 9032,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9032,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-04-C-S01",
+				"title": "撤离",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C4-04-C.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-C-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C4-04-C.D02",
+					"C4-04-C.D03-1",
+					"C4-04-C.D03-2"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C4-04-C",
+			"dialogue_id": "task_c4_04_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9032": 0,
+				"9036": 5320
+			}
+		},
+		"required_quest_ids": [
+			24041
+		],
+		"level_id": 4
+	},
+	"24043": {
+		"id": 24043,
+		"title": "继续查，不等于继续信",
+		"description": "全员抵达安全仓",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_4",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C4-04-D-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C4-04-D.D01",
+					"C4-04-D.D02",
+					"C4-04-D.D03",
+					"C4-04-D.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C4-04-D-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C4-04-D.D05"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge04Calibrated",
+					"value": true
+				},
+				{
+					"flag": "RoyalTrustStage",
+					"value": "Suspect"
+				},
+				{
+					"flag": "Chapter04Complete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C4-04-D",
+			"dialogue_id": "task_c4_04_d",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 14560
+			}
+		},
+		"required_quest_ids": [
+			24042
+		],
+		"level_id": 4,
+		"auto_start": true
+	},
+	"25010": {
+		"id": 25010,
+		"title": "焦土上的登记",
+		"description": "完成 C4-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
+		"objectives": [
+			{
+				"id": "talk_9037",
+				"type": "talk",
+				"npc_id": 9037,
+				"count": 1
+			},
+			{
+				"id": "pending_c5_01_a_2",
+				"type": "named_event",
+				"event_name": "pending_c5_01_a_2",
+				"name": "在断墙间找回散落的「撤离名册残页」×3",
+				"count": 1
+			},
+			{
+				"id": "kill_8007",
+				"type": "kill",
+				"enemy_id": 8007,
+				"count": 4,
+				"name": "击退游荡的灰烬骑士（击杀 灰烬骑士 enemy_8007 ×4）"
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-01-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-01-A.D01",
+					"C5-01-A.D02",
+					"C5-01-A.D03K-1",
+					"C5-01-A.D03L-1",
+					"C5-01-A.D03M-1",
+					"C5-01-A.D04"
+				],
+				"objective_ids": [
+					"talk_9037"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-A-S02",
+				"title": "收集",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C5-01-A.D05",
+					"C5-01-A.D06"
+				],
+				"objective_ids": [
+					"kill_8007"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C5-01-A.D07",
+					"C5-01-A.D08"
+				],
+				"objective_ids": [
+					"pending_c5_01_a_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "EvacueeRosterRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-01-A",
+			"dialogue_id": "task_c5_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9037": 0
+			}
+		},
+		"required_quest_ids": [
+			24040
+		],
+		"level_id": 5,
+		"auto_start": true
+	},
+	"25011": {
+		"id": 25011,
+		"title": "两套表格",
+		"description": "三户证据收齐",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
+		"objectives": [
+			{
+				"id": "pending_c5_01_b_1",
+				"type": "named_event",
+				"event_name": "pending_c5_01_b_1",
+				"name": "记录员拒认，露娜/米娅提出新旧两套表格的登记方式",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-01-B-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-01-B.D01",
+					"C5-01-B.D02",
+					"C5-01-B.D03",
+					"C5-01-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-01-B-S02",
+				"title": "条件对白",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-01-B.D05",
+					"C5-01-B.D06K",
+					"C5-01-B.D06L",
+					"C5-01-B.D06M"
+				],
+				"objective_ids": [
+					"pending_c5_01_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-01-B",
+			"dialogue_id": "task_c5_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9017": 15680,
+				"9037": 0
+			}
+		},
+		"required_quest_ids": [
+			25010
+		],
+		"level_id": 5
+	},
+	"25012": {
+		"id": 25012,
+		"title": "恢复承认",
+		"description": "维恩授权到位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9041,
+		"turn_in_npc_id": 9041,
+		"objectives": [
+			{
+				"id": "pending_c5_01_c_1",
+				"type": "named_event",
+				"event_name": "pending_c5_01_c_1",
+				"name": "三户居民完成首批复路名册按印；标题改为「恢复承认」，旧注销记录保留附页",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-01-C-S01",
+				"title": "交付",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C5-01-C.D01",
+					"C5-01-C.D02",
+					"C5-01-C.D03"
+				],
+				"objective_ids": [
+					"pending_c5_01_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RefugeeStreetRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-01-C",
+			"dialogue_id": "task_c5_01_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9041": 0
+			}
+		},
+		"required_quest_ids": [
+			25011
+		],
+		"level_id": 5
+	},
+	"25020": {
+		"id": 25020,
+		"title": "被写成逃兵的号手",
+		"description": "完成 C5-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9038,
+		"turn_in_npc_id": 9038,
+		"objectives": [
+			{
+				"id": "talk_9038",
+				"type": "talk",
+				"npc_id": 9038,
+				"count": 1
+			},
+			{
+				"id": "event_c5_bellhammer_fixed",
+				"type": "named_event",
+				"event_name": "c5_bellhammer_fixed",
+				"name": "修复钟锤",
+				"count": 1
+			},
+			{
+				"id": "event_c5_backgate_fixed",
+				"type": "named_event",
+				"event_name": "c5_backgate_fixed",
+				"name": "修复备用门机关",
+				"count": 1
+			},
+			{
+				"id": "event_c5_bell_rang",
+				"type": "named_event",
+				"event_name": "c5_bell_rang",
+				"name": "让钟再响一次",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-02-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-A.D01",
+					"C5-02-A.D02",
+					"C5-02-A.D03"
+				],
+				"objective_ids": [
+					"talk_9038"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-A.D04",
+					"C5-02-A.D05",
+					"C5-02-A.D06",
+					"C5-02-A.D07"
+				],
+				"objective_ids": [
+					"event_c5_bellhammer_fixed",
+					"event_c5_backgate_fixed"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C5-02-A.D08",
+					"C5-02-A.D09",
+					"C5-02-A.D10"
+				],
+				"objective_ids": [
+					"event_c5_bell_rang"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "TrumpeterVindicated",
+					"value": true
+				},
+				{
+					"flag": "MeritWallUpdated",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-02-A",
+			"dialogue_id": "task_c5_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9038": 0
+			}
+		},
+		"required_quest_ids": [
+			25010
+		],
+		"level_id": 5
+	},
+	"25021": {
+		"id": 25021,
+		"title": "第二声撤离号",
+		"description": "钟锤找回",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "kill_8017",
+				"type": "kill",
+				"enemy_id": 8017,
+				"count": 4,
+				"name": "击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）"
+			},
+			{
+				"id": "pending_c5_02_b_1",
+				"type": "named_event",
+				"event_name": "pending_c5_02_b_1",
+				"name": "击败灰烬骑士 ×4、焰灵 ×2（多恩遗响不参与战斗对白，只有喘息、脚步与两次试吹）",
+				"count": 1
+			},
+			{
+				"id": "pending_c5_02_b_3",
+				"type": "named_event",
+				"event_name": "pending_c5_02_b_3",
+				"name": "备用门三道机关按名单顺序开启；多恩遗响消散",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-02-B-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-02-B.D01",
+					"C5-02-B.D02-1",
+					"C5-02-B.D02-2"
+				],
+				"objective_ids": [
+					"kill_8017",
+					"pending_c5_02_b_1",
+					"pending_c5_02_b_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "DoernNameRestored",
+					"value": true
+				},
+				{
+					"flag": "RoyalBackupGateOpen",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-02-B",
+			"dialogue_id": "task_c5_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			25020
+		],
+		"level_id": 5,
+		"auto_start": true
+	},
+	"25022": {
+		"id": 25022,
+		"title": "更正栏",
+		"description": "认名完成，携证物回登记桌",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9042,
+		"turn_in_npc_id": 9042,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9042,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-02-C-S01",
+				"title": "交互",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-02-C.D01",
+					"C5-02-C.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-02-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C5-02-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-02-C",
+			"dialogue_id": "task_c5_02_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9042": 0
+			}
+		},
+		"required_quest_ids": [
+			25021
+		],
+		"level_id": 5
+	},
+	"25030": {
+		"id": 25030,
+		"title": "雷欧哈特与封档",
+		"description": "完成 C5-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9043,
+		"turn_in_npc_id": 9043,
+		"objectives": [
+			{
+				"id": "kill_8031",
+				"type": "kill",
+				"enemy_id": 8031,
+				"count": 1,
+				"name": "击败雷欧哈特（击杀 雷欧哈特 enemy_8031 ×1）"
+			},
+			{
+				"id": "event_c5_archive_verified",
+				"type": "named_event",
+				"event_name": "c5_archive_verified",
+				"name": "用三人当前身份验证镇脉行动封档",
+				"count": 1
+			},
+			{
+				"id": "pending_c5_03_a_3",
+				"type": "named_event",
+				"event_name": "pending_c5_03_a_3",
+				"name": "抄录封档关键页（收集 「封档抄件」×1）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-03-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-03-A.D01",
+					"C5-03-A.D02",
+					"C5-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C5-03-A.D04",
+					"C5-03-A.D05"
+				],
+				"objective_ids": [
+					"kill_8031"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-03-A.D06",
+					"C5-03-A.D07",
+					"C5-03-A.D08",
+					"C5-03-A.D09",
+					"C5-03-A.D10",
+					"C5-03-A.D11",
+					"C5-03-A.D12"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C5-03-A.D13"
+				],
+				"objective_ids": [
+					"event_c5_archive_verified",
+					"pending_c5_03_a_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "ArchiveTruthRevealed",
+					"value": true
+				},
+				{
+					"flag": "LeadRolesConfirmed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-03-A",
+			"dialogue_id": "task_c5_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9043": 0
+			}
+		},
+		"required_quest_ids": [
+			25020
+		],
+		"level_id": 5
+	},
+	"25031": {
+		"id": 25031,
+		"title": "档案门之战",
+		"description": "三锁开启",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c5_03_b_1",
+				"type": "named_event",
+				"event_name": "pending_c5_03_b_1",
+				"name": "击败王城构造体 ×4、档案守卫精英 ×1；三人分别维持一道权限，任何人离位重新点火",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-03-B-S01",
+				"title": "阶段 1",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [],
+				"objective_ids": [
+					"pending_c5_03_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": true
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "DeletedCommanderConfirmed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-03-B",
+			"dialogue_id": "task_c5_03_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			25030
+		],
+		"level_id": 5,
+		"auto_start": true
+	},
+	"25032": {
+		"id": 25032,
+		"title": "三个档袋",
+		"description": "三份记录共同指向被删骑士统领",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9037,
+		"turn_in_npc_id": 9037,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9037,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-03-C-S01",
+				"title": "主角反应",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-03-C.D01",
+					"C5-03-C.D02",
+					"C5-03-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-03-C-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C5-03-C.D04",
+					"C5-03-C.D05",
+					"C5-03-C.D06",
+					"C5-03-C.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C5-03-C",
+			"dialogue_id": "task_c5_03_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9037": 0
+			}
+		},
+		"required_quest_ids": [
+			25031
+		],
+		"level_id": 5
+	},
+	"25040": {
+		"id": 25040,
+		"title": "最终清除令与主契重铸",
+		"description": "完成 C5-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
+		"objectives": [
+			{
+				"id": "talk_9044",
+				"type": "talk",
+				"npc_id": 9044,
+				"count": 1
+			},
+			{
+				"id": "event_c5_purge_terms_set",
+				"type": "named_event",
+				"event_name": "c5_purge_terms_set",
+				"name": "三人约定行动次序",
+				"count": 1
+			},
+			{
+				"id": "event_c5_pact_reforged",
+				"type": "named_event",
+				"event_name": "c5_pact_reforged",
+				"name": "完成主契遗装重铸",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-04-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-04-A.D01",
+					"C5-04-A.D02",
+					"C5-04-A.D03",
+					"C5-04-A.D04"
+				],
+				"objective_ids": [
+					"talk_9044"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-04-A.D05K-1",
+					"C5-04-A.D05L-1",
+					"C5-04-A.D05M-1",
+					"C5-04-A.D06K-1",
+					"C5-04-A.D06L-1",
+					"C5-04-A.D06M-1",
+					"C5-04-A.D07",
+					"C5-04-A.D08",
+					"C5-04-A.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-A-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C5-04-A.D10"
+				],
+				"objective_ids": [
+					"event_c5_purge_terms_set",
+					"event_c5_pact_reforged"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter5Complete",
+					"value": true
+				},
+				{
+					"flag": "FinalPurgeOrderAccepted",
+					"value": true
+				},
+				{
+					"flag": "PactLegacyComplete",
+					"value": true
+				},
+				{
+					"flag": "KnightTruthComplete",
+					"value": true
+				},
+				{
+					"flag": "ArcherTruthComplete",
+					"value": true
+				},
+				{
+					"flag": "MageTruthComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-A",
+			"dialogue_id": "task_c5_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9044": 0
+			}
+		},
+		"required_quest_ids": [
+			25030
+		],
+		"level_id": 5
+	},
+	"25041": {
+		"id": 25041,
+		"title": "两份互不相认的卷宗",
+		"description": "取得档案访问权",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9027,
+		"turn_in_npc_id": 9027,
+		"objectives": [
+			{
+				"id": "pending_c5_04_b_1",
+				"type": "named_event",
+				"event_name": "pending_c5_04_b_1",
+				"name": "取得岗位名册、星楔转换记录、永曜预算残页",
+				"count": 1
+			},
+			{
+				"id": "talk_9027",
+				"type": "talk",
+				"npc_id": 9027,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-04-B-S01",
+				"title": "通讯",
+				"order": 1,
+				"kind": "interact",
+				"node_ids": [
+					"C5-04-B.D01",
+					"C5-04-B.D02K",
+					"C5-04-B.D02L",
+					"C5-04-B.D02M"
+				],
+				"objective_ids": [
+					"pending_c5_04_b_1",
+					"talk_9027"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Wedge05Authorized",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-B",
+			"dialogue_id": "task_c5_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9027": 0
+			}
+		},
+		"required_quest_ids": [
+			25040
+		],
+		"level_id": 5
+	},
+	"25042": {
+		"id": 25042,
+		"title": "签署清除令",
+		"description": "最终清除令待签",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"stages": [
+			{
+				"id": "C5-04-C-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C5-04-C.D01",
+					"C5-04-C.D02",
+					"C5-04-C.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FinalPurgeOrderAccepted",
+					"value": true
+				},
+				{
+					"flag": "ReturnClauseAdded",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-C",
+			"dialogue_id": "task_c5_04_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			25041
+		],
+		"level_id": 5,
+		"auto_start": true
+	},
+	"25043": {
+		"id": 25043,
+		"title": "死脉稳定片",
+		"description": "签署完成，准备离开档案馆",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_5",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9036,
+		"objectives": [
+			{
+				"id": "talk_9036",
+				"type": "talk",
+				"npc_id": 9036,
+				"count": 1
+			},
+			{
+				"id": "pending_c5_04_d_3",
+				"type": "named_event",
+				"event_name": "pending_c5_04_d_3",
+				"name": "主契遗装写入三名当前调查成员（系统）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C5-04-D-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C5-04-D.D01",
+					"C5-04-D.D02-1",
+					"C5-04-D.D02-2",
+					"C5-04-D.D03-1",
+					"C5-04-D.D03-2"
+				],
+				"objective_ids": [
+					"talk_9036"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-D-S02",
+				"title": "主角决定",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C5-04-D.D04",
+					"C5-04-D.D05K",
+					"C5-04-D.D05L",
+					"C5-04-D.D05M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C5-04-D-S03",
+				"title": "系统",
+				"order": 3,
+				"kind": "system",
+				"node_ids": [
+					"C5-04-D.D08"
+				],
+				"objective_ids": [
+					"pending_c5_04_d_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "DeadLeyStabilizerObtained",
+					"value": true
+				},
+				{
+					"flag": "Chapter05Complete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C5-04-D",
+			"dialogue_id": "task_c5_04_d",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 26520,
+				"9036": 0
+			}
+		},
+		"required_quest_ids": [
+			25042
+		],
+		"level_id": 5
+	},
+	"26010": {
+		"id": 26010,
+		"title": "失落营地与第四套餐具",
+		"description": "完成 C5-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "area_c6_lost_camp",
+				"type": "area_trigger",
+				"event_name": "c6_lost_camp",
+				"name": "调查旧营地",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_01_a_2",
+				"type": "named_event",
+				"event_name": "pending_c6_01_a_2",
+				"name": "记录营地的四处生活痕迹（收集 「营地痕迹记录」×4：烧黑的锅、四人份餐具、少一根的帐篷钉、补过的毯子）",
+				"count": 1
+			},
+			{
+				"id": "area_c6_failed_entry",
+				"type": "area_trigger",
+				"event_name": "c6_failed_entry",
+				"name": "调查旧封锁外的失败进入痕迹",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-01-A-S01",
+				"title": "途中",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C6-01-A.D01",
+					"C6-01-A.D02",
+					"C6-01-A.D03K-1",
+					"C6-01-A.D03L-1",
+					"C6-01-A.D03M-1",
+					"C6-01-A.D04",
+					"C6-01-A.D05"
+				],
+				"objective_ids": [
+					"area_c6_lost_camp",
+					"pending_c6_01_a_2"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_lost_camp"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-A-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-01-A.D06",
+					"C6-01-A.D07",
+					"C6-01-A.D08"
+				],
+				"objective_ids": [
+					"area_c6_failed_entry"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_failed_entry"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-01-A.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FourthPersonGap",
+					"value": true
+				},
+				{
+					"flag": "LostCampDocumented",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-01-A",
+			"dialogue_id": "task_c6_01_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			25040
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26011": {
+		"id": 26011,
+		"title": "单向坐标",
+		"description": "三锁就位",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c6_01_b_1",
+				"type": "named_event",
+				"event_name": "pending_c6_01_b_1",
+				"name": "防御波战斗：三人分别维持军锁/路线/相位，缺一项门复位",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_01_b_2",
+				"type": "named_event",
+				"event_name": "pending_c6_01_b_2",
+				"name": "调查门框：两组烧蚀星印、刮名装备、单向坐标日志",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_01_b_3",
+				"type": "named_event",
+				"event_name": "pending_c6_01_b_3",
+				"name": "交付：三人带着返程约定进入内环（按 LeadHero 分支）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-01-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C6-01-B.D01",
+					"C6-01-B.D02",
+					"C6-01-B.D03"
+				],
+				"objective_ids": [
+					"pending_c6_01_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-01-B-S02",
+				"title": "交付",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C6-01-B.D04K",
+					"C6-01-B.D04L",
+					"C6-01-B.D04M"
+				],
+				"objective_ids": [
+					"pending_c6_01_b_1",
+					"pending_c6_01_b_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "CoreGateOpen",
+					"value": true
+				},
+				{
+					"flag": "FailedTeamsEvidenceFound",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-01-B",
+			"dialogue_id": "task_c6_01_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26010
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26020": {
+		"id": 26020,
+		"title": "内环取证",
+		"description": "完成 C6-01-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "area_c6_core_gate",
+				"type": "area_trigger",
+				"event_name": "c6_core_gate",
+				"name": "进入核心门前区",
+				"count": 1
+			},
+			{
+				"id": "kill_8023",
+				"type": "kill",
+				"enemy_id": 8023,
+				"count": 4,
+				"name": "击溃脉化守卫（击杀 虚空怪 enemy_8023 ×4）"
+			},
+			{
+				"id": "pending_c6_02_a_3",
+				"type": "named_event",
+				"event_name": "pending_c6_02_a_3",
+				"name": "读取永曜灌注庭疗程记录（收集 「疗程记录抄件」×1）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-02-A-S01",
+				"title": "区域",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C6-02-A.D01",
+					"C6-02-A.D02",
+					"C6-02-A.D03L-1",
+					"C6-02-A.D03K-1",
+					"C6-02-A.D03M-1"
+				],
+				"objective_ids": [
+					"area_c6_core_gate",
+					"pending_c6_02_a_3"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_core_gate"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C6-02-A.D04",
+					"C6-02-A.D05"
+				],
+				"objective_ids": [
+					"kill_8023"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-02-A.D06",
+					"C6-02-A.D07",
+					"C6-02-A.D08",
+					"C6-02-A.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-02-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C6-02-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "EverlightRecordsSecured",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-02-A",
+			"dialogue_id": "task_c6_02_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26010
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26021": {
+		"id": 26021,
+		"title": "不命名",
+		"description": "营地证物整理",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c6_02_b_1",
+				"type": "named_event",
+				"event_name": "pending_c6_02_b_1",
+				"name": "是否给空位临时称呼：米娅拒绝，物证类别写「双刻回应者」",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_02_b_2",
+				"type": "named_event",
+				"event_name": "pending_c6_02_b_2",
+				"name": "三人围第四空位完成一次免费配装（空位保持无人坐下）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-02-B-S01",
+				"title": "拉锯",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C6-02-B.D01",
+					"C6-02-B.D02",
+					"C6-02-B.D03"
+				],
+				"objective_ids": [
+					"pending_c6_02_b_1",
+					"pending_c6_02_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "FourthCampMemberConfirmed",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-02-B",
+			"dialogue_id": "task_c6_02_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26020
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26030": {
+		"id": 26030,
+		"title": "六楔地方维稳",
+		"description": "完成 C6-02-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "event_c6_gate_held",
+				"type": "named_event",
+				"event_name": "c6_gate_held",
+				"name": "守住核心门与撤离线",
+				"count": 1
+			},
+			{
+				"id": "event_c6_safe_route_set",
+				"type": "named_event",
+				"event_name": "c6_safe_route_set",
+				"name": "标出不回冲地表的安全路线",
+				"count": 1
+			},
+			{
+				"id": "event_c6_wedges_stabilized",
+				"type": "named_event",
+				"event_name": "c6_wedges_stabilized",
+				"name": "把六枚星楔同步切换到地方低负载维稳",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-03-A-S01",
+				"title": "接取",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-03-A.D01",
+					"C6-03-A.D02",
+					"C6-03-A.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-A-S02",
+				"title": "机关",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-03-A.D04",
+					"C6-03-A.D05",
+					"C6-03-A.D06",
+					"C6-03-A.D07"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-03-A.D08"
+				],
+				"objective_ids": [
+					"event_c6_gate_held",
+					"event_c6_safe_route_set",
+					"event_c6_wedges_stabilized"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "WedgesLocallyStabilized",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-03-A",
+			"dialogue_id": "task_c6_03_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26020
+		],
+		"level_id": 6,
+		"auto_start": true,
+		"auto_complete": true
+	},
+	"26031": {
+		"id": 26031,
+		"title": "三环相扣",
+		"description": "战斗结束，开始取证",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
+		"objectives": [
+			{
+				"id": "pending_c6_03_b_1",
+				"type": "named_event",
+				"event_name": "pending_c6_03_b_1",
+				"name": "调查一：使用筹码超过公开伤员总数，椅脚无转运磨损",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_03_b_2",
+				"type": "named_event",
+				"event_name": "pending_c6_03_b_2",
+				"name": "调查二：内层参数无创伤闭合/失血恢复/战伤评估",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_03_b_3",
+				"type": "named_event",
+				"event_name": "pending_c6_03_b_3",
+				"name": "调查三：现任王室印玺晚于停用日；证据目录写下工程目的",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-03-B-S01",
+				"title": "调查",
+				"order": 1,
+				"kind": "explore",
+				"node_ids": [
+					"C6-03-B.D01",
+					"C6-03-B.D02",
+					"C6-03-B.D03",
+					"C6-03-B.D04",
+					"C6-03-B.D05",
+					"C6-03-B.D06"
+				],
+				"objective_ids": [
+					"pending_c6_03_b_1",
+					"pending_c6_03_b_2",
+					"pending_c6_03_b_3"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-03-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-03-B.D07",
+					"C6-03-B.D08K",
+					"C6-03-B.D08L",
+					"C6-03-B.D08M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "EverlightPurposeConfirmed",
+					"value": true
+				},
+				{
+					"flag": "RoyalBeneficiaryEvidenceSecured",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-03-B",
+			"dialogue_id": "task_c6_03_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9044": 0
+			}
+		},
+		"required_quest_ids": [
+			26030
+		],
+		"level_id": 6
+	},
+	"26032": {
+		"id": 26032,
+		"title": "终战增益",
+		"description": "证据封存完成，剩余能量可选",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c6_03_c_1",
+				"type": "named_event",
+				"event_name": "pending_c6_03_c_1",
+				"name": "剩余能量用途：护盾／路线／校验增益（对应主契遗装终战效果）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-03-C-S01",
+				"title": "阶段 1",
+				"order": 1,
+				"kind": "choice",
+				"node_ids": [],
+				"objective_ids": [
+					"pending_c6_03_c_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": true
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-03-C",
+			"dialogue_id": "task_c6_03_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26031
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26040": {
+		"id": 26040,
+		"title": "第六号脉化体",
+		"description": "完成 C6-03-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "area_c6_core_entered",
+				"type": "area_trigger",
+				"event_name": "c6_core_entered",
+				"name": "进入核心门",
+				"count": 1
+			},
+			{
+				"id": "kill_8032",
+				"type": "kill",
+				"enemy_id": 8032,
+				"count": 1,
+				"name": "击败第六号脉化体（击杀 诺瓦 enemy_8032 ×1）"
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-04-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-04-A.D01",
+					"C6-04-A.D02K-1",
+					"C6-04-A.D02L-1",
+					"C6-04-A.D02M-1",
+					"C6-04-A.D03",
+					"C6-04-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-A-S02",
+				"title": "战斗",
+				"order": 2,
+				"kind": "combat",
+				"node_ids": [
+					"C6-04-A.D05",
+					"C6-04-A.D06K-1",
+					"C6-04-A.D06L-1",
+					"C6-04-A.D06M-1",
+					"C6-04-A.D07",
+					"C6-04-A.D08K-1",
+					"C6-04-A.D08L-1",
+					"C6-04-A.D08M-1"
+				],
+				"objective_ids": [
+					"kill_8032"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-04-A.D09",
+					"C6-04-A.D10",
+					"C6-04-A.D11K-1",
+					"C6-04-A.D11L-1",
+					"C6-04-A.D11M-1",
+					"C6-04-A.D12"
+				],
+				"objective_ids": [
+					"area_c6_core_entered"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "NovaDead_MemoryReturned",
+					"value": true
+				},
+				{
+					"flag": "FinalKnight",
+					"value": true
+				},
+				{
+					"flag": "FinalArcher",
+					"value": true
+				},
+				{
+					"flag": "FinalMage",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-04-A",
+			"dialogue_id": "task_c6_04_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26030
+		],
+		"level_id": 6,
+		"auto_start": true,
+		"auto_complete": true
+	},
+	"26041": {
+		"id": 26041,
+		"title": "校准台保卫战",
+		"description": "重排开始，渊蚀构造体反扑",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9044,
+		"turn_in_npc_id": 9044,
+		"objectives": [
+			{
+				"id": "pending_c6_04_b_1",
+				"type": "named_event",
+				"event_name": "pending_c6_04_b_1",
+				"name": "两波渊蚀构造体共 8 只（莱昂守校准台、露娜清远程节点、米娅持续同步）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-04-B-S01",
+				"title": "战斗",
+				"order": 1,
+				"kind": "combat",
+				"node_ids": [
+					"C6-04-B.D01",
+					"C6-04-B.D02",
+					"C6-04-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-B-S02",
+				"title": "通讯",
+				"order": 2,
+				"kind": "interact",
+				"node_ids": [
+					"C6-04-B.D04",
+					"C6-04-B.D05K",
+					"C6-04-B.D05L",
+					"C6-04-B.D05M"
+				],
+				"objective_ids": [
+					"pending_c6_04_b_1"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-04-B-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-04-B.D08",
+					"C6-04-B.D09"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "LocalLowLoadMode",
+					"value": true
+				},
+				{
+					"flag": "RoyalHighLoadChannelsDisabled",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-04-B",
+			"dialogue_id": "task_c6_04_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9044": 0
+			}
+		},
+		"required_quest_ids": [
+			26040
+		],
+		"level_id": 6
+	},
+	"26050": {
+		"id": 26050,
+		"title": "返忆与灭口证据",
+		"description": "完成 C6-04-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "event_c6_memory_returned",
+				"type": "named_event",
+				"event_name": "c6_memory_returned",
+				"name": "三人互相补全返忆",
+				"count": 1
+			},
+			{
+				"id": "pending_c6_05_a_2",
+				"type": "named_event",
+				"event_name": "pending_c6_05_a_2",
+				"name": "从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」×3）",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-05-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-A.D01",
+					"C6-05-A.D02",
+					"C6-05-A.D03",
+					"C6-05-A.D04",
+					"C6-05-A.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-A-S02",
+				"title": "区域",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-A.D06",
+					"C6-05-A.D07",
+					"C6-05-A.D08"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C6-05-A.D09",
+					"C6-05-A.D10"
+				],
+				"objective_ids": [
+					"event_c6_memory_returned",
+					"pending_c6_05_a_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RegicideEvidenceSecured",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-05-A",
+			"dialogue_id": "task_c6_05_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26040
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26051": {
+		"id": 26051,
+		"title": "行为异常",
+		"description": "第一阶段结束",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [
+			{
+				"id": "pending_c6_05_b_2",
+				"type": "named_event",
+				"event_name": "pending_c6_05_b_2",
+				"name": "第三阶段：目标护住失效校准台、三击一组；米娅被露娜拉出落点，记录「三拍」",
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-05-B-S01",
+				"title": "第二阶段",
+				"order": 1,
+				"kind": "other",
+				"node_ids": [
+					"C6-05-B.D01",
+					"C6-05-B.D02",
+					"C6-05-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-B-S02",
+				"title": "第三阶段",
+				"order": 2,
+				"kind": "other",
+				"node_ids": [
+					"C6-05-B.D04",
+					"C6-05-B.D05",
+					"C6-05-B.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-B-S03",
+				"title": "阶段转换",
+				"order": 3,
+				"kind": "boss",
+				"node_ids": [
+					"C6-05-B.D07",
+					"C6-05-B.D08",
+					"C6-05-B.D09",
+					"C6-05-B.D10"
+				],
+				"objective_ids": [
+					"pending_c6_05_b_2"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-05-B",
+			"dialogue_id": "task_c6_05_b",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26050
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26052": {
+		"id": 26052,
+		"title": "最后一击",
+		"description": "脉核暴露",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-05-C-S01",
+				"title": "最后一击",
+				"order": 1,
+				"kind": "boss",
+				"node_ids": [
+					"C6-05-C.D01K-1",
+					"C6-05-C.D01K-2",
+					"C6-05-C.D01L",
+					"C6-05-C.D01M"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-C-S02",
+				"title": "死亡",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-C.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "NovaKilled",
+					"value": true
+				},
+				{
+					"flag": "FinalLeadStrikeRecorded",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-05-C",
+			"dialogue_id": "task_c6_05_c",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26051
+		],
+		"level_id": 6,
+		"auto_start": true
+	},
+	"26053": {
+		"id": 26053,
+		"title": "返忆",
+		"description": "诺瓦死亡，遗忘遮蔽解除",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
+		"objectives": [],
+		"stages": [
+			{
+				"id": "C6-05-D-S01",
+				"title": "返忆·莱昂",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D01"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S02",
+				"title": "返忆·露娜",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D02"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S03",
+				"title": "返忆·米娅",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-05-D-S04",
+				"title": "共同确认",
+				"order": 4,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-05-D.D04",
+					"C6-05-D.D05",
+					"C6-05-D.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "RelationshipMemoriesRestored",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-05-D",
+			"dialogue_id": "task_c6_05_d",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {}
+		},
+		"required_quest_ids": [
+			26052
+		],
+		"level_id": 6,
+		"auto_play": true,
+		"auto_complete": true
+	},
+	"26060": {
+		"id": 26060,
+		"title": "九十秒与归城",
+		"description": "完成 C6-05-A",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9002,
+		"objectives": [
+			{
+				"id": "area_c6_escape_route",
+				"type": "area_trigger",
+				"event_name": "c6_escape_route",
+				"name": "在核心坍塌中沿撤离路线撤离",
+				"count": 1
+			},
+			{
+				"id": "event_c6_ninety_seconds_escape",
+				"type": "named_event",
+				"event_name": "c6_ninety_seconds_escape",
+				"name": "在九十秒窗口内通过最后一扇门",
+				"count": 1
+			},
+			{
+				"id": "talk_9002",
+				"type": "talk",
+				"npc_id": 9002,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-06-A-S01",
+				"title": "过场",
+				"order": 1,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-A.D01",
+					"C6-06-A.D02",
+					"C6-06-A.D03",
+					"C6-06-A.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S02",
+				"title": "途中",
+				"order": 2,
+				"kind": "travel",
+				"node_ids": [
+					"C6-06-A.D05",
+					"C6-06-A.D06K-1",
+					"C6-06-A.D06L-1",
+					"C6-06-A.D06M-1"
+				],
+				"objective_ids": [
+					"area_c6_escape_route"
+				],
+				"enter_when": {
+					"type": "area_event",
+					"event_name": "c6_escape_route"
+				},
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S03",
+				"title": "过场",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-A.D07",
+					"C6-06-A.D08",
+					"C6-06-A.D09",
+					"C6-06-A.D10",
+					"C6-06-A.D11",
+					"C6-06-A.D12"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-A-S04",
+				"title": "交付",
+				"order": 4,
+				"kind": "complete",
+				"node_ids": [
+					"C6-06-A.D13",
+					"C6-06-A.D14",
+					"C6-06-A.D15"
+				],
+				"objective_ids": [
+					"event_c6_ninety_seconds_escape",
+					"talk_9002"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter6Complete",
+					"value": true
+				},
+				{
+					"flag": "Epilogue",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-06-A",
+			"dialogue_id": "task_c6_06_a",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9002": 73240,
+				"9036": 0
+			}
+		},
+		"required_quest_ids": [
+			26050
+		],
+		"level_id": 0
+	},
+	"26061": {
+		"id": 26061,
+		"title": "最后九十秒",
+		"description": "主出口落锁，死脉稳定片震动，90 秒倒计时开始",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9036,
+		"turn_in_npc_id": 9036,
+		"objectives": [
+			{
+				"id": "obj_1",
+				"type": "talk",
+				"npc_id": 9036,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-06-B-S01",
+				"title": "限时",
+				"order": 1,
+				"kind": "travel",
+				"node_ids": [
+					"C6-06-B.D01",
+					"C6-06-B.D02",
+					"C6-06-B.D03"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-B-S02",
+				"title": "过场",
+				"order": 2,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-B.D04"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-B-S03",
+				"title": "状态确认",
+				"order": 3,
+				"kind": "interact",
+				"node_ids": [
+					"C6-06-B.D05"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": []
+		},
+		"authoring": {
+			"task_script_id": "C6-06-B",
+			"dialogue_id": "task_c6_06_b",
+			"compile_status": "missing_runtime_target_ids",
+			"preview": true,
+			"npc_entries": {
+				"9036": 0
+			}
+		},
+		"required_quest_ids": [
+			26060
+		],
+		"level_id": 6
+	},
+	"26062": {
+		"id": 26062,
+		"title": "点名",
+		"description": "三人冲出侧门",
+		"quest_kind": "story_task_script",
+		"chapter_id": "chapter_6",
+		"required_lead_hero_id": 0,
+		"required_hero_id": 0,
+		"giver_npc_id": 9001,
+		"turn_in_npc_id": 9001,
+		"objectives": [
+			{
+				"id": "talk_9001",
+				"type": "talk",
+				"npc_id": 9001,
+				"count": 1
+			}
+		],
+		"stages": [
+			{
+				"id": "C6-06-C-S01",
+				"title": "接应",
+				"order": 1,
+				"kind": "complete",
+				"node_ids": [
+					"C6-06-C.D01-1",
+					"C6-06-C.D01-2",
+					"C6-06-C.D01-3",
+					"C6-06-C.D02",
+					"C6-06-C.D03"
+				],
+				"objective_ids": [
+					"talk_9001"
+				],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-C-S02",
+				"title": "官方公报",
+				"order": 2,
+				"kind": "complete",
+				"node_ids": [
+					"C6-06-C.D04",
+					"C6-06-C.D05",
+					"C6-06-C.D06"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C6-06-C-S03",
+				"title": "结尾对白",
+				"order": 3,
+				"kind": "cinematic",
+				"node_ids": [
+					"C6-06-C.D07",
+					"C6-06-C.D08",
+					"C6-06-C.D09",
+					"C6-06-C.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			}
+		],
+		"rewards": {
+			"items": [],
+			"flags": [
+				{
+					"flag": "Chapter06Complete",
+					"value": true
+				},
+				{
+					"flag": "LaunchStoryComplete",
+					"value": true
+				}
+			]
+		},
+		"authoring": {
+			"task_script_id": "C6-06-C",
+			"dialogue_id": "task_c6_06_c",
+			"compile_status": "mapped",
+			"preview": true,
+			"npc_entries": {
+				"9001": 0,
+				"9002": 28560
+			}
+		},
+		"required_quest_ids": [
+			26061
+		],
+		"level_id": 0
+	}
+}

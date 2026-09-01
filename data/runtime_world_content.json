@@ -5,20 +5,6 @@
 		"0": {
 			"interactables": [
 				{
-					"id": "c0_01_a_warm_meal",
-					"type": "named_event",
-					"name": "热粥",
-					"x": 1480,
-					"y": 743,
-					"interaction_radius": 96,
-					"event_name": "prologue_warm_meal",
-					"required_quest_id": 20010,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C0-01-A-S02"
-				},
-				{
 					"id": "gate_ch1",
 					"type": "portal",
 					"name": "前往星露草原",
@@ -38,6 +24,7 @@
 					"y": 743,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "hub_street_walk",
 					"required_quest_id": 20020,
 					"required_quest_states": [
@@ -52,6 +39,7 @@
 					"y": 743,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "hub_to_forest",
 					"required_quest_id": 20070,
 					"required_quest_states": [
@@ -66,8 +54,48 @@
 					"y": 623,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c6_escape_route",
 					"required_quest_id": 26060,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "prologue_warm_meal",
+					"type": "named_event",
+					"name": "长屋餐桌",
+					"x": 1580,
+					"y": 743,
+					"event_name": "prologue_warm_meal",
+					"required_quest_id": 20010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_starwedge_1_calibrated",
+					"type": "named_event",
+					"name": "星楔",
+					"x": 3488,
+					"y": 735,
+					"event_name": "c1_starwedge_1_calibrated",
+					"required_quest_id": 21080,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": [
+				{
+					"spawn_id": "q21080_e8027",
+					"mode": "group",
+					"enemy_id": 8027,
+					"x": 3488,
+					"y": 735,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 21080,
 					"required_quest_states": [
 						"active"
 					]
@@ -85,19 +113,6 @@
 					"target_level_id": 0
 				},
 				{
-					"id": "pickup_first_aid",
-					"type": "pickup",
-					"name": "救援药箱",
-					"x": 560,
-					"y": 744,
-					"item_id": 100246,
-					"count": 1,
-					"required_quest_id": 21020,
-					"required_quest_states": [
-						"active"
-					]
-				},
-				{
 					"id": "gate_ch2",
 					"type": "portal",
 					"name": "前往月影遗迹",
@@ -110,121 +125,14 @@
 					]
 				},
 				{
-					"id": "c1_03_a_route_entered",
-					"type": "area_event",
-					"name": "进入塌方农路",
-					"x": 700,
-					"y": 700,
-					"width": 220,
-					"height": 260,
-					"event_name": "c1_03_a_route_entered",
-					"required_quest_id": 21030,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_ids": [
-						"C1-03-A-S02",
-						"C1-03-A-S03"
-					],
-					"debug_visible": true
-				},
-				{
-					"id": "c1_03_a_nursery_arrived",
-					"type": "area_event",
-					"name": "抵达育苗棚",
-					"x": 1550,
-					"y": 690,
-					"width": 180,
-					"height": 240,
-					"event_name": "c1_03_a_nursery_arrived",
-					"required_quest_id": 21030,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_ids": [
-						"C1-03-A-S03",
-						"C1-03-A-S04"
-					],
-					"debug_visible": true
-				},
-				{
-					"id": "c1_04_a_beacon_arrived",
-					"type": "area_event",
-					"name": "进入外围信标塔",
-					"x": 1810,
-					"y": 590,
-					"width": 180,
-					"height": 240,
-					"event_name": "c1_04_a_beacon_arrived",
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C1-04-A-S02",
-					"debug_visible": true
-				},
-				{
-					"id": "c1_04_a_beacon_part_1",
-					"type": "pickup",
-					"name": "信标导片（1/2）",
-					"x": 2010,
-					"y": 665,
-					"item_id": 100254,
-					"count": 1,
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C1-04-A-S04"
-				},
-				{
-					"id": "c1_04_a_beacon_part_2",
-					"type": "pickup",
-					"name": "信标导片（2/2）",
-					"x": 2160,
-					"y": 665,
-					"item_id": 100254,
-					"count": 1,
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C1-04-A-S04"
-				},
-				{
-					"id": "c1_04_a_beacon_calibrate",
-					"type": "named_event",
-					"name": "三拍校准控制环",
-					"x": 2310,
-					"y": 665,
-					"event_name": "pending_c1_04_a_6",
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C1-04-A-S05"
-				},
-				{
-					"id": "c1_04_a_rescue_response",
-					"type": "named_event",
-					"name": "确认两处救援回应",
-					"x": 2450,
-					"y": 665,
-					"event_name": "pending_c1_04_a_7",
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					],
-					"required_stage_id": "C1-04-A-S05"
-				},
-				{
 					"id": "c1_medicine_hollow",
 					"type": "area_event",
 					"name": "前往林间低洼处",
-					"x": 3400,
-					"y": 1309,
+					"x": 1912,
+					"y": 735,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c1_medicine_hollow",
 					"required_quest_id": 21010,
 					"required_quest_states": [
@@ -235,10 +143,11 @@
 					"id": "c1_grain_cart_passed",
 					"type": "area_event",
 					"name": "护送粮种车通过塌方段",
-					"x": 4300,
-					"y": 1309,
+					"x": 2419,
+					"y": 735,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c1_grain_cart_passed",
 					"required_quest_id": 21020,
 					"required_quest_states": [
@@ -249,10 +158,11 @@
 					"id": "c1_beacon_1_check",
 					"type": "area_event",
 					"name": "检查失效的信标",
-					"x": 2800,
-					"y": 1309,
+					"x": 1575,
+					"y": 735,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c1_beacon_1_check",
 					"required_quest_id": 21030,
 					"required_quest_states": [
@@ -263,10 +173,11 @@
 					"id": "c1_mail_route_2",
 					"type": "area_event",
 					"name": "替洛伯押送药包与信件",
-					"x": 5000,
-					"y": 1309,
+					"x": 2812,
+					"y": 735,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c1_mail_route_2",
 					"required_quest_id": 21060,
 					"required_quest_states": [
@@ -277,12 +188,89 @@
 					"id": "c1_beacon_3_arrive",
 					"type": "area_event",
 					"name": "抵达第三座信标",
-					"x": 5600,
-					"y": 1309,
+					"x": 3150,
+					"y": 735,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c1_beacon_3_arrive",
 					"required_quest_id": 21070,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_beacon_1_lit",
+					"type": "named_event",
+					"name": "第一座信标",
+					"x": 1575,
+					"y": 735,
+					"event_name": "c1_beacon_1_lit",
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_beacon_3_lit",
+					"type": "named_event",
+					"name": "第三座信标",
+					"x": 3150,
+					"y": 735,
+					"event_name": "c1_beacon_3_lit",
+					"required_quest_id": 21070,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q21010_i100246",
+					"type": "pickup",
+					"name": "救援药箱",
+					"x": 1941,
+					"y": 735,
+					"item_id": 100246,
+					"count": 1,
+					"required_quest_id": 21010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q21030_i100254",
+					"type": "pickup",
+					"name": "信标导片",
+					"x": 1631,
+					"y": 735,
+					"item_id": 100254,
+					"count": 1,
+					"required_quest_id": 21030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q21050_i100248",
+					"type": "pickup",
+					"name": "信件束",
+					"x": 2419,
+					"y": 735,
+					"item_id": 100248,
+					"count": 3,
+					"required_quest_id": 21050,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q21050_i100235",
+					"type": "pickup",
+					"name": "旧邮袋",
+					"x": 2475,
+					"y": 735,
+					"item_id": 100235,
+					"count": 1,
+					"required_quest_id": 21050,
 					"required_quest_states": [
 						"active"
 					]
@@ -290,70 +278,40 @@
 			],
 			"enemies": [
 				{
-					"spawn_id": "c1_02_a_beetles",
+					"spawn_id": "q21010_e8001",
 					"mode": "group",
 					"enemy_id": 8001,
-					"x": 820,
-					"y": 680,
-					"count": 6,
-					"scatter_x": 130,
-					"required_stage_id": "C1-02-A-S03",
+					"x": 1912,
+					"y": 735,
+					"count": 3,
+					"scatter_x": 120,
+					"required_quest_id": 21010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q21020_e8002",
+					"mode": "group",
+					"enemy_id": 8002,
+					"x": 2419,
+					"y": 735,
+					"count": 4,
+					"scatter_x": 120,
 					"required_quest_id": 21020,
 					"required_quest_states": [
 						"active"
 					]
 				},
 				{
-					"spawn_id": "c1_03_a_wolves_west",
+					"spawn_id": "q21060_e8021",
 					"mode": "group",
-					"enemy_id": 8003,
-					"x": 930,
-					"y": 680,
-					"count": 3,
-					"scatter_x": 90,
-					"required_stage_id": "C1-03-A-S03",
-					"required_quest_id": 21030,
-					"required_quest_states": [
-						"active"
-					]
-				},
-				{
-					"spawn_id": "c1_03_a_wolves_bridge",
-					"mode": "group",
-					"enemy_id": 8003,
-					"x": 1100,
-					"y": 680,
-					"count": 3,
-					"scatter_x": 90,
-					"required_stage_id": "C1-03-A-S03",
-					"required_quest_id": 21030,
-					"required_quest_states": [
-						"active"
-					]
-				},
-				{
-					"spawn_id": "c1_04_a_beetles",
-					"mode": "group",
-					"enemy_id": 8019,
-					"x": 1970,
-					"y": 680,
-					"count": 4,
-					"scatter_x": 120,
-					"required_stage_id": "C1-04-A-S03",
-					"required_quest_id": 21040,
-					"required_quest_states": [
-						"active"
-					]
-				},
-				{
-					"spawn_id": "c1_04_a_elite_beetle",
-					"mode": "point",
 					"enemy_id": 8021,
-					"x": 2110,
-					"y": 680,
-					"count": 1,
-					"required_stage_id": "C1-04-A-S03",
-					"required_quest_id": 21040,
+					"x": 2588,
+					"y": 735,
+					"count": 2,
+					"scatter_x": 120,
+					"required_quest_id": 21060,
 					"required_quest_states": [
 						"active"
 					]
@@ -370,14 +328,92 @@
 					"y": 632,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c2_gate_arch",
+					"required_quest_id": 22010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c2_windmill_set",
+					"type": "named_event",
+					"name": "旧轴座",
+					"x": 2050,
+					"y": 632,
+					"event_name": "c2_windmill_set",
+					"required_quest_id": 22020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c2_legacy_room_opened",
+					"type": "named_event",
+					"name": "旧门",
+					"x": 2600,
+					"y": 632,
+					"event_name": "c2_legacy_room_opened",
+					"required_quest_id": 22030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q22010_i100238",
+					"type": "pickup",
+					"name": "木风车",
+					"x": 2100,
+					"y": 632,
+					"item_id": 100238,
+					"count": 1,
 					"required_quest_id": 22010,
 					"required_quest_states": [
 						"active"
 					]
 				}
 			],
-			"enemies": []
+			"enemies": [
+				{
+					"spawn_id": "q22010_e8013",
+					"mode": "group",
+					"enemy_id": 8013,
+					"x": 2200,
+					"y": 632,
+					"count": 3,
+					"scatter_x": 120,
+					"required_quest_id": 22010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q22030_e8020",
+					"mode": "group",
+					"enemy_id": 8020,
+					"x": 2700,
+					"y": 632,
+					"count": 2,
+					"scatter_x": 120,
+					"required_quest_id": 22030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q22040_e8028",
+					"mode": "group",
+					"enemy_id": 8028,
+					"x": 3000,
+					"y": 632,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 22040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
 		},
 		"3": {
 			"interactables": [
@@ -389,6 +425,7 @@
 					"y": 731,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c3_last_question",
 					"required_quest_id": 23020,
 					"required_quest_states": [
@@ -403,6 +440,7 @@
 					"y": 731,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c3_tower_1",
 					"required_quest_id": 23030,
 					"required_quest_states": [
@@ -417,6 +455,7 @@
 					"y": 731,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c3_tower_2",
 					"required_quest_id": 23030,
 					"required_quest_states": [
@@ -431,6 +470,7 @@
 					"y": 731,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c3_tower_3",
 					"required_quest_id": 23030,
 					"required_quest_states": [
@@ -445,14 +485,55 @@
 					"y": 731,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c3_tower_4",
 					"required_quest_id": 23030,
 					"required_quest_states": [
 						"active"
 					]
+				},
+				{
+					"id": "q23040_i100239",
+					"type": "pickup",
+					"name": "记忆损耗账页",
+					"x": 3100,
+					"y": 731,
+					"item_id": 100239,
+					"count": 1,
+					"required_quest_id": 23040,
+					"required_quest_states": [
+						"active"
+					]
 				}
 			],
-			"enemies": []
+			"enemies": [
+				{
+					"spawn_id": "q23030_e8002",
+					"mode": "group",
+					"enemy_id": 8002,
+					"x": 2300,
+					"y": 731,
+					"count": 6,
+					"scatter_x": 120,
+					"required_quest_id": 23030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q23040_e8029",
+					"mode": "group",
+					"enemy_id": 8029,
+					"x": 3000,
+					"y": 731,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 23040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
 		},
 		"4": {
 			"interactables": [
@@ -464,6 +545,7 @@
 					"y": 629,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c4_pier_node",
 					"required_quest_id": 24010,
 					"required_quest_states": [
@@ -478,6 +560,7 @@
 					"y": 629,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c4_chain_node",
 					"required_quest_id": 24010,
 					"required_quest_states": [
@@ -492,6 +575,7 @@
 					"y": 629,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c4_lane_node",
 					"required_quest_id": 24010,
 					"required_quest_states": [
@@ -506,18 +590,123 @@
 					"y": 629,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c4_kai_ambush",
 					"required_quest_id": 24030,
 					"required_quest_states": [
 						"active"
 					]
+				},
+				{
+					"id": "q24020_i100240",
+					"type": "pickup",
+					"name": "黄色雨衣纽扣",
+					"x": 2400,
+					"y": 629,
+					"item_id": 100240,
+					"count": 1,
+					"required_quest_id": 24020,
+					"required_quest_states": [
+						"active"
+					]
 				}
 			],
-			"enemies": []
+			"enemies": [
+				{
+					"spawn_id": "q24010_e8026",
+					"mode": "group",
+					"enemy_id": 8026,
+					"x": 2100,
+					"y": 629,
+					"count": 4,
+					"scatter_x": 120,
+					"required_quest_id": 24010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q24040_e8030",
+					"mode": "group",
+					"enemy_id": 8030,
+					"x": 3100,
+					"y": 629,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 24040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
 		},
 		"5": {
-			"interactables": [],
-			"enemies": []
+			"interactables": [
+				{
+					"id": "c5_bellhammer_fixed",
+					"type": "named_event",
+					"name": "钟楼断墙",
+					"x": 2100,
+					"y": 683,
+					"event_name": "c5_bellhammer_fixed",
+					"required_quest_id": 25020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c5_backgate_fixed",
+					"type": "named_event",
+					"name": "备用门",
+					"x": 2250,
+					"y": 683,
+					"event_name": "c5_backgate_fixed",
+					"required_quest_id": 25020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c5_bell_rang",
+					"type": "named_event",
+					"name": "钟锤",
+					"x": 2100,
+					"y": 683,
+					"event_name": "c5_bell_rang",
+					"required_quest_id": 25020,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			],
+			"enemies": [
+				{
+					"spawn_id": "q25010_e8007",
+					"mode": "group",
+					"enemy_id": 8007,
+					"x": 1900,
+					"y": 683,
+					"count": 4,
+					"scatter_x": 120,
+					"required_quest_id": 25010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q25030_e8031",
+					"mode": "group",
+					"enemy_id": 8031,
+					"x": 3000,
+					"y": 683,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 25030,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
 		},
 		"6": {
 			"interactables": [
@@ -529,6 +718,7 @@
 					"y": 623,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c6_lost_camp",
 					"required_quest_id": 26010,
 					"required_quest_states": [
@@ -543,6 +733,7 @@
 					"y": 623,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c6_failed_entry",
 					"required_quest_id": 26010,
 					"required_quest_states": [
@@ -557,6 +748,7 @@
 					"y": 623,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c6_core_gate",
 					"required_quest_id": 26020,
 					"required_quest_states": [
@@ -571,6 +763,7 @@
 					"y": 623,
 					"width": 240,
 					"height": 280,
+					"debug_visible": true,
 					"event_name": "c6_core_entered",
 					"required_quest_id": 26040,
 					"required_quest_states": [
@@ -578,7 +771,34 @@
 					]
 				}
 			],
-			"enemies": []
+			"enemies": [
+				{
+					"spawn_id": "q26020_e8023",
+					"mode": "group",
+					"enemy_id": 8023,
+					"x": 2800,
+					"y": 623,
+					"count": 4,
+					"scatter_x": 120,
+					"required_quest_id": 26020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"spawn_id": "q26040_e8032",
+					"mode": "group",
+					"enemy_id": 8032,
+					"x": 3100,
+					"y": 623,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 26040,
+					"required_quest_states": [
+						"active"
+					]
+				}
+			]
 		}
 	},
 	"task_chain": [

@@ -23,8 +23,9 @@ func setup(p_ui_root: Node) -> void:
 
 
 func _process(_delta: float) -> void:
-	if _panel != null and _panel.visible:
-		_refresh()
+	# 不能在这里每帧 _refresh()：_refresh 会销毁并重建全部按钮，
+	# 点击还没完成按钮就被 queue_free 了，导致所有关卡按钮点不动。
+	pass
 
 
 func toggle() -> void:
