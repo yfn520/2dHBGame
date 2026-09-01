@@ -51535,7 +51535,19 @@
 					}
 				],
 				"speaker_kind": "npc",
-				"speaker_id": 9012
+				"speaker_id": 9012,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100044,
+						"count": 1
+					},
+					{
+						"type": "give_item",
+						"item_id": 100002,
+						"count": 1
+					}
+				]
 			},
 			{
 				"id": "C0-05-A-S01_004",
@@ -51557,7 +51569,19 @@
 					}
 				],
 				"speaker_kind": "npc",
-				"speaker_id": 9012
+				"speaker_id": 9012,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100049,
+						"count": 1
+					},
+					{
+						"type": "give_item",
+						"item_id": 100088,
+						"count": 1
+					}
+				]
 			},
 			{
 				"id": "C0-05-A-S01_005",
@@ -51579,7 +51603,14 @@
 					}
 				],
 				"speaker_kind": "npc",
-				"speaker_id": 9012
+				"speaker_id": 9012,
+				"actions": [
+					{
+						"type": "give_item",
+						"item_id": 100054,
+						"count": 1
+					}
+				]
 			},
 			{
 				"id": "C0-05-A-S01_006",
@@ -51735,9 +51766,9 @@
 				"trackId": "track_narration",
 				"kind": "narration",
 				"startMs": 27480,
-				"durationMs": 2220,
+				"durationMs": 1980,
 				"speaker": "旁白",
-				"text": "获得借出装备（普通品质，已穿戴）。解锁：装备栏与宝箱。",
+				"text": "借出装备已放入背包。打开角色面板，把它们穿上。",
 				"stageId": "C0-05-A-S02",
 				"nodeId": "C0-05-A.D07",
 				"speaker_kind": "narrator",
@@ -51747,7 +51778,7 @@
 				"id": "C0-05-A-S02_003",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 30100,
+				"startMs": 29860,
 				"durationMs": 1860,
 				"speaker": "旁白",
 				"text": "解锁：铁匠铺（强化与分解将在第2章开放）。",
@@ -51763,18 +51794,18 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 31960,
+				"startMs": 31720,
 				"durationMs": 0,
 				"questId": 20050,
-				"objectiveKey": "event_prologue_gear_equipped",
-				"text": "等待目标：领取并穿戴借出装备",
-				"payload": "prologue_gear_equipped"
+				"objectiveKey": "event_equip_gear",
+				"text": "等待目标：打开角色面板，穿上借出的装备",
+				"payload": "equip_gear"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 32080,
+				"startMs": 31840,
 				"durationMs": 0,
 				"text": "退出阶段：C0-05-A-S02",
 				"payload": "C0-05-A-S02",
@@ -51834,7 +51865,7 @@
 					"C0-05-A.D08"
 				],
 				"objective_ids": [
-					"event_prologue_gear_equipped"
+					"event_equip_gear"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -51842,7 +51873,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 27480,
-				"end_ms": 32080
+				"end_ms": 31840
 			}
 		]
 	},

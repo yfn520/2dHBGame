@@ -38,6 +38,8 @@ var dialogue_service
 var npc_interaction_dispatcher
 var chapter_service
 var story_auto_play
+# 游戏根节点（game_root.gd 在 _ready 时写入），供剧情系统访问主控角色状态
+var game_root
 
 var level_manager: Node
 var _quest_save_scheduled := false
@@ -118,6 +120,8 @@ func _ready() -> void:
 	add_child(story_auto_play)
 	story_auto_play.setup(quest_service, dialogue_service)
 	quest_service.quest_updated.connect(_on_quest_updated)
+	# 穿戴装备 → 任务事件记账（如 C0-05-A「穿上借出的装备」）
+	equipment_provider.equipped.connect(_on_equipment_equipped)
 
 	character_stats.setup(roster_data, character_config)
 	equipment_provider.refresh_current_stats()
@@ -137,6 +141,11 @@ func _on_quest_updated(_quest_id: int) -> void:
 		return
 	_quest_save_scheduled = true
 	get_tree().create_timer(0.25).timeout.connect(_flush_quest_save)
+
+
+func _on_equipment_equipped(_slot: String, _item_id: int) -> void:
+	if quest_service != null:
+		quest_service.record_named_event("equip_gear")
 
 
 func _flush_quest_save() -> void:

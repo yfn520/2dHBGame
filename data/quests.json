@@ -412,10 +412,10 @@
 				"count": 1
 			},
 			{
-				"id": "event_prologue_gear_equipped",
+				"id": "event_equip_gear",
 				"type": "named_event",
-				"event_name": "prologue_gear_equipped",
-				"name": "领取并穿戴借出装备",
+				"event_name": "equip_gear",
+				"name": "打开角色面板，穿上借出的装备",
 				"count": 1
 			}
 		],
@@ -456,7 +456,7 @@
 					"C0-05-A.D08"
 				],
 				"objective_ids": [
-					"event_prologue_gear_equipped"
+					"event_equip_gear"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -471,6 +471,26 @@
 				{
 					"flag": "BorrowedGearEquipped",
 					"value": true
+				},
+				{
+					"flag": "100044",
+					"value": 1
+				},
+				{
+					"flag": "100002",
+					"value": 1
+				},
+				{
+					"flag": "100049",
+					"value": 1
+				},
+				{
+					"flag": "100088",
+					"value": 1
+				},
+				{
+					"flag": "100054",
+					"value": 1
 				}
 			]
 		},

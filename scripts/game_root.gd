@@ -21,6 +21,7 @@ var _story_bootstrap_pending := false
 
 
 func _ready() -> void:
+	GameRegistry.game_root = self
 	player = party_manager.get_active_character()
 	if player == null:
 		push_error("[GameRoot] PartyManager 没有可用的主控角色")
@@ -169,6 +170,16 @@ func _bootstrap_story() -> void:
 	_story_bootstrap_pending = false
 	if GameRegistry.story_auto_play != null:
 		GameRegistry.story_auto_play.bootstrap()
+
+
+## 等主控角色落地（供剧情系统在播放"保留场景画面"的过场前调用）。
+## 对话暂停游戏是约定：不先等落地，暂停会把人物冻结在半空。
+## 3 秒兜底，防止极端情况下永不落地导致剧情不播。
+func wait_player_landed() -> void:
+	var elapsed := 0.0
+	while player != null and is_instance_valid(player) and not player.is_on_floor() and elapsed < 3.0:
+		await get_tree().process_frame
+		elapsed += get_process_delta_time()
 
 
 func _on_level_unloaded(_level_id: int) -> void:

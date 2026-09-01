@@ -30,6 +30,14 @@ func setup(p_quest_service: QuestService, p_dialogue_service: DialogueService) -
 	quest_service.quest_ready.connect(_on_quest_ready)
 
 
+## 场景可见过场的落地等待：对话暂停游戏是约定，不先等落地会把人物冻结在半空。
+## 开局选角是纯黑电影模式，不需要等；这里只服务保留场景画面的任务过场。
+func _wait_scene_ready() -> void:
+	var root: Node = GameRegistry.game_root
+	if root != null and root.has_method("wait_player_landed"):
+		await root.wait_player_landed()
+
+
 ## auto_complete 任务的 ready 即完成（auto_start 挑战段打完即过）。
 ## auto_play 过场任务播放中不抢跑：由对话收尾统一处理，避免完成通知早于过场弹出。
 func _on_quest_ready(quest_id: int) -> void:
@@ -79,7 +87,7 @@ func bootstrap() -> void:
 
 ## 启动入口：先恢复上次被打断的自动任务（active 但对话未播完），再尝试推进链。
 func _chain_entry() -> void:
-	if _resume_interrupted():
+	if await _resume_interrupted():
 		return
 	_complete_ready_auto_tasks()
 	_advance_chain()
@@ -119,6 +127,9 @@ func _resume_interrupted() -> bool:
 		if dialogue_id.is_empty():
 			continue
 		_backfill_completed_auto_stage_talk(quest, quest_id)
+		await _wait_scene_ready()
+		if dialogue_service.is_active():
+			return true
 		_playing_quest_id = quest_id
 		var entry_ms := _resume_entry_ms(quest, quest_id, dialogue_id)
 		if not dialogue_service.start_cutscene(dialogue_id, int(quest.get("giver_npc_id", 0)), false, entry_ms):
@@ -272,6 +283,9 @@ func _try_autoplay_segments(npc_id: int) -> void:
 				continue
 			quest_service.state.set_flag(flag_key, true)
 			GameRegistry.save_game()
+			await _wait_scene_ready()
+			if dialogue_service.is_active():
+				return
 			dialogue_service.start_cutscene(dialogue_id, 0, false, entry_ms)
 			return
 
@@ -337,6 +351,10 @@ func _advance_chain(trigger_quest_id: int = -1, only_level_id: int = -1) -> void
 		var dialogue_id := str((quest.get("authoring", {}) as Dictionary).get("dialogue_id", ""))
 		if dialogue_id.is_empty():
 			continue
+		# 任务过场保留场景画面：等角色落地再播，避免暂停把人物冻结在半空
+		await _wait_scene_ready()
+		if dialogue_service.is_active():
+			return
 		_playing_quest_id = quest_id
 		if not dialogue_service.start_cutscene(dialogue_id, int(quest.get("giver_npc_id", 0))):
 			_playing_quest_id = 0
