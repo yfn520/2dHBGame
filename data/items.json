@@ -17,7 +17,7 @@
 	},
 	"100002": {
 		"name": "铁甲",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"chapter_id": "",
 		"is_tradable": true,
@@ -116,7 +116,7 @@
 	},
 	"100008": {
 		"name": "星辰神器",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"chapter_id": "",
 		"is_tradable": true,
@@ -149,7 +149,7 @@
 	},
 	"100010": {
 		"name": "骑士板甲",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"chapter_id": "",
 		"is_tradable": true,
@@ -271,7 +271,7 @@
 	},
 	"100018": {
 		"name": "归城残盾",
-		"type": "pact_legacy",
+		"type": "offhand",
 		"gear_category": "pact_legacy",
 		"chapter_id": "chapter_2",
 		"is_tradable": false,
@@ -292,7 +292,7 @@
 	},
 	"100019": {
 		"name": "无路之弦",
-		"type": "pact_legacy",
+		"type": "weapon",
 		"gear_category": "pact_legacy",
 		"chapter_id": "chapter_2",
 		"is_tradable": false,
@@ -313,7 +313,7 @@
 	},
 	"100020": {
 		"name": "缺页星典",
-		"type": "pact_legacy",
+		"type": "offhand",
 		"gear_category": "pact_legacy",
 		"chapter_id": "chapter_2",
 		"is_tradable": false,
@@ -385,7 +385,7 @@
 	},
 	"100024": {
 		"name": "月影守门之盾",
-		"type": "armor",
+		"type": "offhand",
 		"gear_category": "chapter_named",
 		"chapter_id": "chapter_2",
 		"is_tradable": true,
@@ -472,7 +472,7 @@
 	},
 	"100029": {
 		"name": "烛塔法袍",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "chapter_named",
 		"chapter_id": "chapter_3",
 		"is_tradable": true,
@@ -524,7 +524,7 @@
 	},
 	"100032": {
 		"name": "铁壳甲片",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "chapter_named",
 		"chapter_id": "chapter_4",
 		"is_tradable": true,
@@ -785,7 +785,7 @@
 	},
 	"100047": {
 		"name": "圣垒塔盾",
-		"type": "armor",
+		"type": "offhand",
 		"gear_category": "normal",
 		"quality": "神话",
 		"class_id": "knight",
@@ -966,7 +966,7 @@
 	},
 	"100057": {
 		"name": "秘法棱镜",
-		"type": "artifact",
+		"type": "offhand",
 		"gear_category": "normal",
 		"quality": "神话",
 		"class_id": "mage",
@@ -1094,7 +1094,7 @@
 	},
 	"100064": {
 		"name": "旧守卫铁盔",
-		"type": "armor",
+		"type": "head",
 		"gear_category": "normal",
 		"quality": "普通",
 		"class_id": "",
@@ -1113,7 +1113,7 @@
 	},
 	"100065": {
 		"name": "林径斗篷",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "优秀",
 		"class_id": "",
@@ -1132,7 +1132,7 @@
 	},
 	"100066": {
 		"name": "蓝钢胸甲",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "",
@@ -1170,7 +1170,7 @@
 	},
 	"100068": {
 		"name": "紫晶护腕",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "",
@@ -1189,7 +1189,7 @@
 	},
 	"100069": {
 		"name": "不屈者腰带",
-		"type": "armor",
+		"type": "waist",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "",
@@ -1247,7 +1247,7 @@
 	},
 	"100072": {
 		"name": "星辉罗盘",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "special",
 		"quality": "星辉",
 		"class_id": "",
@@ -1285,7 +1285,7 @@
 	},
 	"100074": {
 		"name": "铆铁护手",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "普通",
 		"class_id": "knight",
@@ -1323,7 +1323,7 @@
 	},
 	"100076": {
 		"name": "边塞板甲",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "knight",
@@ -1342,7 +1342,7 @@
 	},
 	"100077": {
 		"name": "固阵扣带",
-		"type": "armor",
+		"type": "waist",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "knight",
@@ -1361,7 +1361,7 @@
 	},
 	"100078": {
 		"name": "誓约之心",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"quality": "神话",
 		"class_id": "knight",
@@ -1380,7 +1380,7 @@
 	},
 	"100079": {
 		"name": "星落壁垒",
-		"type": "armor",
+		"type": "offhand",
 		"gear_category": "special",
 		"quality": "星辉",
 		"class_id": "knight",
@@ -1399,7 +1399,7 @@
 	},
 	"100080": {
 		"name": "抄录者兜帽",
-		"type": "armor",
+		"type": "head",
 		"gear_category": "normal",
 		"quality": "普通",
 		"class_id": "mage",
@@ -1418,7 +1418,7 @@
 	},
 	"100081": {
 		"name": "星纹法袍",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "优秀",
 		"class_id": "mage",
@@ -1437,7 +1437,7 @@
 	},
 	"100082": {
 		"name": "聚焦手套",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "mage",
@@ -1513,7 +1513,7 @@
 	},
 	"100086": {
 		"name": "猎迹兜帽",
-		"type": "armor",
+		"type": "head",
 		"gear_category": "normal",
 		"quality": "普通",
 		"class_id": "archer",
@@ -1532,7 +1532,7 @@
 	},
 	"100087": {
 		"name": "林卫皮甲",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "优秀",
 		"class_id": "archer",
@@ -1551,7 +1551,7 @@
 	},
 	"100088": {
 		"name": "扣弦护臂",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "archer",
@@ -1627,7 +1627,7 @@
 	},
 	"100092": {
 		"name": "行旅披肩",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "普通",
 		"class_id": "cleric",
@@ -1646,7 +1646,7 @@
 	},
 	"100093": {
 		"name": "银线祭服",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "优秀",
 		"class_id": "cleric",
@@ -1665,7 +1665,7 @@
 	},
 	"100094": {
 		"name": "仁心手套",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "cleric",
@@ -1778,7 +1778,7 @@
 	},
 	"100100": {
 		"name": "夜缝面罩",
-		"type": "armor",
+		"type": "head",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "assassin",
@@ -1797,7 +1797,7 @@
 	},
 	"100101": {
 		"name": "影行短衣",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "assassin",
@@ -1816,7 +1816,7 @@
 	},
 	"100102": {
 		"name": "无声丝手",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "优秀",
 		"class_id": "assassin",
@@ -1910,7 +1910,7 @@
 	},
 	"100107": {
 		"name": "无影核心",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"quality": "神话",
 		"class_id": "assassin",
@@ -2020,7 +2020,7 @@
 	},
 	"100113": {
 		"name": "结印额环",
-		"type": "armor",
+		"type": "head",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "summoner",
@@ -2039,7 +2039,7 @@
 	},
 	"100114": {
 		"name": "缚灵长衣",
-		"type": "armor",
+		"type": "body",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "summoner",
@@ -2058,7 +2058,7 @@
 	},
 	"100115": {
 		"name": "织符手套",
-		"type": "armor",
+		"type": "hands",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "summoner",
@@ -2116,7 +2116,7 @@
 	},
 	"100118": {
 		"name": "机巧灵核",
-		"type": "artifact",
+		"type": "offhand",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "summoner",
@@ -2154,7 +2154,7 @@
 	},
 	"100120": {
 		"name": "万象灵笼",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"quality": "神话",
 		"class_id": "summoner",
@@ -2173,7 +2173,7 @@
 	},
 	"100121": {
 		"name": "星门罗盘",
-		"type": "artifact",
+		"type": "offhand",
 		"gear_category": "special",
 		"quality": "星辉",
 		"class_id": "summoner",
@@ -2192,7 +2192,7 @@
 	},
 	"100122": {
 		"name": "渊胎核心",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "special",
 		"quality": "深渊",
 		"class_id": "summoner",
@@ -2517,7 +2517,7 @@
 	},
 	"100142": {
 		"name": "裂隙罗盘",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"quality": "史诗",
 		"class_id": "",
@@ -3979,7 +3979,7 @@
 	},
 	"100227": {
 		"name": "星隙测针",
-		"type": "artifact",
+		"type": "accessory",
 		"gear_category": "normal",
 		"quality": "稀有",
 		"class_id": "",

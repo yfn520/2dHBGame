@@ -13,39 +13,50 @@ const INVENTORY_COLUMNS := 5
 const SLOT_SIZE := Vector2(58, 58)
 
 const SLOT_LABELS := {
-	"weapon": "武器",
-	"armor": "护甲",
+	"head": "头部",
 	"necklace": "项链",
+	"body": "衣服",
+	"legs": "护腿",
+	"boots": "鞋子",
+	"hands": "手部",
+	"waist": "腰带",
 	"ring": "戒指",
-	"boots": "靴子",
-	"relic": "圣物",
-	"mount": "坐骑",
-	"artifact": "神器",
+	"ring_left": "戒指",
+	"ring_right": "戒指",
+	"accessory": "饰品",
+	"weapon": "主武器",
+	"offhand": "副手",
 }
 
 const TYPE_LABELS := {
 	"all": "全部",
-	"weapon": "武器",
-	"armor": "护甲",
+	"weapon": "主武器",
+	"offhand": "副手",
+	"head": "头部",
 	"necklace": "项链",
+	"body": "衣服",
+	"legs": "护腿",
+	"hands": "手部",
+	"waist": "腰带",
 	"ring": "戒指",
-	"boots": "靴子",
-	"relic": "圣物",
-	"mount": "坐骑",
-	"artifact": "神器",
+	"accessory": "饰品",
+	"boots": "鞋子",
 	"consumable": "药水",
 	"material": "材料",
 }
 
 const TYPE_COLORS := {
 	"weapon": Color(0.72, 0.22, 0.18),
-	"armor": Color(0.56, 0.38, 0.18),
+	"offhand": Color(0.64, 0.34, 0.20),
+	"head": Color(0.56, 0.38, 0.18),
+	"body": Color(0.56, 0.38, 0.18),
+	"legs": Color(0.56, 0.38, 0.18),
+	"hands": Color(0.50, 0.40, 0.22),
+	"waist": Color(0.50, 0.40, 0.22),
 	"boots": Color(0.28, 0.52, 0.30),
 	"necklace": Color(0.55, 0.38, 0.74),
 	"ring": Color(0.58, 0.28, 0.72),
-	"relic": Color(0.70, 0.46, 0.18),
-	"mount": Color(0.32, 0.48, 0.66),
-	"artifact": Color(0.76, 0.58, 0.18),
+	"accessory": Color(0.76, 0.58, 0.18),
 	"consumable": Color(0.20, 0.50, 0.72),
 	"material": Color(0.28, 0.62, 0.42),
 	"empty": Color(0.20, 0.16, 0.10),
@@ -290,17 +301,24 @@ func _build_character_stage() -> Control:
 	var left_slots := VBoxContainer.new()
 	left_slots.add_theme_constant_override("separation", 6)
 	holder.add_child(left_slots)
-	left_slots.add_child(_make_equipment_button("weapon"))
-	left_slots.add_child(_make_equipment_button("armor"))
+	left_slots.add_child(_make_equipment_button("head"))
 	left_slots.add_child(_make_equipment_button("necklace"))
-	left_slots.add_child(_make_equipment_button("ring"))
+	left_slots.add_child(_make_equipment_button("body"))
+	left_slots.add_child(_make_equipment_button("legs"))
+	left_slots.add_child(_make_equipment_button("boots"))
+
+	var center := VBoxContainer.new()
+	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	center.add_theme_constant_override("separation", 6)
+	holder.add_child(center)
 
 	_preview_holder = PanelContainer.new()
 	_preview_holder.custom_minimum_size = Vector2(220, 250)
 	_preview_holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_preview_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_preview_holder.add_theme_stylebox_override("panel", _make_panel_style(Color(0.38, 0.52, 0.38, 0.65), Color(0.24, 0.16, 0.08), 2, 8))
-	holder.add_child(_preview_holder)
+	center.add_child(_preview_holder)
 
 	var preview_layer := Control.new()
 	preview_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -318,13 +336,21 @@ func _build_character_stage() -> Control:
 	_preview_fallback.add_theme_font_size_override("font_size", 22)
 	preview_layer.add_child(_preview_fallback)
 
+	var weapon_slots := HBoxContainer.new()
+	weapon_slots.alignment = BoxContainer.ALIGNMENT_CENTER
+	weapon_slots.add_theme_constant_override("separation", 8)
+	weapon_slots.add_child(_make_equipment_button("weapon"))
+	weapon_slots.add_child(_make_equipment_button("offhand"))
+	center.add_child(weapon_slots)
+
 	var right_slots := VBoxContainer.new()
 	right_slots.add_theme_constant_override("separation", 6)
 	holder.add_child(right_slots)
-	right_slots.add_child(_make_equipment_button("boots"))
-	right_slots.add_child(_make_equipment_button("relic"))
-	right_slots.add_child(_make_equipment_button("mount"))
-	right_slots.add_child(_make_equipment_button("artifact"))
+	right_slots.add_child(_make_equipment_button("hands"))
+	right_slots.add_child(_make_equipment_button("waist"))
+	right_slots.add_child(_make_equipment_button("ring_left"))
+	right_slots.add_child(_make_equipment_button("ring_right"))
+	right_slots.add_child(_make_equipment_button("accessory"))
 	return holder
 
 
@@ -474,7 +500,7 @@ func _build_categories() -> Control:
 	row.columns = 6
 	row.add_theme_constant_override("h_separation", 4)
 	row.add_theme_constant_override("v_separation", 4)
-	for type_name in ["all", "weapon", "armor", "necklace", "ring", "boots", "relic", "mount", "artifact", "consumable", "material"]:
+	for type_name in ["all", "weapon", "offhand", "head", "necklace", "body", "legs", "hands", "waist", "ring", "accessory", "boots", "consumable", "material"]:
 		var btn := Button.new()
 		btn.text = TYPE_LABELS.get(type_name, type_name)
 		btn.toggle_mode = true
@@ -685,7 +711,7 @@ func _rebuild_popup_list(slot: String) -> void:
 	var items: Array[ItemInstance] = GameRegistry.inventory_provider.get_items()
 	for item in items:
 		var config: Dictionary = GameRegistry.item_config.get_item(item.item_id)
-		if str(config.get("type", "")) != slot:
+		if not GameRegistry.item_config.can_equip_in_slot(item.item_id, slot):
 			continue
 		found = true
 		var btn := Button.new()
@@ -701,7 +727,7 @@ func _rebuild_popup_list(slot: String) -> void:
 
 func _on_popup_item_selected(item_uid: int) -> void:
 	if GameRegistry.equipment_provider != null:
-		GameRegistry.equipment_provider.equip_item(item_uid)
+		GameRegistry.equipment_provider.equip_item(item_uid, _current_popup_slot)
 	_close_popup()
 
 
