@@ -256,6 +256,15 @@ func from_dict(data: Dictionary, config_data: CharacterConfigData = null) -> voi
 		recruited_hero_ids.append(int(id_value))
 	if config_data != null:
 		setup_defaults(config_data)
+	# 不变量修复：主角必须在阵容中。旧档曾被外部快照覆盖（主角标记还在、阵容里没了主角），
+	# 读档时重建为"主角单人"——剧情起始状态本来就是主角独自行动。
+	if protagonist_hero_id > 0 and not lineup_ids.has(protagonist_hero_id):
+		lineup_ids = [protagonist_hero_id]
+		active_character_id = protagonist_hero_id
+		active_index = 0
+		ensure_character(protagonist_hero_id)
+		if not recruited_hero_ids.has(protagonist_hero_id):
+			recruited_hero_ids.append(protagonist_hero_id)
 
 
 ## 选择主角（序章调用）。设置存档级主角标记并加入阵容。

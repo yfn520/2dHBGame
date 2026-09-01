@@ -498,7 +498,8 @@ func _resolve_speaker_portrait(node: Dictionary, npc: Dictionary) -> String:
 			var speaker_portrait := str(speaker_npc.get("portrait", ""))
 			return speaker_portrait if not speaker_portrait.is_empty() else str(npc.get("portrait", ""))
 		"narrator":
-			return str(npc.get("portrait", ""))
+			# 旁白/过场没有说话人，不显示任何头像
+			return ""
 	return _legacy_resolve_speaker_portrait(str(node.get("speaker", "")).strip_edges(), npc)
 
 
@@ -524,7 +525,7 @@ func _protagonist_portrait(npc: Dictionary) -> String:
 ## 主角/三英雄用角色头像，具名 NPC 用各自头像，旁白回退当前 NPC。
 func _legacy_resolve_speaker_portrait(speaker: String, npc: Dictionary) -> String:
 	if speaker.is_empty() or speaker == "旁白":
-		return str(npc.get("portrait", ""))
+		return ""
 	var hero_id := 0
 	if speaker == "主角":
 		if GameRegistry.quest_service != null and GameRegistry.quest_service.roster != null:

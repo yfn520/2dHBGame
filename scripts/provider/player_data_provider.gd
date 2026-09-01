@@ -20,7 +20,9 @@ func _init(p_inventory: InventoryData, p_equipment: EquipmentData, p_roster: Cha
 
 func load_local() -> bool:
 	_loaded_local_save = SaveManager.load_save(inventory, equipment, roster, character_config, quest_state, chapter_state)
-	if not _loaded_local_save or inventory.get_items().is_empty():
+	# 只有完全没有存档时才应用 mock。背包可能合法为空（开局不发装备），
+	# 不能再用"背包空"当作首启信号，否则会覆盖玩家已选的主角和阵容。
+	if not _loaded_local_save:
 		_apply_local_mock_snapshot()
 	return _loaded_local_save
 

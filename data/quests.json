@@ -524,13 +524,6 @@
 				"type": "talk",
 				"npc_id": 9001,
 				"count": 1
-			},
-			{
-				"id": "event_hub_expedition_registered",
-				"type": "named_event",
-				"event_name": "hub_expedition_registered",
-				"name": "完成临时远征资质登记",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -545,8 +538,7 @@
 					"C0-06-A.D03",
 					"C0-06-A.D04",
 					"C0-06-A.D05",
-					"C0-06-A.D06",
-					"C0-06-A.D07"
+					"C0-06-A.D06"
 				],
 				"objective_ids": [
 					"talk_9001"
@@ -559,15 +551,30 @@
 			},
 			{
 				"id": "C0-06-A-S02",
-				"title": "系统",
+				"title": "选择",
 				"order": 2,
-				"kind": "system",
+				"kind": "choice",
 				"node_ids": [
+					"C0-06-A.D07",
 					"C0-06-A.D08"
 				],
-				"objective_ids": [
-					"event_hub_expedition_registered"
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false
+			},
+			{
+				"id": "C0-06-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C0-06-A.D09",
+					"C0-06-A.D10"
 				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",

@@ -85,15 +85,15 @@ func refresh_quest_indicator() -> void:
 	if GameRegistry.quest_service.has_ready_quest(npc_id):
 		# 圆圈：目标已完成，可向该 NPC 交付。
 		_quest_label.text = "○"
-		_quest_label.modulate = Color("58c7ff")
+		_quest_label.modulate = Color("33e0ff")
 	elif GameRegistry.quest_service.has_active_quest(npc_id):
 		# 感叹号：该 NPC 对应的任务正在进行。
 		_quest_label.text = "!"
-		_quest_label.modulate = Color("ffd84d")
+		_quest_label.modulate = Color("ffdf00")
 	elif GameRegistry.quest_service.has_available_quest(npc_id):
 		# 问号：有满足前置、现在可接取的任务。
 		_quest_label.text = "?"
-		_quest_label.modulate = Color("f1e7bd")
+		_quest_label.modulate = Color("ff9f1a")
 	else:
 		_quest_label.text = ""
 

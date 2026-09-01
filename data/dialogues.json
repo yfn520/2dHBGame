@@ -27207,7 +27207,7 @@
 				"startMs": 65360,
 				"durationMs": 2520,
 				"speaker": "旁白",
-				"text": "获得主契遗装（本存档唯一，按形态占用主武器或副手，不可交易/分解/掉落）。",
+				"text": "获得主契遗装（本存档唯一，不占常规槽位，不可交易/分解/掉落）。",
 				"stageId": "C2-03-A-S03",
 				"nodeId": "C2-03-A.D08",
 				"speaker_kind": "narrator",
@@ -52005,42 +52005,14 @@
 			{
 				"trackId": "track_event",
 				"kind": "event",
-				"eventType": "quest_state",
-				"questState": "ready",
-				"startMs": 19760,
-				"durationMs": 0,
-				"text": "等待任务可交付",
-				"payload": "交付",
-				"id": "C0-06-A-S01_event_008",
-				"stageId": "C0-06-A-S01",
-				"nodeId": "C0-06-A.D07",
-				"questId": 20060
-			},
-			{
-				"id": "C0-06-A-S01_009",
-				"trackId": "track_dialogue",
-				"kind": "line",
-				"startMs": 19880,
-				"durationMs": 2600,
-				"speaker": "霍雷克",
-				"text": "登记好了。板子上的委托会随章节更新，路过就看一眼。",
-				"channel": "public",
-				"stageId": "C0-06-A-S01",
-				"nodeId": "C0-06-A.D07",
-				"speaker_kind": "npc",
-				"speaker_id": 9001
-			},
-			{
-				"trackId": "track_event",
-				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 22480,
+				"startMs": 19360,
 				"durationMs": 0,
 				"text": "退出阶段：C0-06-A-S01",
 				"payload": "C0-06-A-S01",
-				"id": "C0-06-A-S01_event_010",
+				"id": "C0-06-A-S01_event_008",
 				"stageId": "C0-06-A-S01",
-				"nodeId": "C0-06-A.D07",
+				"nodeId": "C0-06-A.D06",
 				"nextStageId": "C0-06-A-S02",
 				"questId": 20060
 			},
@@ -52048,53 +52020,145 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 22880,
+				"startMs": 19760,
 				"durationMs": 0,
 				"text": "进入阶段：C0-06-A-S02",
 				"payload": "C0-06-A-S02",
 				"id": "C0-06-A-S02_event_001",
 				"stageId": "C0-06-A-S02",
-				"nodeId": "C0-06-A.D08",
+				"nodeId": "C0-06-A.D07",
 				"questId": 20060
 			},
 			{
 				"id": "C0-06-A-S02_002",
+				"stageId": "C0-06-A-S02",
+				"nodeId": "C0-06-A.D07",
+				"trackId": "track_choice",
+				"kind": "choice",
+				"startMs": 19760,
+				"durationMs": 400,
+				"text": "玩家选择",
+				"branchId": "player_choice",
+				"options": [
+					{
+						"id": "player_choice_1",
+						"text": "登记临时远征资质",
+						"branchId": "accept"
+					},
+					{
+						"id": "player_choice_2",
+						"text": "再想想",
+						"branchId": "wait",
+						"nextClipId": "C0-06-A-S02_002"
+					}
+				]
+			},
+			{
+				"id": "C0-06-A-S02_003",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 22880,
-				"durationMs": 2100,
+				"startMs": 20160,
+				"durationMs": 1440,
 				"speaker": "旁白",
-				"text": "解锁：旅团会馆（招募与星契将在后续章节逐步开放）。",
+				"text": "霍雷克把资质册和笔推了过来。",
 				"stageId": "C0-06-A-S02",
-				"nodeId": "C0-06-A.D08",
+				"nodeId": "C0-06-A.D07",
 				"speaker_kind": "narrator",
 				"speaker_id": 0
 			},
 			{
-				"id": "C0-06-A-S02_objective_001",
+				"id": "C0-06-A-S02_004",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 22400,
+				"durationMs": 840,
+				"speaker": "主角",
+				"text": "我写。",
+				"channel": "public",
 				"stageId": "C0-06-A-S02",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 24980,
-				"durationMs": 0,
-				"questId": 20060,
-				"objectiveKey": "event_hub_expedition_registered",
-				"text": "等待目标：完成临时远征资质登记",
-				"payload": "hub_expedition_registered"
+				"nodeId": "C0-06-A.D08",
+				"speaker_kind": "protagonist",
+				"speaker_id": 0
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 25100,
+				"startMs": 23240,
 				"durationMs": 0,
 				"text": "退出阶段：C0-06-A-S02",
 				"payload": "C0-06-A-S02",
-				"id": "C0-06-A-S02_event_003",
+				"id": "C0-06-A-S02_event_005",
 				"stageId": "C0-06-A-S02",
 				"nodeId": "C0-06-A.D08",
+				"nextStageId": "C0-06-A-S03",
+				"questId": 20060
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_enter",
+				"startMs": 23640,
+				"durationMs": 0,
+				"text": "进入阶段：C0-06-A-S03",
+				"payload": "C0-06-A-S03",
+				"id": "C0-06-A-S03_event_001",
+				"stageId": "C0-06-A-S03",
+				"nodeId": "C0-06-A.D09",
+				"questId": 20060
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "quest_state",
+				"questState": "ready",
+				"startMs": 23640,
+				"durationMs": 0,
+				"text": "等待任务可交付",
+				"payload": "交付",
+				"id": "C0-06-A-S03_event_002",
+				"stageId": "C0-06-A-S03",
+				"nodeId": "C0-06-A.D09",
+				"questId": 20060
+			},
+			{
+				"id": "C0-06-A-S03_003",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 23760,
+				"durationMs": 2600,
+				"speaker": "霍雷克",
+				"text": "登记好了。板子上的委托会随章节更新，路过就看一眼。",
+				"channel": "public",
+				"stageId": "C0-06-A-S03",
+				"nodeId": "C0-06-A.D09",
+				"speaker_kind": "npc",
+				"speaker_id": 9001
+			},
+			{
+				"id": "C0-06-A-S03_004",
+				"trackId": "track_narration",
+				"kind": "narration",
+				"startMs": 26760,
+				"durationMs": 2100,
+				"speaker": "旁白",
+				"text": "解锁：旅团会馆（招募与星契将在后续章节逐步开放）。",
+				"stageId": "C0-06-A-S03",
+				"nodeId": "C0-06-A.D10",
+				"speaker_kind": "narrator",
+				"speaker_id": 0
+			},
+			{
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "stage_exit",
+				"startMs": 28860,
+				"durationMs": 0,
+				"text": "退出阶段：C0-06-A-S03",
+				"payload": "C0-06-A-S03",
+				"id": "C0-06-A-S03_event_005",
+				"stageId": "C0-06-A-S03",
+				"nodeId": "C0-06-A.D10",
 				"questId": 20060,
 				"actions": [
 					{
@@ -52109,7 +52173,7 @@
 			"9001": 0
 		},
 		"turn_in_entries": {
-			"9001": 19760
+			"9001": 23640
 		},
 		"stages": [
 			{
@@ -52123,8 +52187,7 @@
 					"C0-06-A.D03",
 					"C0-06-A.D04",
 					"C0-06-A.D05",
-					"C0-06-A.D06",
-					"C0-06-A.D07"
+					"C0-06-A.D06"
 				],
 				"objective_ids": [],
 				"failure_policy": "retry_stage",
@@ -52133,26 +52196,43 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 0,
-				"end_ms": 22480
+				"end_ms": 19360
 			},
 			{
 				"id": "C0-06-A-S02",
-				"title": "系统",
+				"title": "选择",
 				"order": 2,
-				"kind": "system",
+				"kind": "choice",
 				"node_ids": [
+					"C0-06-A.D07",
 					"C0-06-A.D08"
 				],
-				"objective_ids": [
-					"event_hub_expedition_registered"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 22880,
-				"end_ms": 25100
+				"start_ms": 19760,
+				"end_ms": 23240
+			},
+			{
+				"id": "C0-06-A-S03",
+				"title": "交付",
+				"order": 3,
+				"kind": "complete",
+				"node_ids": [
+					"C0-06-A.D09",
+					"C0-06-A.D10"
+				],
+				"objective_ids": [],
+				"failure_policy": "retry_stage",
+				"interrupt_policy": "resume_stage",
+				"save_policy": "checkpoint_on_exit",
+				"runtime_binding": {},
+				"inferred": false,
+				"start_ms": 23640,
+				"end_ms": 28860
 			}
 		]
 	},
