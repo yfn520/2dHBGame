@@ -15931,6 +15931,9 @@
 						"type": "set_flag",
 						"flag": "PartyStage",
 						"value": "Trio"
+					},
+					{
+						"type": "recruit_remaining_hero"
 					}
 				]
 			}
@@ -16662,10 +16665,24 @@
 				"payload": "8027"
 			},
 			{
+				"id": "C1-08-A-S03_objective_002",
+				"stageId": "C1-08-A-S03",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
+				"startMs": 62540,
+				"durationMs": 0,
+				"questId": 21080,
+				"objectiveKey": "kill_8033",
+				"text": "等待目标：驱退失路哨兵（击杀 失路哨兵 enemy_8033 ×1，剧情战，刷新点 2100, 735）",
+				"payload": "8033"
+			},
+			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 62540,
+				"startMs": 62660,
 				"durationMs": 0,
 				"text": "退出阶段：C1-08-A-S03",
 				"payload": "C1-08-A-S03",
@@ -16679,7 +16696,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 62940,
+				"startMs": 63060,
 				"durationMs": 0,
 				"text": "进入阶段：C1-08-A-S04",
 				"payload": "C1-08-A-S04",
@@ -16692,7 +16709,7 @@
 				"id": "C1-08-A-S04_002",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 62940,
+				"startMs": 63060,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D12"
@@ -16701,7 +16718,7 @@
 				"id": "C1-08-A-S04_003",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 63740,
+				"startMs": 63860,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16711,7 +16728,7 @@
 				"id": "C1-08-A-S04_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 65340,
+				"startMs": 65460,
 				"durationMs": 2040,
 				"speaker": "主角",
 				"text": "这份封令的印……我说不上来在哪见过。",
@@ -16725,7 +16742,7 @@
 				"id": "C1-08-A-S04_005",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 67780,
+				"startMs": 67900,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D13"
@@ -16734,7 +16751,7 @@
 				"id": "C1-08-A-S04_006",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 68580,
+				"startMs": 68700,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16744,7 +16761,7 @@
 				"id": "C1-08-A-S04_007",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 70180,
+				"startMs": 70300,
 				"durationMs": 3240,
 				"speaker": "旁白",
 				"text": "三份来自不同地方的文件，在你回城前先后送到：一份军方文书、一份游侠会委托、一份学院课题。",
@@ -16757,7 +16774,7 @@
 				"id": "C1-08-A-S04_008",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 73820,
+				"startMs": 73940,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D14"
@@ -16766,7 +16783,7 @@
 				"id": "C1-08-A-S04_009",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 74620,
+				"startMs": 74740,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16776,7 +16793,7 @@
 				"id": "C1-08-A-S04_010",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 76220,
+				"startMs": 76340,
 				"durationMs": 2160,
 				"speaker": "旁白",
 				"text": "三份文件的印章、措辞、来路全不相同，坐标却完全重合。",
@@ -16789,7 +16806,7 @@
 				"id": "C1-08-A-S04_011",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 78780,
+				"startMs": 78900,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D15K-1",
@@ -16806,7 +16823,7 @@
 				"id": "C1-08-A-S04_012",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 79580,
+				"startMs": 79700,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16824,7 +16841,7 @@
 				"id": "C1-08-A-S04_013",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 81180,
+				"startMs": 81300,
 				"durationMs": 2920,
 				"speaker": "主角",
 				"text": "军籍我收下。不是因为信他们，是因为名单和救援都要这个权限。",
@@ -16846,7 +16863,7 @@
 				"id": "C1-08-A-S04_014",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 84500,
+				"startMs": 84620,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D15L-1",
@@ -16863,7 +16880,7 @@
 				"id": "C1-08-A-S04_015",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 85300,
+				"startMs": 85420,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16881,7 +16898,7 @@
 				"id": "C1-08-A-S04_016",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 86900,
+				"startMs": 87020,
 				"durationMs": 3400,
 				"speaker": "主角",
 				"text": "委托我接。林子那头确实有人等救——但路线副本，得留一份在我们自己手里。",
@@ -16903,7 +16920,7 @@
 				"id": "C1-08-A-S04_017",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 90700,
+				"startMs": 90820,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D15M-1",
@@ -16920,7 +16937,7 @@
 				"id": "C1-08-A-S04_018",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 91500,
+				"startMs": 91620,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16938,7 +16955,7 @@
 				"id": "C1-08-A-S04_019",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 93100,
+				"startMs": 93220,
 				"durationMs": 2520,
 				"speaker": "主角",
 				"text": "课题我接。他们切开的权限，正好让我们三份对着用。",
@@ -16960,7 +16977,7 @@
 				"id": "C1-08-A-S04_020",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 96020,
+				"startMs": 96140,
 				"durationMs": 800,
 				"stageId": "C1-08-A-S04",
 				"nodeId": "C1-08-A.D16"
@@ -16969,7 +16986,7 @@
 				"id": "C1-08-A-S04_021",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 96820,
+				"startMs": 96940,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-08-A-S04",
@@ -16979,7 +16996,7 @@
 				"id": "C1-08-A-S04_022",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 98420,
+				"startMs": 98540,
 				"durationMs": 3120,
 				"speaker": "旁白",
 				"text": "当晚的长屋，柏婶摆碗筷时多摆了一副。她盯着那副碗筷看了很久，把它往桌里推了推，没收。",
@@ -16992,7 +17009,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 101540,
+				"startMs": 101660,
 				"durationMs": 0,
 				"text": "退出阶段：C1-08-A-S04",
 				"payload": "C1-08-A-S04",
@@ -17006,7 +17023,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 101940,
+				"startMs": 102060,
 				"durationMs": 0,
 				"text": "进入阶段：C1-08-A-S05",
 				"payload": "C1-08-A-S05",
@@ -17020,7 +17037,7 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 101940,
+				"startMs": 102060,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
@@ -17033,7 +17050,7 @@
 				"id": "C1-08-A-S05_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 102060,
+				"startMs": 102180,
 				"durationMs": 3480,
 				"speaker": "霍雷克",
 				"text": "三座信标全亮，邮路通了，星楔也稳了。自愿协助干到这个份上，你们算头一份。",
@@ -17047,7 +17064,7 @@
 				"id": "C1-08-A-S05_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 105940,
+				"startMs": 106060,
 				"durationMs": 3400,
 				"speaker": "霍雷克",
 				"text": "会馆那边我打过招呼了：符文、队伍预设都对你们开放。往后就是正经旅团了。",
@@ -17061,7 +17078,7 @@
 				"id": "C1-08-A-S05_005",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 109740,
+				"startMs": 109860,
 				"durationMs": 3060,
 				"speaker": "旁白",
 				"text": "第1章完成。开放：会馆招募、基础符文、队伍预设。咕噜姆缩成小史莱姆，留在了邮筒旁。",
@@ -17077,26 +17094,12 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 112800,
+				"startMs": 112920,
 				"durationMs": 0,
 				"questId": 21080,
 				"objectiveKey": "event_c1_starwedge_1_calibrated",
 				"text": "等待目标：校准第一枚星楔",
 				"payload": "c1_starwedge_1_calibrated"
-			},
-			{
-				"id": "C1-08-A-S05_objective_002",
-				"stageId": "C1-08-A-S05",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 112920,
-				"durationMs": 0,
-				"questId": 21080,
-				"objectiveKey": "event_c1_stray_sentinel_repelled",
-				"text": "等待目标：驱退失路哨兵（剧情战）",
-				"payload": "c1_stray_sentinel_repelled"
 			},
 			{
 				"trackId": "track_event",
@@ -17130,11 +17133,11 @@
 			}
 		],
 		"entries": {
-			"9001": 102060,
+			"9001": 102180,
 			"9003": 0
 		},
 		"turn_in_entries": {
-			"9001": 101940
+			"9001": 102060
 		},
 		"stages": [
 			{
@@ -17192,7 +17195,8 @@
 					"C1-08-A.D11"
 				],
 				"objective_ids": [
-					"kill_8027"
+					"kill_8027",
+					"kill_8033"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -17200,7 +17204,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 52080,
-				"end_ms": 62540
+				"end_ms": 62660
 			},
 			{
 				"id": "C1-08-A-S04",
@@ -17222,8 +17226,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 62940,
-				"end_ms": 101540
+				"start_ms": 63060,
+				"end_ms": 101660
 			},
 			{
 				"id": "C1-08-A-S05",
@@ -17236,15 +17240,14 @@
 					"C1-08-A.D19"
 				],
 				"objective_ids": [
-					"event_c1_starwedge_1_calibrated",
-					"event_c1_stray_sentinel_repelled"
+					"event_c1_starwedge_1_calibrated"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 101940,
+				"start_ms": 102060,
 				"end_ms": 113040
 			}
 		]
@@ -19194,7 +19197,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C2-03-A-S01",
@@ -22301,10 +22306,8 @@
 			}
 		],
 		"entries": {
-			"9030": 0
-		},
-		"turn_in_entries": {
-			"9030": 73760
+			"0": 0,
+			"9030": 8020
 		},
 		"stages": [
 			{
@@ -27696,7 +27699,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C6-01-A-S01",
@@ -28367,7 +28372,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C6-02-A-S01",
@@ -28769,7 +28776,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C6-03-A-S01",
@@ -29757,7 +29766,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C6-04-A-S01",
@@ -30267,7 +30278,9 @@
 				]
 			}
 		],
-		"entries": {},
+		"entries": {
+			"0": 0
+		},
 		"stages": [
 			{
 				"id": "C6-05-A-S01",

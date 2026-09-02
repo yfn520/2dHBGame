@@ -448,5 +448,45 @@
 		"chapter_id": "chapter_1",
 		"npc_kind": "story",
 		"hero_id": 0
+	},
+	"9046": {
+		"name": "凯",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9002",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_4",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9047": {
+		"name": "赛壬",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9002",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_4",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9048": {
+		"name": "药水商人",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9002",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_0",
+		"npc_kind": "story",
+		"hero_id": 0
+	},
+	"9049": {
+		"name": "杂货商人",
+		"asset": "res://assets/npcs/npc_9002",
+		"dialogue_id": "npc_9002",
+		"default_facing": "right",
+		"interaction_radius": 96,
+		"chapter_id": "chapter_0",
+		"npc_kind": "story",
+		"hero_id": 0
 	}
 }

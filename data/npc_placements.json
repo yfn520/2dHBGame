@@ -7,7 +7,7 @@
 				"instance_id": "npc_9002_0",
 				"interaction_radius": 96,
 				"npc_id": 9002,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1600,
 				"y": 743,
 				"name": "柏婶"
@@ -17,7 +17,7 @@
 				"instance_id": "npc_9016_0",
 				"interaction_radius": 96,
 				"npc_id": 9016,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1750,
 				"y": 743,
 				"name": "伊莱"
@@ -27,7 +27,7 @@
 				"instance_id": "npc_9019_0",
 				"interaction_radius": 96,
 				"npc_id": 9019,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2076,
 				"y": 743,
 				"name": "门守卫"
@@ -37,7 +37,7 @@
 				"instance_id": "npc_9012_0",
 				"interaction_radius": 96,
 				"npc_id": 9012,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2400,
 				"y": 743,
 				"name": "铁刃格雷"
@@ -47,7 +47,7 @@
 				"instance_id": "npc_9001_0",
 				"interaction_radius": 96,
 				"npc_id": 9001,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2676,
 				"y": 743,
 				"name": "霍雷克"
@@ -57,7 +57,7 @@
 				"instance_id": "npc_9010_0",
 				"interaction_radius": 96,
 				"npc_id": 9010,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2800,
 				"y": 743,
 				"name": "杂货商人"
@@ -67,7 +67,7 @@
 				"instance_id": "npc_9011_0",
 				"interaction_radius": 96,
 				"npc_id": 9011,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2950,
 				"y": 743,
 				"name": "药水商人"
@@ -77,7 +77,7 @@
 				"instance_id": "npc_9026_0",
 				"interaction_radius": 96,
 				"npc_id": 9026,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1350,
 				"y": 743,
 				"spawn_condition": {
@@ -91,7 +91,7 @@
 				"instance_id": "npc_9005_0",
 				"interaction_radius": 96,
 				"npc_id": 9005,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1500,
 				"y": 743,
 				"spawn_condition": {
@@ -105,7 +105,7 @@
 				"instance_id": "npc_9007_0",
 				"interaction_radius": 96,
 				"npc_id": 9007,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2300,
 				"y": 743,
 				"spawn_condition": {
@@ -113,6 +113,24 @@
 					"equals": true
 				},
 				"name": "铁壳蟹"
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9048_0",
+				"interaction_radius": 96,
+				"npc_id": 9048,
+				"scale": 0.5,
+				"x": 1733,
+				"y": 616
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9049_0",
+				"interaction_radius": 96,
+				"npc_id": 9049,
+				"scale": 0.5,
+				"x": 1893,
+				"y": 616
 			}
 		],
 		"1": [
@@ -121,7 +139,7 @@
 				"instance_id": "npc_9020_1",
 				"interaction_radius": 96,
 				"npc_id": 9020,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1406,
 				"y": 735,
 				"spawn_condition": {
@@ -151,7 +169,7 @@
 				"instance_id": "npc_9022_1",
 				"interaction_radius": 96,
 				"npc_id": 9022,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1575,
 				"y": 735,
 				"spawn_condition": {
@@ -169,7 +187,7 @@
 				"instance_id": "npc_9022_1_2",
 				"interaction_radius": 96,
 				"npc_id": 9022,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 3150,
 				"y": 735,
 				"spawn_condition": {
@@ -187,7 +205,7 @@
 				"instance_id": "npc_9023_1",
 				"interaction_radius": 96,
 				"npc_id": 9023,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1744,
 				"y": 735,
 				"spawn_condition": {
@@ -205,7 +223,7 @@
 				"instance_id": "npc_9003_1",
 				"interaction_radius": 96,
 				"npc_id": 9003,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2363,
 				"y": 735,
 				"spawn_condition": {
@@ -243,7 +261,7 @@
 				"instance_id": "npc_9025_1",
 				"interaction_radius": 96,
 				"npc_id": 9025,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2812,
 				"y": 735,
 				"spawn_condition": {
@@ -263,7 +281,7 @@
 				"instance_id": "npc_9004_2",
 				"interaction_radius": 96,
 				"npc_id": 9004,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2000,
 				"y": 632,
 				"spawn_condition": {
@@ -293,7 +311,7 @@
 				"instance_id": "npc_9013_2",
 				"interaction_radius": 96,
 				"npc_id": 9013,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2300,
 				"y": 632,
 				"spawn_condition": {
@@ -313,7 +331,7 @@
 				"instance_id": "npc_9005_3",
 				"interaction_radius": 96,
 				"npc_id": 9005,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2000,
 				"y": 731,
 				"spawn_condition": {
@@ -343,7 +361,7 @@
 				"instance_id": "npc_9029_3",
 				"interaction_radius": 96,
 				"npc_id": 9029,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2300,
 				"y": 731,
 				"spawn_condition": {
@@ -363,7 +381,7 @@
 				"instance_id": "npc_9032_4",
 				"interaction_radius": 96,
 				"npc_id": 9032,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1500,
 				"y": 629,
 				"spawn_condition": {
@@ -381,7 +399,7 @@
 				"instance_id": "npc_9031_4",
 				"interaction_radius": 96,
 				"npc_id": 9031,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1700,
 				"y": 629,
 				"spawn_condition": {
@@ -411,7 +429,7 @@
 				"instance_id": "npc_9035_4",
 				"interaction_radius": 96,
 				"npc_id": 9035,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2500,
 				"y": 629,
 				"spawn_condition": {
@@ -429,7 +447,7 @@
 				"instance_id": "npc_9015_4",
 				"interaction_radius": 96,
 				"npc_id": 9015,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2900,
 				"y": 629,
 				"spawn_condition": {
@@ -447,7 +465,7 @@
 				"instance_id": "npc_9036_4",
 				"interaction_radius": 96,
 				"npc_id": 9036,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 3050,
 				"y": 629,
 				"spawn_condition": {
@@ -459,6 +477,24 @@
 					]
 				},
 				"name": "灰面骑士"
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9046_4",
+				"interaction_radius": 96,
+				"npc_id": 9046,
+				"scale": 0.5,
+				"x": 1289,
+				"y": 488
+			},
+			{
+				"facing": "right",
+				"instance_id": "npc_9047_4",
+				"interaction_radius": 96,
+				"npc_id": 9047,
+				"scale": 0.5,
+				"x": 1449,
+				"y": 488
 			}
 		],
 		"5": [
@@ -467,7 +503,7 @@
 				"instance_id": "npc_9044_5",
 				"interaction_radius": 96,
 				"npc_id": 9044,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1500,
 				"y": 683,
 				"spawn_condition": {
@@ -485,7 +521,7 @@
 				"instance_id": "npc_9037_5",
 				"interaction_radius": 96,
 				"npc_id": 9037,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 1700,
 				"y": 683,
 				"spawn_condition": {
@@ -503,7 +539,7 @@
 				"instance_id": "npc_9038_5",
 				"interaction_radius": 96,
 				"npc_id": 9038,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2100,
 				"y": 683,
 				"spawn_condition": {
@@ -521,7 +557,7 @@
 				"instance_id": "npc_9043_5",
 				"interaction_radius": 96,
 				"npc_id": 9043,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 2900,
 				"y": 683,
 				"spawn_condition": {
@@ -541,7 +577,7 @@
 				"instance_id": "npc_9036_6",
 				"interaction_radius": 96,
 				"npc_id": 9036,
-				"scale": 0.5,
+				"scale": 0.62,
 				"x": 3200,
 				"y": 623,
 				"spawn_condition": {

@@ -299,6 +299,19 @@
 					"required_quest_states": [
 						"active"
 					]
+				},
+				{
+					"spawn_id": "q21080_e8033",
+					"mode": "group",
+					"enemy_id": 8033,
+					"x": 2100,
+					"y": 735,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 21080,
+					"required_quest_states": [
+						"active"
+					]
 				}
 			]
 		},
@@ -359,6 +372,18 @@
 					"y": 632,
 					"event_name": "c2_legacy_room_opened",
 					"required_quest_id": 22030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c2_bell_mechanism_down",
+					"type": "named_event",
+					"name": "钟楼机关",
+					"x": 3100,
+					"y": 632,
+					"event_name": "c2_bell_mechanism_down",
+					"required_quest_id": 22040,
 					"required_quest_states": [
 						"active"
 					]

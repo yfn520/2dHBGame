@@ -36,7 +36,7 @@ shape = SubResource("2_ladder_shape")
 
 [node name="CharacterActionSet" parent="." instance=ExtResource("1_visual")]
 z_index = 100
-position = Vector2(0.0, -123.5)
+position = Vector2(0.0, -120.0)
 scale = Vector2(1.0, 1.0)
 
 [node name="Camera2D" type="Camera2D" parent="."]

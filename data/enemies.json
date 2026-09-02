@@ -1,35 +1,35 @@
 {
 	"8001": {
 		"asset": "res://assets/enemies/slimu",
-		"attack": 2.0,
-		"attack_range": 40.0,
+		"attack": 2,
+		"attack_range": 40,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/slimu/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100001.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100001
 			},
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100002.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100002
 			}
 		],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "史莱姆",
-		"normal_skill": 50001.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50001,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50002.0
+			50002
 		],
 		"traits": [
 			"flesh",
@@ -38,35 +38,35 @@
 	},
 	"8002": {
 		"asset": "res://assets/enemies/kuilei4",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/kuilei4/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100003.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100003
 			},
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100004.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100004
 			}
 		],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "傀儡",
-		"normal_skill": 50011.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50011,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50012.0
+			50012
 		],
 		"traits": [
 			"construct",
@@ -75,24 +75,24 @@
 	},
 	"8003": {
 		"asset": "res://assets/enemies/wolf",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/wolf/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "小灰狼",
-		"normal_skill": 50021.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50021,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50022.0
+			50022
 		],
 		"traits": [
 			"flesh"
@@ -100,24 +100,24 @@
 	},
 	"8004": {
 		"asset": "res://assets/enemies/kulou",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/kulou/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "骷髅",
-		"normal_skill": 50031.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50031,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50033.0
+			50033
 		],
 		"traits": [
 			"undead"
@@ -125,24 +125,24 @@
 	},
 	"8005": {
 		"asset": "res://assets/enemies/gebulin",
-		"attack": 3.0,
-		"attack_range": 80.0,
+		"attack": 3,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/gebulin/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "哥布林",
-		"normal_skill": 50041.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50041,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50043.0
+			50043
 		],
 		"traits": [
 			"flesh",
@@ -151,24 +151,24 @@
 	},
 	"8006": {
 		"asset": "res://assets/enemies/hjjx",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/hjjx/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "灰晶巨像",
-		"normal_skill": 50051.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50051,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50053.0
+			50053
 		],
 		"traits": [
 			"heavy_armor",
@@ -177,24 +177,24 @@
 	},
 	"8007": {
 		"asset": "res://assets/enemies/hjqs",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/hjqs/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "灰晶骑士",
-		"normal_skill": 50061.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50061,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50062.0
+			50062
 		],
 		"traits": [
 			"heavy_armor",
@@ -203,24 +203,24 @@
 	},
 	"8008": {
 		"asset": "res://assets/enemies/huayao",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/huayao/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "花妖",
-		"normal_skill": 50071.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50071,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50072.0
+			50072
 		],
 		"traits": [
 			"flesh",
@@ -229,432 +229,432 @@
 	},
 	"8009": {
 		"asset": "res://assets/enemies/d'j's2",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/d'j's2/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "地精Ⅱ",
-		"normal_skill": 50081.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50081,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50082.0
+			50082
 		]
 	},
 	"8010": {
 		"asset": "res://assets/enemies/shu'ren",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/shu'ren/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "树人",
-		"normal_skill": 50091.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50091,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50092.0
+			50092
 		]
 	},
 	"8011": {
 		"asset": "res://assets/enemies/huo'hu",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/huo'hu/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "火狐",
-		"normal_skill": 50101.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50101,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50102.0
+			50102
 		]
 	},
 	"8012": {
 		"asset": "res://assets/enemies/shang'hu'guai",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/shang'hu'guai/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "伤魂怪",
-		"normal_skill": 50111.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50111,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50112.0
+			50112
 		]
 	},
 	"8013": {
 		"asset": "res://assets/enemies/wang'huen",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/wang'huen/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "亡魂",
-		"normal_skill": 50121.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50121,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50122.0
+			50122
 		]
 	},
 	"8014": {
 		"asset": "res://assets/enemies/shu'ju'shi'lai'mu",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/shu'ju'shi'lai'mu/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "数据史莱姆",
-		"normal_skill": 50131.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50131,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50132.0
+			50132
 		]
 	},
 	"8015": {
 		"asset": "res://assets/enemies/shuei'mu",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/shuei'mu/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "水母",
-		"normal_skill": 50141.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50141,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50142.0
+			50142
 		]
 	},
 	"8016": {
 		"asset": "res://assets/enemies/huei'jingju'xiang",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/huei'jingju'xiang/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "灰晶巨像Ⅱ",
-		"normal_skill": 50151.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50151,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50152.0
+			50152
 		]
 	},
 	"8017": {
 		"asset": "res://assets/enemies/焰灵",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/焰灵/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "焰灵",
-		"normal_skill": 50161.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50161,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50162.0
+			50162
 		]
 	},
 	"8018": {
 		"asset": "res://assets/enemies/xong'da",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/xong'da/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "熊大",
-		"normal_skill": 50171.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50171,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50172.0
+			50172
 		]
 	},
 	"8019": {
 		"asset": "res://assets/enemies/jia'chong",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/jia'chong/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "甲虫",
-		"normal_skill": 50181.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50181,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50182.0
+			50182
 		]
 	},
 	"8020": {
 		"asset": "res://assets/enemies/shi'to'ren",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/shi'to'ren/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "石头人",
-		"normal_skill": 50191.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50191,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50192.0
+			50192
 		]
 	},
 	"8021": {
 		"asset": "res://assets/enemies/jing'yingjia'chong",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/jing'yingjia'chong/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "精英甲虫",
-		"normal_skill": 50201.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50201,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50202.0
+			50202
 		]
 	},
 	"8022": {
 		"asset": "res://assets/enemies/花精",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/花精/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "花精",
-		"normal_skill": 50211.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50211,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50212.0
+			50212
 		]
 	},
 	"8023": {
 		"asset": "res://assets/enemies/xu'kong'guai",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/xu'kong'guai/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "虚空怪",
-		"normal_skill": 50221.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50221,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50222.0
+			50222
 		]
 	},
 	"8024": {
 		"asset": "res://assets/enemies/m'fengy",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/m'fengy/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "魔蜂",
-		"normal_skill": 50231.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50231,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50232.0
+			50232
 		]
 	},
 	"8025": {
 		"asset": "res://assets/enemies/mo'o1",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/mo'o1/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "魔偶",
-		"normal_skill": 50241.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50241,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50242.0
+			50242
 		]
 	},
 	"8026": {
 		"asset": "res://assets/enemies/鱼人",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/鱼人/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "鱼人",
-		"normal_skill": 50251.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50251,
+		"patrol_range": 120,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50252.0
+			50252
 		]
 	},
 	"8027": {
 		"asset": "res://assets/enemies/guluomu",
-		"attack": 200.0,
-		"attack_range": 80.0,
+		"attack": 200,
+		"attack_range": 80,
 		"chapter_id": "chapter_1",
 		"character_config": "res://assets/enemies/guluomu/character_config.json",
-		"defense": 50.0,
-		"detect_range": 400.0,
+		"defense": 50,
+		"detect_range": 400,
 		"drop_items": [
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100008.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100008
 			},
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100009.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100009
 			}
 		],
-		"exp": 500.0,
+		"exp": 500,
 		"is_boss": true,
-		"max_hp": 5000.0,
-		"move_speed": 60.0,
+		"max_hp": 5000,
+		"move_speed": 60,
 		"name": "咕噜姆",
-		"normal_skill": 50261.0,
-		"patrol_range": 200.0,
+		"normal_skill": 50261,
+		"patrol_range": 200,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50262.0
+			50262
 		],
 		"traits": [
 			"flesh",
@@ -664,36 +664,36 @@
 	},
 	"8028": {
 		"asset": "res://assets/enemies/aergo",
-		"attack": 250.0,
-		"attack_range": 80.0,
+		"attack": 250,
+		"attack_range": 80,
 		"chapter_id": "chapter_2",
 		"character_config": "res://assets/enemies/aergo/character_config.json",
-		"defense": 60.0,
-		"detect_range": 400.0,
+		"defense": 60,
+		"detect_range": 400,
 		"drop_items": [
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100010.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100010
 			},
 			{
-				"chance": 1.0,
-				"count": 1.0,
-				"item_id": 100011.0
+				"chance": 1,
+				"count": 1,
+				"item_id": 100011
 			}
 		],
-		"exp": 600.0,
+		"exp": 600,
 		"is_boss": true,
-		"max_hp": 6000.0,
-		"move_speed": 70.0,
+		"max_hp": 6000,
+		"move_speed": 70,
 		"name": "阿尔戈",
-		"normal_skill": 50271.0,
-		"patrol_range": 200.0,
+		"normal_skill": 50271,
+		"patrol_range": 200,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50272.0
+			50272
 		],
 		"traits": [
 			"undead",
@@ -702,25 +702,25 @@
 	},
 	"8029": {
 		"asset": "res://assets/enemies/lumina",
-		"attack": 300.0,
-		"attack_range": 100.0,
+		"attack": 300,
+		"attack_range": 100,
 		"chapter_id": "chapter_3",
 		"character_config": "res://assets/enemies/lumina/character_config.json",
-		"defense": 80.0,
-		"detect_range": 450.0,
+		"defense": 80,
+		"detect_range": 450,
 		"drop_items": [],
-		"exp": 800.0,
+		"exp": 800,
 		"is_boss": true,
-		"max_hp": 7500.0,
-		"move_speed": 70.0,
+		"max_hp": 7500,
+		"move_speed": 70,
 		"name": "露米娜",
-		"normal_skill": 50281.0,
-		"patrol_range": 200.0,
+		"normal_skill": 50281,
+		"patrol_range": 200,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50282.0
+			50282
 		],
 		"traits": [
 			"construct",
@@ -730,25 +730,25 @@
 	},
 	"8030": {
 		"asset": "res://assets/enemies/sairen",
-		"attack": 350.0,
-		"attack_range": 120.0,
+		"attack": 350,
+		"attack_range": 120,
 		"chapter_id": "chapter_4",
 		"character_config": "res://assets/enemies/sairen/character_config.json",
-		"defense": 100.0,
-		"detect_range": 500.0,
+		"defense": 100,
+		"detect_range": 500,
 		"drop_items": [],
-		"exp": 1000.0,
+		"exp": 1000,
 		"is_boss": true,
-		"max_hp": 9000.0,
-		"move_speed": 80.0,
+		"max_hp": 9000,
+		"move_speed": 80,
 		"name": "赛壬",
-		"normal_skill": 50291.0,
-		"patrol_range": 200.0,
+		"normal_skill": 50291,
+		"patrol_range": 200,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50292.0
+			50292
 		],
 		"traits": [
 			"flesh",
@@ -758,25 +758,25 @@
 	},
 	"8031": {
 		"asset": "res://assets/enemies/leiohate",
-		"attack": 450.0,
-		"attack_range": 100.0,
+		"attack": 450,
+		"attack_range": 100,
 		"chapter_id": "chapter_5",
 		"character_config": "res://assets/enemies/leiohate/character_config.json",
-		"defense": 130.0,
-		"detect_range": 500.0,
+		"defense": 130,
+		"detect_range": 500,
 		"drop_items": [],
-		"exp": 1500.0,
+		"exp": 1500,
 		"is_boss": true,
-		"max_hp": 12000.0,
-		"move_speed": 70.0,
+		"max_hp": 12000,
+		"move_speed": 70,
 		"name": "雷欧哈特",
-		"normal_skill": 50301.0,
-		"patrol_range": 200.0,
+		"normal_skill": 50301,
+		"patrol_range": 200,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50302.0
+			50302
 		],
 		"traits": [
 			"heavy_armor",
@@ -785,25 +785,25 @@
 	},
 	"8032": {
 		"asset": "res://assets/enemies/nuowa",
-		"attack": 500.0,
-		"attack_range": 120.0,
+		"attack": 500,
+		"attack_range": 120,
 		"chapter_id": "chapter_6",
 		"character_config": "res://assets/enemies/nuowa/character_config.json",
-		"defense": 150.0,
-		"detect_range": 600.0,
+		"defense": 150,
+		"detect_range": 600,
 		"drop_items": [],
-		"exp": 2000.0,
+		"exp": 2000,
 		"is_boss": true,
-		"max_hp": 15000.0,
-		"move_speed": 90.0,
+		"max_hp": 15000,
+		"move_speed": 90,
 		"name": "诺瓦",
-		"normal_skill": 50311.0,
-		"patrol_range": 250.0,
+		"normal_skill": 50311,
+		"patrol_range": 250,
 		"skill_weights": [
-			100.0
+			100
 		],
 		"skills": [
-			50312.0
+			50312
 		],
 		"traits": [
 			"flesh",
@@ -812,104 +812,114 @@
 		]
 	},
 	"8033": {
-		"asset": "res://assets/enemies/螳螂3",
-		"attack": 2.0,
-		"attack_range": 80.0,
-		"character_config": "res://assets/enemies/螳螂3/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"asset": "res://assets/enemies/hjqs",
+		"attack": 30,
+		"attack_range": 80,
+		"chapter_id": "chapter_1",
+		"character_config": "res://assets/enemies/hjqs/character_config.json",
+		"defense": 12,
+		"detect_range": 320,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
-		"name": "螳螂3",
-		"normal_skill": 50321.0,
-		"patrol_range": 120.0,
-		"skill_weights": [],
-		"skills": []
+		"exp": 120,
+		"max_hp": 800,
+		"move_speed": 60,
+		"name": "失路哨兵",
+		"normal_skill": 50061,
+		"patrol_range": 60,
+		"skill_weights": [
+			100
+		],
+		"skills": [
+			50062
+		],
+		"traits": [
+			"elite",
+			"construct"
+		],
+		"is_boss": false
 	},
 	"8034": {
 		"asset": "res://assets/enemies/nui'mo'wang",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"character_config": "res://assets/enemies/nui'mo'wang/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "nui'mo'wang",
-		"normal_skill": 50331.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50331,
+		"patrol_range": 120,
 		"skill_weights": [],
 		"skills": []
 	},
 	"8035": {
 		"asset": "res://assets/enemies/jui'wei'hu",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"character_config": "res://assets/enemies/jui'wei'hu/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "jui'wei'hu",
-		"normal_skill": 50341.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50341,
+		"patrol_range": 120,
 		"skill_weights": [],
 		"skills": []
 	},
 	"8036": {
 		"asset": "res://assets/enemies/xu'kong'shou",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"character_config": "res://assets/enemies/xu'kong'shou/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "xu'kong'shou",
-		"normal_skill": 50351.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50351,
+		"patrol_range": 120,
 		"skill_weights": [],
 		"skills": []
 	},
 	"8037": {
 		"asset": "res://assets/enemies/shi'jia'long",
-		"attack": 2.0,
-		"attack_range": 80.0,
+		"attack": 2,
+		"attack_range": 80,
 		"character_config": "res://assets/enemies/shi'jia'long/character_config.json",
-		"defense": 0.0,
-		"detect_range": 300.0,
+		"defense": 0,
+		"detect_range": 300,
 		"drop_items": [],
-		"exp": 10.0,
-		"max_hp": 50.0,
-		"move_speed": 80.0,
+		"exp": 10,
+		"max_hp": 50,
+		"move_speed": 80,
 		"name": "shi'jia'long",
-		"normal_skill": 50361.0,
-		"patrol_range": 120.0,
+		"normal_skill": 50361,
+		"patrol_range": 120,
 		"skill_weights": [],
 		"skills": []
 	},
 	"8038": {
 		"asset": "res://assets/enemies/shi'jian'guei",
 		"attack": 2,
-		"attack_range": 80.0,
+		"attack_range": 80,
 		"character_config": "res://assets/enemies/shi'jian'guei/character_config.json",
 		"defense": 0,
-		"detect_range": 300.0,
+		"detect_range": 300,
 		"drop_items": [],
 		"exp": 10,
 		"max_hp": 50,
-		"move_speed": 80.0,
+		"move_speed": 80,
 		"name": "shi'jian'guei",
 		"normal_skill": 50371,
-		"patrol_range": 120.0,
+		"patrol_range": 120,
 		"skill_weights": [],
 		"skills": []
 	}

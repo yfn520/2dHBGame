@@ -381,6 +381,14 @@ func _execute_actions(raw: Variant) -> void:
 						quest_service.state.set_flag("SecondHero", hero_id)
 						quest_service.state.set_flag("PartyStage", "Duo")
 						GameRegistry.save_game()
+			"recruit_remaining_hero":
+				# 序章第三人入队（C1-07-A 会合）：招募首个未入队的首发主角
+				if quest_service != null and quest_service.roster != null:
+					var remaining := int(quest_service.roster.recruit_remaining_prologue_hero())
+					if remaining > 0:
+						quest_service.state.set_flag("ThirdHero", remaining)
+						quest_service.state.set_flag("PartyStage", "Trio")
+						GameRegistry.save_game()
 			"complete_chapter":
 				var chapter_id := str(value.get("chapter_id", ""))
 				if not chapter_id.is_empty() and GameRegistry.chapter_service != null:

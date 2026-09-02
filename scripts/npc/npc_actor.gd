@@ -37,6 +37,19 @@ func setup(config: Dictionary, placement: Dictionary) -> bool:
 	var authored_height := _read_authored_visual_height()
 	var display_scale := EntityAutoScaler.compute_scale(authored_height, placement_scale) if authored_height > 0.0 else placement_scale
 	_visual.scale = Vector2.ONE * display_scale
+	# 脚底对齐摆放点：资源包的 foot_center 可能带阴影/留白误差（帧底超出原点），
+	# 统一按帧高把帧底对齐到原点，保证 NPC 与英雄站在同一地面线上。
+	var frame_height := _read_authored_visual_height()
+	if frame_height > 0.0:
+		var bottom_local := _sprite.offset.y + frame_height
+		if absf(bottom_local) > 0.5:
+			_sprite.offset.y -= bottom_local
+	# 头顶标签不随视觉缩放缩水：按目标屏幕尺寸反推字号（名字 18px / 任务标识 44px）
+	var visual_scale := maxf(0.01, _visual.scale.y)
+	if _name_label != null:
+		_name_label.add_theme_font_size_override("font_size", int(18.0 / visual_scale))
+	if _quest_label != null:
+		_quest_label.add_theme_font_size_override("font_size", int(44.0 / visual_scale))
 	_build_interaction_area()
 	var facing := str(placement.get("facing", config.get("default_facing", "right")))
 	_sprite.flip_h = facing == "left"

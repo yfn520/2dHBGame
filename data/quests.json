@@ -1545,6 +1545,10 @@
 				{
 					"flag": "PartyStage",
 					"value": "Trio"
+				},
+				{
+					"flag": "RecruitThirdHero",
+					"value": true
 				}
 			]
 		},
@@ -1588,11 +1592,11 @@
 				"count": 1
 			},
 			{
-				"id": "event_c1_stray_sentinel_repelled",
-				"type": "named_event",
-				"event_name": "c1_stray_sentinel_repelled",
-				"name": "驱退失路哨兵（剧情战）",
-				"count": 1
+				"id": "kill_8033",
+				"type": "kill",
+				"enemy_id": 8033,
+				"count": 1,
+				"name": "驱退失路哨兵（击杀 失路哨兵 enemy_8033 ×1，剧情战，刷新点 2100, 735）"
 			},
 			{
 				"id": "talk_9001",
@@ -1653,7 +1657,8 @@
 					"C1-08-A.D11"
 				],
 				"objective_ids": [
-					"kill_8027"
+					"kill_8027",
+					"kill_8033"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1694,7 +1699,6 @@
 				],
 				"objective_ids": [
 					"event_c1_starwedge_1_calibrated",
-					"event_c1_stray_sentinel_repelled",
 					"talk_9001"
 				],
 				"failure_policy": "retry_stage",
@@ -1727,7 +1731,7 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9001": 102060,
+				"9001": 102180,
 				"9003": 0
 			}
 		},
@@ -2069,7 +2073,9 @@
 			"dialogue_id": "task_c2_03_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			22020
@@ -2588,8 +2594,8 @@
 		"chapter_id": "chapter_3",
 		"required_lead_hero_id": 0,
 		"required_hero_id": 0,
-		"giver_npc_id": 9030,
-		"turn_in_npc_id": 9030,
+		"giver_npc_id": 0,
+		"turn_in_npc_id": 0,
 		"objectives": [
 			{
 				"id": "kill_8029",
@@ -2709,13 +2715,17 @@
 			"compile_status": "mapped",
 			"preview": true,
 			"npc_entries": {
-				"9030": 0
+				"0": 0,
+				"9030": 8020
 			}
 		},
 		"required_quest_ids": [
 			23030
 		],
-		"level_id": 3
+		"level_id": 3,
+		"auto_play": true,
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"24010": {
 		"id": 24010,
@@ -3842,7 +3852,9 @@
 			"dialogue_id": "task_c6_01_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			25040
@@ -3978,7 +3990,9 @@
 			"dialogue_id": "task_c6_02_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			26010
@@ -4064,7 +4078,9 @@
 			"dialogue_id": "task_c6_03_a",
 			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			26020
@@ -4192,7 +4208,9 @@
 			"dialogue_id": "task_c6_04_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			26030
@@ -4291,7 +4309,9 @@
 			"dialogue_id": "task_c6_05_a",
 			"compile_status": "mapped",
 			"preview": true,
-			"npc_entries": {}
+			"npc_entries": {
+				"0": 0
+			}
 		},
 		"required_quest_ids": [
 			26040

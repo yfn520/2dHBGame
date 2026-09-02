@@ -28,6 +28,11 @@ func setup(p_config: QuestConfig, p_state: QuestStateData, p_inventory: Inventor
 			inventory.item_removed.connect(_on_inventory_changed)
 		if not inventory.item_changed.is_connected(_on_inventory_changed):
 			inventory.item_changed.connect(_on_inventory_changed)
+	# 兼容旧档：PartyStage=Trio 时三名主角应全部入队（旧档曾只写旗标不执行入队动作）
+	if state != null and roster != null and str(state.get_flag("PartyStage", "")) == "Trio":
+		var missing_hero := roster.recruit_remaining_prologue_hero()
+		if missing_hero > 0:
+			state.set_flag("ThirdHero", missing_hero)
 	_refresh_all_ready_states()
 
 
