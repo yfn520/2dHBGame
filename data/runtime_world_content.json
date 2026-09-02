@@ -734,6 +734,19 @@
 					]
 				},
 				{
+					"spawn_id": "q24030_e8034",
+					"mode": "group",
+					"enemy_id": 8034,
+					"x": 3050,
+					"y": 629,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 24030,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
 					"spawn_id": "q24040_e8030",
 					"mode": "group",
 					"enemy_id": 8030,

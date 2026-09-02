@@ -113,24 +113,6 @@
 					"equals": true
 				},
 				"name": "铁壳蟹"
-			},
-			{
-				"facing": "right",
-				"instance_id": "npc_9048_0",
-				"interaction_radius": 96,
-				"npc_id": 9048,
-				"scale": 0.5,
-				"x": 1733,
-				"y": 616
-			},
-			{
-				"facing": "right",
-				"instance_id": "npc_9049_0",
-				"interaction_radius": 96,
-				"npc_id": 9049,
-				"scale": 0.5,
-				"x": 1893,
-				"y": 616
 			}
 		],
 		"1": [
@@ -477,24 +459,6 @@
 					]
 				},
 				"name": "灰面骑士"
-			},
-			{
-				"facing": "right",
-				"instance_id": "npc_9046_4",
-				"interaction_radius": 96,
-				"npc_id": 9046,
-				"scale": 0.5,
-				"x": 1289,
-				"y": 488
-			},
-			{
-				"facing": "right",
-				"instance_id": "npc_9047_4",
-				"interaction_radius": 96,
-				"npc_id": 9047,
-				"scale": 0.5,
-				"x": 1449,
-				"y": 488
 			}
 		],
 		"5": [

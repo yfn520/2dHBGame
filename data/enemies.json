@@ -839,21 +839,31 @@
 		"is_boss": false
 	},
 	"8034": {
-		"asset": "res://assets/enemies/nui'mo'wang",
-		"attack": 2,
+		"asset": "res://assets/enemies/kuilei4",
+		"attack": 45.0,
 		"attack_range": 80,
-		"character_config": "res://assets/enemies/nui'mo'wang/character_config.json",
-		"defense": 0,
-		"detect_range": 300,
+		"chapter_id": "chapter_4",
+		"character_config": "res://assets/enemies/kuilei4/character_config.json",
+		"defense": 10.0,
+		"detect_range": 260.0,
 		"drop_items": [],
-		"exp": 10,
-		"max_hp": 50,
-		"move_speed": 80,
-		"name": "nui'mo'wang",
-		"normal_skill": 50331,
+		"exp": 300.0,
+		"max_hp": 1500.0,
+		"move_speed": 85.0,
+		"name": "试炼傀儡",
+		"normal_skill": 50011,
 		"patrol_range": 120,
-		"skill_weights": [],
-		"skills": []
+		"skill_weights": [
+			100
+		],
+		"skills": [
+			50012
+		],
+		"traits": [
+			"elite",
+			"construct"
+		],
+		"is_boss": false
 	},
 	"8035": {
 		"asset": "res://assets/enemies/jui'wei'hu",

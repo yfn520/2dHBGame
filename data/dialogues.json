@@ -23609,9 +23609,9 @@
 				"trackId": "track_narration",
 				"kind": "narration",
 				"startMs": 31060,
-				"durationMs": 2340,
+				"durationMs": 3120,
 				"speaker": "旁白",
-				"text": "凯的刀很快，但每一刀都留了一线，不像要杀人，像要确认什么。",
+				"text": "凯抬手放出一只试炼傀儡：\"赢过它再谈。\"傀儡的刀留了一线，不像要杀人，像要确认什么。",
 				"stageId": "C4-03-A-S02",
 				"nodeId": "C4-03-A.D05",
 				"conditions": [
@@ -23648,7 +23648,7 @@
 				"id": "C4-03-A-S02_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 33800,
+				"startMs": 34580,
 				"durationMs": 1960,
 				"speaker": "凯",
 				"text": "停。——你们打起来不像王室养的人。",
@@ -23665,18 +23665,18 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 35760,
+				"startMs": 36540,
 				"durationMs": 0,
 				"questId": 24030,
-				"objectiveKey": "event_c4_kai_stopped",
-				"text": "等待目标：击退凯（切磋战，不击杀）",
-				"payload": "c4_kai_stopped"
+				"objectiveKey": "kill_8034",
+				"text": "等待目标：击退凯招来的试炼傀儡（击杀 试炼傀儡 enemy_8034 ×1，切磋战，刷新点 3050, 629）",
+				"payload": "8034"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 35880,
+				"startMs": 36660,
 				"durationMs": 0,
 				"text": "退出阶段：C4-03-A-S02",
 				"payload": "C4-03-A-S02",
@@ -23690,7 +23690,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 36280,
+				"startMs": 37060,
 				"durationMs": 0,
 				"text": "进入阶段：C4-03-A-S03",
 				"payload": "C4-03-A-S03",
@@ -23704,7 +23704,7 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 36280,
+				"startMs": 37060,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
@@ -23717,7 +23717,7 @@
 				"id": "C4-03-A-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 36400,
+				"startMs": 37180,
 				"durationMs": 4840,
 				"speaker": "凯",
 				"text": "实话换实话：雇我的人给的是旧契约，契约背面押着一枚印记，指向后头几章的守护者。我也是查到一半才发现不对劲。",
@@ -23731,7 +23731,7 @@
 				"id": "C4-03-A-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 41640,
+				"startMs": 42420,
 				"durationMs": 2920,
 				"speaker": "凯",
 				"text": "这单我不做了。旧契约的账，我自己去查。你们要查王室？顺路。",
@@ -23745,7 +23745,7 @@
 				"id": "C4-03-A-S03_005",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 44960,
+				"startMs": 45740,
 				"durationMs": 1980,
 				"speaker": "旁白",
 				"text": "凯解锁招募资格：已加入星契名册与会馆候选名册。",
@@ -23761,7 +23761,7 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 46940,
+				"startMs": 47720,
 				"durationMs": 0,
 				"questId": 24030,
 				"objectiveKey": "area_c4_kai_ambush",
@@ -23772,7 +23772,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 47060,
+				"startMs": 47840,
 				"durationMs": 0,
 				"text": "退出阶段：C4-03-A-S03",
 				"payload": "C4-03-A-S03",
@@ -23793,7 +23793,7 @@
 			"9015": 0
 		},
 		"turn_in_entries": {
-			"9015": 36280
+			"9015": 37060
 		},
 		"stages": [
 			{
@@ -23828,7 +23828,7 @@
 					"C4-03-A.D06"
 				],
 				"objective_ids": [
-					"event_c4_kai_stopped"
+					"kill_8034"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -23836,7 +23836,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 31060,
-				"end_ms": 35880
+				"end_ms": 36660
 			},
 			{
 				"id": "C4-03-A-S03",
@@ -23856,8 +23856,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 36280,
-				"end_ms": 47060
+				"start_ms": 37060,
+				"end_ms": 47840
 			}
 		]
 	},
@@ -23965,7 +23965,7 @@
 				"stageId": "C4-04-A-S01",
 				"nodeId": "C4-04-A.D02",
 				"speaker_kind": "npc",
-				"speaker_id": 0
+				"speaker_id": 9047
 			},
 			{
 				"id": "C4-04-A-S01_008",
@@ -24804,7 +24804,8 @@
 		],
 		"entries": {
 			"9031": 0,
-			"9032": 88280
+			"9032": 88280,
+			"9047": 7540
 		},
 		"turn_in_entries": {
 			"9032": 88160
@@ -33735,7 +33736,7 @@
 				"stageId": "C0-07-A-S01",
 				"nodeId": "C0-07-A.D01",
 				"speaker_kind": "npc",
-				"speaker_id": 9010
+				"speaker_id": 9049
 			},
 			{
 				"id": "C0-07-A-S01_003",
@@ -33749,7 +33750,7 @@
 				"stageId": "C0-07-A-S01",
 				"nodeId": "C0-07-A.D02",
 				"speaker_kind": "npc",
-				"speaker_id": 9011
+				"speaker_id": 9048
 			},
 			{
 				"id": "C0-07-A-S01_004",
@@ -33991,7 +33992,8 @@
 		"entries": {
 			"9002": 5120,
 			"9010": 0,
-			"9011": 2360
+			"9048": 2360,
+			"9049": 0
 		},
 		"turn_in_entries": {
 			"9002": 18200

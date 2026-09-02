@@ -615,6 +615,12 @@
 				"count": 1
 			},
 			{
+				"id": "talk_9049",
+				"type": "talk",
+				"npc_id": 9049,
+				"count": 1
+			},
+			{
 				"id": "talk_9002",
 				"type": "talk",
 				"npc_id": 9002,
@@ -643,7 +649,7 @@
 					"C0-07-A.D04M-1"
 				],
 				"objective_ids": [
-					"talk_9010",
+					"talk_9049",
 					"talk_9002"
 				],
 				"failure_policy": "retry_stage",
@@ -683,7 +689,9 @@
 					"C0-07-A.D07",
 					"C0-07-A.D08"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"talk_9010"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -708,7 +716,8 @@
 			"npc_entries": {
 				"9002": 5120,
 				"9010": 0,
-				"9011": 2360
+				"9048": 2360,
+				"9049": 0
 			}
 		},
 		"required_quest_ids": [
@@ -2992,11 +3001,11 @@
 				"count": 1
 			},
 			{
-				"id": "event_c4_kai_stopped",
-				"type": "named_event",
-				"event_name": "c4_kai_stopped",
-				"name": "击退凯（切磋战，不击杀）",
-				"count": 1
+				"id": "kill_8034",
+				"type": "kill",
+				"enemy_id": 8034,
+				"count": 1,
+				"name": "击退凯招来的试炼傀儡（击杀 试炼傀儡 enemy_8034 ×1，切磋战，刷新点 3050, 629）"
 			}
 		],
 		"stages": [
@@ -3030,7 +3039,7 @@
 					"C4-03-A.D06"
 				],
 				"objective_ids": [
-					"event_c4_kai_stopped"
+					"kill_8034"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3231,7 +3240,8 @@
 			"preview": true,
 			"npc_entries": {
 				"9031": 0,
-				"9032": 88280
+				"9032": 88280,
+				"9047": 7540
 			}
 		},
 		"required_quest_ids": [
