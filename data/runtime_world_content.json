@@ -34,29 +34,14 @@
 				{
 					"id": "hub_to_forest",
 					"type": "area_event",
-					"name": "城门方向",
-					"x": 133,
+					"name": "城门传送门",
+					"x": 900,
 					"y": 743,
 					"width": 240,
 					"height": 280,
 					"debug_visible": true,
 					"event_name": "hub_to_forest",
 					"required_quest_id": 20070,
-					"required_quest_states": [
-						"active"
-					]
-				},
-				{
-					"id": "c6_escape_route",
-					"type": "area_event",
-					"name": "在核心坍塌中沿撤离路线撤离",
-					"x": 2500,
-					"y": 623,
-					"width": 240,
-					"height": 280,
-					"debug_visible": true,
-					"event_name": "c6_escape_route",
-					"required_quest_id": 26060,
 					"required_quest_states": [
 						"active"
 					]
@@ -72,35 +57,9 @@
 					"required_quest_states": [
 						"active"
 					]
-				},
-				{
-					"id": "c1_starwedge_1_calibrated",
-					"type": "named_event",
-					"name": "星楔",
-					"x": 3488,
-					"y": 735,
-					"event_name": "c1_starwedge_1_calibrated",
-					"required_quest_id": 21080,
-					"required_quest_states": [
-						"active"
-					]
 				}
 			],
-			"enemies": [
-				{
-					"spawn_id": "q21080_e8027",
-					"mode": "group",
-					"enemy_id": 8027,
-					"x": 3488,
-					"y": 735,
-					"count": 1,
-					"scatter_x": 120,
-					"required_quest_id": 21080,
-					"required_quest_states": [
-						"active"
-					]
-				}
-			]
+			"enemies": []
 		},
 		"1": {
 			"interactables": [
@@ -203,7 +162,7 @@
 					"id": "c1_beacon_1_lit",
 					"type": "named_event",
 					"name": "第一座信标",
-					"x": 1575,
+					"x": 1630,
 					"y": 735,
 					"event_name": "c1_beacon_1_lit",
 					"required_quest_id": 21030,
@@ -215,10 +174,22 @@
 					"id": "c1_beacon_3_lit",
 					"type": "named_event",
 					"name": "第三座信标",
-					"x": 3150,
+					"x": 3210,
 					"y": 735,
 					"event_name": "c1_beacon_3_lit",
 					"required_quest_id": 21070,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c1_starwedge_1_calibrated",
+					"type": "named_event",
+					"name": "星楔",
+					"x": 3488,
+					"y": 735,
+					"event_name": "c1_starwedge_1_calibrated",
+					"required_quest_id": 21080,
 					"required_quest_states": [
 						"active"
 					]
@@ -315,11 +286,44 @@
 					"required_quest_states": [
 						"active"
 					]
+				},
+				{
+					"spawn_id": "q21080_e8027",
+					"mode": "group",
+					"enemy_id": 8027,
+					"x": 3488,
+					"y": 735,
+					"count": 1,
+					"scatter_x": 120,
+					"required_quest_id": 21080,
+					"required_quest_states": [
+						"active"
+					]
 				}
 			]
 		},
 		"2": {
 			"interactables": [
+				{
+					"id": "gate_ch3",
+					"type": "portal",
+					"name": "前往烛塔学院",
+					"x": 3900,
+					"y": 632,
+					"target_level_id": 3,
+					"required_quest_id": 22040,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "gate_town_from_2",
+					"type": "portal",
+					"name": "返回余晖城",
+					"x": 200,
+					"y": 632,
+					"target_level_id": 0
+				},
 				{
 					"id": "c2_gate_arch",
 					"type": "area_event",
@@ -418,6 +422,26 @@
 		"3": {
 			"interactables": [
 				{
+					"id": "gate_ch4",
+					"type": "portal",
+					"name": "前往苍蓝港湾",
+					"x": 3900,
+					"y": 731,
+					"target_level_id": 4,
+					"required_quest_id": 23040,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "gate_town_from_3",
+					"type": "portal",
+					"name": "返回余晖城",
+					"x": 200,
+					"y": 731,
+					"target_level_id": 0
+				},
+				{
 					"id": "c3_last_question",
 					"type": "area_event",
 					"name": "石栏平台",
@@ -493,6 +517,19 @@
 					]
 				},
 				{
+					"id": "q23010_i100301",
+					"type": "pickup",
+					"name": "考卷残页",
+					"x": 1800,
+					"y": 731,
+					"item_id": 100301,
+					"count": 1,
+					"required_quest_id": 23010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
 					"id": "q23040_i100239",
 					"type": "pickup",
 					"name": "记忆损耗账页",
@@ -537,6 +574,26 @@
 		},
 		"4": {
 			"interactables": [
+				{
+					"id": "gate_ch5",
+					"type": "portal",
+					"name": "前往灰烬王城",
+					"x": 3900,
+					"y": 629,
+					"target_level_id": 5,
+					"required_quest_id": 24040,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "gate_town_from_4",
+					"type": "portal",
+					"name": "返回余晖城",
+					"x": 200,
+					"y": 629,
+					"target_level_id": 0
+				},
 				{
 					"id": "c4_pier_node",
 					"type": "area_event",
@@ -598,6 +655,19 @@
 					]
 				},
 				{
+					"id": "q24020_i100302",
+					"type": "pickup",
+					"name": "船长的信",
+					"x": 2300,
+					"y": 629,
+					"item_id": 100302,
+					"count": 2,
+					"required_quest_id": 24020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
 					"id": "q24020_i100240",
 					"type": "pickup",
 					"name": "黄色雨衣纽扣",
@@ -606,6 +676,19 @@
 					"item_id": 100240,
 					"count": 1,
 					"required_quest_id": 24020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q24040_i100303",
+					"type": "pickup",
+					"name": "三源时间证据",
+					"x": 3000,
+					"y": 629,
+					"item_id": 100303,
+					"count": 3,
+					"required_quest_id": 24040,
 					"required_quest_states": [
 						"active"
 					]
@@ -643,6 +726,26 @@
 		"5": {
 			"interactables": [
 				{
+					"id": "gate_ch6",
+					"type": "portal",
+					"name": "前往王脉深庭",
+					"x": 3900,
+					"y": 683,
+					"target_level_id": 6,
+					"required_quest_id": 25040,
+					"required_quest_states": [
+						"completed"
+					]
+				},
+				{
+					"id": "gate_town_from_5",
+					"type": "portal",
+					"name": "返回余晖城",
+					"x": 200,
+					"y": 683,
+					"target_level_id": 0
+				},
+				{
 					"id": "c5_bellhammer_fixed",
 					"type": "named_event",
 					"name": "钟楼断墙",
@@ -674,6 +777,32 @@
 					"y": 683,
 					"event_name": "c5_bell_rang",
 					"required_quest_id": 25020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q25010_i100304",
+					"type": "pickup",
+					"name": "撤离名册残页",
+					"x": 1900,
+					"y": 683,
+					"item_id": 100304,
+					"count": 3,
+					"required_quest_id": 25010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q25030_i100305",
+					"type": "pickup",
+					"name": "封档抄件",
+					"x": 2950,
+					"y": 683,
+					"item_id": 100305,
+					"count": 1,
+					"required_quest_id": 25030,
 					"required_quest_states": [
 						"active"
 					]
@@ -710,6 +839,14 @@
 		},
 		"6": {
 			"interactables": [
+				{
+					"id": "gate_town_from_6",
+					"type": "portal",
+					"name": "返回余晖城",
+					"x": 200,
+					"y": 623,
+					"target_level_id": 0
+				},
 				{
 					"id": "c6_lost_camp",
 					"type": "area_event",
@@ -766,6 +903,60 @@
 					"debug_visible": true,
 					"event_name": "c6_core_entered",
 					"required_quest_id": 26040,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "c6_escape_route",
+					"type": "area_event",
+					"name": "在核心坍塌中沿撤离路线撤离",
+					"x": 2500,
+					"y": 623,
+					"width": 240,
+					"height": 280,
+					"debug_visible": true,
+					"event_name": "c6_escape_route",
+					"required_quest_id": 26060,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q26010_i100308",
+					"type": "pickup",
+					"name": "营地痕迹记录",
+					"x": 2100,
+					"y": 623,
+					"item_id": 100308,
+					"count": 4,
+					"required_quest_id": 26010,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q26020_i100306",
+					"type": "pickup",
+					"name": "疗程记录抄件",
+					"x": 2750,
+					"y": 623,
+					"item_id": 100306,
+					"count": 1,
+					"required_quest_id": 26020,
+					"required_quest_states": [
+						"active"
+					]
+				},
+				{
+					"id": "q26050_i100307",
+					"type": "pickup",
+					"name": "灭口证据",
+					"x": 3100,
+					"y": 623,
+					"item_id": 100307,
+					"count": 3,
+					"required_quest_id": 26050,
 					"required_quest_states": [
 						"active"
 					]

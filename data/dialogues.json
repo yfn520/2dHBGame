@@ -13804,9 +13804,9 @@
 				"trackId": "track_narration",
 				"kind": "narration",
 				"startMs": 22240,
-				"durationMs": 2340,
+				"durationMs": 900,
 				"speaker": "旁白",
-				"text": "先追哪条线索？【去东坡塌方带（露娜）】【去净水洼（米娅）】",
+				"text": "方向定了。",
 				"routeHero": "leon",
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D05K",
@@ -13824,10 +13824,10 @@
 				"id": "C1-04-A-S02_006",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 25380,
-				"durationMs": 2280,
+				"startMs": 23940,
+				"durationMs": 900,
 				"speaker": "旁白",
-				"text": "先追哪条线索？【去军道旧标（莱昂）】【去净水洼（米娅）】",
+				"text": "方向定了。",
 				"routeHero": "luna",
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D05L",
@@ -13845,10 +13845,10 @@
 				"id": "C1-04-A-S02_007",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 28460,
-				"durationMs": 2400,
+				"startMs": 25640,
+				"durationMs": 900,
 				"speaker": "旁白",
-				"text": "先追哪条线索？【去东坡塌方带（露娜）】【去军道旧标（莱昂）】",
+				"text": "方向定了。",
 				"routeHero": "mia",
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D05M",
@@ -13866,7 +13866,7 @@
 				"id": "C1-04-A-S02_008",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 31260,
+				"startMs": 26940,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06a",
@@ -13882,7 +13882,7 @@
 				"id": "C1-04-A-S02_009",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 32060,
+				"startMs": 27740,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -13899,7 +13899,7 @@
 				"id": "C1-04-A-S02_010",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 33660,
+				"startMs": 29340,
 				"durationMs": 3000,
 				"speaker": "旁白",
 				"text": "你循着盾击的节奏找过去。雾散开时，一个持盾的人正把最后一只傀儡从塌方边上推下去。",
@@ -13919,7 +13919,7 @@
 				"id": "C1-04-A-S02_011",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 37060,
+				"startMs": 32740,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06b",
@@ -13935,7 +13935,7 @@
 				"id": "C1-04-A-S02_012",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 37860,
+				"startMs": 33540,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -13952,7 +13952,7 @@
 				"id": "C1-04-A-S02_013",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 39460,
+				"startMs": 35140,
 				"durationMs": 2640,
 				"speaker": "旁白",
 				"text": "箭羽记号在塌方带尽头断了。你抬头，岩架上蹲着一个正往下探身子的弓手。",
@@ -13972,7 +13972,7 @@
 				"id": "C1-04-A-S02_014",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 42500,
+				"startMs": 38180,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D06c",
@@ -13988,7 +13988,7 @@
 				"id": "C1-04-A-S02_015",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 43300,
+				"startMs": 38980,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -14005,7 +14005,7 @@
 				"id": "C1-04-A-S02_016",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 44900,
+				"startMs": 40580,
 				"durationMs": 2400,
 				"speaker": "旁白",
 				"text": "警示灯还亮着，三拍，一盏。灯旁的人正把净水圈的最后一段画完。",
@@ -14025,7 +14025,7 @@
 				"id": "C1-04-A-S02_017",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 47700,
+				"startMs": 43380,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07a",
@@ -14041,7 +14041,7 @@
 				"id": "C1-04-A-S02_018",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 48500,
+				"startMs": 44180,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -14058,7 +14058,7 @@
 				"id": "C1-04-A-S02_019",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 50100,
+				"startMs": 45780,
 				"durationMs": 2360,
 				"speaker": "莱昂",
 				"text": "报上名。……别紧张，我也是被搜救队背回来的。",
@@ -14079,7 +14079,7 @@
 				"id": "C1-04-A-S02_020",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 52860,
+				"startMs": 48540,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07b",
@@ -14095,7 +14095,7 @@
 				"id": "C1-04-A-S02_021",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 53660,
+				"startMs": 49340,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -14112,7 +14112,7 @@
 				"id": "C1-04-A-S02_022",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 55260,
+				"startMs": 50940,
 				"durationMs": 2760,
 				"speaker": "露娜",
 				"text": "脚印新的，人往这边走了——咦？活人！你也是被捡回来的？",
@@ -14133,7 +14133,7 @@
 				"id": "C1-04-A-S02_023",
 				"trackId": "track_screen",
 				"kind": "black_screen",
-				"startMs": 58420,
+				"startMs": 54100,
 				"durationMs": 800,
 				"stageId": "C1-04-A-S02",
 				"nodeId": "C1-04-A.D07c",
@@ -14149,7 +14149,7 @@
 				"id": "C1-04-A-S02_024",
 				"trackId": "track_screen",
 				"kind": "subtitle",
-				"startMs": 59220,
+				"startMs": 54900,
 				"durationMs": 1600,
 				"text": "过场",
 				"stageId": "C1-04-A-S02",
@@ -14166,7 +14166,7 @@
 				"id": "C1-04-A-S02_025",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 60820,
+				"startMs": 56500,
 				"durationMs": 2760,
 				"speaker": "米娅",
 				"text": "请站在圈外。……抱歉，职业习惯。你也是搜救队救回来的？",
@@ -14187,7 +14187,7 @@
 				"id": "C1-04-A-S02_026",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 63980,
+				"startMs": 59660,
 				"durationMs": 1920,
 				"speaker": "旁白",
 				"text": "第二名英雄加入。开放：双人编队与前后排站位。",
@@ -14200,7 +14200,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 65900,
+				"startMs": 61580,
 				"durationMs": 0,
 				"text": "退出阶段：C1-04-A-S02",
 				"payload": "C1-04-A-S02",
@@ -14275,7 +14275,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 21840,
-				"end_ms": 65900
+				"end_ms": 61580
 			}
 		]
 	},
@@ -15910,24 +15910,10 @@
 				"payload": "c1_beacon_3_lit"
 			},
 			{
-				"id": "C1-07-A-S03_objective_002",
-				"stageId": "C1-07-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 59420,
-				"durationMs": 0,
-				"questId": 21070,
-				"objectiveKey": "event_c1_third_hero_joined",
-				"text": "等待目标：与最后一名主角会合",
-				"payload": "c1_third_hero_joined"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 59540,
+				"startMs": 59420,
 				"durationMs": 0,
 				"text": "退出阶段：C1-07-A-S03",
 				"payload": "C1-07-A-S03",
@@ -16015,8 +16001,7 @@
 					"C1-07-A.D09"
 				],
 				"objective_ids": [
-					"event_c1_beacon_3_lit",
-					"event_c1_third_hero_joined"
+					"event_c1_beacon_3_lit"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -16024,7 +16009,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 57740,
-				"end_ms": 59540
+				"end_ms": 59420
 			}
 		]
 	},
@@ -18342,38 +18327,10 @@
 				"payload": "c2_windmill_set"
 			},
 			{
-				"id": "C2-02-A-S03_objective_002",
-				"stageId": "C2-02-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 47600,
-				"durationMs": 0,
-				"questId": 22020,
-				"objectiveKey": "event_c2_last_child_passed",
-				"text": "等待目标：护送最后一段孩子遗响通过残拱",
-				"payload": "c2_last_child_passed"
-			},
-			{
-				"id": "C2-02-A-S03_objective_003",
-				"stageId": "C2-02-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 47720,
-				"durationMs": 0,
-				"questId": 22020,
-				"objectiveKey": "event_c2_gate_closed",
-				"text": "等待目标：看守门兵关上门",
-				"payload": "c2_gate_closed"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 47840,
+				"startMs": 47600,
 				"durationMs": 0,
 				"text": "退出阶段：C2-02-A-S03",
 				"payload": "C2-02-A-S03",
@@ -18448,9 +18405,7 @@
 					"C2-02-A.D09"
 				],
 				"objective_ids": [
-					"event_c2_windmill_set",
-					"event_c2_last_child_passed",
-					"event_c2_gate_closed"
+					"event_c2_windmill_set"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -18458,7 +18413,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 45400,
-				"end_ms": 47840
+				"end_ms": 47600
 			}
 		]
 	},
@@ -19204,24 +19159,10 @@
 				"payload": "8020"
 			},
 			{
-				"id": "C2-03-A-S03_objective_002",
-				"stageId": "C2-03-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 68000,
-				"durationMs": 0,
-				"questId": 22030,
-				"objectiveKey": "event_c2_pact_legacy_acquired",
-				"text": "等待目标：取得主契遗装",
-				"payload": "c2_pact_legacy_acquired"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 68120,
+				"startMs": 68000,
 				"durationMs": 0,
 				"text": "退出阶段：C2-03-A-S03",
 				"payload": "C2-03-A-S03",
@@ -19311,8 +19252,7 @@
 					"C2-03-A.D08"
 				],
 				"objective_ids": [
-					"kill_8020",
-					"event_c2_pact_legacy_acquired"
+					"kill_8020"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -19320,7 +19260,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 65360,
-				"end_ms": 68120
+				"end_ms": 68000
 			}
 		]
 	},
@@ -20398,29 +20338,15 @@
 				"startMs": 35180,
 				"durationMs": 0,
 				"questId": 23010,
-				"objectiveKey": "event_c3_quiz_answered",
-				"text": "等待目标：陪它答完今天的三道考题",
-				"payload": "c3_quiz_answered"
-			},
-			{
-				"id": "C3-01-A-S03_objective_002",
-				"stageId": "C3-01-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 35300,
-				"durationMs": 0,
-				"questId": 23010,
-				"objectiveKey": "pending_c3_01_a_3",
-				"text": "等待目标：弄清考题数字的含义（收集 「考卷残页」×1）",
-				"payload": "pending_c3_01_a_3"
+				"objectiveKey": "collect_100301",
+				"text": "等待目标：找到「考卷残页」(item_100301)（拾取点 1800, 731）",
+				"payload": "100301"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 35420,
+				"startMs": 35300,
 				"durationMs": 0,
 				"text": "退出阶段：C3-01-A-S03",
 				"payload": "C3-01-A-S03",
@@ -20494,8 +20420,7 @@
 					"C3-01-A.D08"
 				],
 				"objective_ids": [
-					"event_c3_quiz_answered",
-					"pending_c3_01_a_3"
+					"collect_100301"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -20503,7 +20428,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 33500,
-				"end_ms": 35420
+				"end_ms": 35300
 			}
 		]
 	},
@@ -20894,24 +20819,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C3-02-A-S04_objective_001",
-				"stageId": "C3-02-A-S04",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 35860,
-				"durationMs": 0,
-				"questId": 23020,
-				"objectiveKey": "event_c3_seventeen_graduated",
-				"text": "等待目标：看它交卷",
-				"payload": "c3_seventeen_graduated"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 35980,
+				"startMs": 35860,
 				"durationMs": 0,
 				"text": "退出阶段：C3-02-A-S04",
 				"payload": "C3-02-A-S04",
@@ -21007,16 +20918,14 @@
 				"node_ids": [
 					"C3-02-A.D09"
 				],
-				"objective_ids": [
-					"event_c3_seventeen_graduated"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 33940,
-				"end_ms": 35980
+				"end_ms": 35860
 			}
 		]
 	},
@@ -21353,24 +21262,10 @@
 				"payload": "8002"
 			},
 			{
-				"id": "C3-03-A-S02_objective_002",
-				"stageId": "C3-03-A-S02",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 26620,
-				"durationMs": 0,
-				"questId": 23030,
-				"objectiveKey": "event_c3_roster_escorted",
-				"text": "等待目标：护送点名册通过烛塔回路",
-				"payload": "c3_roster_escorted"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 26740,
+				"startMs": 26620,
 				"durationMs": 0,
 				"text": "退出阶段：C3-03-A-S02",
 				"payload": "C3-03-A-S02",
@@ -21384,7 +21279,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 27140,
+				"startMs": 27020,
 				"durationMs": 0,
 				"text": "进入阶段：C3-03-A-S03",
 				"payload": "C3-03-A-S03",
@@ -21398,7 +21293,7 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 27140,
+				"startMs": 27020,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
@@ -21411,7 +21306,7 @@
 				"id": "C3-03-A-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 27260,
+				"startMs": 27140,
 				"durationMs": 1720,
 				"speaker": "记录员遗响",
 				"text": "点名……结束。全部……合格。",
@@ -21428,7 +21323,7 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 28980,
+				"startMs": 28860,
 				"durationMs": 0,
 				"questId": 23030,
 				"objectiveKey": "area_c3_tower_1",
@@ -21442,7 +21337,7 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 29100,
+				"startMs": 28980,
 				"durationMs": 0,
 				"questId": 23030,
 				"objectiveKey": "area_c3_tower_2",
@@ -21456,7 +21351,7 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 29220,
+				"startMs": 29100,
 				"durationMs": 0,
 				"questId": 23030,
 				"objectiveKey": "area_c3_tower_3",
@@ -21470,7 +21365,7 @@
 				"kind": "event",
 				"eventType": "objective",
 				"eventMode": "wait",
-				"startMs": 29340,
+				"startMs": 29220,
 				"durationMs": 0,
 				"questId": 23030,
 				"objectiveKey": "area_c3_tower_4",
@@ -21481,7 +21376,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 29460,
+				"startMs": 29340,
 				"durationMs": 0,
 				"text": "退出阶段：C3-03-A-S03",
 				"payload": "C3-03-A-S03",
@@ -21502,7 +21397,7 @@
 			"9029": 0
 		},
 		"turn_in_entries": {
-			"9029": 27140
+			"9029": 27020
 		},
 		"stages": [
 			{
@@ -21538,8 +21433,7 @@
 					"C3-03-A.D07"
 				],
 				"objective_ids": [
-					"kill_8002",
-					"event_c3_roster_escorted"
+					"kill_8002"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -21547,7 +21441,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 7880,
-				"end_ms": 26740
+				"end_ms": 26620
 			},
 			{
 				"id": "C3-03-A-S03",
@@ -21568,8 +21462,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 27140,
-				"end_ms": 29460
+				"start_ms": 27020,
+				"end_ms": 29340
 			}
 		]
 	},
@@ -22376,24 +22270,10 @@
 				"payload": "100239"
 			},
 			{
-				"id": "C3-04-A-S04_objective_002",
-				"stageId": "C3-04-A-S04",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 79220,
-				"durationMs": 0,
-				"questId": 23040,
-				"objectiveKey": "event_c3_evidence_copied",
-				"text": "等待目标：建立多份互校的证据副本",
-				"payload": "c3_evidence_copied"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 79340,
+				"startMs": 79220,
 				"durationMs": 0,
 				"text": "退出阶段：C3-04-A-S04",
 				"payload": "C3-04-A-S04",
@@ -22502,8 +22382,7 @@
 					"C3-04-A.D13"
 				],
 				"objective_ids": [
-					"collect_100239",
-					"event_c3_evidence_copied"
+					"collect_100239"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -22511,7 +22390,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 73760,
-				"end_ms": 79340
+				"end_ms": 79220
 			}
 		]
 	},
@@ -23121,6 +23000,20 @@
 				"startMs": 16420,
 				"durationMs": 0,
 				"questId": 24020,
+				"objectiveKey": "collect_100302",
+				"text": "等待目标：在货箱堆里找到「船长的信」(item_100302)×2（拾取点 2300, 629）",
+				"payload": "100302"
+			},
+			{
+				"id": "C4-02-A-S02_objective_002",
+				"stageId": "C4-02-A-S02",
+				"trackId": "track_event",
+				"kind": "event",
+				"eventType": "objective",
+				"eventMode": "wait",
+				"startMs": 16540,
+				"durationMs": 0,
+				"questId": 24020,
 				"objectiveKey": "collect_100240",
 				"text": "等待目标：寻回「黄色雨衣纽扣」(item_100240)（拾取点 2400, 629）",
 				"payload": "100240"
@@ -23129,7 +23022,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 16540,
+				"startMs": 16660,
 				"durationMs": 0,
 				"text": "退出阶段：C4-02-A-S02",
 				"payload": "C4-02-A-S02",
@@ -23143,7 +23036,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_enter",
-				"startMs": 16940,
+				"startMs": 17060,
 				"durationMs": 0,
 				"text": "进入阶段：C4-02-A-S03",
 				"payload": "C4-02-A-S03",
@@ -23157,7 +23050,7 @@
 				"kind": "event",
 				"eventType": "quest_state",
 				"questState": "ready",
-				"startMs": 16940,
+				"startMs": 17060,
 				"durationMs": 0,
 				"text": "等待任务可交付",
 				"payload": "交付",
@@ -23170,7 +23063,7 @@
 				"id": "C4-02-A-S03_003",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 17060,
+				"startMs": 17180,
 				"durationMs": 2040,
 				"speaker": "港口登记员",
 				"text": "……他不是没回来。他是没把灾带回来。",
@@ -23184,7 +23077,7 @@
 				"id": "C4-02-A-S03_004",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 19500,
+				"startMs": 19620,
 				"durationMs": 2200,
 				"speaker": "主角",
 				"text": "港里记了他这么多年\"失踪\"。今天改过来。",
@@ -23206,7 +23099,7 @@
 				"id": "C4-02-A-S03_005",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 22100,
+				"startMs": 22220,
 				"durationMs": 1960,
 				"speaker": "主角",
 				"text": "这不是失踪，是处置。把记录改过来。",
@@ -23228,7 +23121,7 @@
 				"id": "C4-02-A-S03_006",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 24460,
+				"startMs": 24580,
 				"durationMs": 2440,
 				"speaker": "主角",
 				"text": "两封信加纽扣，证据链完整。登记员，请更正条目。",
@@ -23250,7 +23143,7 @@
 				"id": "C4-02-A-S03_007",
 				"trackId": "track_dialogue",
 				"kind": "line",
-				"startMs": 27300,
+				"startMs": 27420,
 				"durationMs": 3160,
 				"speaker": "港口登记员",
 				"text": "旧航线我重新登记，就用救援船的名字。雨衣……我挂到登记处墙上去。",
@@ -23264,7 +23157,7 @@
 				"id": "C4-02-A-S03_008",
 				"trackId": "track_narration",
 				"kind": "narration",
-				"startMs": 30860,
+				"startMs": 30980,
 				"durationMs": 1800,
 				"speaker": "旁白",
 				"text": "黄雨衣挂上了登记处的墙，纽扣缝回了原处。",
@@ -23277,7 +23170,7 @@
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 32660,
+				"startMs": 32780,
 				"durationMs": 0,
 				"text": "退出阶段：C4-02-A-S03",
 				"payload": "C4-02-A-S03",
@@ -23303,7 +23196,7 @@
 			"9035": 0
 		},
 		"turn_in_entries": {
-			"9035": 16940
+			"9035": 17060
 		},
 		"stages": [
 			{
@@ -23336,6 +23229,7 @@
 					"C4-02-A.D06"
 				],
 				"objective_ids": [
+					"collect_100302",
 					"collect_100240"
 				],
 				"failure_policy": "retry_stage",
@@ -23344,7 +23238,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 8840,
-				"end_ms": 16540
+				"end_ms": 16660
 			},
 			{
 				"id": "C4-02-A-S03",
@@ -23365,8 +23259,8 @@
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
-				"start_ms": 16940,
-				"end_ms": 32660
+				"start_ms": 17060,
+				"end_ms": 32780
 			}
 		]
 	},
@@ -23872,24 +23766,10 @@
 				"payload": "c4_kai_ambush"
 			},
 			{
-				"id": "C4-03-A-S03_objective_002",
-				"stageId": "C4-03-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 47060,
-				"durationMs": 0,
-				"questId": 24030,
-				"objectiveKey": "event_c4_kai_truth",
-				"text": "等待目标：与凯对话，问清他的雇主与旧契约",
-				"payload": "c4_kai_truth"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 47180,
+				"startMs": 47060,
 				"durationMs": 0,
 				"text": "退出阶段：C4-03-A-S03",
 				"payload": "C4-03-A-S03",
@@ -23966,8 +23846,7 @@
 					"C4-03-A.D09"
 				],
 				"objective_ids": [
-					"area_c4_kai_ambush",
-					"event_c4_kai_truth"
+					"area_c4_kai_ambush"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -23975,7 +23854,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 36280,
-				"end_ms": 47180
+				"end_ms": 47060
 			}
 		]
 	},
@@ -24880,29 +24759,15 @@
 				"startMs": 93720,
 				"durationMs": 0,
 				"questId": 24040,
-				"objectiveKey": "pending_c4_04_a_2",
-				"text": "等待目标：取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」×3）",
-				"payload": "pending_c4_04_a_2"
-			},
-			{
-				"id": "C4-04-A-S05_objective_002",
-				"stageId": "C4-04-A-S05",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 93840,
-				"durationMs": 0,
-				"questId": 24040,
-				"objectiveKey": "event_c4_evidence_evacuated",
-				"text": "等待目标：在栈桥坍塌前完成撤离",
-				"payload": "c4_evidence_evacuated"
+				"objectiveKey": "collect_100303",
+				"text": "等待目标：取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」(item_100303)×3）（拾取点 3000, 629）",
+				"payload": "100303"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 93960,
+				"startMs": 93840,
 				"durationMs": 0,
 				"text": "退出阶段：C4-04-A-S05",
 				"payload": "C4-04-A-S05",
@@ -25035,8 +24900,7 @@
 					"C4-04-A.D15"
 				],
 				"objective_ids": [
-					"pending_c4_04_a_2",
-					"event_c4_evidence_evacuated"
+					"collect_100303"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -25044,7 +24908,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 88160,
-				"end_ms": 93960
+				"end_ms": 93840
 			}
 		]
 	},
@@ -25370,9 +25234,9 @@
 				"startMs": 30380,
 				"durationMs": 0,
 				"questId": 25010,
-				"objectiveKey": "pending_c5_01_a_2",
-				"text": "等待目标：在断墙间找回散落的「撤离名册残页」×3",
-				"payload": "pending_c5_01_a_2"
+				"objectiveKey": "collect_100304",
+				"text": "等待目标：在断墙间找回散落的「撤离名册残页」(item_100304)×3（拾取点 1900, 683）",
+				"payload": "100304"
 			},
 			{
 				"trackId": "track_event",
@@ -25454,7 +25318,7 @@
 					"C5-01-A.D08"
 				],
 				"objective_ids": [
-					"pending_c5_01_a_2"
+					"collect_100304"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -26442,29 +26306,15 @@
 				"startMs": 68760,
 				"durationMs": 0,
 				"questId": 25030,
-				"objectiveKey": "event_c5_archive_verified",
-				"text": "等待目标：用三人当前身份验证镇脉行动封档",
-				"payload": "c5_archive_verified"
-			},
-			{
-				"id": "C5-03-A-S04_objective_002",
-				"stageId": "C5-03-A-S04",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 68880,
-				"durationMs": 0,
-				"questId": 25030,
-				"objectiveKey": "pending_c5_03_a_3",
-				"text": "等待目标：抄录封档关键页（收集 「封档抄件」×1）",
-				"payload": "pending_c5_03_a_3"
+				"objectiveKey": "collect_100305",
+				"text": "等待目标：抄录封档关键页（收集 「封档抄件」(item_100305)）（拾取点 2950, 683）",
+				"payload": "100305"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 69000,
+				"startMs": 68880,
 				"durationMs": 0,
 				"text": "退出阶段：C5-03-A-S04",
 				"payload": "C5-03-A-S04",
@@ -26564,8 +26414,7 @@
 					"C5-03-A.D13"
 				],
 				"objective_ids": [
-					"event_c5_archive_verified",
-					"pending_c5_03_a_3"
+					"collect_100305"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -26573,7 +26422,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 65320,
-				"end_ms": 69000
+				"end_ms": 68880
 			}
 		]
 	},
@@ -27179,38 +27028,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C5-04-A-S03_objective_001",
-				"stageId": "C5-04-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 68480,
-				"durationMs": 0,
-				"questId": 25040,
-				"objectiveKey": "event_c5_purge_terms_set",
-				"text": "等待目标：三人约定行动次序",
-				"payload": "c5_purge_terms_set"
-			},
-			{
-				"id": "C5-04-A-S03_objective_002",
-				"stageId": "C5-04-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 68600,
-				"durationMs": 0,
-				"questId": 25040,
-				"objectiveKey": "event_c5_pact_reforged",
-				"text": "等待目标：完成主契遗装重铸",
-				"payload": "c5_pact_reforged"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 68720,
+				"startMs": 68480,
 				"durationMs": 0,
 				"text": "退出阶段：C5-04-A-S03",
 				"payload": "C5-04-A-S03",
@@ -27312,17 +27133,14 @@
 				"node_ids": [
 					"C5-04-A.D10"
 				],
-				"objective_ids": [
-					"event_c5_purge_terms_set",
-					"event_c5_pact_reforged"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 65720,
-				"end_ms": 68720
+				"end_ms": 68480
 			}
 		]
 	},
@@ -27654,9 +27472,9 @@
 				"startMs": 33380,
 				"durationMs": 0,
 				"questId": 26010,
-				"objectiveKey": "pending_c6_01_a_2",
-				"text": "等待目标：记录营地的四处生活痕迹（收集 「营地痕迹记录」×4：烧黑的锅、四人份餐具、少一根的帐篷钉、补过的毯子）",
-				"payload": "pending_c6_01_a_2"
+				"objectiveKey": "collect_100308",
+				"text": "等待目标：记录营地的四处生活痕迹（收集 「营地痕迹记录」(item_100308)×4）（拾取点 2100, 623）",
+				"payload": "100308"
 			},
 			{
 				"trackId": "track_event",
@@ -27896,7 +27714,7 @@
 				],
 				"objective_ids": [
 					"area_c6_lost_camp",
-					"pending_c6_01_a_2"
+					"collect_100308"
 				],
 				"enter_when": {
 					"type": "area_event",
@@ -28217,9 +28035,9 @@
 				"startMs": 21040,
 				"durationMs": 0,
 				"questId": 26020,
-				"objectiveKey": "pending_c6_02_a_3",
-				"text": "等待目标：读取永曜灌注庭疗程记录（收集 「疗程记录抄件」×1）",
-				"payload": "pending_c6_02_a_3"
+				"objectiveKey": "collect_100306",
+				"text": "等待目标：读取永曜灌注庭疗程记录（收集 「疗程记录抄件」(item_100306)）（拾取点 2750, 623）",
+				"payload": "100306"
 			},
 			{
 				"trackId": "track_event",
@@ -28565,7 +28383,7 @@
 				],
 				"objective_ids": [
 					"area_c6_core_gate",
-					"pending_c6_02_a_3"
+					"collect_100306"
 				],
 				"enter_when": {
 					"type": "area_event",
@@ -28931,52 +28749,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C6-03-A-S03_objective_001",
-				"stageId": "C6-03-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 32980,
-				"durationMs": 0,
-				"questId": 26030,
-				"objectiveKey": "event_c6_gate_held",
-				"text": "等待目标：守住核心门与撤离线",
-				"payload": "c6_gate_held"
-			},
-			{
-				"id": "C6-03-A-S03_objective_002",
-				"stageId": "C6-03-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 33100,
-				"durationMs": 0,
-				"questId": 26030,
-				"objectiveKey": "event_c6_safe_route_set",
-				"text": "等待目标：标出不回冲地表的安全路线",
-				"payload": "c6_safe_route_set"
-			},
-			{
-				"id": "C6-03-A-S03_objective_003",
-				"stageId": "C6-03-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 33220,
-				"durationMs": 0,
-				"questId": 26030,
-				"objectiveKey": "event_c6_wedges_stabilized",
-				"text": "等待目标：把六枚星楔同步切换到地方低负载维稳",
-				"payload": "c6_wedges_stabilized"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 33340,
+				"startMs": 32980,
 				"durationMs": 0,
 				"text": "退出阶段：C6-03-A-S03",
 				"payload": "C6-03-A-S03",
@@ -29042,18 +28818,14 @@
 				"node_ids": [
 					"C6-03-A.D08"
 				],
-				"objective_ids": [
-					"event_c6_gate_held",
-					"event_c6_safe_route_set",
-					"event_c6_wedges_stabilized"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 30280,
-				"end_ms": 33340
+				"end_ms": 32980
 			}
 		]
 	},
@@ -30470,29 +30242,15 @@
 				"startMs": 51780,
 				"durationMs": 0,
 				"questId": 26050,
-				"objectiveKey": "event_c6_memory_returned",
-				"text": "等待目标：三人互相补全返忆",
-				"payload": "c6_memory_returned"
-			},
-			{
-				"id": "C6-05-A-S03_objective_002",
-				"stageId": "C6-05-A-S03",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 51900,
-				"durationMs": 0,
-				"questId": 26050,
-				"objectiveKey": "pending_c6_05_a_2",
-				"text": "等待目标：从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」×3）",
-				"payload": "pending_c6_05_a_2"
+				"objectiveKey": "collect_100307",
+				"text": "等待目标：从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」(item_100307)×3）（拾取点 3100, 623）",
+				"payload": "100307"
 			},
 			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 52020,
+				"startMs": 51900,
 				"durationMs": 0,
 				"text": "退出阶段：C6-05-A-S03",
 				"payload": "C6-05-A-S03",
@@ -30561,8 +30319,7 @@
 					"C6-05-A.D10"
 				],
 				"objective_ids": [
-					"event_c6_memory_returned",
-					"pending_c6_05_a_2"
+					"collect_100307"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -30570,7 +30327,7 @@
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 46460,
-				"end_ms": 52020
+				"end_ms": 51900
 			}
 		]
 	},
@@ -31272,24 +31029,10 @@
 				"speaker_id": 0
 			},
 			{
-				"id": "C6-06-A-S04_objective_001",
-				"stageId": "C6-06-A-S04",
-				"trackId": "track_event",
-				"kind": "event",
-				"eventType": "objective",
-				"eventMode": "wait",
-				"startMs": 80220,
-				"durationMs": 0,
-				"questId": 26060,
-				"objectiveKey": "event_c6_ninety_seconds_escape",
-				"text": "等待目标：在九十秒窗口内通过最后一扇门",
-				"payload": "c6_ninety_seconds_escape"
-			},
-			{
 				"trackId": "track_event",
 				"kind": "event",
 				"eventType": "stage_exit",
-				"startMs": 80340,
+				"startMs": 80220,
 				"durationMs": 0,
 				"text": "退出阶段：C6-06-A-S04",
 				"payload": "C6-06-A-S04",
@@ -31397,16 +31140,14 @@
 					"C6-06-A.D14",
 					"C6-06-A.D15"
 				],
-				"objective_ids": [
-					"event_c6_ninety_seconds_escape"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
 				"runtime_binding": {},
 				"inferred": false,
 				"start_ms": 73120,
-				"end_ms": 80340
+				"end_ms": 80220
 			}
 		]
 	},
@@ -34308,5 +34049,38 @@
 				"end_ms": 24360
 			}
 		]
+	},
+	"npc_9022": {
+		"format": "timeline",
+		"version": 2,
+		"entry_ms": 0,
+		"chapter_id": "",
+		"story_node_id": "",
+		"task_script_id": "",
+		"required_context_flags": [],
+		"tracks": [
+			{
+				"id": "track_dialogue",
+				"kind": "dialogue",
+				"label": "对白"
+			}
+		],
+		"clips": [
+			{
+				"id": "npc_9022_greet_1",
+				"trackId": "track_dialogue",
+				"kind": "line",
+				"startMs": 0,
+				"durationMs": 2600,
+				"speaker": "维修员",
+				"speaker_kind": "npc",
+				"speaker_id": 9022,
+				"text": "信标修一座，夜里就少一分危险。辛苦了。",
+				"conditions": []
+			}
+		],
+		"entries": {
+			"9022": 0
+		}
 	}
 }

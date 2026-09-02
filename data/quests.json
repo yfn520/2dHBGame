@@ -624,7 +624,7 @@
 				"id": "area_hub_to_forest",
 				"type": "area_trigger",
 				"event_name": "hub_to_forest",
-				"name": "前往星露草原（城门方向）",
+				"name": "前往星露草原（城门传送门）",
 				"count": 1
 			}
 		],
@@ -834,8 +834,7 @@
 		"required_quest_ids": [
 			20070
 		],
-		"level_id": 1,
-		"auto_start": true
+		"level_id": 1
 	},
 	"21020": {
 		"id": 21020,
@@ -1202,18 +1201,6 @@
 				"count": 1
 			},
 			{
-				"id": "talk_9046",
-				"type": "talk",
-				"npc_id": 9046,
-				"count": 1
-			},
-			{
-				"id": "talk_9047",
-				"type": "talk",
-				"npc_id": 9047,
-				"count": 1
-			},
-			{
 				"id": "collect_100248",
 				"type": "collect",
 				"item_id": 100248,
@@ -1282,10 +1269,7 @@
 					"C1-05-A.D09",
 					"C1-05-A.D10"
 				],
-				"objective_ids": [
-					"talk_9046",
-					"talk_9047"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -1465,6 +1449,12 @@
 		"turn_in_npc_id": 9022,
 		"objectives": [
 			{
+				"id": "talk_9022",
+				"type": "talk",
+				"npc_id": 9022,
+				"count": 1
+			},
+			{
 				"id": "area_c1_beacon_3_arrive",
 				"type": "area_trigger",
 				"event_name": "c1_beacon_3_arrive",
@@ -1476,13 +1466,6 @@
 				"type": "named_event",
 				"event_name": "c1_beacon_3_lit",
 				"name": "合力修复信标",
-				"count": 1
-			},
-			{
-				"id": "event_c1_third_hero_joined",
-				"type": "named_event",
-				"event_name": "c1_third_hero_joined",
-				"name": "与最后一名主角会合",
 				"count": 1
 			}
 		],
@@ -1498,6 +1481,7 @@
 					"C1-07-A.D03"
 				],
 				"objective_ids": [
+					"talk_9022",
 					"area_c1_beacon_3_arrive"
 				],
 				"enter_when": {
@@ -1542,8 +1526,7 @@
 					"C1-07-A.D09"
 				],
 				"objective_ids": [
-					"event_c1_beacon_3_lit",
-					"event_c1_third_hero_joined"
+					"event_c1_beacon_3_lit"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -1751,7 +1734,7 @@
 		"required_quest_ids": [
 			21070
 		],
-		"level_id": 0
+		"level_id": 1
 	},
 	"22010": {
 		"id": 22010,
@@ -1890,20 +1873,6 @@
 				"event_name": "c2_windmill_set",
 				"name": "把木风车装回残拱边的旧轴座",
 				"count": 1
-			},
-			{
-				"id": "event_c2_last_child_passed",
-				"type": "named_event",
-				"event_name": "c2_last_child_passed",
-				"name": "护送最后一段孩子遗响通过残拱",
-				"count": 1
-			},
-			{
-				"id": "event_c2_gate_closed",
-				"type": "named_event",
-				"event_name": "c2_gate_closed",
-				"name": "看守门兵关上门",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -1954,9 +1923,7 @@
 					"C2-02-A.D09"
 				],
 				"objective_ids": [
-					"event_c2_windmill_set",
-					"event_c2_last_child_passed",
-					"event_c2_gate_closed"
+					"event_c2_windmill_set"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -2012,13 +1979,6 @@
 				"enemy_id": 8020,
 				"count": 2,
 				"name": "完成房间内的回响试炼（击杀 石人 enemy_8020 ×2，刷新点 2700, 632）"
-			},
-			{
-				"id": "event_c2_pact_legacy_acquired",
-				"type": "named_event",
-				"event_name": "c2_pact_legacy_acquired",
-				"name": "取得主契遗装",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -2074,8 +2034,7 @@
 					"C2-03-A.D08"
 				],
 				"objective_ids": [
-					"kill_8020",
-					"event_c2_pact_legacy_acquired"
+					"kill_8020"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -2275,18 +2234,12 @@
 				"count": 1
 			},
 			{
-				"id": "event_c3_quiz_answered",
-				"type": "named_event",
-				"event_name": "c3_quiz_answered",
-				"name": "陪它答完今天的三道考题",
-				"count": 1
-			},
-			{
-				"id": "pending_c3_01_a_3",
-				"type": "named_event",
-				"event_name": "pending_c3_01_a_3",
-				"name": "弄清考题数字的含义（收集 「考卷残页」×1）",
-				"count": 1
+				"id": "collect_100301",
+				"type": "collect",
+				"item_id": 100301,
+				"count": 1,
+				"name": "找到「考卷残页」(item_100301)（拾取点 1800, 731）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -2322,7 +2275,9 @@
 					"C3-01-A.D06",
 					"C3-01-A.D07"
 				],
-				"objective_ids": [],
+				"objective_ids": [
+					"collect_100301"
+				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2337,10 +2292,7 @@
 				"node_ids": [
 					"C3-01-A.D08"
 				],
-				"objective_ids": [
-					"event_c3_quiz_answered",
-					"pending_c3_01_a_3"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2394,13 +2346,6 @@
 				"id": "talk_9005",
 				"type": "talk",
 				"npc_id": 9005,
-				"count": 1
-			},
-			{
-				"id": "event_c3_seventeen_graduated",
-				"type": "named_event",
-				"event_name": "c3_seventeen_graduated",
-				"name": "看它交卷",
 				"count": 1
 			}
 		],
@@ -2473,9 +2418,7 @@
 				"node_ids": [
 					"C3-02-A.D09"
 				],
-				"objective_ids": [
-					"event_c3_seventeen_graduated"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -2551,13 +2494,6 @@
 				"enemy_id": 8002,
 				"count": 6,
 				"name": "打断看守烛塔的学院魔偶（击杀 傀儡 enemy_8002 ×6，刷新点 2300, 731）"
-			},
-			{
-				"id": "event_c3_roster_escorted",
-				"type": "named_event",
-				"event_name": "c3_roster_escorted",
-				"name": "护送点名册通过烛塔回路",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -2592,8 +2528,7 @@
 					"C3-03-A.D07"
 				],
 				"objective_ids": [
-					"kill_8002",
-					"event_c3_roster_escorted"
+					"kill_8002"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -2670,13 +2605,6 @@
 				"count": 1,
 				"name": "从封存处取回「记忆损耗账页」(item_100239)（拾取点 3100, 731）",
 				"consume_on_turn_in": true
-			},
-			{
-				"id": "event_c3_evidence_copied",
-				"type": "named_event",
-				"event_name": "c3_evidence_copied",
-				"name": "建立多份互校的证据副本",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -2749,8 +2677,7 @@
 					"C3-04-A.D13"
 				],
 				"objective_ids": [
-					"collect_100239",
-					"event_c3_evidence_copied"
+					"collect_100239"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -2934,6 +2861,14 @@
 		"turn_in_npc_id": 9035,
 		"objectives": [
 			{
+				"id": "collect_100302",
+				"type": "collect",
+				"item_id": 100302,
+				"count": 2,
+				"name": "在货箱堆里找到「船长的信」(item_100302)×2（拾取点 2300, 629）",
+				"consume_on_turn_in": true
+			},
+			{
 				"id": "collect_100240",
 				"type": "collect",
 				"item_id": 100240,
@@ -2971,6 +2906,7 @@
 					"C4-02-A.D06"
 				],
 				"objective_ids": [
+					"collect_100302",
 					"collect_100240"
 				],
 				"failure_policy": "retry_stage",
@@ -3051,13 +2987,6 @@
 				"event_name": "c4_kai_stopped",
 				"name": "击退凯（切磋战，不击杀）",
 				"count": 1
-			},
-			{
-				"id": "event_c4_kai_truth",
-				"type": "named_event",
-				"event_name": "c4_kai_truth",
-				"name": "与凯对话，问清他的雇主与旧契约",
-				"count": 1
 			}
 		],
 		"stages": [
@@ -3110,8 +3039,7 @@
 					"C4-03-A.D09"
 				],
 				"objective_ids": [
-					"area_c4_kai_ambush",
-					"event_c4_kai_truth"
+					"area_c4_kai_ambush"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3162,18 +3090,12 @@
 				"name": "击败赛壬（击杀 赛壬 enemy_8030 ×1，刷新点 3100, 629）"
 			},
 			{
-				"id": "pending_c4_04_a_2",
-				"type": "named_event",
-				"event_name": "pending_c4_04_a_2",
-				"name": "取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」×3）",
-				"count": 1
-			},
-			{
-				"id": "event_c4_evidence_evacuated",
-				"type": "named_event",
-				"event_name": "c4_evidence_evacuated",
-				"name": "在栈桥坍塌前完成撤离",
-				"count": 1
+				"id": "collect_100303",
+				"type": "collect",
+				"item_id": 100303,
+				"count": 3,
+				"name": "取得运输船日志、灌注器材货单、潮汐仪读数（收集 「三源时间证据」(item_100303)×3）（拾取点 3000, 629）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -3262,8 +3184,7 @@
 					"C4-04-A.D15"
 				],
 				"objective_ids": [
-					"pending_c4_04_a_2",
-					"event_c4_evidence_evacuated"
+					"collect_100303"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3326,11 +3247,12 @@
 				"count": 1
 			},
 			{
-				"id": "pending_c5_01_a_2",
-				"type": "named_event",
-				"event_name": "pending_c5_01_a_2",
-				"name": "在断墙间找回散落的「撤离名册残页」×3",
-				"count": 1
+				"id": "collect_100304",
+				"type": "collect",
+				"item_id": 100304,
+				"count": 3,
+				"name": "在断墙间找回散落的「撤离名册残页」(item_100304)×3（拾取点 1900, 683）",
+				"consume_on_turn_in": true
 			},
 			{
 				"id": "kill_8007",
@@ -3355,7 +3277,8 @@
 					"C5-01-A.D04"
 				],
 				"objective_ids": [
-					"talk_9037"
+					"talk_9037",
+					"collect_100304"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3390,9 +3313,7 @@
 					"C5-01-A.D07",
 					"C5-01-A.D08"
 				],
-				"objective_ids": [
-					"pending_c5_01_a_2"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3570,18 +3491,12 @@
 				"name": "击败雷欧哈特（击杀 雷欧哈特 enemy_8031 ×1，刷新点 3000, 683）"
 			},
 			{
-				"id": "event_c5_archive_verified",
-				"type": "named_event",
-				"event_name": "c5_archive_verified",
-				"name": "用三人当前身份验证镇脉行动封档",
-				"count": 1
-			},
-			{
-				"id": "pending_c5_03_a_3",
-				"type": "named_event",
-				"event_name": "pending_c5_03_a_3",
-				"name": "抄录封档关键页（收集 「封档抄件」×1）",
-				"count": 1
+				"id": "collect_100305",
+				"type": "collect",
+				"item_id": 100305,
+				"count": 1,
+				"name": "抄录封档关键页（收集 「封档抄件」(item_100305)）（拾取点 2950, 683）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -3650,8 +3565,7 @@
 					"C5-03-A.D13"
 				],
 				"objective_ids": [
-					"event_c5_archive_verified",
-					"pending_c5_03_a_3"
+					"collect_100305"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -3702,20 +3616,6 @@
 				"id": "talk_9044",
 				"type": "talk",
 				"npc_id": 9044,
-				"count": 1
-			},
-			{
-				"id": "event_c5_purge_terms_set",
-				"type": "named_event",
-				"event_name": "c5_purge_terms_set",
-				"name": "三人约定行动次序",
-				"count": 1
-			},
-			{
-				"id": "event_c5_pact_reforged",
-				"type": "named_event",
-				"event_name": "c5_pact_reforged",
-				"name": "完成主契遗装重铸",
 				"count": 1
 			}
 		],
@@ -3771,10 +3671,7 @@
 				"node_ids": [
 					"C5-04-A.D10"
 				],
-				"objective_ids": [
-					"event_c5_purge_terms_set",
-					"event_c5_pact_reforged"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -3844,11 +3741,12 @@
 				"count": 1
 			},
 			{
-				"id": "pending_c6_01_a_2",
-				"type": "named_event",
-				"event_name": "pending_c6_01_a_2",
-				"name": "记录营地的四处生活痕迹（收集 「营地痕迹记录」×4：烧黑的锅、四人份餐具、少一根的帐篷钉、补过的毯子）",
-				"count": 1
+				"id": "collect_100308",
+				"type": "collect",
+				"item_id": 100308,
+				"count": 4,
+				"name": "记录营地的四处生活痕迹（收集 「营地痕迹记录」(item_100308)×4）（拾取点 2100, 623）",
+				"consume_on_turn_in": true
 			},
 			{
 				"id": "area_c6_failed_entry",
@@ -3875,7 +3773,7 @@
 				],
 				"objective_ids": [
 					"area_c6_lost_camp",
-					"pending_c6_01_a_2"
+					"collect_100308"
 				],
 				"enter_when": {
 					"type": "area_event",
@@ -3950,7 +3848,8 @@
 			25040
 		],
 		"level_id": 6,
-		"auto_start": true
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"26020": {
 		"id": 26020,
@@ -3978,11 +3877,12 @@
 				"name": "击溃脉化守卫（击杀 虚空怪 enemy_8023 ×4，刷新点 2800, 623）"
 			},
 			{
-				"id": "pending_c6_02_a_3",
-				"type": "named_event",
-				"event_name": "pending_c6_02_a_3",
-				"name": "读取永曜灌注庭疗程记录（收集 「疗程记录抄件」×1）",
-				"count": 1
+				"id": "collect_100306",
+				"type": "collect",
+				"item_id": 100306,
+				"count": 1,
+				"name": "读取永曜灌注庭疗程记录（收集 「疗程记录抄件」(item_100306)）（拾取点 2750, 623）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -4000,7 +3900,7 @@
 				],
 				"objective_ids": [
 					"area_c6_core_gate",
-					"pending_c6_02_a_3"
+					"collect_100306"
 				],
 				"enter_when": {
 					"type": "area_event",
@@ -4084,7 +3984,8 @@
 			26010
 		],
 		"level_id": 6,
-		"auto_start": true
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"26030": {
 		"id": 26030,
@@ -4096,29 +3997,7 @@
 		"required_hero_id": 0,
 		"giver_npc_id": 0,
 		"turn_in_npc_id": 0,
-		"objectives": [
-			{
-				"id": "event_c6_gate_held",
-				"type": "named_event",
-				"event_name": "c6_gate_held",
-				"name": "守住核心门与撤离线",
-				"count": 1
-			},
-			{
-				"id": "event_c6_safe_route_set",
-				"type": "named_event",
-				"event_name": "c6_safe_route_set",
-				"name": "标出不回冲地表的安全路线",
-				"count": 1
-			},
-			{
-				"id": "event_c6_wedges_stabilized",
-				"type": "named_event",
-				"event_name": "c6_wedges_stabilized",
-				"name": "把六枚星楔同步切换到地方低负载维稳",
-				"count": 1
-			}
-		],
+		"objectives": [],
 		"stages": [
 			{
 				"id": "C6-03-A-S01",
@@ -4163,11 +4042,7 @@
 				"node_ids": [
 					"C6-03-A.D08"
 				],
-				"objective_ids": [
-					"event_c6_gate_held",
-					"event_c6_safe_route_set",
-					"event_c6_wedges_stabilized"
-				],
+				"objective_ids": [],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
 				"save_policy": "checkpoint_on_exit",
@@ -4187,7 +4062,7 @@
 		"authoring": {
 			"task_script_id": "C6-03-A",
 			"dialogue_id": "task_c6_03_a",
-			"compile_status": "mapped",
+			"compile_status": "missing_runtime_target_ids",
 			"preview": true,
 			"npc_entries": {}
 		},
@@ -4195,7 +4070,6 @@
 			26020
 		],
 		"level_id": 6,
-		"auto_start": true,
 		"auto_complete": true
 	},
 	"26040": {
@@ -4339,18 +4213,12 @@
 		"turn_in_npc_id": 0,
 		"objectives": [
 			{
-				"id": "event_c6_memory_returned",
-				"type": "named_event",
-				"event_name": "c6_memory_returned",
-				"name": "三人互相补全返忆",
-				"count": 1
-			},
-			{
-				"id": "pending_c6_05_a_2",
-				"type": "named_event",
-				"event_name": "pending_c6_05_a_2",
-				"name": "从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」×3）",
-				"count": 1
+				"id": "collect_100307",
+				"type": "collect",
+				"item_id": 100307,
+				"count": 3,
+				"name": "从核心门缓存读取预写阵亡公报、零回收权限与返忆隔离令（收集 「灭口证据」(item_100307)×3）（拾取点 3100, 623）",
+				"consume_on_turn_in": true
 			}
 		],
 		"stages": [
@@ -4400,8 +4268,7 @@
 					"C6-05-A.D10"
 				],
 				"objective_ids": [
-					"event_c6_memory_returned",
-					"pending_c6_05_a_2"
+					"collect_100307"
 				],
 				"failure_policy": "retry_stage",
 				"interrupt_policy": "resume_stage",
@@ -4430,7 +4297,8 @@
 			26040
 		],
 		"level_id": 6,
-		"auto_start": true
+		"auto_start": true,
+		"auto_complete": true
 	},
 	"26060": {
 		"id": 26060,
@@ -4448,13 +4316,6 @@
 				"type": "area_trigger",
 				"event_name": "c6_escape_route",
 				"name": "在核心坍塌中沿撤离路线撤离",
-				"count": 1
-			},
-			{
-				"id": "event_c6_ninety_seconds_escape",
-				"type": "named_event",
-				"event_name": "c6_ninety_seconds_escape",
-				"name": "在九十秒窗口内通过最后一扇门",
 				"count": 1
 			},
 			{
@@ -4538,7 +4399,6 @@
 					"C6-06-A.D15"
 				],
 				"objective_ids": [
-					"event_c6_ninety_seconds_escape",
 					"talk_9002"
 				],
 				"failure_policy": "retry_stage",
@@ -4574,6 +4434,6 @@
 		"required_quest_ids": [
 			26050
 		],
-		"level_id": 0
+		"level_id": 6
 	}
 }
