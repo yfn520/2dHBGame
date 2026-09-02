@@ -188,7 +188,7 @@
 				"interaction_radius": 96,
 				"npc_id": 9023,
 				"scale": 0.62,
-				"x": 1744,
+				"x": 1880,
 				"y": 735,
 				"spawn_condition": {
 					"quest_id": 21020,
