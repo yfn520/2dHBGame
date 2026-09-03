@@ -7,6 +7,8 @@ signal dialogue_finished(npc_id: int, completed: bool)
 signal intent_selected(npc_id: int, dialogue_id: String, choice_id: String, intent_key: String)
 ## 时间轴等待区域/命名事件时，允许玩家回到场景中完成外部交互。
 signal world_event_gate_changed(available: bool)
+## kind="video" 片段：UI 层接管全屏播放；播放完成/跳过后调用 tl_video_finished() 推进时间轴
+signal video_clip_started(clip: Dictionary)
 
 var npc_config: NpcConfig
 var dialogue_config: DialogueConfig
@@ -31,6 +33,7 @@ var _tl_clips: Array = []
 var _tl_idx := 0
 var _tl_current: Dictionary = {}
 var _tl_gate: Dictionary = {}
+var _tl_video_pending := false
 var _tl_gate_gen := 0
 var _world_event_gate_open := false
 # 手动任务对白已经播过当前交互 NPC 后，遇到下一位 NPC 时收束本次对话。
@@ -293,6 +296,7 @@ func finish(completed: bool = false) -> void:
 	_tl_idx = 0
 	_tl_current = {}
 	_tl_gate = {}
+	_tl_video_pending = false
 	_tl_gate_gen += 1
 	_tl_segment_speaker_seen = false
 	_tl_stop_before_ms = -1
@@ -677,6 +681,26 @@ func _tl_tick() -> void:
 					_tl_gate = clip
 					_set_world_event_gate_open(is_waiting_for_world_event())
 					return
+		if kind == "video":
+			var video_asset := str(clip.get("asset", ""))
+			if not video_asset.is_empty() and ResourceLoader.exists(video_asset):
+				# 阶段开场过场视频：交给 UI 层的 CinematicPlayer 全屏播放；
+				# 时间轴挂起，播放完成/跳过后由 tl_video_finished() 推进。
+				_tl_current = {}
+				_tl_video_pending = true
+				video_clip_started.emit(clip)
+				return
+			# 资源缺失：退回黑场+字幕语义（text 兑底，按 durationMs 自动推进），游戏不卡死。
+			if _tl_is_empty_marker(clip):
+				_tl_idx += 1
+				continue
+			_tl_current = clip
+			current_node_id = str(clip.get("id", ""))
+			node_changed.emit(_tl_synthesize_node(clip))
+			_tl_idx += 1
+			if _auto_advance:
+				_schedule_tl_advance(maxi(200, int(clip.get("durationMs", 1200))))
+			return
 		_tl_current = clip
 		current_node_id = str(clip.get("id", ""))
 		node_changed.emit(_tl_synthesize_node(clip))
@@ -748,6 +772,15 @@ func _schedule_tl_advance(delay_ms: int) -> void:
 	_auto_gen += 1
 	var gen := _auto_gen
 	get_tree().create_timer(float(maxi(0, delay_ms)) / 1000.0).timeout.connect(_tl_auto_step.bind(gen))
+
+
+## 过场视频播放完成或被跳过：推进时间轴到下一个片段
+func tl_video_finished() -> void:
+	if not _tl_video_pending or not _active or not _timeline_mode:
+		return
+	_tl_video_pending = false
+	_tl_idx += 1
+	_tl_tick()
 
 
 func _tl_auto_step(gen: int) -> void:

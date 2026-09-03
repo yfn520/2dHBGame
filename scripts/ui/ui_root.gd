@@ -26,6 +26,7 @@ var _debug_panel: DebugPanel
 var _main_ui: Control
 var _touch_controls: TouchControls
 var _dialogue_panel: DialoguePanel
+var _cinematic_player: CinematicPlayer
 var _interaction_prompt: Label
 var _coord_label: Label
 var _interaction_target: Node2D
@@ -49,6 +50,10 @@ func _ready() -> void:
 	add_to_group("ui_root")
 	_build_layers()
 	_build_content()
+	# 全屏过场视频播放器（kind="video" 时间轴片段）
+	_cinematic_player = CinematicPlayer.new()
+	_cinematic_player.finished.connect(_on_cinematic_finished)
+	add_child(_cinematic_player)
 
 
 ## 初始化 UIRoot，由 GameRoot 调用。
@@ -462,6 +467,8 @@ func _connect_npc_services() -> void:
 			GameRegistry.dialogue_service.dialogue_finished.connect(_on_dialogue_finished)
 		if not GameRegistry.dialogue_service.world_event_gate_changed.is_connected(_on_world_event_gate_changed):
 			GameRegistry.dialogue_service.world_event_gate_changed.connect(_on_world_event_gate_changed)
+		if not GameRegistry.dialogue_service.video_clip_started.is_connected(_on_cinematic_video_started):
+			GameRegistry.dialogue_service.video_clip_started.connect(_on_cinematic_video_started)
 	if GameRegistry.quest_service != null and not GameRegistry.quest_service.notification_requested.is_connected(_show_notification):
 		GameRegistry.quest_service.notification_requested.connect(_show_notification)
 
@@ -591,6 +598,22 @@ func _character_portrait_path(character_id: int) -> String:
 	if json.parse(FileAccess.get_file_as_string(cc_path)) == OK and json.data is Dictionary:
 		return str(json.data.get("portrait", ""))
 	return ""
+
+
+## kind="video" 片段开始：盖住对白面板，全屏播放过场演出（视频 / 图+文）
+func _on_cinematic_video_started(clip: Dictionary) -> void:
+	if _dialogue_panel != null:
+		_dialogue_panel.visible = false
+	if _cinematic_player != null:
+		_cinematic_player.play_clip(clip)
+
+
+## 过场视频播放完成/被跳过：恢复对白面板并推进时间轴
+func _on_cinematic_finished() -> void:
+	if _dialogue_panel != null:
+		_dialogue_panel.visible = true
+	if GameRegistry.dialogue_service != null:
+		GameRegistry.dialogue_service.tl_video_finished()
 
 
 func _on_dialogue_finished(_npc_id: int, _completed: bool) -> void:
