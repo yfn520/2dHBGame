@@ -1,0 +1,3 @@
+# godot 可执行文件路径（run_tests.py / 其它工具读取首行非注释行）
+# 优先级：命令行 --godot > 环境变量 GODOT_BIN > 本文件 > PATH
+E:\g_selfcustom\Godot_v4.7-stable_win64.exe

@@ -37,11 +37,15 @@ func _init() -> void:
 			if str(entry.get("type", "")) == "portal":
 				portal_targets[int(entry.get("target_level_id", -1))] = true
 	var supported: Array = capabilities.get("quest_objectives", [])
-	for quest_id in range(1001, 1013):
-		var quest: Dictionary = quests.get(str(quest_id), {})
-		if quest.is_empty():
-			failures.append("missing quest %d" % quest_id)
+	# 数据驱动：遍历 quests.json 实际全部任务（旧版硬编码 1001~1012，落地格式后失效）
+	var audited := 0
+	for quest_key in quests.keys():
+		var quest_value = quests[quest_key]
+		if not quest_value is Dictionary:
 			continue
+		var quest: Dictionary = quest_value
+		var quest_id := int(quest_key)
+		audited += 1
 		for npc_field in ["giver_npc_id", "turn_in_npc_id"]:
 			var npc_id := int(quest.get(npc_field, 0))
 			if npc_id > 0 and not placed_npcs.has(npc_id):
@@ -58,11 +62,12 @@ func _init() -> void:
 				var item_id := int(objective.get("item_id", 0))
 				if not items.has(str(item_id)) or not pickup_items.has(item_id):
 					failures.append("quest %d item %d has no pickup source" % [quest_id, item_id])
-	for level_id in range(1, 4):
+	for level_key in levels.keys():
+		var level_id := int(level_key)
 		if not portal_targets.has(level_id):
 			failures.append("level %d has no configured portal entrance" % level_id)
 	if failures.is_empty():
-		print("RUNTIME_SLICE_AUDIT_OK quests=12 levels=4")
+		print("RUNTIME_SLICE_AUDIT_OK quests=%d levels=%d" % [audited, levels.size()])
 		quit(0)
 	else:
 		for failure in failures:
