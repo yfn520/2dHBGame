@@ -10,6 +10,15 @@ signal party_changed()
 @export_range(0, 8, 1) var initial_active_index := 0
 
 const ASSIST_TARGET_DURATION := 6.0
+# 关卡宽度（与 player.gd LEVEL_SIZE.x 一致）：队友站位偏移可能把人推到关卡宽度之外，
+# 那里没有任何地面，落下去就是“掉没了”。在开始下落的起点（放置/重生）钆制 x，不做运行时持续判坑。
+const LEVEL_WIDTH := 1536.0
+const EDGE_MARGIN := 24.0
+
+## 关卡范围钆制：队友站位可能因偏移超出关卡宽度（如主角贴边时队友偏移 42~102px），
+## 范围外没有任何地面。在下落的起点控制 x，而不是运行时持续判坑。
+func _clamp_to_level(pos: Vector2) -> Vector2:
+	return Vector2(clampf(pos.x, EDGE_MARGIN, LEVEL_WIDTH - EDGE_MARGIN), pos.y)
 
 var active_character: CharacterBody2D
 var active_index := -1
@@ -94,6 +103,7 @@ func get_alive_party_members() -> Array[CharacterBody2D]:
 
 
 func place_party_at(pos: Vector2) -> void:
+	pos = _clamp_to_level(pos)
 	var facing := 1.0
 	if active_character != null and active_character.has_method("get_facing_sign"):
 		facing = float(active_character.get_facing_sign())
@@ -106,7 +116,7 @@ func place_party_at(pos: Vector2) -> void:
 			member.global_position = pos
 		else:
 			var distance := 42.0 + float(slot) * 30.0
-			member.global_position = pos + Vector2(-facing * distance, 0.0)
+			member.global_position = _clamp_to_level(pos + Vector2(-facing * distance, 0.0))
 			slot += 1
 		member.velocity = Vector2.ZERO
 
@@ -224,7 +234,7 @@ func _spawn_lineup() -> void:
 		if member_camera != null:
 			member_camera.enabled = false
 		add_child(member)
-		member.global_position = global_position + Vector2(-32.0 * float(i), 0.0)
+		member.global_position = _clamp_to_level(global_position + Vector2(-32.0 * float(i), 0.0))
 		_party_members.append(member)
 		_member_by_id[character_id] = member
 		if GameRegistry.roster_data != null:

@@ -15,10 +15,18 @@ const ALLY_ATTACK_RESUME_RATIO := 1.15
 const ALLY_ATTACK_HOLD_TIME := 0.35
 const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
+# 远程职业（mage/archer）队友 AI 保底交战距离：技能 AI 区间来自命中窗口（近战拍点宽度），
+# 不反映弹道飞行距离；远程队友若按命中窗口停步就会像近战一样贴脸输出。
+const RANGED_CLASS_ENGAGE_DISTANCE := 260.0
+const RANGED_CLASS_IDS := ["mage", "archer"]
+# 掉出世界兑底：低于关卡下界即传回最后安全站位（关卡高 864，留 120 冗余）
+const FALL_RECOVER_Y := 984.0
 const CAMERA_VERTICAL_OFFSET := -173.0
 var was_jump_pressed := false
 var is_climbing_ladder := false
 var current_ladder: Area2D
+
+var _last_safe_position := Vector2.ZERO
 
 @onready var camera: Camera2D = $Camera2D
 @onready var ladder_detector: Area2D = $LadderDetector
@@ -168,6 +176,14 @@ func get_ai_skill_candidates() -> Array[int]:
 	return GameRegistry.character_config.get_active_skill_ids(character_id, _combat_stats.level)
 
 
+## 远程职业判定（characters.json class_id）：队友 AI 用它决定保持距离还是贴脸输出
+func _is_ranged_class() -> bool:
+	if GameRegistry.character_config == null or character_id <= 0:
+		return false
+	var class_id := str(GameRegistry.character_config.get_character(character_id).get("class_id", ""))
+	return class_id in RANGED_CLASS_IDS
+
+
 ## 从 character_config.json 读取 display_scale / display_offset 并应用
 func _apply_character_display_config() -> void:
 	# sprite_frames 路径 → 角色目录 → config 路径
@@ -224,6 +240,14 @@ func _load_combat_actions(asset_path: String, character_config: Dictionary) -> v
 
 
 func _update_actor(delta: float) -> void:
+	# 落出世界兑底：站在地面时记录安全点；掉过关卡下界传回，避免队友/主角掉没了
+	if is_on_floor():
+		_last_safe_position = global_position
+	if global_position.y > FALL_RECOVER_Y and _last_safe_position != Vector2.ZERO:
+		print("[Player] %s 掉出世界，回收到安全点 %s" % [name, _last_safe_position])
+		global_position = _last_safe_position
+		velocity = Vector2.ZERO
+		return
 	if not _player_controlled:
 		_update_ally_ai(delta)
 		return
@@ -419,7 +443,9 @@ func _update_ally_attack(target: Node2D) -> void:
 	var dx := target.global_position.x - global_position.x
 	var dist := _edge_distance_x_to(target)
 	var skill_id := _pick_ready_ai_skill(dist)
-	var skill_range := _get_ally_skill_engage_distance(skill_id, 44.0)
+	# 远程职业保底保持距离：命中窗口宽度与弹道飞行距离取大者
+	var class_engage := RANGED_CLASS_ENGAGE_DISTANCE if _is_ranged_class() else 44.0
+	var skill_range := maxf(_get_ally_skill_engage_distance(skill_id, class_engage), class_engage)
 	var stop_range := maxf(18.0, skill_range * ALLY_ATTACK_STOP_RATIO)
 	var resume_range := maxf(stop_range + 8.0, skill_range * ALLY_ATTACK_RESUME_RATIO)
 	if _ally_is_holding_attack and skill_id != _ally_hold_skill_id:
