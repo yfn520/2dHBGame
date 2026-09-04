@@ -1,0 +1,78 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6024",
+  "skill_hash": "ae3b4cb84ed27cf6",
+  "action_hash": "b01cb7bc93a0d7bd",
+  "tracks": [
+    {
+      "id": "action",
+      "role": "action",
+      "trigger": {
+        "type": "skill_start",
+        "offset_ms": 0
+      },
+      "summary_zh": "action",
+      "prompt_en": "fantasy fire skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+      "duration_ms": 444,
+      "spatial_mode": "caster",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "action_01_v1.mp3",
+          "seed": null,
+          "model": "library",
+          "library_id": "c6b196efba7a121a",
+          "library_score": 0.9682,
+          "clap_score": null,
+          "prompt_en": "fantasy fire skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+          "duration_ms": 472,
+          "created_at": "2026-09-04T23:09:32+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    },
+    {
+      "id": "area_hit",
+      "role": "area_hit",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "summary_zh": "area_hit",
+      "prompt_en": "area explosion impact, deep boom with debris, no music, no voice, isolated sound effect",
+      "duration_ms": 700,
+      "spatial_mode": "fullscreen",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "fullscreen_damage",
+      "bound_node_index": 4,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "area_hit_02_v1.ogg",
+          "seed": null,
+          "model": "library",
+          "library_id": "f16c12ed334be12d",
+          "library_score": 1.0,
+          "clap_score": null,
+          "prompt_en": "area explosion impact, deep boom with debris, no music, no voice, isolated sound effect",
+          "duration_ms": 973,
+          "created_at": "2026-09-04T23:09:37+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6021",
+  "skill_hash": "d1263503d3860695",
+  "action_hash": "a46af456206785ea",
+  "tracks": [
+    {
+      "id": "action",
+      "role": "action",
+      "trigger": {
+        "type": "skill_start",
+        "offset_ms": 0
+      },
+      "summary_zh": "action",
+      "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+      "duration_ms": 444,
+      "spatial_mode": "caster",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "action_01_v1.mp3",
+          "seed": null,
+          "model": "library",
+          "library_id": "6ef57418345f275c",
+          "library_score": 0.971,
+          "clap_score": null,
+          "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+          "duration_ms": 472,
+          "created_at": "2026-09-04T23:08:26+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    },
+    {
+      "id": "projectile_spawn",
+      "role": "projectile_spawn",
+      "trigger": {
+        "type": "after_skill_node",
+        "node_index": 2,
+        "offset_ms": 0
+      },
+      "summary_zh": "projectile_spawn",
+      "prompt_en": "arrow release whoosh, bowstring snap, no music, no voice, isolated sound effect",
+      "duration_ms": 500,
+      "spatial_mode": "caster",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "spawn_projectile",
+      "bound_node_index": 2,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "projectile_spawn_02_v1.mp3",
+          "seed": null,
+          "model": "library",
+          "library_id": "6f8df045633ebe84",
+          "library_score": 0.9682,
+          "clap_score": null,
+          "prompt_en": "arrow release whoosh, bowstring snap, no music, no voice, isolated sound effect",
+          "duration_ms": 444,
+          "created_at": "2026-09-04T23:08:32+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    },
+    {
+      "id": "projectile_hit",
+      "role": "projectile_hit",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "summary_zh": "projectile_hit",
+      "prompt_en": "projectile impact hit, sharp puncture thud, no music, no voice, isolated sound effect",
+      "duration_ms": 400,
+      "spatial_mode": "target",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "spawn_projectile",
+      "bound_node_index": 2,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "projectile_hit_03_v1.wav",
+          "seed": null,
+          "model": "library",
+          "library_id": "9451de07e75fcca4",
+          "library_score": 0.9759,
+          "clap_score": null,
+          "prompt_en": "projectile impact hit, sharp puncture thud, no music, no voice, isolated sound effect",
+          "duration_ms": 426,
+          "created_at": "2026-09-04T23:08:37+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    }
+  ]
+}

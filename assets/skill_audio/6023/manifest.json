@@ -1,0 +1,43 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6023",
+  "skill_hash": "82878f4238d35337",
+  "action_hash": "b2e02fd62bc8715b",
+  "tracks": [
+    {
+      "id": "action",
+      "role": "action",
+      "trigger": {
+        "type": "skill_start",
+        "offset_ms": 0
+      },
+      "summary_zh": "action",
+      "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+      "duration_ms": 444,
+      "spatial_mode": "caster",
+      "gain_db": -3.0,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "action_01_v1.mp3",
+          "seed": null,
+          "model": "library",
+          "library_id": "aa6dded1ccb0ecdb",
+          "library_score": 0.9682,
+          "clap_score": null,
+          "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+          "duration_ms": 472,
+          "created_at": "2026-09-04T23:09:17+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    }
+  ]
+}

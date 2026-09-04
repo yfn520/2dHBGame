@@ -1,322 +1,401 @@
 {
-	"6021": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"detail": "ai_min=0 ai_max=280",
-					"kind": "projectile",
-					"max_edge_distance": 280.0,
-					"min_edge_distance": 0.0,
-					"node_index": 2.0,
-					"source": "projectile"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "ead5ad769ee8009c"
-		},
-		"cooldown": 1.0,
-		"description": "",
-		"name": "attack",
-		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"ai_max_range": 280.0,
-				"ai_min_range": 0.0,
-				"aim_mode": "facing_elevation",
-				"attachment_blend_mode": "normal",
-				"buff_ids": [
-					10024.0
-				],
-				"damage_ratio": 1.0,
-				"delay_ms": 0.0,
-				"emission": "single",
-				"flip_to_velocity": true,
-				"lifetime": 5.0,
-				"mirror": false,
-				"mirror_with_facing": true,
-				"offset_follows_visual_scale": true,
-				"offset_mirror_with_facing": true,
-				"offset_x": 11.0,
-				"offset_y": -5.0,
-				"opacity": 1.0,
-				"origin": "hit_window",
-				"result_key": "projectile_hit",
-				"rotate_to_velocity": true,
-				"rotation_degrees": 0.0,
-				"scale": 6.51,
-				"scene": "res://assets/effects/skill_fx/newfs-6021/godot/effect_scenes/legacy_spawn_projectile_3/effect.tscn",
-				"source_bundle_id": "newfs-6021",
-				"source_track_id": "legacy_spawn_projectile_3",
-				"speed": 300.0,
-				"tint": "#ffffff",
-				"trajectory": "straight",
-				"type": "spawn_projectile"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6022": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"detail": "ai_min=0 ai_max=280",
-					"kind": "projectile",
-					"max_edge_distance": 280.0,
-					"min_edge_distance": 0.0,
-					"node_index": 3.0,
-					"source": "projectile"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "225e0e96c322966e"
-		},
-		"cooldown": 3.0,
-		"description": "",
-		"name": "fs_dianqiu",
-		"nodes": [
-			{
-				"action": "skill1",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"anchor": "hit_window",
-				"attachment_blend_mode": "normal",
-				"attachment_box_height": 120.0,
-				"attachment_box_width": 120.0,
-				"attachment_layer": "front",
-				"coordinate_space": "world",
-				"effect_scale": 3.0,
-				"follow_target": false,
-				"lifetime_ms": 667.0,
-				"mirror": false,
-				"mirror_with_facing": false,
-				"offset_x": 34.0,
-				"offset_y": 2.0,
-				"opacity": 1.0,
-				"origin": "hit_window",
-				"rotation_degrees": 0.0,
-				"scene": "res://assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_play_effect_3/effect.tscn",
-				"source_bundle_id": "newfs-6022",
-				"source_track_id": "legacy_play_effect_3",
-				"target": "origin",
-				"tint": "#ffffff",
-				"type": "play_effect"
-			},
-			{
-				"ai_max_range": 280.0,
-				"ai_min_range": 0.0,
-				"aim_mode": "facing_elevation",
-				"attachment_blend_mode": "normal",
-				"buff_ids": [
-					10004.0
-				],
-				"damage_ratio": 1.0,
-				"emission": "fan",
-				"lifetime": 5.0,
-				"max_pierce": 20.0,
-				"mirror": false,
-				"offset_x": 0.0,
-				"offset_y": 0.0,
-				"opacity": 1.0,
-				"origin": "hit_window",
-				"result_key": "projectile_hit",
-				"rotation_degrees": 0.0,
-				"scale": 2.01,
-				"scene": "res://assets/effects/skill_fx/newfs-6022/legacy/cc4d798c/projectiles/fireball.tscn",
-				"source_bundle_id": "newfs-6022",
-				"source_track_id": "legacy_spawn_projectile_4",
-				"speed": 300.0,
-				"tint": "#ffffff",
-				"trajectory": "straight",
-				"type": "spawn_projectile"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6023": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"detail": "纯辅助技能，任意距离可起手",
-					"kind": "support",
-					"max_edge_distance": 99999.0,
-					"min_edge_distance": 0.0,
-					"node_index": -1.0,
-					"source": "support"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "4bf6bf632251deea"
-		},
-		"cooldown": 5.0,
-		"description": "",
-		"name": "fs_area",
-		"nodes": [
-			{
-				"action": "skill2",
-				"type": "play_animation"
-			},
-			{
-				"anchor": "caster",
-				"attachment_blend_mode": "multiply",
-				"attachment_box_height": 200.496894409938,
-				"attachment_box_width": 244.472049689441,
-				"attachment_layer": "front",
-				"coordinate_space": "character_local",
-				"delay_ms": 0.0,
-				"effect_scale": 2.0,
-				"follow_target": true,
-				"lifetime_ms": 667.0,
-				"mirror": false,
-				"mirror_with_facing": true,
-				"offset_x": 6.45341614906833,
-				"offset_y": -131.356366459627,
-				"opacity": 1.0,
-				"origin": "caster",
-				"rotation_degrees": 0.0,
-				"scene": "res://assets/effects/skill_fx/newfs-6023/legacy/f9b4989c/attachments/effect-newfs-skill2/effect.tscn",
-				"source_bundle_id": "newfs-6023",
-				"source_track_id": "legacy_play_effect_2",
-				"target": "origin",
-				"tint": "#ffffff",
-				"type": "play_effect"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"buff_ids": [
-					10003.0
-				],
-				"chance": 1.0,
-				"origin": "caster",
-				"radius": 200.0,
-				"result_key": "last_result",
-				"target": "area",
-				"type": "apply_target_buff"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6024": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"kind": "fullscreen",
-					"max_edge_distance": 99999.0,
-					"min_edge_distance": 0.0,
-					"node_index": 4.0,
-					"source": "fullscreen"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "d63d4ba4ef7e03a2"
-		},
-		"cooldown": 7.0,
-		"description": "",
-		"name": "fs_skill3",
-		"nodes": [
-			{
-				"action": "skill3",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"anchor": "caster",
-				"attachment_blend_mode": "add",
-				"attachment_box_height": 118.0,
-				"attachment_box_width": 119.0,
-				"attachment_layer": "front",
-				"coordinate_space": "character_local",
-				"delay_ms": 0.0,
-				"effect_scale": 5.75,
-				"follow_target": true,
-				"lifetime_ms": 500.0,
-				"mirror": false,
-				"mirror_with_facing": true,
-				"offset_x": 91.0,
-				"offset_y": -449.0,
-				"opacity": 1.0,
-				"origin": "socket",
-				"rotation_degrees": 0.0,
-				"scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-release-1/effect.tscn",
-				"socket": "caster",
-				"source_bundle_id": "newfs-6024",
-				"source_track_id": "track_release_burst",
-				"target": "origin",
-				"tint": "#ff5900",
-				"type": "play_effect"
-			},
-			{
-				"anchor": "origin",
-				"attachment_blend_mode": "add",
-				"attachment_layer": "front",
-				"coordinate_space": "world",
-				"delay_ms": 0.0,
-				"effect_scale": 11.45,
-				"follow_target": false,
-				"lifetime_ms": 900.0,
-				"mirror": false,
-				"mirror_with_facing": false,
-				"offset_x": -37.0,
-				"offset_y": -888.0,
-				"opacity": 1.0,
-				"origin": "hit_window",
-				"rotation_degrees": 0.0,
-				"scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-area-1/effect.tscn",
-				"source_bundle_id": "newfs-6024",
-				"source_track_id": "manual-area-1",
-				"target": "origin",
-				"tint": "#ff2600",
-				"type": "play_effect"
-			},
-			{
-				"buff_chance": 1.0,
-				"buff_ids": [
-					10002.0
-				],
-				"damage_channel": "magic",
-				"damage_ratio": 1.0,
-				"damage_tag": "fire",
-				"result_key": "fullscreen_hit",
-				"type": "fullscreen_damage"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	}
+  "6021": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "ai_min=0 ai_max=280",
+          "kind": "projectile",
+          "max_edge_distance": 280.0,
+          "min_edge_distance": 0.0,
+          "node_index": 2.0,
+          "source": "projectile"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "ead5ad769ee8009c"
+    },
+    "cooldown": 1.0,
+    "description": "",
+    "name": "attack",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6021/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "ai_max_range": 280.0,
+        "ai_min_range": 0.0,
+        "aim_mode": "facing_elevation",
+        "attachment_blend_mode": "normal",
+        "buff_ids": [
+          10024.0
+        ],
+        "damage_ratio": 1.0,
+        "delay_ms": 0.0,
+        "emission": "single",
+        "flip_to_velocity": true,
+        "lifetime": 5.0,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "offset_follows_visual_scale": true,
+        "offset_mirror_with_facing": true,
+        "offset_x": 11.0,
+        "offset_y": -5.0,
+        "opacity": 1.0,
+        "origin": "hit_window",
+        "result_key": "projectile_hit",
+        "rotate_to_velocity": true,
+        "rotation_degrees": 0.0,
+        "scale": 6.51,
+        "scene": "res://assets/effects/skill_fx/newfs-6021/godot/effect_scenes/legacy_spawn_projectile_3/effect.tscn",
+        "source_bundle_id": "newfs-6021",
+        "source_track_id": "legacy_spawn_projectile_3",
+        "speed": 300.0,
+        "tint": "#ffffff",
+        "trajectory": "straight",
+        "type": "spawn_projectile",
+        "spawn_audio": {
+          "audio_path": "res://assets/skill_audio/6021/projectile_spawn_02_v1.mp3",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "source_track_id": "projectile_spawn"
+        },
+        "hit_audio": {
+          "audio_path": "res://assets/skill_audio/6021/projectile_hit_03_v1.wav",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "source_track_id": "projectile_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6022": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "ai_min=0 ai_max=280",
+          "kind": "projectile",
+          "max_edge_distance": 280.0,
+          "min_edge_distance": 0.0,
+          "node_index": 3.0,
+          "source": "projectile"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "225e0e96c322966e"
+    },
+    "cooldown": 3.0,
+    "description": "",
+    "name": "fs_dianqiu",
+    "nodes": [
+      {
+        "action": "skill1",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6022/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "anchor": "hit_window",
+        "attachment_blend_mode": "normal",
+        "attachment_box_height": 120.0,
+        "attachment_box_width": 120.0,
+        "attachment_layer": "front",
+        "coordinate_space": "world",
+        "effect_scale": 3.0,
+        "follow_target": false,
+        "lifetime_ms": 667.0,
+        "mirror": false,
+        "mirror_with_facing": false,
+        "offset_x": 34.0,
+        "offset_y": 2.0,
+        "opacity": 1.0,
+        "origin": "hit_window",
+        "rotation_degrees": 0.0,
+        "scene": "res://assets/effects/skill_fx/newfs-6022/godot/effect_scenes/legacy_play_effect_3/effect.tscn",
+        "source_bundle_id": "newfs-6022",
+        "source_track_id": "legacy_play_effect_3",
+        "target": "origin",
+        "tint": "#ffffff",
+        "type": "play_effect"
+      },
+      {
+        "ai_max_range": 280.0,
+        "ai_min_range": 0.0,
+        "aim_mode": "facing_elevation",
+        "attachment_blend_mode": "normal",
+        "buff_ids": [
+          10004.0
+        ],
+        "damage_ratio": 1.0,
+        "emission": "fan",
+        "lifetime": 5.0,
+        "max_pierce": 20.0,
+        "mirror": false,
+        "offset_x": 0.0,
+        "offset_y": 0.0,
+        "opacity": 1.0,
+        "origin": "hit_window",
+        "result_key": "projectile_hit",
+        "rotation_degrees": 0.0,
+        "scale": 2.01,
+        "scene": "res://assets/effects/skill_fx/newfs-6022/legacy/cc4d798c/projectiles/fireball.tscn",
+        "source_bundle_id": "newfs-6022",
+        "source_track_id": "legacy_spawn_projectile_4",
+        "speed": 300.0,
+        "tint": "#ffffff",
+        "trajectory": "straight",
+        "type": "spawn_projectile",
+        "spawn_audio": {
+          "audio_path": "res://assets/skill_audio/6022/projectile_spawn_02_v1.mp3",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "source_track_id": "projectile_spawn"
+        },
+        "hit_audio": {
+          "audio_path": "res://assets/skill_audio/6022/projectile_hit_03_v1.wav",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "source_track_id": "projectile_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6023": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "纯辅助技能，任意距离可起手",
+          "kind": "support",
+          "max_edge_distance": 99999.0,
+          "min_edge_distance": 0.0,
+          "node_index": -1.0,
+          "source": "support"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "4bf6bf632251deea"
+    },
+    "cooldown": 5.0,
+    "description": "",
+    "name": "fs_area",
+    "nodes": [
+      {
+        "action": "skill2",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6023/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "anchor": "caster",
+        "attachment_blend_mode": "multiply",
+        "attachment_box_height": 200.496894409938,
+        "attachment_box_width": 244.472049689441,
+        "attachment_layer": "front",
+        "coordinate_space": "character_local",
+        "delay_ms": 0.0,
+        "effect_scale": 2.0,
+        "follow_target": true,
+        "lifetime_ms": 667.0,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "offset_x": 6.45341614906833,
+        "offset_y": -131.356366459627,
+        "opacity": 1.0,
+        "origin": "caster",
+        "rotation_degrees": 0.0,
+        "scene": "res://assets/effects/skill_fx/newfs-6023/legacy/f9b4989c/attachments/effect-newfs-skill2/effect.tscn",
+        "source_bundle_id": "newfs-6023",
+        "source_track_id": "legacy_play_effect_2",
+        "target": "origin",
+        "tint": "#ffffff",
+        "type": "play_effect"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "buff_ids": [
+          10003.0
+        ],
+        "chance": 1.0,
+        "origin": "caster",
+        "radius": 200.0,
+        "result_key": "last_result",
+        "target": "area",
+        "type": "apply_target_buff"
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6024": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "kind": "fullscreen",
+          "max_edge_distance": 99999.0,
+          "min_edge_distance": 0.0,
+          "node_index": 4.0,
+          "source": "fullscreen"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "d63d4ba4ef7e03a2"
+    },
+    "cooldown": 7.0,
+    "description": "",
+    "name": "fs_skill3",
+    "nodes": [
+      {
+        "action": "skill3",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6024/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "anchor": "caster",
+        "attachment_blend_mode": "add",
+        "attachment_box_height": 118.0,
+        "attachment_box_width": 119.0,
+        "attachment_layer": "front",
+        "coordinate_space": "character_local",
+        "delay_ms": 0.0,
+        "effect_scale": 5.75,
+        "follow_target": true,
+        "lifetime_ms": 500.0,
+        "mirror": false,
+        "mirror_with_facing": true,
+        "offset_x": 91.0,
+        "offset_y": -449.0,
+        "opacity": 1.0,
+        "origin": "socket",
+        "rotation_degrees": 0.0,
+        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-release-1/effect.tscn",
+        "socket": "caster",
+        "source_bundle_id": "newfs-6024",
+        "source_track_id": "track_release_burst",
+        "target": "origin",
+        "tint": "#ff5900",
+        "type": "play_effect"
+      },
+      {
+        "anchor": "origin",
+        "attachment_blend_mode": "add",
+        "attachment_layer": "front",
+        "coordinate_space": "world",
+        "delay_ms": 0.0,
+        "effect_scale": 11.45,
+        "follow_target": false,
+        "lifetime_ms": 900.0,
+        "mirror": false,
+        "mirror_with_facing": false,
+        "offset_x": -37.0,
+        "offset_y": -888.0,
+        "opacity": 1.0,
+        "origin": "hit_window",
+        "rotation_degrees": 0.0,
+        "scene": "res://assets/effects/skill_fx/newfs-6024/godot/effect_scenes/manual-area-1/effect.tscn",
+        "source_bundle_id": "newfs-6024",
+        "source_track_id": "manual-area-1",
+        "target": "origin",
+        "tint": "#ff2600",
+        "type": "play_effect"
+      },
+      {
+        "buff_chance": 1.0,
+        "buff_ids": [
+          10002.0
+        ],
+        "damage_channel": "magic",
+        "damage_ratio": 1.0,
+        "damage_tag": "fire",
+        "result_key": "fullscreen_hit",
+        "type": "fullscreen_damage",
+        "on_hit_audio": {
+          "audio_path": "res://assets/skill_audio/6024/area_hit_02_v1.ogg",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "spatial_mode": "fullscreen",
+          "source_track_id": "area_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
 }

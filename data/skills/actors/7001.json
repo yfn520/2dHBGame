@@ -1,135 +1,211 @@
 {
-	"6001": {
-		"ai_range_cache": {
-			"entries": [
-				{
-					"detail": "forward=29.0 width=33.0 scale=2.00 body_half=29.0",
-					"kind": "melee",
-					"max_edge_distance": 60.0,
-					"min_edge_distance": 0.0,
-					"node_index": 2.0,
-					"source": "hit_window"
-				}
-			],
-			"policy": "any_damage_node",
-			"source_hash": "241783783ed7d1db"
-		},
-		"cast_range": 50.0,
-		"cooldown": 1.0,
-		"description": "new_kivin 普通攻击。",
-		"name": "new_kivin 普攻",
-		"nodes": [
-			{
-				"action": "attack",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"damage_ratio": 1.0,
-				"result_key": "kivin_attack_hit",
-				"type": "melee_damage"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6002": {
-		"cast_range": 70.0,
-		"cooldown": 3.0,
-		"description": "new_kivin 近战技能。",
-		"name": "new_kivin 技能1",
-		"nodes": [
-			{
-				"action": "skill3",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"damage_ratio": 1.4,
-				"result_key": "kivin_skill1_hit",
-				"type": "melee_damage"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6003": {
-		"cast_range": 0.0,
-		"cooldown": 5.0,
-		"description": "new_kivin 范围技能。",
-		"name": "new_kivin 技能2",
-		"nodes": [
-			{
-				"action": "skill1",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"buff_chance": 0.2,
-				"buff_ids": [
-					10017.0
-				],
-				"damage_channel": "magic",
-				"damage_ratio": 1.8,
-				"damage_tag": "frost",
-				"origin": "hit_window",
-				"radius": 80.0,
-				"result_key": "kivin_skill2_hit",
-				"shape": "circle",
-				"type": "area_damage"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	},
-	"6004": {
-		"cast_range": 90.0,
-		"cooldown": 7.0,
-		"description": "new_kivin 强力近战技能。",
-		"name": "new_kivin 技能3",
-		"nodes": [
-			{
-				"action": "skill2",
-				"type": "play_animation"
-			},
-			{
-				"hit_window_index": 0.0,
-				"type": "wait_hit_window"
-			},
-			{
-				"damage_channel": "magic",
-				"damage_ratio": 2.0,
-				"damage_tag": "holy",
-				"result_key": "kivin_skill3_hit",
-				"type": "melee_damage"
-			},
-			{
-				"type": "wait_animation_end"
-			},
-			{
-				"type": "end_skill"
-			}
-		]
-	}
+  "6001": {
+    "ai_range_cache": {
+      "entries": [
+        {
+          "detail": "forward=29.0 width=33.0 scale=2.00 body_half=29.0",
+          "kind": "melee",
+          "max_edge_distance": 60.0,
+          "min_edge_distance": 0.0,
+          "node_index": 2.0,
+          "source": "hit_window"
+        }
+      ],
+      "policy": "any_damage_node",
+      "source_hash": "241783783ed7d1db"
+    },
+    "cast_range": 50.0,
+    "cooldown": 1.0,
+    "description": "new_kivin 普通攻击。",
+    "name": "new_kivin 普攻",
+    "nodes": [
+      {
+        "action": "attack",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6001/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1.0,
+        "result_key": "kivin_attack_hit",
+        "type": "melee_damage",
+        "on_hit_audio": {
+          "audio_path": "res://assets/skill_audio/6001/melee_hit_02_v1.wav",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "spatial_mode": "target",
+          "source_track_id": "melee_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6002": {
+    "cast_range": 70.0,
+    "cooldown": 3.0,
+    "description": "new_kivin 近战技能。",
+    "name": "new_kivin 技能1",
+    "nodes": [
+      {
+        "action": "skill3",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6002/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_ratio": 1.4,
+        "result_key": "kivin_skill1_hit",
+        "type": "melee_damage",
+        "on_hit_audio": {
+          "audio_path": "res://assets/skill_audio/6002/melee_hit_02_v1.wav",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "spatial_mode": "target",
+          "source_track_id": "melee_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6003": {
+    "cast_range": 0.0,
+    "cooldown": 5.0,
+    "description": "new_kivin 范围技能。",
+    "name": "new_kivin 技能2",
+    "nodes": [
+      {
+        "action": "skill1",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6003/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "buff_chance": 0.2,
+        "buff_ids": [
+          10017.0
+        ],
+        "damage_channel": "magic",
+        "damage_ratio": 1.8,
+        "damage_tag": "frost",
+        "origin": "hit_window",
+        "radius": 80.0,
+        "result_key": "kivin_skill2_hit",
+        "shape": "circle",
+        "type": "area_damage",
+        "on_hit_audio": {
+          "audio_path": "res://assets/skill_audio/6003/area_hit_02_v1.mp3",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "spatial_mode": "target",
+          "source_track_id": "area_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  },
+  "6004": {
+    "cast_range": 90.0,
+    "cooldown": 7.0,
+    "description": "new_kivin 强力近战技能。",
+    "name": "new_kivin 技能3",
+    "nodes": [
+      {
+        "action": "skill2",
+        "type": "play_animation"
+      },
+      {
+        "type": "play_sound",
+        "audio_path": "res://assets/skill_audio/6004/action_01_v1.mp3",
+        "spatial_mode": "caster",
+        "gain_db": -3.0,
+        "pitch_variation": 0.05,
+        "loop": false,
+        "delay_ms": 0,
+        "stop_on_skill_end": false,
+        "bus": "SFX",
+        "source_track_id": "action"
+      },
+      {
+        "hit_window_index": 0.0,
+        "type": "wait_hit_window"
+      },
+      {
+        "damage_channel": "magic",
+        "damage_ratio": 2.0,
+        "damage_tag": "holy",
+        "result_key": "kivin_skill3_hit",
+        "type": "melee_damage",
+        "on_hit_audio": {
+          "audio_path": "res://assets/skill_audio/6004/melee_hit_02_v1.mp3",
+          "gain_db": -3.0,
+          "pitch_variation": 0.05,
+          "spatial_mode": "target",
+          "source_track_id": "melee_hit"
+        }
+      },
+      {
+        "type": "wait_animation_end"
+      },
+      {
+        "type": "end_skill"
+      }
+    ]
+  }
 }

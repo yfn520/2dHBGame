@@ -135,6 +135,37 @@ def check_quests(errors: list[str]) -> None:
                 fail(errors, f"quests.json[{quest_id}].{field} 必须是整数，实际 {type(value).__name__}")
 
 
+def check_skill_audio_paths(errors: list[str]) -> None:
+    """data/skills/actors/*.json 中的音效路径必须落地（play_sound 节点 + 弹道/命中音效字段）。"""
+    actors_dir = DATA / "skills" / "actors"
+    if not actors_dir.is_dir():
+        return
+    for path in sorted(actors_dir.glob("*.json")):
+        data = check_json_loadable(path, errors)
+        if not isinstance(data, dict):
+            continue
+        for skill_id, skill in data.items():
+            if not isinstance(skill, dict):
+                continue
+            for node_index, node in enumerate(skill.get("nodes", [])):
+                if not isinstance(node, dict):
+                    continue
+                candidates: list[tuple[str, dict]] = []
+                if node.get("type") == "play_sound":
+                    candidates.append(("play_sound", node))
+                for field in ("spawn_audio", "flight_audio", "hit_audio", "on_hit_audio"):
+                    cfg = node.get(field)
+                    if isinstance(cfg, dict):
+                        candidates.append((field, cfg))
+                for field_name, cfg in candidates:
+                    audio_path = str(cfg.get("audio_path", ""))
+                    if not audio_path:
+                        fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}].{field_name} 缺少 audio_path")
+                        continue
+                    if not (PROJECT / audio_path.removeprefix("res://")).is_file():
+                        fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}].{field_name} 音效文件不存在：{audio_path}")
+
+
 def main() -> int:
     errors: list[str] = []
     if not DATA.is_dir():
@@ -146,6 +177,7 @@ def main() -> int:
     check_npcs(errors)
     check_characters(errors)
     check_quests(errors)
+    check_skill_audio_paths(errors)
     if errors:
         print(f"[validate_data] FAIL：{len(errors)} 个问题")
         for message in errors:

@@ -16,9 +16,9 @@ assets/npcs/<slug>/
   npc_asset.json
   portrait.png
   godot/
-    all_actions_atlas.png
-    spriteframes.tres
-    npc_visual.tscn
+	all_actions_atlas.png
+	spriteframes.tres
+	npc_visual.tscn
 ```
 
 - `npc_asset.json` version is exactly `1`; `id` equals `<slug>`.
