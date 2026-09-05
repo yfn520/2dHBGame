@@ -6,8 +6,12 @@ var _scene_cache: Dictionary = {}  # enemy_id → PackedScene
 var _party_manager: PartyManager
 var _spawn_container: Node2D
 var _active_enemies: Array[Node] = []
+var _engaged_enemies: Dictionary = {}  # instance_id → is_boss
+var _combat_mode := ""
 
 signal enemy_defeated(enemy_id: int)
+signal combat_started(is_boss: bool)
+signal combat_ended
 
 
 func setup(party_manager: PartyManager, spawn_container: Node2D) -> void:
@@ -58,6 +62,8 @@ func spawn_enemy(enemy_id: int, pos: Vector2, spawn_key := "") -> Node:
 	_active_enemies.append(enemy)
 	if enemy.has_signal("defeated"):
 		enemy.defeated.connect(_on_enemy_defeated.bind(enemy))
+	if enemy.has_signal("combat_engagement_changed"):
+		enemy.combat_engagement_changed.connect(_on_combat_engagement_changed.bind(enemy))
 	enemy.tree_exiting.connect(_on_enemy_removed.bind(enemy))
 	return enemy
 
@@ -98,6 +104,8 @@ func spawn_enemies_for_level(spawns: Array) -> void:
 
 ## 清除所有怪物
 func clear_all() -> void:
+	_engaged_enemies.clear()
+	_update_combat_mode()
 	for enemy in _active_enemies:
 		if is_instance_valid(enemy):
 			enemy.queue_free()
@@ -118,6 +126,36 @@ func get_active_enemies() -> Array[Node]:
 
 func _on_enemy_removed(enemy: Node) -> void:
 	_active_enemies.erase(enemy)
+	_engaged_enemies.erase(enemy.get_instance_id())
+	_update_combat_mode()
+
+
+## 只有怪物真正进入追击/攻击状态才算开战；同屏 Boss 优先于普通战斗。
+func _on_combat_engagement_changed(engaged: bool, is_boss: bool, enemy: Node) -> void:
+	if enemy == null or not is_instance_valid(enemy):
+		return
+	var instance_id := enemy.get_instance_id()
+	if engaged:
+		_engaged_enemies[instance_id] = is_boss
+	else:
+		_engaged_enemies.erase(instance_id)
+	_update_combat_mode()
+
+
+func _update_combat_mode() -> void:
+	var next_mode := ""
+	for is_boss_value in _engaged_enemies.values():
+		if bool(is_boss_value):
+			next_mode = "boss"
+			break
+		next_mode = "battle"
+	if next_mode == _combat_mode:
+		return
+	_combat_mode = next_mode
+	if _combat_mode.is_empty():
+		combat_ended.emit()
+	else:
+		combat_started.emit(_combat_mode == "boss")
 
 
 func _on_enemy_defeated(enemy_id: int, _enemy: Node = null) -> void:

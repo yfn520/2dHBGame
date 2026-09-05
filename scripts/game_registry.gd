@@ -4,6 +4,7 @@ var item_config
 var skill_config
 var buff_config
 var level_config
+var music_config
 var enemy_config
 var character_config
 var npc_config
@@ -52,6 +53,8 @@ func _ready() -> void:
 	buff_config.load_config()
 	level_config = load("res://scripts/data/level_config.gd").new()
 	level_config.load_config()
+	music_config = load("res://scripts/data/music_config.gd").new()
+	music_config.load_config()
 	enemy_config = load("res://scripts/data/enemy_config.gd").new()
 	enemy_config.load_config()
 	character_config = load("res://scripts/data/character_config_data.gd").new()

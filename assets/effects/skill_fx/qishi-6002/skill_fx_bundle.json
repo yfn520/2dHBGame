@@ -1,0 +1,139 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6002",
+  "skill_id": "6002",
+  "proposal": {
+    "id": "qishi-6002-unified",
+    "title": "new_kivin 技能1 特效方案",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "holy_release",
+      "phase": "release",
+      "title": "技能1 圣光起手",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 420,
+      "blend_mode": "screen",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -58,
+          "y": -86
+        },
+        "scale": 0.45,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#f0b000"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "holy_release",
+        "atlas_path": "assets/effects/skill_fx/qishi-6002/visual/holy_release/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6002/godot/effect_scenes/holy_release/effect.tscn",
+        "frame_size": {
+          "width": 256,
+          "height": 256
+        },
+        "frame_count": 4,
+        "fps": 9.523809523809524,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "技能1 圣光起手",
+          "selected_source_frames": [
+            1,
+            4,
+            5,
+            7
+          ],
+          "selected_frame_rotations": {
+            "1": 0,
+            "4": 0,
+            "5": 0,
+            "7": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    },
+    {
+      "id": "holy_impact",
+      "phase": "impact",
+      "title": "技能1 圣光命中",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 320,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -119,
+          "y": -65
+        },
+        "scale": 2.532,
+        "rotation_degrees": 0,
+        "opacity": 1,
+        "tint": "#ffd76a"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "holy_impact",
+        "atlas_path": "assets/effects/skill_fx/qishi-6002/visual/holy_impact/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6002/godot/effect_scenes/holy_impact/effect.tscn",
+        "frame_size": {
+          "width": 79,
+          "height": 79
+        },
+        "frame_count": 4,
+        "fps": 12.5,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "技能1 圣光命中",
+          "selected_source_frames": [
+            2,
+            3,
+            5,
+            4
+          ],
+          "selected_frame_rotations": {
+            "2": 0,
+            "3": 0,
+            "4": 0,
+            "5": 0
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

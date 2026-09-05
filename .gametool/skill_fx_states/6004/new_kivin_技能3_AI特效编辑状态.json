@@ -1,0 +1,197 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/qishi",
+  "actorName": "qishi",
+  "skillId": "6004",
+  "skillName": "new_kivin 技能3",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "qishi-6004-unified",
+      "title": "new_kivin 技能3 特效方案",
+      "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+      "style": "2D side-scrolling fantasy game VFX",
+      "palette": [
+        "#dfe8ff",
+        "#8fa4c8"
+      ],
+      "tracks": [
+        {
+          "description": "重剑挥砍的大剑光弧线",
+          "library_query": "heavy greatsword slash arc metal",
+          "generation_prompt": "heavy greatsword slash arc metal, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+          "id": "heavy_release",
+          "phase": "release",
+          "title": "技能3 重斩起手",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 460,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -98,
+              "y": -75
+            },
+            "scale": 1.204,
+            "rotation_degrees": 90,
+            "opacity": 1,
+            "tint": "#dfe8ff"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "description": "重击爆裂的金属碎片迸溅",
+          "library_query": "heavy impact burst metal shards",
+          "generation_prompt": "heavy impact burst metal shards, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+          "id": "heavy_impact",
+          "phase": "impact",
+          "title": "技能3 重斩命中",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 340,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 1,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#dfe8ff"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "qishi-6004-unified",
+  "actionHash": "80049f706627c3b9",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/qishi:6004:skill2": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [
+    "heavy_impact"
+  ],
+  "trackSelectedFrames": {
+    "heavy_release": [
+      3,
+      2,
+      1,
+      0
+    ],
+    "heavy_impact": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "trackFrameRotations": {
+    "heavy_release": {
+      "0": 65,
+      "1": 65,
+      "2": 25,
+      "3": 5,
+      "4": 5
+    }
+  },
+  "previewMirror": {},
+  "previewFrame": {
+    "heavy_release": 3,
+    "heavy_impact": 0
+  },
+  "candidatePageOffsets": {},
+  "selectedAssets": [
+    {
+      "trackId": "heavy_release",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 191,
+        "height": 161
+      },
+      "frameCount": 5,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "library_id": "f887fd29a1ef4412",
+        "name": "short_heavy_add_dodge.img",
+        "score": 0.8301,
+        "source_type": "sequence",
+        "kind": "bundle",
+        "bundleId": "qishi-6004",
+        "trackId": "heavy_release"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6004/assets/heavy_release.png"
+    },
+    {
+      "trackId": "heavy_impact",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 62,
+        "height": 200
+      },
+      "frameCount": 7,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "library_id": "693d6f612dbb8212",
+        "name": "卡牌特效 (47)",
+        "score": 0.6643,
+        "source_type": "sequence",
+        "kind": "bundle",
+        "bundleId": "qishi-6004",
+        "trackId": "heavy_impact"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6004/assets/heavy_impact.png"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6004",
+  "skill_id": "6004",
+  "proposal": {
+    "id": "qishi-6004-unified",
+    "title": "new_kivin 技能3 特效方案",
+    "summary": "网页统一技能工作台特效轨道"
+  },
+  "tracks": [
+    {
+      "id": "heavy_release",
+      "phase": "release",
+      "title": "技能3 重斩起手",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 460,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": -98,
+          "y": -75
+        },
+        "scale": 1.204,
+        "rotation_degrees": 90,
+        "opacity": 1,
+        "tint": "#dfe8ff"
+      },
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_node_index": 0,
+      "asset": {
+        "track_id": "heavy_release",
+        "atlas_path": "assets/effects/skill_fx/qishi-6004/visual/heavy_release/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6004/godot/effect_scenes/heavy_release/effect.tscn",
+        "frame_size": {
+          "width": 191,
+          "height": 161
+        },
+        "frame_count": 4,
+        "fps": 8.695652173913043,
+        "baked_scale": 1,
+        "loop": false,
+        "source": {
+          "kind": "generated",
+          "description": "技能3 重斩起手",
+          "selected_source_frames": [
+            3,
+            2,
+            1,
+            0
+          ],
+          "selected_frame_rotations": {
+            "0": 65,
+            "1": 65,
+            "2": 25,
+            "3": 5
+          },
+          "selected_frame_rotation_mirror_compensated": false
+        }
+      }
+    }
+  ]
+}

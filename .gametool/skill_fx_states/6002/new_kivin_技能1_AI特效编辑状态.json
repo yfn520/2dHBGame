@@ -1,0 +1,184 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/qishi",
+  "actorName": "qishi",
+  "skillId": "6002",
+  "skillName": "new_kivin 技能1",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "qishi-6002-unified",
+      "title": "new_kivin 技能1 特效方案",
+      "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+      "style": "2D side-scrolling fantasy game VFX",
+      "palette": [
+        "#ffd76a",
+        "#fff3c4"
+      ],
+      "tracks": [
+        {
+          "description": "盾击特效",
+          "library_query": "holy light slash trail golden",
+          "generation_prompt": "holy light slash trail golden, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+          "id": "holy_release",
+          "phase": "release",
+          "title": "技能1 圣光起手",
+          "trigger": {
+            "type": "action_event",
+            "event": "release",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 420,
+          "blend_mode": "screen",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -58,
+              "y": -86
+            },
+            "scale": 0.45,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#f0b000"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        },
+        {
+          "description": "圣光爆发式命中闪光",
+          "library_query": "holy burst impact golden flash",
+          "generation_prompt": "holy burst impact golden flash, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+          "id": "holy_impact",
+          "phase": "impact",
+          "title": "技能1 圣光命中",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "character_local",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 320,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": -119,
+              "y": -65
+            },
+            "scale": 2.532,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffd76a"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "qishi-6002-unified",
+  "actionHash": "ed2e192f2c04be0b",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/qishi:6002:skill3": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {
+    "holy_impact": [
+      2,
+      3,
+      5,
+      4
+    ],
+    "holy_release": [
+      1,
+      4,
+      5,
+      7
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "holy_impact": 0,
+    "holy_release": 3
+  },
+  "candidatePageOffsets": {
+    "holy_release": 240
+  },
+  "selectedAssets": [
+    {
+      "trackId": "holy_release",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 256,
+        "height": 256
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "type": "spine",
+        "id": "7fc2a2f1590c9836",
+        "name": "hubenjun_skill2",
+        "path": "E:/g_selfcustom/FrameRonin-main/effect/spine/hubenjun_skill2",
+        "score": 0.563
+      },
+      "atlasRef": ".gametool/skill_fx_states/6002/assets/holy_release.png"
+    },
+    {
+      "trackId": "holy_impact",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 79,
+        "height": 79
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "library_id": "33ef23bd5ce972d1",
+        "name": "2",
+        "score": 0.6797,
+        "source_type": "sequence",
+        "kind": "bundle",
+        "bundleId": "qishi-6002",
+        "trackId": "holy_impact"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6002/assets/holy_impact.png"
+    }
+  ]
+}

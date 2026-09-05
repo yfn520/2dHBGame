@@ -1,0 +1,132 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6002",
+  "skill_id": "6002",
+  "skill_hash": "adc03607e9e4f14d",
+  "action_hash": "ed2e192f2c04be0b",
+  "proposal": {
+    "id": "qishi-6002-unified",
+    "title": "new_kivin 技能1 特效方案",
+    "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+    "style": "2D side-scrolling fantasy game VFX",
+    "palette": [
+      "#ffd76a",
+      "#fff3c4"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "holy_release",
+      "phase": "release",
+      "title": "技能1 圣光起手",
+      "description": "圣光金色剑光挥出的拖尾",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 420,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 0.575,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#ffd76a"
+      },
+      "library_query": "holy light slash trail golden",
+      "generation_prompt": "holy light slash trail golden, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "holy_release",
+        "atlas_path": "assets/effects/skill_fx/qishi-6002/visual/holy_release/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6002/godot/effect_scenes/holy_release/effect.tscn",
+        "frame_size": {
+          "width": 400,
+          "height": 400
+        },
+        "frame_count": 5,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "f14095326ab974a6",
+          "name": "卡牌特效",
+          "score": 0.8035,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    },
+    {
+      "id": "holy_impact",
+      "phase": "impact",
+      "title": "技能1 圣光命中",
+      "description": "圣光爆发式命中闪光",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 320,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 2.532,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#ffd76a"
+      },
+      "library_query": "holy burst impact golden flash",
+      "generation_prompt": "holy burst impact golden flash, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "holy_impact",
+        "atlas_path": "assets/effects/skill_fx/qishi-6002/visual/holy_impact/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6002/godot/effect_scenes/holy_impact/effect.tscn",
+        "frame_size": {
+          "width": 79,
+          "height": 79
+        },
+        "frame_count": 8,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "33ef23bd5ce972d1",
+          "name": "2",
+          "score": 0.6797,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    }
+  ]
+}

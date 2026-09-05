@@ -1,0 +1,72 @@
+{
+	"0": {
+		"bgm": "res://assets/music/level_0.ogg",
+		"description": "余晖城",
+		"enemies": [],
+		"name": "余晖城",
+		"npcs": [],
+		"scene_path": "res://scenes/yuhuicheng.tscn",
+		"spawn_x": 133,
+		"spawn_y": 616
+	},
+	"1": {
+		"bgm": "res://assets/music/level_1.ogg",
+		"description": "星露草原",
+		"enemies": [],
+		"name": "星露草原",
+		"npcs": [],
+		"scene_path": "res://scenes/xinglucaoyuan.tscn",
+		"spawn_x": 596,
+		"spawn_y": 651
+	},
+	"2": {
+		"bgm": "",
+		"description": "月影遗迹",
+		"enemies": [],
+		"name": "月影遗迹",
+		"npcs": [],
+		"scene_path": "res://scenes/yueyingyiji.tscn",
+		"spawn_x": 76,
+		"spawn_y": 525
+	},
+	"3": {
+		"bgm": "",
+		"description": "烛塔学院",
+		"enemies": [],
+		"name": "烛塔学院",
+		"npcs": [],
+		"scene_path": "res://scenes/zhutaxueyuan.tscn",
+		"spawn_x": 72,
+		"spawn_y": 627
+	},
+	"4": {
+		"bgm": "",
+		"description": "苍蓝港湾",
+		"enemies": [],
+		"name": "苍蓝港湾",
+		"npcs": [],
+		"scene_path": "res://scenes/canglangangwan.tscn",
+		"spawn_x": 489,
+		"spawn_y": 488
+	},
+	"5": {
+		"bgm": "",
+		"description": "灰烬王城",
+		"enemies": [],
+		"name": "灰烬王城",
+		"npcs": [],
+		"scene_path": "res://scenes/huijingwangcheng.tscn",
+		"spawn_x": 105,
+		"spawn_y": 563
+	},
+	"6": {
+		"bgm": "",
+		"description": "王脉深庭",
+		"enemies": [],
+		"name": "王脉深庭",
+		"npcs": [],
+		"scene_path": "res://scenes/wangmaishentin.tscn",
+		"spawn_x": 84,
+		"spawn_y": 552
+	}
+}

@@ -43,6 +43,8 @@ func _ready() -> void:
 	add_child(_enemy_spawner)
 	_enemy_spawner.setup(party_manager, level_container)
 	_enemy_spawner.enemy_defeated.connect(_on_enemy_defeated)
+	_enemy_spawner.combat_started.connect(_on_combat_started)
+	_enemy_spawner.combat_ended.connect(_on_combat_ended)
 
 	# NPC 与交互管理器独立于战斗角色，关卡切换时按配置重建。
 	_npc_spawner = NpcSpawner.new()
@@ -221,6 +223,32 @@ func _spawn_level_npcs(level_id: int) -> void:
 func _on_enemy_defeated(enemy_id: int) -> void:
 	if GameRegistry.quest_service != null:
 		GameRegistry.quest_service.record_kill(enemy_id)
+
+
+func _on_combat_started(is_boss: bool) -> void:
+	if GameRegistry.music_config == null:
+		return
+	var scene_key := "boss" if is_boss else "battle"
+	var track: Dictionary = GameRegistry.music_config.get_track(scene_key)
+	# Boss 未单独发布时退回普通战斗曲；两者都缺失则继续播放关卡曲。
+	if track.is_empty() and is_boss:
+		track = GameRegistry.music_config.get_track("battle")
+	if track.is_empty():
+		return
+	var path := str(track.get("path", ""))
+	if path.is_empty():
+		return
+	AudioManager.play_bgm(
+		path,
+		float(track.get("gain_db", 0.0)),
+		float(track.get("fade_ms", 700.0)),
+		bool(track.get("loop", true)),
+	)
+
+
+func _on_combat_ended() -> void:
+	if _level_manager != null and _level_manager.has_method("restore_level_bgm"):
+		_level_manager.restore_level_bgm()
 
 
 func _on_quest_updated(_quest_id: int) -> void:

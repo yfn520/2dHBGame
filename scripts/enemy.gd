@@ -5,6 +5,7 @@ extends CombatActorBase
 enum AIState { IDLE, PATROL, CHASE, ATTACK, HIT, DEAD }
 
 signal defeated(enemy_id: int)
+signal combat_engagement_changed(engaged: bool, is_boss: bool)
 
 const CONFIG_FILE := "character_config.json"
 const TARGET_SWITCH_COOLDOWN := 0.8
@@ -22,6 +23,7 @@ var _party_manager: PartyManager = null
 var _target: CharacterBody2D = null
 
 var _ai_state: AIState = AIState.IDLE
+var _combat_engaged := false
 var _spawn_position: Vector2 = Vector2.ZERO
 var _patrol_target: float = 0.0
 var _idle_timer: float = 0.0
@@ -257,6 +259,10 @@ func _apply_display_config() -> void:
 
 func _set_ai_state(new_state: AIState) -> void:
 	_ai_state = new_state
+	var engaged := new_state == AIState.CHASE or new_state == AIState.ATTACK
+	if engaged != _combat_engaged:
+		_combat_engaged = engaged
+		combat_engagement_changed.emit(_combat_engaged, bool(_config.get("is_boss", false)))
 	match new_state:
 		AIState.IDLE:
 			_idle_timer = randf_range(1.0, 3.0)

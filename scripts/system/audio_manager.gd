@@ -31,10 +31,114 @@ var _polyphony_limits: Dictionary = {}  # stream_path → max
 # --- 音量缓存 ---
 var _bus_volumes: Dictionary = {}  # bus_name → db
 
+# --- BGM 专用通道：两个播放器交叉淡入淡出，完全独立于 SFX 池。 ---
+var _bgm_players: Array[AudioStreamPlayer] = []
+var _bgm_active_player: AudioStreamPlayer
+var _bgm_fade_tween: Tween
+var _current_bgm_path := ""
+
 
 func _ready() -> void:
 	_create_pools()
+	_create_bgm_players()
 	_load_settings()
+
+
+## 播放 BGM（场景/主菜单专用）。同曲已在播则忽略；异曲旧曲淡出后新曲淡入。
+## 加载失败只 push_warning 不抛错（永不阻塞游戏流程）。
+func play_bgm(audio_path: String, gain_db: float = 0.0, fade_ms: float = 1200.0, loop: bool = true) -> bool:
+	if audio_path.is_empty():
+		return false
+	if audio_path == _current_bgm_path and _bgm_active_player != null and _bgm_active_player.playing:
+		return true
+	var stream := _load_stream(audio_path)
+	if stream == null:
+		push_warning("AudioManager: BGM 加载失败（不阻塞游戏）: %s" % audio_path)
+		return false
+	if _bgm_players.is_empty():
+		_create_bgm_players()
+	if _bgm_fade_tween != null and _bgm_fade_tween.is_valid():
+		_bgm_fade_tween.kill()
+	var incoming := _inactive_bgm_player()
+	if incoming == null:
+		push_warning("AudioManager: BGM 播放器未初始化")
+		return false
+	if incoming.playing:
+		incoming.stop()
+	_configure_player(incoming, stream, -40.0, 0.0, loop)
+	incoming.play()
+	var outgoing := _bgm_active_player
+	_bgm_active_player = incoming
+	_current_bgm_path = audio_path
+	if outgoing != null and outgoing.playing and fade_ms > 0.0:
+		# 真正交叉淡入淡出：两首曲子在同一个 fade 窗口内并行变化。
+		_bgm_fade_tween = create_tween()
+		_bgm_fade_tween.set_parallel(true)
+		_bgm_fade_tween.tween_property(outgoing, "volume_db", -40.0, fade_ms / 1000.0)
+		_bgm_fade_tween.tween_property(incoming, "volume_db", gain_db, fade_ms / 1000.0)
+		_bgm_fade_tween.set_parallel(false)
+		_bgm_fade_tween.tween_callback(outgoing.stop)
+	else:
+		incoming.volume_db = gain_db
+	return true
+
+
+## 停止 BGM（淡出后停）。
+func stop_bgm(fade_ms: float = 800.0) -> void:
+	_current_bgm_path = ""
+	var has_playing_bgm := false
+	for player in _bgm_players:
+		if player.playing:
+			has_playing_bgm = true
+			break
+	if _bgm_active_player == null or not has_playing_bgm:
+		return
+	if _bgm_fade_tween != null and _bgm_fade_tween.is_valid():
+		_bgm_fade_tween.kill()
+	if fade_ms <= 0.0:
+		_stop_all_bgm_players()
+		return
+	_bgm_fade_tween = create_tween()
+	_bgm_fade_tween.set_parallel(true)
+	for player in _bgm_players:
+		if player.playing:
+			_bgm_fade_tween.tween_property(player, "volume_db", -40.0, fade_ms / 1000.0)
+	_bgm_fade_tween.set_parallel(false)
+	_bgm_fade_tween.tween_callback(_stop_all_bgm_players)
+
+
+## 当前 BGM 资源路径（未播返回空串）。
+func get_current_bgm() -> String:
+	return _current_bgm_path
+
+
+## 运行时调整当前 BGM 音量（不持久化；持久化用 set_bus_volume(BUS_BGM, db)）。
+func set_bgm_gain(db: float) -> void:
+	if _bgm_active_player != null:
+		_bgm_active_player.volume_db = db
+
+
+func _create_bgm_players() -> void:
+	if not _bgm_players.is_empty():
+		return
+	for _index in range(2):
+		var player := AudioStreamPlayer.new()
+		player.bus = BUS_BGM
+		add_child(player)
+		_bgm_players.append(player)
+	_bgm_active_player = _bgm_players[0]
+
+
+func _inactive_bgm_player() -> AudioStreamPlayer:
+	for player in _bgm_players:
+		if player != _bgm_active_player:
+			return player
+	return null
+
+
+func _stop_all_bgm_players() -> void:
+	for player in _bgm_players:
+		player.stop()
 
 
 ## 非空间化播放（全屏/UI/Buff）。返回 channel_id（>0），失败返回 -1。

@@ -89,6 +89,7 @@ func load_level(level_id: int, spawn_override: Vector2 = Vector2.ZERO) -> void:
 	# 根据关卡场景的 Sprite2D 整体边界动态设置玩家相机边界
 	# （覆盖 player.gd 里的 1536×864 默认边界，支持任意宽度的横向拼接地图）
 	_apply_camera_limits(level_instance)
+	_play_level_bgm(level_id)
 
 	level_loaded.emit(level_id, config.get("name", ""))
 	GameRegistry.save_game()
@@ -166,6 +167,30 @@ func _apply_camera_bounds(bounds: Rect2, ground_line_y: float = 605.0) -> void:
 func reload_current() -> void:
 	if _current_level_id >= 0:
 		load_level(_current_level_id)
+
+
+## 战斗结束后恢复当前关卡 BGM；由 EnemySpawner 的聚合脱战事件调用。
+func restore_level_bgm() -> void:
+	if _current_level_id >= 0:
+		_play_level_bgm(_current_level_id)
+
+
+## 关卡音乐优先由 data/music.json 驱动，兼容旧 levels.json.bgm。
+## BGM 缺失时停止上一关的轨，避免跨关卡残留；加载失败只由 AudioManager 告警，不阻塞切图。
+func _play_level_bgm(level_id: int) -> void:
+	if GameRegistry.music_config == null:
+		return
+	var track: Dictionary = GameRegistry.music_config.get_track("level:%d" % level_id)
+	var path: String = GameRegistry.music_config.get_level_bgm(level_id, GameRegistry.level_config)
+	if path.is_empty():
+		AudioManager.stop_bgm()
+		return
+	AudioManager.play_bgm(
+		path,
+		float(track.get("gain_db", 0.0)),
+		float(track.get("fade_ms", 1200.0)),
+		bool(track.get("loop", true)),
+	)
 
 
 func _unload_current() -> void:

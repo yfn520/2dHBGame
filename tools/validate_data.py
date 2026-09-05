@@ -135,6 +135,58 @@ def check_quests(errors: list[str]) -> None:
                 fail(errors, f"quests.json[{quest_id}].{field} 必须是整数，实际 {type(value).__name__}")
 
 
+def check_music(errors: list[str]) -> None:
+    """校验网页音乐编排台发布的 music.json 与关卡 BGM 引用。
+
+    music.json 在首次发布前允许不存在；发布后必须满足完整的可追溯契约。
+    """
+    path = DATA / "music.json"
+    if path.is_file():
+        data = check_json_loadable(path, errors)
+        if isinstance(data, dict):
+            if data.get("format") != "frame-ronin-music-v1":
+                fail(errors, "music.json format 必须是 frame-ronin-music-v1")
+            if not isinstance(data.get("version"), int):
+                fail(errors, "music.json version 必须是整数")
+            tracks = data.get("tracks")
+            if not isinstance(tracks, dict):
+                fail(errors, "music.json tracks 必须是对象")
+            else:
+                for scene_key, track in tracks.items():
+                    if not isinstance(track, dict):
+                        fail(errors, f"music.json.tracks[{scene_key}] 必须是对象")
+                        continue
+                    if str(track.get("scene_key", "")) != str(scene_key):
+                        fail(errors, f"music.json.tracks[{scene_key}].scene_key 必须与键一致")
+                    music_path = str(track.get("path", ""))
+                    if not music_path:
+                        fail(errors, f"music.json.tracks[{scene_key}] 缺少 path")
+                    elif not (PROJECT / music_path.removeprefix("res://")).is_file():
+                        fail(errors, f"music.json.tracks[{scene_key}] 音乐文件不存在：{music_path}")
+                    source = str(track.get("source", ""))
+                    if source not in {"generated", "derived"}:
+                        fail(errors, f"music.json.tracks[{scene_key}].source 必须是 generated 或 derived")
+                    if source == "derived":
+                        if not str(track.get("derived_from", "")):
+                            fail(errors, f"music.json.tracks[{scene_key}] 改写轨缺少 derived_from")
+                        noise = track.get("init_noise_level")
+                        if not isinstance(noise, (int, float)) or not 0.1 <= float(noise) <= 1.0:
+                            fail(errors, f"music.json.tracks[{scene_key}] 改写轨 init_noise_level 必须在 0.1~1.0")
+
+    levels_path = DATA / "levels.json"
+    if not levels_path.is_file():
+        return
+    levels = check_json_loadable(levels_path, errors)
+    if not isinstance(levels, dict):
+        return
+    for level_id, level in levels.items():
+        if not isinstance(level, dict):
+            continue
+        bgm = str(level.get("bgm", ""))
+        if bgm and not (PROJECT / bgm.removeprefix("res://")).is_file():
+            fail(errors, f"levels.json[{level_id}].bgm 音乐文件不存在：{bgm}")
+
+
 def check_skill_audio_paths(errors: list[str]) -> None:
     """data/skills/actors/*.json 中的音效路径必须落地（play_sound 节点 + 弹道/命中音效字段）。"""
     actors_dir = DATA / "skills" / "actors"
@@ -166,8 +218,111 @@ def check_skill_audio_paths(errors: list[str]) -> None:
                         fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}].{field_name} 音效文件不存在：{audio_path}")
 
 
+def check_skill_fx_bundles(errors: list[str]) -> None:
+    """assets/effects/skill_fx/*/skill_fx_bundle.json 的资源路径必须落地（atlas/scene）。"""
+    fx_root = PROJECT / "assets" / "effects" / "skill_fx"
+    if not fx_root.is_dir():
+        return
+    for manifest_path in sorted(fx_root.glob("*/skill_fx_bundle.json")):
+        data = check_json_loadable(manifest_path, errors)
+        if not isinstance(data, dict):
+            continue
+        if data.get("format") != "frame-ronin-skill-fx-bundle-v1":
+            fail(errors, f"{manifest_path.relative_to(PROJECT)} format 不是 frame-ronin-skill-fx-bundle-v1")
+            continue
+        tracks = data.get("tracks")
+        if not isinstance(tracks, list) or not tracks:
+            fail(errors, f"{manifest_path.relative_to(PROJECT)} 缺少 tracks")
+            continue
+        for track in tracks:
+            if not isinstance(track, dict):
+                continue
+            asset = track.get("asset")
+            track_id = track.get("id", "?")
+            # 网页侧 hydrate 前提：loadAndHydrateDirectorState 会丢弃缺 phase/trigger 的
+            # checkpoint（hasMalformedTracks），并从 bundle 重建——所以 bundle 轨道必须齐备。
+            if not str(track.get("phase", "")):
+                fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}] 缺 phase（网页特效导演无法 hydrate）")
+            trigger = track.get("trigger")
+            if not isinstance(trigger, dict) or not str(trigger.get("type", "")):
+                fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}] 缺 trigger.type（网页特效导演无法 hydrate）")
+            if not isinstance(asset, dict):
+                fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}] 缺少 asset")
+                continue
+            for field in ("atlas_path", "scene_path"):
+                rel = str(asset.get(field, ""))
+                if not rel:
+                    fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}].asset 缺少 {field}")
+                elif not (PROJECT / rel.removeprefix("res://")).is_file():
+                    fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}].{field} 文件不存在：{rel}")
+            if int(asset.get("frame_count") or 0) < 1:
+                fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}].frame_count 必须 ≥ 1")
+            if float(asset.get("fps") or 0) <= 0:
+                fail(errors, f"skill_fx/{data.get('bundle_id')}[{track_id}].fps 必须 > 0")
+
+
+def check_play_effect_scenes(errors: list[str]) -> None:
+    """data/skills/actors/*.json 中 play_effect 节点的 scene 路径必须存在（空值跳过，那是待配置）。"""
+    actors_dir = DATA / "skills" / "actors"
+    if not actors_dir.is_dir():
+        return
+    for path in sorted(actors_dir.glob("*.json")):
+        data = check_json_loadable(path, errors)
+        if not isinstance(data, dict):
+            continue
+        for skill_id, skill in data.items():
+            if not isinstance(skill, dict):
+                continue
+            for node_index, node in enumerate(skill.get("nodes", [])):
+                if not isinstance(node, dict) or node.get("type") != "play_effect":
+                    continue
+                scene = str(node.get("scene", ""))
+                if not scene:
+                    continue
+                if not (PROJECT / scene.removeprefix("res://")).is_file():
+                    fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}] play_effect 场景不存在：{scene}")
+
+
+def check_skill_fx_bundle_skill_ids(errors: list[str], warnings: list[str], known_skill_ids: set[str]) -> None:
+    """bundle 的 skill_id 应能在 data/skills/actors/*.json 里找到，否则网页编排台匹配不上。
+
+    孤儿 bundle（技能已删/改名）无害但永远不生效，降为警告，不让存量遗留把套件弄红。
+    """
+    fx_root = PROJECT / "assets" / "effects" / "skill_fx"
+    if not fx_root.is_dir():
+        return
+    for manifest_path in sorted(fx_root.glob("*/skill_fx_bundle.json")):
+        try:
+            data = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+        except Exception:  # noqa: BLE001
+            continue
+        if not isinstance(data, dict):
+            continue
+        skill_id = str(data.get("skill_id", ""))
+        if not skill_id:
+            errors.append(f"{manifest_path.relative_to(PROJECT)} 缺 skill_id")
+        elif skill_id not in known_skill_ids:
+            warnings.append(f"孤儿特效包：skill_fx/{data.get('bundle_id')} 的 skill_id {skill_id} 已不在 data/skills/actors 中（网页与 Godot 都不会加载它）")
+
+
+def collect_skill_ids() -> set[str]:
+    ids: set[str] = set()
+    actors_dir = DATA / "skills" / "actors"
+    if not actors_dir.is_dir():
+        return ids
+    for path in actors_dir.glob("*.json"):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
+        except Exception:  # noqa: BLE001
+            continue
+        if isinstance(data, dict):
+            ids.update(str(key) for key in data.keys())
+    return ids
+
+
 def main() -> int:
     errors: list[str] = []
+    warnings: list[str] = []
     if not DATA.is_dir():
         print(f"[validate_data] 缺少目录：{DATA}", file=sys.stderr)
         return 1
@@ -177,7 +332,13 @@ def main() -> int:
     check_npcs(errors)
     check_characters(errors)
     check_quests(errors)
+    check_music(errors)
     check_skill_audio_paths(errors)
+    check_skill_fx_bundles(errors)
+    check_skill_fx_bundle_skill_ids(errors, warnings, collect_skill_ids())
+    check_play_effect_scenes(errors)
+    for message in warnings:
+        print(f"[validate_data] 警告：{message}")
     if errors:
         print(f"[validate_data] FAIL：{len(errors)} 个问题")
         for message in errors:

@@ -21,3 +21,11 @@
 
 - If the level size changes, update the camera bounds or drive them from a level metadata node.
 - Move from hardcoded keys to Input Map actions once the control scheme stabilizes.
+
+## BGM 发布与运行时
+
+- `data/music.json` 由网页音乐编排台作为唯一写入方发布；运行时只通过 `MusicConfig` 读取。首次发布前文件可缺失，不能在 Godot 侧手工补写。
+- 关卡 BGM 的权威优先级是 `music.json.tracks["level:<id>"].path`，旧 `levels.json.bgm` 只保留兼容回退。`LevelManager` 在关卡实例加载完成后切曲，缺轨会淡出旧曲。
+- `AudioManager` 使用两个独立 `AudioStreamPlayer` 交叉淡入淡出，不能把 BGM 放回 SFX 池；否则长音频会被池复用和多音节限制打断。
+- `tools/validate_data.py` 对发布后的 music.json 校验格式、资源路径及 derived 轨的 `derived_from`/`init_noise_level`，对应 headless 守卫为 `tests/music_config.gd`。
+- 战斗曲不能在刷怪时触发：`Enemy` 只在实际进入 CHASE/ATTACK 时上报交战，`EnemySpawner` 聚合同屏敌人并按 Boss 优先发出 `combat_started`；全部脱战/死亡后由 `LevelManager.restore_level_bgm()` 恢复关卡曲。Boss 轨缺失时回退 battle，二者都缺失时保持关卡曲。

@@ -1,0 +1,78 @@
+{
+  "format": "frame-ronin-skill-audio-v1",
+  "version": 1,
+  "skill_id": "6002",
+  "skill_hash": "5bd99a11b8cce8e9",
+  "action_hash": "8175407dfb7619f8",
+  "tracks": [
+    {
+      "id": "action",
+      "role": "action",
+      "trigger": {
+        "type": "skill_start",
+        "offset_ms": 0
+      },
+      "summary_zh": "action",
+      "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+      "duration_ms": 571,
+      "spatial_mode": "caster",
+      "gain_db": -3,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "play_sound",
+      "bound_node_index": -1,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "action_01_v1.mp3",
+          "seed": null,
+          "model": "library",
+          "library_id": "7c71831a3d586917",
+          "library_score": 0.9673,
+          "clap_score": null,
+          "prompt_en": "fantasy slash skill full action sound, whoosh with impact, no music, no voice, isolated sound effect",
+          "duration_ms": 602,
+          "created_at": "2026-09-04T23:07:26+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    },
+    {
+      "id": "melee_hit",
+      "role": "melee_hit",
+      "trigger": {
+        "type": "hit_window_start",
+        "hit_window_index": 0,
+        "offset_ms": 0
+      },
+      "summary_zh": "melee_hit",
+      "prompt_en": "melee slash hit, sharp impact crunch, no music, no voice, isolated sound effect",
+      "duration_ms": 400,
+      "spatial_mode": "target",
+      "gain_db": -3,
+      "pitch_variation": 0.05,
+      "loop": false,
+      "candidate_count": 1,
+      "omit": false,
+      "bound_node_type": "melee_damage",
+      "bound_node_index": 2,
+      "candidates": [
+        {
+          "index": 0,
+          "file": "melee_hit_02_v1.wav",
+          "seed": null,
+          "model": "library",
+          "library_id": "9451de07e75fcca4",
+          "library_score": 0.9759,
+          "clap_score": null,
+          "prompt_en": "melee slash hit, sharp impact crunch, no music, no voice, isolated sound effect",
+          "duration_ms": 426,
+          "created_at": "2026-09-04T23:07:31+08:00"
+        }
+      ],
+      "selected_candidate_index": 0
+    }
+  ]
+}

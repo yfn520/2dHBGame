@@ -5,17 +5,17 @@
         {
           "detail": "forward=29.0 width=33.0 scale=2.00 body_half=29.0",
           "kind": "melee",
-          "max_edge_distance": 60.0,
-          "min_edge_distance": 0.0,
-          "node_index": 2.0,
+          "max_edge_distance": 60,
+          "min_edge_distance": 0,
+          "node_index": 2,
           "source": "hit_window"
         }
       ],
       "policy": "any_damage_node",
       "source_hash": "241783783ed7d1db"
     },
-    "cast_range": 50.0,
-    "cooldown": 1.0,
+    "cast_range": 50,
+    "cooldown": 1,
     "description": "new_kivin 普通攻击。",
     "name": "new_kivin 普攻",
     "nodes": [
@@ -27,7 +27,7 @@
         "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6001/action_01_v1.mp3",
         "spatial_mode": "caster",
-        "gain_db": -3.0,
+        "gain_db": -3,
         "pitch_variation": 0.05,
         "loop": false,
         "delay_ms": 0,
@@ -36,16 +36,16 @@
         "source_track_id": "action"
       },
       {
-        "hit_window_index": 0.0,
+        "hit_window_index": 0,
         "type": "wait_hit_window"
       },
       {
-        "damage_ratio": 1.0,
+        "damage_ratio": 1,
         "result_key": "kivin_attack_hit",
         "type": "melee_damage",
         "on_hit_audio": {
           "audio_path": "res://assets/skill_audio/6001/melee_hit_02_v1.wav",
-          "gain_db": -3.0,
+          "gain_db": -3,
           "pitch_variation": 0.05,
           "spatial_mode": "target",
           "source_track_id": "melee_hit"
@@ -60,8 +60,8 @@
     ]
   },
   "6002": {
-    "cast_range": 70.0,
-    "cooldown": 3.0,
+    "cast_range": 70,
+    "cooldown": 3,
     "description": "new_kivin 近战技能。",
     "name": "new_kivin 技能1",
     "nodes": [
@@ -73,7 +73,7 @@
         "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6002/action_01_v1.mp3",
         "spatial_mode": "caster",
-        "gain_db": -3.0,
+        "gain_db": -3,
         "pitch_variation": 0.05,
         "loop": false,
         "delay_ms": 0,
@@ -82,7 +82,7 @@
         "source_track_id": "action"
       },
       {
-        "hit_window_index": 0.0,
+        "hit_window_index": 0,
         "type": "wait_hit_window"
       },
       {
@@ -91,7 +91,7 @@
         "type": "melee_damage",
         "on_hit_audio": {
           "audio_path": "res://assets/skill_audio/6002/melee_hit_02_v1.wav",
-          "gain_db": -3.0,
+          "gain_db": -3,
           "pitch_variation": 0.05,
           "spatial_mode": "target",
           "source_track_id": "melee_hit"
@@ -103,11 +103,25 @@
       {
         "type": "end_skill"
       }
-    ]
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "f187d149027957c2",
+      "entries": [
+        {
+          "node_index": 3,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 41.599999999999994,
+          "detail": "forward=67.0 width=51.0 scale=0.80 body_half=30.4"
+        }
+      ]
+    }
   },
   "6003": {
-    "cast_range": 0.0,
-    "cooldown": 5.0,
+    "cast_range": 0,
+    "cooldown": 5,
     "description": "new_kivin 范围技能。",
     "name": "new_kivin 技能2",
     "nodes": [
@@ -119,7 +133,7 @@
         "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6003/action_01_v1.mp3",
         "spatial_mode": "caster",
-        "gain_db": -3.0,
+        "gain_db": -3,
         "pitch_variation": 0.05,
         "loop": false,
         "delay_ms": 0,
@@ -128,25 +142,25 @@
         "source_track_id": "action"
       },
       {
-        "hit_window_index": 0.0,
+        "hit_window_index": 0,
         "type": "wait_hit_window"
       },
       {
         "buff_chance": 0.2,
         "buff_ids": [
-          10017.0
+          10017
         ],
         "damage_channel": "magic",
         "damage_ratio": 1.8,
         "damage_tag": "frost",
         "origin": "hit_window",
-        "radius": 80.0,
+        "radius": 80,
         "result_key": "kivin_skill2_hit",
         "shape": "circle",
         "type": "area_damage",
         "on_hit_audio": {
           "audio_path": "res://assets/skill_audio/6003/area_hit_02_v1.mp3",
-          "gain_db": -3.0,
+          "gain_db": -3,
           "pitch_variation": 0.05,
           "spatial_mode": "target",
           "source_track_id": "area_hit"
@@ -161,8 +175,8 @@
     ]
   },
   "6004": {
-    "cast_range": 90.0,
-    "cooldown": 7.0,
+    "cast_range": 90,
+    "cooldown": 7,
     "description": "new_kivin 强力近战技能。",
     "name": "new_kivin 技能3",
     "nodes": [
@@ -174,7 +188,7 @@
         "type": "play_sound",
         "audio_path": "res://assets/skill_audio/6004/action_01_v1.mp3",
         "spatial_mode": "caster",
-        "gain_db": -3.0,
+        "gain_db": -3,
         "pitch_variation": 0.05,
         "loop": false,
         "delay_ms": 0,
@@ -183,18 +197,41 @@
         "source_track_id": "action"
       },
       {
-        "hit_window_index": 0.0,
+        "type": "play_effect",
+        "scene": "res://assets/effects/skill_fx/qishi-6004/godot/effect_scenes/heavy_release/effect.tscn",
+        "coordinate_space": "character_local",
+        "target": "origin",
+        "origin": "caster",
+        "effect_scale": 1.204,
+        "opacity": 1,
+        "lifetime_ms": 460,
+        "attachment_layer": "front",
+        "follow_target": true,
+        "anchor": "origin",
+        "mirror_with_facing": true,
+        "mirror": false,
+        "offset_x": -98,
+        "offset_y": -75,
+        "rotation_degrees": 90,
+        "tint": "#dfe8ff",
+        "attachment_blend_mode": "add",
+        "source_bundle_id": "qishi-6004",
+        "source_track_id": "heavy_release",
+        "delay_ms": 120
+      },
+      {
+        "hit_window_index": 0,
         "type": "wait_hit_window"
       },
       {
         "damage_channel": "magic",
-        "damage_ratio": 2.0,
+        "damage_ratio": 2,
         "damage_tag": "holy",
         "result_key": "kivin_skill3_hit",
         "type": "melee_damage",
         "on_hit_audio": {
           "audio_path": "res://assets/skill_audio/6004/melee_hit_02_v1.mp3",
-          "gain_db": -3.0,
+          "gain_db": -3,
           "pitch_variation": 0.05,
           "spatial_mode": "target",
           "source_track_id": "melee_hit"
@@ -206,6 +243,20 @@
       {
         "type": "end_skill"
       }
-    ]
+    ],
+    "ai_range_cache": {
+      "policy": "any_damage_node",
+      "source_hash": "ea2008715e8db302",
+      "entries": [
+        {
+          "node_index": 4,
+          "source": "hit_window",
+          "kind": "melee",
+          "min_edge_distance": 0,
+          "max_edge_distance": 63.599999999999994,
+          "detail": "forward=79.0 width=82.0 scale=0.80 body_half=30.4"
+        }
+      ]
+    }
   }
 }

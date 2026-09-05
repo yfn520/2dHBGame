@@ -1,0 +1,31 @@
+{
+  "format": "frame-ronin-attachment-meta-v1",
+  "characterName": "",
+  "actionName": "",
+  "eventHint": "release",
+  "fallbackFrame": 0,
+  "triggerFrame": 0,
+  "characterOffset": {
+    "x": -58.0,
+    "y": -86.0
+  },
+  "displayScale": {
+    "x": 1.0,
+    "y": 1.0
+  },
+  "effectRotation": 0.0,
+  "effectScale": 0.45,
+  "effectMirror": false,
+  "mirrorWithFacing": true,
+  "instanceTransformBaked": false,
+  "boxSize": {
+    "width": 256,
+    "height": 256
+  },
+  "layer": "front",
+  "blendMode": "screen",
+  "coordinateSpace": "character_local",
+  "scenePath": "res://assets/effects/skill_fx/qishi-6002/godot/effect_scenes/holy_release/effect.tscn",
+  "fps": 9.523809523809524,
+  "frameCount": 4
+}

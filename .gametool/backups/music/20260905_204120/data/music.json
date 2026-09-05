@@ -1,0 +1,27 @@
+{
+	"format": "frame-ronin-music-v1",
+	"version": 1,
+	"tracks": {
+		"level:0": {
+			"scene_key": "level:0",
+			"name": "余晖城",
+			"kind": "level",
+			"path": "res://assets/music/level_0.ogg",
+			"duration_ms": 52295,
+			"loop": true,
+			"gain_db": 0,
+			"fade_ms": 1200,
+			"prompt": "TrackType: Music, VocalType: Instrumental. Warm medieval-fantasy town theme at 84 BPM for a bright blue-roofed castle city recovering after disaster. Lute, wooden flute, viola, gentle hand drum and soft bells perform a restrained three-note rising motif that can recur across the whole game soundtrack. Safe, sunlit and humane, quietly hopeful with a faint unanswered memory. Seamless game BGM loop, clear melodic foreground, restrained dynamics, no dramatic climax.",
+			"negative_prompt": "vocals, lyrics, speech, modern pop, EDM drop, trap hi-hats, comedy, cheerful ukulele, abrupt ending, sudden loud hits, muddy mix",
+			"bpm": 84,
+			"genre": "warm medieval-fantasy town theme",
+			"source": "generated",
+			"derived_from": "",
+			"init_noise_level": 0,
+			"seed": 2076204376,
+			"model": "stabilityai/stable-audio-3-medium",
+			"clap_score": 0.6788828372955322,
+			"created_at": "2026-09-05T12:34:02.547Z"
+		}
+	}
+}

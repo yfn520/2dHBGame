@@ -1,0 +1,123 @@
+{
+  "version": 2,
+  "actorId": "assets/characters/qishi",
+  "actorName": "qishi",
+  "skillId": "6003",
+  "skillName": "new_kivin 技能2",
+  "description": "",
+  "stylePrompt": "2D side-scrolling fantasy game VFX, clean silhouette, readable combat timing",
+  "planLlmProvider": "runninghub",
+  "includeSkillNodes": true,
+  "allowImpact": false,
+  "finalPlanPrompt": "",
+  "proposals": [
+    {
+      "id": "qishi-6003-unified",
+      "title": "new_kivin 技能2 特效方案",
+      "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+      "style": "2D side-scrolling fantasy game VFX",
+      "palette": [
+        "#ffb347",
+        "#ff7b3d"
+      ],
+      "tracks": [
+        {
+          "description": "金橙爆炸冲击波覆盖范围区域",
+          "library_query": "explosion shockwave area burst golden",
+          "generation_prompt": "explosion shockwave area burst golden, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+          "id": "area_burst",
+          "phase": "area",
+          "title": "技能2 范围爆发",
+          "trigger": {
+            "type": "hit_window_start",
+            "event": "",
+            "hit_window_index": 0,
+            "node_index": 0,
+            "offset_ms": 0
+          },
+          "space": "world",
+          "anchor": "origin",
+          "direction": "facing",
+          "mirror": false,
+          "duration_ms": 700,
+          "blend_mode": "add",
+          "layer": 1,
+          "loop": false,
+          "transform": {
+            "offset": {
+              "x": 0,
+              "y": 0
+            },
+            "scale": 3.765,
+            "rotation_degrees": 0,
+            "opacity": 1,
+            "tint": "#ffb347"
+          },
+          "is_projectile": false,
+          "projectile_config": null,
+          "target_buff_id": null,
+          "target_buff_node_index": null
+        }
+      ]
+    }
+  ],
+  "proposalId": "qishi-6003-unified",
+  "actionHash": "03d225ed8fd353d9",
+  "drawPrompts": {},
+  "drawHistory": {},
+  "fullscreenResolution": {
+    "width": 1536,
+    "height": 864
+  },
+  "selectedActionFrames": {
+    "assets/characters/qishi:6003:skill1": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "proposalDrawMeta": {},
+  "disabledTrackIds": [],
+  "trackSelectedFrames": {
+    "area_burst": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "trackFrameRotations": {},
+  "previewMirror": {},
+  "previewFrame": {
+    "area_burst": 4
+  },
+  "candidatePageOffsets": {},
+  "selectedAssets": [
+    {
+      "trackId": "area_burst",
+      "atlasDataUrl": "",
+      "frameSize": {
+        "width": 85,
+        "height": 33
+      },
+      "frameCount": 8,
+      "fps": 12,
+      "loop": false,
+      "source": {
+        "library_id": "ef38d59512fe3bfe",
+        "name": "fire_start.img",
+        "score": 0.7711,
+        "source_type": "sequence",
+        "kind": "bundle",
+        "bundleId": "qishi-6003",
+        "trackId": "area_burst"
+      },
+      "atlasRef": ".gametool/skill_fx_states/6003/assets/area_burst.png"
+    }
+  ]
+}

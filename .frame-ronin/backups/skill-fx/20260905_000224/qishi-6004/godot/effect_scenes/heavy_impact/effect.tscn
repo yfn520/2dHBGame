@@ -1,0 +1,52 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/effects/skill_fx/qishi-6004/visual/heavy_impact/atlas.png" id="1_atlas"]
+[ext_resource type="Script" path="res://scripts/effects/effect_visual.gd" id="2_script"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fx"]
+blend_mode = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("1_atlas")
+region = Rect2(62, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("1_atlas")
+region = Rect2(124, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4"]
+atlas = ExtResource("1_atlas")
+region = Rect2(186, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5"]
+atlas = ExtResource("1_atlas")
+region = Rect2(248, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6"]
+atlas = ExtResource("1_atlas")
+region = Rect2(310, 0, 62, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7"]
+atlas = ExtResource("1_atlas")
+region = Rect2(372, 0, 62, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fx"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("AtlasTexture_1")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_2")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_3")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_4")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_5")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_6")}, {"duration": 1.0, "texture": SubResource("AtlasTexture_7")}],
+"loop": false,
+"name": &"effect",
+"speed": 12.0
+}]
+
+[node name="SkillFx" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_fx")
+animation = &"effect"
+autoplay = "effect"
+centered = true
+material = SubResource("CanvasItemMaterial_fx")
+script = ExtResource("2_script")
+z_index = 1

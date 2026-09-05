@@ -1,0 +1,76 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6001",
+  "skill_id": "6001",
+  "skill_hash": "21ec1b9910632bc7",
+  "action_hash": "2c134edc5640403f",
+  "proposal": {
+    "id": "qishi-6001-unified",
+    "title": "new_kivin 普攻 特效方案",
+    "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+    "style": "2D side-scrolling fantasy game VFX",
+    "palette": [
+      "#dfe8ff",
+      "#9fb6d9"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "slash_impact",
+      "phase": "impact",
+      "title": "普攻斩击命中",
+      "description": "金属剑刃命中时的银白寒光迸溅",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 300,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 1.754,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#dfe8ff"
+      },
+      "library_query": "sword slash impact metal spark",
+      "generation_prompt": "sword slash impact metal spark, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "slash_impact",
+        "atlas_path": "assets/effects/skill_fx/qishi-6001/visual/slash_impact/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6001/godot/effect_scenes/slash_impact/effect.tscn",
+        "frame_size": {
+          "width": 114,
+          "height": 112
+        },
+        "frame_count": 4,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "999b0198fb4e0ced",
+          "name": "pike_sword_spark_small.img",
+          "score": 0.7876,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    }
+  ]
+}

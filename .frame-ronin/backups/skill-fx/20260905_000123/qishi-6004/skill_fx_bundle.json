@@ -1,0 +1,132 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6004",
+  "skill_id": "6004",
+  "skill_hash": "6ca174db47f16c08",
+  "action_hash": "80049f706627c3b9",
+  "proposal": {
+    "id": "qishi-6004-unified",
+    "title": "new_kivin 技能3 特效方案",
+    "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+    "style": "2D side-scrolling fantasy game VFX",
+    "palette": [
+      "#dfe8ff",
+      "#8fa4c8"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "heavy_release",
+      "phase": "release",
+      "title": "技能3 重斩起手",
+      "description": "重剑挥砍的大剑光弧线",
+      "trigger": {
+        "type": "action_event",
+        "event": "release",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 460,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 1.204,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#dfe8ff"
+      },
+      "library_query": "heavy greatsword slash arc metal",
+      "generation_prompt": "heavy greatsword slash arc metal, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "heavy_release",
+        "atlas_path": "assets/effects/skill_fx/qishi-6004/visual/heavy_release/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6004/godot/effect_scenes/heavy_release/effect.tscn",
+        "frame_size": {
+          "width": 191,
+          "height": 161
+        },
+        "frame_count": 5,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "f887fd29a1ef4412",
+          "name": "short_heavy_add_dodge.img",
+          "score": 0.8301,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    },
+    {
+      "id": "heavy_impact",
+      "phase": "impact",
+      "title": "技能3 重斩命中",
+      "description": "重击爆裂的金属碎片迸溅",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "character_local",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 340,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 1.0,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#dfe8ff"
+      },
+      "library_query": "heavy impact burst metal shards",
+      "generation_prompt": "heavy impact burst metal shards, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "heavy_impact",
+        "atlas_path": "assets/effects/skill_fx/qishi-6004/visual/heavy_impact/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6004/godot/effect_scenes/heavy_impact/effect.tscn",
+        "frame_size": {
+          "width": 62,
+          "height": 200
+        },
+        "frame_count": 7,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "693d6f612dbb8212",
+          "name": "卡牌特效 (47)",
+          "score": 0.6643,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    }
+  ]
+}

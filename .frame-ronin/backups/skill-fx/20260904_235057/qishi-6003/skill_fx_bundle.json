@@ -1,0 +1,76 @@
+{
+  "format": "frame-ronin-skill-fx-bundle-v1",
+  "version": 1,
+  "bundle_id": "qishi-6003",
+  "skill_id": "6003",
+  "skill_hash": "fdd64fb07e13026e",
+  "action_hash": "03d225ed8fd353d9",
+  "proposal": {
+    "id": "qishi-6003-unified",
+    "title": "new_kivin 技能2 特效方案",
+    "summary": "headless 库匹配自动配置：按技能语义选风格，素材来自本地特效库",
+    "style": "2D side-scrolling fantasy game VFX",
+    "palette": [
+      "#ffb347",
+      "#ff7b3d"
+    ]
+  },
+  "tracks": [
+    {
+      "id": "area_burst",
+      "phase": "area",
+      "title": "技能2 范围爆发",
+      "description": "金橙爆炸冲击波覆盖范围区域",
+      "trigger": {
+        "type": "hit_window_start",
+        "event": "",
+        "hit_window_index": 0,
+        "node_index": 0,
+        "offset_ms": 0
+      },
+      "space": "world",
+      "anchor": "origin",
+      "direction": "facing",
+      "mirror": false,
+      "duration_ms": 700,
+      "blend_mode": "add",
+      "layer": 1,
+      "loop": false,
+      "transform": {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "scale": 1.0,
+        "rotation_degrees": 0.0,
+        "opacity": 1.0,
+        "tint": "#ffb347"
+      },
+      "library_query": "explosion shockwave area burst golden",
+      "generation_prompt": "explosion shockwave area burst golden, 2D side-scrolling fantasy game VFX, transparent background, centered composition, no text",
+      "is_projectile": false,
+      "projectile_config": null,
+      "target_buff_id": null,
+      "target_buff_node_index": null,
+      "asset": {
+        "track_id": "area_burst",
+        "atlas_path": "assets/effects/skill_fx/qishi-6003/visual/area_burst/atlas.png",
+        "scene_path": "assets/effects/skill_fx/qishi-6003/godot/effect_scenes/area_burst/effect.tscn",
+        "frame_size": {
+          "width": 85,
+          "height": 33
+        },
+        "frame_count": 8,
+        "fps": 12.0,
+        "loop": false,
+        "source": {
+          "library_id": "ef38d59512fe3bfe",
+          "name": "fire_start.img",
+          "score": 0.7711,
+          "source_type": "sequence"
+        },
+        "projectile_config": null
+      }
+    }
+  ]
+}
