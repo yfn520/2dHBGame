@@ -15,6 +15,9 @@ const ALLY_ATTACK_RESUME_RATIO := 1.15
 const ALLY_ATTACK_HOLD_TIME := 0.35
 const ALLY_FACE_TARGET_DEAD_ZONE := 10.0
 const ALLY_FOLLOW_STOP_DISTANCE := 18.0
+# 队友跟随站位：基础距离 + 每槽间隔。拉大避免队友叠在任务 NPC 身前挡住交互。
+const ALLY_FOLLOW_BASE_DISTANCE := 64.0
+const ALLY_FOLLOW_SLOT_GAP := 40.0
 # 远程职业（mage/archer）队友 AI 保底交战距离：技能 AI 区间来自命中窗口（近战拍点宽度），
 # 不反映弹道飞行距离；远程队友若按命中窗口停步就会像近战一样贴脸输出。
 const RANGED_CLASS_ENGAGE_DISTANCE := 260.0
@@ -429,7 +432,8 @@ func _update_ally_follow(delta: float) -> void:
 		var leader_sprite: AnimatedSprite2D = _follow_target.get_node("CharacterActionSet/AnimatedSprite2D")
 		leader_facing = 1.0 if leader_sprite.flip_h else -1.0
 	_ally_follow_side = -leader_facing
-	var desired_x := _follow_target.global_position.x + _ally_follow_side * (42.0 + float(_party_slot_index) * 30.0)
+	# 跟随距离拉大：队友贴太近会挡住任务 NPC 的交互与视线
+	var desired_x := _follow_target.global_position.x + _ally_follow_side * (ALLY_FOLLOW_BASE_DISTANCE + float(_party_slot_index) * ALLY_FOLLOW_SLOT_GAP)
 	var dx := desired_x - global_position.x
 	if absf(dx) <= ALLY_FOLLOW_STOP_DISTANCE:
 		velocity.x = move_toward(velocity.x, 0.0, 600.0 * delta)

@@ -86,6 +86,8 @@ func _check_runtime_guardrails(failures: Array[String]) -> void:
 		"func _spawn_echo_group_until_full(",
 		"group[\"next_respawn_s\"] = maxf(0.0, float(group.get(\"respawn_s\", 45.0)))",
 		"_spawn_container.add_child(enemy)",
+		"var _alive_keys: Dictionary = {}",
+		"var actual_count := maxi(0, maxi(1, count) - killed - already_alive)",
 	]:
 		if not source.contains(required):
 			failures.append("EnemySpawner 缺少回响运行时契约：%s" % required)

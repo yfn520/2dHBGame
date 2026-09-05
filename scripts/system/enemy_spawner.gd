@@ -8,6 +8,15 @@ var _spawn_container: Node2D
 var _active_enemies: Array[Node] = []
 var _engaged_enemies: Dictionary = {}  # instance_id → is_boss
 var _combat_mode := ""
+# 已生成过的 spawn_key（含已死亡）：任务刷新重复调用 spawn_enemies_for_level 时
+# 不重复生成，避免对话/任务事件触发的世界刷新把正在打的怪清场重刷。
+var _spawned_keys: Dictionary = {}
+# 存活实例账本：spawn_key → 当前存活数。与 _spawned_keys 双账互校，
+# 任何一条路径漏记 key 都不会重复刷（刷新数量错误的硬去重）。
+var _alive_keys: Dictionary = {}
+# Boss/回响怪按 enemy_id 全局唯一：剧情 Boss 与回响 Boss 等不同 spawn_key
+# 的同 id 实例也只会存在一只（key 账本拦不住跨 key 重复）。
+var _alive_ids: Dictionary = {}
 
 signal enemy_defeated(enemy_id: int)
 signal combat_started(is_boss: bool)
@@ -67,12 +76,21 @@ func spawn_enemy(enemy_id: int, pos: Vector2, spawn_key := "", stat_scale := 1.0
 	var scene := _get_scene(enemy_id)
 	if scene == null:
 		return null
+	# Boss/回响怪全局唯一：同 id 已有存活实例时直接拒绝（跨 spawn_key 也拦）
+	var spawn_cfg: Dictionary = GameRegistry.enemy_config.get_enemy(enemy_id)
+	var raw_traits = spawn_cfg.get("traits", [])
+	var is_unique: bool = bool(spawn_cfg.get("is_boss", false)) or (raw_traits is Array and (raw_traits as Array).has("echo"))
+	if is_unique and int(_alive_ids.get(enemy_id, 0)) > 0:
+		return null
 
 	var enemy := scene.instantiate()
 	enemy.global_position = pos
+	enemy.set_meta("fr_enemy_id", enemy_id)
 	if not spawn_key.is_empty():
 		enemy.set_meta("spawn_key", spawn_key)
 	_spawn_container.add_child(enemy)
+	if is_unique:
+		_alive_ids[enemy_id] = int(_alive_ids.get(enemy_id, 0)) + 1
 
 	if enemy.has_method("init_from_config"):
 		enemy.init_from_config(enemy_id, _party_manager, stat_scale, exp_scale)
@@ -106,18 +124,53 @@ func spawn_enemies_for_level(spawns: Array) -> void:
 		var count := int(entry.get("count", 1))
 		var spawn_key := str(entry.get("spawn_key", ""))
 		var killed := _get_kill_count(spawn_key)
+		# 任务/对话触发的世界刷新会重复调用本函数：已生成过的 key 不再重复生成
+		if not spawn_key.is_empty() and _spawned_keys.has(spawn_key):
+			continue
 		if mode.is_empty():
 			mode = "group" if count > 1 else "point"
 		if mode == "point":
 			if killed >= 1:
 				continue
-			spawn_enemy(enemy_id, pos, spawn_key)
+			if int(_alive_keys.get(spawn_key, 0)) >= 1:
+				continue
+			var spawned := spawn_enemy(enemy_id, pos, spawn_key)
+			if spawned != null:
+				spawned.set_meta("spawn_entry", entry.duplicate(true))
+				if not spawn_key.is_empty():
+					_spawned_keys[spawn_key] = true
+					_alive_keys[spawn_key] = int(_alive_keys.get(spawn_key, 0)) + 1
 		else:
 			var scatter_x := float(entry.get("scatter_x", 20.0))
-			var actual_count := maxi(0, maxi(1, count) - killed)
+			var already_alive := int(_alive_keys.get(spawn_key, 0))
+			var actual_count := maxi(0, maxi(1, count) - killed - already_alive)
 			for _i in range(actual_count):
 				var offset_x: float = randf_range(-scatter_x, scatter_x)
-				spawn_enemy(enemy_id, pos + Vector2(offset_x, 0), spawn_key)
+				var spawned := spawn_enemy(enemy_id, pos + Vector2(offset_x, 0), spawn_key)
+				if spawned != null:
+					spawned.set_meta("spawn_entry", entry.duplicate(true))
+					if not spawn_key.is_empty():
+						_spawned_keys[spawn_key] = true
+						_alive_keys[spawn_key] = int(_alive_keys.get(spawn_key, 0)) + 1
+
+
+## 增量刷新（任务/阶段变化时调用）：回收「条件已不成立」的存活怪（如任务完成/取消），
+## 再补刷缺失条目。不清场、不打断正在进行的战斗——因此刷新无需推迟到对话结束，
+## 避免「过场等待世界事件 ↔ 刷新推迟到过场结束」互相死锁导致任务怪不刷。
+func refresh_conditional(spawns: Array, conditions_checker: Callable) -> void:
+	for enemy in _active_enemies:
+		if not is_instance_valid(enemy):
+			continue
+		if not enemy.has_meta("spawn_entry"):
+			continue
+		var entry: Dictionary = enemy.get_meta("spawn_entry")
+		if bool(conditions_checker.call(entry)):
+			continue
+		var key := str(entry.get("spawn_key", ""))
+		if not key.is_empty():
+			_spawned_keys.erase(key)
+		enemy.queue_free()
+	spawn_enemies_for_level(spawns)
 
 
 ## 清除所有怪物
@@ -129,6 +182,9 @@ func clear_all() -> void:
 	_echo_singles.clear()
 	_echo_alive = 0
 	_echo_first_pending = false
+	_spawned_keys.clear()
+	_alive_keys.clear()
+	_alive_ids.clear()
 	for enemy in _active_enemies:
 		if is_instance_valid(enemy):
 			enemy.queue_free()
@@ -137,6 +193,31 @@ func clear_all() -> void:
 
 func get_active_count() -> int:
 	return _active_enemies.size()
+
+
+## 是否有怪物处于追击/攻击状态（战斗进行中）。供 world 刷新挂起判断：
+## 战斗中捡物品/任务进度变化不应当场补刷新一波怪。
+func is_combat_active() -> bool:
+	return _combat_mode != ""
+
+
+## 回响模式是否开启（本图已刷回响表）。
+func is_echo_active() -> bool:
+	return _echo_active
+
+
+## 关闭回响并回收回响怪（剧情任务仍未完成时切回剧情模式）。
+func stop_echo() -> void:
+	if not _echo_active:
+		return
+	_echo_active = false
+	_echo_groups.clear()
+	_echo_singles.clear()
+	_echo_alive = 0
+	_echo_first_pending = false
+	for enemy in _active_enemies:
+		if is_instance_valid(enemy) and enemy.has_meta("echo_group"):
+			enemy.queue_free()
 
 
 func get_active_enemies() -> Array[Node]:
@@ -150,6 +231,20 @@ func get_active_enemies() -> Array[Node]:
 func _on_enemy_removed(enemy: Node) -> void:
 	_active_enemies.erase(enemy)
 	_engaged_enemies.erase(enemy.get_instance_id())
+	if enemy.has_meta("fr_enemy_id"):
+		var enemy_id := int(enemy.get_meta("fr_enemy_id"))
+		var alive_id := int(_alive_ids.get(enemy_id, 0)) - 1
+		if alive_id <= 0:
+			_alive_ids.erase(enemy_id)
+		else:
+			_alive_ids[enemy_id] = alive_id
+	if enemy.has_meta("spawn_key"):
+		var key := str(enemy.get_meta("spawn_key"))
+		var alive := int(_alive_keys.get(key, 0)) - 1
+		if alive <= 0:
+			_alive_keys.erase(key)
+		else:
+			_alive_keys[key] = alive
 	_update_combat_mode()
 
 

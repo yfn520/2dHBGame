@@ -15,6 +15,8 @@ var _interaction_manager: InteractionManager
 var _world_content_spawner: WorldContentSpawner
 var _party_retry_pending := false
 var _quest_world_refresh_pending := false
+# 静态刷怪条目（levels.json）的 spawn_key 下标：每次 _spawn_level_enemies 重置，保证 key 稳定
+var _static_spawn_index := 0
 var _story_bootstrap_pending := false
 
 
@@ -192,33 +194,43 @@ func _on_level_unloaded(_level_id: int) -> void:
 
 func _spawn_level_enemies(level_id: int) -> void:
 	var level_cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
-	var spawns: Array = []
-	var index := 0
-	for value in level_cfg.get("enemies", []):
-		if value is Dictionary:
-			spawns.append(_tag_spawn_key(value, level_id, "s", index))
-			index += 1
-	index = 0
-	for value in _world_content_spawner.get_enemy_spawns(level_id):
-		if value is Dictionary:
-			spawns.append(_tag_spawn_key(value, level_id, "d", index))
-			index += 1
-	# 章节回响：首通后该章副本改刷回响表（替换剧情摆位），支撑无限重刷
+	_static_spawn_index = 0
+	# 章节回响：首通且「本图已无未完成的剧情刷怪」时才刷回响表；
+	# 只要还有剧情任务的怪可刷（条件成立），就走剧情模式，避免回响怪与剧情怪同屏两波、
+	# 以及剧情任务在回响模式下永远打不到自己的怪。
+	var story_spawns: Array = _tagged_story_spawns(level_id)
 	var chapter_id := ""
 	if GameRegistry.chapter_service != null:
 		chapter_id = GameRegistry.chapter_service.get_chapter_for_level(level_id)
-	if chapter_id != "" and GameRegistry.chapter_service.is_echo_unlocked(chapter_id):
+	var echo_unlocked: bool = chapter_id != "" and GameRegistry.chapter_service.is_echo_unlocked(chapter_id)
+	if echo_unlocked and story_spawns.is_empty():
 		var table := _echo_table_for_level(level_id)
 		if not table.is_empty():
 			_enemy_spawner.spawn_echo_for_level(table, _echo_tier_for(chapter_id, table), chapter_id)
 			_notify_echo_enter(chapter_id)
 			return
+	var spawns: Array = story_spawns
+	for value in level_cfg.get("enemies", []):
+		if value is Dictionary:
+			spawns.append(_tag_spawn_key(value, level_id, "s", _static_spawn_index))
+			_static_spawn_index += 1
 	if spawns.is_empty():
 		return
 	_enemy_spawner.spawn_enemies_for_level(spawns)
 
 
 var _echo_spawns_cache: Dictionary = {}
+
+
+## 剧情摆位刷怪条目（带稳定 spawn_key：优先数据里的 spawn_id，缺失才用下标）。
+func _tagged_story_spawns(level_id: int) -> Array:
+	var result: Array = []
+	var index := 0
+	for value in _world_content_spawner.get_enemy_spawns(level_id):
+		if value is Dictionary:
+			result.append(_tag_spawn_key(value, level_id, "d", index))
+			index += 1
+	return result
 
 
 ## 读 data/echo_spawns.json（缓存一次）。
@@ -316,6 +328,8 @@ func _on_quest_updated(_quest_id: int) -> void:
 func _on_quest_world_state_changed(_quest_id: int) -> void:
 	# 只有接取/交付造成任务阶段变化时，才重建受条件控制的世界内容。
 	# 信号也可能从物理回调链发出，因此仍延迟到安全帧并合并重复请求。
+	# 刷新是增量且双账去重的（只增不删、存活账本防重复），
+	# 对话/战斗中执行都安全：不推迟（避免过场门死锁）、不清场（避免重置战斗）。
 	if _quest_world_refresh_pending:
 		return
 	_quest_world_refresh_pending = true
@@ -337,8 +351,25 @@ func _refresh_world_after_quest_update() -> void:
 	if _world_content_spawner != null:
 		_world_content_spawner.refresh()
 	if _enemy_spawner != null and _level_manager != null:
-		_enemy_spawner.clear_all()
-		_spawn_level_enemies(_level_manager.get_current_level_id())
+		var current_id: int = _level_manager.get_current_level_id()
+		var story_spawns: Array = _tagged_story_spawns(current_id)
+		var chapter_id := ""
+		if GameRegistry.chapter_service != null:
+			chapter_id = GameRegistry.chapter_service.get_chapter_for_level(current_id)
+		var echo_unlocked: bool = chapter_id != "" and GameRegistry.chapter_service.is_echo_unlocked(chapter_id)
+		if echo_unlocked and story_spawns.is_empty():
+			# 剧情刷怪条件全部失效 → 切回响（未开启时才开，避免重复开表）
+			if not _enemy_spawner.is_echo_active():
+				var table := _echo_table_for_level(current_id)
+				if not table.is_empty():
+					_enemy_spawner.spawn_echo_for_level(table, _echo_tier_for(chapter_id, table), chapter_id)
+		elif not story_spawns.is_empty():
+			# 还有剧情怪可刷 → 剧情模式；若回响已开则先回收回响怪，避免同屏两波
+			if _enemy_spawner.is_echo_active():
+				_enemy_spawner.stop_echo()
+			_enemy_spawner.refresh_conditional(story_spawns, func(entry: Dictionary) -> bool:
+				return _world_content_spawner.conditions_pass(entry)
+			)
 	_quest_world_refresh_pending = false
 
 

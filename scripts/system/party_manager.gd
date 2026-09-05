@@ -10,6 +10,10 @@ signal party_changed()
 @export_range(0, 8, 1) var initial_active_index := 0
 
 const ASSIST_TARGET_DURATION := 6.0
+# 初始站位与 player.gd 的跟随距离保持一致（ALLY_FOLLOW_BASE_DISTANCE/SLOT_GAP），
+# 避免切人/重生后队友又叠回任务 NPC 身前。
+const ALLY_FOLLOW_BASE_DISTANCE := 64.0
+const ALLY_FOLLOW_SLOT_GAP := 40.0
 # 关卡宽度（与 player.gd LEVEL_SIZE.x 一致）：队友站位偏移可能把人推到关卡宽度之外，
 # 那里没有任何地面，落下去就是“掉没了”。在开始下落的起点（放置/重生）钆制 x，不做运行时持续判坑。
 const LEVEL_WIDTH := 1536.0
@@ -115,7 +119,7 @@ func place_party_at(pos: Vector2) -> void:
 		if member == active_character:
 			member.global_position = pos
 		else:
-			var distance := 42.0 + float(slot) * 30.0
+			var distance := ALLY_FOLLOW_BASE_DISTANCE + float(slot) * ALLY_FOLLOW_SLOT_GAP
 			member.global_position = _clamp_to_level(pos + Vector2(-facing * distance, 0.0))
 			slot += 1
 		member.velocity = Vector2.ZERO

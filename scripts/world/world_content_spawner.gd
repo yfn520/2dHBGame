@@ -64,6 +64,11 @@ func get_enemy_spawns(level_id: int) -> Array:
 	return result
 
 
+## 公开的条件判定：供 enemy_spawner 在增量刷新时回收「条件已不成立」的存活怪。
+func conditions_pass(data: Dictionary) -> bool:
+	return _conditions_pass(data)
+
+
 func get_level_content(level_id: int) -> Dictionary:
 	var levels: Dictionary = _data.get("levels", {})
 	return (levels.get(str(level_id), {}) as Dictionary).duplicate(true)

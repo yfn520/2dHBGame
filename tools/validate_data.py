@@ -218,6 +218,35 @@ def check_skill_audio_paths(errors: list[str]) -> None:
                         fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}].{field_name} 音效文件不存在：{audio_path}")
 
 
+def check_world_spawn_refs(errors: list[str]) -> None:
+    """世界刷怪条目引用的任务/阶段必须存在（tools/audit_quest_spawns.py 的同款契约）。"""
+    path = DATA / "runtime_world_content.json"
+    if not path.is_file():
+        return
+    world = check_json_loadable(path, errors)
+    quests = check_json_loadable(DATA / "quests.json", errors)
+    if not isinstance(world, dict) or not isinstance(quests, dict):
+        return
+    for level_id, level in (world.get("levels") or {}).items():
+        if not isinstance(level, dict):
+            continue
+        for entry in level.get("enemies") or []:
+            if not isinstance(entry, dict):
+                continue
+            qid = str(entry.get("required_quest_id", 0))
+            quest = quests.get(qid)
+            if not isinstance(quest, dict):
+                fail(errors, f"runtime_world_content.levels[{level_id}] 刷怪条目 {entry.get('spawn_id')} 的 quest {qid} 不存在")
+                continue
+            stage_ids = [s.get("id") for s in quest.get("stages", []) if isinstance(s, dict)]
+            gates = entry.get("required_stage_ids") or (
+                [entry["required_stage_id"]] if entry.get("required_stage_id") else []
+            )
+            for gate in gates:
+                if gate not in stage_ids:
+                    fail(errors, f"runtime_world_content.levels[{level_id}] 刷怪条目 {entry.get('spawn_id')} 阶段门 {gate} 不存在")
+
+
 def check_echo_spawns(errors: list[str]) -> None:
     """章节回响表守卫：id 存在、Boss 带 echo 特征、坐标在画布内、chapters 回响 Boss 指向一致。"""
     path = DATA / "echo_spawns.json"
@@ -399,6 +428,7 @@ def main() -> int:
     check_music(errors)
     check_skill_audio_paths(errors)
     check_skill_fx_bundles(errors)
+    check_world_spawn_refs(errors)
     check_echo_spawns(errors)
     check_skill_fx_bundle_skill_ids(errors, warnings, collect_skill_ids())
     check_play_effect_scenes(errors)
