@@ -28,7 +28,7 @@ func setup(data: Dictionary) -> void:
 	shape_node.shape = rectangle
 	add_child(shape_node)
 	body_entered.connect(_on_body_entered)
-	_build_debug_visual()
+	_build_task_visual()
 
 
 func _on_body_entered(body: Node2D) -> void:
@@ -45,26 +45,10 @@ func _on_body_entered(body: Node2D) -> void:
 		ui_root.show_notification("已进入：%s" % str(content.get("name", event_name)))
 
 
-func _build_debug_visual() -> void:
-	if not bool(content.get("debug_visible", false)):
-		return
-	var width := maxf(1.0, float(content.get("width", 180.0)))
-	var height := maxf(1.0, float(content.get("height", 220.0)))
-	var marker := Polygon2D.new()
-	marker.polygon = PackedVector2Array([
-		Vector2(-width * 0.5, -height * 0.5),
-		Vector2(width * 0.5, -height * 0.5),
-		Vector2(width * 0.5, height * 0.5),
-		Vector2(-width * 0.5, height * 0.5),
-	])
-	marker.color = Color(0.35, 0.85, 0.95, 0.12)
-	add_child(marker)
-	var label := Label.new()
-	label.text = str(content.get("name", content.get("event_name", "区域触发")))
-	label.position = Vector2(-width * 0.5, -height * 0.5 - 28.0)
-	label.size = Vector2(width, 24.0)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.add_theme_color_override("font_color", Color("b8f3ff"))
-	label.add_theme_color_override("font_outline_color", Color.BLACK)
-	label.add_theme_constant_override("outline_size", 4)
-	add_child(label)
+func _build_task_visual() -> void:
+	# debug_visible 曾只画半透明矩形，正式关卡里会显得区域内空无一物。
+	# 所有区域事件现在都由统一表现层生成路标和对应任务物件；触发范围仍由上方
+	# CollisionShape2D 决定，故不会因美术调整改变任务完成条件。
+	var visual := WorldTaskVisual.new()
+	add_child(visual)
+	visual.setup(content)

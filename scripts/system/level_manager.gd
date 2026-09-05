@@ -163,6 +163,13 @@ func _apply_camera_bounds(bounds: Rect2, ground_line_y: float = 605.0) -> void:
 	print("[LevelManager] camera limits: L=%d T=%d R=%d B=%d (player y=%f, camera offset=%s)" % [camera.limit_left, camera.limit_top, camera.limit_right, camera.limit_bottom, _player.global_position.y, str(camera.position)])
 
 
+## 队伍重建/切换主控后，新实例会携带角色预制体的默认 Camera2D 偏移。
+## 不重新写入本关的 ground_line_y 时，画面会按默认偏移向上漂，露出地图底部。
+func refresh_active_camera() -> void:
+	if _has_current_level_bounds:
+		_apply_camera_bounds(_current_level_bounds, _current_ground_line_y)
+
+
 ## 重新加载当前关卡（死亡重生等）
 func reload_current() -> void:
 	if _current_level_id >= 0:

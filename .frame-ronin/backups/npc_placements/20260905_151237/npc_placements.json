@@ -18,7 +18,7 @@
 				"interaction_radius": 96,
 				"npc_id": 9016,
 				"scale": 0.62,
-				"x": 1850,
+				"x": 1750,
 				"y": 743,
 				"name": "伊莱"
 			},
@@ -53,12 +53,12 @@
 				"name": "霍雷克"
 			},
 			{
-				"facing": "right",
+				"facing": "left",
 				"instance_id": "npc_9010_0",
 				"interaction_radius": 96,
 				"npc_id": 9010,
 				"scale": 0.62,
-				"x": 900,
+				"x": 2800,
 				"y": 743,
 				"name": "杂货商人"
 			},
@@ -68,7 +68,7 @@
 				"interaction_radius": 96,
 				"npc_id": 9011,
 				"scale": 0.62,
-				"x": 1220,
+				"x": 2950,
 				"y": 743,
 				"name": "药水商人"
 			},
@@ -78,7 +78,7 @@
 				"interaction_radius": 96,
 				"npc_id": 9026,
 				"scale": 0.62,
-				"x": 450,
+				"x": 1350,
 				"y": 743,
 				"spawn_condition": {
 					"flag": "GulumBefriended",
@@ -87,12 +87,12 @@
 				"name": "咕噜姆（小史莱姆）"
 			},
 			{
-				"facing": "left",
+				"facing": "right",
 				"instance_id": "npc_9005_0",
 				"interaction_radius": 96,
 				"npc_id": 9005,
 				"scale": 0.62,
-				"x": 3380,
+				"x": 1500,
 				"y": 743,
 				"spawn_condition": {
 					"flag": "SeventeenGraduated",
@@ -106,7 +106,7 @@
 				"interaction_radius": 96,
 				"npc_id": 9007,
 				"scale": 0.62,
-				"x": 3060,
+				"x": 2300,
 				"y": 743,
 				"spawn_condition": {
 					"flag": "Chapter4Complete",

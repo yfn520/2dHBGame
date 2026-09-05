@@ -52,6 +52,55 @@ func is_echo_unlocked(chapter_id: String) -> bool:
 	return _echo_unlocked.get(chapter_id, false)
 
 
+## 关卡 → 章节（按 chapters.json 的 dungeon_level_ids 反查；json 数字在 GDScript 里是 float，统一转 int 比较）。
+func get_chapter_for_level(level_id: int) -> String:
+	if _chapter_config == null:
+		return ""
+	for chapter_id in _chapter_config.get_ordered_chapter_ids():
+		var chapter := _chapter_config.get_chapter(str(chapter_id))
+		var levels = chapter.get("dungeon_level_ids", [])
+		if levels is Array:
+			for value in levels:
+				if int(value) == level_id:
+					return str(chapter_id)
+	return ""
+
+
+func get_chapter_name(chapter_id: String) -> String:
+	if _chapter_config == null:
+		return ""
+	return str(_chapter_config.get_chapter(chapter_id).get("name", ""))
+
+
+## 回响整图通关次数（world_state flags，随存档）。
+func get_echo_clears(chapter_id: String) -> int:
+	if GameRegistry.quest_state == null:
+		return 0
+	return int(GameRegistry.quest_state.get_flag("echo_clears:%s" % chapter_id, 0))
+
+
+## 回响整图清完 +1（enemy_spawner 全灭时调用）。
+func record_echo_clear(chapter_id: String) -> void:
+	if chapter_id.is_empty() or GameRegistry.quest_state == null:
+		return
+	GameRegistry.quest_state.set_flag("echo_clears:%s" % chapter_id, get_echo_clears(chapter_id) + 1)
+	GameRegistry.save_game()
+
+
+## 回响 Boss 击杀次数（world_state flags，供成就、统计和后续任务读取）。
+func get_echo_boss_kills(chapter_id: String) -> int:
+	if GameRegistry.quest_state == null:
+		return 0
+	return int(GameRegistry.quest_state.get_flag("echo_boss_kills:%s" % chapter_id, 0))
+
+
+func record_echo_boss_kill(chapter_id: String) -> void:
+	if chapter_id.is_empty() or GameRegistry.quest_state == null:
+		return
+	GameRegistry.quest_state.set_flag("echo_boss_kills:%s" % chapter_id, get_echo_boss_kills(chapter_id) + 1)
+	GameRegistry.save_game()
+
+
 ## 完成章节正史（首次通关调用）。会自动开启该章回响，并解锁下一章。
 func complete_chapter_normal(chapter_id: String) -> void:
 	if _completed_normal.get(chapter_id, false):

@@ -37,13 +37,19 @@ var _ai_caches: Dictionary = {}
 var _ai_debug_text: String = ""
 
 
-func init_from_config(enemy_id: int, party_manager: PartyManager) -> void:
+func init_from_config(enemy_id: int, party_manager: PartyManager, stat_scale: float = 1.0, exp_scale: float = 1.0) -> void:
 	_enemy_id = enemy_id
 	_party_manager = party_manager
 	_config = GameRegistry.enemy_config.get_enemy(enemy_id)
 	if _config.is_empty():
 		push_error("怪物配置不存在: %s" % enemy_id)
 		return
+	# 章节回响 tier 缩放：只乘 hp/atk/exp，不动攻击范围/移速，避免手感突变
+	if stat_scale != 1.0 or exp_scale != 1.0:
+		_config = _config.duplicate(true)
+		_config["max_hp"] = float(_config.get("max_hp", 50)) * stat_scale
+		_config["attack"] = float(_config.get("attack", 1)) * stat_scale
+		_config["exp"] = int(round(float(_config.get("exp", 0)) * exp_scale))
 
 	var configured_actor_scale := maxf(0.01, float(_config.get("actor_scale", 1.0)))
 	_load_character_config()

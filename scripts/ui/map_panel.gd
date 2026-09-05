@@ -149,5 +149,10 @@ func _level_name(level_id: int) -> String:
 		return "?"
 	var cfg: Dictionary = GameRegistry.level_config.get_level(level_id)
 	if cfg.is_empty():
-		return "?" 
-	return str(cfg.get("name", "?"))
+		return "?"
+	var level_name := str(cfg.get("name", "?"))
+	if GameRegistry.chapter_service != null:
+		var chapter_id: String = GameRegistry.chapter_service.get_chapter_for_level(level_id)
+		if not chapter_id.is_empty() and GameRegistry.chapter_service.is_echo_unlocked(chapter_id):
+			return "%s · 回响" % level_name
+	return level_name

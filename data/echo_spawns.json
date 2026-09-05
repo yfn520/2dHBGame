@@ -1,0 +1,246 @@
+{
+  "version": 1,
+  "format": "frame-ronin-echo-spawns-v1",
+  "levels": {
+    "1": {
+      "chapter_id": "chapter_1",
+      "chapter_base_level": 6,
+      "groups": [
+        {
+          "enemy_id": 8001,
+          "count": 4,
+          "x": 1762.0,
+          "y": 735.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8003,
+          "count": 3,
+          "x": 2200.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8002,
+          "count": 2,
+          "x": 2569.0,
+          "y": 735.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8040,
+        "x": 3088.0,
+        "y": 735.0
+      },
+      "boss": {
+        "enemy_id": 8050,
+        "x": 3488.0,
+        "y": 735.0
+      }
+    },
+    "2": {
+      "chapter_id": "chapter_2",
+      "chapter_base_level": 12,
+      "groups": [
+        {
+          "enemy_id": 8013,
+          "count": 4,
+          "x": 2050.0,
+          "y": 632.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8020,
+          "count": 2,
+          "x": 2700.0,
+          "y": 632.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8004,
+          "count": 2,
+          "x": 2750.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8041,
+        "x": 2600.0,
+        "y": 632.0
+      },
+      "boss": {
+        "enemy_id": 8051,
+        "x": 3000.0,
+        "y": 632.0
+      }
+    },
+    "3": {
+      "chapter_id": "chapter_3",
+      "chapter_base_level": 18,
+      "groups": [
+        {
+          "enemy_id": 8002,
+          "count": 5,
+          "x": 2150.0,
+          "y": 731.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8025,
+          "count": 2,
+          "x": 2200.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8024,
+          "count": 2,
+          "x": 2750.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8042,
+        "x": 2600.0,
+        "y": 731.0
+      },
+      "boss": {
+        "enemy_id": 8052,
+        "x": 3000.0,
+        "y": 731.0
+      }
+    },
+    "4": {
+      "chapter_id": "chapter_4",
+      "chapter_base_level": 24,
+      "groups": [
+        {
+          "enemy_id": 8026,
+          "count": 4,
+          "x": 1950.0,
+          "y": 629.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8015,
+          "count": 3,
+          "x": 2200.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8019,
+          "count": 2,
+          "x": 2750.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8043,
+        "x": 2700.0,
+        "y": 629.0
+      },
+      "boss": {
+        "enemy_id": 8053,
+        "x": 3100.0,
+        "y": 629.0
+      }
+    },
+    "5": {
+      "chapter_id": "chapter_5",
+      "chapter_base_level": 30,
+      "groups": [
+        {
+          "enemy_id": 8007,
+          "count": 4,
+          "x": 1750.0,
+          "y": 683.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8016,
+          "count": 2,
+          "x": 2200.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8011,
+          "count": 2,
+          "x": 2750.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8044,
+        "x": 2600.0,
+        "y": 683.0
+      },
+      "boss": {
+        "enemy_id": 8054,
+        "x": 3000.0,
+        "y": 683.0
+      }
+    },
+    "6": {
+      "chapter_id": "chapter_6",
+      "chapter_base_level": 36,
+      "groups": [
+        {
+          "enemy_id": 8023,
+          "count": 4,
+          "x": 2650.0,
+          "y": 623.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8036,
+          "count": 2,
+          "x": 2200.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        },
+        {
+          "enemy_id": 8038,
+          "count": 2,
+          "x": 2750.0,
+          "y": 700.0,
+          "scatter_x": 24.0,
+          "respawn_s": 45
+        }
+      ],
+      "elite": {
+        "enemy_id": 8045,
+        "x": 2700.0,
+        "y": 623.0
+      },
+      "boss": {
+        "enemy_id": 8055,
+        "x": 3100.0,
+        "y": 623.0
+      }
+    }
+  }
+}

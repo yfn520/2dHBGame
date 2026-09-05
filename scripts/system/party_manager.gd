@@ -137,6 +137,11 @@ func switch_character(index: int) -> bool:
 		GameRegistry.equipment_provider.refresh_current_stats()
 	_apply_control_modes()
 	active_character_changed.emit(active_character)
+	# 队伍重建会实例化一名带默认 Camera2D 偏移的新主控。信号监听者通常会
+	# 更新 LevelManager，但这里再显式重套一次当前关卡边界，保证在剧情暂停/延迟
+	# 重建期间也不会回退到预制体的 -175 偏移而露出地图底部。
+	if GameRegistry.level_manager != null and GameRegistry.level_manager.has_method("refresh_active_camera"):
+		GameRegistry.level_manager.refresh_active_camera()
 	return true
 
 

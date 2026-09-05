@@ -203,9 +203,64 @@ func _spawn_level_enemies(level_id: int) -> void:
 		if value is Dictionary:
 			spawns.append(_tag_spawn_key(value, level_id, "d", index))
 			index += 1
+	# 章节回响：首通后该章副本改刷回响表（替换剧情摆位），支撑无限重刷
+	var chapter_id := ""
+	if GameRegistry.chapter_service != null:
+		chapter_id = GameRegistry.chapter_service.get_chapter_for_level(level_id)
+	if chapter_id != "" and GameRegistry.chapter_service.is_echo_unlocked(chapter_id):
+		var table := _echo_table_for_level(level_id)
+		if not table.is_empty():
+			_enemy_spawner.spawn_echo_for_level(table, _echo_tier_for(chapter_id, table), chapter_id)
+			_notify_echo_enter(chapter_id)
+			return
 	if spawns.is_empty():
 		return
 	_enemy_spawner.spawn_enemies_for_level(spawns)
+
+
+var _echo_spawns_cache: Dictionary = {}
+
+
+## 读 data/echo_spawns.json（缓存一次）。
+func _echo_table_for_level(level_id: int) -> Dictionary:
+	if _echo_spawns_cache.is_empty():
+		var path := "res://data/echo_spawns.json"
+		if FileAccess.file_exists(path):
+			var json := JSON.new()
+			if json.parse(FileAccess.get_file_as_string(path)) == OK and json.data is Dictionary:
+				_echo_spawns_cache = (json.data as Dictionary).get("levels", {})
+		else:
+			push_warning("echo_spawns.json 不存在，章节回响不可用")
+	var table = _echo_spawns_cache.get(str(level_id), {})
+	return table if table is Dictionary else {}
+
+
+## tier = clamp((队伍平均等级 - 章基准) / 8 + 回响通关次数 / 3, 0, 10)
+func _echo_tier_for(chapter_id: String, table: Dictionary) -> int:
+	var avg := 1
+	if GameRegistry.roster_data != null:
+		var ids: Array = GameRegistry.roster_data.lineup_ids
+		var sum := 0
+		for id in ids:
+			sum += GameRegistry.roster_data.get_level(int(id))
+		avg = maxi(1, int(round(float(sum) / float(maxi(1, ids.size())))))
+	var base := int(table.get("chapter_base_level", 1))
+	var clears := 0
+	if GameRegistry.chapter_service != null:
+		clears = GameRegistry.chapter_service.get_echo_clears(chapter_id)
+	return clampi(int(floor(float(avg - base) / 8.0)) + int(clears / 3), 0, 10)
+
+
+func _notify_echo_enter(chapter_id: String) -> void:
+	var ui_root := get_tree().get_first_node_in_group("ui_root")
+	if ui_root == null or not ui_root.has_method("show_notification"):
+		return
+	var chapter_name := ""
+	var clears := 0
+	if GameRegistry.chapter_service != null:
+		chapter_name = GameRegistry.chapter_service.get_chapter_name(chapter_id)
+		clears = GameRegistry.chapter_service.get_echo_clears(chapter_id)
+	ui_root.show_notification("回响·%s · 第 %d 轮" % [chapter_name if chapter_name != "" else chapter_id, clears + 1])
 
 
 ## 给生成条目打上稳定 spawn 标识：静态配置与动态内容分命名空间，

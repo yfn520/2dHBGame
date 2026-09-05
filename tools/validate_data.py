@@ -218,6 +218,70 @@ def check_skill_audio_paths(errors: list[str]) -> None:
                         fail(errors, f"skills/actors/{path.name}[{skill_id}].nodes[{node_index}].{field_name} 音效文件不存在：{audio_path}")
 
 
+def check_echo_spawns(errors: list[str]) -> None:
+    """章节回响表守卫：id 存在、Boss 带 echo 特征、坐标在画布内、chapters 回响 Boss 指向一致。"""
+    path = DATA / "echo_spawns.json"
+    if not path.is_file():
+        return  # 回响未配置时不报错（功能可选）
+    data = check_json_loadable(path, errors)
+    if not isinstance(data, dict):
+        return
+    enemies = check_json_loadable(DATA / "enemies.json", errors)
+    chapters = check_json_loadable(DATA / "chapters.json", errors)
+    if not isinstance(enemies, dict) or not isinstance(chapters, dict):
+        return
+    levels = data.get("levels")
+    if not isinstance(levels, dict):
+        fail(errors, "echo_spawns.json levels 必须是对象")
+        return
+    for level_id, table in levels.items():
+        if not isinstance(table, dict):
+            fail(errors, f"echo_spawns[{level_id}] 必须是对象")
+            continue
+        chapter_id = str(table.get("chapter_id", ""))
+        entries = []
+        for group in table.get("groups", []) or []:
+            if isinstance(group, dict):
+                entries.append(("group", int(group.get("enemy_id", 0)), float(group.get("x", 0)), float(group.get("y", 0))))
+        for key in ("elite", "boss"):
+            single = table.get(key)
+            if isinstance(single, dict):
+                entries.append((key, int(single.get("enemy_id", 0)), float(single.get("x", 0)), float(single.get("y", 0))))
+        for kind, enemy_id, x, y in entries:
+            enemy = enemies.get(str(enemy_id))
+            if not isinstance(enemy, dict):
+                fail(errors, f"echo_spawns[{level_id}].{kind} 敌人不存在: {enemy_id}")
+                continue
+            if kind == "boss":
+                traits = enemy.get("traits") or []
+                if not enemy.get("is_boss") or "echo" not in traits:
+                    fail(errors, f"echo_spawns[{level_id}].boss {enemy_id} 必须是 is_boss 且 traits 含 echo")
+                if not enemy.get("echo_drop_items"):
+                    fail(errors, f"echo_spawns[{level_id}].boss {enemy_id} 缺少 echo_drop_items（防农穿）")
+                unique_ids = {
+                    int(drop.get("item_id", 0))
+                    for drop in enemy.get("drop_items", [])
+                    if isinstance(drop, dict) and float(drop.get("chance", 0.0)) >= 0.999
+                }
+                repeat_ids = {
+                    int(drop.get("item_id", 0))
+                    for drop in enemy.get("echo_drop_items", [])
+                    if isinstance(drop, dict) and abs(float(drop.get("chance", 0.0)) - 0.08) < 0.0001
+                }
+                # 部分原 Boss 没有 chance=1 的具名装备；这类只校验 farming 表。
+                if unique_ids and not unique_ids.intersection(repeat_ids):
+                    fail(errors, f"echo_spawns[{level_id}].boss {enemy_id} 必须保留首杀唯一掉落及其 0.08 回响复刷掉落")
+                chapter = chapters.get(chapter_id, {})
+                if int(chapter.get("echo_boss_enemy_id", 0)) != enemy_id:
+                    fail(errors, f"chapters[{chapter_id}].echo_boss_enemy_id 与回响表 boss 不一致")
+            if kind == "elite":
+                traits = enemy.get("traits") or []
+                if "echo" not in traits:
+                    fail(errors, f"echo_spawns[{level_id}].elite {enemy_id} traits 必须含 echo")
+            if not (0 <= x <= 4096 and 0 <= y <= 864):
+                fail(errors, f"echo_spawns[{level_id}].{kind} 坐标越界: ({x}, {y})")
+
+
 def check_skill_fx_bundles(errors: list[str]) -> None:
     """assets/effects/skill_fx/*/skill_fx_bundle.json 的资源路径必须落地（atlas/scene）。"""
     fx_root = PROJECT / "assets" / "effects" / "skill_fx"
@@ -335,6 +399,7 @@ def main() -> int:
     check_music(errors)
     check_skill_audio_paths(errors)
     check_skill_fx_bundles(errors)
+    check_echo_spawns(errors)
     check_skill_fx_bundle_skill_ids(errors, warnings, collect_skill_ids())
     check_play_effect_scenes(errors)
     for message in warnings:
