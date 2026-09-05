@@ -30,6 +30,17 @@ func _init() -> void:
 			failures.append("AudioManager 的 BGM 未使用 BUS_BGM 总线")
 		if not audio_source.contains("_bgm_active_player"):
 			failures.append("AudioManager 缺少独立 BGM 播放器")
+		# 对白/过场会暂停整棵树：BGM 播放器与淡入淡出 tween 必须暂停免疫，否则对话时 BGM 被冻住
+		if not audio_source.contains("PROCESS_MODE_ALWAYS"):
+			failures.append("BGM 播放器未设置 PROCESS_MODE_ALWAYS（对白暂停时 BGM 会停）")
+		if not audio_source.contains("TWEEN_PAUSE_PROCESS"):
+			failures.append("BGM 淡入淡出 tween 未设置暂停免疫")
+		# 混音约定守卫：运行时建总线（项目不依赖 default_bus_layout.tres）
+		if not audio_source.contains("func _ensure_buses("):
+			failures.append("AudioManager 缺少 _ensure_buses（运行时建总线）")
+		for bus_spec in ["\"BGM\", \"db\": -10.0", "\"SFX\", \"db\": 0.0", "\"UI\", \"db\": -6.0"]:
+			if not audio_source.contains(bus_spec):
+				failures.append("AudioManager 总线约定缺少 %s" % bus_spec)
 
 	# --- 2. 关卡/战斗钩子：源码断言（两个脚本都引用 GameRegistry，load() 会编译失败） ---
 	var level_source := _read_source(LEVEL_MANAGER_PATH)

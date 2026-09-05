@@ -14,6 +14,14 @@ const DEFAULT_MAX_POLYPHONY := 3
 const POOL_SIZE_NON_SPATIAL := 16
 const POOL_SIZE_SPATIAL := 16
 
+# 混音约定（以命中 SFX 为 0dB 参考）：BGM 总线 -10、UI 总线 -6。
+# 战斗/Boss 的 BGM 轨在数据里 +2 补到 -8（战斗曲允许比场景曲响）。
+const BUS_LAYOUT_SPEC := [
+	{ "name": "BGM", "db": -10.0 },
+	{ "name": "SFX", "db": 0.0 },
+	{ "name": "UI", "db": -6.0 },
+]
+
 # --- 播放器池 ---
 var _non_spatial_pool: Array[AudioStreamPlayer] = []
 var _spatial_pool: Array[AudioStreamPlayer2D] = []
@@ -39,9 +47,24 @@ var _current_bgm_path := ""
 
 
 func _ready() -> void:
+	_ensure_buses()
 	_create_pools()
 	_create_bgm_players()
 	_load_settings()
+
+
+## 运行时建 BGM/SFX/UI 子总线（项目不再依赖 default_bus_layout.tres）。
+## 已存在则不重建；默认音量按混音约定，随后 _load_settings 会用用户持久化值覆盖。
+func _ensure_buses() -> void:
+	for spec in BUS_LAYOUT_SPEC:
+		var bus_name := String(spec["name"])
+		var idx := AudioServer.get_bus_index(bus_name)
+		if idx < 0:
+			AudioServer.add_bus()
+			idx = AudioServer.bus_count - 1
+			AudioServer.set_bus_name(idx, bus_name)
+			AudioServer.set_bus_send(idx, BUS_MASTER)
+			AudioServer.set_bus_volume_db(idx, float(spec["db"]))
 
 
 ## 播放 BGM（场景/主菜单专用）。同曲已在播则忽略；异曲旧曲淡出后新曲淡入。
@@ -73,6 +96,8 @@ func play_bgm(audio_path: String, gain_db: float = 0.0, fade_ms: float = 1200.0,
 	if outgoing != null and outgoing.playing and fade_ms > 0.0:
 		# 真正交叉淡入淡出：两首曲子在同一个 fade 窗口内并行变化。
 		_bgm_fade_tween = create_tween()
+		# 暂停免疫：对白期间暂停树时，淡入淡出不能被冻在半路
+		_bgm_fade_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 		_bgm_fade_tween.set_parallel(true)
 		_bgm_fade_tween.tween_property(outgoing, "volume_db", -40.0, fade_ms / 1000.0)
 		_bgm_fade_tween.tween_property(incoming, "volume_db", gain_db, fade_ms / 1000.0)
@@ -99,6 +124,7 @@ func stop_bgm(fade_ms: float = 800.0) -> void:
 		_stop_all_bgm_players()
 		return
 	_bgm_fade_tween = create_tween()
+	_bgm_fade_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	_bgm_fade_tween.set_parallel(true)
 	for player in _bgm_players:
 		if player.playing:
@@ -124,6 +150,8 @@ func _create_bgm_players() -> void:
 	for _index in range(2):
 		var player := AudioStreamPlayer.new()
 		player.bus = BUS_BGM
+		# 对白/过场会 get_tree().paused = true：BGM 必须继续播，不能跟着场景一起冻住
+		player.process_mode = Node.PROCESS_MODE_ALWAYS
 		add_child(player)
 		_bgm_players.append(player)
 	_bgm_active_player = _bgm_players[0]

@@ -72,7 +72,7 @@
         "type": "spawn_projectile",
         "spawn_audio": {
           "audio_path": "res://assets/skill_audio/6021/projectile_spawn_02_v1.mp3",
-          "gain_db": -5.0,
+          "gain_db": -3.0,
           "pitch_variation": 0.05,
           "source_track_id": "projectile_spawn"
         },
@@ -183,7 +183,7 @@
         "type": "spawn_projectile",
         "spawn_audio": {
           "audio_path": "res://assets/skill_audio/6022/projectile_spawn_02_v1.mp3",
-          "gain_db": -5.0,
+          "gain_db": -3.0,
           "pitch_variation": 0.05,
           "source_track_id": "projectile_spawn"
         },

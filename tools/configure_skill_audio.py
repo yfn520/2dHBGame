@@ -119,6 +119,17 @@ def role_prompt(role: str, damage_type: str, hint: str = "") -> str:
     return templates.get(role, f"game sound effect {role}{hint}, {ISOLATION}")
 
 
+def role_gain_db(role: str, loop: bool = False) -> float:
+    """混音约定（与后端 audio_director._ROLE_GAIN_DB 一致）：
+    命中 -3 / 发射 -5 / 起手 -4 / 持续 loop -9。"""
+    if loop:
+        return -9.0
+    return {
+        "impact": -3.0, "melee_hit": -3.0, "projectile_hit": -3.0, "area_hit": -3.0,
+        "projectile_spawn": -5.0, "release": -4.0, "charge": -4.0,
+    }.get(role, -3.0)
+
+
 def make_track(track_id: str, role: str, trigger: dict, prompt_en: str, duration_ms: int,
                bound_node_type: str = "play_sound", bound_node_index: int = -1,
                spatial_mode: str = "caster", loop: bool = False) -> dict:
@@ -126,7 +137,7 @@ def make_track(track_id: str, role: str, trigger: dict, prompt_en: str, duration
         "id": track_id, "role": role, "trigger": trigger,
         "summary_zh": role, "prompt_en": prompt_en,
         "duration_ms": max(200, min(8000, int(duration_ms))),
-        "spatial_mode": spatial_mode, "gain_db": -3.0, "pitch_variation": 0.05,
+        "spatial_mode": spatial_mode, "gain_db": role_gain_db(role, loop), "pitch_variation": 0.05,
         "loop": loop, "candidate_count": 1, "omit": False,
         "bound_node_type": bound_node_type, "bound_node_index": bound_node_index,
     }
